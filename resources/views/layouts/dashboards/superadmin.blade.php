@@ -51,16 +51,6 @@
                   </button>
                 </div>
   
-                <!--
-                  Dropdown menu, show/hide based on menu state.
-  
-                  Entering: "transition ease-out duration-100"
-                    From: "transform opacity-0 scale-95"
-                    To: "transform opacity-100 scale-100"
-                  Leaving: "transition ease-in duration-75"
-                    From: "transform opacity-100 scale-100"
-                    To: "transform opacity-0 scale-95"
-                -->
                 <div x-show="userMenuOpen" 
                 x-transition:enter.duration.300ms
                 x-transition:leave.duration.300ms
@@ -68,7 +58,12 @@
                   <!-- Active: "bg-gray-100", Not Active: "" -->
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-red-500" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                  <form action="{{ route('superadmin.logout') }}" method="post">
+                    @csrf
+                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-2">
+                      Cerrar sesión
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>

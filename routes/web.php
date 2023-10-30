@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Superadmin\DashboardController;
-use App\Http\Controllers\Superadmin\LoginController;
+use App\Http\Controllers\Superadmin\AuthController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,12 +15,14 @@ Route::prefix('superadmin')->group(function() {
 
         Route::view('/', 'superadmin.login')->name('superadmin.login-view');
 
-        Route::post('login', [LoginController::class, 'login'])->name('superadmin.login');
+        Route::post('login', [AuthController::class, 'login'])->name('superadmin.login');
 
     });
 
     // Superadmin authenticated routes
     Route::middleware('auth:superadmin')->group(function() {
+
+        Route::post('logout', [AuthController::class, 'logout'])->name('superadmin.logout');
 
         Route::prefix('dashboard')->group(function() {
 

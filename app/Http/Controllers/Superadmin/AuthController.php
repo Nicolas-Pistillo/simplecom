@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function login(Request $request)
     {
@@ -21,5 +21,14 @@ class LoginController extends Controller
         }
 
         return back()->withErrors(['login-failed', 'true']);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->regenerate();
+
+        return redirect()->route('superadmin.login-view');
     }
 }
