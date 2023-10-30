@@ -494,7 +494,7 @@
                     <li>
                         <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                             <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
+                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
                                         aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
@@ -516,14 +516,13 @@
                                                 loading="lazy" width="56" height="56" decoding="async"
                                                 data-nimg="1" class="h-14 w-14 object-cover"
                                                 style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-1.c78616b7.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-1.c78616b7.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-1.c78616b7.png&amp;w=128&amp;q=75">
+                                                src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
                             </li>
                             <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
+                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
                                         aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
@@ -546,8 +545,7 @@
                                                 loading="lazy" width="56" height="56" decoding="async"
                                                 data-nimg="1" class="h-14 w-14 object-cover"
                                                 style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=128&amp;q=75">
+                                                src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
@@ -557,7 +555,7 @@
                     <li>
                         <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                             <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
+                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
                                         aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
@@ -580,14 +578,13 @@
                                                 loading="lazy" width="56" height="56" decoding="async"
                                                 data-nimg="1" class="h-14 w-14 object-cover"
                                                 style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-5.e7f7faf2.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-5.e7f7faf2.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-5.e7f7faf2.png&amp;w=128&amp;q=75">
+                                                src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
                             </li>
                             <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
+                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
                                         aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
@@ -609,8 +606,7 @@
                                                 loading="lazy" width="56" height="56" decoding="async"
                                                 data-nimg="1" class="h-14 w-14 object-cover"
                                                 style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-2.c72e5a40.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-2.c72e5a40.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-2.c72e5a40.png&amp;w=128&amp;q=75">
+                                                src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
@@ -620,7 +616,7 @@
                     <li>
                         <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                             <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
+                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
                                         aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
@@ -642,14 +638,13 @@
                                                 loading="lazy" width="56" height="56" decoding="async"
                                                 data-nimg="1" class="h-14 w-14 object-cover"
                                                 style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-3.eaa9ef6f.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-3.eaa9ef6f.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-3.eaa9ef6f.png&amp;w=128&amp;q=75">
+                                                src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
                             </li>
                             <li>
-                                <figure class="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10"><svg
+                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
                                         aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
@@ -672,8 +667,7 @@
                                                 loading="lazy" width="56" height="56" decoding="async"
                                                 data-nimg="1" class="h-14 w-14 object-cover"
                                                 style="color:transparent"
-                                                srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=64&amp;q=75 1x, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=128&amp;q=75 2x"
-                                                src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar-4.16b4e29e.png&amp;w=128&amp;q=75">
+                                                src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
