@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\AuthController;
+use App\Http\Controllers\Superadmin\TenantController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,6 +28,8 @@ Route::prefix('superadmin')->group(function() {
         Route::prefix('dashboard')->group(function() {
 
             Route::get('/', [DashboardController::class, 'index'])->name('superadmin.dashboard.index');
+
+            Route::resource('tenants', TenantController::class);
 
         });
 
