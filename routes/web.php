@@ -29,7 +29,11 @@ Route::prefix('superadmin')->group(function() {
 
             Route::get('/', [DashboardController::class, 'index'])->name('superadmin.dashboard.index');
 
-            Route::resource('tenants', TenantController::class);
+            // Tenants management
+            Route::name('superadmin.')->group(function() 
+            {
+                Route::resource('tenants', TenantController::class);
+            });
 
         });
 

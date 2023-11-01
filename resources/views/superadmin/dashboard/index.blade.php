@@ -1,12 +1,14 @@
 @extends('layouts.dashboards.superadmin')
 
 @section('head')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <style>
         @import url('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css');
     </style>
 @endsection
 
 @section('content')
+    <!-- Main stats -->
     <section class="mb-16 mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
 
         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
@@ -35,6 +37,7 @@
 
     </section>
 
+    <!-- Statistic widget cards -->
     <div class="flex items-center justify-center mb-16">
         <div class="w-full max-w-3xl">
             <div class="md:flex">
@@ -84,7 +87,6 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script>
         const chartOptions = {
             maintainAspectRatio: false,
@@ -165,6 +167,7 @@
         });
     </script>
 
+    <!-- Horizontal line chart -->
     <div class="flex items-center justify-center mb-16">
         <div class="rounded-lg shadow-lg overflow-hidden w-full md:flex" style="max-width:900px" x-data="{ stockTicker: stockTicker() }"
             x-init="stockTicker.renderChart()">
@@ -302,6 +305,7 @@
         }
     </script>
 
+    <!-- Contact cards -->
     <ul role="list" class="mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
         <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
@@ -440,6 +444,7 @@
         </li>
     </ul>
 
+    <!-- Info cards -->
     <ul role="list" class="mb-16 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
 
         <li x-data="{ open: false }" class="overflow-hidden rounded-xl border border-gray-200">
