@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>@yield('page-title', 'Simplecom - Superadmin')</title>
@@ -60,7 +61,7 @@
               <!-- Profile dropdown -->
               <div x-data="{userMenuOpen: false}" class="relative ml-3">
                 <div @click="userMenuOpen = !userMenuOpen" @click.away="userMenuOpen = false">
-                  <button type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <button type="button" class="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">Open user menu</span>
                     <img class="h-8 w-8 rounded-full" src="{{ asset('img/avatar-default.png') }}" alt="avatar">
@@ -146,7 +147,7 @@
     </header>
 
     <main>
-      <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl py-6 px-3 sm:px-6 lg:px-8">
         @yield('content')
       </div>
     </main>

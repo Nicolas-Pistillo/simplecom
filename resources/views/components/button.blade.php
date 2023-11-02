@@ -29,7 +29,7 @@
     </a>
 
 @else 
-    <button type="{{ $clickType ?? 'button' }}" 
+    <button type="{{ isset($submit) ? 'submit' : 'button' }}" 
     {{ $attributes->merge(['class' => $btnClass]) }}>
         {{ $slot }}
     </button>

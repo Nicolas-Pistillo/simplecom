@@ -5,22 +5,20 @@ namespace App\Http\Controllers\Superadmin;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TenantController extends Controller
 {
     public function index()
     {
-        return view('superadmin.dashboard.tenants.index', [
+        return view('superadmin.tenants.index', [
             'tenants' => Tenant::all()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('superadmin.tenants.create');
     }
 
     /**
