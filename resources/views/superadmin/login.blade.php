@@ -33,7 +33,7 @@
                     </label>
                 </div>
 
-                <x-button clickType="submit">
+                <x-button clickType="submit" class="w-full">
                     Iniciar sesión
                 </x-button>
                 

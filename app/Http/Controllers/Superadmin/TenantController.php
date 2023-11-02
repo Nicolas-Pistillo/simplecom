@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 
 class TenantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return view('superadmin.dashboard.tenants.index', [
+            'tenants' => Tenant::all()
+        ]);
     }
 
     /**
