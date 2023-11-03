@@ -10,7 +10,7 @@
 
     @dump($errors->all())
 
-    <div class="space-y-10 divide-y divide-gray-900/10 my-8">
+    <div class="space-y-10 divide-y divide-gray-900/10 mb-8">
 
         <div class="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
             <div class="px-4 sm:px-0">
@@ -20,32 +20,15 @@
                 </p>
             </div>
 
-            <form class="bg-white shadow-md ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+            <form action="{{ route('superadmin.tenants.store') }}" method="POST" 
+            class="bg-white shadow-md ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+            @csrf
                 <div class="px-4 py-6 sm:p-8">
                     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         
                         <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" label="Nombre único" name="name" error="{{ $errors->first('name') }}" />
 
                         <x-input class="sm:col-span-3" error="Error al validar" name="domain" label="Dominio" />
-
-                        <div class="sm:col-span-3">
-                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
-                                name</label>
-                            <div class="mt-2">
-                                <input type="text" name="last-name" id="last-name"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3">
-                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
-                                name</label>
-                            <div class="mt-2">
-                                <input type="text" name="last-name" id="last-name"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
-                            </div>
-                            <small class="text-red-500">Este campo es obligatorio</small>
-                        </div>
 
                         <div class="sm:col-span-4">
                             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email

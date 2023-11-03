@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\EcommerceController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
+use App\Http\Controllers\TenantAssetsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +26,8 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    Route::get('/', function () {
-        dd(User::all());
-        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
-    });
+
+   // Route::get('/asset' , [TenantAssetsController::class, 'asset'])->name('stancl.tenancy.asset');
+
+    Route::get('/', [EcommerceController::class, 'index']);
 });

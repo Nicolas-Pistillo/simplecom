@@ -26,7 +26,17 @@ class TenantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tenantData = $request->validate([
+            'name' => ['required', 'string', 'unique:tenants,id']
+        ]);
+
+        $tenant = Tenant::create(['id' => $tenantData['name']]);
+
+        $tenant->domains()->create([
+            'domain' => $tenantData['name'] . '.localhost'
+        ]);
+
+        return redirect()->route('superadmin.tenants.index');
     }
 
     /**

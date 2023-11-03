@@ -3,7 +3,7 @@
 @section('title', 'Tenants')
 
 @section('content')
-    
+
     @if ($tenants->isEmpty())
 
         <div class="text-center mt-8">
@@ -15,9 +15,13 @@
             <x-button href="{{ route('superadmin.tenants.create') }}">
                 Crear uno ahora
             </x-button>
-      </div>
+        </div>
     @else
-        
+      <ul>
+        @foreach ($tenants as $tenant)
+            <li> {{ $tenant->id }} </li>
+        @endforeach
+      </ul>
     @endif
 
     {{-- CONFIRM MODAL (esta buenisimo)
