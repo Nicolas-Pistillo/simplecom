@@ -19,6 +19,7 @@ class CreateTenantsTable extends Migration
             $table->string('id')->primary();
             $table->string('name')->unique();
             $table->string('ecommerce_name');
+            $table->boolean('active')->default(0);
             $table->timestamps();
             $table->json('data')->nullable();
         });
