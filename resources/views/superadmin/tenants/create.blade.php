@@ -8,8 +8,6 @@
         <x-icon code="arrow_back" class="mr-1" /> Volver atras
     </x-button>
 
-    @dump($errors->all())
-
     <div class="space-y-10 divide-y divide-gray-900/10 mb-8">
 
         <div class="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
@@ -26,18 +24,16 @@
                 <div class="px-4 py-6 sm:p-8">
                     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         
-                        <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" label="Nombre único" name="name" error="{{ $errors->first('name') }}" />
+                        <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" 
+                        error="{{ $errors->first('name') }}" name="name" label="Subdominio" />
 
-                        <x-input class="sm:col-span-3" error="Error al validar" name="domain" label="Dominio" />
+                        <x-input class="sm:col-span-3" placeholder="Por ejemplo: Distribuidora Martinez" 
+                        label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" />
 
-                        <div class="sm:col-span-4">
-                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
-                                address</label>
-                            <div class="mt-2">
-                                <input id="email" name="email" type="email"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
-                            </div>
-                        </div>
+                        {{-- <div class="sm:col-span-6">
+                            <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" 
+                            label="Nombre del comercio" name="name" error="{{ $errors->first('name') }}" />
+                        </div> --}}
                     </div>
                 </div>
                 <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">

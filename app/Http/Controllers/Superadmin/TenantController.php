@@ -12,7 +12,7 @@ class TenantController extends Controller
     public function index()
     {
         return view('superadmin.tenants.index', [
-            'tenants' => Tenant::all()
+            'tenants' => Tenant::with('domains')->get()
         ]);
     }
 
@@ -27,10 +27,11 @@ class TenantController extends Controller
     public function store(Request $request)
     {
         $tenantData = $request->validate([
-            'name' => ['required', 'string', 'unique:tenants,id']
+            'name' => ['required', 'string', 'unique:tenants,name'],
+            'ecommerce_name' => ['required', 'string']
         ]);
 
-        $tenant = Tenant::create(['id' => $tenantData['name']]);
+        $tenant = Tenant::create($tenantData);
 
         $tenant->domains()->create([
             'domain' => $tenantData['name'] . '.localhost'
