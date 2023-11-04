@@ -27,7 +27,7 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
 
-   // Route::get('/asset' , [TenantAssetsController::class, 'asset'])->name('stancl.tenancy.asset');
+    // Route::get('/asset' , [TenantAssetsController::class, 'asset'])->name('stancl.tenancy.asset');
 
     Route::get('/', [EcommerceController::class, 'index']);
 });

@@ -1,144 +1,266 @@
-@extends('layouts.basic')
+@extends('layouts.ecommerce')
 
 @section('content')
-    <!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-<nav class="bg-white shadow">
-    <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
-      <div class="flex h-16 justify-between">
-        <div class="flex px-2 lg:px-0">
-          <div class="flex flex-shrink-0 items-center">
-            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-          </div>
-          <div class="hidden lg:ml-6 lg:flex lg:space-x-8">
-            <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-            <a href="#" class="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900">Dashboard</a>
-            <a href="#" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Team</a>
-            <a href="#" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Projects</a>
-            <a href="#" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Calendar</a>
-          </div>
-        </div>
-        <div class="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
-          <div class="w-full max-w-lg lg:max-w-xs">
-            <label for="search" class="sr-only">Search</label>
-            <div class="relative">
-              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                </svg>
-              </div>
-              <input id="search" name="search" class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Search" type="search">
+    <!-- Pre-Content / Advicements -->
+    <div class="bg-gray-50">
+        <div class="mx-auto max-w-7xl py-16 lg:px-4">
+            <div class="mx-auto max-w-2xl px-4 lg:max-w-none">
+                <div class="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-2">
+                    <div>
+                        <h2 class="text-4xl font-bold tracking-tight text-gray-900">We built our business on great customer
+                            service</h2>
+                        <p class="mt-4 text-gray-500">At the beginning at least, but then we realized we could make a lot
+                            more money if we kinda stopped caring about that. Our new strategy is to write a bunch of things
+                            that look really good in the headlines, then clarify in the small print but hope people don't
+                            actually read it.</p>
+                    </div>
+                    <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg bg-gray-100">
+                        <img src="https://tailwindui.com/img/ecommerce-images/incentives-07-hero.jpg" alt=""
+                            class="object-cover object-center">
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="flex items-center lg:hidden">
-          <!-- Mobile menu button -->
-          <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false">
-            <span class="absolute -inset-0.5"></span>
-            <span class="sr-only">Open main menu</span>
-            <!--
-              Icon when menu is closed.
-  
-              Menu open: "hidden", Menu closed: "block"
-            -->
-            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-            <!--
-              Icon when menu is open.
-  
-              Menu open: "block", Menu closed: "hidden"
-            -->
-            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="hidden lg:ml-4 lg:flex lg:items-center">
-          <button type="button" class="relative flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-            <span class="absolute -inset-1.5"></span>
-            <span class="sr-only">View notifications</span>
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-            </svg>
-          </button>
-  
-          <!-- Profile dropdown -->
-          <div class="relative ml-4 flex-shrink-0">
-            <div>
-              <button type="button" class="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                <span class="absolute -inset-1.5"></span>
-                <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-              </button>
-            </div>
-  
-            <!--
-              Dropdown menu, show/hide based on menu state.
-  
-              Entering: "transition ease-out duration-100"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            -->
-            <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-              <!-- Active: "bg-gray-100", Not Active: "" -->
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="lg:hidden" id="mobile-menu">
-      <div class="space-y-1 pb-3 pt-2">
-        <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" -->
-        <a href="#" class="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700">Dashboard</a>
-        <a href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">Team</a>
-        <a href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">Projects</a>
-        <a href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">Calendar</a>
-      </div>
-      <div class="border-t border-gray-200 pb-3 pt-4">
-        <div class="flex items-center px-4">
-          <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-          </div>
-          <div class="ml-3">
-            <div class="text-base font-medium text-gray-800">Tom Cook</div>
-            <div class="text-sm font-medium text-gray-500">tom@example.com</div>
-          </div>
-          <button type="button" class="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-            <span class="absolute -inset-1.5"></span>
-            <span class="sr-only">View notifications</span>
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-            </svg>
-          </button>
+
+    <div class="bg-gray-50">
+        <div class="mx-auto max-w-2xl px-4 py-16 lg:max-w-7xl lg:px-8">
+            <div class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
+                <div>
+                    <img src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg" alt=""
+                        class="h-24 w-auto">
+                    <h3 class="mt-6 text-sm font-medium text-gray-900">Free Shipping</h3>
+                    <p class="mt-2 text-sm text-gray-500">It&#039;s not actually free we just price it into the products.
+                        Someone&#039;s paying for it, and it&#039;s not us.</p>
+                </div>
+                <div>
+                    <img src="https://tailwindui.com/img/ecommerce/icons/icon-chat-light.svg" alt=""
+                        class="h-24 w-auto">
+                    <h3 class="mt-6 text-sm font-medium text-gray-900">24/7 Customer Support</h3>
+                    <p class="mt-2 text-sm text-gray-500">Our AI chat widget is powered by a naive series of if/else
+                        statements. Guaranteed to irritate.</p>
+                </div>
+                <div>
+                    <img src="https://tailwindui.com/img/ecommerce/icons/icon-fast-checkout-light.svg" alt=""
+                        class="h-24 w-auto">
+                    <h3 class="mt-6 text-sm font-medium text-gray-900">Fast Shopping Cart</h3>
+                    <p class="mt-2 text-sm text-gray-500">Look how fast that cart is going. What does this mean for the
+                        actual experience? I don&#039;t know.</p>
+                </div>
+                <div>
+                    <img src="https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg" alt=""
+                        class="h-24 w-auto">
+                    <h3 class="mt-6 text-sm font-medium text-gray-900">Gift Cards</h3>
+                    <p class="mt-2 text-sm text-gray-500">Buy them for your friends, especially if they don&#039;t like our
+                        store. Free money for us, it&#039;s great.</p>
+                </div>
+            </div>
         </div>
-        <div class="mt-3 space-y-1">
-          <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">Your Profile</a>
-          <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">Settings</a>
-          <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">Sign out</a>
-        </div>
-      </div>
     </div>
-  </nav>
-  
+
+    <!-- Page main content -->
+    <div class="bg-white">
+        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            <h2 class="text-xl font-bold text-gray-900">Customers also bought</h2>
+
+            <div class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                <div>
+                    <div class="relative">
+                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
+                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                                class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
+                            <p class="mt-1 text-sm text-gray-500">White and black</p>
+                        </div>
+                        <div
+                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                            <div aria-hidden="true"
+                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                            <p class="relative text-lg font-semibold text-white">$140</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#"
+                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="relative">
+                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
+                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                                class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
+                            <p class="mt-1 text-sm text-gray-500">White and black</p>
+                        </div>
+                        <div
+                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                            <div aria-hidden="true"
+                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                            <p class="relative text-lg font-semibold text-white">$140</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#"
+                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="relative">
+                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
+                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                                class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
+                            <p class="mt-1 text-sm text-gray-500">White and black</p>
+                        </div>
+                        <div
+                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                            <div aria-hidden="true"
+                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                            <p class="relative text-lg font-semibold text-white">$140</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#"
+                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="relative">
+                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
+                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                                class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
+                            <p class="mt-1 text-sm text-gray-500">White and black</p>
+                        </div>
+                        <div
+                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                            <div aria-hidden="true"
+                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                            <p class="relative text-lg font-semibold text-white">$140</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#"
+                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="relative">
+                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
+                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                                class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
+                            <p class="mt-1 text-sm text-gray-500">White and black</p>
+                        </div>
+                        <div
+                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                            <div aria-hidden="true"
+                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                            <p class="relative text-lg font-semibold text-white">$140</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#"
+                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="relative">
+                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
+                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                                class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
+                            <p class="mt-1 text-sm text-gray-500">White and black</p>
+                        </div>
+                        <div
+                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                            <div aria-hidden="true"
+                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                            <p class="relative text-lg font-semibold text-white">$140</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#"
+                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="relative">
+                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
+                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                                class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
+                            <p class="mt-1 text-sm text-gray-500">White and black</p>
+                        </div>
+                        <div
+                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                            <div aria-hidden="true"
+                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                            <p class="relative text-lg font-semibold text-white">$140</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#"
+                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="relative">
+                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
+                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                                class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
+                            <p class="mt-1 text-sm text-gray-500">White and black</p>
+                        </div>
+                        <div
+                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                            <div aria-hidden="true"
+                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                            <p class="relative text-lg font-semibold text-white">$140</p>
+                        </div>
+                    </div>
+                    <x-button type="soft" class="font-extrabold w-full mt-6">Agregar al carrito</x-button>
+                </div>
+                <!-- More products... -->
+            </div>
+        </div>
+    </div>
 @endsection
