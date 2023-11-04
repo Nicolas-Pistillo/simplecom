@@ -675,7 +675,7 @@
         </header>
 
         <!-- Shopping cart off-canvas -->
-        <div x-show="cartMenuOpen" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div x-cloak x-show="cartMenuOpen" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
             <!-- Background backdrop -->
             <div x-show="cartMenuOpen" 
             x-transition:enter="ease-in-out duration-500"
