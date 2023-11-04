@@ -18,7 +18,8 @@
     @yield('top-body')
 
     <!-- Navbar -->
-    <div class="bg-white fixed w-full shadow-md z-10" x-data="{megaMenu1Open: false, megaMenu2Open: false, mobileMenuOpen: false}">
+    <div class="bg-white fixed w-full shadow-md z-10" 
+    x-data="{megaMenu1Open: false, megaMenu2Open: false, mobileMenuOpen: false, cartMenuOpen: false}">
 
         <!-- Mobile menu -->
         <div x-cloak x-show="mobileMenuOpen" 
@@ -30,7 +31,7 @@
             x-transition:leave="transition-opacity ease-linear duration-300"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 bg-black bg-opacity-25"></div>
+            class="fixed inset-0 bg-black bg-opacity-50"></div>
 
             <!-- Off-canvas menu sidebar -->
             <div class="fixed inset-0 z-40 flex">
@@ -44,8 +45,8 @@
                 class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
 
                     <!-- Brand logo -->
-                    <img src="https://www.munishop.com.ar/webfiles/marketplace/logo.png?t=1681182743" alt="Commerce logo" 
-                    class="h-24 p-4 object-contain shadow relative">
+                    <img src="https://acdn.mitiendanube.com/stores/903/627/themes/common/logo-1349319308-1553143834-e1c87a4d5ce11004824ecf90a86a51a01553143834-320-0.webp" alt="Ecommerce logo" 
+                    class="h-24 p-3 object-contain shadow relative">
 
                     <!-- Links -->
                     <div class="mt-2">
@@ -602,68 +603,43 @@
 
                                 <!-- Mobile menu toggle -->
                                 <div class="flex flex-1 items-center lg:hidden">
-                                    <x-icon @click="mobileMenuOpen = true" code="menu" class="cursor-pointer" />
+                                    <x-icon @click="mobileMenuOpen = true" code="menu" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
                                 </div>
 
                                 <!-- Main search -->
-                                <div class="pl-6 w-full">
+                                <div class="px-6 w-full">
                                     <div class="flex items-center px-2 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
                                       <div class="w-full">
                                         <label for="search" class="sr-only">Search</label>
                                         <div class="relative">
                                           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                                            </svg>
+                                            <x-icon code="search" class="text-gray-400" />
                                           </div>
                                           <input id="search" name="search" class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 
                                           ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
-                                          focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Search" type="search">
+                                          focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Buscar..." type="search">
                                         </div>
                                       </div>
                                     </div>
                                 </div>
 
+                                <!-- Account & cart -->
                                 <div class="flex flex-1 items-center justify-end">
                                     <div class="flex items-center lg:ml-8">
-                                        <div class="flex space-x-8">
-                                            <div class="hidden lg:flex">
-                                                <a href="#" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                                                    <span class="sr-only">Search</span>
-                                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                                        stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                                                    </svg>
-                                                </a>
-                                            </div>
+                                        <!-- Account -->
+                                        <x-icon code="person" title="Cuenta" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
 
-                                            <div class="flex">
-                                                <a href="#" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                                                    <span class="sr-only">Account</span>
-                                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                                        stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <span class="mx-4 h-6 w-px bg-gray-200" aria-hidden="true"></span>
 
-                                        <span class="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true"></span>
+                                        <!-- Cart -->
+                                        <div class="flex items-center justify-center space-x-2">
+                                            {{-- <x-icon code="shopping_cart" class="p-1 bg-gray-50 rounded-full text-gray-600 cursor-pointer
+                                            transition duration-300 hover:bg-gray-100" title="Carrito" 
+                                            @click="cartMenuOpen = true" />
 
-                                        <div class="flow-root">
-                                            <a href="#" class="group -m-2 flex items-center p-2">
-                                                <svg class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                                    stroke="currentColor" aria-hidden="true">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                                </svg>
-                                                <span
-                                                    class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                                                <span class="sr-only">items in cart, view bag</span>
-                                            </a>
+                                            <span class="text-green-500 text-sm">3</span> --}}
+                                            <x-icon code="shopping_cart" @click="cartMenuOpen = true" 
+                                            class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
                                         </div>
                                     </div>
                                 </div>
@@ -673,89 +649,136 @@
                 </div>
             </nav>
         </header>
-        <!-- Optional: top-navigationa advicements hero -->
-        {{-- <nav aria-label="Offers" class="order-last lg:order-first shadow-md">
-            <div class="mx-auto max-w-7xl lg:px-8">
-              <ul role="list" class="grid grid-cols-1 divide-y divide-gray-200 lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-                <li class="flex flex-col">
-                  <a href="#" class="relative flex flex-1 flex-col justify-center bg-white px-4 py-6 text-center focus:z-10">
-                    <p class="text-sm text-gray-500">Download the app</p>
-                    <p class="font-semibold text-gray-900">Get an exclusive $5 off code</p>
-                  </a>
-                </li>
-                <li class="flex flex-col">
-                  <a href="#" class="relative flex flex-1 flex-col justify-center bg-white px-4 py-6 text-center focus:z-10">
-                    <p class="text-sm text-gray-500">Return when you&#039;re ready</p>
-                    <p class="font-semibold text-gray-900">60 days of free returns</p>
-                  </a>
-                </li>
-                <li class="flex flex-col">
-                  <a href="#" class="relative flex flex-1 flex-col justify-center bg-white px-4 py-6 text-center focus:z-10">
-                    <p class="text-sm text-gray-500">Sign up for our newsletter</p>
-                    <p class="font-semibold text-gray-900">15% off your first order</p>
-                  </a>
-                </li>
-              </ul>
+
+        <!-- Shopping cart off-canvas -->
+        <div x-show="cartMenuOpen" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+            <!-- Background backdrop -->
+            <div x-show="cartMenuOpen" 
+            x-transition:enter="ease-in-out duration-500"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in-out duration-500"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+          
+            <div class="fixed inset-0 overflow-hidden">
+              <div class="absolute inset-0 overflow-hidden">
+                <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                  <!-- Slide-over panel -->
+                  <div x-show="cartMenuOpen" @click.away="cartMenuOpen = false"
+                  x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
+                  x-transition:enter-start="translate-x-full"
+                  x-transition:enter-end="translate-x-0"
+                  x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
+                  x-transition:leave-start="translate-x-0"
+                  x-transition:leave-end="translate-x-full" 
+                  class="pointer-events-auto w-screen max-w-md">
+                    <div class="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
+                      <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                        <div class="flex items-start justify-between">
+                          <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
+                          <div class="ml-3 flex h-7 items-center">
+                            <button type="button" class="relative -m-2 p-2 text-gray-500 hover:text-gray-500"
+                            @click="cartMenuOpen = false">
+                              <span class="absolute -inset-0.5"></span>
+                              <span class="sr-only">Close panel</span>
+                              <x-icon code="close" class="bg-gray-50 rounded-full" />
+                            </button>
+                          </div>
+                        </div>
+          
+                        <div class="mt-8">
+                          <div class="flow-root">
+                            <ul role="list" class="-my-6 divide-y divide-gray-200">
+                              <li class="flex py-6">
+                                <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                  <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
+                                </div>
+          
+                                <div class="ml-4 flex flex-1 flex-col">
+                                  <div>
+                                    <div class="flex justify-between text-base font-medium text-gray-900">
+                                      <h3>
+                                        <a href="#">Throwback Hip Bag</a>
+                                      </h3>
+                                      <p class="ml-4">$90.00</p>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500">Salmon</p>
+                                  </div>
+                                  <div class="flex flex-1 items-end justify-between text-sm">
+                                    <p class="text-gray-500">Qty 1</p>
+          
+                                    <div class="flex">
+                                      <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex py-6">
+                                <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                  <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg" alt="Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch." class="h-full w-full object-cover object-center">
+                                </div>
+          
+                                <div class="ml-4 flex flex-1 flex-col">
+                                  <div>
+                                    <div class="flex justify-between text-base font-medium text-gray-900">
+                                      <h3>
+                                        <a href="#">Medium Stuff Satchel</a>
+                                      </h3>
+                                      <p class="ml-4">$32.00</p>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500">Blue</p>
+                                  </div>
+                                  <div class="flex flex-1 items-end justify-between text-sm">
+                                    <p class="text-gray-500">Qty 1</p>
+          
+                                    <div class="flex">
+                                      <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+          
+                              <!-- More products... -->
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+          
+                      <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+                        <div class="flex justify-between text-base font-medium text-gray-900">
+                          <p>Subtotal</p>
+                          <p>$262.00</p>
+                        </div>
+                        <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                        <div class="mt-6">
+                          <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
+                        </div>
+                        <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                          <p>
+                            or
+                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                              Continue Shopping
+                              <span aria-hidden="true"> &rarr;</span>
+                            </button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </nav> --}}
+        </div>
     </div>
 
-    <div class="pt-20"></div>
+    <div class="pt-16"></div>
 
     <!-- Page main content -->
     <main>
         @yield('content')
     </main>
-  
-    {{-- Floating Search Box
-        <div class="relative z-10" role="dialog" aria-modal="true">
-            <!--
-            Background backdrop, show/hide based on modal state.
-        
-            Entering: "ease-out duration-300"
-                From: "opacity-0"
-                To: "opacity-100"
-            Leaving: "ease-in duration-200"
-                From: "opacity-100"
-                To: "opacity-0"
-            -->
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
-        
-            <div class="fixed inset-0 z-20 w-screen overflow-y-auto p-4 sm:p-6 md:p-20">
-            <!--
-                Command palette, show/hide based on modal state.
-        
-                Entering: "ease-out duration-300"
-                From: "opacity-0 scale-95"
-                To: "opacity-100 scale-100"
-                Leaving: "ease-in duration-200"
-                From: "opacity-100 scale-100"
-                To: "opacity-0 scale-95"
-            -->
-            <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
-                <div class="relative">
-                <svg class="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                </svg>
-                <input type="text" class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Search here..." role="combobox" aria-expanded="false" aria-controls="options">
-                </div>
-        
-                <!-- Results, show/hide based on command palette state -->
-                <ul class="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800" id="options" role="listbox">
-                <!-- Active: "bg-indigo-600 text-white" -->
-                <li class="px-4 py-2" id="option-1" role="option" tabindex="-1">Leslie Alexander</li>
-                <li class="px-4 py-2" id="option-2" role="option" tabindex="-1">Michael Foster</li>
-                <li class="px-4 py-2" id="option-3" role="option" tabindex="-1">Dries Vincent</li>
-                <li class="px-4 py-2" id="option-4" role="option" tabindex="-1">Lindsay Walton</li>
-                <li class="px-4 py-2" id="option-5" role="option" tabindex="-1">Courtney Henry</li>
-                </ul>
-        
-                <!-- Empty state, show/hide based on command palette state -->
-                <p class="p-4 text-sm text-gray-500">No people found.</p>
-            </div>
-            </div>
-        </div> 
-    --}}
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-900/10" aria-labelledby="footer-heading">
@@ -887,5 +910,6 @@
     </footer>
 
     @yield('bottom-body')
+    @yield('scripts')
 </body>
 </html>
