@@ -1,178 +1,135 @@
 @extends('layouts.ecommerce')
 
 @section('content')
-    <!-- Pre-Content / Advicements -->
-    <div class="bg-gray-50">
-        <div class="mx-auto max-w-7xl py-16 lg:px-4">
-            <div class="mx-auto max-w-2xl px-4 lg:max-w-none">
-                <div class="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-2">
-                    <div>
-                        <h2 class="text-4xl font-bold tracking-tight text-gray-900">We built our business on great customer
-                            service</h2>
-                        <p class="mt-4 text-gray-500">At the beginning at least, but then we realized we could make a lot
-                            more money if we kinda stopped caring about that. Our new strategy is to write a bunch of things
-                            that look really good in the headlines, then clarify in the small print but hope people don't
-                            actually read it.</p>
-                    </div>
-                    <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg bg-gray-100">
-                        <img src="https://tailwindui.com/img/ecommerce-images/incentives-07-hero.jpg" alt=""
-                            class="object-cover object-center">
-                    </div>
-                </div>
+    <!-- Slider -->
+    <div id="default-carousel" class="relative w-full shadow-md mb-16" data-carousel="slider">
+        <!-- Carousel wrapper -->
+        <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+            <!-- Item 1 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img class="absolute block w-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    alt="..." src="https://www.munishop.com.ar/webfiles/marketplace/slider/63/1_1920x800.jpg">
+            </div>
+            <!-- Item 2 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img class="absolute block w-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    src="https://www.munishop.com.ar/webfiles/marketplace/slider/65/2_1920x800.jpg" alt="...">
+            </div>
+            <!-- Item 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img class="absolute block w-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    src="https://www.munishop.com.ar/webfiles/marketplace/slider/65/2_1920x800.jpg" alt="...">
+            </div>
+            <!-- Item 4 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img class="absolute block w-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    src="https://www.munishop.com.ar/webfiles/marketplace/slider/65/2_1920x800.jpg" alt="...">
             </div>
         </div>
+        <!-- Slider controls -->
+        <button style="z-index: 6" type="button"
+            class="absolute top-0 left-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            data-carousel-prev>
+            <span
+                class="inline-flex items-center justify-center w-10 h-10 transition-colors duration-300 rounded-full bg-gray-400 group-hover:bg-gray-500 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 1 1 5l4 4" />
+                </svg>
+                <span class="sr-only">Previous</span>
+            </span>
+        </button>
+        <button style="z-index: 6" type="button"
+            class="absolute top-0 right-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            data-carousel-next>
+            <span
+                class="inline-flex items-center justify-center w-10 h-10 transition-colors duration-300 rounded-full bg-gray-400 group-hover:bg-gray-500 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 9 4-4-4-4" />
+                </svg>
+                <span class="sr-only">Next</span>
+            </span>
+        </button>
     </div>
 
+    <!-- Categories overview -->
     <div class="bg-gray-50">
-      <div class="mx-auto max-w-7xl sm:px-2 py-16 lg:px-4">
-        <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 px-4 lg:max-w-none lg:grid-cols-3">
-          <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
-            <div class="sm:flex-shrink-0">
-              <div class="flow-root">
-                <img class="mx-auto h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg" alt="">
-              </div>
+        <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
+            <div class="sm:flex sm:items-baseline sm:justify-between">
+                <h2 class="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
+                <a href="#" class="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+                    Browse all categories
+                    <span aria-hidden="true"> &rarr;</span>
+                </a>
             </div>
-            <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
-              <h3 class="text-sm font-medium text-gray-900">Free Shipping</h3>
-              <p class="mt-2 text-sm text-gray-500">It&#039;s not actually free we just price it into the products. Someone&#039;s paying for it, and it&#039;s not us.</p>
-            </div>
-          </div>
-          <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
-            <div class="sm:flex-shrink-0">
-              <div class="flow-root">
-                <img class="mx-auto h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-chat-light.svg" alt="">
-              </div>
-            </div>
-            <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
-              <h3 class="text-sm font-medium text-gray-900">24/7 Customer Support</h3>
-              <p class="mt-2 text-sm text-gray-500">Our AI chat widget is powered by a naive series of if/else statements. Guaranteed to irritate.</p>
-            </div>
-          </div>
-          <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
-            <div class="sm:flex-shrink-0">
-              <div class="flow-root">
-                <img class="mx-auto h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-fast-checkout-light.svg" alt="">
-              </div>
-            </div>
-            <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
-              <h3 class="text-sm font-medium text-gray-900">Fast Shopping Cart</h3>
-              <p class="mt-2 text-sm text-gray-500">Look how fast that cart is going. What does this mean for the actual experience? I don&#039;t know.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> 
 
-    <div class="relative bg-white">
-        <!-- Background image and overlap -->
-        <div aria-hidden="true" class="absolute inset-0 hidden sm:flex sm:flex-col">
-            <div class="relative w-full flex-1 bg-gray-800">
-                <div class="absolute inset-0 overflow-hidden">
-                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-04-hero-full-width.jpg" alt=""
-                        class="h-full w-full object-cover object-center">
+            <div class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
+                <div
+                    class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-featured-category.jpg"
+                        alt="Two models wearing women's black cotton crewneck tee and off-white cotton crewneck tee."
+                        class="object-cover object-center group-hover:opacity-75">
+                    <div aria-hidden="true" class="bg-gradient-to-b from-transparent to-black opacity-50"></div>
+                    <div class="flex items-end p-6">
+                        <div>
+                            <h3 class="font-semibold text-white">
+                                <a href="#">
+                                    <span class="absolute inset-0"></span>
+                                    New Arrivals
+                                </a>
+                            </h3>
+                            <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="absolute inset-0 bg-gray-900 opacity-50"></div>
+                <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-01.jpg"
+                        alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
+                        class="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full">
+                    <div aria-hidden="true"
+                        class="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"></div>
+                    <div class="flex items-end p-6 sm:absolute sm:inset-0">
+                        <div>
+                            <h3 class="font-semibold text-white">
+                                <a href="#">
+                                    <span class="absolute inset-0"></span>
+                                    Accessories
+                                </a>
+                            </h3>
+                            <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
+                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-02.jpg"
+                        alt="Walnut desk organizer set with white modular trays, next to porcelain mug on wooden desk."
+                        class="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full">
+                    <div aria-hidden="true"
+                        class="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"></div>
+                    <div class="flex items-end p-6 sm:absolute sm:inset-0">
+                        <div>
+                            <h3 class="font-semibold text-white">
+                                <a href="#">
+                                    <span class="absolute inset-0"></span>
+                                    Workspace
+                                </a>
+                            </h3>
+                            <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="h-32 w-full bg-white md:h-40 lg:h-48"></div>
-        </div>
 
-        <div class="relative mx-auto max-w-3xl px-4 pb-96 text-center sm:px-6 sm:pb-0 lg:px-8">
-            <!-- Background image and overlap -->
-            <div aria-hidden="true" class="absolute inset-0 flex flex-col sm:hidden">
-                <div class="relative w-full flex-1 bg-gray-800">
-                    <div class="absolute inset-0 overflow-hidden">
-                        <img src="https://tailwindui.com/img/ecommerce-images/home-page-04-hero-full-width.jpg"
-                            alt="" class="h-full w-full object-cover object-center">
-                    </div>
-                    <div class="absolute inset-0 bg-gray-900 opacity-50"></div>
-                </div>
-                <div class="h-48 w-full bg-white"></div>
-            </div>
-            <div class="relative py-32">
-                <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">Mid-Season Sale</h1>
-                <div class="mt-4 sm:mt-6">
-                    <a href="#"
-                        class="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700">Shop
-                        Collection</a>
-                </div>
+            <div class="mt-6 sm:hidden">
+                <a href="#" class="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+                    Browse all categories
+                    <span aria-hidden="true"> &rarr;</span>
+                </a>
             </div>
         </div>
-
-        <section aria-labelledby="collection-heading" class="relative -mt-96 sm:mt-0">
-            <h2 id="collection-heading" class="sr-only">Collections</h2>
-            <div
-                class="mx-auto grid max-w-md grid-cols-1 gap-y-6 px-4 sm:max-w-7xl sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 sm:px-6 lg:gap-x-8 lg:px-8">
-                <div class="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto">
-                    <div>
-                        <div aria-hidden="true" class="absolute inset-0 overflow-hidden rounded-lg">
-                            <div class="absolute inset-0 overflow-hidden group-hover:opacity-75">
-                                <img src="https://tailwindui.com/img/ecommerce-images/home-page-04-collection-01.jpg"
-                                    alt="Woman wearing an off-white cotton t-shirt."
-                                    class="h-full w-full object-cover object-center">
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50"></div>
-                        </div>
-                        <div class="absolute inset-0 flex items-end rounded-lg p-6">
-                            <div>
-                                <p aria-hidden="true" class="text-sm text-white">Shop the collection</p>
-                                <h3 class="mt-1 font-semibold text-white">
-                                    <a href="#">
-                                        <span class="absolute inset-0"></span>
-                                        Women&#039;s
-                                    </a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto">
-                    <div>
-                        <div aria-hidden="true" class="absolute inset-0 overflow-hidden rounded-lg">
-                            <div class="absolute inset-0 overflow-hidden group-hover:opacity-75">
-                                <img src="https://tailwindui.com/img/ecommerce-images/home-page-04-collection-02.jpg"
-                                    alt="Man wearing a charcoal gray cotton t-shirt."
-                                    class="h-full w-full object-cover object-center">
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50"></div>
-                        </div>
-                        <div class="absolute inset-0 flex items-end rounded-lg p-6">
-                            <div>
-                                <p aria-hidden="true" class="text-sm text-white">Shop the collection</p>
-                                <h3 class="mt-1 font-semibold text-white">
-                                    <a href="#">
-                                        <span class="absolute inset-0"></span>
-                                        Men&#039;s
-                                    </a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto">
-                    <div>
-                        <div aria-hidden="true" class="absolute inset-0 overflow-hidden rounded-lg">
-                            <div class="absolute inset-0 overflow-hidden group-hover:opacity-75">
-                                <img src="https://tailwindui.com/img/ecommerce-images/home-page-04-collection-03.jpg"
-                                    alt="Person sitting at a wooden desk with paper note organizer, pencil and tablet."
-                                    class="h-full w-full object-cover object-center">
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50"></div>
-                        </div>
-                        <div class="absolute inset-0 flex items-end rounded-lg p-6">
-                            <div>
-                                <p aria-hidden="true" class="text-sm text-white">Shop the collection</p>
-                                <h3 class="mt-1 font-semibold text-white">
-                                    <a href="#">
-                                        <span class="absolute inset-0"></span>
-                                        Desk Accessories
-                                    </a>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
     <div class="bg-white">
@@ -377,6 +334,134 @@
                 </div>
                 <!-- More products... -->
             </div>
+        </div>
+    </div>
+
+    <!-- Advicements/Features -->
+    <div class="bg-gray-50">
+        <div class="mx-auto max-w-7xl py-16 lg:px-4">
+            <div class="mx-auto max-w-2xl px-4 lg:max-w-none">
+                <div class="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-2">
+                    <div>
+                        <h2 class="text-4xl font-bold tracking-tight text-gray-900">We built our business on great customer
+                            service</h2>
+                        <p class="mt-4 text-gray-500">At the beginning at least, but then we realized we could make a lot
+                            more money if we kinda stopped caring about that. Our new strategy is to write a bunch of things
+                            that look really good in the headlines, then clarify in the small print but hope people don't
+                            actually read it.</p>
+                    </div>
+                    <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg bg-gray-100">
+                        <img src="https://tailwindui.com/img/ecommerce-images/incentives-07-hero.jpg" alt=""
+                            class="object-cover object-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray-50">
+        <div class="mx-auto max-w-7xl sm:px-2 py-16 lg:px-4">
+            <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 px-4 lg:max-w-none lg:grid-cols-3">
+                <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
+                    <div class="sm:flex-shrink-0">
+                        <div class="flow-root">
+                            <img class="mx-auto h-24 w-28"
+                                src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
+                        <h3 class="text-sm font-medium text-gray-900">Free Shipping</h3>
+                        <p class="mt-2 text-sm text-gray-500">It&#039;s not actually free we just price it into the
+                            products. Someone&#039;s paying for it, and it&#039;s not us.</p>
+                    </div>
+                </div>
+                <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
+                    <div class="sm:flex-shrink-0">
+                        <div class="flow-root">
+                            <img class="mx-auto h-24 w-28"
+                                src="https://tailwindui.com/img/ecommerce/icons/icon-chat-light.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
+                        <h3 class="text-sm font-medium text-gray-900">24/7 Customer Support</h3>
+                        <p class="mt-2 text-sm text-gray-500">Our AI chat widget is powered by a naive series of if/else
+                            statements. Guaranteed to irritate.</p>
+                    </div>
+                </div>
+                <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
+                    <div class="sm:flex-shrink-0">
+                        <div class="flow-root">
+                            <img class="mx-auto h-24 w-28"
+                                src="https://tailwindui.com/img/ecommerce/icons/icon-fast-checkout-light.svg"
+                                alt="">
+                        </div>
+                    </div>
+                    <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
+                        <h3 class="text-sm font-medium text-gray-900">Fast Shopping Cart</h3>
+                        <p class="mt-2 text-sm text-gray-500">Look how fast that cart is going. What does this mean for the
+                            actual experience? I don&#039;t know.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-0">
+
+            <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
+                <div class="md:flex-shrink-0">
+                    <div class="flow-root">
+                        <img class="-my-1 mx-auto h-24 w-auto"
+                            src="https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg" alt="">
+                    </div>
+                </div>
+                <div class="mt-6 md:ml-4 md:mt-0 lg:ml-0 lg:mt-6">
+                    <h3 class="text-base font-medium text-gray-900">Free returns</h3>
+                    <p class="mt-3 text-sm text-gray-500">Not what you expected? Place it back in the parcel and attach the
+                        pre-paid postage stamp.</p>
+                </div>
+            </div>
+
+            <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
+                <div class="md:flex-shrink-0">
+                    <div class="flow-root">
+                        <img class="-my-1 mx-auto h-24 w-auto"
+                            src="https://tailwindui.com/img/ecommerce/icons/icon-calendar-light.svg" alt="">
+                    </div>
+                </div>
+                <div class="mt-6 md:ml-4 md:mt-0 lg:ml-0 lg:mt-6">
+                    <h3 class="text-base font-medium text-gray-900">Same day delivery</h3>
+                    <p class="mt-3 text-sm text-gray-500">We offer a delivery service that has never been done before.
+                        Checkout today and receive your products within hours.</p>
+                </div>
+            </div>
+
+            <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
+                <div class="md:flex-shrink-0">
+                    <div class="flow-root">
+                        <img class="-my-1 mx-auto h-24 w-auto"
+                            src="https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg" alt="">
+                    </div>
+                </div>
+                <div class="mt-6 md:ml-4 md:mt-0 lg:ml-0 lg:mt-6">
+                    <h3 class="text-base font-medium text-gray-900">All year discount</h3>
+                    <p class="mt-3 text-sm text-gray-500">Looking for a deal? You can use the code "ALLYEAR" at checkout
+                        and get money off all year round.</p>
+                </div>
+            </div>
+            
+            <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
+                <div class="md:flex-shrink-0">
+                    <div class="flow-root">
+                        <img class="-my-1 mx-auto h-24 w-auto"
+                            src="https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg" alt="">
+                    </div>
+                </div>
+                <div class="mt-6 md:ml-4 md:mt-0 lg:ml-0 lg:mt-6">
+                    <h3 class="text-base font-medium text-gray-900">For the planet</h3>
+                    <p class="mt-3 text-sm text-gray-500">We’ve pledged 1% of sales to the preservation and restoration of
+                        the natural environment.</p>
+                </div>
+            </div>
+
         </div>
     </div>
 @endsection

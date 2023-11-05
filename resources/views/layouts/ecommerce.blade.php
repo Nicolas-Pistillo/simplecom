@@ -7,11 +7,12 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <title>@yield('title', tenant()->ecommerce_name ?? tenant()->name)</title>
-    <style> [x-cloak] { display: none !important; } </style>
+    <style> [x-cloak] { display: none !important; } [data-carousel-item] { z-index: 5; } </style>
     @yield('head')
 </head>
 <body>
@@ -319,11 +320,10 @@
                             <div class="flex h-16 items-center justify-between">
                                 <!-- Logo (lg+) -->
                                 <div class="hidden lg:flex lg:items-center">
-                                    <a href="#">
+                                    <a class="w-32" href="{{ route('ecommerce.index') }}">
                                         <span class="sr-only">Your Company</span>
-                                        <img class="h-8 w-auto"
-                                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                            alt="">
+                                        <img class="h-8 w-32 object-contain" title="Inicio" alt="logo"
+                                        src="https://assets-global.website-files.com/63a9cb71c629474d4ae334b9/651fe7ba92f9ba32692bd314_logo%20manypixels.svg">
                                     </a>
                                 </div>
 
@@ -617,7 +617,16 @@
                                             </div>
 
                                             <!-- Other navigation links -->
-                                            <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Company</a>
+                                            <a href="{{ route('ecommerce.about') }}" 
+                                            class="flex items-center text-sm font-medium text-gray-700 border-b-2
+                                            {{
+                                                Route::is('ecommerce.about')
+                                                    ? 'border-indigo-600 text-indigo-600'
+                                                    : 'border-transparent text-gray-700 hover:text-gray-800';
+                                            }}">
+                                                Nosotros
+                                            </a>
+
                                             <a href="{{ route('ecommerce.contact') }}"
                                             class="flex items-center text-sm font-medium text-gray-700 border-b-2
                                             {{
@@ -645,7 +654,7 @@
                                           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                             <x-icon code="search" class="text-gray-400" />
                                           </div>
-                                          <input id="search" name="search" class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 
+                                          <input id="search" autocomplete="off" name="search" class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 
                                           ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
                                           focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Buscar..." type="search">
                                         </div>
@@ -656,21 +665,16 @@
                                 <!-- Account & cart -->
                                 <div class="flex flex-1 items-center justify-end">
                                     <div class="flex items-center lg:ml-8">
+
                                         <!-- Account -->
-                                        <x-icon code="person" title="Cuenta" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
+                                        <x-icon code="person" data-tooltip-target="account-tooltip" data-tooltip-placement="bottom" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
+                                        <x-tooltip id="account-tooltip">Mi cuenta</x-tooltip>
 
                                         <span class="mx-4 h-6 w-px bg-gray-200" aria-hidden="true"></span>
 
                                         <!-- Cart -->
-                                        <div class="flex items-center justify-center space-x-2">
-                                            {{-- <x-icon code="shopping_cart" class="p-1 bg-gray-50 rounded-full text-gray-600 cursor-pointer
-                                            transition duration-300 hover:bg-gray-100" title="Carrito" 
-                                            @click="cartMenuOpen = true" />
-
-                                            <span class="text-green-500 text-sm">3</span> --}}
-                                            <x-icon code="shopping_cart" @click="cartMenuOpen = true" 
-                                            class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
-                                        </div>
+                                        <x-icon code="shopping_cart" @click="cartMenuOpen = true" data-tooltip-target="cart-tooltip" data-tooltip-placement="bottom" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" /> 
+                                        <x-tooltip id="cart-tooltip">Carrito</x-tooltip>
                                     </div>
                                 </div>
                             </div>
@@ -680,7 +684,7 @@
             </nav>
         </header>
 
-        <!-- Shopping cart off-canvas -->
+        <!-- Cart Drawer -->
         <div x-cloak x-show="cartMenuOpen" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
             <!-- Background backdrop -->
             <div x-show="cartMenuOpen" 
@@ -707,14 +711,16 @@
                     <div class="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
                       <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                         <div class="flex items-start justify-between">
-                          <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
+                          <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Productos en el carrito</h2>
                           <div class="ml-3 flex h-7 items-center">
-                            <button type="button" class="relative -m-2 p-2 text-gray-500 hover:text-gray-500"
+                            <button data-tooltip-target="close-cart-drawer-tooltip" data-tooltip-placement="left" 
+                            type="button" class="relative -m-2 p-2 text-gray-500 hover:text-gray-500"
                             @click="cartMenuOpen = false">
                               <span class="absolute -inset-0.5"></span>
                               <span class="sr-only">Close panel</span>
                               <x-icon code="close" class="bg-gray-50 rounded-full" />
                             </button>
+                            <x-tooltip id="close-cart-drawer-tooltip">Cerrar panel</x-tooltip>
                           </div>
                         </div>
           
@@ -747,7 +753,8 @@
                               </li>
                               <li class="flex py-6">
                                 <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                  <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg" alt="Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch." class="h-full w-full object-cover object-center">
+                                  <img class="h-full w-full object-cover object-center"
+                                  src="https://off.com.ph/-/media/images/off/ph/products-en/update-983/plp/overtime-group-plp.png" alt="Product img">
                                 </div>
           
                                 <div class="ml-4 flex flex-1 flex-col">
@@ -782,9 +789,7 @@
                           <p>$262.00</p>
                         </div>
                         <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-                        <div class="mt-6">
-                          <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
-                        </div>
+                        <x-button class="w-full mt-6" size="big">Finalizar compra</x-button>
                         <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                           <p>
                             or
@@ -803,24 +808,46 @@
         </div>
     </div>
 
-    <div class="pt-20 bg-gray-50"></div>
+    <div class="pt-16 bg-gray-50"></div>
 
     <!-- Page main content -->
     <main class="bg-gray-50">
         @yield('content')
     </main>
 
-    <!-- Cookies advicement popover (discomment later) -->
-    {{-- <div class="animate__animated animate__bounceInLeft pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6">
+    <!-- Cookies advicement popover -->
+    <div x-data="{open: true}" x-show="open"
+    class="animate__animated animate__bounceInLeft pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6">
         <div class="pointer-events-auto max-w-xl rounded-xl bg-white p-6 shadow-lg ring-1 ring-gray-900/10">
           <p class="text-sm leading-6 text-gray-900">This website uses cookies to supplement a balanced diet and provide a much deserved reward to the senses after consuming bland but nutritious meals. Accepting our cookies is optional but recommended, as they are delicious. See our <a href="#" class="font-semibold text-indigo-600">cookie policy</a>.</p>
-          <div class="mt-4 flex items-center gap-x-5">
-            <x-button type="primary">Aceptar</x-button>
-            <x-button type="secondary">Rechazar</x-button>
+          <div class="mt-4 flex items-center gap-x-3">
+            <x-button @click="open = false" type="primary">Aceptar</x-button>
+            <x-button @click="open = false" type="secondary">Rechazar</x-button>
           </div>
         </div>
-    </div> --}}
+    </div>
     
+    <!-- Newsletter -->
+    <div class="bg-indigo-700 py-16">
+        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
+        <div class="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:col-span-7">
+            <h2 class="inline mb-2 sm:block lg:inline xl:block">No te pierdas ninguna novedad.</h2>
+            <p class="inline sm:block lg:inline xl:block">Suscribite a nuestro newsletter</p>
+        </div>
+        <form class="w-full max-w-md lg:col-span-5 lg:pt-2">
+            <div class="flex gap-x-4 mb-2">
+                <label for="email-address" class="sr-only">Email address</label>
+                <input id="email-address" name="newsletter_email" type="email" required class="min-w-0 flex-auto rounded-md border-0 bg-white/10 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset placeholder:text-white/75 sm:text-sm sm:leading-6" placeholder="Ingresa tu correo aquí">
+                <button type="submit" class="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Suscribirme</button>
+            </div>
+            <p class="text-xs text-gray-300">
+                Tus datos se mantienen confidenciales con nosotros. Puedes revisar nuestro 
+                <a href="#" class="font-semibold text-white hover:underline">acuerdo de privacidad</a>.
+            </p>
+        </form>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-900/10" aria-labelledby="footer-heading">
         <h2 id="footer-heading" class="sr-only">Footer</h2>
@@ -950,6 +977,7 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.js"></script>
     @yield('bottom-body')
     @yield('scripts')
 </body>

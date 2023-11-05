@@ -31,5 +31,7 @@ Route::middleware([
 
     Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');
 
+    Route::get('sobre-nosotros', [EcommerceController::class, 'about'])->name('ecommerce.about');
+
     Route::get('contacto', [EcommerceController::class, 'contact'])->name('ecommerce.contact');
 });
