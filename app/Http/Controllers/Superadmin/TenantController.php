@@ -27,9 +27,11 @@ class TenantController extends Controller
     public function store(Request $request)
     {
         $tenantData = $request->validate([
-            'name' => ['required', 'string', 'unique:tenants,name'],
+            'name' => ['required', 'string', 'unique:tenants,name', 'regex:/^\S*$/u'],
             'ecommerce_name' => ['required', 'string']
         ]);
+
+        $tenantData['tenancy_db_name'] = config('tenancy.database.prefix') . $tenantData['name'];
 
         $tenant = Tenant::create($tenantData);
 
@@ -37,7 +39,7 @@ class TenantController extends Controller
             'domain' => $tenantData['name'] . '.localhost'
         ]);
 
-        return redirect()->route('superadmin.tenants.index');
+        return redirect()->route('superadmin.tenants.index')->with('tenant_created', true);
     }
 
     /**

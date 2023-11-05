@@ -25,10 +25,12 @@
                     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         
                         <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" 
-                        error="{{ $errors->first('name') }}" name="name" label="Subdominio" />
+                        error="{{ $errors->first('name') }}" name="name" label="Subdominio" 
+                        value="{!! old('name') !!}" />
 
                         <x-input class="sm:col-span-3" placeholder="Por ejemplo: Distribuidora Martinez" 
-                        label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" />
+                        label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" 
+                        value="{!! old('ecommerce_name') !!}" />
 
                         {{-- <div class="sm:col-span-6">
                             <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" 

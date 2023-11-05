@@ -18,6 +18,12 @@
     @else
       <div class="px-4 sm:px-6 lg:px-8">
 
+        @if (Session::has('tenant_created'))
+          <x-alert class="mb-6 animate__bounceInLeft" type="success" dismissible>
+            Tenant creado exitosamente
+          </x-alert>
+        @endif
+
         <div class="sm:flex sm:items-center">
           <div class="sm:flex-auto">
             <h1 class="text-base font-semibold leading-6 text-gray-900">Listado de tenants</h1>
