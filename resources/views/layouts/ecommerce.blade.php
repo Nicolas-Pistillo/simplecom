@@ -617,10 +617,16 @@
                                             </div>
 
                                             <!-- Other navigation links -->
-                                            <a href="#"
-                                                class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Company</a>
-                                            <a href="#"
-                                                class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Stores</a>
+                                            <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Company</a>
+                                            <a href="{{ route('ecommerce.contact') }}"
+                                            class="flex items-center text-sm font-medium text-gray-700 border-b-2
+                                            {{
+                                                Route::is('ecommerce.contact')
+                                                    ? 'border-indigo-600 text-indigo-600'
+                                                    : 'border-transparent text-gray-700 hover:text-gray-800';
+                                            }}">
+                                                Contacto
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -631,7 +637,7 @@
                                 </div>
 
                                 <!-- Main search -->
-                                <div class="px-6 w-full">
+                                <div class="pl-0 lg:pl-12 w-full">
                                     <div class="flex items-center px-2 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
                                       <div class="w-full">
                                         <label for="search" class="sr-only">Search</label>

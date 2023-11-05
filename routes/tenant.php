@@ -29,5 +29,7 @@ Route::middleware([
 
     // Route::get('/asset' , [TenantAssetsController::class, 'asset'])->name('stancl.tenancy.asset');
 
-    Route::get('/', [EcommerceController::class, 'index']);
+    Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');
+
+    Route::get('contacto', [EcommerceController::class, 'contact'])->name('ecommerce.contact');
 });

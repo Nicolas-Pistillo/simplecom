@@ -11,4 +11,9 @@ class EcommerceController extends Controller
     {
         return view('ecommerce.index');
     }
+
+    public function contact(Request $request)
+    {
+        return view('ecommerce.contact');
+    }
 }
