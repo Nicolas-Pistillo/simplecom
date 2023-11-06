@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\EcommerceController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -34,4 +35,10 @@ Route::middleware([
     Route::get('sobre-nosotros', [EcommerceController::class, 'about'])->name('ecommerce.about');
 
     Route::get('contacto', [EcommerceController::class, 'contact'])->name('ecommerce.contact');
+
+    Route::prefix('admin')->group(function() {
+
+        Route::view('/', 'ecommerce.admin.login')->name('tenant.login-view');
+
+    });
 });
