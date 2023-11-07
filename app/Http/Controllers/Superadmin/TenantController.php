@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\PrepareTenantEcommerce;
+use App\Models\Plan;
 use App\Models\Sector;
 use App\Models\Tenant;
 use App\Models\User;
@@ -16,14 +17,15 @@ class TenantController extends Controller
     public function index()
     {
         return view('superadmin.tenants.index', [
-            'tenants' => Tenant::with('domains')->get()
+            'tenants' => Tenant::with(['domains', 'plan', 'sector'])->get()
         ]);
     }
 
     public function create()
     {
         return view('superadmin.tenants.create', [
-            'sectors' => Sector::orderBy('name')->get()
+            'sectors' => Sector::orderBy('name')->get(),
+            'plans' => Plan::all()
         ]);
     }
 
@@ -35,7 +37,8 @@ class TenantController extends Controller
         $tenantData = $request->validate([
             'name'           => ['required', 'string', 'unique:tenants,name', 'regex:/^\S*$/u'],
             'ecommerce_name' => ['required', 'string'],
-            'sector_id'      => ['required', 'exists:sectors,id']
+            'sector_id'      => ['required', 'exists:sectors,id'],
+            'plan_id'        => ['required', 'exists:plans,id']
         ]);
 
         $tenantData['tenancy_db_name'] = config('tenancy.database.prefix') . $tenantData['name'];

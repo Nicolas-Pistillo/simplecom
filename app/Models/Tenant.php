@@ -13,6 +13,16 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public static function getCustomColumns(): array
     {
-        return ['id', 'name', 'ecommerce_name', 'active'];
+        return ['id', 'name', 'ecommerce_name', 'sector_id', 'plan_id', 'active'];
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class);
     }
 }

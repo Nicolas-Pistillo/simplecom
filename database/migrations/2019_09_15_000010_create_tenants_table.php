@@ -19,6 +19,8 @@ class CreateTenantsTable extends Migration
             $table->string('id')->primary();
             $table->string('name')->unique();
             $table->string('ecommerce_name');
+            $table->foreignId('sector_id');
+            $table->foreignId('plan_id');
             $table->boolean('active')->default(1);
             $table->timestamps();
             $table->json('data')->nullable();

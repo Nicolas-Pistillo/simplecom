@@ -16,6 +16,7 @@
             </x-button>
         </div>
     @else
+
       <div class="px-4 sm:px-6 lg:px-8">
 
         @if (Session::has('tenant_created'))
@@ -41,8 +42,9 @@
                 <thead>
                   <tr>
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Nombre</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Estado</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Plan</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Rubro</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
                       <span class="sr-only">Edit</span>
@@ -71,16 +73,19 @@
                       </td>
 
                       <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        <div class="text-gray-900">Front-end Developer</div>
-                        <div class="mt-1 text-gray-500">Optimization</div>
-                      </td>
-
-                      <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                         @if ($tenant->active)
                           <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Activo</span>
                         @else
                           <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Inactivo</span>
                         @endif
+                      </td>
+
+                      <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                        <p class="text-gray-900"> {{ $tenant->plan->name }} </p>
+                      </td>
+
+                      <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                        <p class="text-gray-900"> {{ $tenant->sector->name }} </p>
                       </td>
 
                       <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">Member</td>

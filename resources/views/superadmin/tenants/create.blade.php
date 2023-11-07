@@ -32,17 +32,34 @@
                         label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" 
                         value="{!! old('ecommerce_name') !!}" />
 
-                        <div class="sm:col-span-6">
+                        <div class="sm:col-span-3">
                             <label for="sector" class="text-sm text-gray-500 sm:pt-1.5">Rubro</label>
                             <div class="mt-1">
                                 <select id="sector" name="sector_id" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
                                     <option>Seleccionar un rubro...</option>
                                     @foreach ($sectors as $sector)
-                                        <option value="{{ $sector->id }}">{{ $sector->name }}</option>
+                                        <option @if(old('sector_id') == $sector->id) selected @endif 
+                                        value="{{ $sector->id }}">{{ $sector->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('sector_id')
                                     <small class="text-xs text-red-500">{{ $errors->first('sector_id') }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                            <label for="plan" class="text-sm text-gray-500 sm:pt-1.5">Plan</label>
+                            <div class="mt-1">
+                                <select id="plan" name="plan_id" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
+                                    <option>Seleccionar un plan...</option>
+                                    @foreach ($plans as $plan)
+                                        <option @if(old('plan_id') == $plan->id) selected @endif 
+                                        value="{{ $plan->id }}">{{ $plan->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('plan_id')
+                                    <small class="text-xs text-red-500">{{ $errors->first('plan_id') }}</small>
                                 @enderror
                             </div>
                         </div>
