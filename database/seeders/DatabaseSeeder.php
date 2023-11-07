@@ -15,10 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Superadmin::create([
+        Superadmin::updateOrCreate(['email' => 'pistillonicolas@gmail.com'],
+        [
             'name' => 'Nicolas Pistillo',
             'email' => 'pistillonicolas@gmail.com',
             'password' => Hash::make('simplecom')
         ]);
+
+        $this->call(SectorSeeder::class);
     }
 }

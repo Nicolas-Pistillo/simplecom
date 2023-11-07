@@ -32,10 +32,18 @@
                         label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" 
                         value="{!! old('ecommerce_name') !!}" />
 
-                        {{-- <div class="sm:col-span-6">
-                            <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" 
-                            label="Nombre del comercio" name="name" error="{{ $errors->first('name') }}" />
-                        </div> --}}
+                        <div class="sm:col-span-6">
+                            <label for="sector" class="text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Rubro</label>
+                            <div class="mt-2">
+                                <select id="sector" name="sector" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
+                                    <option>Seleccionar un rubro...</option>
+                                    @foreach ($sectors as $sector)
+                                        <option value="{{ $sector->id }}">{{ $sector->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                              
+                        </div>
                     </div>
                 </div>
                 <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">

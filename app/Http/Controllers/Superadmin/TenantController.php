@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sector;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,7 +19,9 @@ class TenantController extends Controller
 
     public function create()
     {
-        return view('superadmin.tenants.create');
+        return view('superadmin.tenants.create', [
+            'sectors' => Sector::orderBy('name')->get()
+        ]);
     }
 
     /**
