@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\PrepareTenantEcommerce;
+use App\Models\Admin;
 use App\Models\Plan;
 use App\Models\Sector;
 use App\Models\Tenant;
@@ -45,7 +46,17 @@ class TenantController extends Controller
 
         $tenant = Tenant::create($tenantData);
 
-        PrepareTenantEcommerce::dispatch($tenant);
+        $tenant->domains()->create([
+            'domain' => $tenantData['name'] . '.localhost'
+        ]);
+
+        $tenant->run(function($tenant) {
+            Admin::create([
+                'name' => 'Admin comercio',
+                'email' => 'test@test.com',
+                'password' => Hash::make('password')
+            ]);
+        });
 
         return redirect()->route('superadmin.tenants.index')->with('tenant_created', true);
     }
