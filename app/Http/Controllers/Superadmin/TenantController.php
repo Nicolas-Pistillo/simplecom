@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\PrepareTenantEcommerce;
 use App\Models\Sector;
 use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class TenantController extends Controller
@@ -30,17 +33,16 @@ class TenantController extends Controller
     public function store(Request $request)
     {
         $tenantData = $request->validate([
-            'name' => ['required', 'string', 'unique:tenants,name', 'regex:/^\S*$/u'],
-            'ecommerce_name' => ['required', 'string']
+            'name'           => ['required', 'string', 'unique:tenants,name', 'regex:/^\S*$/u'],
+            'ecommerce_name' => ['required', 'string'],
+            'sector_id'      => ['required', 'exists:sectors,id']
         ]);
 
         $tenantData['tenancy_db_name'] = config('tenancy.database.prefix') . $tenantData['name'];
 
         $tenant = Tenant::create($tenantData);
 
-        $tenant->domains()->create([
-            'domain' => $tenantData['name'] . '.localhost'
-        ]);
+        PrepareTenantEcommerce::dispatch($tenant);
 
         return redirect()->route('superadmin.tenants.index')->with('tenant_created', true);
     }

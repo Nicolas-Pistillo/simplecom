@@ -27,9 +27,6 @@
         <div class="sm:flex sm:items-center">
           <div class="sm:flex-auto">
             <h1 class="text-base font-semibold leading-6 text-gray-900">Listado de tenants</h1>
-            <p class="mt-2 text-sm text-gray-700">
-              Cada tenant o "inquilino" representa un comercio dentro de simplecom
-            </p>
           </div>
           
           <x-button href="{{ route('superadmin.tenants.create') }}" 
@@ -64,8 +61,8 @@
                           <div class="ml-4">
                             <div class="font-medium text-gray-900"> {{ $tenant->ecommerce_name }} </div>
                             <div class="mt-1 text-gray-500 flex items-center"> 
-                              <a href="http://{{ $tenant->domains->first()->domain }}" target="_blank" class="text-blue-600 hover:underline flex items-center">
-                                {{ $tenant->domains->first()->domain }}
+                              <a href="http://{{ $tenant->domains->first()?->domain }}" target="_blank" class="text-blue-600 hover:underline flex items-center">
+                                {{ $tenant->domains->first()?->domain }}
                               </a> 
                               <x-icon code="open_in_new" class="ml-1 text-blue-600 text-sm" />
                             </div>

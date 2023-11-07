@@ -33,16 +33,18 @@
                         value="{!! old('ecommerce_name') !!}" />
 
                         <div class="sm:col-span-6">
-                            <label for="sector" class="text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Rubro</label>
-                            <div class="mt-2">
-                                <select id="sector" name="sector" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
+                            <label for="sector" class="text-sm text-gray-500 sm:pt-1.5">Rubro</label>
+                            <div class="mt-1">
+                                <select id="sector" name="sector_id" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
                                     <option>Seleccionar un rubro...</option>
                                     @foreach ($sectors as $sector)
                                         <option value="{{ $sector->id }}">{{ $sector->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('sector_id')
+                                    <small class="text-xs text-red-500">{{ $errors->first('sector_id') }}</small>
+                                @enderror
                             </div>
-                              
                         </div>
                     </div>
                 </div>

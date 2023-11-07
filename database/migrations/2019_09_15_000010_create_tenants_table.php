@@ -19,7 +19,7 @@ class CreateTenantsTable extends Migration
             $table->string('id')->primary();
             $table->string('name')->unique();
             $table->string('ecommerce_name');
-            $table->boolean('active')->default(0);
+            $table->boolean('active')->default(1);
             $table->timestamps();
             $table->json('data')->nullable();
         });
@@ -32,6 +32,6 @@ class CreateTenantsTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tenants');
+        Schema::dropIfExists('tenants'); 
     }
 }

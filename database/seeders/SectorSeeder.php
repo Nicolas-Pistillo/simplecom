@@ -25,11 +25,12 @@ class SectorSeeder extends Seeder
         Sector::updateOrCreate(['name' => 'Electrodomésticos']);
         Sector::updateOrCreate(['name' => 'Ventas y servicio técnico de Celulares e Informática']);
         Sector::updateOrCreate(['name' => 'Ópticas y casas de artículos de fotografía']);
+        Sector::updateOrCreate(['name' => 'Artículos de ferreteria']);
         Sector::updateOrCreate(['name' => 'Pinturerías']);
         Sector::updateOrCreate(['name' => 'Blanquerías']);
         Sector::updateOrCreate(['name' => 'Gastronomía']);
         Sector::updateOrCreate(['name' => 'Alimentos y bebidas']);
-        Sector::updateOrCreate(['name' => 'Ventilación - Refrigeración']);
+        Sector::updateOrCreate(['name' => 'Ventilación y Refrigeración']);
         Sector::updateOrCreate(['name' => 'Regalerías']);
         Sector::updateOrCreate(['name' => 'Distribuidoras de bebidas']);
         Sector::updateOrCreate(['name' => 'Pet Shop']);
