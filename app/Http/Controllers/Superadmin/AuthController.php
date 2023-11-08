@@ -20,7 +20,8 @@ class AuthController extends Controller
             return redirect()->route('superadmin.dashboard.index');
         }
 
-        return back()->withErrors(['login-failed', 'true']);
+        return back()->withErrors(['login-failed', true])
+                    ->withInput(['email' => $request->email]);
     }
 
     public function logout(Request $request)

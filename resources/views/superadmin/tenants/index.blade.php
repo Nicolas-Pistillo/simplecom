@@ -34,8 +34,8 @@
           class="inline-block mt-4 sm:ml-16 sm:mt-0 sm:flex-none" type="primary">Nuevo tenant</x-button>
         </div>
 
-        <div class="mt-8 flow-root">
-          <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="my-8 flow-root">
+          <div class="-mx-4 -my-2 overflow-x-auto md:overflow-x-visible sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table class="min-w-full divide-y divide-gray-300">
 
@@ -45,10 +45,7 @@
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Estado</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Plan</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Rubro</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
-                    <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                      <span class="sr-only">Edit</span>
-                    </th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-center text-gray-900">Acciones</th>
                   </tr>
                 </thead>
 
@@ -63,7 +60,7 @@
                           <div class="ml-4">
                             <div class="font-medium text-gray-900"> {{ $tenant->ecommerce_name }} </div>
                             <div class="mt-1 text-gray-500 flex items-center"> 
-                              <a href="http://{{ $tenant->domains->first()?->domain }}" target="_blank" class="text-blue-600 hover:underline flex items-center">
+                              <a href="http://{{ $tenant->domains->first()?->domain }}" title="Ir a su ecommerce" target="_blank" class="text-blue-600 hover:underline flex items-center">
                                 {{ $tenant->domains->first()?->domain }}
                               </a> 
                               <x-icon code="open_in_new" class="ml-1 text-blue-600 text-sm" />
@@ -88,10 +85,31 @@
                         <p class="text-gray-900"> {{ $tenant->sector->name }} </p>
                       </td>
 
-                      <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">Member</td>
+                      <td class="relative whitespace-nowrap py-5 pr-4 font-medium text-center sm:pr-0">
 
-                      <td class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, Lindsay Walton</span></a> 
+                        <div x-data="{open: false}" class="relative inline-block">
+
+                          <x-icon code="more_vert" @click="open = !open"
+                          class="text-gray-500 cursor-pointer transition duration-300
+                          rounded-full p-1 hover:bg-gray-100 hover:shadow-md" />
+                        
+                          <!-- Tenant actions dropdown -->
+                          <div x-cloak x-show="open" @click.away="open = false" 
+                          x-transition:enter="transition ease-out duration-200"
+                          x-transition:enter-start="transform opacity-0 scale-95"
+                          x-transition:enter-end="transform opacity-100 scale-100"
+                          x-transition:leave="transition ease-in duration-75"
+                          x-transition:leave-start="transform opacity-100 scale-100"
+                          x-transition:leave-end="transform opacity-0 scale-95"
+                          class="absolute right-0 z-10 mt-2 w-48 origin-top-right text-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                            <div class="py-1" role="none">
+                              <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                              <a href="#" class="transition-colors duration-200 text-gray-700 block px-4 py-2 text-sm hover:bg-gray-50" role="menuitem">Ver detalles</a>
+                              <a href="#" class="transition-colors duration-200 text-gray-700 block px-4 py-2 text-sm hover:bg-gray-50" role="menuitem">Eliminar</a>
+                            </div>
+                          </div>
+
+                        </div>
                       </td>
                     </tr>
                   @endforeach
@@ -169,8 +187,8 @@
               </div>
             </div>
         </div>
-    </div> 
-    --}}
+    </div>  --}}
+   
       
 
 @endsection

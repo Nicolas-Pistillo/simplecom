@@ -23,10 +23,15 @@ class RedirectIfAuthenticated
         {
             if (Auth::guard($guard)->check()) 
             {
-                if ($guard == 'superadmin')
+                if ($guard === 'superadmin')
                 {
                     return redirect()->route('superadmin.dashboard.index');
                 }    
+
+                if ($guard === 'admin')
+                {
+                    return redirect()->route('admin.dashboard.index');
+                }
             }
         }
 

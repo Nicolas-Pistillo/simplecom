@@ -3,24 +3,12 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Tenant\AuthController;
+use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
-use App\Http\Controllers\TenantAssetsController;
 
-/*
-|--------------------------------------------------------------------------
-| Tenant Routes
-|--------------------------------------------------------------------------
-|
-| Here you can register the tenant routes for your application.
-| These routes are loaded by the TenantRouteServiceProvider.
-|
-| Feel free to customize them however you want. Good luck!
-|
-*/
 
 Route::middleware([
     'web',
@@ -38,7 +26,23 @@ Route::middleware([
 
     Route::prefix('admin')->group(function() {
 
-        Route::view('/', 'ecommerce.admin.login')->name('tenant.login-view');
+        Route::middleware('guest:admin')->group(function() {
+
+            Route::view('/', 'admin.login')->name('admin.login-view');
+
+            Route::post('login', [AuthController::class, 'loginAdmin'])->name('admin.login');
+
+        });
+
+        Route::middleware('auth:admin')->group(function() {
+
+            Route::prefix('dashboard')->group(function() {
+
+                Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
+
+            });
+
+        });
 
     });
 });

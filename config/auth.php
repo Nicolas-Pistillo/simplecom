@@ -36,15 +36,15 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'web' => [ // Customers - common users
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'superadmin' => [
+        'superadmin' => [ // Superadmin - manages tenants
             'driver' => 'session',
             'provider' => 'superadmins'
         ],
-        'admin' => [
+        'admin' => [ // Tenant ecommerce admin
             'driver' => 'session',
             'provider' => 'admins',
         ]

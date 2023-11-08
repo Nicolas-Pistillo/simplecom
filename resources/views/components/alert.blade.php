@@ -1,7 +1,7 @@
 @switch($type)
     @case('info')
         <div x-data="{alertOpen: true}" x-show="alertOpen"
-        {{ $attributes->merge(['class' => 'animate__animated border-l-4 border-blue-400 rounded-md bg-blue-50 p-4 shadow']) }}>
+        {{ $attributes->merge(['class' => 'animate__animated border-l-4 border-blue-400 rounded-md bg-blue-50 p-2.5 shadow']) }}>
             <div class="flex items-center">
 
                 <x-icon code="info" class="text-blue-500 p-1 bg-blue-200 rounded-lg" />
@@ -29,7 +29,7 @@
         @break
     @case('success')
         <div x-data="{alertOpen: true}" x-show="alertOpen"
-        {{ $attributes->merge(['class' => 'animate__animated border-l-4 border-green-400 rounded-md bg-green-50 p-4 shadow']) }}>
+        {{ $attributes->merge(['class' => 'animate__animated border-l-4 border-green-400 rounded-md bg-green-50 p-2.5 shadow']) }}>
             <div class="flex items-center">
 
                 <x-icon code="check" class="text-green-500 p-1 bg-green-200 rounded-lg" />
@@ -57,7 +57,7 @@
         @break
     @case('warning')
         <div x-data="{alertOpen: true}" x-show="alertOpen"
-        {{ $attributes->merge(['class' => 'animate__animated border-l-4 rounded-md border-yellow-400 bg-yellow-50 p-4 shadow']) }}>
+        {{ $attributes->merge(['class' => 'animate__animated border-l-4 rounded-md border-yellow-400 bg-yellow-50 p-2.5 shadow']) }}>
             <div class="flex items-center">
 
                 <div class="flex-shrink-0">
@@ -87,7 +87,7 @@
         @break
     @case('error')
         <div x-data="{alertOpen: true}" x-show="alertOpen"
-        {{ $attributes->merge(['class' => 'animate__animated border-l-4 border-red-400 rounded-md bg-red-50 p-4 shadow']) }}>
+        {{ $attributes->merge(['class' => 'animate__animated border-l-4 border-red-400 rounded-md bg-red-50 p-2.5 shadow']) }}>
             <div class="flex items-center">
 
                 <div class="flex-shrink-0">

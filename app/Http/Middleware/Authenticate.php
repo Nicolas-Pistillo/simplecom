@@ -16,6 +16,9 @@ class Authenticate extends Middleware
         {
             if ($request->is('superadmin/*')) 
                 return route('superadmin.login-view');
+
+            if ($request->is('admin/*'))
+                return route('admin.login-view');
         }
 
         return null;

@@ -7,7 +7,9 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>[x-cloak] { display: none !important; }</style>
     <title>@yield('page-title', 'Simplecom - Superadmin')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     @yield('head')
@@ -61,7 +63,7 @@
   
               <!-- Profile dropdown -->
               <div x-data="{userMenuOpen: false}" class="relative ml-3">
-                <div @click="userMenuOpen = !userMenuOpen" @click.away="userMenuOpen = false">
+                <div @click="userMenuOpen = !userMenuOpen">
                   <button type="button" class="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">Open user menu</span>
@@ -69,10 +71,14 @@
                   </button>
                 </div>
   
-                <div x-show="userMenuOpen" 
+                <div x-cloak x-show="userMenuOpen" @click.away="userMenuOpen = false"
                 x-transition:enter.duration.300ms
                 x-transition:leave.duration.300ms
                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                <div class="px-4 py-3 border-b" role="none">
+                  <p class="text-sm font-semibold" role="none"> {{ Auth::user()->name }} </p>
+                  <p class="truncate text-xs font-medium text-gray-900" role="none"> {{ Auth::user()->email }} </p>
+                </div>
                   <!-- Active: "bg-gray-100", Not Active: "" -->
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
@@ -154,5 +160,7 @@
     </main>
 
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.js"></script>
 </body>
 </html>
