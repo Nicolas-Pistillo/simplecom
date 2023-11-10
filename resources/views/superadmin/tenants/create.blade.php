@@ -30,7 +30,7 @@
 
                         <x-input class="sm:col-span-3" placeholder="Por ejemplo: Distribuidora Martinez" 
                         label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" 
-                        value="{{ old('ecommerce_name') }}" />
+                        value="{!! old('ecommerce_name') !!}" />
 
                         <div class="sm:col-span-3">
                             <label for="sector" class="text-sm text-gray-500 sm:pt-1.5">Rubro</label>
@@ -63,6 +63,26 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <hr class="w-full sm:col-span-6">
+
+                        <h4 class="sm:col-span-6 flex items-center text-sm text-gray-700">
+                            Cuenta del administrador principal
+                            <x-icon data-tooltip-target="admin-account-help" 
+                            code="help" class="ml-1 text-blue-600" style="font-size: 20px" />
+                            <x-tooltip id="admin-account-help">
+                                Será el encargado de iniciar sesión por primera vez como administrador del comercio, <br> 
+                                también controlara los roles e información de los demás tipos de administradores
+                            </x-tooltip>
+                        </h4>
+
+                        <x-input type="email" class="sm:col-span-3 border-none p-0"
+                        error="{{ $errors->first('admin_email') }}" name="admin_email" label="Email administrador" 
+                        value="{{ old('admin_email') }}" />
+
+                        <x-input type="password" class="sm:col-span-3 border-none p-0" placeholder="Luego se le pedira cambiarla por seguridad"
+                        label="Contraseña administrador" name="admin_password" error="{{ $errors->first('admin_password') }}"
+                        value="{{ old('admin_password') }}" />
                     </div>
                 </div>
                 <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">

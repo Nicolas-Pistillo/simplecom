@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\PrepareTenantEcommerce;
+use App\Http\Requests\CreateTenantRequest;
 use App\Models\Admin;
 use App\Models\Plan;
 use App\Models\Sector;
 use App\Models\Tenant;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class TenantController extends Controller
 {
@@ -22,7 +20,7 @@ class TenantController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         return view('superadmin.tenants.create', [
             'sectors' => Sector::orderBy('name')->get(),
@@ -33,32 +31,29 @@ class TenantController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateTenantRequest $request)
     {
-        $tenantData = $request->validate([
-            'name'           => ['required', 'string', 'unique:tenants,name', 'regex:/^\S*$/u'],
-            'ecommerce_name' => ['required', 'string'],
-            'sector_id'      => ['required', 'exists:sectors,id'],
-            'plan_id'        => ['required', 'exists:plans,id']
+        $tenant = Tenant::create([
+            'name'              => $request->name,
+            'ecommerce_name'    => $request->ecommerce_name,
+            'sector_id'         => $request->sector_id,
+            'plan_id'           => $request->plan_id,
+            'tenancy_db_name'   => config('tenancy.database.prefix') . $request->name
         ]);
-
-        $tenantData['tenancy_db_name'] = config('tenancy.database.prefix') . $tenantData['name'];
-
-        $tenant = Tenant::create($tenantData);
 
         $tenant->domains()->create([
-            'domain' => $tenantData['name'] . '.localhost'
+            'domain' => $request->name . '.' . $_SERVER['HTTP_HOST']
         ]);
 
-        $tenant->run(function($tenant) {
+        $tenant->run(function() use ($request) {
             Admin::create([
-                'name' => 'Admin comercio',
-                'email' => 'test@test.com',
-                'password' => Hash::make('password')
+                'name' => 'Administrador principal',
+                'email' => $request->admin_email,
+                'password' => Hash::make($request->admin_password)
             ]);
         });
 
-        return redirect()->route('superadmin.tenants.index')->with('tenant_created', true);
+        return to_route('superadmin.tenants.index')->with('tenant_created', true);
     }
 
     /**

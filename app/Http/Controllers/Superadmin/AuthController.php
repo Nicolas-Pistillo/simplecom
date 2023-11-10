@@ -17,7 +17,7 @@ class AuthController extends Controller
 
         if(Auth::guard('superadmin')->attempt($credentials))
         {
-            return redirect()->route('superadmin.dashboard.index');
+            return to_route('superadmin.dashboard.index');
         }
 
         return back()->withErrors(['login-failed', true])
@@ -30,6 +30,6 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('superadmin.login-view');
+        return to_route('superadmin.login-view');
     }
 }
