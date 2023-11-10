@@ -1,12 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h2>Aca arranca la cosaa</h2>
-</body>
-</html>
+@extends('layouts.dashboards.admin')
+
+@section('content')
+    <div>
+        <h3 class="text-base font-semibold leading-6 text-gray-900">Last 30 days</h3>
+        <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                <dt class="truncate text-sm font-medium text-gray-500">Total Subscribers</dt>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">71,897</dd>
+            </div>
+            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                <dt class="truncate text-sm font-medium text-gray-500">Avg. Open Rate</dt>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">58.16%</dd>
+            </div>
+            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                <dt class="truncate text-sm font-medium text-gray-500">Avg. Click Rate</dt>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">24.57%</dd>
+            </div>
+        </div>
+    </div>
+@endsection
