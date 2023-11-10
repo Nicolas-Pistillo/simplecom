@@ -7,6 +7,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Stancl\JobPipeline\JobPipeline;
 use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Jobs;
@@ -108,6 +109,11 @@ class TenancyServiceProvider extends ServiceProvider
         InitializeTenancyByDomain::$onFail = function() {
             return redirect()->route('simplecom.landing');
         };
+
+        Livewire::setUpdateRoute(function($handle) {
+            return Route::post('/livewire/update', $handle)
+                ->middleware('web', 'universal', InitializeTenancyByDomain::class);
+        });
     }
 
     protected function bootEvents()

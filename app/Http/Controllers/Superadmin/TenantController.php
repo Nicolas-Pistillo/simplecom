@@ -42,7 +42,7 @@ class TenantController extends Controller
         ]);
 
         $tenant->domains()->create([
-            'domain' => $request->name . '.' . $_SERVER['HTTP_HOST']
+            'domain' => $request->name . '.' . env('APP_DOMAIN')
         ]);
 
         $tenant->run(function() use ($request) {

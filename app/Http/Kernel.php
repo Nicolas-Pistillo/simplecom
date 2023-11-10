@@ -43,6 +43,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'universal' => [] // To share routes between central/tenant context, like livewire /update
     ];
 
     /**

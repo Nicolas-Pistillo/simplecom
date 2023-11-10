@@ -10,6 +10,7 @@
         "laravel/framework": "^10.10",
         "laravel/octane": "^2.1",
         "laravel/tinker": "^2.8",
+        "livewire/livewire": "^3.1",
         "stancl/tenancy": "^3.7"
     },
     "require-dev": {

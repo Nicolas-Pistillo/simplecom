@@ -323,7 +323,7 @@
                                     <a class="w-32" href="{{ route('ecommerce.index') }}">
                                         <span class="sr-only">Your Company</span>
                                         <img class="h-8 w-32 object-contain" title="Inicio" alt="logo"
-                                        src="https://assets-global.website-files.com/63a9cb71c629474d4ae334b9/651fe7ba92f9ba32692bd314_logo%20manypixels.svg">
+                                        src="https://comprasweb.casafranchi.com.ar/franchicarrito/images/LogoSuperior2.png">
                                     </a>
                                 </div>
 
