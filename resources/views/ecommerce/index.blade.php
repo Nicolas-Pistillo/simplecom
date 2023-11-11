@@ -1,14 +1,41 @@
 @extends('layouts.ecommerce')
 
+@section('head')
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+@endsection
+
 @section('content')
-    <!-- Slider -->
-    <div id="default-carousel" class="relative w-full shadow-md mb-16" data-carousel="slider">
+    <!-- Slider (Images size recommended: 1920x800) -->
+    <div class="mb-16 pb-2" data-flickity='{ "wrapAround": true, "prevNextButtons": false }' style="height: 420px">
+        <div class="w-full h-full">
+            <img class="w-full h-full object-cover"
+            src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699549316978-01-desk-mainslider-cm.png">
+        </div>
+        <div class="w-full h-full">
+            <img class="w-full h-full object-cover"
+            src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699582853566-home-mainslider-desktop-v2.png">
+        </div>
+        <div class="w-full h-full">
+            <img class="w-full h-full object-cover"
+            src="https://www.munishop.com.ar/webfiles/marketplace/slider/63/1_1920x800.jpg">
+        </div>
+        <div class="w-full h-full">
+            <img class="w-full h-full object-cover"
+            src="https://www.munishop.com.ar/webfiles/marketplace/slider/66/1_1920x800.jpg">
+        </div>
+        <div class="w-full h-full">
+            <img class="w-full h-full object-cover"
+            src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699583444342-homesliderdesktop.png">
+        </div>
+    </div>
+    {{-- <div id="default-carousel" class="relative w-full shadow-md mb-16" data-carousel="slider">
         <!-- Carousel wrapper -->
         <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img class="absolute block w-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                    alt="..." src="https://www.munishop.com.ar/webfiles/marketplace/slider/63/1_1920x800.jpg">
+                <img class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    alt="..." src="https://http2.mlstatic.com/D_NQ_NP_720855-MLA72575105702_112023-OO.webp">
             </div>
             <!-- Item 2 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
@@ -53,7 +80,7 @@
                 <span class="sr-only">Next</span>
             </span>
         </button>
-    </div>
+    </div> --}}
 
     <!-- Categories overview -->
     <div class="bg-gray-50">
@@ -305,7 +332,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-0">
+        <div class="grid grid-cols-1 gap-y-12 pb-16 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-0">
 
             <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
                 <div class="md:flex-shrink-0">
