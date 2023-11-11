@@ -47,7 +47,7 @@ class TenantController extends Controller
 
         $tenant->run(function() use ($request) {
             Admin::create([
-                'name' => 'Administrador principal',
+                'name' => 'Administrador',
                 'email' => $request->admin_email,
                 'password' => Hash::make($request->admin_password)
             ]);

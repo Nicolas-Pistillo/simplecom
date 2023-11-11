@@ -7,26 +7,27 @@
 
 @section('content')
     <!-- Slider (Images size recommended: 1920x800) -->
-    <div class="mb-16 pb-2" data-flickity='{ "wrapAround": true, "prevNextButtons": false }' style="height: 420px">
+    <div class="mb-16 pb-2" style="height: 420px" 
+    data-flickity='{ "wrapAround": true, "prevNextButtons": false, "autoPlay": 5000 }'>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-            src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699549316978-01-desk-mainslider-cm.png">
+                src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699549316978-01-desk-mainslider-cm.png">
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-            src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699582853566-home-mainslider-desktop-v2.png">
+                src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699582853566-home-mainslider-desktop-v2.png">
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-            src="https://www.munishop.com.ar/webfiles/marketplace/slider/63/1_1920x800.jpg">
+                src="https://www.munishop.com.ar/webfiles/marketplace/slider/63/1_1920x800.jpg">
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-            src="https://www.munishop.com.ar/webfiles/marketplace/slider/66/1_1920x800.jpg">
+                src="https://www.munishop.com.ar/webfiles/marketplace/slider/66/1_1920x800.jpg">
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-            src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699583444342-homesliderdesktop.png">
+                src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699583444342-homesliderdesktop.png">
         </div>
     </div>
     {{-- <div id="default-carousel" class="relative w-full shadow-md mb-16" data-carousel="slider">
@@ -157,6 +158,90 @@
                 </a>
             </div>
         </div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8 flex flex-wrap items-center justify-center">
+        <article
+            class="relative m-3 isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
+            <img src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=3270&amp;q=80"
+                alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
+            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
+            <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+
+            <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+                <time datetime="2020-03-10" class="mr-8">Mar 10, 2020</time>
+                <div class="-ml-4 flex items-center gap-x-4">
+                    <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+                        <circle cx="1" cy="1" r="1"></circle>
+                    </svg>
+                    <div class="flex gap-x-2.5">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                            alt="" class="h-6 w-6 flex-none rounded-full bg-white/10">
+                        Lindsay Walton
+                    </div>
+                </div>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
+                <a href="#">
+                    <span class="absolute inset-0"></span>
+                    Libero quisquam voluptatibus nam iusto qui dolor
+                </a>
+            </h3>
+        </article>
+        <article
+            class="relative m-3 isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
+            <img src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=3270&amp;q=80"
+                alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
+            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
+            <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+
+            <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+                <time datetime="2020-03-10" class="mr-8">Mar 10, 2020</time>
+                <div class="-ml-4 flex items-center gap-x-4">
+                    <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+                        <circle cx="1" cy="1" r="1"></circle>
+                    </svg>
+                    <div class="flex gap-x-2.5">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                            alt="" class="h-6 w-6 flex-none rounded-full bg-white/10">
+                        Lindsay Walton
+                    </div>
+                </div>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
+                <a href="#">
+                    <span class="absolute inset-0"></span>
+                    Libero quisquam voluptatibus nam iusto qui dolor
+                </a>
+            </h3>
+        </article>
+        <article
+            class="relative m-3 isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
+            <img src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=3270&amp;q=80"
+                alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
+            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
+            <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+
+            <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+                <time datetime="2020-03-10" class="mr-8">Mar 10, 2020</time>
+                <div class="-ml-4 flex items-center gap-x-4">
+                    <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+                        <circle cx="1" cy="1" r="1"></circle>
+                    </svg>
+                    <div class="flex gap-x-2.5">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                            alt="" class="h-6 w-6 flex-none rounded-full bg-white/10">
+                        Lindsay Walton
+                    </div>
+                </div>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
+                <a href="#">
+                    <span class="absolute inset-0"></span>
+                    Libero quisquam voluptatibus nam iusto qui dolor
+                </a>
+            </h3>
+        </article>
     </div>
 
     <div class="bg-white">
@@ -375,7 +460,7 @@
                         and get money off all year round.</p>
                 </div>
             </div>
-            
+
             <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
                 <div class="md:flex-shrink-0">
                     <div class="flow-root">

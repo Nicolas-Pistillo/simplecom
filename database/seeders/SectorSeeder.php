@@ -17,7 +17,7 @@ class SectorSeeder extends Seeder
         Sector::updateOrCreate(['name' => 'Venta de calzado']);
         Sector::updateOrCreate(['name' => 'Artículos deportivos']);
         Sector::updateOrCreate(['name' => 'Relojería y joyería']);
-        Sector::updateOrCreate(['name' => 'Almacén']);
+        Sector::updateOrCreate(['name' => 'Almacénes']);
         Sector::updateOrCreate(['name' => 'Artículos de perfumería y tocador']);
         Sector::updateOrCreate(['name' => 'Materialeles de construcción']);
         Sector::updateOrCreate(['name' => 'Artículos de decoración y objetos de arte']);
