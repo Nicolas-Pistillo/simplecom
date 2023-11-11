@@ -22,7 +22,7 @@ class CreateTenantsTable extends Migration
             $table->foreignId('sector_id');
             $table->foreignId('plan_id');
             $table->boolean('active')->default(1);
-            $table->boolean('setup_complete')->default(0);
+            $table->boolean('setup_completed')->default(0);
             $table->timestamps();
             $table->json('data')->nullable();
         });
