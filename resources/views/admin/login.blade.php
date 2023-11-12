@@ -9,7 +9,7 @@
 
                 <div class="relative mt-24">
                     <img class="absolute -top-36 left-0 h-20 w-auto mx-auto" 
-                    src="https://www.munishop.com.ar/webfiles/marketplace/logo.png?t=1681182743"
+                    src="https://comprasweb.casafranchi.com.ar/franchicarrito/images/LogoSuperior2.png"
                         alt="Commerce logo">
                     <h4 class="text-2xl font-bold leading-9 tracking-tight text-blue-600">{{ tenant()->ecommerce_name }}
                     </h4>
@@ -45,6 +45,13 @@
                     @error('login-failed')
                         <x-alert type="error" class="mt-3">Credenciales incorrectas</x-alert>
                     @enderror
+                </div>
+
+                <div class="lg:hidden absolute bottom-0 left-0 mb-4 w-full text-center">
+                    <a href="{{ route('simplecom.landing') }}" target="_blank"
+                    class="text-blue-500 hover:underline text-sm">
+                        simplecom.com
+                    </a>
                 </div>
             </div>
         </div>

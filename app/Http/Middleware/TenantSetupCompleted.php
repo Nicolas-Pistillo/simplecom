@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Admin;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class TenantSetupCompleted
@@ -20,6 +22,11 @@ class TenantSetupCompleted
             return $next($request);
         }
 
-        return response()->view('errors.tenant_down');
+        if (Auth::check() && Auth::user() instanceof Admin)
+        {
+            return redirect()->route('tenant.setup');
+        }
+
+        return response()->view('errors.tenant_out_of_service');
     }
 }

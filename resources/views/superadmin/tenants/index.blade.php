@@ -71,9 +71,9 @@
 
                       <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                         @if ($tenant->active)
-                          <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Activo</span>
+                          <x-badge color="green">Activo</x-badge>
                         @else
-                          <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Inactivo</span>
+                          <x-badge color="red">Inactivo</x-badge>
                         @endif
                       </td>
 
@@ -188,7 +188,5 @@
             </div>
         </div>
     </div>  --}}
-   
-      
 
 @endsection

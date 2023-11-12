@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
+use App\Http\Controllers\Tenant\SetupController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -41,7 +42,10 @@ Route::middleware([
 
         Route::middleware('auth:admin')->group(function() {
 
-            Route::prefix('dashboard')->group(function() {
+            /*****  TENANT ECOMMERCE SETUP ROUTES  *****/
+            Route::get('setup', [SetupController::class, 'index'])->name('tenant.setup');
+
+            Route::prefix('dashboard')->middleware('tenant_setuped')->group(function() {
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 

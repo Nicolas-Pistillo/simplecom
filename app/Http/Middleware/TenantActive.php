@@ -20,6 +20,6 @@ class TenantActive
             return $next($request);
         }
 
-        abort(403);
+        return response()->view('errors.tenant_inactive');
     }
 }
