@@ -16,8 +16,8 @@
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 text-left shadow-xl 
-                    transition-all sm:my-8 w-full p-6 
-                    {{  $currentStep != 'welcome' ? 'sm:max-w-2xl lg:max-w-4xl' : 'sm:max-w-lg' }}">
+                    transition-all sm:my-8 w-full p-6 mx-3
+                    {{  $currentStep != 'welcome' ? 'sm:max-w-4xl' : 'sm:max-w-lg' }}">
 
                     {{-- @dump($currentStep) --}}
 
@@ -51,7 +51,7 @@
                     @endif
 
                     @if ($currentStep === 1)
-                        <h4>PASO 1</h4>
+
                         <div class="flex justify-between items-center">
                             <div class="px-4 py-12 sm:px-6 lg:px-8 animate__animated animate__backInUp">
                                 <nav class="flex justify-center" aria-label="Progress">
