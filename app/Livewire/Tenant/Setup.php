@@ -2,11 +2,17 @@
 
 namespace App\Livewire\Tenant;
 
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Setup extends Component
 {
+    use WithFileUploads;
+
     public $currentStep = 'welcome';
+
+    public $ecommerceLogo;
 
     public function beginSetup()
     {

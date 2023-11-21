@@ -16,8 +16,8 @@
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 text-left shadow-xl 
-                    transition-all sm:my-8 w-full p-6 mx-3
-                    {{  $currentStep != 'welcome' ? 'sm:max-w-4xl' : 'sm:max-w-lg' }}">
+                    transition-all sm:my-8 w-full p-6 mx-3 sm:max-w-lg
+                    {{--  $currentStep != 'welcome' ? 'sm:max-w-4xl' : 'sm:max-w-lg' --}}">
 
                     {{-- @dump($currentStep) --}}
 
@@ -52,115 +52,26 @@
 
                     @if ($currentStep === 1)
 
-                        <div class="flex justify-between items-center">
-                            <div class="px-4 py-12 sm:px-6 lg:px-8 animate__animated animate__backInUp">
-                                <nav class="flex justify-center" aria-label="Progress">
-                                    <ol role="list" class="space-y-6">
-                                        <li>
-                                            <!-- Complete Step -->
-                                            <a href="#" class="group">
-                                                <span class="flex items-start">
-                                                    <span
-                                                        class="relative flex h-5 w-5 flex-shrink-0 items-center justify-center">
-                                                        <svg class="h-full w-full text-indigo-600 group-hover:text-indigo-800"
-                                                            viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                            <path fill-rule="evenodd"
-                                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                                                                clip-rule="evenodd" />
-                                                        </svg>
-                                                    </span>
-                                                    <span
-                                                        class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">Create
-                                                        account</span>
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <!-- Current Step -->
-                                            <a href="#" class="flex items-start" aria-current="step">
-                                                <span
-                                                    class="relative flex h-5 w-5 flex-shrink-0 items-center justify-center"
-                                                    aria-hidden="true">
-                                                    <span class="absolute h-4 w-4 rounded-full bg-indigo-200"></span>
-                                                    <span class="relative block h-2 w-2 rounded-full bg-indigo-600"></span>
-                                                </span>
-                                                <span class="ml-3 text-sm font-medium text-indigo-600">Profile
-                                                    information</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <!-- Upcoming Step -->
-                                            <a href="#" class="group">
-                                                <div class="flex items-start">
-                                                    <div class="relative flex h-5 w-5 flex-shrink-0 items-center justify-center"
-                                                        aria-hidden="true">
-                                                        <div
-                                                            class="h-2 w-2 rounded-full bg-gray-300 group-hover:bg-gray-400">
-                                                        </div>
-                                                    </div>
-                                                    <p
-                                                        class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
-                                                        Theme</p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <!-- Upcoming Step -->
-                                            <a href="#" class="group">
-                                                <div class="flex items-start">
-                                                    <div class="relative flex h-5 w-5 flex-shrink-0 items-center justify-center"
-                                                        aria-hidden="true">
-                                                        <div
-                                                            class="h-2 w-2 rounded-full bg-gray-300 group-hover:bg-gray-400">
-                                                        </div>
-                                                    </div>
-                                                    <p
-                                                        class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
-                                                        Preview</p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ol>
-                                </nav>
-                            </div>
+                        <h4 class="my-4 text-2xl sm:text-3xl font-bold tracking-tight text-center text-gray-900">
+                            Comenzemos con la imagen de tu marca
+                        </h4>
+
+                        <div class="flex items-center justify-center">
+                            <div class="text-center">    
+                                <img src="{{ 
+                                    $ecommerceLogo 
+                                        ? $ecommerceLogo->temporaryUrl() 
+                                        : URL::to('img/store-default.svg') 
+                                }}"
+                                class="h-40 mb-6 mx-auto object-contain" style="max-width: 200px">
     
-                            <div class="px-4 py-6 sm:p-8">
-                                <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                    
-                                    <div class="sm:col-span-3">
-                                        <div class="flex items-center gap-x-3">
-                                            <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                              <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
-                                            </svg>
-                                            <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
-                                          </div>
-                                    </div>
-            
-                                    <x-input class="sm:col-span-3" placeholder="Por ejemplo: Distribuidora Martinez" 
-                                    label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" 
-                                    value="{!! old('ecommerce_name') !!}" />
-            
-                                    <hr class="w-full sm:col-span-6">
-            
-                                    <h4 class="sm:col-span-6 flex items-center text-sm text-gray-700">
-                                        Cuenta del administrador principal
-                                        <x-icon data-tooltip-target="admin-account-help" 
-                                        code="help" class="ml-1 text-blue-600" style="font-size: 20px" />
-                                        <x-tooltip id="admin-account-help">
-                                            Será el encargado de iniciar sesión por primera vez como administrador del comercio, <br> 
-                                            también controlara los roles e información de los demás tipos de administradores
-                                        </x-tooltip>
-                                    </h4>
-            
-                                    <x-input type="email" class="sm:col-span-3 border-none p-0"
-                                    error="{{ $errors->first('admin_email') }}" name="admin_email" label="Email administrador" 
-                                    value="{{ old('admin_email') }}" />
-            
-                                    <x-input type="password" class="sm:col-span-3 border-none p-0" placeholder="Luego se le pedira cambiarla por seguridad"
-                                    label="Contraseña administrador" name="admin_password" error="{{ $errors->first('admin_password') }}"
-                                    value="{{ old('admin_password') }}" />
-                                </div>
+                                <x-button type="secondary" wireModel="ecommerceLogo" file name="ecommerce_logo"
+                                class="flex items-center justify-center">
+                                    Subir logo <x-icon code="upload" class="ml-2" />
+                                </x-button>
                             </div>
+
+
                         </div>
 
                         <div class="mt-6 flex justify-end border-t border-gray-200 pt-4">
@@ -255,93 +166,6 @@
                                 class="flex items-center justify-center">
                                 Siguiente
                                 <x-icon code="arrow_forward" class="ml-4" />
-                            </x-button>
-                        </div>
-                    @endif
-
-                    @if ($currentStep === 3)
-                        <h4>PASO 3</h4>
-                        <div class="px-4 py-12 sm:px-6 lg:px-8">
-                            <nav class="flex justify-center" aria-label="Progress">
-                                <ol role="list" class="space-y-6">
-                                    <li>
-                                        <!-- Complete Step -->
-                                        <a href="#" class="group">
-                                            <span class="flex items-start">
-                                                <span
-                                                    class="relative flex h-5 w-5 flex-shrink-0 items-center justify-center">
-                                                    <svg class="h-full w-full text-indigo-600 group-hover:text-indigo-800"
-                                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                        <path fill-rule="evenodd"
-                                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
-                                                </span>
-                                                <span
-                                                    class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">Create
-                                                    account</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <!-- Current Step -->
-                                        <a href="#" class="flex items-start" aria-current="step">
-                                            <span
-                                                class="relative flex h-5 w-5 flex-shrink-0 items-center justify-center"
-                                                aria-hidden="true">
-                                                <span class="absolute h-4 w-4 rounded-full bg-indigo-200"></span>
-                                                <span class="relative block h-2 w-2 rounded-full bg-indigo-600"></span>
-                                            </span>
-                                            <span class="ml-3 text-sm font-medium text-indigo-600">Profile
-                                                information</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <!-- Upcoming Step -->
-                                        <a href="#" class="group">
-                                            <div class="flex items-start">
-                                                <div class="relative flex h-5 w-5 flex-shrink-0 items-center justify-center"
-                                                    aria-hidden="true">
-                                                    <div
-                                                        class="h-2 w-2 rounded-full bg-gray-300 group-hover:bg-gray-400">
-                                                    </div>
-                                                </div>
-                                                <p
-                                                    class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
-                                                    Theme</p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <!-- Upcoming Step -->
-                                        <a href="#" class="group">
-                                            <div class="flex items-start">
-                                                <div class="relative flex h-5 w-5 flex-shrink-0 items-center justify-center"
-                                                    aria-hidden="true">
-                                                    <div
-                                                        class="h-2 w-2 rounded-full bg-gray-300 group-hover:bg-gray-400">
-                                                    </div>
-                                                </div>
-                                                <p
-                                                    class="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
-                                                    Preview</p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                        <div class="mt-6 grid grid-flow-row-dense grid-cols-2 gap-3 border-t border-gray-200 pt-4">
-                            <x-button wire:click='previousStep' type="secondary"
-                                class="flex items-center justify-center">
-                                <x-icon code="arrow_back" class="mr-4" />
-                                Anterior
-                            </x-button>
-
-                            <x-button wire:click="submitThirdStep" type="primary"
-                                class="flex items-center justify-center">
-                                Finalizar
-                                <x-icon code="done" class="ml-4" />
                             </x-button>
                         </div>
                     @endif

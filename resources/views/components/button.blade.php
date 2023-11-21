@@ -29,8 +29,18 @@
     </a>
 
 @else 
-    <button type="{{ isset($submit) ? 'submit' : 'button' }}" 
-    {{ $attributes->merge(['class' => $btnClass]) }}>
-        {{ $slot }}
-    </button>
+
+    @if (isset($file))
+        
+        <label {{ $attributes->merge(['class' => "cursor-pointer $btnClass"]) }}>
+            {{ $slot }}
+            <input type="file" name="{{ $name }}" {{ isset($wireModel) ? "wire:model=$wireModel" : '' }} class="hidden">
+        </label>
+
+    @else
+        <button type="{{ isset($submit) ? 'submit' : 'button' }}" 
+        {{ $attributes->merge(['class' => $btnClass]) }}>
+            {{ $slot }}
+        </button>
+    @endif
 @endif
