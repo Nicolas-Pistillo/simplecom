@@ -16,10 +16,8 @@
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 text-left shadow-xl 
-                    transition-all sm:my-8 w-full p-6 mx-3 sm:max-w-lg
-                    {{--  $currentStep != 'welcome' ? 'sm:max-w-4xl' : 'sm:max-w-lg' --}}">
-
-                    {{-- @dump($currentStep) --}}
+                    transition-all sm:my-8 w-full p-6 mx-3
+                    {{  $currentStep != 'welcome' ? 'sm:max-w-2xl' : 'sm:max-w-lg' }}">
 
                     @if ($currentStep === 'welcome')
                         <div>
@@ -56,12 +54,17 @@
                             Comenzemos con la imagen de tu marca
                         </h4>
 
-                        <div class="flex items-center justify-center">
+                        <p class="my-6 text-sm sm:text-base leading-7 text-gray-600 text-center">
+                            Sube el logo de tu comercio y selecciona el color principal que lo identifique
+                        </p>
+
+                        <div class="flex items-center justify-around">
+
                             <div class="text-center">    
                                 <img src="{{ 
                                     $ecommerceLogo 
                                         ? $ecommerceLogo->temporaryUrl() 
-                                        : URL::to('img/store-default.svg') 
+                                        : URL::to('img/no-image.png') 
                                 }}"
                                 class="h-40 mb-6 mx-auto object-contain" style="max-width: 200px">
     
@@ -69,8 +72,14 @@
                                 class="flex items-center justify-center">
                                     Subir logo <x-icon code="upload" class="ml-2" />
                                 </x-button>
+                                <small class="font-extralight text-xs">Medidas recomendadas: 512 x 512</small>
                             </div>
 
+                            <div>
+                                <label for="ecommerceColor" class="mr-1">Color: </label>
+                                <input wire:model.live='ecommerceColor' class=""
+                                type="color" name="ecommerceColor" id="ecommerceColor">
+                            </div>
 
                         </div>
 

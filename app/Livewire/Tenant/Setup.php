@@ -12,7 +12,7 @@ class Setup extends Component
 
     public $currentStep = 'welcome';
 
-    public $ecommerceLogo;
+    public $ecommerceLogo, $ecommerceColor;
 
     public function beginSetup()
     {
