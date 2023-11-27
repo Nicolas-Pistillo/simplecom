@@ -19,6 +19,8 @@ class CreateTenantsTable extends Migration
             $table->string('id')->primary();
             $table->string('name')->unique();
             $table->string('ecommerce_name');
+            $table->string('logo_url')->nullable();
+            $table->string('color')->nullable();
             $table->foreignId('sector_id');
             $table->foreignId('plan_id');
             $table->boolean('active')->default(1);
