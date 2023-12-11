@@ -16,7 +16,7 @@ class Setup extends Component
 
     public function beginSetup()
     {
-        $this->currentStep = 1;
+        $this->currentStep = 2; // Cambiar a 1
     }
 
     public function previousStep()
