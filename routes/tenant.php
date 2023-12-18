@@ -32,7 +32,7 @@ Route::middleware([
     /*****  TENANT ADMIN ROUTES  *****/
     Route::prefix('admin')->middleware('tenant_active')->group(function() {
 
-        Route::middleware('guest:admin')->group(function() {
+        Route::middleware('guest:operator')->group(function() {
 
             Route::view('/', 'admin.login')->name('admin.login-view');
 
@@ -40,7 +40,7 @@ Route::middleware([
 
         });
 
-        Route::middleware('auth:admin')->group(function() {
+        Route::middleware('auth:operator')->group(function() {
 
             /*****  TENANT ECOMMERCE SETUP ROUTES  *****/
             Route::get('setup', [SetupController::class, 'index'])->name('tenant.setup');

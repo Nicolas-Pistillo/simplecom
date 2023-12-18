@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Admin;
+use App\Models\Operator;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class TenantSetupCompleted
 {
     /**
-     * Handle an incoming request.
+     * Handle an incoming request.F
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
@@ -22,7 +22,7 @@ class TenantSetupCompleted
             return $next($request);
         }
 
-        if (Auth::check() && Auth::user() instanceof Admin)
+        if (Auth::check() && Auth::user() instanceof Operator)
         {
             return redirect()->route('tenant.setup');
         }

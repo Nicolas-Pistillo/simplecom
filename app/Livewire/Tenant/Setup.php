@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Tenant;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -16,7 +17,7 @@ class Setup extends Component
 
     public function beginSetup()
     {
-        $this->currentStep = 2; // Cambiar a 1
+        $this->currentStep = 1;
     }
 
     public function previousStep()
@@ -26,6 +27,19 @@ class Setup extends Component
 
     public function submitFirstStep()
     {
+        $this->validate([
+            'ecommerceLogo'  => 'required|image|max:1024',
+            'ecommerceColor' => 'required'
+        ]);
+
+        $extension = $this->ecommerceLogo->getClientOriginalExtension();
+
+        dd(Storage::putFile(tenant()->name . "/logo.$extension", $this->ecommerceLogo));
+
+        //$path = $this->ecommerceLogo->storeAs(tenant()->name . '/logo.png');
+
+        //dd($path);
+
         $this->currentStep = 2;
     }
 

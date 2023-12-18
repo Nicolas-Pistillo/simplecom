@@ -28,7 +28,7 @@ class RedirectIfAuthenticated
                     return redirect()->route('superadmin.dashboard.index');
                 }    
 
-                if ($guard === 'admin')
+                if ($guard === 'operator')
                 {
                     return redirect()->route('admin.dashboard.index');
                 }

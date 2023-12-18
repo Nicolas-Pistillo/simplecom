@@ -34,7 +34,8 @@
         
         <label {{ $attributes->merge(['class' => "cursor-pointer $btnClass"]) }}>
             {{ $slot }}
-            <input type="file" name="{{ $name }}" {{ isset($wireModel) ? "wire:model=$wireModel" : '' }} class="hidden">
+            <input type="file" name="{{ $name }}" {{ isset($wireModel) ? "wire:model=$wireModel" : '' }} class="hidden"
+            {!! isset($onlyImages) ? 'accept="image/*"' : '' !!} >
         </label>
 
     @else

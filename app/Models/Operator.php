@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Admin extends Authenticatable
+class Operator extends Authenticatable
 {
     use HasFactory;
 
-    protected $guard = "admin";
+    protected $guard = "operator";
 
     protected $fillable = [
         'name',

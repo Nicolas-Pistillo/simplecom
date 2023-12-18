@@ -44,9 +44,9 @@ return [
             'driver' => 'session',
             'provider' => 'superadmins'
         ],
-        'admin' => [ // Tenant ecommerce admin
+        'operator' => [ // Tenant ecommerce admin
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'operators',
         ]
     ],
 
@@ -76,9 +76,9 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Superadmin::class
         ],
-        'admins' => [
+        'operators' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => App\Models\Operator::class,
         ],
 
         // 'users' => [

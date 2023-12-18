@@ -10,7 +10,7 @@ class Superadmin extends Authenticatable
 {
     use Notifiable;
 
-    protected $guard = 'admin';
+    protected $guard = 'superadmin';
 
     protected $fillable = ['name', 'email', 'password'];
 

@@ -15,7 +15,7 @@ class AuthController extends Controller
             'password' => ['required']
         ]);
 
-        if(Auth::guard('admin')->attempt($credentials))
+        if(Auth::guard('operator')->attempt($credentials))
         {
             return to_route('admin.dashboard.index');
         }

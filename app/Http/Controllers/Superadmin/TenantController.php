@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTenantRequest;
-use App\Models\Admin;
+use App\Models\Operator;
 use App\Models\Plan;
 use App\Models\Sector;
 use App\Models\Tenant;
@@ -46,7 +46,7 @@ class TenantController extends Controller
         ]);
 
         $tenant->run(function() use ($request) {
-            Admin::create([
+            Operator::create([
                 'name' => 'Administrador',
                 'email' => $request->admin_email,
                 'password' => Hash::make($request->admin_password)
