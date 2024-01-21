@@ -14,7 +14,16 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public static function getCustomColumns(): array
     {
-        return ['id', 'name', 'ecommerce_name', 'sector_id', 'plan_id', 'active'];
+        return [
+            'id', 
+            'name', 
+            'ecommerce_name',
+            'logo_url',
+            'color',
+            'sector_id', 
+            'plan_id', 
+            'active'
+        ];
     }
 
     public function plan()
@@ -35,5 +44,10 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     public function assetUrl($path)
     {
         return Storage::url(tenant()->name . '/' . $path);
+    }
+
+    public function putFile($path, $file, $options = []): bool
+    {
+        return Storage::putFile(tenant()->name . "/$path", $file, $options);
     }
 }

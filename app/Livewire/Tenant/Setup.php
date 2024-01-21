@@ -13,7 +13,22 @@ class Setup extends Component
 
     public $currentStep = 'welcome';
 
-    public $ecommerceLogo, $ecommerceColor;
+    public $ecommerceLogo, $ecommerceLogoPreview, $ecommerceColor;
+
+    public function mount()
+    {
+        if (tenant()->logo_url)
+        {
+            $this->ecommerceLogoPreview = Storage::url(tenant()->logo_url);
+        }
+
+        $this->ecommerceColor = tenant()->color;
+    }
+
+    public function updatedEcommerceLogo()
+    {
+        $this->ecommerceLogoPreview = $this->ecommerceLogo->temporaryUrl();
+    }
 
     public function beginSetup()
     {
@@ -28,17 +43,32 @@ class Setup extends Component
     public function submitFirstStep()
     {
         $this->validate([
-            'ecommerceLogo'  => 'required|image|max:1024',
             'ecommerceColor' => 'required'
         ]);
 
-        $extension = $this->ecommerceLogo->getClientOriginalExtension();
+        if (!tenant()->logo_url)
+        {
+            $this->validate([
+                'ecommerceLogo'  => 'required|image|max:1024'
+            ]);
+        }
 
-        dd(Storage::putFile(tenant()->name . "/logo.$extension", $this->ecommerceLogo));
+        if ($this->ecommerceLogo)
+        {
+            $path = $this->ecommerceLogo->store(tenant()->name);
 
-        //$path = $this->ecommerceLogo->storeAs(tenant()->name . '/logo.png');
+            if (!$path) abort(500);
 
-        //dd($path);
+            if (tenant()->logo_url) Storage::delete(tenant()->logo_url);
+
+            tenant()->update([
+                'logo_url' => $path
+            ]);
+        }
+
+        tenant()->update([
+            'color'    => $this->ecommerceColor
+        ]);
 
         $this->currentStep = 2;
     }

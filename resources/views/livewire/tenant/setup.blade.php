@@ -62,7 +62,7 @@
                             <div class="flex items-center justify-around flex-wrap">
 
                                 <div class="text-center mb-5 sm:mb-0 mx-5 w-60">
-                                    <img src="{{ $ecommerceLogo ? $ecommerceLogo->temporaryUrl() : URL::to('img/no-image.png') }}"
+                                    <img src="{{ $ecommerceLogoPreview ?: URL::to('img/no-image.png') }}"
                                         class="h-40 mb-6 mx-auto object-contain" style="max-width: 200px">
 
                                     <x-button file onlyImages type="secondary" wireModel="ecommerceLogo" name="ecommerce_logo"
@@ -79,7 +79,7 @@
                                 <div>
                                     <fieldset>
                                         <legend class="block text-sm leading-6 text-gray-700">
-                                            Seleccione un color
+                                            Seleccionar color
                                         </legend>
                                         <div x-data="{selected: $wire.ecommerceColor}" class="mt-2 grid grid-cols-5 gap-2">
 
@@ -272,7 +272,7 @@
                             </div>
 
                             <div class="mt-6 flex justify-end border-t border-gray-200 pt-4">
-                                @if ($ecommerceLogo && $ecommerceColor)
+                                @if (($ecommerceLogo && $ecommerceColor) || (tenant()->logo_url && $ecommerceColor))
                                     <x-button submit type="primary"
                                     class="w-full sm:w-1/2 flex items-center justify-center">
                                         <span wire:loading.remove wire:target='submitFirstStep'>Siguiente</span>
