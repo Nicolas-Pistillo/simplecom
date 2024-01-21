@@ -42,15 +42,11 @@ class Setup extends Component
 
     public function submitFirstStep()
     {
-        $this->validate([
-            'ecommerceColor' => 'required'
-        ]);
+        $this->validate(['ecommerceColor' => 'required']);
 
         if (!tenant()->logo_url)
         {
-            $this->validate([
-                'ecommerceLogo'  => 'required|image|max:1024'
-            ]);
+            $this->validate(['ecommerceLogo' => 'required|image|max:1024']);
         }
 
         if ($this->ecommerceLogo)
@@ -61,14 +57,10 @@ class Setup extends Component
 
             if (tenant()->logo_url) Storage::delete(tenant()->logo_url);
 
-            tenant()->update([
-                'logo_url' => $path
-            ]);
+            tenant()->update(['logo_url' => $path]);
         }
 
-        tenant()->update([
-            'color'    => $this->ecommerceColor
-        ]);
+        tenant()->update(['color' => $this->ecommerceColor]);
 
         $this->currentStep = 2;
     }

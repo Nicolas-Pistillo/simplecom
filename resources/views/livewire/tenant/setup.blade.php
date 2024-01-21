@@ -49,7 +49,6 @@
                     @endif
 
                     @if ($currentStep === 1)
-
                         <form wire:submit='submitFirstStep' class="animate__animated animate__fadeIn">
                             <h4 class="text-2xl sm:text-3xl font-bold tracking-tight text-center text-gray-900">
                                 Identidad de tu negocio
