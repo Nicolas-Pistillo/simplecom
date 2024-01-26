@@ -9,8 +9,8 @@
 
                 <div class="relative mt-24">
                     <img class="absolute -top-36 left-0 h-20 w-auto mx-auto" 
-                    src="https://comprasweb.casafranchi.com.ar/franchicarrito/images/LogoSuperior2.png"
-                        alt="Commerce logo">
+                    src="{{ tenant()->logo_url ? Storage::url(tenant()->logo_url) : URL::to('favicon.ico') }}"
+                        alt="Ecommerce logo">
                     <h4 class="text-2xl font-bold leading-9 tracking-tight text-blue-600">{{ tenant()->ecommerce_name }}
                     </h4>
                     <h2 class="text-2xl font-bold leading-9 tracking-tight text-gray-900">Panel de administración</h2>

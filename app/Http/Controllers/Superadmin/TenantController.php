@@ -8,6 +8,7 @@ use App\Models\Operator;
 use App\Models\Plan;
 use App\Models\Sector;
 use App\Models\Tenant;
+use App\Services\TenantService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,26 +34,7 @@ class TenantController extends Controller
      */
     public function store(CreateTenantRequest $request)
     {
-        $tenant = Tenant::create([
-            'name'              => $request->name,
-            'ecommerce_name'    => $request->ecommerce_name,
-            'sector_id'         => $request->sector_id,
-            'plan_id'           => $request->plan_id,
-            'tenancy_db_name'   => config('tenancy.database.prefix') . $request->name
-        ]);
-
-        $tenant->domains()->create([
-            'domain' => $request->name . '.' . env('APP_DOMAIN')
-        ]);
-
-        $tenant->run(function() use ($request) {
-            Operator::create([
-                'name' => 'Administrador',
-                'email' => $request->admin_email,
-                'password' => Hash::make($request->admin_password)
-            ]);
-        });
-
+        TenantService::createFromAdminForm($request);
         return to_route('superadmin.tenants.index')->with('tenant_created', true);
     }
 
