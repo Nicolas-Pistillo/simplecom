@@ -45,7 +45,7 @@
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Estado</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Plan</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Rubro</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-center text-gray-900">Acciones</th>
+                    <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-center text-gray-900">Acciones</th>
                   </tr>
                 </thead>
 
@@ -54,8 +54,10 @@
                     <tr>
                       <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                         <div class="flex items-center">
-                          <div class="h-11 w-11 flex-shrink-0">
-                            <img class="h-11 w-11 rounded-full" src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&q=80&w=1374&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+                          <div class="flex-shrink-0">
+                            <img class="h-11 w-14 object-contain" 
+                            src="{{ $tenant->logo_url ? Storage::url($tenant->logo_url) : asset('img/no-image.png') }}"
+                             alt="Logo del comercio">
                           </div>
                           <div class="ml-4">
                             <div class="font-medium text-gray-900"> {{ $tenant->ecommerce_name }} </div>

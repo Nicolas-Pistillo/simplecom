@@ -295,11 +295,11 @@
 
                         <div class="animate__animated animate__fadeIn">
                             <h4 class="text-2xl sm:text-3xl font-bold tracking-tight text-center text-gray-900">
-                                Ubicación y contacto
+                                Configuración de comercio
                             </h4>
     
                             <p class="mt-3 mb-8 text-sm sm:text-base leading-7 text-gray-600 text-center">
-                                Ingresa el correo principal por el cual recibiras consultas de tus clientes.
+                                ¡Ya casi terminas!
                             </p>
     
                             <div class="px-4 sm:px-8 grid grid-cols-1 sm:grid-cols-2 gap-4">

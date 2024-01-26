@@ -15,6 +15,9 @@ class Setup extends Component
 
     public $ecommerceLogo, $ecommerceLogoPreview, $ecommerceColor;
 
+    public $ecommerceAddress, $ecommerceSchedule, $ecommerceContactEmail,
+    $ecommerceWhatsapp, $ecommerceFacebook, $ecommerceInstagram, $ecommerceYoutube;
+
     public function mount()
     {
         if (tenant()->logo_url)
