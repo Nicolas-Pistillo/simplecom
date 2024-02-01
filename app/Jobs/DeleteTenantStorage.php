@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Stancl\Tenancy\Contracts\TenantWithDatabase;
+use App\Models\Tenant;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -20,7 +20,7 @@ class DeleteTenantStorage implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(TenantWithDatabase $tenant)
+    public function __construct(Tenant $tenant)
     {
         $this->tenant = $tenant;
     }
@@ -32,8 +32,8 @@ class DeleteTenantStorage implements ShouldQueue
     {
         Storage::deleteDirectory($this->tenant->name);
 
-        @$this->tenant->run(function ($tenant) {
-            rmdir(storage_path());
+        $this->tenant->run(function($tenant) {
+            rmdir(storage_path() . '/framework/cache');
         });
     }
 }

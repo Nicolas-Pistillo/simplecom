@@ -17,7 +17,7 @@
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 text-left shadow-xl 
                     transition-all sm:my-8 w-full p-6 mx-3
-                    {{ $currentStep != 'welcome' ? 'sm:max-w-2xl' : 'sm:max-w-lg' }}">
+                    {{ $currentStep != 'welcome' ? 'sm:max-w-3xl' : 'sm:max-w-lg' }}">
 
                     @if ($currentStep === 'welcome')
                         <div>
@@ -272,7 +272,7 @@
 
                             <div class="mt-6 flex justify-end border-t border-gray-200 pt-4">
                                 @if (($ecommerceLogo && $ecommerceColor) || (tenant()->logo_url && $ecommerceColor))
-                                    <x-button submit type="primary"
+                                    <x-button submit
                                     class="w-full sm:w-1/2 flex items-center justify-center">
                                         <span wire:loading.remove wire:target='submitFirstStep'>Siguiente</span>
                                         <x-icon wire:loading.remove wire:target='submitFirstStep' code="arrow_forward" class="ml-4" />
@@ -292,8 +292,7 @@
                     @endif
 
                     @if ($currentStep === 2)
-
-                        <div class="animate__animated animate__fadeIn">
+                        <form wire:submit='submitSecondStep' class="animate__animated animate__fadeIn">
                             <h4 class="text-2xl sm:text-3xl font-bold tracking-tight text-center text-gray-900">
                                 Configuración de comercio
                             </h4>
@@ -304,17 +303,29 @@
     
                             <div class="px-4 sm:px-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                                <x-input type="email" label="Correo de contacto" name="ecommerceContact" 
-                                class="border-none px-0" placeholder="Las consultas de tus clientes llegaran aqui" />
+                                @foreach ($configurationModels as $key => $configField)
 
-                                <x-input type="email" label="Correo de contacto" name="ecommerceContact" 
-                                class="border-none px-0" />
+                                    <div wire:key='{{ $key }}' class="flex items-center">
+                                        <x-input 
+                                        class="border-none px-0 mb-4 w-full"  
+                                        label="{{ $configField->display_name }}" 
+                                        wire:model.live="{{ $configField->key }}" 
+                                        error="{{ $errors->first($configField->key) }}"
+                                        placeholder="{{ $configField->description }}"
+                                        withAsterisk="{{ $configField->required }}"
+                                        />
 
-                                <x-input type="email" label="Correo de contacto" name="ecommerceContact" 
-                                class="border-none px-0" />
+                                        @if ($configField->key === 'contact_whatsapp')
 
-                                <x-input type="email" label="Correo de contacto" name="ecommerceContact" 
-                                class="border-none px-0" />
+                                            <a href="https://api.whatsapp.com/send?phone={{ $contact_whatsapp }}" 
+                                            target="_blank" title="Probar link a Whatsapp" class="ml-3">
+                                                <x-icon code="open_in_new" style="font-size: 21px"
+                                                class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
+                                            </a>
+                                        @endif
+                                    </div>
+                                    
+                                @endforeach
 
                             </div>
     
@@ -325,13 +336,13 @@
                                     Anterior
                                 </x-button>
     
-                                <x-button wire:click="submitSecondStep" type="primary"
+                                <x-button submit
                                     class="flex items-center justify-center">
                                     Siguiente
                                     <x-icon code="arrow_forward" class="ml-4" />
                                 </x-button>
                             </div>
-                        </div>
+                        </form>
                     @endif
                 </div>
             </div>

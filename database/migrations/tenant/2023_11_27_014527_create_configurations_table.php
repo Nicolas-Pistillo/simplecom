@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('display_name');
             $table->string('description')->nullable();
             $table->text('value')->nullable();
+            $table->boolean('show_in_setup')->default(false);
+            $table->boolean('required')->default(false);
+            $table->string('datatype')->nullable();
             $table->timestamps();
         });
     }

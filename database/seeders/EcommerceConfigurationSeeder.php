@@ -16,43 +16,46 @@ class EcommerceConfigurationSeeder extends Seeder
         Configuration::updateOrCreate([
             'key' => 'fisical_address',
             'display_name' => 'Dirección del local/comercio',
-            'description'   => 'Ubicación fisica del comercio'
+            'description'   => 'Ubicación fisica del comercio',
+            'show_in_setup' => true,
+            'required'      => true
         ]);
 
         Configuration::updateOrCreate([
             'key' => 'attention_schedule',
             'display_name' => 'Horarios de atención',
-            'description'   => 'Tus horarios de atención al cliente'
-        ]);
-
-        Configuration::updateOrCreate([
-            'key' => 'fisical_address',
-            'display_name' => 'Dirección del local/comercio',
-            'description'   => 'Ubicación fisica del comercio'
+            'description'   => 'Ejemplo: Lunes a viernes de 09:00 a 18:00',
+            'show_in_setup' => true,
+            'required'      => true
         ]);
 
         Configuration::updateOrCreate([
             'key' => 'contact_email',
             'display_name' => 'Email de contacto',
-            'description'   => 'Correo de consultas para clientes'
+            'description'   => 'Correo de consultas para clientes',
+            'show_in_setup' => true,
+            'required'      => true
         ]);
 
         Configuration::updateOrCreate([
             'key' => 'contact_whatsapp',
             'display_name' => 'Número de whatsapp',
-            'description'   => 'Número para consultas directas de clientes'
+            'description'   => 'Número para consultas directas de clientes',
+            'show_in_setup' => true
         ]);
 
         Configuration::updateOrCreate([
             'key' => 'ecommerce_instagram',
             'display_name' => 'Instagram',
-            'description'   => 'Link al instagram del comercio'
+            'description'   => 'Link al instagram del comercio',
+            'show_in_setup' => true
         ]);
 
         Configuration::updateOrCreate([
             'key' => 'ecommerce_youtube',
             'display_name' => 'Canal de youtube',
-            'description'   => 'Link al canal de youtube del comercio'
+            'description'   => 'Link al canal de youtube del comercio',
+            'show_in_setup' => true
         ]);
     }
 }

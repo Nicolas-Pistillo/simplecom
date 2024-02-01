@@ -36,18 +36,13 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         return $this->belongsTo(Sector::class);
     }
 
-    public function asset($path)
+    public function config($key = null)
     {
-        return Storage::get(tenant()->name . '/' . $path);
+        return $key ? Configuration::where('key', $key)->first() : Configuration::all();
     }
 
-    public function assetUrl($path)
+    public function getSetupConfigs()
     {
-        return Storage::url(tenant()->name . '/' . $path);
-    }
-
-    public function putFile($path, $file, $options = []): bool
-    {
-        return Storage::putFile(tenant()->name . "/$path", $file, $options);
+        return Configuration::where('show_in_setup', 1)->get();
     }
 }
