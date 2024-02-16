@@ -23,4 +23,13 @@ class AuthController extends Controller
         return back()->withErrors(['login-failed' => true])
                     ->withInput(['email' => $request->email]);
     }
+
+    public function logoutAdmin(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->regenerate();
+
+        return to_route('admin.login-view');
+    }
 }

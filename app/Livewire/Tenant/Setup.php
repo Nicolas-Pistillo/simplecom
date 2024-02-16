@@ -22,10 +22,10 @@ class Setup extends Component
     public $configurationModels;
 
     protected $validationAttributes = [
-        'fisical_address'    => 'dirección fisica',
-        'attention_schedule' => 'horarios de atención',
-        'contact_email'      => 'email de contacto',
-        'contact_whatsapp'   => 'whatsapp',
+        'fisical_address'     => 'dirección fisica',
+        'attention_schedule'  => 'horarios de atención',
+        'contact_email'       => 'email de contacto',
+        'contact_whatsapp'    => 'whatsapp',
         'ecommerce_instagram' => 'link a instagram',
         'ecommerce_youtube'   => 'link a youtube'
     ];
