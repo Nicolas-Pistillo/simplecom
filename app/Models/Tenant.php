@@ -22,7 +22,8 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             'color',
             'sector_id', 
             'plan_id', 
-            'active'
+            'active',
+            'setup_completed'
         ];
     }
 
@@ -39,6 +40,11 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     public function config($key = null)
     {
         return $key ? Configuration::where('key', $key)->first() : Configuration::all();
+    }
+
+    public function configValue($key)
+    {
+        return Configuration::where('key', $key)->first()->value;
     }
 
     public function getSetupConfigs()

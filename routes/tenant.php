@@ -43,8 +43,10 @@ Route::middleware([
         Route::middleware('auth:operator')->group(function() {
 
             Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('admin.logout');
-            
-            Route::get('setup', [SetupController::class, 'index'])->name('tenant.setup');
+
+            Route::view('setup', 'admin.setup.index')
+                ->middleware('tenant_unsetuped')
+                ->name('tenant.setup');
 
             Route::prefix('dashboard')->middleware('tenant_setuped')->group(function() {
 

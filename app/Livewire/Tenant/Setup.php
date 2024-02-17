@@ -30,6 +30,11 @@ class Setup extends Component
         'ecommerce_youtube'   => 'link a youtube'
     ];
 
+    private function configValue($key)
+    {
+        return $this->configurationModels->where('key', $key)->first()->value;
+    }
+
     public function mount()
     {
         if (tenant()->logo_url)
@@ -37,6 +42,15 @@ class Setup extends Component
 
         $this->ecommerceColor = tenant()->color;
         $this->configurationModels = tenant()->getSetupConfigs();
+
+        $this->fill([
+            'fisical_address'     => $this->configValue('fisical_address'),
+            'attention_schedule'  => $this->configValue('attention_schedule'),
+            'contact_email'       => $this->configValue('contact_email'),
+            'contact_whatsapp'    => $this->configValue('contact_whatsapp'),
+            'ecommerce_instagram' => $this->configValue('ecommerce_instagram'),
+            'ecommerce_youtube'   => $this->configValue('ecommerce_youtube')
+        ]);
     }
 
     public function updatedEcommerceLogo()
@@ -81,7 +95,7 @@ class Setup extends Component
 
     public function submitSecondStep()
     {
-        $validated = $this->validate([
+        $fields = $this->validate([
             'fisical_address'     => 'required|string',
             'attention_schedule'  => 'required|string',
             'contact_email'       => 'required|email',
@@ -90,7 +104,12 @@ class Setup extends Component
             'ecommerce_youtube'   => 'nullable|url'
         ]);
 
-        dd($validated);
+        foreach($fields as $key => $value)
+        {
+            Configuration::where('key', $key)->update(compact('value'));
+        }
+
+        tenant()->update(['setup_completed' => true]);
 
         $this->currentStep = 3;
     }
