@@ -17,7 +17,7 @@
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 text-left shadow-xl 
                     transition-all sm:my-8 w-full p-6 mx-3
-                    {{ $currentStep != 'welcome' ? 'sm:max-w-3xl' : 'sm:max-w-lg' }}">
+                    {{ !in_array($currentStep, ['welcome', 'finished']) ? 'sm:max-w-3xl' : 'sm:max-w-lg' }}">
 
                     @if ($currentStep === 'welcome')
                         <div>
@@ -314,7 +314,10 @@
                                         placeholder="{{ $configField->description }}"
                                         withAsterisk="{{ $configField->required }}"
                                         value="{{ $this->{$configField->key} }}"
+                                        type="{{ $configField->datatype }}"
                                         />
+
+                                        
 
                                         @if ($configField->key === 'contact_whatsapp')
 
@@ -351,6 +354,34 @@
                                 </x-button>
                             </div>
                         </form>
+                    @endif
+
+                    @if ($currentStep === 'finished')
+                        <div>
+                            <div class="mx-auto flex items-center justify-center">
+                                <img src="{{ URL::to('img/illustrations/happy_news.svg') }}" class="h-24 sm:h-36"
+                                    alt="Welcome Illustration">
+                            </div>
+
+                            <div class="text-center">
+                                <h4 class="my-4 text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">
+                                    ¡Todo listo!
+                                </h4>
+
+                                <p class="my-6 text-sm sm:text-base leading-7 text-gray-600">
+                                    Completaste con éxito las configuraciones iniciales de tu comercio y ya se encuentra listo para operar 🚀 <br> <br>
+                                    Ya podes usar tu panel de administración para gestionar todo lo necesario para comenzar a vender. <br>
+                                    ¡Esperamos poder ayudarte a lograr el éxito y crecimiento de tu negocio juntos! 🤝
+                                </p>
+
+                            </div>
+                        </div>
+
+                        <x-button href="{{ route('admin.dashboard.index') }}" type="primary"
+                        size="large"
+                            class="flex items-center justify-center w-full">
+                            Comenzar a operar
+                        </x-button>
                     @endif
                 </div>
             </div>

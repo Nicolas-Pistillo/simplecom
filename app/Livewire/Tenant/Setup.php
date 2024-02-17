@@ -111,12 +111,7 @@ class Setup extends Component
 
         tenant()->update(['setup_completed' => true]);
 
-        $this->currentStep = 3;
-    }
-
-    public function submitThirdStep()
-    {
-        dd("LO LOGRASTE");
+        $this->currentStep = 'finished';
     }
 
     public function render()
