@@ -51,4 +51,9 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return Configuration::where('show_in_setup', 1)->get();
     }
+
+    public function logo()
+    {
+        return Storage::url($this->logo_url);
+    }
 }

@@ -33,7 +33,7 @@
                     </label>
                 </div>
 
-                <x-button submit class="w-full">
+                <x-button size="large" submit class="w-full">
                     Iniciar sesión
                 </x-button>
                 

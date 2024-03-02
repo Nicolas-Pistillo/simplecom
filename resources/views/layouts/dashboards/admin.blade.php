@@ -16,64 +16,48 @@
             display: none !important;
         }
     </style>
-    <title>@yield('page-title', 'Administrador de comercio')</title>
+    <title>@yield('page-title', 'Panel de comercio')</title>
 </head>
 
 <body>
 
-    <div>
+    <div x-data="{mobileMenuOpen: false}">
         <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
         <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
-            <!--
-        Off-canvas menu backdrop, show/hide based on off-canvas menu state.
-  
-        Entering: "transition-opacity ease-linear duration-300"
-          From: "opacity-0"
-          To: "opacity-100"
-        Leaving: "transition-opacity ease-linear duration-300"
-          From: "opacity-100"
-          To: "opacity-0"
-      -->
-            <div class="fixed inset-0 bg-gray-900/80"></div>
 
-            <div class="fixed inset-0 flex">
-                <!--
-          Off-canvas menu, show/hide based on off-canvas menu state.
-  
-          Entering: "transition ease-in-out duration-300 transform"
-            From: "-translate-x-full"
-            To: "translate-x-0"
-          Leaving: "transition ease-in-out duration-300 transform"
-            From: "translate-x-0"
-            To: "-translate-x-full"
-        -->
-                <div class="relative mr-16 flex w-full max-w-xs flex-1">
-                    <!--
-            Close button, show/hide based on off-canvas menu state.
-  
-            Entering: "ease-in-out duration-300"
-              From: "opacity-0"
-              To: "opacity-100"
-            Leaving: "ease-in-out duration-300"
-              From: "opacity-100"
-              To: "opacity-0"
-          -->
-                    <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
-                        <button type="button" class="-m-2.5 p-2.5">
-                            <span class="sr-only">Close sidebar</span>
-                            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+            <div x-cloack x-show="mobileMenuOpen" class="fixed inset-0 bg-gray-900/80"
+            x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"></div>
+
+            <div x-transition:enter="transition ease-in-out duration-300 transform"
+            x-transition:enter-start="-translate-x-full"
+            x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition ease-in-out duration-300 transform"
+            x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="-translate-x-full" x-cloak x-show="mobileMenuOpen" class="fixed inset-0 flex">
+
+                <div @click.away="mobileMenuOpen = false" class="relative mr-16 flex w-full max-w-xs flex-1">
+                    <div x-show="mobileMenuOpen" 
+                    x-transition:enter="ease-in-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="ease-in-out duration-300"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="absolute left-full top-0 flex w-16 justify-center pt-5">
+                        <x-icon @click="mobileMenuOpen = false" code="close" 
+                        class="ml-5 p-2 bg-white text-black cursor-pointer rounded-full border" />
                     </div>
 
                     <!-- Sidebar component, swap this element with another sidebar if you like -->
                     <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-                        <div class="flex h-16 shrink-0 items-center">
-                            <img class="h-8 w-auto"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                alt="Your Company">
+                        <div class="flex h-20 shrink-0 items-center justify-center">
+                            <img src="{{ tenant()->logo() }}" class="h-full object-contain py-1" 
+                            alt="ecommerce logo">
                         </div>
                         <nav class="flex flex-1 flex-col">
                             <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -348,7 +332,7 @@
             <div class="sticky top-0 z-40 lg:mx-auto lg:max-w-7xl lg:px-8">
                 <div
                     class="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-0 lg:shadow-none">
-                    <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
+                    <button @click="mobileMenuOpen = true" type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
                         <span class="sr-only">Open sidebar</span>
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" aria-hidden="true">
