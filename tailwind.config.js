@@ -16,5 +16,10 @@ export default {
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
   ],
+  safelist: [
+    'text-red-600',
+    'text-sky-600',
+    'border-sky-600'
+  ]
 }
 

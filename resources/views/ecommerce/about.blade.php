@@ -12,7 +12,7 @@
             </div>
             <div>
                 <div class="mx-auto pb-24 pt-16 px-16 sm:pb-32 sm:pt-20">
-                    <p class="text-base font-semibold leading-7 text-indigo-600">Sobre nosotros</p>
+                    <p class="text-base font-semibold leading-7 text-{{ tenant('color') }}-600">Sobre nosotros</p>
                     <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                         {{ tenant()->ecommerce_name ?? tenant()->name }}
                     </h1>

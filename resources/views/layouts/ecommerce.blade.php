@@ -13,6 +13,9 @@
     <link rel="shortcut icon" href="{{ URL::to('favicon-store-default.png') }}" type="image/x-icon">
     <title>@yield('title', tenant()->ecommerce_name ?? tenant()->name)</title>
     <style> [x-cloak] { display: none !important; } [data-carousel-item] { z-index: 5; } </style>
+    @php
+        $tenantColor = tenant('color')
+    @endphp
     @yield('head')
 </head>
 <body>
@@ -70,243 +73,101 @@
                 class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
 
                     <!-- Brand logo -->
-                    <img src="https://acdn.mitiendanube.com/stores/903/627/themes/common/logo-1349319308-1553143834-e1c87a4d5ce11004824ecf90a86a51a01553143834-320-0.webp" alt="Ecommerce logo" 
+                    <img src="{{ Storage::url(tenant()->logo_url) }}" alt="Ecommerce logo" 
                     class="h-24 p-3 object-contain shadow relative">
 
                     <!-- Links -->
-                    <div class="mt-2">
-                        <div class="border-b border-gray-200">
-                            <div class="-mb-px flex space-x-8 px-4" aria-orientation="horizontal" role="tablist">
-                                <!-- Selected: "border-indigo-600 text-indigo-600", Not Selected: "border-transparent text-gray-900" -->
-                                <button id="tabs-1-tab-1" @click="megaMenu1Open = !megaMenu1Open; megaMenu2Open = false"
-                                    class="border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium"
-                                    aria-controls="tabs-1-panel-1" role="tab" type="button">Women</button>
-                                <!-- Selected: "border-indigo-600 text-indigo-600", Not Selected: "border-transparent text-gray-900" -->
-                                <button id="tabs-1-tab-2" @click="megaMenu2Open = !megaMenu2Open; megaMenu1Open = false"
-                                    class="border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium"
-                                    aria-controls="tabs-1-panel-2" role="tab" type="button">Men</button>
-                            </div>
-                        </div>
-
-                        <!-- 'Women' tab panel, show/hide based on tab state. -->
-                        <div x-cloak x-show="megaMenu1Open"
-                        id="tabs-1-panel-1" class="space-y-12 px-4 pb-6 pt-10" aria-labelledby="tabs-1-tab-1"
-                        role="tabpanel" tabindex="0">
-                            <div class="grid grid-cols-1 items-start gap-x-6 gap-y-10">
-                                <div class="grid grid-cols-1 gap-x-6 gap-y-10">
-                                    <div>
-                                        <p id="mobile-featured-heading-0" class="font-medium text-gray-900">Featured</p>
-                                        <ul role="list" aria-labelledby="mobile-featured-heading-0"
-                                            class="mt-6 space-y-6">
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Sleep</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Swimwear</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Underwear</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <p id="mobile-categories-heading" class="font-medium text-gray-900">Categories</p>
-                                        <ul role="list" aria-labelledby="mobile-categories-heading"
-                                            class="mt-6 space-y-6">
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Basic Tees</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Artwork Tees</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Bottoms</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Underwear</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Accessories</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-1 gap-x-6 gap-y-10">
-                                    <div>
-                                        <p id="mobile-collection-heading" class="font-medium text-gray-900">Collection</p>
-                                        <ul role="list" aria-labelledby="mobile-collection-heading"
-                                            class="mt-6 space-y-6">
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Everything</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Core</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">New Arrivals</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Sale</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div>
-                                        <p id="mobile-brand-heading" class="font-medium text-gray-900">Brands</p>
-                                        <ul role="list" aria-labelledby="mobile-brand-heading" class="mt-6 space-y-6">
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Full Nelson</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">My Way</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Re-Arranged</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Counterfeit</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Significant Other</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 'Men' tab panel, show/hide based on tab state. -->
-                        <div x-cloak x-show="megaMenu2Open"
-                        id="tabs-1-panel-2" class="space-y-12 px-4 pb-6 pt-10" aria-labelledby="tabs-1-tab-2"
-                            role="tabpanel" tabindex="0">
-                            <div class="grid grid-cols-1 items-start gap-x-6 gap-y-10">
-                                <div class="grid grid-cols-1 gap-x-6 gap-y-10">
-                                    <div>
-                                        <p id="mobile-featured-heading-1" class="font-medium text-gray-900">Featured</p>
-                                        <ul role="list" aria-labelledby="mobile-featured-heading-1"
-                                            class="mt-6 space-y-6">
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Casual</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Boxers</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Outdoor</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <p id="mobile-categories-heading" class="font-medium text-gray-900">Categories</p>
-                                        <ul role="list" aria-labelledby="mobile-categories-heading"
-                                            class="mt-6 space-y-6">
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Artwork Tees</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Pants</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Accessories</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Boxers</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Basic Tees</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-1 gap-x-6 gap-y-10">
-                                    <div>
-                                        <p id="mobile-collection-heading" class="font-medium text-gray-900">Collection</p>
-                                        <ul role="list" aria-labelledby="mobile-collection-heading"
-                                            class="mt-6 space-y-6">
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Everything</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Core</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">New Arrivals</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Sale</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div>
-                                        <p id="mobile-brand-heading" class="font-medium text-gray-900">Brands</p>
-                                        <ul role="list" aria-labelledby="mobile-brand-heading" class="mt-6 space-y-6">
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Significant Other</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">My Way</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Counterfeit</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Re-Arranged</a>
-                                            </li>
-                                            <li class="flex">
-                                                <a href="#" class="text-gray-500">Full Nelson</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                        <div class="flow-root">
-                            <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Company</a>
-                        </div>
-                        <div class="flow-root">
-                            <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Stores</a>
-                        </div>
-                    </div>
-
-                    <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                        <div class="flow-root">
-                            <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Registrarse</a>
-                        </div>
-                        <div class="flow-root">
-                            <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Iniciar sesión</a>
-                        </div>
-                    </div>
-
-                    <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                        <!-- Currency selector -->
-                        <form>
-                            <div class="inline-block">
-                                <label for="mobile-currency" class="sr-only">Currency</label>
-                                <div
-                                    class="group relative -ml-2 rounded-md border-transparent focus-within:ring-2 focus-within:ring-white">
-                                    <select id="mobile-currency" name="currency"
-                                        class="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800">
-                                        <option>CAD</option>
-                                        <option>USD</option>
-                                        <option>AUD</option>
-                                        <option>EUR</option>
-                                        <option>GBP</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-                                        <svg class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor"
-                                            aria-hidden="true">
-                                            <path fill-rule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    <nav class="flex flex-1 flex-col m-4">
+                        <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                            <li>
+                                <ul role="list" class="-mx-2 space-y-1">
+                                    <li>
+                                        <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
+                                        <a href="#" class="bg-gray-50 text-indigo-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <svg class="h-6 w-6 shrink-0 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path>
+                                            </svg>
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"></path>
+                                            </svg>
+                                            Team
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"></path>
+                                            </svg>
+                                            Projects
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"></path>
+                                            </svg>
+                                            Calendar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"></path>
+                                            </svg>
+                                            Documents
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"></path>
+                                            </svg>
+                                            Reports
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+                                <ul role="list" class="-mx-2 mt-2 space-y-1">
+                                    <li>
+                                        <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
+                                        <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600">H</span>
+                                            <span class="truncate">Heroicons</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600">T</span>
+                                            <span class="truncate">Tailwind Labs</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600">W</span>
+                                            <span class="truncate">Workcation</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="mt-auto">
+                                <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+                                    <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -323,7 +184,7 @@
                                     <a class="w-32" href="{{ route('ecommerce.index') }}">
                                         <span class="sr-only">Your Company</span>
                                         <img class="h-8 w-32 object-contain" title="Inicio" alt="logo"
-                                        src="https://comprasweb.casafranchi.com.ar/franchicarrito/images/LogoSuperior2.png">
+                                        src="{{ Storage::url(tenant()->logo_url) }}">
                                     </a>
                                 </div>
 
@@ -338,7 +199,7 @@
                                                     <!-- Item active: "border-indigo-600 text-indigo-600", Item inactive: "border-transparent text-gray-700 hover:text-gray-800" -->
                                                     <button type="button" @click="megaMenu1Open = !megaMenu1Open; megaMenu2Open = false"
                                                         class="relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
-                                                        :class="megaMenu1Open ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-800'"
+                                                        :class="megaMenu1Open ? 'border-{{ tenant('color') }}-600 text-{{ tenant('color') }}-600' : 'border-transparent text-gray-700 hover:text-gray-800'"
                                                         aria-expanded="false">Women</button>
                                                 </div>
 
@@ -480,7 +341,7 @@
                                                     <!-- Item active: "border-indigo-600 text-indigo-600", Item inactive: "border-transparent text-gray-700 hover:text-gray-800" -->
                                                     <button type="button" @click="megaMenu2Open = !megaMenu2Open; megaMenu1Open = false"
                                                         class="relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
-                                                        :class="megaMenu2Open ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-800'"
+                                                        :class="megaMenu2Open ? 'border-{{ tenant('color') }}-600 text-{{ tenant('color') }}-600' : 'border-transparent text-gray-700 hover:text-gray-800'"
                                                         aria-expanded="false">Men</button>
                                                 </div>
 
@@ -621,8 +482,8 @@
                                             class="flex items-center text-sm font-medium text-gray-700 border-b-2
                                             {{
                                                 Route::is('ecommerce.about')
-                                                    ? 'border-indigo-600 text-indigo-600'
-                                                    : 'border-transparent text-gray-700 hover:text-gray-800';
+                                                    ? "border-$tenantColor-600 text-$tenantColor-600"
+                                                    : "border-transparent text-gray-700 hover:text-gray-800";
                                             }}">
                                                 Nosotros
                                             </a>
@@ -631,8 +492,8 @@
                                             class="flex items-center text-sm font-medium text-gray-700 border-b-2
                                             {{
                                                 Route::is('ecommerce.contact')
-                                                    ? 'border-indigo-600 text-indigo-600'
-                                                    : 'border-transparent text-gray-700 hover:text-gray-800';
+                                                    ? "border-$tenantColor-600 text-$tenantColor-600"
+                                                    : "border-transparent text-gray-700 hover:text-gray-800";
                                             }}">
                                                 Contacto
                                             </a>
@@ -656,7 +517,7 @@
                                           </div>
                                           <input id="search" autocomplete="off" name="search" class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 
                                           ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
-                                          focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Buscar..." type="search">
+                                          focus:ring-gray-500 sm:text-sm sm:leading-6" placeholder="Buscar..." type="search">
                                         </div>
                                       </div>
                                     </div>
@@ -789,7 +650,7 @@
                           <p>$262.00</p>
                         </div>
                         <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-                        <x-button class="w-full mt-6" size="big">Finalizar compra</x-button>
+                        <x-button class="w-full mt-6 bg-blue-500 hover:bg-blue-700" size="big">Finalizar compra</x-button>
                         <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                           <p>
                             or
