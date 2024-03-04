@@ -46,7 +46,7 @@ Route::middleware([
 
             Route::view('setup', 'admin.setup.index')
                 ->middleware('tenant_unsetuped')
-                ->name('tenant.setup');
+                ->name('admin.setup');
 
             Route::prefix('dashboard')->middleware('tenant_setuped')->group(function() {
 

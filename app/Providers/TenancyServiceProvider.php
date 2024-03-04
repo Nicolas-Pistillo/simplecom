@@ -114,10 +114,10 @@ class TenancyServiceProvider extends ServiceProvider
             return redirect()->route('simplecom.landing');
         };
 
-        Livewire::setUpdateRoute(function($handle) {
-            return Route::post('/livewire/update', $handle)
-                ->middleware('web', 'universal', InitializeTenancyByDomain::class);
-        });
+        // Livewire::setUpdateRoute(function($handle) {
+        //     return Route::post('/livewire/update', $handle)
+        //         ->middleware('web', 'universal', InitializeTenancyByDomain::class);
+        // });
     }
 
     protected function bootEvents()

@@ -24,7 +24,7 @@ class TenantSetupCompleted
 
         if (Auth::check() && Auth::user() instanceof Operator)
         {
-            return redirect()->route('tenant.setup');
+            return redirect()->route('admin.setup');
         }
 
         return response()->view('errors.tenant_out_of_service');

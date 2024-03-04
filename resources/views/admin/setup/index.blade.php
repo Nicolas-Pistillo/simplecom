@@ -8,7 +8,7 @@
 
 @section('content')
     
-    @livewire('tenant.setup')
+    @livewire('admin.setup')
 
     <div class="fixed bottom-3 left-5 z-20">
         <form method="POST" action="{{ route('admin.logout') }}" 
