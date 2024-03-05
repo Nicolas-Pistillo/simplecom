@@ -18,6 +18,8 @@ export default {
   ],
   safelist: [
     'text-red-600',
+    'text-cyan-600',
+    'border-cyan-600',
     'text-sky-600',
     'border-sky-600'
   ]
