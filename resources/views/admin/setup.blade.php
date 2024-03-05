@@ -27,4 +27,5 @@
         <img src="{{ URL::to('img/simplecom/png/logo-color.png') }}" alt="Simplecom logo"
         class="h-20 md:h-24 rounded-full shadow-lg">
     </a>
+
 @endsection

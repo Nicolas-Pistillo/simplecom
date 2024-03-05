@@ -16,7 +16,7 @@
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 text-left shadow-xl 
-                    transition-all sm:my-8 w-full p-6 mx-3
+                    transition-all sm:my-8 w-full p-6 mx-3 
                     {{ !in_array($currentStep, ['welcome', 'finished']) ? 'sm:max-w-3xl' : 'sm:max-w-lg' }}">
 
                     @if ($currentStep === 'welcome')
@@ -272,8 +272,7 @@
 
                             <div class="mt-6 flex justify-end border-t border-gray-200 pt-4">
                                 @if (($ecommerceLogo && $ecommerceColor) || (tenant()->logo_url && $ecommerceColor))
-                                    <x-button submit
-                                    class="w-full sm:w-1/2 flex items-center justify-center">
+                                    <x-button submit class="w-full sm:w-1/2 flex items-center justify-center">
                                         <span wire:loading.remove wire:target='submitFirstStep'>Siguiente</span>
                                         <x-icon wire:loading.remove wire:target='submitFirstStep' code="arrow_forward" class="ml-4" />
                                         <div wire:loading wire:target='submitFirstStep' role="status">
@@ -292,7 +291,7 @@
                     @endif
 
                     @if ($currentStep === 2)
-                        <form wire:submit='submitSecondStep' class="animate__animated animate__fadeIn">
+                        <form wire:submit.prevent='submitSecondStep' class="animate__animated animate__fadeIn">
                             <h4 class="text-2xl sm:text-3xl font-bold tracking-tight text-center text-gray-900">
                                 Configuración de comercio
                             </h4>
@@ -378,8 +377,7 @@
                         </div>
 
                         <x-button href="{{ route('admin.dashboard.index') }}" type="primary"
-                        size="large"
-                            class="flex items-center justify-center w-full">
+                        size="large" class="flex items-center justify-center w-full">
                             Comenzar a operar
                         </x-button>
                     @endif

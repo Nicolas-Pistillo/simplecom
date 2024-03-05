@@ -151,7 +151,7 @@
                 </div>
             </div>
 
-            <main class="py-10">
+            <main class="py-10 px-8">
                 <!-- Content -->
             </main>
         </div>

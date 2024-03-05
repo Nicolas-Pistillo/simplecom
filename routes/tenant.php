@@ -44,9 +44,7 @@ Route::middleware([
 
             Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('admin.logout');
 
-            Route::view('setup', 'admin.setup.index')
-                ->middleware('tenant_unsetuped')
-                ->name('admin.setup');
+            Route::view('setup', 'admin.setup')->middleware('tenant_unsetuped')->name('admin.setup');
 
             Route::prefix('dashboard')->middleware('tenant_setuped')->group(function() {
 
