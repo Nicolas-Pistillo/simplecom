@@ -18,9 +18,10 @@
     <title>@yield('page-title', 'Panel de comercio')</title>
 </head>
 
-<body class="min-h-screen overflow-hidden">
+<body class="min-h-screen overflow-y-auto">
 
     <div x-data="{ mobileMenuOpen: false }">
+
         <!-- Mobile menu -->
         <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
 
@@ -46,7 +47,7 @@
                     </div>
 
                     <!-- Mobile sidebar -->
-                    <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
+                    <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 py-4">
                         <div class="flex h-20 shrink-0 items-center">
                             <img src="{{ tenant()->logo() }}" class="h-full object-contain py-1" alt="ecommerce logo">
                         </div>
@@ -59,7 +60,7 @@
         <!-- Desktop menu -->
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             <!-- Desktop sidebar -->
-            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 border-r">
+            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 py-4 border-r">
                 <div class="flex h-20 shrink-0 items-center">
                     <img src="{{ tenant()->logo() }}" class="h-full object-contain py-1" alt="ecommerce logo">
                 </div>
@@ -139,7 +140,7 @@
                                     </a>
                                     <form action="{{ route('admin.logout') }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="block px-3 py-1 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
+                                        <button type="submit" class="block w-full text-left px-3 py-1 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
                                             Cerrar sesión
                                         </button>
                                     </form>
@@ -150,8 +151,8 @@
                 </div>
             </div>
 
-            <main class="py-10 px-8">
-                <!-- Content -->
+            <main class="py-6 px-8">
+                @yield('content')
             </main>
         </div>
     </div>
