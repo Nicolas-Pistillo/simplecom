@@ -59,7 +59,7 @@
                   <button type="button" class="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">Open user menu</span>
-                    <img class="h-8 w-8 rounded-full" src="{{ asset('img/avatar-default.png') }}" alt="avatar">
+                    <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar">
                   </button>
                 </div>
   
@@ -123,7 +123,7 @@
         <div class="border-t border-gray-700 pb-3 pt-4">
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
-              <img class="h-10 w-10 rounded-full" src="{{ URL::to('img/avatar-default.png') }}" alt="avatar-img">
+              <img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar-img">
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white"> {{ Auth::user()->name }} </div>

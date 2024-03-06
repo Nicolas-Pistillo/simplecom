@@ -51,6 +51,7 @@
                         <div class="flex h-20 shrink-0 items-center">
                             <img src="{{ tenant()->logo() }}" class="h-full object-contain py-1" alt="ecommerce logo">
                         </div>
+                        <hr>
                         @include('admin.partials.navbar')
                     </div>
                 </div>
@@ -62,8 +63,9 @@
             <!-- Desktop sidebar -->
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 py-4 border-r">
                 <div class="flex h-20 shrink-0 items-center">
-                    <img src="{{ tenant()->logo() }}" class="h-full object-contain py-1" alt="ecommerce logo">
+                    <img src="{{ tenant()->logo() }}" class="h-full object-contain" alt="ecommerce logo">
                 </div>
+                <hr>
                 @include('admin.partials.navbar')
             </div>
         </div>
@@ -102,6 +104,14 @@
 
                         <!-- Notifications & User menu -->
                         <div class="flex items-center gap-x-4">
+
+                            <!-- Ecommerce site link -->
+                            <a href="/" target="_blank" data-tooltip-target="visit-ecommerce-front"
+                                class="relative mr-3 pt-2 text-gray-400 transition hover:text-gray-500">
+                                <x-icon code="storefront" />
+                            </a>
+                            <x-tooltip id="visit-ecommerce-front">Ver mi tienda</x-tooltip>
+
                             <!-- Notifications -->
                             @livewire('admin.notifications')
 
@@ -157,5 +167,6 @@
         </div>
     </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.js"></script>
 </body>
 </html>

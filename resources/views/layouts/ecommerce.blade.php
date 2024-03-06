@@ -528,13 +528,13 @@
                                     <div class="flex items-center lg:ml-8">
 
                                         <!-- Account -->
-                                        <x-icon code="person" data-tooltip-target="account-tooltip" data-tooltip-placement="bottom" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
+                                        <x-icon code="person" data-tooltip-target="account-tooltip" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
                                         <x-tooltip id="account-tooltip">Mi cuenta</x-tooltip>
 
                                         <span class="mx-4 h-6 w-px bg-gray-200" aria-hidden="true"></span>
 
                                         <!-- Cart -->
-                                        <x-icon code="shopping_cart" @click="cartMenuOpen = true" data-tooltip-target="cart-tooltip" data-tooltip-placement="bottom" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" /> 
+                                        <x-icon code="shopping_cart" @click="cartMenuOpen = true" data-tooltip-target="cart-tooltip" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" /> 
                                         <x-tooltip id="cart-tooltip">Carrito</x-tooltip>
                                     </div>
                                 </div>

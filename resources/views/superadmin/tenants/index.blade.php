@@ -56,7 +56,7 @@
                         <div class="flex items-center">
                           <div class="flex-shrink-0">
                             <img class="h-11 w-14 object-contain" 
-                            src="{{ $tenant->logo_url ? Storage::url($tenant->logo_url) : asset('img/no-image.png') }}"
+                            src="{{ $tenant->logo_url ? Storage::url($tenant->logo_url) : "https://ui-avatars.com/api/?color=fff&background=2563eb&name=$tenant->ecommerce_name" }}"
                              alt="Logo del comercio">
                           </div>
                           <div class="ml-4">
