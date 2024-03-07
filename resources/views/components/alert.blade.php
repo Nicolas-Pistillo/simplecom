@@ -1,3 +1,7 @@
+@php
+    $type = $type ?? 'info';
+@endphp
+
 @switch($type)
     @case('info')
         <div x-data="{alertOpen: true}" x-show="alertOpen"
@@ -6,13 +10,13 @@
 
                 <x-icon code="info" class="text-blue-500 p-1 bg-blue-200 rounded-lg" />
 
-                <div class="ml-3 flex-1 md:flex md:justify-between">
+                <div class="ml-3 flex-1 flex justify-between">
                     <p class="text-sm text-blue-700"> 
                         {{ $slot }} 
                     </p>
 
                     @isset($dismissible)
-                        <div class="ml-auto pl-3">
+                        <div class="pl-3">
                             <div class="-mx-1.5 -my-1.5">
                                 <button @click="alertOpen = false" type="button" class="inline-flex transition-colors duration-300 rounded-md bg-blue-50 p-1.5 text-blue-500 hover:bg-blue-100">
                                 <span class="sr-only">Dismiss</span>

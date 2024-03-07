@@ -23,8 +23,8 @@ class CreateTenantsTable extends Migration
             $table->string('color')->nullable();
             $table->foreignId('sector_id');
             $table->foreignId('plan_id');
-            $table->boolean('active')->default(1);
-            $table->boolean('setup_completed')->default(0);
+            $table->boolean('active')->default(true);
+            $table->boolean('setup_completed')->default(false);
             $table->timestamps();
             $table->json('data')->nullable();
         });
