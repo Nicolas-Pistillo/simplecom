@@ -9,7 +9,7 @@ class CategoriesList extends Component
 {
     public function render()
     {
-        $categories = Category::principal()->with('childs')->orderBy('name')->get();
+        $categories = Category::principal()->with('childs')->orderBy('name')->paginate(2);
 
         return view('livewire.admin.categories-list', compact('categories'));
     }

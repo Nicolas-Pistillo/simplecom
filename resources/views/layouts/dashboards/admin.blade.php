@@ -15,7 +15,7 @@
             display: none !important;
         }
     </style>
-    <title>@yield('page-title', 'Panel de comercio')</title>
+    <title>@yield('title', 'Panel de comercio')</title>
 </head>
 
 <body class="min-h-screen overflow-y-auto">
