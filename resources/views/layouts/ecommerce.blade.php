@@ -53,7 +53,8 @@
         <div x-cloak x-show="mobileMenuOpen" 
         class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
             <!-- Off-canvas menu backdrop -->
-            <div x-show="mobileMenuOpen" x-transition:enter="transition-opacity ease-linear duration-300"
+            <div x-show="mobileMenuOpen" 
+            x-transition:enter="transition-opacity ease-linear duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="transition-opacity ease-linear duration-300"

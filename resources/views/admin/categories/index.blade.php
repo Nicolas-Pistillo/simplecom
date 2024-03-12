@@ -4,6 +4,6 @@
 
 @section('content')
 
-    @livewire('admin.categories-list')
+    @livewire('admin.categories.index')
 
 @endsection

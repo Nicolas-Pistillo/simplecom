@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Admin\Categories;
 
 use App\Models\Category;
 use Livewire\Component;
 
-class CategoriesList extends Component
+class Index extends Component
 {
     public function render()
     {
         $categories = Category::principal()->with('childs')->orderBy('name')->paginate(2);
 
-        return view('livewire.admin.categories-list', compact('categories'));
+        return view('livewire.admin.categories.index', compact('categories'));
     }
 }
