@@ -14,8 +14,8 @@
 
                 <x-button @click="addCategoryPanelOpen = true">Crear categoría</x-button>
 
-                <x-drawer alpineRef="addCategoryPanelOpen">
-                    @livewire('admin.categories.upsert')
+                <x-drawer ref="addCategoryPanelOpen">
+                    @livewire('admin.categories.upsert', ['drawerRef' => 'addCategoryPanelOpen'])
                 </x-drawer>
             </div>
         </div>
