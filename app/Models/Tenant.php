@@ -56,4 +56,9 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return Storage::url($this->logo_url);
     }
+
+    public function asset($url = false)
+    {
+        return Storage::url($this->name . "/$url");
+    }
 }

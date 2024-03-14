@@ -121,12 +121,16 @@
                                 :class="selected == {{ $categoryReference }} && 'border-l border-gray-200'">
 
                                     <div class="pl-3">
+
                                         <h4 class="text-sm ml-6 font-semibold text-gray-700 my-1.5">Subcategorías</h4>
 
                                         @foreach ($category->childs as $childCategory)
-                                            <li x-data="{ mouseOnSubCategory: false }" @mouseover="mouseOnSubCategory = true"
-                                                @mouseover.away = "mouseOnSubCategory = false"
-                                                class="relative flex justify-between gap-x-6 p-3 
+                                        @php
+                                            $childReference = $childCategory->id;
+                                        @endphp
+                                            <li wire:key='{{ $childReference }}' x-data="{ mouseOnSubCategory: false }" 
+                                            @mouseover="mouseOnSubCategory = true" @mouseover.away = "mouseOnSubCategory = false"
+                                            class="relative flex justify-between gap-x-6 p-3 
                                             transition duration-200 hover:bg-gray-50 hover:shadow sm:px-6 rounded-l-md">
     
                                                 <div class="flex min-w-0 gap-x-4">
