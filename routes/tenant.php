@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Tenant\AuthController;
-use App\Http\Controllers\Tenant\CategoriesController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
 use App\Http\Controllers\Tenant\ProductsController;
@@ -51,12 +50,13 @@ Route::middleware([
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
+                Route::view('categories', 'admin.categories.upsert')->name('admin.categories');
+
                 // Admin resource routes
                 Route::name('admin.')->group(function() {
 
-                    Route::resource('categories', CategoriesController::class);
-
                     Route::resource('products', ProductsController::class);
+                    
                 });
 
             });

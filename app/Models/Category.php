@@ -23,6 +23,11 @@ class Category extends Model
         return $this->hasMany(Category::class, 'category_father');
     }
 
+    public function hasChilds()
+    {
+        return $this->childs->isNotEmpty();
+    }
+
     public function scopePrincipal(Builder $query): void
     {
         $query->whereNull('category_father');        
