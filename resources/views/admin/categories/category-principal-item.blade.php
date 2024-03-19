@@ -29,44 +29,35 @@ transition hover:bg-gray-50">
     <div class="flex shrink-0 items-center gap-x-4">
 
         {{-- Add subcategory --}}
-        <x-icon wire:click='openAddSubcategory({{ $category }})' x-show="mouseOnCategory" code="library_add"
-            data-tooltip-target="add_subcategory_{{ $category->id }}" data-tooltip-placement="left"
+        <div x-tooltip.placement.left x-tooltip.raw="Agregar subcategoría">
+            <x-icon wire:click='openAddSubcategory({{ $category }})' x-show="mouseOnCategory" code="library_add"
             @click="selected = {{ $category->id }};"
             class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
-        rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-
-        <x-tooltip id="add_subcategory_{{ $category->id }}">
-            Agregar subcategoría
-        </x-tooltip>
+            rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
+        </div>
 
         {{-- Edit category --}}
-        <x-icon wire:click='openEditCategory({{ $category }})' x-show="mouseOnCategory" code="edit"
-            data-tooltip-target="edit_category_{{ $category->id }}" data-tooltip-placement="left"
+        <div x-tooltip.placement.left x-tooltip.raw="Editar categoría">
+            <x-icon wire:click='openEditCategory({{ $category }})' x-show="mouseOnCategory" code="edit"
             class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
             rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-
-        <x-tooltip id="edit_category_{{ $category->id }}">Editar categoría</x-tooltip>
+        </div>
 
         {{-- Delete category --}}
-        <x-icon x-show="mouseOnCategory" code="delete" wire:click='openDeleteCategory({{ $category }})'
-        data-tooltip-target="delete_category_{{ $category->id }}" data-tooltip-placement="left"
-        class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
-        bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-
-        <x-tooltip id="delete_category_{{ $category->id }}">
-            Elminar categoría
-        </x-tooltip>
+        <div x-tooltip.placement.left x-tooltip.raw="Elminar categoría">
+            <x-icon x-show="mouseOnCategory" code="delete" wire:click='openDeleteCategory({{ $category }})'
+            class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
+            bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
+        </div>
 
         {{-- Show subcategories --}}
         @if ($category->hasChilds())
-            <i @click="selected !== {{ $category->id }} ? selected = {{ $category->id }} : selected = null"
-                class="material-symbols-outlined
-            text-gray-600 shadow p-1 rounded-full bg-gray-50 transition hover:bg-white cursor-pointer"
-                data-tooltip-target="expand_category_{{ $category->id }}" data-tooltip-placement="left"
+            <div x-tooltip.placement.left x-tooltip="selected == {{ $category->id }} ? 'Contraer' : 'Ver subcategorías'">
+                <i @click="selected !== {{ $category->id }} ? selected = {{ $category->id }} : selected = null"
+                class="material-symbols-outlined text-gray-600 shadow p-1 rounded-full 
+                bg-gray-50 transition hover:bg-white cursor-pointer"
                 x-text="selected == {{ $category->id }} ? 'expand_less' : 'expand_more'"></i>
-
-            <x-tooltip id="expand_category_{{ $category->id }}"
-                x-text="selected == {{ $category->id }} ? 'Contraer' : 'Ver subcategorías'"></x-tooltip>
+            </div>
         @endif
     </div>
 </li>

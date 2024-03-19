@@ -30,47 +30,37 @@
     <div class="flex shrink-0 items-center gap-x-4">
 
         {{-- Add subcategory --}}
-        <x-icon wire:click='openAddSubcategory({{ $childCategory }})' x-show="mouseOnSubCategory" code="library_add"
-            data-tooltip-target="add_subcategory_{{ $childCategory->id }}" data-tooltip-placement="left"
+        <div x-tooltip.placement.left x-tooltip.raw="Agregar subcategoría">
+            <x-icon wire:click='openAddSubcategory({{ $childCategory }})' x-show="mouseOnSubCategory" code="library_add"
             @click="subcategorySelected = {{ $childCategory->id }}"
             class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
             rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-
-        <x-tooltip id="add_subcategory_{{ $childCategory->id }}">
-            Agregar subcategoría
-        </x-tooltip>
+        </div>
 
         {{-- Edit subcategory --}}
-        <x-icon x-show="mouseOnSubCategory" code="edit" wire:click='openEditCategory({{ $childCategory }})'
-            data-tooltip-target="edit_subcategory_{{ $childCategory->id }}" data-tooltip-placement="left"
+        <div x-tooltip.placement.left x-tooltip.raw="Editar subcategoría">
+            <x-icon x-show="mouseOnSubCategory" code="edit" wire:click='openEditCategory({{ $childCategory }})'
             class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
             rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-
-        <x-tooltip id="edit_subcategory_{{ $childCategory->id }}">
-            Editar subcategoría
-        </x-tooltip>
+        </div>
 
         {{-- Delete subcategory --}}
-        <x-icon x-show="mouseOnSubCategory" code="delete" wire:click='openDeleteCategory({{ $childCategory }})'
-            data-tooltip-target="delete_subcategory_{{ $childCategory->id }}" data-tooltip-placement="left"
+        <div x-tooltip.placement.left x-tooltip.raw="Elminar subcategoría">
+            <x-icon x-show="mouseOnSubCategory" code="delete" wire:click='openDeleteCategory({{ $childCategory }})'
             class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
             bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-
-        <x-tooltip id="delete_subcategory_{{ $childCategory->id }}">
-            Elminar subcategoría
-        </x-tooltip>
+        </div>
 
         {{-- Show subcategories --}}
         @if ($childCategory->hasChilds())
-            <i x-show="mouseOnSubCategory"
+
+            <div x-tooltip.placement.left x-tooltip="subcategorySelected == {{ $childCategory->id }} ? 'Contraer' : 'Ver subcategorías'">
+                <i x-show="mouseOnSubCategory"
                 @click="subcategorySelected !== {{ $childCategory->id }} ? subcategorySelected = {{ $childCategory->id }} : subcategorySelected = null"
                 class="material-symbols-outlined
                 text-gray-600 shadow p-1 rounded-full bg-gray-50 transition hover:bg-white cursor-pointer"
-                data-tooltip-target="expand_subcategory_{{ $childCategory->id }}" data-tooltip-placement="left"
                 x-text="subcategorySelected == {{ $childCategory->id }} ? 'expand_less' : 'expand_more'"></i>
-
-            <x-tooltip id="expand_subcategory_{{ $childCategory->id }}"
-                x-text="subcategorySelected == {{ $childCategory->id }} ? 'Contraer' : 'Ver subcategorías'"></x-tooltip>
+            </div>
         @endif
 
     </div>
