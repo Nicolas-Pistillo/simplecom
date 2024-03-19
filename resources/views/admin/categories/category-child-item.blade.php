@@ -1,5 +1,5 @@
 {{-- Child category --}}
-<li wire:key='{{ $category->id }}' x-data="{ mouseOnSubCategory: false }" x-cloak
+<li wire:key='{{ $childCategory->id }}' x-data="{ mouseOnSubCategory: false }" x-cloak
     @mouseover="mouseOnSubCategory = true" @mouseover.away = "mouseOnSubCategory = false" 
     class="relative flex justify-between gap-x-6 p-3 
     transition duration-200 hover:bg-gray-50 hover:shadow sm:px-6 rounded-l-md"
@@ -46,7 +46,9 @@
 
         {{-- Delete subcategory --}}
         <div x-tooltip.placement.left x-tooltip.raw="Elminar subcategoría">
-            <x-icon x-show="mouseOnSubCategory" code="delete" wire:click='openDeleteCategory({{ $childCategory }})'
+            <x-icon x-show="mouseOnSubCategory" code="delete" 
+            @click="subcategorySelected = null"
+            wire:click='openDeleteCategory({{ $childCategory }})'
             class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
             bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>

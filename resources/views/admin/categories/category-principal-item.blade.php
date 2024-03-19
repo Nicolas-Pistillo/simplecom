@@ -45,7 +45,9 @@ transition hover:bg-gray-50">
 
         {{-- Delete category --}}
         <div x-tooltip.placement.left x-tooltip.raw="Elminar categoría">
-            <x-icon x-show="mouseOnCategory" code="delete" wire:click='openDeleteCategory({{ $category }})'
+            <x-icon x-show="mouseOnCategory" code="delete" 
+            @click="selected = null"
+            wire:click='openDeleteCategory({{ $category }})'
             class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
             bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>

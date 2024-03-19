@@ -19,7 +19,8 @@
 
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div x-show="{{ $ref }}" @click.away="{{ $ref }} = false"
+            <div x-show="{{ $ref }}" 
+            @isset($closeOnClickAway) @click.away="{{ $ref }} = false" @endisset 
             x-transition:enter="ease-out duration-300"
             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
