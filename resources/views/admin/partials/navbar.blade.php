@@ -13,8 +13,8 @@
             </h5>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
-                <x-navbar-item active="{{ Route::is('admin.categories') }}" 
-                route="admin.categories" icon="format_list_bulleted" title="Categorías" />
+                <x-navbar-item active="{{ Route::is('admin.categories.index') }}" 
+                route="admin.categories.index" icon="format_list_bulleted" title="Categorías" />
 
             </ul>
         </li>

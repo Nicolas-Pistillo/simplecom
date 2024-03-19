@@ -1,8 +1,10 @@
 <div>
 
-    <div x-data="{ categoriesDrawerOpen: false, deleteDialogOpen: false }" x-on:close-drawer.window="categoriesDrawerOpen = false"
+    <div x-data="{ categoriesDrawerOpen: false, deleteDialogOpen: false, showNotification: false }" 
+        x-on:close-drawer.window="categoriesDrawerOpen = false"
         x-on:open-drawer.window="categoriesDrawerOpen = true" x-on:close-cancel-dialog.window="deleteDialogOpen = false"
-        x-on:open-cancel-dialog.window="deleteDialogOpen = true">
+        x-on:open-cancel-dialog.window="deleteDialogOpen = true"
+        x-on:open-notification.window="showNotification = true">
 
         <div class="px-4 sm:px-6 lg:px-8">
 
@@ -83,7 +85,8 @@
                                                             'border-l border-gray-200'">
 
                                                         <h4 class="text-sm ml-6 font-semibold text-gray-700 my-1.5">
-                                                            Subcategorías de {{ $childCategory->name }}</h4>
+                                                            Subcategorías de {{ $category->name }} > {{ $childCategory->name }}
+                                                        </h4>
 
                                                         @foreach ($childCategory->childs as $grandChild)
                                                             @include('admin.categories.category-grandchild-item')
@@ -123,6 +126,9 @@
 
         {{-- Create/Edit category drawer --}}
         @include('admin.categories.upsert-form')
+
+        {{-- Success notification toast --}}
+        <x-toast ref="showNotification" type="success" title="{{ session('notification') }}" />
 
     </div>
 

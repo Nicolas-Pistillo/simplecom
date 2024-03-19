@@ -50,7 +50,7 @@ Route::middleware([
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
-                Route::view('categories', 'admin.categories.upsert')->name('admin.categories');
+                Route::view('categories', 'admin.categories.index')->name('admin.categories.index');
 
                 // Admin resource routes
                 Route::name('admin.')->group(function() {

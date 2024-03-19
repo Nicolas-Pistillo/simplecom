@@ -116,6 +116,9 @@ class Upsert extends Component
 
         $this->reset();
         $this->dispatch('close-drawer');
+
+        session()->flash('notification', 'Cambios aplicados con éxito');
+        $this->dispatch('open-notification');
     }
 
     public function cancelForm()
@@ -132,8 +135,13 @@ class Upsert extends Component
 
     public function deleteCategory()
     {
+        $nameReference = $this->category->name;
+
         $this->category->delete();
         $this->dispatch('close-cancel-dialog');
+
+        session()->flash('notification', "Eliminaste la categoría $nameReference");
+        $this->dispatch('open-notification');
     }
 
     public function render()
