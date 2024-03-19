@@ -13,7 +13,8 @@ class Upsert extends Component
     use WithPagination;
     use WithFileUploads;
 
-    public $drawerTitle, $drawerRef, $category, $categoryFather;
+    public $drawerTitle, $drawerRef, $notificationMessage;
+    public $category, $categoryFather;
     public $name, $description, $image, $imagePreview, $coverImage, $coverImagePreview;
 
     protected $validationAttributes = [
@@ -25,7 +26,7 @@ class Upsert extends Component
 
     public function openNewCategory()
     {
-        $this->reset();
+        $this->resetExcept('notificationMessage');
 
         $this->drawerTitle = "Nueva categoría";
         $this->dispatch('open-drawer');
@@ -33,7 +34,7 @@ class Upsert extends Component
 
     public function openAddSubcategory(Category $categoryFather)
     {
-        $this->reset();
+        $this->resetExcept('notificationMessage');
 
         $this->fill([
             'drawerTitle'    => "Agregando subcategoría a $categoryFather->name",
@@ -45,7 +46,7 @@ class Upsert extends Component
 
     public function openEditCategory(Category $category)
     {
-        $this->reset();
+        $this->resetExcept('notificationMessage');
 
         $this->category = $category;
 
@@ -114,10 +115,10 @@ class Upsert extends Component
             $category->update(['image_url' => $imagePath]);
         }
 
-        $this->reset();
+        $this->resetExcept('notificationMessage');
         $this->dispatch('close-drawer');
 
-        session()->flash('notification', 'Cambios aplicados con éxito');
+        $this->notificationMessage = 'Cambios aplicados con éxito';
         $this->dispatch('open-notification');
     }
 
@@ -140,7 +141,7 @@ class Upsert extends Component
         $this->category->delete();
         $this->dispatch('close-cancel-dialog');
 
-        session()->flash('notification', "Eliminaste la categoría $nameReference");
+        $this->notificationMessage = "Eliminaste la categoría $nameReference";
         $this->dispatch('open-notification');
     }
 

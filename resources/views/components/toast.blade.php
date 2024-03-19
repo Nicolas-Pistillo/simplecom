@@ -35,7 +35,7 @@
                         <x-icon code="{{ $icon }}" class="text-{{ $color }}-500" />
                     </div>
                     <div class="ml-3 w-0 flex-1 pt-0.5">
-                        <p class="text-sm font-medium text-{{ $color }}-700"> {{ $title ?? '' }} </p>
+                        <p class="text-sm font-medium text-gray-700"> {{ $title ?? '' }} </p>
                         <p class="mt-1 text-sm text-gray-500"> {{ $body ?? '' }} </p>
                     </div>
                     <div class="ml-4 flex flex-shrink-0">

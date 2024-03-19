@@ -128,7 +128,7 @@
         @include('admin.categories.upsert-form')
 
         {{-- Success notification toast --}}
-        <x-toast ref="showNotification" type="success" title="{{ session('notification') }}" />
+        <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
 
     </div>
 
