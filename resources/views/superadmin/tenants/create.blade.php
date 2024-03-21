@@ -25,8 +25,8 @@
                     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         
                         <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" 
-                        error="{{ $errors->first('name') }}" name="name" label="Subdominio" 
-                        value="{{ old('name') }}" />
+                        error="{{ $errors->first('tenant_name') }}" name="tenant_name" label="Subdominio" 
+                        value="{{ old('tenant_name') }}" />
 
                         <x-input class="sm:col-span-3" placeholder="Por ejemplo: Distribuidora Martinez" 
                         label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" 
@@ -66,7 +66,7 @@
 
                         <hr class="w-full sm:col-span-6">
 
-                        <h4 class="sm:col-span-6 flex items-center text-sm text-gray-700">
+                        <h4 class="sm:col-span-6 flex items-start text-sm text-gray-700">
                             Cuenta del administrador principal
                             <x-icon data-tooltip-target="admin-account-help" 
                             code="help" class="ml-1 text-blue-600" style="font-size: 20px" />
@@ -75,6 +75,10 @@
                                 también controlara los roles e información de los demás tipos de administradores
                             </x-tooltip>
                         </h4>
+
+                        <x-input class="sm:col-span-3 border-none p-0"
+                        error="{{ $errors->first('admin_name') }}" name="admin_name" label="Nombre administrador" 
+                        value="{{ old('admin_name') }}" />
 
                         <x-input type="email" class="sm:col-span-3 border-none p-0"
                         error="{{ $errors->first('admin_email') }}" name="admin_email" label="Email administrador" 

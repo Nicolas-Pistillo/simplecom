@@ -23,10 +23,11 @@ class CreateTenantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'           => ['required', 'string', 'unique:tenants,name', 'regex:/^\S*$/u'],
+            'tenant_name'    => ['required', 'string', 'unique:tenants,name', 'regex:/^\S*$/u'],
             'ecommerce_name' => ['required', 'string'],
             'sector_id'      => ['required', 'exists:sectors,id'],
             'plan_id'        => ['required', 'exists:plans,id'],
+            'admin_name'     => ['required', 'string'],
             'admin_email'    => ['required', 'email'],
             'admin_password' => ['required', 'min:8', 'alpha_num']
         ];

@@ -41,6 +41,7 @@ class SectorSeeder extends Seeder
         Sector::updateOrCreate(['name' => 'Tecnología']);
         Sector::updateOrCreate(['name' => 'Industria agrícola']);
         Sector::updateOrCreate(['name' => 'Jardinería']);
+        Sector::updateOrCreate(['name' => 'Ventas de repuestos y autopartes']);
         Sector::updateOrCreate(['name' => 'Veterinarias']);
         Sector::updateOrCreate(['name' => 'Antigüedades']);
         Sector::updateOrCreate(['name' => 'Industria química']);

@@ -11,7 +11,7 @@
                     <img class="absolute -top-36 left-0 h-20" 
                     src="{{ tenant()->logo_url ? Storage::url(tenant()->logo_url) : URL::to('favicon.ico') }}"
                         alt="Ecommerce logo">
-                    <h4 class="text-2xl font-bold leading-9 tracking-tight text-blue-600">{{ tenant()->ecommerce_name }}
+                    <h4 class="text-2xl font-bold leading-9 tracking-tight text-{{ tenant('color') }}-600">{{ tenant()->ecommerce_name }}
                     </h4>
                     <h2 class="text-2xl font-bold leading-9 tracking-tight text-gray-900">Panel de administración</h2>
                     <p class="mt-2 text-sm leading-6 text-gray-500">

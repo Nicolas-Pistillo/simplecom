@@ -9,5 +9,6 @@ class TenantSeeder extends Seeder
     public function run(): void
     {
         $this->call(EcommerceConfigurationSeeder::class);
+        $this->call(RolePermissionSeeder::class);
     }
 }

@@ -17,7 +17,7 @@
         x-transition:leave-end="transform opacity-0 scale-95" 
         class=" absolute top-16 right-1 sm:right-8 mx-auto md:w-[400px]">
             <div class="z-20 w-full bg-white divide-y divide-gray-100 rounded-lg shadow">
-                <div class="block px-4 py-2 font-semibold text-center text-white rounded-t-lg bg-blue-600">
+                <div class="block px-4 py-2 font-semibold text-center text-white rounded-t-lg bg-{{ tenant('color') }}-600">
                     Notificaciones
                 </div>
                 <div class="divide-y divide-gray-100">

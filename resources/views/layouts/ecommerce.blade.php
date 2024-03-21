@@ -651,7 +651,7 @@
                           <p>$262.00</p>
                         </div>
                         <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-                        <x-button class="w-full mt-6 bg-blue-500 hover:bg-blue-700" size="big">Finalizar compra</x-button>
+                        <x-button class="w-full mt-6" size="big">Finalizar compra</x-button>
                         <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                           <p>
                             or

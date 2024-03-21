@@ -11,11 +11,11 @@
     data-flickity='{ "wrapAround": true, "prevNextButtons": false, "autoPlay": 5000 }'>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-                src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699549316978-01-desk-mainslider-cm.png">
+                src="https://http2.mlstatic.com/D_NQ_609473-MLA75157155755_032024-OO.webp">
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-                src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699582853566-home-mainslider-desktop-v2.png">
+                src="https://http2.mlstatic.com/D_NQ_846284-MLA75236489991_032024-OO.webp">
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
@@ -27,7 +27,7 @@
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-                src="https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1699583444342-homesliderdesktop.png">
+                src="https://http2.mlstatic.com/D_NQ_938619-MLA75215011957_032024-OO.webp">
         </div>
     </div>
     {{-- <div id="default-carousel" class="relative w-full shadow-md mb-16" data-carousel="slider">
