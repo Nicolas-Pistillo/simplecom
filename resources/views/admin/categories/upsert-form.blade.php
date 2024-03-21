@@ -106,7 +106,7 @@
                             </x-button>
 
                             @if ($coverImagePreview)
-                                <x-button wire:click='deleteCoverImage' wire:loading.remove wire:target='deleteCoverImage' 
+                                <x-button wire:click='deleteCoverImage' wire:loading.remove wire:target='deleteCoverImage, coverImage' 
                                 size="small" x-tooltip.raw.placement.bottom="Eliminar imagen"
                                 class="flex items-center ml-1 text-white bg-red-600 hover:bg-red-500"> 
                                     <span class="material-symbols-outlined">delete</span> 
@@ -144,7 +144,7 @@
                             </x-button>
 
                             @if ($imagePreview)
-                                <x-button wire:click='deleteImage' wire:loading.remove wire:target='deleteImage' 
+                                <x-button wire:click='deleteImage' wire:loading.remove wire:target='deleteImage, image' 
                                 size="small" x-tooltip.raw.placement.bottom="Eliminar imagen"
                                 class="flex items-center ml-1 text-white bg-red-600 hover:bg-red-500"> 
                                     <span class="material-symbols-outlined">delete</span> 
