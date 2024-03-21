@@ -127,12 +127,12 @@
                                     aria-expanded="false" aria-haspopup="true">
                                     <span class="sr-only">Open user menu</span>
                                     <img class="h-8 w-8 rounded-full bg-gray-50"
-                                        src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
+                                        src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}&bold=true&background=e5e7eb&color=000"
                                         alt="user avatar">
                                     <span class="hidden lg:flex lg:items-center">
-                                        <span class="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                                        <span class="ml-3 text-sm font-semibold leading-6 text-gray-900"
                                             aria-hidden="true"> {{ Auth::user()->name }} </span>
-                                        <x-icon code="keyboard_arrow_down" class="text-gray-400" />
+                                        <x-icon code="keyboard_arrow_down" class="text-gray-900" />
                                         </svg>
                                     </span>
                                 </button>

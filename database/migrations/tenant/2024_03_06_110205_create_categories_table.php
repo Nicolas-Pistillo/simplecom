@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->foreignId('category_father')->nullable();
+            $table->boolean('featured')->default(false);
+            $table->boolean('published')->default(true);
             $table->string('image_url')->nullable();
             $table->string('cover_image_url')->nullable();
             $table->timestamps();

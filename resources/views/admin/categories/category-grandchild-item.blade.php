@@ -18,7 +18,19 @@
 
         <div class="min-w-0 flex-auto">
             <p class="text-sm font-semibold leading-6 text-gray-900">
+
                 {{ $grandChild->name }}
+
+                @if ($grandChild->published)
+                    <x-badge color="blue" class="mx-1">Publicada</x-badge>
+                @else
+                    <x-badge class="mx-1">No publicada</x-badge>
+                @endif
+
+                @if ($grandChild->featured)
+                    <x-badge color="purple" class="mx-1">Destacada</x-badge>
+                @endif
+
             </p>
             <p class="mt-1 flex text-xs leading-5 text-gray-500">
                 {{ $grandChild->description ?? 'Sin descripción' }}
@@ -29,14 +41,14 @@
     <div class="flex shrink-0 items-center gap-x-4">
 
         {{-- Edit subcategory --}}
-        <div x-tooltip.placement.left x-tooltip.raw="Editar subcategoría">
+        <div x-tooltip.raw.placement.left="Editar subcategoría">
             <x-icon x-show="mouseOnGrandChild" code="edit" wire:click='openEditCategory({{ $grandChild }})'
                 class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
                 rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>
 
         {{-- Delete subcategory --}}
-        <div x-tooltip.placement.left x-tooltip.raw="Elminar subcategoría">
+        <div x-tooltip.raw.placement.left="Elminar subcategoría">
             <x-icon x-show="mouseOnGrandChild" code="delete" wire:click='openDeleteCategory({{ $grandChild }})'
                 class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
                 bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />

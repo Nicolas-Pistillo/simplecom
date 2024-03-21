@@ -7,7 +7,7 @@
     
             <form wire:submit='save' class="h-full flex flex-col justify-between">
     
-                <div>
+                <div class="mb-3">
     
                     <h3 class="text-lg text-gray-700 font-semibold mb-3">{{ $drawerTitle }}</h3>
             
@@ -28,7 +28,7 @@
                         @enderror
                     </div>
             
-                    <div class="mb-10">
+                    <div class="mb-6">
                         <label class="block text-sm font-semibold leading-6 text-gray-500">
                             Descripción (opcional)
                         </label>
@@ -42,6 +42,44 @@
                         @error('description')
                             <small class="text-red-500"> {{ $message }} </small>
                         @enderror
+                    </div>
+
+                    <div class="mb-6">
+
+                        <fieldset>
+                            <div class="space-y-3">
+
+                                <div class="relative flex items-center">
+                                    <div class="flex h-6 items-center">
+                                        <input id="published" type="checkbox" wire:model='published'
+                                        class="h-4 w-4 rounded border-gray-300 text-blue-600">
+                                    </div>
+                                    <div class="ml-3 text-sm leading-5 flex items-center">
+                                        <label for="published" class="block font-medium text-gray-900">
+                                            Marcar como publicada 
+                                        </label>
+                                        <span
+                                        x-tooltip.raw.placement.bottom="Si no se marca como publicada, no aparecera en tu tienda hasta que decidas publicarla"
+                                        class="material-symbols-outlined ml-2 text-blue-600">help</span>
+                                    </div>
+                                </div>
+
+                                <div class="relative flex items-center">
+                                    <div class="flex h-6 items-center">
+                                        <input id="featured" type="checkbox" wire:model='featured'
+                                        class="h-4 w-4 rounded border-gray-300 text-blue-600">
+                                    </div>
+                                    <div class="ml-3 text-sm leading-5 flex items-center">
+                                        <label for="featured" class="block font-medium text-gray-900">
+                                            Marcar como destacada 
+                                        </label>
+                                        <span x-tooltip.raw.placement.bottom="Tendra mayor visibilidad con respecto al resto de categorías en tu tienda"
+                                        class="material-symbols-outlined ml-2 text-blue-600">help</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+  
                     </div>
             
                     <h4 class="text-sm text-gray-500 font-semibold mb-3">Presentación (opcional)</h4>
@@ -62,12 +100,20 @@
                                 </p>
                             </div>
             
-                            <x-button wire:loading.remove wire:target='coverImage' file onlyImages 
+                            <x-button wire:loading.remove wire:target='coverImage, deleteCoverImage' file onlyImages 
                             name="coverImage" wireModel="coverImage" type="secondary" class="w-20 ml-auto text-center">
                                 Subir
                             </x-button>
+
+                            @if ($coverImagePreview)
+                                <x-button wire:click='deleteCoverImage' wire:loading.remove wire:target='deleteCoverImage' 
+                                size="small" x-tooltip.raw.placement.bottom="Eliminar imagen"
+                                class="flex items-center ml-1 text-white bg-red-600 hover:bg-red-500"> 
+                                    <span class="material-symbols-outlined">delete</span> 
+                                </x-button>
+                            @endif
     
-                            <x-spinner wire:loading wire:target='coverImage' />
+                            <x-spinner wire:loading wire:target='coverImage, deleteCoverImage' />
                         </div>
                         
                         @error('coverImage')
@@ -92,12 +138,20 @@
                                 </p>
                             </div>
             
-                            <x-button wire:loading.remove wire:target='image' file onlyImages 
+                            <x-button wire:loading.remove wire:target='image, deleteImage' file onlyImages 
                             wireModel="image" name="image" type="secondary" class="w-20 ml-auto text-center">
                                 Subir
                             </x-button>
+
+                            @if ($imagePreview)
+                                <x-button wire:click='deleteImage' wire:loading.remove wire:target='deleteImage' 
+                                size="small" x-tooltip.raw.placement.bottom="Eliminar imagen"
+                                class="flex items-center ml-1 text-white bg-red-600 hover:bg-red-500"> 
+                                    <span class="material-symbols-outlined">delete</span> 
+                                </x-button>
+                            @endif
     
-                            <x-spinner wire:loading wire:target='image' />
+                            <x-spinner wire:loading wire:target='image, deleteImage' />
     
                         </div>
                         @error('image')
@@ -107,7 +161,7 @@
                     </div>
                 </div>
     
-                <div class="flex items-center py-4">
+                <div class="flex items-center py-6">
     
                     <x-button submit wire:loading.remove wire:target='save' size="large" class="w-full mr-4">Guardar</x-button>
                     

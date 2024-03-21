@@ -7,15 +7,17 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 
 class Upsert extends Component
 {
     use WithPagination;
     use WithFileUploads;
 
-    public $drawerTitle, $drawerRef, $notificationMessage;
+    public $drawerTitle, $drawerRef, $notificationMessage, $search = '';
     public $category, $categoryFather;
     public $name, $description, $image, $imagePreview, $coverImage, $coverImagePreview;
+    public $featured, $published;
 
     protected $validationAttributes = [
         'name'        => 'nombre',
@@ -26,19 +28,21 @@ class Upsert extends Component
 
     public function openNewCategory()
     {
-        $this->resetExcept('notificationMessage');
+        $this->resetExcept('notificationMessage', 'search');
 
+        $this->published = true;
         $this->drawerTitle = "Nueva categoría";
         $this->dispatch('open-drawer');
     }
 
     public function openAddSubcategory(Category $categoryFather)
     {
-        $this->resetExcept('notificationMessage');
+        $this->resetExcept('notificationMessage', 'search');
 
         $this->fill([
             'drawerTitle'    => "Agregando subcategoría a $categoryFather->name",
-            'categoryFather' => $categoryFather
+            'categoryFather' => $categoryFather,
+            'published'      => true
         ]);
 
         $this->dispatch('open-drawer');
@@ -46,7 +50,7 @@ class Upsert extends Component
 
     public function openEditCategory(Category $category)
     {
-        $this->resetExcept('notificationMessage');
+        $this->resetExcept('notificationMessage', 'search');
 
         $this->category = $category;
 
@@ -54,6 +58,8 @@ class Upsert extends Component
             'drawerTitle'       => "Editando categoría $category->name",
             'name'              => $category->name,
             'description'       => $category->description,
+            'published'         => $category->published ? true : false,
+            'featured'          => $category->featured ? true : false,
             'imagePreview'      => $category->image_url ? Storage::url($category->image_url) : null,
             'coverImagePreview' => $category->cover_image_url ? Storage::url($category->cover_image_url) : null
         ]);
@@ -71,6 +77,30 @@ class Upsert extends Component
         $this->coverImagePreview = $this->coverImage->temporaryUrl();
     }
 
+    public function deleteImage()
+    {
+        if ($this->category?->image_url)
+        {
+            Storage::delete($this->category->image_url);
+            $this->category->update(['image_url' => null]);   
+        }
+
+        $this->image = null;
+        $this->imagePreview = null;
+    }
+
+    public function deleteCoverImage()
+    {
+        if ($this->category?->cover_image_url)
+        {
+            Storage::delete($this->category->cover_image_url);
+            $this->category->update(['cover_image_url' => null]);   
+        }
+
+        $this->coverImage = null;
+        $this->coverImagePreview = null;
+    }
+
     public function save()
     {
         $this->validate([
@@ -85,6 +115,8 @@ class Upsert extends Component
             $this->category->update([
                 'name'            => $this->name,
                 'description'     => $this->description,
+                'published'       => $this->published ? true : false,
+                'featured'        => $this->featured ? true : false,
             ]);
 
             $category = $this->category;
@@ -93,6 +125,8 @@ class Upsert extends Component
             $category = Category::create([
                 'name'            => $this->name,
                 'description'     => $this->description,
+                'published'       => $this->published ? true : false,
+                'featured'        => $this->featured ? true : false,
                 'category_father' => $this->categoryFather?->id
             ]);
         }
@@ -115,7 +149,7 @@ class Upsert extends Component
             $category->update(['image_url' => $imagePath]);
         }
 
-        $this->resetExcept('notificationMessage');
+        $this->resetExcept('notificationMessage', 'search');
         $this->dispatch('close-drawer');
 
         $this->notificationMessage = 'Cambios aplicados con éxito';
@@ -124,8 +158,8 @@ class Upsert extends Component
 
     public function cancelForm()
     {
-        $this->reset();
         $this->dispatch('close-drawer');
+        $this->resetExcept('notificationMessage', 'search'); 
     }
 
     public function openDeleteCategory(Category $category)
@@ -147,8 +181,18 @@ class Upsert extends Component
 
     public function render()
     {
-        return view('livewire.admin.categories.upsert', [
-            'categories' => Category::principal()->with('childs')->orderBy('name')->paginate(7)
-        ]);
+        $emptyData = Category::count() === 0;
+
+        $search = trim($this->search);
+
+        $categories = Category::principal()->with('childs')
+                        ->when(!empty($search), function ($query) use ($search) {
+                            return $query->where('name', 'LIKE', "%$search%")
+                            ->orWhere('description', 'LIKE', "%$search%");
+                        })
+                        ->orderBy('created_at')
+                        ->paginate(7);
+
+        return view('livewire.admin.categories.upsert', compact('categories', 'emptyData'));
     }
 }
