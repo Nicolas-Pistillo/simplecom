@@ -15,7 +15,7 @@
         'soft'      => 'bg-blue-50 font-semibold text-blue-600 shadow-sm hover:bg-blue-100'
     ];
 
-    if (tenancy()->initialized)
+    if (tenancy()->initialized && tenant('color'))
     {
         $tenantColor = tenant('color');
         $types['primary'] = "font-semibold text-white bg-$tenantColor-600 shadow-sm hover:bg-$tenantColor-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-$tenantColor-600";

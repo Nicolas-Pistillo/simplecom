@@ -181,18 +181,20 @@ class Upsert extends Component
 
     public function render()
     {
-        $emptyData = Category::count() === 0;
-
         $search = trim($this->search);
 
-        $categories = Category::principal()->with('childs')
-                        ->when(!empty($search), function ($query) use ($search) {
+        $categories = Category::principal()
+                        ->when(!empty($search), function($query) use ($search) {
                             return $query->where('name', 'LIKE', "%$search%")
-                            ->orWhere('description', 'LIKE', "%$search%");
+                                        ->orWhere('description', 'LIKE', "%$search%")
+                                        ->whereNull('category_father');
                         })
-                        ->orderBy('created_at')
-                        ->paginate(7);
+                        ->orderBy('name')
+                        ->with('childs');
 
-        return view('livewire.admin.categories.upsert', compact('categories', 'emptyData'));
+        return view('livewire.admin.categories.upsert', [
+            'categories' => $categories->paginate(7),
+            'emptyData'  => Category::count() === 0
+        ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTenantRequest;
+use App\Jobs\CreateTenantFromAdminForm;
 use App\Models\Operator;
 use App\Models\Plan;
 use App\Models\Sector;
@@ -34,7 +35,7 @@ class TenantController extends Controller
      */
     public function store(CreateTenantRequest $request)
     {
-        TenantService::createFromAdminForm($request);
+        CreateTenantFromAdminForm::dispatch($request->all());
         return to_route('superadmin.tenants.index')->with('tenant_created', true);
     }
 

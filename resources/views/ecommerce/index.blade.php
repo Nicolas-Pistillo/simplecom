@@ -3,11 +3,16 @@
 @section('head')
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <style>
+        .flickity-page-dots {
+            bottom: -35px;
+        }
+    </style>
 @endsection
 
 @section('content')
     <!-- Slider (Images size recommended: 1920x800) -->
-    <div class="mb-16 pb-2" style="height: 420px" 
+    <div class="mb-16 shadow-md" style="height: 420px" 
     data-flickity='{ "wrapAround": true, "prevNextButtons": false, "autoPlay": 5000 }'>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
@@ -30,58 +35,6 @@
                 src="https://http2.mlstatic.com/D_NQ_938619-MLA75215011957_032024-OO.webp">
         </div>
     </div>
-    {{-- <div id="default-carousel" class="relative w-full shadow-md mb-16" data-carousel="slider">
-        <!-- Carousel wrapper -->
-        <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-            <!-- Item 1 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                    alt="..." src="https://http2.mlstatic.com/D_NQ_NP_720855-MLA72575105702_112023-OO.webp">
-            </div>
-            <!-- Item 2 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img class="absolute block w-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                    src="https://www.munishop.com.ar/webfiles/marketplace/slider/65/2_1920x800.jpg" alt="...">
-            </div>
-            <!-- Item 3 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img class="absolute block w-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                    src="https://www.munishop.com.ar/webfiles/marketplace/slider/65/2_1920x800.jpg" alt="...">
-            </div>
-            <!-- Item 4 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img class="absolute block w-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                    src="https://www.munishop.com.ar/webfiles/marketplace/slider/65/2_1920x800.jpg" alt="...">
-            </div>
-        </div>
-        <!-- Slider controls -->
-        <button style="z-index: 6" type="button"
-            class="absolute top-0 left-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-            data-carousel-prev>
-            <span
-                class="inline-flex items-center justify-center w-10 h-10 transition-colors duration-300 rounded-full bg-gray-400 group-hover:bg-gray-500 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
-                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 6 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5 1 1 5l4 4" />
-                </svg>
-                <span class="sr-only">Previous</span>
-            </span>
-        </button>
-        <button style="z-index: 6" type="button"
-            class="absolute top-0 right-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-            data-carousel-next>
-            <span
-                class="inline-flex items-center justify-center w-10 h-10 transition-colors duration-300 rounded-full bg-gray-400 group-hover:bg-gray-500 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
-                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 6 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 9 4-4-4-4" />
-                </svg>
-                <span class="sr-only">Next</span>
-            </span>
-        </button>
-    </div> --}}
 
     <!-- Categories overview -->
     <div class="bg-gray-50">

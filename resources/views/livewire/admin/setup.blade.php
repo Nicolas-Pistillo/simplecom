@@ -64,11 +64,14 @@
                                     <img src="{{ $ecommerceLogoPreview ?: URL::to('img/no-image.png') }}"
                                         class="h-40 mb-6 mx-auto object-contain" style="max-width: 200px">
 
-                                    <x-button file onlyImages type="secondary" wireModel="ecommerceLogo" name="ecommerce_logo"
+                                    <x-button wire:loading.remove wire:target='ecommerceLogo' file onlyImages type="secondary" wireModel="ecommerceLogo" name="ecommerce_logo"
                                         class="flex items-center justify-center">
                                         Subir logo <x-icon code="upload" class="ml-2" />
                                     </x-button>
-                                    <small class="font-extralight text-xs">Medidas recomendadas: 512 x 512</small>
+                                    <div wire:loading wire:target='ecommerceLogo' class="w-full mx-auto">
+                                        <x-spinner />
+                                    </div>
+                                    <small class="font-extralight text-xs">Medidas recomendadas: 400 x 100</small>
                                     @error('ecommerceLogo')
                                         <br>
                                         <small class="font-extralight text-red-500 text-xs"> {{ $message }} </small>
@@ -82,185 +85,16 @@
                                         </legend>
                                         <div x-data="{selected: $wire.ecommerceColor}" class="mt-2 grid grid-cols-5 gap-2">
 
-                                            <label @click="selected = 'pink'" :class="selected === 'pink' ? 'ring ring-offset-1 ring-pink-500' : ''"
-                                            class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="pink" class="sr-only"
-                                                    aria-labelledby="color-choice-0-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-0-label" class="sr-only">Pink</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-pink-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'red'" :class="selected === 'red' ? 'ring ring-offset-1 ring-red-500' : ''"
+                                            @foreach ($availableColors as $color)
+                                                <label @click="selected = '{{ $color }}'" :class="selected === '{{ $color }}' ? 'ring ring-offset-1 ring-{{ $color }}-300' : ''"
                                                 class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="red" class="sr-only"
-                                                    aria-labelledby="color-choice-0-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-0-label" class="sr-only">Red</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-red-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'indigo'" :class="selected === 'indigo' ? 'ring ring-offset-1 ring-indigo-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="indigo" class="sr-only"
-                                                    aria-labelledby="color-choice-0-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-0-label" class="sr-only">Indigo</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-indigo-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-                                            
-                                            <label @click="selected = 'purple'" :class="selected === 'purple' ? 'ring ring-offset-1 ring-purple-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="purple" class="sr-only"
-                                                    aria-labelledby="color-choice-1-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-1-label" class="sr-only">Purple</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-purple-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'sky'" :class="selected === 'sky' ? 'ring ring-offset-1 ring-sky-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="sky" class="sr-only"
-                                                    aria-labelledby="color-choice-1-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-1-label" class="sr-only">Sky</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-sky-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'slate'" :class="selected === 'slate' ? 'ring ring-offset-1 ring-slate-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="slate" class="sr-only"
-                                                    aria-labelledby="color-choice-1-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-1-label" class="sr-only">Slate</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-slate-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'cyan'" :class="selected === 'cyan' ? 'ring ring-offset-1 ring-cyan-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="cyan" class="sr-only"
-                                                    aria-labelledby="color-choice-1-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-1-label" class="sr-only">Cyan</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-cyan-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'orange'" :class="selected === 'orange' ? 'ring ring-offset-1 ring-orange-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="orange" class="sr-only"
-                                                    aria-labelledby="color-choice-1-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-1-label" class="sr-only">Orange</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-orange-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'emerald'" :class="selected === 'emerald' ? 'ring ring-offset-1 ring-emerald-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="emerald" class="sr-only"
-                                                    aria-labelledby="color-choice-1-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-1-label" class="sr-only">Emerald</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-emerald-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'zinc'" :class="selected === 'zinc' ? 'ring ring-offset-1 ring-zinc-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="zinc" class="sr-only"
-                                                    aria-labelledby="color-choice-1-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-1-label" class="sr-only">Zinc</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-zinc-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'lime'" :class="selected === 'lime' ? 'ring ring-offset-1 ring-lime-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="lime" class="sr-only"
-                                                    aria-labelledby="color-choice-1-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-1-label" class="sr-only">Lime</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-lime-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-                                            
-                                            <label @click="selected = 'blue'" :class="selected === 'blue' ? 'ring ring-offset-1 ring-blue-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="blue" class="sr-only"
-                                                    aria-labelledby="color-choice-2-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-2-label" class="sr-only">Blue</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-blue-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-                                            
-                                            <label @click="selected = 'green'" :class="selected === 'green' ? 'ring ring-offset-1 ring-green-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="green" class="sr-only"
-                                                    aria-labelledby="color-choice-3-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-3-label" class="sr-only">Green</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-green-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-                                            
-                                            <label @click="selected = 'rose'" :class="selected === 'rose' ? 'ring ring-offset-1 ring-rose-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="rose" class="sr-only"
-                                                    aria-labelledby="color-choice-0-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-0-label" class="sr-only">Rose</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-rose-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'yellow'" :class="selected === 'yellow' ? 'ring ring-offset-1 ring-yellow-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="yellow" class="sr-only"
-                                                    aria-labelledby="color-choice-4-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-4-label" class="sr-only">Yellow</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-yellow-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'violet'" :class="selected === 'violet' ? 'ring ring-offset-1 ring-violet-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="violet" class="sr-only"
-                                                    aria-labelledby="color-choice-4-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-4-label" class="sr-only">Violet</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-violet-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'amber'" :class="selected === 'amber' ? 'ring ring-offset-1 ring-amber-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="amber" class="sr-only"
-                                                    aria-labelledby="color-choice-4-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-4-label" class="sr-only">Amber</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-amber-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'teal'" :class="selected === 'teal' ? 'ring ring-offset-1 ring-teal-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="teal" class="sr-only"
-                                                    aria-labelledby="color-choice-4-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-4-label" class="sr-only">Teal</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-teal-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'stone'" :class="selected === 'stone' ? 'ring ring-offset-1 ring-stone-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="stone" class="sr-only"
-                                                    aria-labelledby="color-choice-4-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-4-label" class="sr-only">stone</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-stone-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
-
-                                            <label @click="selected = 'fuchsia'" :class="selected === 'fuchsia' ? 'ring ring-offset-1 ring-fuchsia-500' : ''"
-                                                class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" value="fuchsia" class="sr-only"
-                                                    aria-labelledby="color-choice-4-label" wire:model.live='ecommerceColor'>
-                                                <span id="color-choice-4-label" class="sr-only">Fuchsia</span>
-                                                <span aria-hidden="true"
-                                                    class="h-8 w-8 bg-fuchsia-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label>
+                                                    <input type="radio" name="ecommerceColor" 
+                                                    wire:model.live='ecommerceColor' value="{{ $color }}" class="sr-only">
+                                                    <span class="sr-only"> {{ $color }} </span>
+                                                    <span aria-hidden="true"
+                                                        class="h-8 w-8 bg-{{ $color }}-500 rounded-full border border-black border-opacity-10"></span>
+                                                </label>
+                                            @endforeach
                                         </div>
                                     </fieldset>
                                     @error('ecommerceColor')

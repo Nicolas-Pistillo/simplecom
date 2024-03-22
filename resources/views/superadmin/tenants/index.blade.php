@@ -61,18 +61,18 @@
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0">
 
-                                                    <img class="{{ $tenant->logo_url ? 'h-11 w-18 object-contain' : 'h-11 w-11 rounded-full' }}"
-                                                        src="{{ $tenant->logo_url ? Storage::url($tenant->logo_url) : "https://ui-avatars.com/api/?color=fff&background=2563eb&name=$tenant->ecommerce_name" }}"
-                                                        alt="Logo del comercio">
+                                                    <img class="{{ $tenant->logo_url ? 'h-11 w-28 object-contain' : 'h-11 w-11 rounded-full' }}"
+                                                    src="{{ $tenant->logo_url ? Storage::url($tenant->logo_url) : "https://ui-avatars.com/api/?color=fff&background=2563eb&name=$tenant->ecommerce_name" }}"
+                                                    alt="Logo del comercio">
 
                                                 </div>
                                                 <div class="ml-4">
                                                     <h4 class="font-medium text-gray-900"> {{ $tenant->ecommerce_name }}</h4>
                                                     <div class="mt-1 text-gray-500 flex items-center">
-                                                        <a href="http://{{ $tenant->domains->first()?->domain }}"
+                                                        <a href="http://{{ $tenant->domain() }}"
                                                             title="Ir a su ecommerce" target="_blank"
                                                             class="text-blue-600 hover:underline flex items-center">
-                                                            {{ $tenant->domains->first()?->domain }}
+                                                            {{ $tenant->domain() }}
                                                         </a>
                                                         <x-icon code="open_in_new" class="ml-1 text-blue-600 text-sm" />
                                                     </div>
@@ -101,8 +101,8 @@
                                             <div x-data="{ open: false }" class="relative inline-block">
 
                                                 <x-icon code="more_vert" @click="open = !open"
-                                                    class="text-gray-500 cursor-pointer transition duration-300
-                          rounded-full p-1 hover:bg-gray-100 hover:shadow-md" />
+                                                class="text-gray-500 cursor-pointer transition duration-300
+                                                rounded-full p-1 hover:bg-gray-100 hover:shadow-md" />
 
                                                 <!-- Tenant actions dropdown -->
                                                 <div x-cloak x-show="open" @click.away="open = false"

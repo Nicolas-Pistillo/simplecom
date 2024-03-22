@@ -32,6 +32,6 @@ class Category extends Model
 
     public function scopePrincipal(Builder $query): void
     {
-        $query->whereNull('category_father');        
+        $query->whereNull('category_father');
     }
 }

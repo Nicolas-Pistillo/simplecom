@@ -20,6 +20,12 @@ class Setup extends Component
 
     public $configurationModels;
 
+    public $availableColors = [
+        'pink', 'red', 'indigo', 'purple', 'sky', 'cyan', 'orange',
+        'emerald', 'lime', 'blue', 'green', 'rose', 'yellow',
+        'violet', 'amber', 'teal', 'fuchsia'
+    ];
+
     protected $validationAttributes = [
         'fisical_address'     => 'dirección fisica',
         'attention_schedule'  => 'horarios de atención',
