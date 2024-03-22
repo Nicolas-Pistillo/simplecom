@@ -5,12 +5,11 @@ declare(strict_types=1);
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
+use App\Http\Controllers\Tenant\OperatorController;
 use App\Http\Controllers\Tenant\ProductsController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
-
-// Check later -> Route::get('/asset' , [TenantAssetsController::class, 'asset'])->name('stancl.tenancy.asset');
 
 Route::middleware([
     'web',
@@ -51,6 +50,8 @@ Route::middleware([
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
                 Route::view('categories', 'admin.categories.index')->name('admin.categories.index');
+
+                Route::view('operators', 'admin.operators.index')->name('admin.operators.index');
 
                 // Admin resource routes
                 Route::name('admin.')->group(function() {

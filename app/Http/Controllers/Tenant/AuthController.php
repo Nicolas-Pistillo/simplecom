@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -13,6 +14,12 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
+        ]);
+
+        Log::channel('access')->info('Intento de ingreso como operador', [
+            'tenant' => tenant('name'),
+            'ip'     => $request->ip(),
+            'credenciales' => $credentials
         ]);
 
         if(Auth::guard('operator')->attempt($credentials))

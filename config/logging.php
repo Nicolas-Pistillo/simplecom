@@ -130,6 +130,11 @@ return [
             'driver' => 'single',
             'path'   => storage_path('logs/resources.log'),
             'level'  => 'debug'
+        ],
+        'access' => [
+            'driver' => 'single',
+            'path'   => storage_path('logs/access.log'),
+            'level'  => 'debug'
         ]
     ],
 
