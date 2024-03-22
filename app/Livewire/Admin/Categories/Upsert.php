@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Categories;
 
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -110,8 +111,12 @@ class Upsert extends Component
             'coverImage'  => 'nullable|image|max:1024'
         ]);
 
+        $logTitle = "Nueva categoría";
+
         if ($this->category) 
         {
+            $logTitle = "Categoría actualizada";
+
             $this->category->update([
                 'name'            => $this->name,
                 'description'     => $this->description,
@@ -149,6 +154,11 @@ class Upsert extends Component
             $category->update(['image_url' => $imagePath]);
         }
 
+        Log::channel('resources')->info($logTitle, [
+            'tenant'   => tenant('name'),
+            'category' => $category
+        ]);
+
         $this->resetExcept('notificationMessage', 'search');
         $this->dispatch('close-drawer');
 
@@ -170,13 +180,16 @@ class Upsert extends Component
 
     public function deleteCategory()
     {
-        $nameReference = $this->category->name;
-
         $this->category->delete();
         $this->dispatch('close-cancel-dialog');
 
-        $this->notificationMessage = "Eliminaste la categoría $nameReference";
+        $this->notificationMessage = "Eliminaste la categoría {$this->category->name}";
         $this->dispatch('open-notification');
+
+        Log::channel('resources')->info("Categoría eliminada", [
+            'tenant' => tenant('name'),
+            'category' => $this->category
+        ]);
     }
 
     public function render()
