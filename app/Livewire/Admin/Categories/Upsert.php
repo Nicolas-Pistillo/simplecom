@@ -169,7 +169,7 @@ class Upsert extends Component
     public function cancelForm()
     {
         $this->dispatch('close-drawer');
-        $this->resetExcept('notificationMessage', 'search'); 
+        $this->resetExcept('notificationMessage', 'search');
     }
 
     public function openDeleteCategory(Category $category)

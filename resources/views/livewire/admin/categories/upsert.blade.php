@@ -1,6 +1,7 @@
 <div>
 
-    <div x-data="{ categoriesDrawerOpen: false, deleteDialogOpen: false, showNotification: false }" x-on:close-drawer.window="categoriesDrawerOpen = false"
+    <div x-data="{ categoriesDrawerOpen: false, deleteDialogOpen: false, showNotification: false }" 
+        x-on:close-drawer.window="categoriesDrawerOpen = false"
         x-on:open-drawer.window="categoriesDrawerOpen = true" x-on:close-cancel-dialog.window="deleteDialogOpen = false"
         x-on:open-cancel-dialog.window="deleteDialogOpen = true" x-on:open-notification.window="showNotification = true">
 
@@ -8,9 +9,9 @@
 
             <div class="sm:flex sm:items-center mb-8">
                 <div class="sm:flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Categorias</h1>
+                    <h1 class="text-base font-semibold leading-6 text-gray-900">Categorías</h1>
                     <p class="mt-2 text-sm text-gray-700">
-                        Organizá tus categorías lo mas ordenadamente posible. Podes crear hasta un maximo de 3 niveles
+                        Organizá tus categorías lo más ordenadamente posible. Podés crear hasta un máximo de 3 niveles
                         de categorización.
                     </p>
                 </div>

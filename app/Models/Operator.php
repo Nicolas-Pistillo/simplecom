@@ -27,6 +27,6 @@ class Operator extends Authenticatable
 
     public function getRoleAttribute()
     {
-        return $this->roles->first()->name;
+        return $this->roles?->first()?->name;
     }
 }

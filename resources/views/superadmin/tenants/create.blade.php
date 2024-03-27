@@ -43,7 +43,7 @@
                                     @endforeach
                                 </select>
                                 @error('sector_id')
-                                    <small class="text-xs text-red-500">{{ $errors->first('sector_id') }}</small>
+                                    <small class="text-xs text-red-500">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                     @endforeach
                                 </select>
                                 @error('plan_id')
-                                    <small class="text-xs text-red-500">{{ $errors->first('plan_id') }}</small>
+                                    <small class="text-xs text-red-500">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
