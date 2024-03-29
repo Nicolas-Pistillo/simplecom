@@ -7,7 +7,7 @@
                 <x-navbar-item route="admin.dashboard.index" icon="home" title="Inicio" />
 
                 @can('Editar operadores')
-                    <x-navbar-item route="admin.operators.index" icon="group" title="Operadores" />
+                    <x-navbar-item route="admin.operators.index" icon="contacts" title="Operadores" />
                 @endcan
                 
             </ul>

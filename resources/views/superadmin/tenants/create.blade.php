@@ -72,7 +72,7 @@
                             code="help" class="ml-1 text-blue-600" style="font-size: 20px" />
                             <x-tooltip id="admin-account-help">
                                 Será el encargado de iniciar sesión por primera vez como administrador del comercio, <br> 
-                                también controlara los roles e información de los demás tipos de administradores
+                                también controlara los roles y accesos de los demás tipos de administradores
                             </x-tooltip>
                         </h4>
 

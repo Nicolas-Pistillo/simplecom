@@ -13,7 +13,7 @@
                 </p>
             </div>
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                <x-button wire:click='openNewOperator' @click="operatorsDrawerOpen = true" class="flex items-center">
+                <x-button wire:click='openNewOperator' class="flex items-center">
                     <x-icon code="add" class="mr-1" />
                     Nuevo operador
                 </x-button>
@@ -39,7 +39,9 @@
             <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 2xl:grid-cols-3 py-6">
                 
                 @foreach ($operators as $operator)
-                    <li wire:key='{{ $operator->id }}' class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
+                    <li wire:key='{{ $operator->id }}' 
+                        class="col-span-1 transition duration-300 divide-y divide-gray-200 rounded-lg 
+                        bg-white shadow hover:shadow-lg">
                         <div class="flex w-full items-center justify-between space-x-6 p-6">
                             <div class="flex-1 truncate">
                                 <div class="flex items-start space-x-3 mb-1">
@@ -48,7 +50,9 @@
                                     </h3>
                                     <x-badge color="green"> {{ $operator->role ?? 'Sin rol' }} </x-badge>
                                 </div>
-                                <p class="mt-1 truncate text-sm text-gray-500">{{ $operator->email }}</p>
+                                <p class="mt-1 truncate text-sm text-gray-500">
+                                    {{ $operator->area ?? $operator->email }}
+                                </p>
                             </div>
                             <img class="h-10 w-10 flex-shrink-0 rounded-full" 
                             src="https://ui-avatars.com/api/?name={{ $operator->name }}&background=2563eb&color=fff" alt="avatar operador">
@@ -56,10 +60,11 @@
                         <div>
                             <div class="-mt-px flex divide-x">
                                 <div class="flex w-0 rounded-bl-lg flex-1 border-t transition-colors duration-200 hover:bg-gray-50">
-                                    <a href="mailto:janecooper@example.com" class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
-                                        <x-icon code="email" class="text-gray-400" style="font-size: 20px" />
-                                        Email
-                                    </a>
+                                    <button wire:click='openEditOperator({{ $operator }})'
+                                    class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
+                                        <x-icon code="edit" class="text-gray-400" style="font-size: 20px" />
+                                        Editar
+                                    </button>
                                 </div>
                                 <div class="-ml-px border-t rounded-br-lg flex w-0 flex-1 transition-colors duration-200 hover:bg-gray-50">
                                     <a href="tel:+1-202-555-0170" class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">

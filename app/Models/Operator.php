@@ -18,7 +18,8 @@ class Operator extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password'
+        'password',
+        'area'
     ];
 
     protected $hidden = [

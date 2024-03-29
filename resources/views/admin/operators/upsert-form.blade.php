@@ -48,14 +48,14 @@
 
                     <div class="mb-6">
                         <label class="block text-sm font-semibold leading-6 text-gray-500">
-                            Rol del operador
+                            Rol
                         </label>
                         <div class="mt-2">
                             <select wire:model.live='role' name="role" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
                                 <option>Seleccionar un rol</option>
                                 @foreach ($roles as $roleItem)
                                     <option @if($role == $roleItem->id) selected @endif 
-                                    value="{{ $roleItem->id }}">{{ $roleItem->name }}</option>
+                                    value="{{ $roleItem->name }}">{{ $roleItem->name }}</option>
                                 @endforeach
                             </select>
                             @error('role')
@@ -64,38 +64,54 @@
                         </div>
                     </div>
 
-                    <h4 class="text-sm text-gray-500 text-center font-semibold mt-3 pb-2">Acceso al panel</h4>
-                    <hr class="mb-3">
-
                     <div class="mb-6">
                         <label class="block text-sm font-semibold leading-6 text-gray-500">
-                            Contraseña
+                            Area (opcional)
                         </label>
                         <div class="mt-2">
-                          <input type="password" @paste.prevent wire:model='password' name="password" autocomplete="off" class="block w-full 
+                          <input type="text" wire:model='area' name="area" autocomplete="off" class="block w-full 
                           rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
                           placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
                           sm:text-sm sm:leading-6">
                         </div>
-                        @error('password')
+                        @error('area')
                             <small class="text-red-500"> {{ $message }} </small>
+                        @else  
+                            <small class="text-gray-500">Por ejemplo: Marketing, Soporte, Diseño etc.</small>
                         @enderror
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-semibold leading-6 text-gray-500">
-                            Repetir contraseña
-                        </label>
-                        <div class="mt-2">
-                          <input type="password" @paste.prevent wire:model='repeatPassword' name="repeatPassword" autocomplete="off" class="block w-full 
-                          rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
-                          placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
-                          sm:text-sm sm:leading-6">
+                    @if (!$this->operator)
+                        <h4 class="text-sm text-gray-500 text-center font-semibold mt-3 pb-2">Acceso al panel</h4>
+                        <hr class="mb-3">
+
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold leading-6 text-gray-500">
+                                Contraseña
+                            </label>
+                            <div class="mt-2">
+                            <input type="password" @paste.prevent wire:model='password' name="password" autocomplete="off" class="block w-full 
+                            rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
+                            placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
+                            sm:text-sm sm:leading-6">
+                            </div>
+                            @error('password')
+                                <small class="text-red-500"> {{ $message }} </small>
+                            @enderror
                         </div>
-                        @error('repeatPassword')
-                            <small class="text-red-500"> {{ $message }} </small>
-                        @enderror
-                    </div>
+
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold leading-6 text-gray-500">
+                                Confirmar contraseña
+                            </label>
+                            <div class="mt-2">
+                            <input type="password" @paste.prevent wire:model='password_confirmation' name="password_confirmation" autocomplete="off" class="block w-full 
+                            rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
+                            placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
+                            sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                    @endif
 
                 </div>
     
