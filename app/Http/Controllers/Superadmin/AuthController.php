@@ -16,7 +16,7 @@ class AuthController extends Controller
             'password' => ['required']
         ]);
 
-        Log::channel('access')->info('Intento de ingreso en superadmin', [
+        Log::channel('access')->info('Intento de ingreso como superadmin', [
             'ip'           => $request->ip(),
             'credenciales' => $credentials
         ]);

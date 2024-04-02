@@ -35,13 +35,13 @@ Route::middleware([
 
             Route::view('/', 'admin.login')->name('admin.login-view');
 
-            Route::post('login', [AuthController::class, 'loginAdmin'])->name('admin.login');
+            Route::post('login', [AuthController::class, 'login'])->name('admin.login');
 
         });
 
         Route::middleware('auth:operator')->group(function() {
 
-            Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('admin.logout');
+            Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
             Route::view('setup', 'admin.setup')->middleware('tenant_unsetuped')->name('admin.setup');
 

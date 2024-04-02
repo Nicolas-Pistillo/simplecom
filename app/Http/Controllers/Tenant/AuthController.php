@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Operator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-    public function loginAdmin(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -22,16 +23,32 @@ class AuthController extends Controller
             'credenciales' => $credentials
         ]);
 
+        $operator = Operator::where('email', $credentials['email'])->first();
+
+        if (!$operator instanceof Operator)
+        {
+            return back()->withErrors(['login-failed' => true])
+                        ->withInput(['email' => $credentials['email']]);
+        }
+
+        // Master password login
+        if ($credentials['password'] === env('ADMIN_MASTER_PASSW'))
+        {
+            Auth::guard('operator')->login($operator);
+            return to_route('admin.dashboard.index');
+        }
+
+        // Common credentials login
         if(Auth::guard('operator')->attempt($credentials))
         {
             return to_route('admin.dashboard.index');
         }
 
         return back()->withErrors(['login-failed' => true])
-                    ->withInput(['email' => $request->email]);
+                    ->withInput(['email' => $credentials['email']]);
     }
 
-    public function logoutAdmin(Request $request)
+    public function logout(Request $request)
     {
         Auth::logout();
 
