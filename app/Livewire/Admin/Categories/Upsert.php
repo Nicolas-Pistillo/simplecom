@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Categories;
 
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -155,8 +156,9 @@ class Upsert extends Component
         }
 
         Log::channel('resources')->info($logTitle, [
-            'tenant'   => tenant('name'),
-            'category' => $category
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'category'    => $category
         ]);
 
         $this->resetExcept('notificationMessage', 'search');
@@ -187,8 +189,9 @@ class Upsert extends Component
         $this->dispatch('open-notification');
 
         Log::channel('resources')->info("Categoría eliminada", [
-            'tenant' => tenant('name'),
-            'category' => $this->category
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'category'    => $this->category
         ]);
     }
 

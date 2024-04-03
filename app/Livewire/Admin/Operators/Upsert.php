@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Operators;
 use App\Models\Operator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
@@ -64,30 +65,69 @@ class Upsert extends Component
 
     public function save()
     {
+        $this->validate([
+            'name'      => 'required|string|max:30',
+            'role'      => 'required|exists:roles,name',
+            'area'      => 'nullable|string|max:35'
+        ]);
+
         // Nuevo operador
         if (!$this->operator)
         {
             $this->validate([
-                'name'      => 'required|string|max:30',
                 'email'     => 'required|email|unique:operators,email',
-                'password'  => 'required|min:7|confirmed',
-                'role'      => 'required|exists:roles,name',
-                'area'      => 'nullable|string|max:35'
+                'password'  => 'required|min:7|confirmed'
             ]);
 
-            Operator::create([
-                'name' => $this->name,
-                'email' => $this->email,
+            $operator = Operator::create([
+                'name'     => $this->name,
+                'email'    => $this->email,
                 'password' => Hash::make($this->password),
-                'area'  => !empty($this->area) ? $this->area : null
+                'area'     => !empty($this->area) ? $this->area : null
             ])->assignRole($this->role);
     
+            Log::channel('resources')->info('Nuevo operador', [
+                'tenant'        => tenant('name'),
+                'operator_id'   => Auth::id(),
+                'operator_resource' => $operator
+            ]);
+
             $this->resetDrawer();
+
+            $this->notificationMessage = "Nuevo operador creado";
+            $this->dispatch('open-notification');
+
             return $this->dispatch('close-drawer');
         }
 
+        if ($this->email != $this->operator->email)
+        {
+            $this->validate(['email'  => 'required|email|unique:operators,email']);
+        }
+
         // Editando operador
-        
+        $this->operator->update([
+            'name'  => $this->name,
+            'email' => $this->email,
+            'area'  => !empty($this->area) ? $this->area : null
+        ]);
+
+        if ($this->role != $this->operator->role)
+        {
+            $this->operator->syncRoles($this->role);
+        }
+
+        Log::channel('resources')->info('Operador actualizado', [
+            'tenant'        => tenant('name'),
+            'operator_id'   => Auth::id(),
+            'operator_resource' => $this->operator
+        ]);
+
+        $this->resetDrawer();
+
+        $this->notificationMessage = "Operador actualizado con éxito";
+        $this->dispatch('open-notification');
+        $this->dispatch('close-drawer');
     }
 
     public function render()

@@ -2,6 +2,7 @@
     <div x-data="{operatorsDrawerOpen: false, showNotification: false}" 
     x-on:close-drawer.window="operatorsDrawerOpen = false"
     x-on:open-drawer.window="operatorsDrawerOpen = true"
+    x-on:open-notification.window="showNotification = true"
     class="px-4 sm:px-6 lg:px-8">
 
         <div class="sm:flex sm:items-center mb-8">
