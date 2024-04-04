@@ -49,14 +49,16 @@ Route::middleware([
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
-                Route::view('categories', 'admin.categories.index')->name('admin.categories.index');
+                Route::view('categories', 'admin.categories.index')->name('admin.categories.index')
+                    ->middleware('can:Editar categorias');
 
-                Route::view('operators', 'admin.operators.index')->name('admin.operators.index');
+                Route::view('operators', 'admin.operators.index')->name('admin.operators.index')
+                    ->middleware('can:Editar operadores');
 
                 // Admin resource routes
                 Route::name('admin.')->group(function() {
 
-                    Route::resource('products', ProductsController::class);
+                    Route::resource('products', ProductsController::class)->middleware('can:Editar productos');
                     
                 });
 

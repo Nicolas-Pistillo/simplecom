@@ -17,6 +17,10 @@
             <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Catálogo</h5>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
+                @can('Editar productos')
+                    <x-navbar-item route="admin.products.index" icon="deployed_code" title="Productos" />
+                @endcan
+
                 @can('Editar categorias')
                     <x-navbar-item route="admin.categories.index" icon="format_list_bulleted" title="Categorías" />
                 @endcan
