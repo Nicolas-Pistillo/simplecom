@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div x-data="" class="px-4 sm:px-6 lg:px-8">
+    <div class="px-4 sm:px-6 lg:px-8">
         <div class="sm:flex sm:items-center mb-8">
             <div class="sm:flex-auto">
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Productos</h1>
@@ -14,20 +14,15 @@
                 </p>
             </div>
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                <x-button href="{{ route('admin.products.create') }}" class="flex items-center">
+                <x-button href="{{ route('admin.products.create') }}" class="inline-flex items-center">
                     <x-icon code="add" class="mr-1" />
                     Nuevo producto
                 </x-button>
             </div>
         </div>
 
-        <ul role="list" class="divide-y divide-gray-100">
+        @livewire('admin.products.index')
 
-            @for ($i = 0; $i < 4; $i++)
-                @include('admin.products.product-item')
-            @endfor
-
-        </ul>
     </div>
 
 @endsection
