@@ -1,10 +1,12 @@
 @php
+    $roundedClass = isset($rounded) ? 'rounded-full' : 'rounded-md';
+
     $sizes = [
-        'tiny'      => 'px-2 py-1 text-xs rounded transition-colors duration-300',
-        'small'     => 'px-2 py-1 text-sm rounded transition-colors duration-300',
-        'normal'    => 'px-2.5 py-1.5 text-sm rounded-md transition-colors duration-300',
-        'large'     => 'px-3 py-2 text-sm rounded-md transition-colors duration-300',
-        'big'       => 'px-3.5 py-2.5 rounded-md transition-colors duration-300'
+        'tiny'      => "px-2 py-1 text-xs $roundedClass transition-colors duration-300",
+        'small'     => "px-2 py-1 text-sm $roundedClass transition-colors duration-300",
+        'normal'    => "px-2.5 py-1.5 text-sm $roundedClass transition-colors duration-300",
+        'large'     => "px-3 py-2 text-sm $roundedClass transition-colors duration-300",
+        'big'       => "px-3.5 py-2.5 $roundedClass transition-colors duration-300"
     ];
 
     $btnSize = isset($size) ? $sizes[$size] : $sizes['normal'];

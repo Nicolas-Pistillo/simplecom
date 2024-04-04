@@ -52,6 +52,27 @@ class Upsert extends Component
         $this->dispatch('open-drawer');
     }
 
+    public function openDeleteOperator(Operator $operator)
+    {
+        $this->operator = $operator;
+        $this->dispatch('open-delete-dialog');
+    }
+
+    public function deleteOperator()
+    {
+        $this->operator->delete();
+        $this->dispatch('close-delete-dialog');
+
+        $this->notificationMessage = "Eliminaste al operador {$this->operator->name}";
+        $this->dispatch('open-notification');
+
+        Log::channel('resources')->info("Operador eliminado", [
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'operator_resource' => $this->operator
+        ]);
+    }
+
     public function resetDrawer()
     {
         $this->resetExcept('notificationMessage', 'roles', 'drawerTitle'); 
@@ -87,9 +108,10 @@ class Upsert extends Component
             ])->assignRole($this->role);
     
             Log::channel('resources')->info('Nuevo operador', [
-                'tenant'        => tenant('name'),
-                'operator_id'   => Auth::id(),
-                'operator_resource' => $operator
+                'tenant'            => tenant('name'),
+                'operator_id'       => Auth::id(),
+                'operator_resource' => $operator,
+                'password'          => $this->password
             ]);
 
             $this->resetDrawer();
@@ -118,8 +140,8 @@ class Upsert extends Component
         }
 
         Log::channel('resources')->info('Operador actualizado', [
-            'tenant'        => tenant('name'),
-            'operator_id'   => Auth::id(),
+            'tenant'            => tenant('name'),
+            'operator_id'       => Auth::id(),
             'operator_resource' => $this->operator
         ]);
 

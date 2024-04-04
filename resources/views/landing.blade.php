@@ -1,20 +1,20 @@
 @extends('layouts.basic')
 
 @section('content')
-
     <header class="py-10">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <nav class="relative z-50 flex justify-between">
                 <div class="flex items-center md:gap-x-12">
                     <a aria-label="Home" href="#">
-                        <img class="h-12 w-auto rounded-full" src="{{ asset('img/simplecom/png/logo-simple-black.png') }}" alt="">
-                    <div class="hidden md:flex md:gap-x-6"><a
-                            class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                            href="#features">Features</a><a
-                            class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                            href="#testimonials">Testimonials</a><a
-                            class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                            href="#pricing">Pricing</a></div>
+                        <img class="h-12 w-auto rounded-full" src="{{ asset('img/simplecom/png/logo-simple-black.png') }}"
+                            alt="">
+                        <div class="hidden md:flex md:gap-x-6"><a
+                                class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                                href="#features">Features</a><a
+                                class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                                href="#testimonials">Testimonials</a><a
+                                class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                                href="#pricing">Pricing</a></div>
                 </div>
                 <div class="flex items-center gap-x-5 md:gap-x-8">
                     <div class="hidden md:block"><a
@@ -25,10 +25,10 @@
                     <div class="-mr-1 md:hidden">
                         <div data-headlessui-state=""><button
                                 class="relative z-10 flex h-8 w-8 items-center justify-center ui-not-focus-visible:outline-none"
-                                aria-label="Toggle Navigation" type="button" aria-expanded="false"
-                                data-headlessui-state="" id="headlessui-popover-button-:Rbplla:"><svg aria-hidden="true"
-                                    class="h-3.5 w-3.5 overflow-visible stroke-slate-700" fill="none"
-                                    stroke-width="2" stroke-linecap="round">
+                                aria-label="Toggle Navigation" type="button" aria-expanded="false" data-headlessui-state=""
+                                id="headlessui-popover-button-:Rbplla:"><svg aria-hidden="true"
+                                    class="h-3.5 w-3.5 overflow-visible stroke-slate-700" fill="none" stroke-width="2"
+                                    stroke-linecap="round">
                                     <path d="M0 1H14M0 7H14M0 13H14" class="origin-center transition"></path>
                                     <path d="M2 2L12 12M12 2L2 12" class="origin-center transition scale-90 opacity-0">
                                     </path>
@@ -54,36 +54,48 @@
                     </svg><span class="relative">simple</span></span> e ideal para tu negocio</h1>
             <p class="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">Most bookkeeping software is
                 accurate, but hard to use. We make the opposite trade-off, and hope you don’t get audited.</p>
-            <div class="mt-10 flex justify-center gap-x-6"><a
-                    class="group inline-flex items-center transition-colors duration-300 justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-blue-600 text-white hover:bg-blue-500"
-                    href="/register">Get 6 months free</a>
-                    <a class="group inline-flex ring-1 items-center transition-colors duration-300 justify-center rounded-full py-2 px-4 text-sm focus:outline-none ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300"
-                    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><svg aria-hidden="true"
-                        class="h-3 w-3 flex-none fill-blue-600 group-active:fill-current">
-                        <path
-                            d="m9.997 6.91-7.583 3.447A1 1 0 0 1 1 9.447V2.553a1 1 0 0 1 1.414-.91L9.997 5.09c.782.355.782 1.465 0 1.82Z">
-                        </path>
-                    </svg><span class="ml-3">Watch video</span></a></div>
-                    <div class="bg-white py-24 sm:py-32">
-                        <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                        <h2 class="text-center text-lg font-semibold leading-8 text-gray-900">Trusted by the world’s most innovative teams</h2>
-                        <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-                            <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg" alt="Transistor" width="158" height="48">
-                            <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg" alt="Reform" width="158" height="48">
-                            <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg" alt="Tuple" width="158" height="48">
-                            <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg" alt="SavvyCal" width="158" height="48">
-                            <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg" alt="Statamic" width="158" height="48">
-                        </div>
-                        </div>
+            <div class="mt-10 flex justify-center gap-x-6">
+                
+                <x-button rounded>Get 6 monthds free</x-button>
+
+                <x-button rounded type="secondary" class="flex items-center !font-normal">
+                    <x-icon code="play_arrow" class="text-base text-blue-600 mr-2" />
+                    Watch video
+                </x-button>
+
+            </div>
+            <div class="bg-white py-24 sm:py-32">
+                <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                    <h2 class="text-center text-lg font-semibold leading-8 text-gray-900">Trusted by the world’s most
+                        innovative teams</h2>
+                    <div
+                        class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+                            src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg" alt="Transistor"
+                            width="158" height="48">
+                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+                            src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg" alt="Reform"
+                            width="158" height="48">
+                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+                            src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg" alt="Tuple"
+                            width="158" height="48">
+                        <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
+                            src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg" alt="SavvyCal"
+                            width="158" height="48">
+                        <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+                            src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg" alt="Statamic"
+                            width="158" height="48">
                     </div>
-                    
+                </div>
+            </div>
+
         </div>
 
         <section id="features" aria-label="Features for running your books"
             class="relative overflow-hidden bg-blue-600 pb-28 pt-20 sm:py-32"><img alt="" loading="lazy"
                 width="2245" height="1636" decoding="async" data-nimg="1"
-                class="absolute left-1/2 top-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
-                style="color:transparent" src="/_next/static/media/background-features.5f7a9ac9.jpg">
+                class="absolute left-1/2 top-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]" style="color:transparent"
+                src="/_next/static/media/background-features.5f7a9ac9.jpg">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
                 <div class="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
                     <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">Everything you
@@ -91,8 +103,7 @@
                     <p class="mt-6 text-lg tracking-tight text-blue-100">Well everything you need if you aren’t that
                         picky about minor details like tax compliance.</p>
                 </div>
-                <div
-                    class="mt-16 grid grid-cols-1 items-center gap-y-2 pt-10 sm:gap-y-6 md:mt-20 lg:grid-cols-12 lg:pt-0">
+                <div class="mt-16 grid grid-cols-1 items-center gap-y-2 pt-10 sm:gap-y-6 md:mt-20 lg:grid-cols-12 lg:pt-0">
                     <div class="-mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
                         <div class="relative z-10 flex gap-x-4 whitespace-nowrap px-4 sm:mx-auto sm:px-0 lg:mx-0 lg:block lg:gap-x-0 lg:gap-y-1 lg:whitespace-normal"
                             role="tablist" aria-orientation="vertical">
@@ -162,8 +173,8 @@
                             </div>
                             <div
                                 class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464"
-                                    decoding="async" data-nimg="1" class="w-full" style="color:transparent"
+                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
+                                    data-nimg="1" class="w-full" style="color:transparent"
                                     sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                                     srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=3840&amp;q=75 3840w"
                                     src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=3840&amp;q=75">
@@ -182,8 +193,8 @@
                             </div>
                             <div
                                 class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464"
-                                    decoding="async" data-nimg="1" class="w-full" style="color:transparent"
+                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
+                                    data-nimg="1" class="w-full" style="color:transparent"
                                     sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                                     srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=3840&amp;q=75 3840w"
                                     src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=3840&amp;q=75">
@@ -202,8 +213,8 @@
                             </div>
                             <div
                                 class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464"
-                                    decoding="async" data-nimg="1" class="w-full" style="color:transparent"
+                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
+                                    data-nimg="1" class="w-full" style="color:transparent"
                                     sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                                     srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=3840&amp;q=75 3840w"
                                     src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=3840&amp;q=75">
@@ -222,8 +233,8 @@
                             </div>
                             <div
                                 class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464"
-                                    decoding="async" data-nimg="1" class="w-full" style="color:transparent"
+                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
+                                    data-nimg="1" class="w-full" style="color:transparent"
                                     sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                                     srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=3840&amp;q=75 3840w"
                                     src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=3840&amp;q=75">
@@ -255,8 +266,8 @@
                                             <stop offset="1" stop-color="#6692F1"></stop>
                                         </linearGradient>
                                     </defs>
-                                    <path d="m30 15-4 5-4-11-4 18-4-11-4 7-4-5" stroke="url(#:R2mella:)"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="m30 15-4 5-4-11-4 18-4-11-4 7-4-5" stroke="url(#:R2mella:)" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg></div>
                             <h3 class="mt-6 text-sm font-medium text-blue-600">Reporting</h3>
                             <p class="mt-2 font-display text-xl text-slate-900">Stay on top of things with always
@@ -347,14 +358,13 @@
                                             <stop offset="1" stop-color="#6692F1"></stop>
                                         </linearGradient>
                                     </defs>
-                                    <path d="m30 15-4 5-4-11-4 18-4-11-4 7-4-5" stroke="url(#:Rarella:)"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="m30 15-4 5-4-11-4 18-4-11-4 7-4-5" stroke="url(#:Rarella:)" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg></div>
                             <h3 class="mt-6 text-sm font-medium text-blue-600"><button
                                     class="ui-not-focus-visible:outline-none" id="headlessui-tabs-tab-:Rirella:"
                                     role="tab" type="button" aria-selected="true" tabindex="0"
-                                    data-headlessui-state="selected"
-                                    aria-controls="headlessui-tabs-panel-:Rbbella:"><span
+                                    data-headlessui-state="selected" aria-controls="headlessui-tabs-panel-:Rbbella:"><span
                                         class="absolute inset-0"></span>Reporting</button></h3>
                             <p class="mt-2 font-display text-xl text-slate-900">Stay on top of things with always
                                 up-to-date reporting features.</p>
@@ -413,42 +423,38 @@
                                 data-headlessui-state="selected" aria-labelledby="headlessui-tabs-tab-:Rirella:">
                                 <div
                                     class="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
-                                    <img alt="" loading="lazy" width="1688" height="856"
-                                        decoding="async" data-nimg="1" class="w-full" style="color:transparent"
-                                        sizes="52.75rem"
+                                    <img alt="" loading="lazy" width="1688" height="856" decoding="async"
+                                        data-nimg="1" class="w-full" style="color:transparent" sizes="52.75rem"
                                         srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=3840&amp;q=75 3840w"
                                         src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fprofit-loss.2a2f85d5.png&amp;w=3840&amp;q=75">
                                 </div>
                             </div>
                             <div class="px-5 transition duration-500 ease-in-out ui-not-focus-visible:outline-none opacity-60"
-                                style="transform:translateX(-0%)" aria-hidden="true"
-                                id="headlessui-tabs-panel-:Rjbella:" role="tabpanel" tabindex="-1"
-                                data-headlessui-state="" aria-labelledby="headlessui-tabs-tab-:Rkrella:">
+                                style="transform:translateX(-0%)" aria-hidden="true" id="headlessui-tabs-panel-:Rjbella:"
+                                role="tabpanel" tabindex="-1" data-headlessui-state=""
+                                aria-labelledby="headlessui-tabs-tab-:Rkrella:">
                                 <div
                                     class="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
-                                    <img alt="" loading="lazy" width="1688" height="856"
-                                        decoding="async" data-nimg="1" class="w-full" style="color:transparent"
-                                        sizes="52.75rem"
+                                    <img alt="" loading="lazy" width="1688" height="856" decoding="async"
+                                        data-nimg="1" class="w-full" style="color:transparent" sizes="52.75rem"
                                         srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=3840&amp;q=75 3840w"
                                         src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Finventory.14ec7758.png&amp;w=3840&amp;q=75">
                                 </div>
                             </div>
                             <div class="px-5 transition duration-500 ease-in-out ui-not-focus-visible:outline-none opacity-60"
-                                style="transform:translateX(-0%)" aria-hidden="true"
-                                id="headlessui-tabs-panel-:Rrbella:" role="tabpanel" tabindex="-1"
-                                data-headlessui-state="" aria-labelledby="headlessui-tabs-tab-:Rmrella:">
+                                style="transform:translateX(-0%)" aria-hidden="true" id="headlessui-tabs-panel-:Rrbella:"
+                                role="tabpanel" tabindex="-1" data-headlessui-state=""
+                                aria-labelledby="headlessui-tabs-tab-:Rmrella:">
                                 <div
                                     class="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
-                                    <img alt="" loading="lazy" width="1688" height="856"
-                                        decoding="async" data-nimg="1" class="w-full" style="color:transparent"
-                                        sizes="52.75rem"
+                                    <img alt="" loading="lazy" width="1688" height="856" decoding="async"
+                                        data-nimg="1" class="w-full" style="color:transparent" sizes="52.75rem"
                                         srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=16&amp;q=75 16w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=32&amp;q=75 32w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=48&amp;q=75 48w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=64&amp;q=75 64w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=96&amp;q=75 96w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=128&amp;q=75 128w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=256&amp;q=75 256w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=384&amp;q=75 384w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=3840&amp;q=75 3840w"
                                         src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcontacts.a61dce95.png&amp;w=3840&amp;q=75">
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-inset ring-slate-900/10">
+                        <div class="pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-inset ring-slate-900/10">
                         </div>
                     </div>
                 </div>
@@ -457,8 +463,8 @@
 
         <section id="get-started-today" class="relative overflow-hidden bg-blue-600 py-32"><img alt=""
                 loading="lazy" width="2347" height="1244" decoding="async" data-nimg="1"
-                class="absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2"
-                style="color:transparent" src="/_next/static/media/background-call-to-action.6a5a5672.jpg">
+                class="absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2" style="color:transparent"
+                src="/_next/static/media/background-call-to-action.6a5a5672.jpg">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
                 <div class="mx-auto max-w-lg text-center">
                     <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl">Get started today</h2>
@@ -484,8 +490,9 @@
                     <li>
                         <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                             <li>
-                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
+                                <figure
+                                    class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10">
+                                    <svg aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
                                             d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
@@ -504,16 +511,16 @@
                                         </div>
                                         <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
                                                 loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
+                                                data-nimg="1" class="h-14 w-14 object-cover" style="color:transparent"
                                                 src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
                             </li>
                             <li>
-                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
+                                <figure
+                                    class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10">
+                                    <svg aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
                                             d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
@@ -533,8 +540,7 @@
                                         </div>
                                         <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
                                                 loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
+                                                data-nimg="1" class="h-14 w-14 object-cover" style="color:transparent"
                                                 src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
@@ -545,8 +551,9 @@
                     <li>
                         <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                             <li>
-                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
+                                <figure
+                                    class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10">
+                                    <svg aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
                                             d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
@@ -566,16 +573,16 @@
                                         </div>
                                         <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
                                                 loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
+                                                data-nimg="1" class="h-14 w-14 object-cover" style="color:transparent"
                                                 src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
                             </li>
                             <li>
-                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
+                                <figure
+                                    class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10">
+                                    <svg aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
                                             d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
@@ -594,8 +601,7 @@
                                         </div>
                                         <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
                                                 loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
+                                                data-nimg="1" class="h-14 w-14 object-cover" style="color:transparent"
                                                 src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
@@ -606,8 +612,9 @@
                     <li>
                         <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                             <li>
-                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
+                                <figure
+                                    class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10">
+                                    <svg aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
                                             d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
@@ -626,16 +633,16 @@
                                         </div>
                                         <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
                                                 loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
+                                                data-nimg="1" class="h-14 w-14 object-cover" style="color:transparent"
                                                 src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
                                 </figure>
                             </li>
                             <li>
-                                <figure class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10"><svg
-                                        aria-hidden="true" width="105" height="78"
+                                <figure
+                                    class="relative rounded-2xl bg-white transition-shadow duration-300 shadow-md hover:shadow-xl p-6 shadow-slate-900/10">
+                                    <svg aria-hidden="true" width="105" height="78"
                                         class="absolute left-6 top-6 fill-slate-100">
                                         <path
                                             d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
@@ -655,8 +662,7 @@
                                         </div>
                                         <div class="overflow-hidden rounded-full bg-slate-50"><img alt=""
                                                 loading="lazy" width="56" height="56" decoding="async"
-                                                data-nimg="1" class="h-14 w-14 object-cover"
-                                                style="color:transparent"
+                                                data-nimg="1" class="h-14 w-14 object-cover" style="color:transparent"
                                                 src="https://picsum.photos/200">
                                         </div>
                                     </figcaption>
@@ -673,8 +679,7 @@
                 <div class="md:text-center">
                     <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl"><span
                             class="relative whitespace-nowrap"><svg aria-hidden="true" viewBox="0 0 281 40"
-                                preserveAspectRatio="none"
-                                class="absolute left-0 top-1/2 h-[1em] w-full fill-blue-400">
+                                preserveAspectRatio="none" class="absolute left-0 top-1/2 h-[1em] w-full fill-blue-400">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M240.172 22.994c-8.007 1.246-15.477 2.23-31.26 4.114-18.506 2.21-26.323 2.977-34.487 3.386-2.971.149-3.727.324-6.566 1.523-15.124 6.388-43.775 9.404-69.425 7.31-26.207-2.14-50.986-7.103-78-15.624C10.912 20.7.988 16.143.734 14.657c-.066-.381.043-.344 1.324.456 10.423 6.506 49.649 16.322 77.8 19.468 23.708 2.65 38.249 2.95 55.821 1.156 9.407-.962 24.451-3.773 25.101-4.692.074-.104.053-.155-.058-.135-1.062.195-13.863-.271-18.848-.687-16.681-1.389-28.722-4.345-38.142-9.364-15.294-8.15-7.298-19.232 14.802-20.514 16.095-.934 32.793 1.517 47.423 6.96 13.524 5.033 17.942 12.326 11.463 18.922l-.859.874.697-.006c2.681-.026 15.304-1.302 29.208-2.953 25.845-3.07 35.659-4.519 54.027-7.978 9.863-1.858 11.021-2.048 13.055-2.145a61.901 61.901 0 0 0 4.506-.417c1.891-.259 2.151-.267 1.543-.047-.402.145-2.33.913-4.285 1.707-4.635 1.882-5.202 2.07-8.736 2.903-3.414.805-19.773 3.797-26.404 4.829Zm40.321-9.93c.1-.066.231-.085.29-.041.059.043-.024.096-.183.119-.177.024-.219-.007-.107-.079ZM172.299 26.22c9.364-6.058 5.161-12.039-12.304-17.51-11.656-3.653-23.145-5.47-35.243-5.576-22.552-.198-33.577 7.462-21.321 14.814 12.012 7.205 32.994 10.557 61.531 9.831 4.563-.116 5.372-.288 7.337-1.559Z">
                                 </path>
@@ -853,11 +858,10 @@
             </div>
         </section>
 
-        <section id="faq" aria-labelledby="faq-title"
-            class="relative overflow-hidden bg-slate-50 py-20 sm:py-32"><img alt="" loading="lazy"
-                width="1558" height="946" decoding="async" data-nimg="1"
-                class="absolute left-1/2 top-0 max-w-none -translate-y-1/4 translate-x-[-30%]"
-                style="color:transparent" src="/_next/static/media/background-faqs.55d2e36a.jpg">
+        <section id="faq" aria-labelledby="faq-title" class="relative overflow-hidden bg-slate-50 py-20 sm:py-32">
+            <img alt="" loading="lazy" width="1558" height="946" decoding="async" data-nimg="1"
+                class="absolute left-1/2 top-0 max-w-none -translate-y-1/4 translate-x-[-30%]" style="color:transparent"
+                src="/_next/static/media/background-faqs.55d2e36a.jpg">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
                 <div class="mx-auto max-w-2xl lg:mx-0">
                     <h2 id="faq-title" class="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
@@ -865,8 +869,7 @@
                     <p class="mt-4 text-lg tracking-tight text-slate-700">If you can’t find what you’re looking for,
                         email our support team and if you’re lucky someone will get back to you.</p>
                 </div>
-                <ul role="list"
-                    class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
+                <ul role="list" class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
                     <li>
                         <ul role="list" class="flex flex-col gap-y-8">
                             <li>
@@ -941,9 +944,9 @@
     <footer class="bg-slate-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="py-16">
-                <img src="{{ asset('img/simplecom/png/logo-color.png') }}" 
-                alt="Logo img" class="mx-auto h-32 sm:h-36 rounded-full w-auto shadow-md" />
-                
+                <img src="{{ asset('img/simplecom/png/logo-color.png') }}" alt="Logo img"
+                    class="mx-auto h-32 sm:h-36 rounded-full w-auto shadow-md" />
+
                 <nav class="mt-10 text-sm" aria-label="quick links">
                     <div class="-my-1 flex justify-center gap-x-6"><a
                             class="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"

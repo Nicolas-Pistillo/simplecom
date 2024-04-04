@@ -1,8 +1,10 @@
 <div>
-    <div x-data="{operatorsDrawerOpen: false, showNotification: false}" 
+    <div x-data="{operatorsDrawerOpen: false, deleteDialogOpen: false, showNotification: false}" 
     x-on:close-drawer.window="operatorsDrawerOpen = false"
     x-on:open-drawer.window="operatorsDrawerOpen = true"
     x-on:open-notification.window="showNotification = true"
+    x-on:open-delete-dialog.window="deleteDialogOpen = true"
+    x-on:close-delete-dialog.window="deleteDialogOpen = false"
     class="px-4 sm:px-6 lg:px-8">
 
         <div class="sm:flex sm:items-center mb-8">
@@ -68,10 +70,11 @@
                                     </button>
                                 </div>
                                 <div class="-ml-px border-t rounded-br-lg flex w-0 flex-1 transition-colors duration-200 hover:bg-gray-50">
-                                    <a href="tel:+1-202-555-0170" class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
-                                        <x-icon code="call" class="text-gray-400" style="font-size: 22px" />
-                                        Call
-                                    </a>
+                                    <button wire:click='openDeleteOperator({{ $operator }})'
+                                    class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
+                                        <x-icon code="delete" class="text-red-400" style="font-size: 20px" />
+                                        Eliminar
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +88,9 @@
 
         {{-- Success notification toast --}}
         <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
+
+        {{-- Delete operator dialog --}}
+        @include('admin.operators.delete-dialog')
 
     </div>
 </div>

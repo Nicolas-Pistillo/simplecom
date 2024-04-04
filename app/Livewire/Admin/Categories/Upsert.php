@@ -28,9 +28,14 @@ class Upsert extends Component
         'coverImage'  => 'imagen de portada'
     ];
 
+    private function resetDrawer()
+    {
+        $this->resetExcept('notificationMessage', 'search', 'drawerTitle');
+    }
+
     public function openNewCategory()
     {
-        $this->resetExcept('notificationMessage', 'search');
+        $this->resetDrawer();
 
         $this->published = true;
         $this->drawerTitle = "Nueva categoría";
@@ -39,7 +44,7 @@ class Upsert extends Component
 
     public function openAddSubcategory(Category $categoryFather)
     {
-        $this->resetExcept('notificationMessage', 'search');
+        $this->resetDrawer();
 
         $this->fill([
             'drawerTitle'    => "Agregando subcategoría a $categoryFather->name",
@@ -52,7 +57,7 @@ class Upsert extends Component
 
     public function openEditCategory(Category $category)
     {
-        $this->resetExcept('notificationMessage', 'search');
+        $this->resetDrawer();
 
         $this->category = $category;
 
@@ -161,7 +166,7 @@ class Upsert extends Component
             'category'    => $category
         ]);
 
-        $this->resetExcept('notificationMessage', 'search');
+        $this->resetDrawer();
         $this->dispatch('close-drawer');
 
         $this->notificationMessage = 'Cambios aplicados con éxito';
@@ -171,19 +176,19 @@ class Upsert extends Component
     public function cancelForm()
     {
         $this->dispatch('close-drawer');
-        $this->resetExcept('notificationMessage', 'search');
+        $this->resetDrawer();
     }
 
     public function openDeleteCategory(Category $category)
     {
         $this->category = $category;
-        $this->dispatch('open-cancel-dialog');
+        $this->dispatch('open-delete-dialog');
     }
 
     public function deleteCategory()
     {
         $this->category->delete();
-        $this->dispatch('close-cancel-dialog');
+        $this->dispatch('close-delete-dialog');
 
         $this->notificationMessage = "Eliminaste la categoría {$this->category->name}";
         $this->dispatch('open-notification');
