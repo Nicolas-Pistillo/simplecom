@@ -13,240 +13,304 @@
             </x-button>
         </div>
 
-        <h2 class="text-2xl col-span-2 text-center md:text-left font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+        <h2
+            class="text-2xl col-span-2 text-center md:text-left font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
             Nuevo producto
         </h2>
     </div>
 
     <form>
         <div class="space-y-12">
+
+            {{-- Identification info block --}}
             <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Información general</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be
-                        careful what you share.</p>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Identificación</h2>
+                    <p class="mt-1 text-sm leading-6 text-gray-600">
+                        Datos que representan las referencias y relaciones básicas de tu producto.
+                    </p>
                 </div>
 
                 <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
-                    <div class="sm:col-span-4">
-                        <label for="website" class="block text-sm font-medium leading-6 text-gray-900">Website</label>
+
+                    {{-- Name field --}}
+                    <div class="sm:col-span-3">
+                        <label for="name" class="block text-sm font-medium leading-6 text-gray-900">
+                            Nombre <sup class="text-red-500 -ml-1">*</sup>
+                        </label>
                         <div class="mt-2">
                             <div
-                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">http://</span>
-                                <input type="text" name="website" id="website"
-                                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                    placeholder="www.example.com">
+                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                                <input autocomplete="no" type="text" name="name" id="name" required
+                                    value="{{ old('name') }}"
+                                    class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-span-full">
-                        <label for="about" class="block text-sm font-medium leading-6 text-gray-900">About</label>
+                    {{-- Code field --}}
+                    <div class="sm:col-span-3">
+                        <label for="code" class="block text-sm font-medium leading-6 text-gray-900">
+                            Código/SKU
+                        </label>
                         <div class="mt-2">
-                            <textarea id="about" name="about" rows="3"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-                        </div>
-                        <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
-                    </div>
-
-                    <div class="col-span-full">
-                        <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-                        <div class="mt-2 flex items-center gap-x-3">
-                            <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <button type="button"
-                                class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
-                        </div>
-                    </div>
-
-                    <div class="col-span-full">
-                        <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover
-                            photo</label>
-                        <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                            <div class="text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor"
-                                    aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                                    <label for="file-upload"
-                                        class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                                        <span>Upload a file</span>
-                                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                                    </label>
-                                    <p class="pl-1">or drag and drop</p>
-                                </div>
-                                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                            <div
+                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                                <input autocomplete="no" type="text" name="code" id="code"
+                                    value="{{ old('code') }}"
+                                    class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
-                <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
-                </div>
-
-                <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
-                    <div class="sm:col-span-3">
-                        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+                    {{-- Category field --}}
+                    <div class="sm:col-span-5">
+                        <label for="category_id" class="block text-sm font-medium leading-6 text-gray-900">
+                            Categoría <sup class="text-red-500 -ml-1">*</sup>
+                        </label>
                         <div class="mt-2">
-                            <input type="text" name="first-name" id="first-name" autocomplete="given-name"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                        </div>
-                    </div>
+                            <select id="category_id" name="category_id" required
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                                shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 
+                                focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
 
-                    <div class="sm:col-span-3">
-                        <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
-                        <div class="mt-2">
-                            <input type="text" name="last-name" id="last-name" autocomplete="family-name"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                        </div>
-                    </div>
+                                <option>Seleccionar una categoría...</option>
 
-                    <div class="sm:col-span-4">
-                        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
-                            address</label>
-                        <div class="mt-2">
-                            <input id="email" name="email" type="email" autocomplete="email"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                        </div>
-                    </div>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
 
-                    <div class="sm:col-span-3">
-                        <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
-                        <div class="mt-2">
-                            <select id="country" name="country" autocomplete="country-name"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                <option>United States</option>
-                                <option>Canada</option>
-                                <option>Mexico</option>
+                                    @if ($category->hasChilds())
+                                        @foreach ($category->childs as $categoryChild)
+                                            <option value="{{ $categoryChild->id }}">
+                                                {{ $category->name }} > {{ $categoryChild->name }}
+                                            </option>
+
+                                            @if ($categoryChild->hasChilds())
+                                                @foreach ($categoryChild->childs as $categoryGrandchild)
+                                                    <option value="{{ $categoryGrandchild->id }}">
+                                                        {{ $category->name }} > {{ $categoryChild->name }} >
+                                                        {{ $categoryGrandchild->name }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
 
+                    {{-- Short description field --}}
                     <div class="col-span-full">
-                        <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Street
-                            address</label>
+                        <label for="short_description" class="block text-sm font-medium leading-6 text-gray-900">Descripción
+                            breve</label>
                         <div class="mt-2">
-                            <input type="text" name="street-address" id="street-address"
-                                autocomplete="street-address"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <textarea id="short_description" name="short_description" rows="2"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                            focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                                {{ old('short_description') }}
+                            </textarea>
+                        </div>
+                        <p class="mt-1 text-xs leading-6 text-gray-500">Debe contener 100 caracteres como máximo</p>
+                    </div>
+
+                    {{-- Description field --}}
+                    <div class="col-span-full">
+                        <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Descripción
+                            detallada</label>
+                        <div class="mt-2">
+                            <textarea id="description" name="description" rows="5"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+                            focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                                {{ old('description') }}
+                            </textarea>
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2 sm:col-start-1">
-                        <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+                </div>
+            </div>
+
+            {{-- Pricing block --}}
+            <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+                <div>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Precio</h2>
+                    <p class="mt-1 text-sm leading-6 text-gray-600">
+                        También podes cargar el descuento y configurar las unidades de venta.
+                    </p>
+                </div>
+
+                <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+
+                    {{-- Price field --}}
+                    <div class="sm:col-span-3">
+                        <label for="price" class="block text-sm font-medium leading-6 text-gray-900">
+                            Precio <sup class="text-red-500 -ml-1">*</sup>
+                        </label>
                         <div class="mt-2">
-                            <input type="text" name="city" id="city" autocomplete="address-level2"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <div
+                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                                <input autocomplete="no" type="number" name="price" id="price" required
+                                    value="{{ old('price') }}"
+                                    class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2">
-                        <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State /
-                            Province</label>
+                    {{-- Discount % field --}}
+                    <div class="sm:col-span-3">
+                        <label for="discount_percent" class="block text-sm font-medium leading-6 text-gray-900">
+                            Porcentaje de descuento
+                        </label>
                         <div class="mt-2">
-                            <input type="text" name="region" id="region" autocomplete="address-level1"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">%</span>
+                                <input type="number" name="discount_percent" max="100" id="discount_percent" 
+                                autocomplete="no" value="{{ old('discount_percent') }}"
+                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2">
-                        <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">ZIP / Postal
-                            code</label>
+                    {{-- Min selling field --}}
+                    <div class="sm:col-span-3 sm:col-start-1">
+                        <label for="min_selling" class="block text-sm font-medium leading-6 text-gray-900">
+                            Compra mínima
+                        </label>
                         <div class="mt-2">
-                            <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <input type="number" name="min_selling" id="min_selling" autocomplete="no" 
+                            value="{{ old('min_selling') }}"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+                            focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                        </div>
+                    </div>
+
+                    {{-- Max selling field --}}
+                    <div class="sm:col-span-3">
+                        <label for="max_selling" class="block text-sm font-medium leading-6 text-gray-900">
+                            Compra máxima
+                        </label>
+                        <div class="mt-2">
+                            <input type="number" name="max_selling" id="max_selling" autocomplete="no" 
+                            value="{{ old('max_selling') }}"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
+                            placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
                         </div>
                     </div>
                 </div>
             </div>
 
+            {{-- Measures block --}}
             <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Notifications</h2>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Dimensiones y stock</h2>
+                    <p class="mt-1 text-sm leading-6 text-gray-600">
+                        Las dimensiones físicas del producto son datos necesarios para gestionar el envío del pedido.
+                    </p>
+                </div>
+
+                <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+
+                    {{-- Stock field --}}
+                    <div class="sm:col-span-2 sm:col-start-1">
+                        <label for="stock" class="block text-sm font-medium leading-6 text-gray-900">Stock</label>
+                        <div class="mt-2">
+                            <input type="text" name="stock" id="stock" autocomplete="no" 
+                            value="{{ old('stock') }}"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                            focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                        </div>
+                    </div>
+
+                    {{-- Weight field --}}
+                    <div class="sm:col-span-2">
+                        <label for="weight" class="block text-sm font-medium leading-6 text-gray-900">
+                            Peso <x-badge>KG</x-badge>
+                        </label>
+                        <div class="mt-2">
+                            <input type="text" name="weight" id="weight" autocomplete="no"
+                            value="{{ old('weight') }}"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                            focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                        </div>
+                    </div>
+
+                    {{-- Width field --}}
+                    <div class="sm:col-span-2 sm:col-start-1">
+                        <label for="width" class="block text-sm font-medium leading-6 text-gray-900">
+                            Ancho <x-badge>CM</x-badge>
+                        </label>
+                        <div class="mt-2">
+                            <input type="text" name="width" id="width" autocomplete="no"
+                            value="{{ old('width') }}"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                            focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                        </div>
+                    </div>
+
+                    {{-- Height field --}}
+                    <div class="sm:col-span-2">
+                        <label for="height" class="block text-sm font-medium leading-6 text-gray-900">
+                            Alto <x-badge>CM</x-badge>
+                        </label>
+                        <div class="mt-2">
+                            <input type="text" name="height" id="height" autocomplete="no"
+                            value="{{ old('height') }}"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                            focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                        </div>
+                    </div>
+
+                    {{-- Length field --}}
+                    <div class="sm:col-span-2">
+                        <label for="length" class="block text-sm font-medium leading-6 text-gray-900">
+                            Largo <x-badge>CM</x-badge>
+                        </label>
+                        <div class="mt-2">
+                            <input type="text" name="length" id="length" autocomplete="no"
+                            value="{{ old('length') }}"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                            focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Images block --}}
+            <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-12 md:grid-cols-3">
+                <div>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Imagenes</h2>
                     <p class="mt-1 text-sm leading-6 text-gray-600">We'll always let you know about important changes, but
                         you pick what else you want to hear about.</p>
                 </div>
 
                 <div class="max-w-2xl space-y-10 md:col-span-2">
-                    <fieldset>
-                        <legend class="text-sm font-semibold leading-6 text-gray-900">By Email</legend>
-                        <div class="mt-6 space-y-6">
-                            <div class="relative flex gap-x-3">
-                                <div class="flex h-6 items-center">
-                                    <input id="comments" name="comments" type="checkbox"
-                                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                                </div>
-                                <div class="text-sm leading-6">
-                                    <label for="comments" class="font-medium text-gray-900">Comments</label>
-                                    <p class="text-gray-500">Get notified when someones posts a comment on a posting.</p>
-                                </div>
-                            </div>
-                            <div class="relative flex gap-x-3">
-                                <div class="flex h-6 items-center">
-                                    <input id="candidates" name="candidates" type="checkbox"
-                                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                                </div>
-                                <div class="text-sm leading-6">
-                                    <label for="candidates" class="font-medium text-gray-900">Candidates</label>
-                                    <p class="text-gray-500">Get notified when a candidate applies for a job.</p>
-                                </div>
-                            </div>
-                            <div class="relative flex gap-x-3">
-                                <div class="flex h-6 items-center">
-                                    <input id="offers" name="offers" type="checkbox"
-                                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                                </div>
-                                <div class="text-sm leading-6">
-                                    <label for="offers" class="font-medium text-gray-900">Offers</label>
-                                    <p class="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>
-                                </div>
-                            </div>
+
+                    <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+
+                        <div class="sm:col-span-6">
+
+                            
+
                         </div>
-                    </fieldset>
-                    <fieldset>
-                        <legend class="text-sm font-semibold leading-6 text-gray-900">Push Notifications</legend>
-                        <p class="mt-1 text-sm leading-6 text-gray-600">These are delivered via SMS to your mobile phone.
-                        </p>
-                        <div class="mt-6 space-y-6">
-                            <div class="flex items-center gap-x-3">
-                                <input id="push-everything" name="push-notifications" type="radio"
-                                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                                <label for="push-everything"
-                                    class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
-                            </div>
-                            <div class="flex items-center gap-x-3">
-                                <input id="push-email" name="push-notifications" type="radio"
-                                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                                <label for="push-email" class="block text-sm font-medium leading-6 text-gray-900">Same as
-                                    email</label>
-                            </div>
-                            <div class="flex items-center gap-x-3">
-                                <input id="push-nothing" name="push-notifications" type="radio"
-                                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                                <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No
-                                    push notifications</label>
-                            </div>
-                        </div>
-                    </fieldset>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-            <button type="submit"
-                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+            <x-button submit size="large" class="flex items-center">
+                <x-icon code="add_circle" class="mr-1" />
+                Crear producto
+            </x-button>
         </div>
     </form>
 

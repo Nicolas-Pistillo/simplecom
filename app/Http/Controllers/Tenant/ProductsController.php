@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -20,7 +21,13 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::principal()
+                            ->published()
+                            ->with('childs')
+                            ->orderBy('name')
+                            ->get();
+
+        return view('admin.products.create', compact('categories'));
     }
 
     /**

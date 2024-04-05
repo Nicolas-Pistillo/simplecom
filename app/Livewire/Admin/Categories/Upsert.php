@@ -38,7 +38,7 @@ class Upsert extends Component
         $this->resetDrawer();
 
         $this->published = true;
-        $this->drawerTitle = "Nueva categoría";
+        $this->drawerTitle = "Nueva categoría principal";
         $this->dispatch('open-drawer');
     }
 

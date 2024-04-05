@@ -34,4 +34,9 @@ class Category extends Model
     {
         $query->whereNull('category_father');
     }
+
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('published', true);
+    }
 }

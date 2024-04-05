@@ -14,12 +14,22 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code')->nullable();
             $table->string('short_description')->nullable();
             $table->text('description')->nullable();
             $table->foreignId('category_id');
             $table->float('price');
+            $table->integer('discount_percent')->nullable();
             $table->integer('stock')->default(0);
+            $table->integer('min_selling')->default(1);
+            $table->integer('max_selling')->nullable();
+            $table->float('width');
+            $table->float('height');
+            $table->float('length');
+            $table->float('weight');
             $table->boolean('published')->default(false);
+            $table->boolean('featured')->default(false);
+            $table->foreignId('created_by');
             $table->timestamps();
         });
     }
