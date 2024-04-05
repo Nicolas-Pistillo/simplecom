@@ -18,7 +18,8 @@
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
                 @can('Editar productos')
-                    <x-navbar-item route="admin.products.index" icon="deployed_code" title="Productos" />
+                    <x-navbar-item route="admin.products.index" icon="deployed_code" title="Productos" 
+                    active="{{ Route::is('admin.products.*') }}"/>
                 @endcan
 
                 @can('Editar categorias')

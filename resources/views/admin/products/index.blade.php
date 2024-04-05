@@ -9,8 +9,8 @@
             <div class="sm:flex-auto">
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Productos</h1>
                 <p class="mt-2 text-sm text-gray-700">
-                    Los operadores son usuarios que representan al equipo de tu comercio.
-                    Cada uno tendrá acceso solo a las funciones que les corresponda según el rol que les asignes.
+                    Esta es la parte más importante de tu negocio 😎. Crea y administra tus productos
+                    de la forma que creas más conveniente.
                 </p>
             </div>
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">

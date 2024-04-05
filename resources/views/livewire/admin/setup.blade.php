@@ -86,14 +86,6 @@
                                         </legend>
                                         <div x-data="{selected: $wire.ecommerceColor}" class="mt-2 grid grid-cols-5 gap-2">
 
-                                            {{-- <label @click="selected = 'emerald'" :class="selected === 'emerald' ? 'ring ring-offset-1 ring-emerald-300' : ''"
-                                            class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
-                                                <input type="radio" name="ecommerceColor" 
-                                                wire:model.live='ecommerceColor' value="emerald" class="sr-only">
-                                                <span class="sr-only"> emerald </span>
-                                                <span aria-hidden="true" class="h-8 w-8 bg-emerald-500 rounded-full border border-black border-opacity-10"></span>
-                                            </label> --}}
-
                                             @foreach ($availableColors as $color)
                                                 <label @click="selected = '{{ $color }}'" :class="selected === '{{ $color }}' ? 'ring ring-offset-1 ring-{{ $color }}-300' : ''"
                                                 class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
