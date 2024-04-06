@@ -13,7 +13,7 @@
             <h1 class="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">No autorizado</h1>
             <p class="mt-6 text-base leading-7 text-gray-600 w-4/5 md:w-3/4 mx-auto">
                 Lo sentimos, <span class="text-gray-700 font-semibold">{{ Auth::user()->name }}</span>. 
-                No tienes permiso para acceder a la página o recurso que intentas visitar, si crees que esto es un error
+                No tenés permiso para acceder a la página o recurso que intentas visitar, si crees que esto es un error
                 contactate con el administrador de <span class="text-gray-700 font-semibold">{{ tenant('ecommerce_name') }}</span>.
 
                 <br> <br>

@@ -21,13 +21,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $categories = Category::principal()
-                            ->published()
-                            ->with('childs')
-                            ->orderBy('name')
-                            ->get();
-
-        return view('admin.products.create', compact('categories'));
+        return view('admin.products.create');
     }
 
     /**
