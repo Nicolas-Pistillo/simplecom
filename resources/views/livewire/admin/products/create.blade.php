@@ -1,11 +1,11 @@
 <div>
     
-    <form wire:submit='save'>
+    <form wire:submit='save' class="pb-6">
 
         <div class="space-y-12">
 
             {{-- Identification info block --}}
-            <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+            <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
 
                 <div>
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Identificación</h2>
@@ -103,11 +103,15 @@
                             ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
                             focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"></textarea>
                         </div>
+
                         @error('form.short_description')
                             <small class="text-red-500 text-xs">{{ $message }}</small>
                         @enderror
+
                         @if (!$errors->first('form.short_description'))
-                            <p class="mt-1 text-xs leading-6 text-gray-500">Debe contener 100 caracteres como máximo</p>
+                            <span class="mt-1 text-xs leading-6 text-gray-500">
+                                Puede contener hasta 100 caracteres como máximo
+                            </span>
                         @endif
                     </div>
 
@@ -116,20 +120,28 @@
                         <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Descripción
                             detallada</label>
                         <div class="mt-2">
-                            <textarea id="description" name="description" rows="5"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            <textarea wire:model.blur='form.description' id="description" rows="7"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
                             shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
-                            focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
-                                {{ old('description') }}
-                            </textarea>
+                            focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"></textarea>
+
+                            @error('form.description')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
+
+                            @if (!$errors->first('form.description'))
+                                <span class="mt-1 text-xs leading-6 text-gray-500">
+                                    Puede contener hasta 700 caracteres como máximo
+                                </span>
+                            @endif
                         </div>
                     </div>
 
                 </div>
-            </div>
+            </section>
 
             {{-- Pricing block --}}
-            <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+            <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                 <div>
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Precio</h2>
                     <p class="mt-1 text-sm leading-6 text-gray-600">
@@ -145,12 +157,14 @@
                             Precio <sup class="text-red-500 -ml-1">*</sup>
                         </label>
                         <div class="mt-2">
-                            <div
-                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
-                                <input autocomplete="no" type="number" name="price" id="price" required
-                                    value="{{ old('price') }}"
-                                    class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                                <input wire:model.blur='form.price'
+                                autocomplete="off" type="number" id="price" required
+                                class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                             </div>
+                            @error('form.price')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -160,13 +174,16 @@
                             Porcentaje de descuento
                         </label>
                         <div class="mt-2">
-                            <div
-                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
                                 <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">%</span>
-                                <input type="number" name="discount_percent" max="100" id="discount_percent"
-                                    autocomplete="no" value="{{ old('discount_percent') }}"
-                                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                                <input wire:model.blur='form.discount_percent'
+                                type="number" max="100" id="discount_percent" autocomplete="off"
+                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                             </div>
+
+                            @error('form.discount_percent')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -176,11 +193,21 @@
                             Compra mínima
                         </label>
                         <div class="mt-2">
-                            <input type="number" name="min_selling" id="min_selling" autocomplete="no"
-                                value="{{ old('min_selling') }}"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            <input wire:model.blur='form.min_selling'
+                            type="number" id="min_selling" autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
                             shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                             focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.min_selling')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
+
+                            @if (!$errors->first('form.min_selling') && !$form->min_selling)
+                                <span class="mt-1 text-xs leading-6 text-gray-500">
+                                    Por defecto el valor será de 1 unidad
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -190,17 +217,27 @@
                             Compra máxima
                         </label>
                         <div class="mt-2">
-                            <input type="number" name="max_selling" id="max_selling" autocomplete="no"
-                                value="{{ old('max_selling') }}"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
+                            <input wire:model.blur='form.max_selling'
+                            type="number" id="max_selling" autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
                             placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.max_selling')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
+
+                            @if (!$errors->first('form.max_selling') && !$form->max_selling)
+                                <span class="mt-1 text-xs leading-6 text-gray-500">
+                                    Por defecto el límite será el stock
+                                </span>
+                            @endif
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            {{-- Measures block --}}
-            <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+            {{-- Measures & stock block --}}
+            <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                 <div>
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Dimensiones y stock</h2>
                     <p class="mt-1 text-sm leading-6 text-gray-600">
@@ -214,74 +251,94 @@
                     <div class="sm:col-span-2 sm:col-start-1">
                         <label for="stock" class="block text-sm font-medium leading-6 text-gray-900">Stock</label>
                         <div class="mt-2">
-                            <input type="text" name="stock" id="stock" autocomplete="no"
-                                value="{{ old('stock') }}"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            <input wire:model.blur='form.stock'
+                            type="number" id="stock" autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
                             ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
                             focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.stock')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
                     {{-- Weight field --}}
                     <div class="sm:col-span-2">
                         <label for="weight" class="block text-sm font-medium leading-6 text-gray-900">
-                            Peso <sup class="text-red-500 -ml-1">*</sup> <x-badge>KG</x-badge>
+                            Peso <sup class="text-red-500 -ml-1">*</sup> <x-badge color="blue">KG</x-badge>
                         </label>
                         <div class="mt-2">
-                            <input type="text" name="weight" id="weight" autocomplete="no"
-                                value="{{ old('weight') }}"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            <input wire:model.blur='form.weight'
+                            type="number" id="weight" required autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
                             ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
                             focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.weight')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
                     {{-- Width field --}}
                     <div class="sm:col-span-2 sm:col-start-1">
                         <label for="width" class="block text-sm font-medium leading-6 text-gray-900">
-                            Ancho <sup class="text-red-500 -ml-1">*</sup> <x-badge>CM</x-badge>
+                            Ancho <sup class="text-red-500 -ml-1">*</sup> <x-badge color="blue">CM</x-badge>
                         </label>
                         <div class="mt-2">
-                            <input type="text" name="width" id="width" autocomplete="no"
-                                value="{{ old('width') }}"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            <input wire:model.blur='form.width'
+                            type="number" required id="width" autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
                             ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
                             focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.width')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
                     {{-- Height field --}}
                     <div class="sm:col-span-2">
                         <label for="height" class="block text-sm font-medium leading-6 text-gray-900">
-                            Alto <sup class="text-red-500 -ml-1">*</sup> <x-badge>CM</x-badge>
+                            Alto <sup class="text-red-500 -ml-1">*</sup> <x-badge color="blue">CM</x-badge>
                         </label>
                         <div class="mt-2">
-                            <input type="text" name="height" id="height" autocomplete="no"
-                                value="{{ old('height') }}"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            <input wire:model.blur='form.height'
+                            type="number" required id="height" autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
                             ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
                             focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.height')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
                     {{-- Length field --}}
                     <div class="sm:col-span-2">
                         <label for="length" class="block text-sm font-medium leading-6 text-gray-900">
-                            Largo <sup class="text-red-500 -ml-1">*</sup> <x-badge>CM</x-badge>
+                            Largo <sup class="text-red-500 -ml-1">*</sup> <x-badge color="blue">CM</x-badge>
                         </label>
                         <div class="mt-2">
-                            <input type="text" name="length" id="length" autocomplete="no"
-                                value="{{ old('length') }}"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                            <input wire:model.blur='form.length'
+                            type="number" required id="length" autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
                             ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
                             focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.length')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             {{-- Images block --}}
-            <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-12 md:grid-cols-3">
+            <section class="grid grid-cols-1 gap-x-8 gap-y-10 pb-12 md:grid-cols-3">
                 <div>
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Imagenes</h2>
                     <p class="mt-1 text-sm leading-6 text-gray-600">We'll always let you know about important changes, but
@@ -312,7 +369,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
