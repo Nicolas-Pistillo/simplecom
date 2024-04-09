@@ -5,10 +5,15 @@ namespace App\Livewire\Admin\Products;
 use App\Livewire\Forms\NewProductForm;
 use Livewire\Component;
 use App\Models\Category;
+use Livewire\WithFileUploads;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public NewProductForm $form;
+
+    public $images = [];
 
     public function save()
     {

@@ -351,20 +351,75 @@
 
                         <div class="sm:col-span-6">
 
-                            <div class="cursor-pointer flex justify-center rounded-lg 
-                            border border-dashed border-gray-900/25 px-6 py-10">
+                            <div x-data="dropzone()"
+                            @click="document.getElementById('file-upload-input').click()"
+                            @dragenter.prevent="dragEntered = true"
+                            @dragover.prevent="dragEntered = true"
+                            @dragleave.prevent="dragEntered = false"
+                            @drop.prevent="dragEntered = false; handleDropEvent($event)"
+                            @uploadfile.window="$wire.upload('images', $event.detail)"
+                            class="cursor-pointer flex justify-center rounded-lg 
+                            border border-dashed px-6 py-10"
+                            :class="dragEntered ? 'border-blue-600' : 'border-gray-400/70'">
                                 <div class="text-center">
-                                    <x-icon code="photo_library" class="text-gray-400 text-4xl" />
-                                    <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                                        <p class="pl-1">
-                                            Arrastra y suelta tus imagenes aquí
+
+                                    <i x-text="dragEntered ? 'place_item' : 'photo_library'"
+                                    :class="dragEntered ? 'text-blue-600/70' : 'text-gray-400'"
+                                    class="material-symbols-outlined text-4xl"></i>
+
+                                    <div class="mt-2 flex text-sm leading-6 text-gray-600">
+                                        <p class="pl-1" 
+                                        x-text="dragEntered 
+                                        ? 'Suelta tus archivos para subirlos' 
+                                        : 'Arrastra y suelta tus imagenes aquí'">
                                         </p>
                                     </div>
-                                    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+
+                                    <p class="text-xs leading-5 text-gray-600"
+                                    :class="dragEntered ? 'opacity-0' : 'opacity-100'">
+                                        Solo formatos PNG o JPG
+                                    </p>
+
+                                    <input wire:model='images' accept="image/jpeg, image/png" id="file-upload-input" type="file" class="sr-only">
                                 </div>
                             </div>
 
-                            <div class="product-images-preview flex items-center p-2"></div>
+                            <div class="flex items-center flex-wrap">
+                                @if (!empty($images))
+                                    @foreach ($images as $image)
+
+                                        <div>
+                                            <img src="{{ $image->temporaryUrl() }}" alt="preview-product-image"
+                                            class="w-24 h-20 border rounded-lg shadow m-2 object-contain">
+                                        </div>
+
+                                    @endforeach
+                                @endif
+                            </div>
+
+                            <script>
+                                const dropzone = () =>
+                                {
+                                    return {
+                                        dragEntered: false,
+                                        handleDropEvent: (event) => {
+
+                                            const files = event.dataTransfer.files;
+                                            
+                                            if (!files.length) return;
+
+                                            const validImageTypes = ['image/jpeg', 'image/png'];
+
+                                            Array.from(files).forEach(file => 
+                                            {
+                                                if (!validImageTypes.includes(file.type)) return;
+                                                
+                                                window.dispatchEvent(new CustomEvent('uploadfile', {detail: file}));
+                                            })
+                                        }
+                                    }
+                                }
+                            </script>
 
                         </div>
                     </div>
