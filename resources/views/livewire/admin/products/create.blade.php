@@ -140,12 +140,103 @@
                 </div>
             </section>
 
+            {{-- Images block --}}
+            <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+                <div>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Imagenes</h2>
+                    <p class="mt-1 text-sm leading-6 text-gray-600">We'll always let you know about important changes, but
+                        you pick what else you want to hear about.</p>
+                </div>
+
+                <div class="max-w-2xl space-y-10 md:col-span-2">
+
+                    <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+
+                        <div class="sm:col-span-6">
+
+                            <div x-data="dropzone()"
+                            @click="document.getElementById('file-upload-input').click()"
+                            @dragenter.prevent="dragEntered = true"
+                            @dragover.prevent="dragEntered = true"
+                            @dragleave.prevent="dragEntered = false"
+                            @drop.prevent="dragEntered = false; handleDropEvent($event)"
+                            @uploadfile.window="$wire.upload('images', $event.detail)"
+                            class="cursor-pointer flex justify-center rounded-lg 
+                            border border-dashed px-6 py-8 mb-2 relative"
+                            :class="dragEntered ? 'border-blue-600' : 'border-gray-400/70'">
+                                <div class="text-center">
+
+                                    <i x-text="dragEntered ? 'place_item' : 'photo_library'"
+                                    :class="dragEntered ? 'text-blue-600/70' : 'text-gray-400'"
+                                    class="material-symbols-outlined text-4xl"></i>
+
+                                    <div class="flex text-sm leading-6 text-gray-600">
+                                        <p class="pl-1"
+                                        x-text="dragEntered 
+                                        ? 'Suelta tus archivos para subirlos' 
+                                        : 'Arrastra y suelta tus imagenes aquí'">
+                                        </p>
+                                    </div>
+
+                                    <p class="text-xs leading-5 text-gray-600"
+                                    :class="dragEntered ? 'opacity-0' : 'opacity-100'">
+                                        Solo formatos PNG o JPG
+                                    </p>
+
+                                    <input wire:model='images' accept="image/jpeg, image/png" id="file-upload-input" type="file" class="sr-only">
+                                </div>
+
+                                <div wire:loading wire:target='images' class="h-6 w-6 absolute top-2 left-4 center">
+                                    <x-spinner />
+                                </div>
+                            </div>
+
+                            <div id="previewImages" class="flex items-center flex-wrap">
+                                @if (!empty($images))
+                                    @foreach ($images as $image)
+                                        <div class="cursor-move" data-id="{{ uniqid() }}">
+                                            <img src="{{ $image->temporaryUrl() }}" alt="preview-product-image"
+                                            class="sortable-item w-24 h-20 border rounded-lg shadow m-2 object-contain">
+                                        </div>                         
+                                    @endforeach
+                                @endif
+                            </div>
+
+                            <script>
+                                const dropzone = () =>
+                                {
+                                    return {
+                                        dragEntered: false,
+                                        handleDropEvent: (event) => {
+
+                                            const files = event.dataTransfer.files;
+                                            
+                                            if (!files.length) return;
+
+                                            const validImageTypes = ['image/jpeg', 'image/png'];
+
+                                            Array.from(files).forEach(file => 
+                                            {
+                                                if (!validImageTypes.includes(file.type)) return;
+                                                
+                                                window.dispatchEvent(new CustomEvent('uploadfile', {detail: file}));
+                                            })
+                                        }
+                                    }
+                                }
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {{-- Pricing block --}}
             <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Precio</h2>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Venta</h2>
                     <p class="mt-1 text-sm leading-6 text-gray-600">
-                        También podes cargar el descuento y configurar las unidades de venta.
+                        También podes cargar el descuento y configurar las unidades de compra.
                     </p>
                 </div>
 
@@ -336,95 +427,6 @@
                     </div>
                 </div>
             </section>
-
-            {{-- Images block --}}
-            <section class="grid grid-cols-1 gap-x-8 gap-y-10 pb-12 md:grid-cols-3">
-                <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Imagenes</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">We'll always let you know about important changes, but
-                        you pick what else you want to hear about.</p>
-                </div>
-
-                <div class="max-w-2xl space-y-10 md:col-span-2">
-
-                    <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
-
-                        <div class="sm:col-span-6">
-
-                            <div x-data="dropzone()"
-                            @click="document.getElementById('file-upload-input').click()"
-                            @dragenter.prevent="dragEntered = true"
-                            @dragover.prevent="dragEntered = true"
-                            @dragleave.prevent="dragEntered = false"
-                            @drop.prevent="dragEntered = false; handleDropEvent($event)"
-                            @uploadfile.window="$wire.upload('images', $event.detail)"
-                            class="cursor-pointer flex justify-center rounded-lg 
-                            border border-dashed px-6 py-10"
-                            :class="dragEntered ? 'border-blue-600' : 'border-gray-400/70'">
-                                <div class="text-center">
-
-                                    <i x-text="dragEntered ? 'place_item' : 'photo_library'"
-                                    :class="dragEntered ? 'text-blue-600/70' : 'text-gray-400'"
-                                    class="material-symbols-outlined text-4xl"></i>
-
-                                    <div class="mt-2 flex text-sm leading-6 text-gray-600">
-                                        <p class="pl-1" 
-                                        x-text="dragEntered 
-                                        ? 'Suelta tus archivos para subirlos' 
-                                        : 'Arrastra y suelta tus imagenes aquí'">
-                                        </p>
-                                    </div>
-
-                                    <p class="text-xs leading-5 text-gray-600"
-                                    :class="dragEntered ? 'opacity-0' : 'opacity-100'">
-                                        Solo formatos PNG o JPG
-                                    </p>
-
-                                    <input wire:model='images' accept="image/jpeg, image/png" id="file-upload-input" type="file" class="sr-only">
-                                </div>
-                            </div>
-
-                            <div class="flex items-center flex-wrap">
-                                @if (!empty($images))
-                                    @foreach ($images as $image)
-
-                                        <div>
-                                            <img src="{{ $image->temporaryUrl() }}" alt="preview-product-image"
-                                            class="w-24 h-20 border rounded-lg shadow m-2 object-contain">
-                                        </div>
-
-                                    @endforeach
-                                @endif
-                            </div>
-
-                            <script>
-                                const dropzone = () =>
-                                {
-                                    return {
-                                        dragEntered: false,
-                                        handleDropEvent: (event) => {
-
-                                            const files = event.dataTransfer.files;
-                                            
-                                            if (!files.length) return;
-
-                                            const validImageTypes = ['image/jpeg', 'image/png'];
-
-                                            Array.from(files).forEach(file => 
-                                            {
-                                                if (!validImageTypes.includes(file.type)) return;
-                                                
-                                                window.dispatchEvent(new CustomEvent('uploadfile', {detail: file}));
-                                            })
-                                        }
-                                    }
-                                }
-                            </script>
-
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
@@ -435,5 +437,18 @@
         </div>
 
     </form>
+
+    {{-- Sortable product images preview --}}
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        new Sortable(previewImages, {
+            handle: '.sortable-item',
+            animation: 250,
+            ghostClass: 'bg-blue-200',
+            store: {
+                set: (sortable) => console.log(sortable.toArray())
+            }
+        });
+    </script>
 
 </div>
