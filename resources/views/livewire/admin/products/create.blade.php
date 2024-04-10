@@ -143,7 +143,7 @@
             {{-- Images block --}}
             <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Imagenes</h2>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Imágenes</h2>
                     <p class="mt-1 text-sm leading-6 text-gray-600">We'll always let you know about important changes, but
                         you pick what else you want to hear about.</p>
                 </div>
@@ -160,11 +160,12 @@
                             @dragover.prevent="dragEntered = true"
                             @dragleave.prevent="dragEntered = false"
                             @drop.prevent="dragEntered = false; handleDropEvent($event)"
-                            @uploadfile.window="$wire.upload('images', $event.detail)"
+                            @uploadfile.window="loadingDroppedFiles = true; 
+                            $wire.upload('images', $event.detail, (filename) => loadingDroppedFiles = false)"
                             class="cursor-pointer flex justify-center rounded-lg 
                             border border-dashed px-6 py-8 mb-2 relative"
                             :class="dragEntered ? 'border-blue-600' : 'border-gray-400/70'">
-                                <div class="text-center">
+                                <div class="text-center py-2">
 
                                     <i x-text="dragEntered ? 'place_item' : 'photo_library'"
                                     :class="dragEntered ? 'text-blue-600/70' : 'text-gray-400'"
@@ -173,20 +174,26 @@
                                     <div class="flex text-sm leading-6 text-gray-600">
                                         <p class="pl-1"
                                         x-text="dragEntered 
-                                        ? 'Suelta tus archivos para subirlos' 
-                                        : 'Arrastra y suelta tus imagenes aquí'">
+                                        ? 'Soltá tus archivos para subirlos' 
+                                        : 'Selecciona o arrastra tus imágenes acá'">
                                         </p>
                                     </div>
 
                                     <p class="text-xs leading-5 text-gray-600"
                                     :class="dragEntered ? 'opacity-0' : 'opacity-100'">
-                                        Solo formatos PNG o JPG
+                                        Solo formatos PNG o JPG de hasta 4MB
                                     </p>
 
                                     <input wire:model='images' accept="image/jpeg, image/png" id="file-upload-input" type="file" class="sr-only">
                                 </div>
 
-                                <div wire:loading wire:target='images' class="h-6 w-6 absolute top-2 left-4 center">
+                                {{-- Dropped files loader --}}
+                                <div x-show="loadingDroppedFiles" x-cloak class="h-6 w-full absolute bottom-2">
+                                    <x-spinner />
+                                </div>
+
+                                {{-- Simple upload loader --}}
+                                <div wire:loading wire:target='images' class="h-6 w-full absolute bottom-2">
                                     <x-spinner />
                                 </div>
                             </div>
@@ -194,9 +201,18 @@
                             <div id="previewImages" class="flex items-center flex-wrap">
                                 @if (!empty($images))
                                     @foreach ($images as $image)
-                                        <div class="cursor-move" data-id="{{ uniqid() }}">
+                                        <div data-id="{{ uniqid() }}" 
+                                        class="sortable-item cursor-move text-center rounded-md m-2" >
                                             <img src="{{ $image->temporaryUrl() }}" alt="preview-product-image"
-                                            class="sortable-item w-24 h-20 border rounded-lg shadow m-2 object-contain">
+                                            class="mb-2 w-24 h-20 border rounded-lg shadow object-contain">
+
+                                            <p class="text-xs w-24 text-gray-700 overflow-hidden 
+                                            text-ellipsis whitespace-nowrap">
+                                                {{ $image->getClientOriginalName() }}
+                                            </p>
+                                            <p class="text-xs text-gray-700">
+                                                {{ formatBytes($image->getSize()) }}
+                                            </p>
                                         </div>                         
                                     @endforeach
                                 @endif
@@ -207,6 +223,7 @@
                                 {
                                     return {
                                         dragEntered: false,
+                                        loadingDroppedFiles: false,
                                         handleDropEvent: (event) => {
 
                                             const files = event.dataTransfer.files;
@@ -444,7 +461,7 @@
         new Sortable(previewImages, {
             handle: '.sortable-item',
             animation: 250,
-            ghostClass: 'bg-blue-200',
+            ghostClass: 'bg-gray-100',
             store: {
                 set: (sortable) => console.log(sortable.toArray())
             }
