@@ -11,4 +11,10 @@ class Product extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    protected $appends = ['images_dir'];
+
+    public function getImagesDirAttribute()
+    {
+        return tenant('products_url') . "/$this->id";
+    }
 }

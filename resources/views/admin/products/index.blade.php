@@ -21,6 +21,10 @@
             </div>
         </div>
 
+        @if (Session::has('product_created'))
+            <x-toast type="success" time="5000" title="Producto creado con éxito" />
+        @endif
+
         @livewire('admin.products.index')
 
     </div>

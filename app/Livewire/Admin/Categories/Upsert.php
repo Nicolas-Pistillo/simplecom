@@ -147,7 +147,7 @@ class Upsert extends Component
             if ($category->cover_image_url)
                 Storage::delete($this->category->cover_image_url);
 
-            $coverImagePath = $this->coverImage->store(tenant('name') . '/categories');
+            $coverImagePath = $this->coverImage->store(tenant('categories_url'));
             $category->update(['cover_image_url' => $coverImagePath]);
         }
 
@@ -156,7 +156,7 @@ class Upsert extends Component
             if ($category->image_url)
                 Storage::delete($this->category->image_url);
 
-            $imagePath = $this->image->store(tenant('name') . '/categories');
+            $imagePath = $this->image->store(tenant('categories_url'));
             $category->update(['image_url' => $imagePath]);
         }
 

@@ -465,10 +465,19 @@
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <x-button submit size="large" class="flex items-center">
+
+            <x-button wire:loading.remove wire:target='save' submit size="large" class="flex items-center">
                 <x-icon code="add_circle" class="mr-1" />
                 Crear producto
             </x-button>
+
+            <x-button wire:loading wire:target='save' type="secondary" submit size="large">
+                <div class="flex items-center">
+                    <x-spinner class="mr-2" />
+                    Crando producto
+                </div>
+            </x-button>
+
         </div>
 
     </form>

@@ -12,6 +12,8 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
 
+    protected $appends = ['products_url', 'categories_url'];
+
     public static function getCustomColumns(): array
     {
         return [
@@ -65,5 +67,15 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     public function asset($url = false)
     {
         return Storage::url($this->name . "/$url");
+    }
+
+    public function getProductsUrlAttribute()
+    {
+        return $this->name . "/products";
+    }
+
+    public function getCategoriesUrlAttribute()
+    {
+        return $this->name . "/categories";
     }
 }

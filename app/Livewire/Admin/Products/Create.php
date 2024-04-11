@@ -5,6 +5,11 @@ namespace App\Livewire\Admin\Products;
 use App\Livewire\Forms\NewProductForm;
 use Livewire\Component;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductImage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -42,7 +47,34 @@ class Create extends Component
     {
         $this->validate();
 
-        dd("Paso toda la validación");
+        $product = Product::create($this->form->all());
+
+        Log::channel('resources')->info('Nuevo producto', [
+            'tenant' => tenant('name'),
+            'operator' => Auth::id(),
+            'product' => $product
+        ]);
+
+        if (!empty($this->images))
+        {
+            foreach($this->images as $index => $image)
+            {
+                $path = $image->store($product->images_dir);
+
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'url'        => $path,
+                    'order'      => $index + 1
+                ]);
+            }
+        }
+        
+        return redirect()->route('admin.products.index')->with('product_created', true);
+    }
+
+    public function mount()
+    {
+        $this->form->created_by = Auth::id();
     }
 
     public function render()

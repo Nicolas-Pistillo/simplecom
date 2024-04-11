@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Forms;
 
-use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -35,11 +34,14 @@ class NewProductForm extends Form
     #[Validate('nullable|numeric|integer|not_in:0', as: 'compra máxima')]
     public $max_selling;
 
-    #[Validate('nullable|numeric|integer')]
-    public $stock;
+    #[Validate('required|numeric|integer')]
+    public $stock = 0;
 
     #[Validate('required|numeric|not_in:0', as: 'peso')]
     public $weight;
+
+    #[Validate('required|integer|exists:operators,id', as: 'peso')]
+    public $created_by;
 
     #[Validate('required|numeric|not_in:0', as: 'ancho')]
     public $width;
