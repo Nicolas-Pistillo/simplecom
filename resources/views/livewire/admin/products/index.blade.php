@@ -18,7 +18,7 @@
         </div>
 
     @else
-        <ul role="list" class="divide-y divide-gray-100 mb-16">
+        <ul role="list" class="divide-y divide-gray-100 mb-8">
 
             @foreach ($products as $product)
                 <li wire:key='{{ time() }}' x-data="{selected: false}"
@@ -90,6 +90,10 @@
             @endforeach
 
         </ul>        
+
+        <div class="mb-16">
+            {{ $products->links() }}
+        </div>
     @endif
 
 </div>

@@ -464,14 +464,20 @@
             </section>
         </div>
 
-        <div class="mt-6 flex items-center justify-end gap-x-6">
+        <div class="mt-6 flex items-center justify-between flex-wrap gap-x-6">
+
+            <span class="text-red-500 text-xs flex items-center my-1">
+                @if ($errors->any())
+                    <x-icon code="error" class="mr-1" /> Hay errores o campos sin completar
+                @endif
+            </span>
 
             <x-button wire:loading.remove wire:target='save' submit size="large" class="flex items-center">
                 <x-icon code="add_circle" class="mr-1" />
                 Crear producto
             </x-button>
 
-            <x-button wire:loading wire:target='save' type="secondary" submit size="large">
+            <x-button wire:loading wire:target='save' type="secondary" submit size="large" class="my-1">
                 <div class="flex items-center">
                     <x-spinner class="mr-2" />
                     Crando producto

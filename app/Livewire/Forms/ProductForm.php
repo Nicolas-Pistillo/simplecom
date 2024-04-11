@@ -5,8 +5,9 @@ namespace App\Livewire\Forms;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class NewProductForm extends Form
+class ProductForm extends Form
 {
+    // ----- Fields -----
     #[Validate('required|min:3|max:40', as: 'nombre')]
     public $name;
 
@@ -51,4 +52,20 @@ class NewProductForm extends Form
 
     #[Validate('required|numeric|not_in:0', as: 'largo')]
     public $length;
+
+    // ----- Custom error messages -----
+    public function messages()
+    {
+        return [
+            'stock.required'            => 'El stock es obligatorio',
+            'price.not_in'              => 'El precio no puede ser 0',
+            'discount_percent.not_in'   => 'El descuento no puede ser 0',
+            'min_selling.not_in'        => 'La compra mínima no puede ser 0',
+            'max_selling.not_in'        => 'La compra máxima no puede ser 0',
+            'weight.not_in'             => 'El peso no puede ser 0',
+            'width.not_in'              => 'El ancho no puede ser 0',
+            'height.not_in'             => 'El alto no puede ser 0',
+            'length.not_in'             => 'El largo no puede ser 0'
+        ];
+    }
 }

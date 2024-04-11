@@ -2,14 +2,13 @@
 
 namespace App\Livewire\Admin\Products;
 
-use App\Livewire\Forms\NewProductForm;
+use App\Livewire\Forms\ProductForm;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -18,7 +17,7 @@ class Create extends Component
 {
     use WithFileUploads;
 
-    public NewProductForm $form;
+    public ProductForm $form;
 
     #[Validate(['images.*' => 'nullable|image|max:4020'])]
     public $images = [];
