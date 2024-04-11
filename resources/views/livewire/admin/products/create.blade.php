@@ -144,8 +144,9 @@
             <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                 <div>
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Imágenes</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">We'll always let you know about important changes, but
-                        you pick what else you want to hear about.</p>
+                    <p class="mt-1 text-sm leading-6 text-gray-600">
+                        Podes cambiar el orden de visualización que se verá en la pantalla del producto moviendo las images que subas
+                    </p>
                 </div>
 
                 <div class="max-w-2xl space-y-10 md:col-span-2">
@@ -160,11 +161,12 @@
                             @dragover.prevent="dragEntered = true"
                             @dragleave.prevent="dragEntered = false"
                             @drop.prevent="dragEntered = false; handleDropEvent($event)"
-                            @uploadfile.window="loadingDroppedFiles = true; 
-                            $wire.upload('images', $event.detail, (filename) => loadingDroppedFiles = false)"
+                            @uploaddropped.window="loadingDroppedFiles = true;
+                            $wire.upload('images', $event.detail, (results) => loadingDroppedFiles = false)"
                             class="cursor-pointer flex justify-center rounded-lg 
                             border border-dashed px-6 py-8 mb-2 relative"
                             :class="dragEntered ? 'border-blue-600' : 'border-gray-400/70'">
+
                                 <div class="text-center py-2">
 
                                     <i x-text="dragEntered ? 'place_item' : 'photo_library'"
@@ -200,16 +202,30 @@
 
                             <div id="previewImages" class="flex items-center flex-wrap">
                                 @if (!empty($images))
-                                    @foreach ($images as $image)
-                                        <div data-id="{{ uniqid() }}" 
-                                        class="sortable-item cursor-move text-center rounded-md m-2" >
-                                            <img src="{{ $image->temporaryUrl() }}" alt="preview-product-image"
-                                            class="mb-2 w-24 h-20 border rounded-lg shadow object-contain">
+                                    @foreach ($images as $key => $image)
+                                        <div wire:key='{{ $image->path() }}' data-id="{{ $image->path() }}" 
+                                        class="sortable-item cursor-move text-center rounded-md m-2">
 
-                                            <p class="text-xs w-24 text-gray-700 overflow-hidden 
-                                            text-ellipsis whitespace-nowrap">
-                                                {{ $image->getClientOriginalName() }}
-                                            </p>
+                                            <div x-data="{showDelete: false}" 
+                                            @mouseenter="showDelete = true"
+                                            @mouseleave="showDelete = false"
+                                            class="relative mb-2">
+
+                                                <x-badge color="blue" class="absolute -top-2 -left-2 !rounded-full">
+                                                    {{ $loop->index + 1 }}
+                                                </x-badge>
+
+                                                <img src="{{ $image->temporaryUrl() }}" alt="preview-product-image"
+                                                class="w-24 h-20 border rounded-lg shadow object-contain">
+
+                                                <x-icon x-show="showDelete" code="delete"
+                                                wire:click='deleteImage({{ $key }})'
+                                                x-tooltip.raw.placement.bottom="Eliminar" 
+                                                style="font-size: 20px" class="cursor-pointer 
+                                                absolute -bottom-2 -right-2 p-1 bg-gray-50 
+                                                hover:bg-white text-red-500 shadow rounded-full" />
+                                            </div>
+
                                             <p class="text-xs text-gray-700">
                                                 {{ formatBytes($image->getSize()) }}
                                             </p>
@@ -235,8 +251,10 @@
                                             Array.from(files).forEach(file => 
                                             {
                                                 if (!validImageTypes.includes(file.type)) return;
-                                                
-                                                window.dispatchEvent(new CustomEvent('uploadfile', {detail: file}));
+
+                                                if (file.size >= 4000000) return;
+
+                                                window.dispatchEvent(new CustomEvent('uploaddropped', {detail: file}))
                                             })
                                         }
                                     }
@@ -463,7 +481,7 @@
             animation: 250,
             ghostClass: 'bg-gray-100',
             store: {
-                set: (sortable) => console.log(sortable.toArray())
+                set: (sortable) => Livewire.dispatch('change-images-order', {newOrder: sortable.toArray()})
             }
         });
     </script>
