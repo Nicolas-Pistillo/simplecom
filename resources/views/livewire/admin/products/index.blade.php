@@ -21,43 +21,51 @@
         <ul role="list" class="divide-y divide-gray-100 mb-8">
 
             @foreach ($products as $product)
-                <li wire:key='{{ time() }}' x-data="{selected: false}"
+                <li wire:key='{{ $product->id }}' x-data="{selected: false}"
                 class="flex justify-between gap-x-6 py-5">
                 
                     <div class="flex items-center">
-                        <div class="flex min-w-0 gap-x-4 items-center w-auto md:w-80">
+
+                        <div class="flex min-w-0 gap-x-4 items-center">
                 
-                            <input type="checkbox"
-                            class="h-4 w-4 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-600">
+                            <input type="checkbox" class="h-4 w-4 rounded cursor-pointer 
+                            border-gray-300 text-blue-600 focus:ring-blue-600">
                     
-                            <img class="h-14 w-14 rounded flex-none shadow-md" alt="product-img"
-                            src="{{ URL::to('img/no-image.png') }}">
+                            <img class="w-14 object-contain rounded flex-none shadow-md" alt="product-img"
+                            src="{{ $product->getPresentationImage()?: URL::to('img/no-image.png') }}">
                     
                             <div class="min-w-0 flex-auto">
                                 <p class="text-sm font-semibold leading-6 text-gray-900">
                                     {{ $product->name }}
                                 </p>
-                                <p class="mt-1 flex text-xs leading-5 text-gray-500">
-                                    {{ $product->short_description }} asdasd asd
+                                <p class="mt-1 font-semibold flex text-xs leading-5 text-gray-500">
+                                    
+                                    @if ($product->stock === 0)
+                                        <span class="text-red-500">Sin stock</span>
+                                    @else
+                                        <span class="font-semibold">Stock: {{ $product->stock }}</span>
+                                    @endif
+
+                                    @if ($product->code)
+                                        <span class="ml-1">- Código: {{ $product->code }}</span>
+                                    @endif
                                 </p>
                             </div>
-                        </div>
-
-                        <div class="hidden md:flex items-center">
-                            @if ($product->id % 2 === 0)
-                                <x-badge color="red">Sin stock</x-badge>
-                            @else 
-                                <x-badge>Stock: 18</x-badge>
-                            @endif
                         </div>
                     </div>
                 
                     <div class="flex shrink-0 items-center gap-x-6">
-                        <div class="hidden sm:flex sm:flex-col sm:items-end">
-                            <p class="text-sm leading-6 text-gray-900">Front-end Developer</p>
-                            <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h
-                                    ago</time></p>
+
+                        <div class="flex flex-col items-end">
+                            <p class="text-sm leading-6 text-green-600">
+                                ${{ $product->price }}
+                            </p>
+                            <p class="mt-1 text-xs leading-5 text-gray-500">
+                                {{ $product->category->name }}
+                            </p>
                         </div>
+
+                        {{-- Product actions --}}
                         <div x-data="{ actionsOpen: false }" class="relative flex-none">
                 
                             <div x-tooltip.raw.placement.top="Acciones">

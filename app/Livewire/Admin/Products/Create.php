@@ -34,12 +34,12 @@ class Create extends Component
 
     public function deleteImage($imageIndex)
     {
-        $newImagesItem = [];
+        $newImages = [];
         
         unset($this->images[$imageIndex]);
-        foreach($this->images as $image) { array_push($newImagesItem, $image); }
+        foreach($this->images as $image) { array_push($newImages, $image); }
 
-        $this->images = $newImagesItem;
+        $this->images = $newImages;
     }
 
     public function save()

@@ -84,13 +84,13 @@
         @endif
           
         {{-- Create/Edit operator drawer --}}
-        @include('admin.operators.upsert-form')
+        @include('admin.operators.partials.upsert-form')
 
         {{-- Success notification toast --}}
         <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
 
         {{-- Delete operator dialog --}}
-        @include('admin.operators.delete-dialog')
+        @include('admin.operators.partials.delete-dialog')
 
     </div>
 </div>

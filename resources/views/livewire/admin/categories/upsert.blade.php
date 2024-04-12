@@ -76,7 +76,7 @@
 
                             <div wire:key='{{ $category->id }}'>
 
-                                @include('admin.categories.category-principal-item')
+                                @include('admin.categories.partials.category-principal-item')
 
                                 {{-- Childs Categories --}}
                                 @if ($category->hasChilds())
@@ -93,7 +93,7 @@
                                             @foreach ($category->childs as $childCategory)
                                                 <div wire:key='{{ $childCategory->id }}'>
 
-                                                    @include('admin.categories.category-child-item')
+                                                    @include('admin.categories.partials.category-child-item')
 
                                                     @if ($childCategory->hasChilds())
                                                         <div wire:ignore.self x-cloak x-collapse.duration.500
@@ -109,7 +109,7 @@
                                                                 </h4>
 
                                                                 @foreach ($childCategory->childs as $grandChild)
-                                                                    @include('admin.categories.category-grandchild-item')
+                                                                    @include('admin.categories.partials.category-grandchild-item')
                                                                 @endforeach
 
                                                             </div>
@@ -146,10 +146,10 @@
         </div>
 
         {{-- Delete category modal --}}
-        @include('admin.categories.delete-dialog')
+        @include('admin.categories.partials.delete-dialog')
 
         {{-- Create/Edit category drawer --}}
-        @include('admin.categories.upsert-form')
+        @include('admin.categories.partials.upsert-form')
 
         {{-- Success notification toast --}}
         <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />

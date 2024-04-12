@@ -26,6 +26,41 @@
         .no-select:focus {
             outline: none !important;
         }
+        #main-loader {
+            width: 40px;
+            aspect-ratio: 1;
+            position: relative;
+        }
+        #main-loader:before,
+        #main-loader:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: -8px 0 0 -8px;
+            width: 16px;
+            aspect-ratio: 1;
+            background: #2563eb;
+            box-shadow: 2px 2px 6px #999;
+            animation:
+                l1-1 2s  infinite,
+                l1-2 .5s infinite;
+        }
+        #main-loader:after {
+            background:#fff;
+            animation-delay: -1s,0s;
+            box-shadow: 2px 2px 6px #999;
+        }
+        @keyframes l1-1 {
+            0%   {top:0   ;left:0}
+            25%  {top:100%;left:0}
+            50%  {top:100%;left:100%}
+            75%  {top:0   ;left:100%}
+            100% {top:0   ;left:0}
+        }
+        @keyframes l1-2 {
+            80%,100% {transform: rotate(0.5turn)}
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
@@ -33,10 +68,9 @@
     @yield('head')
 </head>
 
-<body class="min-h-screen overflow-y-auto">
+<body x-data="{mobileMenuOpen: false}" class="min-h-screen overflow-y-auto">
 
-    <div x-data="{ mobileMenuOpen: false }">
-
+    <div>
         <!-- Mobile menu -->
         <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
 
@@ -67,7 +101,7 @@
                             <img src="{{ tenant()->logo() }}" class="h-full object-contain py-1" alt="ecommerce logo">
                         </div>
                         <hr>
-                        @include('admin.partials.navbar')
+                        @include('admin.navbar')
                     </div>
                 </div>
             </div>
@@ -81,12 +115,15 @@
                     <img src="{{ tenant()->logo() }}" class="h-full object-contain" alt="ecommerce logo">
                 </div>
                 <hr>
-                @include('admin.partials.navbar')
+                @include('admin.navbar')
             </div>
         </div>
 
+        {{-- Content --}}
         <div class="lg:pl-72">
-            <div class="sticky top-0 z-40 lg:mx-auto lg:max-w-7xl lg:px-8">
+
+            {{-- Page header --}}
+            <div id="main-header" class="hidden sticky top-0 z-40 lg:mx-auto lg:max-w-7xl lg:px-8">
                 <div
                     class="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-0 lg:shadow-none">
                     <button @click="mobileMenuOpen = true" type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
@@ -176,13 +213,36 @@
                 </div>
             </div>
 
-            <main class="py-6 px-8">
+            {{-- Content view --}}
+            <main id="main-content" class="relative py-6 px-8 h-screen overflow-hidden">
+
+                {{-- Page loader --}}
+                <div id="main-loader-container" class="absolute z-20 top-0 left-0 w-full h-full bg-gray-50">
+                    <div class="relative h-full flex flex-col justify-center items-center">
+                        <div id="main-loader" class="mb-8"></div>
+                        <h3 class="text-gray-700 font-semibold">Cargando...</h3>
+                    </div>
+                </div>
+
+                {{-- Page content --}}
                 @yield('content')
+
             </main>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.js"></script>
+
+    {{-- Loader remove --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('main-content').classList.remove('h-screen', 'overflow-hidden');
+            document.getElementById('main-header').classList.remove('hidden');
+            document.getElementById('main-loader-container').remove();
+        })
+    </script>
+
+    {{-- Custom page sripts --}}
     @yield('scripts')
 </body>
 </html>
