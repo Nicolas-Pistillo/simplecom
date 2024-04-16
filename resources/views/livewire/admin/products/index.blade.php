@@ -1,107 +1,215 @@
 <div>
 
-    @if ($products->isEmpty())
-        
+    @if (!$hasProducts)
         <div class="text-center pt-8">
 
-            <img src="{{ URL::to('img/illustrations/data_processing.svg') }}" class="h-64 mx-auto mb-4"
-                alt="no-data-img">
+            <img src="{{ URL::to('img/illustrations/data_processing.svg') }}" class="h-64 mx-auto mb-4" alt="no-data-img">
 
             <div class="mb-4">
                 <h3 class="mt-2 text-sm font-semibold text-gray-900">Aún no cargaste productos</h3>
                 <p class="mt-1 text-sm text-gray-500">
-                    Recordá crear primero tus 
-                    <a href="{{ route('admin.categories.index') }}" class="text-blue-500 hover:underline hover:text-blue-600">categorías</a> 
+                    Recordá crear primero tus
+                    <a href="{{ route('admin.categories.index') }}"
+                        class="text-blue-500 hover:underline hover:text-blue-600">categorías</a>
                     antes de crear tu primer producto
                 </p>
             </div>
         </div>
-
     @else
-        <ul role="list" class="divide-y divide-gray-100 mb-8">
+        {{-- Product list header --}}
+        <div class="flex justify-between items-end mt-8 mb-6">
 
-            @foreach ($products as $product)
-                <li wire:key='{{ $product->id }}' x-data="{selected: false}"
-                class="flex justify-between gap-x-6 py-5">
-                
-                    <div class="flex items-center">
+            {{-- Search & bulk actions --}}
+            <div class="flex items-end w-full">
 
-                        <div class="flex min-w-0 gap-x-4 items-center">
-                
-                            <input type="checkbox" class="h-4 w-4 rounded cursor-pointer 
-                            border-gray-300 text-blue-600 focus:ring-blue-600">
-                    
-                            <img class="w-14 object-contain rounded flex-none shadow-md" alt="product-img"
-                            src="{{ $product->getPresentationImage()?: URL::to('img/no-image.png') }}">
-                    
-                            <div class="min-w-0 flex-auto">
-                                <p class="text-sm font-semibold leading-6 text-gray-900">
-                                    {{ $product->name }}
-                                </p>
-                                <p class="mt-1 font-semibold flex text-xs leading-5 text-gray-500">
-                                    
-                                    @if ($product->stock === 0)
-                                        <span class="text-red-500">Sin stock</span>
-                                    @else
-                                        <span class="font-semibold">Stock: {{ $product->stock }}</span>
-                                    @endif
-
-                                    @if ($product->code)
-                                        <span class="ml-1">- Código: {{ $product->code }}</span>
-                                    @endif
-                                </p>
-                            </div>
+                {{-- Product search --}}
+                <x-input type="search" value="{{ $search }}" wire:model.live='search'
+                    class="flex-shrink border-none w-56 p-0 mr-4">
+                    <x-slot name="label">
+                        <div class="flex items-center">
+                            <x-icon code="search" class="mr-2 text-gray-400" /> Buscar productos...
                         </div>
-                    </div>
-                
-                    <div class="flex shrink-0 items-center gap-x-6">
+                    </x-slot>
+                </x-input>
 
-                        <div class="flex flex-col items-end">
-                            <p class="text-sm leading-6 text-green-600">
-                                ${{ $product->price }}
-                            </p>
-                            <p class="mt-1 text-xs leading-5 text-gray-500">
-                                {{ $product->category->name }}
-                            </p>
-                        </div>
+                {{-- Bulk actions --}}
+                @if (!empty($selectedProducts))
 
-                        {{-- Product actions --}}
-                        <div x-data="{ actionsOpen: false }" class="relative flex-none">
-                
-                            <div x-tooltip.raw.placement.top="Acciones">
-                                <x-icon @click="actionsOpen = !actionsOpen" code="more_vert"
-                                class="text-2xl text-gray-500 w-8 h-8 p-1 flex items-center
-                                rounded-full bg-gray-100 transition hover:bg-gray-200 text-center no-select shadow cursor-pointer" />
-                            </div>
-                
-                            <div x-cloak x-show="actionsOpen" x-transition:enter="transition ease-out duration-125"
-                                x-transition:enter-start="transform opacity-0 scale-95"
-                                x-transition:enter-end="transform opacity-100 scale-100"
-                                x-transition:leave="transition ease-in duration-125"
-                                x-transition:leave-start="transform opacity-100 scale-100"
-                                x-transition:leave-end="transform opacity-0 scale-95" @click.away="actionsOpen = false"
-                                class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
-                                role="menu" aria-orientation="vertical" aria-labelledby="options-menu-3-button"
-                                tabindex="-1">
-                                <!-- Active: "bg-gray-50", Not Active: "" -->
-                                <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem"
-                                tabindex="-1">View profile<span class="sr-only">, Lindsay
-                                        Walton</span></a>
-                                <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem"
-                                    tabindex="-1">Message<span class="sr-only">, Lindsay
-                                        Walton</span></a>
-                            </div>
-                        </div>
-                    </div>
-                
-                </li>
-            @endforeach
+                    <x-dropdown wire:loading.remove wire:target='bulkAction'>
 
-        </ul>        
+                        <x-slot name="title">
+                            {{ count($selectedProducts) }}
+                            {{ count($selectedProducts) == 1 ? 'seleccionado' : 'seleccionados' }}
+                        </x-slot>
 
-        <div class="mb-16">
-            {{ $products->links() }}
+                        <x-dropdown-item wire:click="bulkAction('publish')" @click="open = false" 
+                        label="Publicar selección" icon="public" />
+
+                        <x-dropdown-item wire:click="bulkAction('unpublish')" @click="open = false" 
+                        label="Despublicar selección" icon="visibility_off" />
+
+                        <x-dropdown-item wire:click="bulkAction('highlight')" @click="open = false" 
+                        label="Destacar selección" icon="star" />
+
+                        <x-dropdown-item wire:click="bulkAction('unhighlight')" @click="open = false" 
+                        label="Eliminar destacados" icon="do_not_disturb" />
+
+                        <x-dropdown-item wire:click="bulkAction('delete')" @click="open = false" 
+                        label="Eliminar selección" icon="delete" iconClass="text-red-400" />
+
+                    </x-dropdown>
+
+                    <x-spinner wire:loading wire:target='bulkAction' />
+                @endif
+            </div>
+
+            {{-- Filters & Export buttons --}}
+            <div class="relative flex justify-center">
+                <span class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+
+                    <x-button x-tooltip.raw.placement.top="Filtros" type="secondary"
+                        class="!text-gray-400 rounded-r-none flex items-center">
+                        <x-icon code="tune" />
+                    </x-button>
+
+                    <x-button type="secondary" x-tooltip.raw.placement.top="Exportar"
+                        class="!text-gray-400 rounded-l-none flex items-center">
+                        <x-icon code="file_download" />
+                    </x-button>
+                </span>
+            </div>
         </div>
+
+        @if ($products->isEmpty())
+            <div class="text-center font-semibold text-gray-400 mt-16">
+                <img src="{{ URL::to('img/illustrations/no_data.svg') }}" class="h-32 mx-auto mb-4" alt="no-data-img">
+                <h3 class="mt-2 text-sm font-semibold text-gray-900">No se encontraron resultados</h3>
+            </div>
+        @else
+            <div x-data="{showNotification: false}"
+            x-on:open-notification.window="showNotification = true">
+
+                {{-- Notifications --}}
+                <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
+
+                {{-- Product list --}}
+                <ul role="list" class="mb-8">
+
+                    @foreach ($products as $product)
+                        @php
+                            $isProductSelected = in_array($product->id, $selectedProducts);
+                        @endphp
+
+                        <li wire:key='{{ $product->id }}'
+                        class="flex justify-between gap-x-6 py-5 px-3 border-b
+                        {{ $isProductSelected ? 'shadow border-l-2 border-l-blue-700 bg-blue-50' : 'hover:bg-gray-50' }}">
+
+                            {{-- Product thumbnail, name, stock, code & states --}}
+                            <div class="flex items-center">
+                                <div class="flex min-w-0 gap-x-5 items-center">
+
+                                    <input type="checkbox" wire:model.live='selectedProducts' value="{{ $product->id }}"
+                                        :checked="{{ $isProductSelected ? 'true' : 'false' }}"
+                                        class="h-4 w-4 rounded cursor-pointer border-gray-300 text-blue-600">
+
+                                    <img class="w-14 object-contain rounded flex-none shadow-md" alt="product-img"
+                                        src="{{ $product->getPresentationImage() ?: URL::to('img/no-image.png') }}">
+
+                                    <div class="min-w-0 flex-auto">
+
+                                        <p class="text-sm font-semibold leading-6 text-gray-900 flex items-center">
+
+                                            {{ $product->name }}
+
+                                            @if ($product->published)
+                                                <x-icon code="public" class="ml-2 text-blue-600 cursor-pointer no-select" 
+                                                x-tooltip.raw.placement.top="Publicado" style="font-size: 20px" />
+                                            @else
+                                                <x-icon code="visibility_off" class="ml-2 text-gray-400 cursor-pointer no-select" 
+                                                x-tooltip.raw.placement.top="No publicado" style="font-size: 20px" />
+                                            @endif
+
+                                            @if ($product->featured)
+                                                <x-icon code="star" class="ml-1 text-yellow-500 cursor-pointer no-select" 
+                                                x-tooltip.raw.placement.top="Destacado" style="font-size: 20px" />
+                                            @endif
+                                        </p>
+
+                                        <p class="mt-1 font-semibold flex text-xs leading-5 text-gray-500">
+
+                                            @if ($product->stock === 0)
+                                                <span class="text-red-500">Sin stock</span>
+                                            @else
+                                                <span class="font-semibold">Stock: {{ $product->stock }}</span>
+                                            @endif
+
+                                            @if ($product->code)
+                                                <span class="ml-1">- Código: {{ $product->code }}</span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Product price, category & actions --}}
+                            <div class="flex shrink-0 items-center gap-x-6">
+
+                                <div class="flex flex-col items-end">
+                                    <p class="text-sm leading-6 text-green-600">
+                                        ${{ priceFormat($product->price) }}
+                                    </p>
+                                    <p class="mt-1 text-xs leading-5 text-gray-500">
+                                        {{ $product->category->name }}
+                                    </p>
+                                </div>
+
+                                {{-- Product actions --}}
+                                <div class="relative flex-none">
+
+                                    <x-dropdown position="right">
+
+                                        <x-slot name="trigger">
+                                            <x-icon code="more_vert" class="text-2xl text-gray-500 
+                                            w-8 h-8 p-1 flex items-center rounded-full bg-gray-100 
+                                            transition hover:bg-gray-200 text-center no-select shadow cursor-pointer" />
+                                        </x-slot>
+
+                                        @if ($product->published)
+                                            <x-dropdown-item @click="open = false" 
+                                            wire:click='togglePublishedProduct({{ $product }})' 
+                                            label="Despublicar" icon="visibility_off" />                                        
+                                        @else
+                                            <x-dropdown-item @click="open = false" 
+                                            wire:click='togglePublishedProduct({{ $product }})' 
+                                            label="Publicar" icon="public" />
+                                        @endif
+
+                                        @if ($product->featured)
+                                            <x-dropdown-item @click="open = false" 
+                                            wire:click='toggleFeaturedProduct({{ $product }})' 
+                                            label="Quitar de destacados" icon="do_not_disturb" />
+                                        @else
+                                            <x-dropdown-item @click="open = false" 
+                                            wire:click='toggleFeaturedProduct({{ $product }})' 
+                                            label="Destacar" icon="star" />
+                                        @endif
+
+                                        <x-dropdown-item label="Editar" icon="edit" />
+                                        <x-dropdown-item label="Eliminar" icon="delete" iconClass="text-red-400" />
+
+                                    </x-dropdown>
+                                </div>
+                            </div>
+
+                        </li>
+                    @endforeach
+
+                </ul>
+
+                {{-- Paginator --}}
+                <div class="mb-16"> {{ $products->links() }} </div>
+            </div>
+        @endif
     @endif
 
 </div>

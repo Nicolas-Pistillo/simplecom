@@ -9,7 +9,6 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Attributes\On;
 
 class Upsert extends Component
 {
@@ -20,6 +19,7 @@ class Upsert extends Component
     public $category, $categoryFather;
     public $name, $description, $image, $imagePreview, $coverImage, $coverImagePreview;
     public $featured, $published;
+    public $hasCategories;
 
     protected $validationAttributes = [
         'name'        => 'nombre',
@@ -198,6 +198,11 @@ class Upsert extends Component
             'operator_id' => Auth::id(),
             'category'    => $this->category
         ]);
+    }
+
+    public function mount()
+    {
+        $this->hasCategories = Category::count() > 0;
     }
 
     public function render()

@@ -28,7 +28,8 @@ class ProductObserver
      */
     public function deleted(Product $product): void
     {
-        //
+        $product->images()->delete();
+        Storage::deleteDirectory(tenant('products_url') . "/$product->id");
     }
 
     /**

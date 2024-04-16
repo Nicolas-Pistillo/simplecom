@@ -690,7 +690,7 @@
     </div>
     
     <!-- Newsletter -->
-    <div class="bg-gray-700 py-16">
+    <div class="bg-{{ tenant('color') }}-600 py-16">
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
         <div class="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:col-span-7">
             <h2 class="inline mb-2 sm:block lg:inline xl:block">No te pierdas ninguna novedad.</h2>

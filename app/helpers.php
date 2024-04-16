@@ -9,3 +9,11 @@ if (!function_exists('formatBytes'))
         return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
     } 
 }
+
+if(!function_exists('priceFormat'))
+{
+    function priceFormat($price)
+    {
+        return number_format($price, 0, '.', '.');
+    }
+}
