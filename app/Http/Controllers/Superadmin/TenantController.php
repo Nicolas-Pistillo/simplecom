@@ -5,21 +5,15 @@ namespace App\Http\Controllers\Superadmin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTenantRequest;
 use App\Jobs\CreateTenantFromAdminForm;
-use App\Models\Operator;
 use App\Models\Plan;
 use App\Models\Sector;
-use App\Models\Tenant;
-use App\Services\TenantService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class TenantController extends Controller
 {
     public function index()
     {
-        return view('superadmin.tenants.index', [
-            'tenants' => Tenant::with(['domains', 'plan', 'sector'])->get()
-        ]);
+        return view('superadmin.tenants.index');
     }
 
     public function create(Request $request)

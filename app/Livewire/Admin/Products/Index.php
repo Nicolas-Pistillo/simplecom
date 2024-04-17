@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin\Products;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Log;
 
 class Index extends Component
 {
@@ -41,6 +43,12 @@ class Index extends Component
                     ? 'Publicaste este producto' 
                     : 'El producto ya no está publicado';
 
+        Log::channel('resources')->info("Producto actualizado", [
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'product'     => $productModel
+        ]);
+
         $this->notify($message);
     }
 
@@ -53,7 +61,27 @@ class Index extends Component
                     ? 'Destacaste este producto' 
                     : 'El producto ya no estara destacado';
 
+        Log::channel('resources')->info("Producto actualizado", [
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'product'     => $productModel
+        ]);
+
         $this->notify($message);
+    }
+
+    public function deleteProduct($product)
+    {
+        $product = Product::find($product['id']);
+        $product->delete();
+
+        $this->notify("Eliminaste $product->name");
+
+        Log::channel('resources')->info("Producto eliminado", [
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'product'     => $product
+        ]);
     }
 
     public function bulkAction($action)
@@ -84,9 +112,25 @@ class Index extends Component
             'delete'      => 'Eliminaste'
         ];
 
+        $logTitleByAction = [
+            'publish'     => 'publicados',
+            'unpublish'   => 'despublicados',
+            'highlight'   => 'marcados como destacados',
+            'unhighlight' => 'removidos de destacados',
+            'delete'      => 'eliminados'
+        ];
+
         $resultTitle = $bulkActionTitles[$action];
+        $logActionTitle = $logTitleByAction[$action];
+
+        Log::channel('resources')->info("$productsTotal productos $logActionTitle", [
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'products'    => $products
+        ]);
 
         $this->notify($resultTitle . " $productsTotal productos");
+        $this->dispatch('close-bulk-delete-dialog');
         $this->selectedProducts = [];
     }
 

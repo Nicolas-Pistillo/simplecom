@@ -477,12 +477,12 @@
                 Crear producto
             </x-button>
 
-            <x-button wire:loading wire:target='save' type="secondary" submit size="large" class="my-1">
-                <div class="flex items-center">
+            <div wire:loading wire:target='save' class="my-1">
+                <div class="flex items-center font-semibold">
                     <x-spinner class="mr-2" />
-                    Crando producto
+                    Crando producto...
                 </div>
-            </x-button>
+            </div>
 
         </div>
 
