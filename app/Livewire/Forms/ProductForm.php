@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\Tag;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -17,7 +18,7 @@ class ProductForm extends Form
     #[Validate('required|exists:categories,id', as: 'categoría')]
     public $category_id;
 
-    #[Validate('nullable|string|max:100', as: 'descripción breve')]
+    #[Validate('nullable|string|max:130', as: 'descripción breve')]
     public $short_description;
 
     #[Validate('nullable|string|max:700', as: 'descripción')]
@@ -34,7 +35,7 @@ class ProductForm extends Form
 
     #[Validate('nullable|numeric|integer|not_in:0', as: 'compra máxima')]
     public $max_selling;
-
+        
     #[Validate('required|numeric|integer')]
     public $stock = 0;
 

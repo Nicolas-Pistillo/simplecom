@@ -11,21 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        [x-cloak] {
-            display: none !important;
-        }
-        .no-select {
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        .no-select:focus {
-            outline: none !important;
-        }
         #main-loader {
             width: 40px;
             aspect-ratio: 1;

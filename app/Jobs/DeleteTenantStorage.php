@@ -31,9 +31,5 @@ class DeleteTenantStorage implements ShouldQueue
     public function handle(): void
     {
         Storage::deleteDirectory($this->tenant->name);
-
-        $this->tenant->run(function() {
-            rmdir(storage_path() . '/framework/cache');
-        });
     }
 }

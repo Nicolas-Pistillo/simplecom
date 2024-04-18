@@ -5,7 +5,7 @@
 
             <x-icon code="add_business" class="text-gray-400" style="font-size: 48px" />
 
-            <h3 class="text-sm font-semibold text-gray-900 mb-5">Aún no hay tenants en simplecom</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-5">Aún no hay comercios en simplecom</h3>
 
             <x-button href="{{ route('superadmin.tenants.create') }}">
                 Crear uno ahora
@@ -26,11 +26,11 @@
 
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Listado de tenants</h1>
+                    <h1 class="text-base font-semibold leading-6 text-gray-900">Listado de comercios</h1>
                 </div>
 
                 <x-button href="{{ route('superadmin.tenants.create') }}"
-                    class="inline-block mt-4 sm:ml-16 sm:mt-0 sm:flex-none" type="primary">Nuevo tenant</x-button>
+                    class="inline-block mt-4 sm:ml-16 sm:mt-0 sm:flex-none" type="primary">Nuevo comercio</x-button>
             </div>
 
             <div class="my-8 flow-root">

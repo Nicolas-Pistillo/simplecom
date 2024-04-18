@@ -19,5 +19,8 @@
 @endphp
 
 <span {{ $attributes->merge(['class' => $badgeClass]) }}>
+    @isset($icon)
+        <x-icon :code="$icon" class="text-sm mr-1" />
+    @endisset
     {{ $slot }}
 </span>

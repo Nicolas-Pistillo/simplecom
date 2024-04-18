@@ -48,7 +48,7 @@
                                     class="{{ Route::is('superadmin.tenants*')
                                         ? 'bg-white rounded-md px-3 py-2 text-sm font-medium'
                                         : 'hover:underline text-white rounded-md px-3 py-2 text-sm font-medium' }}">
-                                    Tenants
+                                    Comercios
                                 </a>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                     <a href="{{ route('superadmin.tenants.index') }}"
                         class="{{ Route::is('superadmin.tenants.index')
                             ? 'bg-white block rounded-md px-3 py-2 text-base font-medium'
-                            : 'text-gray-300 block rounded-md px-3 py-2 text-base font-medium' }}">Tenants</a>
+                            : 'text-gray-300 block rounded-md px-3 py-2 text-base font-medium' }}">Comercios</a>
 
                 </div>
                 <div class="border-t border-gray-700 pb-3 pt-4">

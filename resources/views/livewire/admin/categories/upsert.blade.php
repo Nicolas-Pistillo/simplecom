@@ -53,7 +53,11 @@
 
                             <div class="mb-4">
                                 <h3 class="mt-2 text-sm font-semibold text-gray-900">Sin categorías</h3>
-                                <p class="mt-1 text-sm text-gray-500">Crea tu primer categoría para ver el listado</p>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <span wire:click='openNewCategory' class="text-blue-500 hover:underline hover:text-blue-600 cursor-pointer">
+                                        Crea tu primer categoría
+                                    </span> para ver el listado
+                                </p>
                             </div>
                         </div>
                     @else

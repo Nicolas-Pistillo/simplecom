@@ -13,7 +13,7 @@
                 </h1>    
 
                 <p class="mt-6 text-base leading-7 text-gray-600">
-                    Tu cuenta se encuentra actualmente inoperativa. <br> 
+                    Tu cuenta se encuentra actualmente desactivada. <br> 
                     Si crees que esto es un error sugerimos que te contactes con soporte para resolverlo.
                     <br> <br>
                     Muchas gracias
@@ -26,7 +26,7 @@
 
                 <p class="mt-6 text-base leading-7 text-gray-600">
                     El comercio <span class="text-blue-600">{{ tenant('ecommerce_name') }}</span>
-                    se encuentra realizado tareas de mantenimiento y volvera a estar operativo a la brevedad.
+                    se encuentra realizando tareas de mantenimiento y estará operativo a la brevedad.
                     <br> <br>
                     Muchas gracias
                 </p>

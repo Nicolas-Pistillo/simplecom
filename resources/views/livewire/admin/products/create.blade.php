@@ -68,13 +68,17 @@
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
 
                                     @if ($category->hasChilds())
+
                                         @foreach ($category->childs as $categoryChild)
+
                                             <option value="{{ $categoryChild->id }}">
                                                 {{ $category->name }} > {{ $categoryChild->name }}
                                             </option>
 
                                             @if ($categoryChild->hasChilds())
+
                                                 @foreach ($categoryChild->childs as $categoryGrandchild)
+
                                                     <option value="{{ $categoryGrandchild->id }}">
                                                         {{ $category->name }} > {{ $categoryChild->name }} >
                                                         {{ $categoryGrandchild->name }}
@@ -110,7 +114,7 @@
 
                         @if (!$errors->first('form.short_description'))
                             <span class="mt-1 text-xs leading-6 text-gray-500">
-                                Puede contener hasta 100 caracteres como máximo
+                                Puede contener hasta 130 caracteres como máximo
                             </span>
                         @endif
                     </div>
@@ -140,12 +144,108 @@
                 </div>
             </section>
 
+            {{-- Pricing block --}}
+            <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+                <div>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Venta</h2>
+                    <p class="mt-1 text-sm leading-6 text-gray-600">
+                        También podes cargar el descuento y configurar las unidades de compra.
+                    </p>
+                </div>
+
+                <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+
+                    {{-- Price field --}}
+                    <div class="sm:col-span-3">
+                        <label for="price" class="block text-sm font-medium leading-6 text-gray-900">
+                            Precio <sup class="text-red-500 -ml-1">*</sup>
+                        </label>
+                        <div class="mt-2">
+                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                                <input wire:model.blur='form.price'
+                                autocomplete="off" type="number" id="price" required
+                                class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                            </div>
+                            @error('form.price')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    {{-- Discount % field --}}
+                    <div class="sm:col-span-3">
+                        <label for="discount_percent" class="block text-sm font-medium leading-6 text-gray-900">
+                            Porcentaje de descuento
+                        </label>
+                        <div class="mt-2">
+                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">%</span>
+                                <input wire:model.blur='form.discount_percent'
+                                type="number" max="100" id="discount_percent" autocomplete="off"
+                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                            </div>
+
+                            @error('form.discount_percent')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    {{-- Min selling field --}}
+                    <div class="sm:col-span-3 sm:col-start-1">
+                        <label for="min_selling" class="block text-sm font-medium leading-6 text-gray-900">
+                            Compra mínima
+                        </label>
+                        <div class="mt-2">
+                            <input wire:model.blur='form.min_selling'
+                            type="number" id="min_selling" autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+                            focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.min_selling')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
+
+                            @if (!$errors->first('form.min_selling') && !$form->min_selling)
+                                <span class="mt-1 text-xs leading-6 text-gray-500">
+                                    Por defecto el valor será de 1 unidad
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- Max selling field --}}
+                    <div class="sm:col-span-3">
+                        <label for="max_selling" class="block text-sm font-medium leading-6 text-gray-900">
+                            Compra máxima
+                        </label>
+                        <div class="mt-2">
+                            <input wire:model.blur='form.max_selling'
+                            type="number" id="max_selling" autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
+                            placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                            @error('form.max_selling')
+                                <small class="text-red-500 text-xs">{{ $message }}</small>
+                            @enderror
+
+                            @if (!$errors->first('form.max_selling') && !$form->max_selling)
+                                <span class="mt-1 text-xs leading-6 text-gray-500">
+                                    Por defecto el límite será el stock
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {{-- Images block --}}
             <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                 <div>
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Imágenes</h2>
                     <p class="mt-1 text-sm leading-6 text-gray-600">
-                        Podes cambiar el orden de visualización que se verá en la pantalla del producto moviendo las images que subas
+                        Podes cambiar el orden de visualización que se verá en la pantalla del producto moviendo las images que subas.
                     </p>
                 </div>
 
@@ -266,98 +366,65 @@
                 </div>
             </section>
 
-            {{-- Pricing block --}}
+            {{-- Tags block --}}
             <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                 <div>
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Venta</h2>
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Etiquetas</h2>
                     <p class="mt-1 text-sm leading-6 text-gray-600">
-                        También podes cargar el descuento y configurar las unidades de compra.
+                        Las etiquetas ayudan a que tus clientes y el navegador encuentren productos de este tipo con mayor facilidad.
                     </p>
                 </div>
 
                 <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
 
                     {{-- Price field --}}
-                    <div class="sm:col-span-3">
-                        <label for="price" class="block text-sm font-medium leading-6 text-gray-900">
-                            Precio <sup class="text-red-500 -ml-1">*</sup>
+                    <div x-data="{tagsPanelOpen: false}" @click.away="tagsPanelOpen = false" 
+                    class="sm:col-span-4">
+                        <label for="tags" class="block text-sm font-medium leading-6 text-gray-900">
+                            Elegir etiqueta
                         </label>
-                        <div class="mt-2">
-                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
-                                <input wire:model.blur='form.price'
-                                autocomplete="off" type="number" id="price" required
-                                class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+
+                        <div class="mt-2 flex items-center">
+                            <div class="flex items-center w-full rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                                <input type="search" wire:model.live='tagSearch' autocomplete="off" id="tags" @focus="tagsPanelOpen = true"
+                                @keydown.enter.prevent="$wire.createTag($el.value); $el.value = '';"
+                                class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm sm:leading-6"
+                                placeholder="Buscar etiqueta por nombre...">
                             </div>
-                            @error('form.price')
-                                <small class="text-red-500 text-xs">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-
-                    {{-- Discount % field --}}
-                    <div class="sm:col-span-3">
-                        <label for="discount_percent" class="block text-sm font-medium leading-6 text-gray-900">
-                            Porcentaje de descuento
-                        </label>
-                        <div class="mt-2">
-                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
-                                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">%</span>
-                                <input wire:model.blur='form.discount_percent'
-                                type="number" max="100" id="discount_percent" autocomplete="off"
-                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                            <div class="ml-2 w-px">
+                                <x-spinner wire:loading wire:target='addTag, createTag, removeTag' class="ml-3" />
                             </div>
-
-                            @error('form.discount_percent')
-                                <small class="text-red-500 text-xs">{{ $message }}</small>
-                            @enderror
                         </div>
-                    </div>
 
-                    {{-- Min selling field --}}
-                    <div class="sm:col-span-3 sm:col-start-1">
-                        <label for="min_selling" class="block text-sm font-medium leading-6 text-gray-900">
-                            Compra mínima
-                        </label>
-                        <div class="mt-2">
-                            <input wire:model.blur='form.min_selling'
-                            type="number" id="min_selling" autocomplete="off"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
-                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
-                            focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
-
-                            @error('form.min_selling')
-                                <small class="text-red-500 text-xs">{{ $message }}</small>
-                            @enderror
-
-                            @if (!$errors->first('form.min_selling') && !$form->min_selling)
-                                <span class="mt-1 text-xs leading-6 text-gray-500">
-                                    Por defecto el valor será de 1 unidad
-                                </span>
-                            @endif
+                        <div x-show="tagsPanelOpen" x-cloak x-transition 
+                        class="absolute z-10 mt-2 bg-gray-50 min-w-[14rem] rounded shadow-md overflow-y-auto max-h-44">
+                            <ul>
+                                @forelse ($tags as $tag)
+                                    <li wire:key='{{ $tag->id }}' @click="tagsPanelOpen = false"
+                                    wire:click='addTag({{ $tag->id }})' 
+                                    class="text-sm my-2 p-2 flex items-center hover:bg-gray-100 cursor-pointer">
+                                        <x-icon code="loyalty" class="mr-1" />
+                                        {{ $tag->name }}
+                                    </li>
+                                @empty
+                                @endforelse
+                            </ul>
                         </div>
-                    </div>
 
-                    {{-- Max selling field --}}
-                    <div class="sm:col-span-3">
-                        <label for="max_selling" class="block text-sm font-medium leading-6 text-gray-900">
-                            Compra máxima
-                        </label>
-                        <div class="mt-2">
-                            <input wire:model.blur='form.max_selling'
-                            type="number" id="max_selling" autocomplete="off"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
-                            placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                        @if ($selectedTagsModels->isNotEmpty())
+                            <div class="mt-3 flex items-center flex-wrap gap-2">
+                                @foreach ($selectedTagsModels as $selectedTag)
+                                    <x-badge color="blue" icon="sell">
 
-                            @error('form.max_selling')
-                                <small class="text-red-500 text-xs">{{ $message }}</small>
-                            @enderror
+                                        {{ $selectedTag->name }}
 
-                            @if (!$errors->first('form.max_selling') && !$form->max_selling)
-                                <span class="mt-1 text-xs leading-6 text-gray-500">
-                                    Por defecto el límite será el stock
-                                </span>
-                            @endif
-                        </div>
+                                        <x-icon code="close" x-tooltip.raw.placement.bottom="Eliminar etiqueta"
+                                        wire:click='removeTag({{ $selectedTag->id }})'
+                                        class="text-sm ml-1 hover:text-red-500 cursor-pointer" />
+                                    </x-badge>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
             </section>

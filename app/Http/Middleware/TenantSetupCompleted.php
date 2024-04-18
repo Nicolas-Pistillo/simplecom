@@ -27,6 +27,6 @@ class TenantSetupCompleted
             return redirect()->route('admin.setup');
         }
 
-        return response()->view('errors.tenant_out_of_service');
+        return response()->view('errors.tenant_inactive');
     }
 }
