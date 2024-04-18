@@ -4,6 +4,9 @@
 
         <div class="space-y-12">
 
+            {{-- Published switch --}}
+            <x-switch wireModel='form.published' label="Publicar al finalizar" />
+
             {{-- Identification info block --}}
             <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
 
@@ -387,7 +390,8 @@
                         <div class="mt-2 flex items-center">
                             <div class="flex items-center w-full rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
                                 <input type="search" wire:model.live='tagSearch' autocomplete="off" id="tags" @focus="tagsPanelOpen = true"
-                                @keydown.enter.prevent="$wire.createTag($el.value); $el.value = '';"
+                                @keydown="tagsPanelOpen = true"
+                                @keydown.enter.prevent="$wire.createTag($el.value); $el.value = ''; tagsPanelOpen = false"
                                 class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm sm:leading-6"
                                 placeholder="Buscar etiqueta por nombre...">
                             </div>

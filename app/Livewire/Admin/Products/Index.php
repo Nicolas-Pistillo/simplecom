@@ -71,6 +71,11 @@ class Index extends Component
         $this->notify($message);
     }
 
+    public function toggleMassiveSelect($value)
+    {
+        dd($value);
+    }
+
     public function deleteProduct($product)
     {
         $product = Product::find($product['id']);
@@ -140,22 +145,29 @@ class Index extends Component
         $this->hasProducts = Product::count() > 0;
     }
 
-    public function render()
+    public function getProducts()
     {
         $products = Product::with('category');
 
-        if (!empty($this->search))
+        if (!empty(trim($this->search)))
         {
-            $products->where('name', 'LIKE', "%$this->search%");
-            $products->orWhere('code', 'LIKE', "%$this->search%");
+            $search = trim($this->search);
 
-            $products->orWhereHas('category', function($query) {
-                $query->where('name', 'LIKE', "%$this->search%");
+            $products->where('name', 'LIKE', "%$search%");
+            $products->orWhere('code', 'LIKE', "%$search%");
+
+            $products->orWhereHas('category', function($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%");
             });
         }
 
+        return $products->paginate(10);
+    }
+
+    public function render()
+    {
         return view('livewire.admin.products.index', [
-            'products' => $products->paginate(10)
+            'products' => $this->getProducts()
         ]);
     }
 }

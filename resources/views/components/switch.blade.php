@@ -2,7 +2,8 @@
 
     <input type="checkbox" class="sr-only peer" @isset($value) value="{{ $value }}" @endisset
     @if (isset($checked) && $checked == true) checked @endif
-    @if (!empty($name)) name="{{ $name }}" @endif>
+    @if (!empty($name)) name="{{ $name }}" @endif
+    @isset($wireModel) wire:model.live='{{ $wireModel }}' @endisset>
 
     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 
     peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full 

@@ -9,6 +9,9 @@ use Livewire\Form;
 class ProductForm extends Form
 {
     // ----- Fields -----
+    #[Validate('nullable|boolean')]
+    public $published = false;
+
     #[Validate('required|min:3|max:40', as: 'nombre')]
     public $name;
 
