@@ -33,6 +33,11 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function operator()
+    {
+        return $this->belongsTo(Operator::class, 'created_by');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

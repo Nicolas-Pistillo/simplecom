@@ -108,7 +108,7 @@
         <div class="lg:pl-72">
 
             {{-- Page header --}}
-            <div id="main-header" class="hidden sticky top-0 z-40 lg:mx-auto lg:max-w-7xl lg:px-8">
+            <div id="main-header" class="hidden sticky top-0 z-40 w-full lg:px-6">
                 <div
                     class="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-0 lg:shadow-none">
                     <button @click="mobileMenuOpen = true" type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
@@ -199,7 +199,7 @@
             </div>
 
             {{-- Content view --}}
-            <main id="main-content" class="relative py-6 px-8 h-screen overflow-hidden">
+            <main id="main-content" class="relative p-6 h-screen overflow-hidden">
 
                 {{-- Page loader --}}
                 <div id="main-loader-container" class="absolute z-20 top-0 left-0 w-full h-full bg-gray-50">

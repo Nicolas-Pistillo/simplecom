@@ -18,6 +18,7 @@
     @else
         <div x-data="{ showNotification: false, showBulkDeleteConfirm: false }" x-on:open-notification.window="showNotification = true"
             x-on:close-bulk-delete-dialog.window="showBulkDeleteConfirm = false">
+
             {{-- Product list header --}}
             <div class="flex justify-between items-end mt-8 mb-6">
 
@@ -44,19 +45,22 @@
                             </x-slot>
 
                             <x-dropdown-item wire:click="bulkAction('publish')" @click="open = false"
-                                label="Publicar selección" icon="public" />
+                                label="Publicar" icon="public" />
 
                             <x-dropdown-item wire:click="bulkAction('unpublish')" @click="open = false"
-                                label="Despublicar selección" icon="visibility_off" />
+                                label="Despublicar" icon="visibility_off" />
 
                             <x-dropdown-item wire:click="bulkAction('highlight')" @click="open = false"
-                                label="Destacar selección" icon="star" />
+                                label="Destacar" icon="star" />
 
                             <x-dropdown-item wire:click="bulkAction('unhighlight')" @click="open = false"
-                                label="Remover de destacados" icon="do_not_disturb" />
+                                label="Remover de destacados" icon="remove_circle_outline" />
+
+                            <x-dropdown-item wire:click="downloadSelecteds" @click="open = false"
+                                label="Descargar excel" icon="file_download" />
 
                             <x-dropdown-item @click="showBulkDeleteConfirm = true; open = false"
-                                label="Eliminar selección" icon="delete" iconClass="text-red-400" />
+                                label="Eliminar" icon="delete" iconClass="text-red-400" />
 
                         </x-dropdown>
 
@@ -66,14 +70,26 @@
 
                 {{-- Filters & Export buttons --}}
                 @if ($products->isNotEmpty())
-                    <div class="relative flex justify-center">
+                    <div class="flex justify-center z-10">
                         <span class="isolate inline-flex -space-x-px rounded-md shadow-sm">
 
-                            <x-button x-tooltip.raw.placement.top="Filtros" type="secondary"
-                                class="!text-gray-400 rounded-r-none flex items-center">
-                                <x-icon code="tune" />
-                            </x-button>
+                            {{-- Filters --}}
+                            <x-dropdown position="right">
 
+                                <x-slot name="trigger">
+                                    <x-button x-tooltip.raw.placement.top="Filtros" type="secondary"
+                                    class="!text-gray-400 rounded-r-none flex items-center">
+                                        <x-icon code="tune" />
+                                    </x-button>
+                                </x-slot>
+
+                                <x-dropdown-item label="Algo aca" class="z-10" />
+                                <x-dropdown-item label="Algo aca" class="z-10" />
+                                <x-dropdown-item label="Algo aca" class="z-10" />
+
+                            </x-dropdown>
+
+                            {{-- Export --}}
                             <x-button type="secondary" x-tooltip.raw.placement.top="Exportar"
                                 class="!text-gray-400 rounded-l-none flex items-center">
                                 <x-icon code="file_download" />
@@ -123,7 +139,6 @@
                 <ul role="list" class="mb-8">
 
                     @foreach ($products as $product)
-
                         @php
                             $isProductSelected = in_array($product->id, $selectedProducts);
                         @endphp

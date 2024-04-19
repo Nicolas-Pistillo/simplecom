@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Admin\Products;
 
+use App\Exports\ProductsExport;
 use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -69,11 +71,6 @@ class Index extends Component
         ]);
 
         $this->notify($message);
-    }
-
-    public function toggleMassiveSelect($value)
-    {
-        dd($value);
     }
 
     public function deleteProduct($product)
@@ -138,6 +135,12 @@ class Index extends Component
         $this->notify($resultTitle . " $productsTotal productos");
         $this->dispatch('close-bulk-delete-dialog');
         $this->selectedProducts = [];
+    }
+
+    public function downloadSelecteds()
+    {
+        $products = Product::find($this->selectedProducts)->load('category', 'tags', 'operator');
+        return Excel::download(new ProductsExport($products), 'productos.xlsx');
     }
 
     public function mount()
