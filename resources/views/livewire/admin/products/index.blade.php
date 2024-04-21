@@ -37,7 +37,7 @@
 
                     {{-- Bulk actions --}}
                     @if (!empty($selectedProducts))
-                        <x-dropdown wire:loading.remove wire:target='bulkAction'>
+                        <x-dropdown wire:loading.remove wire:target='bulkAction, downloadSelecteds'>
 
                             <x-slot name="title">
                                 {{ count($selectedProducts) }}
@@ -45,7 +45,7 @@
                             </x-slot>
 
                             <x-dropdown-item wire:click="bulkAction('publish')" @click="open = false"
-                                label="Publicar" icon="public" />
+                                label="Publicar" icon="visibility" />
 
                             <x-dropdown-item wire:click="bulkAction('unpublish')" @click="open = false"
                                 label="Despublicar" icon="visibility_off" />
@@ -56,7 +56,7 @@
                             <x-dropdown-item wire:click="bulkAction('unhighlight')" @click="open = false"
                                 label="Remover de destacados" icon="remove_circle_outline" />
 
-                            <x-dropdown-item wire:click="downloadSelecteds" @click="open = false"
+                            <x-dropdown-item wire:click="download(true)" @click="open = false"
                                 label="Descargar excel" icon="file_download" />
 
                             <x-dropdown-item @click="showBulkDeleteConfirm = true; open = false"
@@ -89,8 +89,9 @@
 
                             </x-dropdown>
 
-                            {{-- Export --}}
-                            <x-button type="secondary" x-tooltip.raw.placement.top="Exportar"
+                            {{-- Export all --}}
+                            <x-button type="secondary" wire:click='download' 
+                                x-tooltip.raw.placement.top="Descargar todos"
                                 class="!text-gray-400 rounded-l-none flex items-center">
                                 <x-icon code="file_download" />
                             </x-button>

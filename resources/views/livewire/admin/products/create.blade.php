@@ -463,7 +463,8 @@
                     {{-- Weight field --}}
                     <div class="sm:col-span-2">
                         <label for="weight" class="block text-sm font-medium leading-6 text-gray-900">
-                            Peso <sup class="text-red-500 -ml-1">*</sup> <x-badge color="blue">KG</x-badge>
+                            Peso <sup class="text-red-500 -ml-1">*</sup> 
+                            <x-badge x-tooltip.raw.placement.top="Gramos" color="blue">GR</x-badge>
                         </label>
                         <div class="mt-2">
                             <input wire:model.blur='form.weight'
@@ -481,7 +482,8 @@
                     {{-- Width field --}}
                     <div class="sm:col-span-2 sm:col-start-1">
                         <label for="width" class="block text-sm font-medium leading-6 text-gray-900">
-                            Ancho <sup class="text-red-500 -ml-1">*</sup> <x-badge color="blue">CM</x-badge>
+                            Ancho <sup class="text-red-500 -ml-1">*</sup> 
+                            <x-badge x-tooltip.raw.placement.top="Centímetros" color="blue">CM</x-badge>
                         </label>
                         <div class="mt-2">
                             <input wire:model.blur='form.width'
@@ -499,7 +501,8 @@
                     {{-- Height field --}}
                     <div class="sm:col-span-2">
                         <label for="height" class="block text-sm font-medium leading-6 text-gray-900">
-                            Alto <sup class="text-red-500 -ml-1">*</sup> <x-badge color="blue">CM</x-badge>
+                            Alto <sup class="text-red-500 -ml-1">*</sup> 
+                            <x-badge x-tooltip.raw.placement.top="Centímetros" color="blue">CM</x-badge>
                         </label>
                         <div class="mt-2">
                             <input wire:model.blur='form.height'
@@ -517,7 +520,8 @@
                     {{-- Length field --}}
                     <div class="sm:col-span-2">
                         <label for="length" class="block text-sm font-medium leading-6 text-gray-900">
-                            Largo <sup class="text-red-500 -ml-1">*</sup> <x-badge color="blue">CM</x-badge>
+                            Largo <sup class="text-red-500 -ml-1">*</sup> 
+                            <x-badge x-tooltip.raw.placement.top="Centímetros" color="blue">CM</x-badge>
                         </label>
                         <div class="mt-2">
                             <input wire:model.blur='form.length'

@@ -137,9 +137,12 @@ class Index extends Component
         $this->selectedProducts = [];
     }
 
-    public function downloadSelecteds()
+    public function download($selecteds = false)
     {
-        $products = Product::find($this->selectedProducts)->load('category', 'tags', 'operator');
+        $products = $selecteds 
+                    ? Product::find($this->selectedProducts)->load('category', 'tags', 'operator')
+                    : Product::with('category', 'tags', 'operator')->get();
+
         return Excel::download(new ProductsExport($products), 'productos.xlsx');
     }
 

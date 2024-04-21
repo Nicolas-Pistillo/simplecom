@@ -33,13 +33,14 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
             'Descripción breve',
             'Descripción',
             'Categoría',
+            'Etiquetas',
             'Precio',
             '% Descuento',
             'Stock',
             'Venta mínima',
             'Venta máxima',
-            'Dimensiones',
-            'Peso (kg)'
+            'Dimensiones (ancho x largo x alto)',
+            'Peso (gramos)'
         ];
     }
 
@@ -52,8 +53,9 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
             $product->short_description,
             $product->description,
             $product->category->name,
-            $product->price,
-            "%$product->discount_percent",
+            $product->tags->pluck('name')->implode(','),
+            "$". priceFormat($product->price),
+            "%". $product->discount_percent ?? 0,
             $product->stock,
             $product->min_selling,
             $product->max_selling,
