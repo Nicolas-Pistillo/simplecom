@@ -99,33 +99,11 @@
                         </div>
                     </div>
 
-                    {{-- Short description field --}}
-                    <div class="col-span-full">
-                        <label for="short_description" class="block text-sm font-medium leading-6 text-gray-900">
-                            Descripción breve
-                        </label>
-                        <div class="mt-2">
-                            <textarea wire:model.blur='form.short_description' id="short_description" rows="2"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
-                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
-                            focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"></textarea>
-                        </div>
-
-                        @error('form.short_description')
-                            <small class="text-red-500 text-xs">{{ $message }}</small>
-                        @enderror
-
-                        @if (!$errors->first('form.short_description'))
-                            <span class="mt-1 text-xs leading-6 text-gray-500">
-                                Puede contener hasta 130 caracteres como máximo
-                            </span>
-                        @endif
-                    </div>
-
                     {{-- Description field --}}
                     <div class="col-span-full">
-                        <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Descripción
-                            detallada</label>
+                        <label for="description" class="block text-sm font-medium leading-6 text-gray-900">
+                            Descripción
+                        </label>
                         <div class="mt-2">
                             <textarea wire:model.blur='form.description' id="description" rows="7"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 
@@ -138,7 +116,7 @@
 
                             @if (!$errors->first('form.description'))
                                 <span class="mt-1 text-xs leading-6 text-gray-500">
-                                    Puede contener hasta 700 caracteres como máximo
+                                    Puede contener hasta 2400 caracteres como máximo
                                 </span>
                             @endif
                         </div>
@@ -194,23 +172,23 @@
                         </div>
                     </div>
 
-                    {{-- Min selling field --}}
+                    {{-- Min sale field --}}
                     <div class="sm:col-span-3 sm:col-start-1">
-                        <label for="min_selling" class="block text-sm font-medium leading-6 text-gray-900">
+                        <label for="min_sale" class="block text-sm font-medium leading-6 text-gray-900">
                             Compra mínima
                         </label>
                         <div class="mt-2">
-                            <input wire:model.blur='form.min_selling'
-                            type="number" id="min_selling" autocomplete="off"
+                            <input wire:model.blur='form.min_sale'
+                            type="number" id="min_sale" autocomplete="off"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 
                             shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                             focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
 
-                            @error('form.min_selling')
+                            @error('form.min_sale')
                                 <small class="text-red-500 text-xs">{{ $message }}</small>
                             @enderror
 
-                            @if (!$errors->first('form.min_selling') && !$form->min_selling)
+                            @if (!$errors->first('form.min_sale') && !$form->min_sale)
                                 <span class="mt-1 text-xs leading-6 text-gray-500">
                                     Por defecto el valor será de 1 unidad
                                 </span>
@@ -218,22 +196,22 @@
                         </div>
                     </div>
 
-                    {{-- Max selling field --}}
+                    {{-- Max sale field --}}
                     <div class="sm:col-span-3">
-                        <label for="max_selling" class="block text-sm font-medium leading-6 text-gray-900">
+                        <label for="max_sale" class="block text-sm font-medium leading-6 text-gray-900">
                             Compra máxima
                         </label>
                         <div class="mt-2">
-                            <input wire:model.blur='form.max_selling'
-                            type="number" id="max_selling" autocomplete="off"
+                            <input wire:model.blur='form.max_sale'
+                            type="number" id="max_sale" autocomplete="off"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
                             placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
 
-                            @error('form.max_selling')
+                            @error('form.max_sale')
                                 <small class="text-red-500 text-xs">{{ $message }}</small>
                             @enderror
 
-                            @if (!$errors->first('form.max_selling') && !$form->max_selling)
+                            @if (!$errors->first('form.max_sale') && !$form->max_sale)
                                 <span class="mt-1 text-xs leading-6 text-gray-500">
                                     Por defecto el límite será el stock
                                 </span>

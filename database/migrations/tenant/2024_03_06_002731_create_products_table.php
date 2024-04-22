@@ -15,14 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code')->nullable();
-            $table->string('short_description')->nullable();
             $table->text('description')->nullable();
             $table->foreignId('category_id');
             $table->float('price');
             $table->integer('discount_percent')->nullable();
             $table->integer('stock')->default(0);
-            $table->integer('min_selling')->default(1);
-            $table->integer('max_selling')->nullable();
+            $table->integer('min_sale')->default(1);
+            $table->integer('max_sale')->nullable();
             $table->float('width');
             $table->float('height');
             $table->float('length');

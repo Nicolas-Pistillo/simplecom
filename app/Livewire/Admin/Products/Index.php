@@ -165,6 +165,10 @@ class Index extends Component
             $products->orWhereHas('category', function($query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%");
             });
+
+            $products->orWhereHas('tags', function($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%");
+            });
         }
 
         return $products->paginate(10);

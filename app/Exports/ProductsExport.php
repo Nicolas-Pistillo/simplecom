@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Models\Product;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -30,12 +29,11 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
             'ID',
             'Nombre',
             'Código',
-            'Descripción breve',
             'Descripción',
             'Categoría',
             'Etiquetas',
             'Precio',
-            '% Descuento',
+            'Descuento',
             'Stock',
             'Venta mínima',
             'Venta máxima',
@@ -50,15 +48,14 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
             $product->id,
             $product->name,
             $product->code,
-            $product->short_description,
             $product->description,
             $product->category->name,
             $product->tags->pluck('name')->implode(','),
             "$". priceFormat($product->price),
-            "%". $product->discount_percent ?? 0,
+            $product->discount_percent ? "%$product->discount_percent" : "-",
             $product->stock,
-            $product->min_selling,
-            $product->max_selling,
+            $product->min_sale,
+            $product->max_sale ?? '-',
             "$product->width x $product->height x $product->length",
             $product->weight
         ];

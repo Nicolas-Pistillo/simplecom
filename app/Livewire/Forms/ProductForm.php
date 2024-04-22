@@ -21,10 +21,7 @@ class ProductForm extends Form
     #[Validate('required|exists:categories,id', as: 'categoría')]
     public $category_id;
 
-    #[Validate('nullable|string|max:130', as: 'descripción breve')]
-    public $short_description;
-
-    #[Validate('nullable|string|max:700', as: 'descripción')]
+    #[Validate('nullable|string|max:2400', as: 'descripción')]
     public $description;
 
     #[Validate('required|numeric|max:99999999|not_in:0', as: 'precio')]
@@ -34,10 +31,10 @@ class ProductForm extends Form
     public $discount_percent;
 
     #[Validate('nullable|numeric|integer|not_in:0', as: 'compra mínima')]
-    public $min_selling = 1;
+    public $min_sale = 1;
 
     #[Validate('nullable|numeric|integer|not_in:0', as: 'compra máxima')]
-    public $max_selling;
+    public $max_sale;
         
     #[Validate('required|numeric|integer')]
     public $stock = 0;
@@ -64,8 +61,8 @@ class ProductForm extends Form
             'stock.required'            => 'El stock es obligatorio',
             'price.not_in'              => 'El precio no puede ser 0',
             'discount_percent.not_in'   => 'El descuento no puede ser 0',
-            'min_selling.not_in'        => 'La compra mínima no puede ser 0',
-            'max_selling.not_in'        => 'La compra máxima no puede ser 0',
+            'min_sale.not_in'           => 'La compra mínima no puede ser 0',
+            'max_sale.not_in'           => 'La compra máxima no puede ser 0',
             'weight.not_in'             => 'El peso no puede ser 0',
             'width.not_in'              => 'El ancho no puede ser 0',
             'height.not_in'             => 'El alto no puede ser 0',
