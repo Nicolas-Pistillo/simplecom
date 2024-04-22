@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -20,7 +21,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        return view('admin.products.upsert');
     }
 
     /**
@@ -42,9 +43,9 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.products.upsert', compact('product'));
     }
 
     /**

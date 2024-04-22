@@ -12,26 +12,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
 
-class Create extends Component
+class Upsert extends Component
 {
     use WithFileUploads;
 
     public ProductForm $form;
+    public $product;
 
-    #[Validate(['images.*' => 'nullable|image|max:4020'])]
+    public $tagSearch = '';
+    public $notificationMessage = '';
+
     public $images = [];
-
     public $selectedTags = [];
-    public $tagSearch;
 
     #[On('change-images-order')]
     public function changeImagesOrder($newOrder)
     {
         foreach($this->images as $image)
         {
-            $newIndex = array_search($image->path(), $newOrder);
+            $isSavedImage = $image instanceof ProductImage;
+
+            $newIndex = array_search($isSavedImage ? $image->id : $image->path(), $newOrder);
             $this->images[$newIndex] = $image;
         }
     }
@@ -39,6 +41,14 @@ class Create extends Component
     public function deleteImage($imageIndex)
     {
         $newImages = [];
+
+        $image = $this->images[$imageIndex];
+
+        if ($image instanceof ProductImage)
+        {
+            $image->delete();
+            $this->notify("Imágen eliminada exitosamente");
+        }
         
         unset($this->images[$imageIndex]);
         foreach($this->images as $image) { array_push($newImages, $image); }
@@ -83,18 +93,18 @@ class Create extends Component
     {
         $this->validate();
 
-        $product = Product::create($this->form->all());
-
-        Log::channel('resources')->info('Nuevo producto', [
-            'tenant' => tenant('name'),
-            'operator' => Auth::id(),
-            'product' => $product
-        ]);
+        $product = $this->product ? $this->updateProduct() : $this->storeNewProduct();
 
         if (!empty($this->images))
         {
             foreach($this->images as $index => $image)
             {
+                if ($image instanceof ProductImage)
+                {
+                    $image->update(['order' => $index + 1]);
+                    continue;
+                }
+
                 $path = $image->store($product->images_dir);
 
                 ProductImage::create([
@@ -109,18 +119,61 @@ class Create extends Component
         {
             $product->tags()->sync($this->selectedTags);
         }
-        
-        return redirect()->route('admin.products.index')->with('product_created', true);
+
+        $actionPerformed = $product->wasRecentlyCreated ? 'product_created' : 'product_updated';
+        return redirect()->route('admin.products.index')->with($actionPerformed, true);
     }
 
-    public function mount()
+    public function updateProduct()
     {
+        $this->product->update($this->form->all());
+
+        Log::channel('resources')->info('Producto actualizado', [
+            'tenant'   => tenant('name'),
+            'operator' => Auth::id(),
+            'product'  => $this->product
+        ]);
+
+        return $this->product;
+    }
+
+    public function storeNewProduct()
+    {
+        $product = Product::create($this->form->all());
+
+        Log::channel('resources')->info('Nuevo producto', [
+            'tenant'   => tenant('name'),
+            'operator' => Auth::id(),
+            'product'  => $product
+        ]);
+
+        return $product;
+    }
+
+    public function notify($message)
+    {
+        $this->notificationMessage = $message;
+        $this->dispatch('open-notification');
+    }
+
+    public function mount(Product|bool $product = false)
+    {
+        if ($product)
+        {
+            $this->product = $product;
+            $this->form->fill($product);
+            $this->form->published = $product->published == 1;
+
+            $product->tags->each(fn($tag) => array_push($this->selectedTags, $tag->id));
+            $product->images->sortBy('order')->each(fn($image) => array_push($this->images, $image));
+        }
+
         $this->form->created_by = Auth::id();
     }
 
     public function render()
     {
-        return view('livewire.admin.products.create', [
+        return view('livewire.admin.products.upsert', [
             'categories' => Category::principal()->published()->with('childs')->orderBy('name')->get(),
             'tags'       => $this->getTags(),
             'selectedTagsModels' => Tag::find($this->selectedTags)

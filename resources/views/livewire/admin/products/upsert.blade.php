@@ -1,11 +1,26 @@
 <div>
     
-    <form wire:submit='save' class="pb-6">
+    <form wire:submit='save' class="pb-6" x-data="{ showNotification: false }"
+    x-on:open-notification.window="showNotification = true">
+
+        {{-- Success notification toast --}}
+        <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
 
         <div class="space-y-12">
 
-            {{-- Published switch --}}
-            <x-switch wireModel='form.published' label="Publicar al finalizar" />
+            {{-- Published & edit alert block --}}
+            <div class="grid grid-cols-1 space-y-4 md:space-y-0 gap-x-8 border-gray-900/10 md:grid-cols-3">
+
+                {{-- Published switch --}}
+                <x-switch wireModel='form.published' :label="$product ? 'Publicar' : 'Publicar al finalizar'" />
+
+                {{-- Edit alert --}}
+                @if ($product)
+                    <x-alert class="col-span-2">Estas editando el producto 
+                        <span class="font-semibold">{{ "#$product->id - $product->name" }}</span>
+                    </x-alert>
+                @endif
+            </div>
 
             {{-- Identification info block --}}
             <section class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
@@ -284,33 +299,91 @@
                             <div id="previewImages" class="flex items-center flex-wrap">
                                 @if (!empty($images))
                                     @foreach ($images as $key => $image)
-                                        <div wire:key='{{ $image->path() }}' data-id="{{ $image->path() }}" 
-                                        class="sortable-item cursor-move text-center rounded-md m-2">
 
-                                            <div x-data="{showDelete: false}" 
-                                            @mouseenter="showDelete = true"
-                                            @mouseleave="showDelete = false"
-                                            class="relative mb-2">
+                                        @if (isset($image->id))
+                                            <div wire:key='{{ $image->id }}' data-id="{{ $image->id }}"
+                                                x-data="{deleteDialogOpen: false}" 
+                                                class="sortable-item text-center rounded-md m-2"
+                                                :class="deleteDialogOpen ? 'cursor-default' : 'cursor-move'">
+        
+                                                    <div x-data="{showDelete: false}" 
+                                                    @mouseenter="showDelete = true"
+                                                    @mouseleave="showDelete = false"
+                                                    class="relative mb-2">
+        
+                                                        <x-badge color="blue" class="absolute -top-2 -left-2 !rounded-full">
+                                                            {{ $loop->index + 1 }}
+                                                        </x-badge>
+        
+                                                        <img src="{{ Storage::url($image->url) }}" alt="preview-product-image"
+                                                        class="w-24 h-20 border rounded-lg shadow object-contain">
+        
+                                                        <x-icon x-show="showDelete" code="delete"
+                                                        @click="deleteDialogOpen = true"
+                                                        x-tooltip.raw.placement.bottom="Eliminar" 
+                                                        style="font-size: 20px" class="cursor-pointer 
+                                                        absolute -bottom-2 -right-2 p-1 bg-gray-50 
+                                                        hover:bg-white text-red-500 shadow rounded-full" />
+                                                    </div>
 
-                                                <x-badge color="blue" class="absolute -top-2 -left-2 !rounded-full">
-                                                    {{ $loop->index + 1 }}
-                                                </x-badge>
+                                                    <p class="text-xs text-gray-700">
+                                                        Subida el {{ $image->created_at->format('d/m') }}
+                                                    </p>
 
-                                                <img src="{{ $image->temporaryUrl() }}" alt="preview-product-image"
-                                                class="w-24 h-20 border rounded-lg shadow object-contain">
-
-                                                <x-icon x-show="showDelete" code="delete"
-                                                wire:click='deleteImage({{ $key }})'
-                                                x-tooltip.raw.placement.bottom="Eliminar" 
-                                                style="font-size: 20px" class="cursor-pointer 
-                                                absolute -bottom-2 -right-2 p-1 bg-gray-50 
-                                                hover:bg-white text-red-500 shadow rounded-full" />
+                                                    <x-modal ref="deleteDialogOpen" type="danger" icon="warning" title="Eliminar imagen">
+                                                    
+                                                        <x-slot name="body">
+                                                            ¿Estás seguro que deseas eliminar esta imagen?   
+                                                            
+                                                            <img class="w-32 h-24 mt-3 rounded mx-auto shadow object-contain" 
+                                                            src="{{ $image->url() }}" 
+                                                            alt="product-image">
+                                                        </x-slot>
+                                                    
+                                                        <x-slot name="actions">
+                                                    
+                                                            <x-spinner wire:loading wire:target='deleteImage' />
+                                                    
+                                                            <x-button type="secondary" wire:loading.remove wire:target='deleteImage' 
+                                                            @click="deleteDialogOpen = false">Cancelar</x-button>
+                                                    
+                                                            <x-button wire:click='deleteImage({{ $key }})' 
+                                                            wire:loading.remove wire:target='deleteImage' 
+                                                            class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
+                                                            
+                                                        </x-slot>
+                                                    
+                                                    </x-modal>
                                             </div>
-
-                                            <p class="text-xs text-gray-700">
-                                                {{ formatBytes($image->getSize()) }}
-                                            </p>
-                                        </div>                         
+                                        @else
+                                            <div wire:key='{{ $image->path() }}' data-id="{{ $image->path() }}" 
+                                                class="sortable-item cursor-move text-center rounded-md m-2">
+        
+                                                    <div x-data="{showDelete: false}" 
+                                                    @mouseenter="showDelete = true"
+                                                    @mouseleave="showDelete = false"
+                                                    class="relative mb-2">
+        
+                                                        <x-badge color="blue" class="absolute -top-2 -left-2 !rounded-full">
+                                                            {{ $loop->index + 1 }}
+                                                        </x-badge>
+        
+                                                        <img src="{{ $image->temporaryUrl() }}" alt="preview-product-image"
+                                                        class="w-24 h-20 border rounded-lg shadow object-contain">
+        
+                                                        <x-icon x-show="showDelete" code="delete"
+                                                        wire:click='deleteImage({{ $key }})'
+                                                        x-tooltip.raw.placement.bottom="Eliminar" 
+                                                        style="font-size: 20px" class="cursor-pointer 
+                                                        absolute -bottom-2 -right-2 p-1 bg-gray-50 
+                                                        hover:bg-white text-red-500 shadow rounded-full" />
+                                                    </div>
+        
+                                                    <p class="text-xs text-gray-700">
+                                                        {{ formatBytes($image->getSize()) }}
+                                                    </p>
+                                            </div>                         
+                                        @endif
                                     @endforeach
                                 @endif
                             </div>
@@ -526,14 +599,19 @@
             </span>
 
             <x-button wire:loading.remove wire:target='save' submit size="large" class="flex items-center">
-                <x-icon code="add_circle" class="mr-1" />
-                Crear producto
+                @if ($product)
+                    <x-icon code="sync" class="mr-1" />
+                    Actualizar producto
+                @else
+                    <x-icon code="add_circle" class="mr-1" />
+                    Crear producto
+                @endif
             </x-button>
 
             <div wire:loading wire:target='save' class="my-1">
                 <div class="flex items-center font-semibold">
                     <x-spinner class="mr-2" />
-                    Crando producto...
+                    Guardando cambios...
                 </div>
             </div>
 

@@ -213,7 +213,7 @@
                                     <p class="text-sm leading-6 text-green-600">
                                         ${{ priceFormat($product->price) }}
                                     </p>
-                                    <p class="mt-1 text-xs leading-5 text-gray-500 w-28 whitespace-nowrap overflow-hidden text-ellipsis">
+                                    <p class="mt-1 text-[11px] leading-5 text-gray-500 w-28 whitespace-nowrap overflow-hidden text-ellipsis">
                                         {{ $product->category->name }}
                                     </p>
                                 </div>
@@ -231,7 +231,7 @@
 
                                         <x-dropdown-item label="Ver en la tienda" icon="store" />
 
-                                        <x-dropdown-item label="Editar" icon="edit" />
+                                        <x-dropdown-item :href="route('admin.products.edit', $product->id)" label="Editar" icon="edit" />
 
                                         <x-dropdown-item @click="showDeleteProductConfirm = true" label="Eliminar"
                                             icon="delete" iconClass="text-red-400" />

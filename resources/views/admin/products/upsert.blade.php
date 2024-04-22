@@ -1,6 +1,8 @@
 @extends('layouts.dashboards.admin')
 
-@section('title', 'Productos - Nuevo')
+@section('title')
+    Productos - {{ isset($product) ? 'Editar' : 'Nuevo' }}
+@endsection
 
 @section('content')
 
@@ -14,11 +16,11 @@
         </div>
 
         <h2 class="text-2xl col-span-2 text-center md:text-left font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Nuevo producto
+            {{ isset($product) ? 'Editar producto' : 'Nuevo producto' }}
         </h2>
 
     </div>
 
-    @livewire('admin.products.create')
+    @livewire('admin.products.upsert', ['product' => $product ?? false])
 
 @endsection

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class ProductImage extends Model
 {
@@ -14,5 +15,10 @@ class ProductImage extends Model
     public function product()
     {
         return $this->hasOne(Product::class);
+    }
+
+    public function url()
+    {
+        return Storage::url($this->url);
     }
 }
