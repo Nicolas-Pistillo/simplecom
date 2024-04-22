@@ -174,7 +174,7 @@ class Upsert extends Component
     public function render()
     {
         return view('livewire.admin.products.upsert', [
-            'categories' => Category::principal()->published()->with('childs')->orderBy('name')->get(),
+            'categories' => Category::principal()->with('childs')->orderBy('name')->get(),
             'tags'       => $this->getTags(),
             'selectedTagsModels' => Tag::find($this->selectedTags)
         ]);

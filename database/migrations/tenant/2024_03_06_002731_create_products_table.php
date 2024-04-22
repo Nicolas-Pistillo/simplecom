@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code')->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->nullable();
             $table->decimal('price', 10);
             $table->integer('discount_percent')->nullable();
             $table->integer('stock')->default(0);

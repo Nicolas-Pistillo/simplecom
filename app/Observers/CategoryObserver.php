@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryObserver
@@ -31,10 +32,14 @@ class CategoryObserver
         if ($category->image_url) Storage::delete($category->image_url);
         if ($category->cover_image_url) Storage::delete($category->cover_image_url);
 
+        Product::where('category_id', $category->id)->update(['category_id' => null]);
+
         if ($category->hasChilds())
         {
             foreach($category->childs as $child)
             {
+                Product::where('category_id', $child->id)->update(['category_id' => null]);
+
                 if ($child->image_url) Storage::delete($child->image_url);
 
                 if ($child->cover_image_url) Storage::delete($child->cover_image_url);

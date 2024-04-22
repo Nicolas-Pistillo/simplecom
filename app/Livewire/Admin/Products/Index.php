@@ -37,7 +37,7 @@ class Index extends Component
         $this->dispatch('open-notification');
     }
 
-    public function togglePublishedProduct($product)
+    public function togglePublishedProduct(Product $product)
     {
         $productModel = Product::find($product['id']);
         $productModel->update(['published' => !$productModel->published]);
@@ -55,7 +55,7 @@ class Index extends Component
         $this->notify($message);
     }
 
-    public function toggleFeaturedProduct($product)
+    public function toggleFeaturedProduct(Product $product)
     {
         $productModel = Product::find($product['id']);
         $productModel->update(['featured' => !$productModel->featured]);
@@ -73,9 +73,8 @@ class Index extends Component
         $this->notify($message);
     }
 
-    public function deleteProduct($product)
+    public function deleteProduct(Product $product)
     {
-        $product = Product::find($product['id']);
         $product->delete();
 
         $this->notify("Eliminaste $product->name");

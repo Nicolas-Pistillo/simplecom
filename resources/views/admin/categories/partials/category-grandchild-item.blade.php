@@ -17,19 +17,45 @@
         @endif
 
         <div class="min-w-0 flex-auto">
-            <p class="text-sm font-semibold leading-6 text-gray-900">
+            <p class="flex items-center text-sm font-semibold leading-6 text-gray-900">
 
                 {{ $grandChild->name }}
 
-                @if ($grandChild->published)
-                    <x-badge color="blue" class="mx-1">Publicada</x-badge>
-                @else
-                    <x-badge class="mx-1">No publicada</x-badge>
-                @endif
+                <span @click.prevent="$event.stopPropagation()" class="flex h-8 ml-4 rounded-md shadow-sm">
 
-                @if ($grandChild->featured)
-                    <x-badge color="purple" class="mx-1">Destacada</x-badge>
-                @endif
+                    <x-button type="secondary" wire:click='togglePublishedCategory({{ $grandChild->id }})'
+                    x-tooltip.raw.placement.top="{{ $grandChild->published ? 'Publicada' : 'No publicada' }}"
+                    class="text-xs rounded-r-none flex items-center
+                    {{ $grandChild->published ? '!bg-blue-100 !text-blue-500' : '' }}">
+
+                        <span wire:loading.remove wire:target='togglePublishedCategory({{ $grandChild->id }})' 
+                        class="flex items-center">
+                            <x-icon code="{{ $grandChild->published ? 'visibility' : 'visibility_off' }}" 
+                            style="font-size: 16px" />
+                        </span>
+
+                        <span wire:loading wire:target='togglePublishedCategory({{ $grandChild->id }})'>
+                            <x-spinner spinnerclass="!h-4 !w-4" />
+                        </span>
+                    </x-button>
+
+                    <x-button type="secondary" wire:click='toggleFeaturedCategory({{ $grandChild->id }})'
+                    x-tooltip.raw.placement.top="{{ $grandChild->featured ? 'Destacada' : 'No destacada' }}"
+                    class="rounded-l-none flex items-center
+                    {{ $grandChild->featured ? '!bg-yellow-100 !text-yellow-500' : '' }}">
+
+                        <span wire:loading.remove wire:target='toggleFeaturedCategory({{ $grandChild->id }})' 
+                        class="flex items-center">
+                            <x-icon code="star" style="font-size: 16px" />
+                        </span>
+
+                        <span wire:loading wire:target='toggleFeaturedCategory({{ $grandChild->id }})'>
+                            <x-spinner spinnerclass="!h-4 !w-4" />
+                        </span>
+
+                    </x-button>
+
+                </span>
 
             </p>
             <p class="mt-1 flex text-xs leading-5 text-gray-500">

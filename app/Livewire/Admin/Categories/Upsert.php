@@ -79,6 +79,24 @@ class Upsert extends Component
         $this->imagePreview = $this->image->temporaryUrl();
     }
 
+    public function togglePublishedCategory(Category $category)
+    {
+        $category->update(['published' => !$category->published]);
+
+        $actionTitle = $category->published ? 'Publicaste' : 'Despublicaste';
+
+        $this->notify("$actionTitle la categoría $category->name");
+    }
+
+    public function toggleFeaturedCategory(Category $category)
+    {
+        $category->update(['featured' => !$category->featured]);
+
+        $actionTitle = $category->featured ? 'Destacaste' : 'Removiste de destacados';
+
+        $this->notify("$actionTitle la categoría $category->name");
+    }
+
     public function updatedCoverImage()
     {
         $this->coverImagePreview = $this->coverImage->temporaryUrl();
@@ -108,6 +126,12 @@ class Upsert extends Component
         $this->coverImagePreview = null;
     }
 
+    public function notify($message)
+    {
+        $this->notificationMessage = $message;
+        $this->dispatch('open-notification');
+    }
+
     public function save()
     {
         $this->validate([
@@ -124,8 +148,8 @@ class Upsert extends Component
             $logTitle = "Categoría actualizada";
 
             $this->category->update([
-                'name'            => $this->name,
-                'description'     => $this->description,
+                'name'            => trim($this->name),
+                'description'     => empty(trim($this->description)) ? null : trim($this->description),
                 'published'       => $this->published ? true : false,
                 'featured'        => $this->featured ? true : false,
             ]);
@@ -134,8 +158,8 @@ class Upsert extends Component
 
         } else {
             $category = Category::create([
-                'name'            => $this->name,
-                'description'     => $this->description,
+                'name'            => trim($this->name),
+                'description'     => empty(trim($this->description)) ? null : trim($this->description),
                 'published'       => $this->published ? true : false,
                 'featured'        => $this->featured ? true : false,
                 'category_father' => $this->categoryFather?->id
@@ -190,8 +214,7 @@ class Upsert extends Component
         $this->category->delete();
         $this->dispatch('close-delete-dialog');
 
-        $this->notificationMessage = "Eliminaste la categoría {$this->category->name}";
-        $this->dispatch('open-notification');
+        $this->notify("Eliminaste la categoría {$this->category->name}");
 
         Log::channel('resources')->info("Categoría eliminada", [
             'tenant'      => tenant('name'),

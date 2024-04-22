@@ -192,7 +192,7 @@
 
                                 <span class="flex h-8 mr-4 rounded-md shadow-sm">
 
-                                    <x-button type="secondary" wire:click='togglePublishedProduct({{ $product }})'
+                                    <x-button type="secondary" wire:click='togglePublishedProduct({{ $product->id }})'
                                     x-tooltip.raw.placement.top="{{ $product->published ? 'Publicado' : 'No publicado' }}"
                                     class="text-xs rounded-r-none flex items-center
                                     {{ $product->published ? '!bg-blue-100 !text-blue-500' : '' }}">
@@ -200,7 +200,7 @@
                                         style="font-size: 16px" />
                                     </x-button>
 
-                                    <x-button type="secondary" wire:click='toggleFeaturedProduct({{ $product }})'
+                                    <x-button type="secondary" wire:click='toggleFeaturedProduct({{ $product->id }})'
                                     x-tooltip.raw.placement.top="{{ $product->featured ? 'Destacado' : 'No destacado' }}"
                                     class="rounded-l-none flex items-center
                                     {{ $product->featured ? '!bg-yellow-100 !text-yellow-500' : '' }}">
@@ -214,7 +214,11 @@
                                         ${{ priceFormat($product->price) }}
                                     </p>
                                     <p class="mt-1 text-[11px] leading-5 text-gray-500 w-28 whitespace-nowrap overflow-hidden text-ellipsis">
-                                        {{ $product->category->name }}
+                                        @if ($product->category)
+                                            {{ $product->category->name }} 
+                                        @else
+                                            <span class="text-red-500">Sin categoría</span>
+                                        @endif
                                     </p>
                                 </div>
 
@@ -257,7 +261,7 @@
                                             <x-button type="secondary" wire:loading.remove wire:target='deleteProduct'
                                                 @click="showDeleteProductConfirm = false">Cancelar</x-button>
 
-                                            <x-button wire:click='deleteProduct({{ $product }})'
+                                            <x-button wire:click='deleteProduct({{ $product->id }})'
                                                 wire:loading.remove wire:target='deleteProduct'
                                                 class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
 

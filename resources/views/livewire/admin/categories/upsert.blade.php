@@ -2,8 +2,10 @@
 
     <div x-data="{ categoriesDrawerOpen: false, deleteDialogOpen: false, showNotification: false }" 
         x-on:close-drawer.window="categoriesDrawerOpen = false"
-        x-on:open-drawer.window="categoriesDrawerOpen = true" x-on:close-delete-dialog.window="deleteDialogOpen = false"
-        x-on:open-delete-dialog.window="deleteDialogOpen = true" x-on:open-notification.window="showNotification = true">
+        x-on:open-drawer.window="categoriesDrawerOpen = true" 
+        x-on:close-delete-dialog.window="deleteDialogOpen = false"
+        x-on:open-delete-dialog.window="deleteDialogOpen = true" 
+        x-on:open-notification.window="showNotification = true">
 
         <div x-data="{ selected: null, subcategorySelected: null }" class="px-4 sm:px-6 lg:px-8">
 
