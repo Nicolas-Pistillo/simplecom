@@ -158,35 +158,15 @@
                                         id="select-product-{{ $product->id }}"
                                         class="h-4 w-4 rounded cursor-pointer border-gray-300 text-blue-600">
 
-                                    <label for="select-product-{{ $product->id }}" class="cursor-pointer">
-                                        <img class="w-14 object-contain rounded flex-none shadow-md" alt="product-img"
+                                    <label for="select-product-{{ $product->id }}" class="cursor-pointer hidden md:block">
+                                        <img class="w-12 h-10 object-contain rounded flex-none shadow-md" alt="product-img"
                                         src="{{ $product->getPresentationImage() ?: URL::to('img/no-image.png') }}">
                                     </label>
 
                                     <div class="min-w-0 flex-auto">
 
                                         <p class="text-sm font-semibold leading-6 text-gray-900 flex items-center">
-
                                             {{ $product->name }}
-
-                                            <span class="isolate inline-flex rounded-md shadow-sm ml-2">
-
-                                                <x-button type="secondary" wire:click='togglePublishedProduct({{ $product }})'
-                                                x-tooltip.raw.placement.top="{{ $product->published ? 'Publicado' : 'No publicado' }}"
-                                                class="text-xs rounded-r-none flex items-center
-                                                {{ $product->published ? '!bg-blue-100 !text-blue-500' : '' }}">
-                                                    <x-icon code="{{ $product->published ? 'visibility' : 'visibility_off' }}" 
-                                                    style="font-size: 16px" />
-                                                </x-button>
-
-                                                <x-button type="secondary" wire:click='toggleFeaturedProduct({{ $product }})'
-                                                x-tooltip.raw.placement.top="{{ $product->featured ? 'Destacado' : 'No destacado' }}"
-                                                class="rounded-l-none flex items-center
-                                                {{ $product->featured ? '!bg-yellow-100 !text-yellow-500' : '' }}">
-                                                    <x-icon code="star" style="font-size: 16px" />
-                                                </x-button>
-
-                                            </span>
                                         </p>
 
                                         <p class="mt-1 font-semibold flex text-xs leading-5 text-gray-500">
@@ -198,27 +178,48 @@
                                             @endif
 
                                             @if ($product->code)
-                                                <span class="ml-1">- Código: {{ $product->code }}</span>
+                                                <span class="ml-1 hidden md:block">- Código: {{ $product->code }}</span>
                                             @endif
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            {{-- Product price, category & actions --}}
-                            <div class="flex shrink-0 items-center gap-x-6">
+                            {{-- Product price, category & actions -
+                            flex shrink-0 items-center gap-x-6    
+                            --}}
+                            <div class="flex items-center">
 
-                                <div class="flex flex-col items-end">
+                                <span class="flex h-8 mr-4 rounded-md shadow-sm">
+
+                                    <x-button type="secondary" wire:click='togglePublishedProduct({{ $product }})'
+                                    x-tooltip.raw.placement.top="{{ $product->published ? 'Publicado' : 'No publicado' }}"
+                                    class="text-xs rounded-r-none flex items-center
+                                    {{ $product->published ? '!bg-blue-100 !text-blue-500' : '' }}">
+                                        <x-icon code="{{ $product->published ? 'visibility' : 'visibility_off' }}" 
+                                        style="font-size: 16px" />
+                                    </x-button>
+
+                                    <x-button type="secondary" wire:click='toggleFeaturedProduct({{ $product }})'
+                                    x-tooltip.raw.placement.top="{{ $product->featured ? 'Destacado' : 'No destacado' }}"
+                                    class="rounded-l-none flex items-center
+                                    {{ $product->featured ? '!bg-yellow-100 !text-yellow-500' : '' }}">
+                                        <x-icon code="star" style="font-size: 16px" />
+                                    </x-button>
+
+                                </span>
+
+                                <div class="flex flex-col items-end text-right">
                                     <p class="text-sm leading-6 text-green-600">
                                         ${{ priceFormat($product->price) }}
                                     </p>
-                                    <p class="mt-1 text-xs leading-5 text-gray-500">
+                                    <p class="mt-1 text-xs leading-5 text-gray-500 w-28 whitespace-nowrap overflow-hidden text-ellipsis">
                                         {{ $product->category->name }}
                                     </p>
                                 </div>
 
                                 {{-- Product actions --}}
-                                <div class="relative flex-none">
+                                <div class="flex-none ml-6">
 
                                     <x-dropdown position="right">
 
