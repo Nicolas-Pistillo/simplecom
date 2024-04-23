@@ -196,15 +196,27 @@
                                     x-tooltip.raw.placement.top="{{ $product->published ? 'Publicado' : 'No publicado' }}"
                                     class="text-xs rounded-r-none flex items-center
                                     {{ $product->published ? '!bg-blue-100 !text-blue-500' : '' }}">
-                                        <x-icon code="{{ $product->published ? 'visibility' : 'visibility_off' }}" 
+
+                                        <x-icon wire:loading.remove wire:target='togglePublishedProduct({{ $product->id }})' 
+                                        code="{{ $product->published ? 'visibility' : 'visibility_off' }}" 
                                         style="font-size: 16px" />
+
+                                        <x-spinner wire:loading wire:target='togglePublishedProduct({{ $product->id }})' 
+                                        spinnerclass="!h-4 !w-4" />
+
                                     </x-button>
 
                                     <x-button type="secondary" wire:click='toggleFeaturedProduct({{ $product->id }})'
                                     x-tooltip.raw.placement.top="{{ $product->featured ? 'Destacado' : 'No destacado' }}"
                                     class="rounded-l-none flex items-center
                                     {{ $product->featured ? '!bg-yellow-100 !text-yellow-500' : '' }}">
-                                        <x-icon code="star" style="font-size: 16px" />
+
+                                        <x-icon wire:loading.remove wire:target='toggleFeaturedProduct({{ $product->id }})' 
+                                        code="star" style="font-size: 16px" />
+
+                                        <x-spinner wire:loading wire:target='toggleFeaturedProduct({{ $product->id }})' 
+                                        spinnerclass="!h-4 !w-4" />
+
                                     </x-button>
 
                                 </span>

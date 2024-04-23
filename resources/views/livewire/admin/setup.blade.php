@@ -72,7 +72,7 @@
                                     <div wire:loading wire:target='ecommerceLogo' class="w-full mx-auto">
                                         <x-spinner />
                                     </div>
-                                    <small class="font-extralight text-xs">Medidas recomendadas: 400 x 100</small>
+                                    <small class="font-extralight text-xs">Medidas recomendadas: 270 x 100</small>
                                     @error('ecommerceLogo')
                                         <br>
                                         <small class="font-extralight text-red-500 text-xs"> {{ $message }} </small>
@@ -140,6 +140,7 @@
                                 @foreach ($configurationModels as $key => $configField)
 
                                     <div wire:key='{{ $key }}' class="flex items-center">
+
                                         <x-input 
                                         class="border-none px-0 mb-4 w-full"  
                                         label="{{ $configField->display_name }}" 
@@ -147,12 +148,11 @@
                                         error="{{ $errors->first($configField->key) }}"
                                         placeholder="{{ $configField->description }}"
                                         withAsterisk="{{ $configField->required }}"
-                                        value="{{ $this->{$configField->key} }}"
+                                        value="{{ $configField->key === 'contact_whatsapp' ? '549' : $this->{$configField->key} }}"
                                         type="{{ $configField->datatype }}"
                                         />
 
                                         @if ($configField->key === 'contact_whatsapp')
-
                                             <a href="https://api.whatsapp.com/send?phone={{ $contact_whatsapp }}" 
                                             target="_blank" title="Probar link a Whatsapp" class="ml-3">
                                                 <x-icon code="open_in_new" style="font-size: 21px"

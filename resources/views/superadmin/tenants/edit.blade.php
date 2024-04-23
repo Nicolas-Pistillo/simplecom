@@ -1,13 +1,14 @@
 @extends('layouts.dashboards.superadmin')
 
-@section('title', 'Comercios - Nuevo')
+@section('title')
+    Comercios - <span class="text-blue-600"> {{ $tenant->ecommerce_name }} </span>
+@endsection
 
 @section('head')
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
 @endsection
-
+    
 @section('content')
-
     <x-button type="secondary" class="inline-flex items-center" href="{{ route('superadmin.tenants.index') }}">
         <x-icon code="arrow_back" class="mr-1" /> Volver atras
     </x-button>
@@ -21,20 +22,20 @@
                 </p>
             </div>
 
-            <form action="{{ route('superadmin.tenants.store') }}" method="POST" 
+            <form action="{{ route('superadmin.tenants.update', $tenant) }}" method="POST"
             x-data="{submiting: false}" @submit="submiting = true"
             class="bg-white shadow-md ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
-            @csrf
+            @method('PUT') @csrf 
                 <div class="px-4 py-6 sm:p-8">
                     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         
                         <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" 
                         error="{{ $errors->first('tenant_name') }}" name="tenant_name" label="Subdominio" 
-                        value="{{ old('tenant_name') }}" />
+                        value="{{ old('tenant_name') ?? $tenant->name }}" />
 
                         <x-input class="sm:col-span-3" placeholder="Por ejemplo: Distribuidora Martinez" 
                         label="Nombre del comercio" name="ecommerce_name" error="{{ $errors->first('ecommerce_name') }}" 
-                        value="{!! old('ecommerce_name') !!}" />
+                        value="{{ old('ecommerce_name') ?? $tenant->ecommerce_name }}" />
 
                         <div class="sm:col-span-3">
                             <label for="sector" class="text-sm text-gray-500 sm:pt-1.5">Rubro</label>
@@ -42,7 +43,7 @@
                                 <select id="sector" name="sector_id" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
                                     <option>Seleccionar un rubro...</option>
                                     @foreach ($sectors as $sector)
-                                        <option @if(old('sector_id') == $sector->id) selected @endif 
+                                        <option @if(old('sector_id') == $sector->id || $tenant->sector_id == $sector->id) selected @endif
                                         value="{{ $sector->id }}">{{ $sector->name }}</option>
                                     @endforeach
                                 </select>
@@ -58,7 +59,7 @@
                                 <select id="plan" name="plan_id" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
                                     <option>Seleccionar un plan...</option>
                                     @foreach ($plans as $plan)
-                                        <option @if(old('plan_id') == $plan->id) selected @endif 
+                                        <option @if(old('plan_id') == $plan->id || $tenant->plan_id == $plan->id) selected @endif
                                         value="{{ $plan->id }}">{{ $plan->name }}</option>
                                     @endforeach
                                 </select>
@@ -67,35 +68,11 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <hr class="w-full sm:col-span-6">
-
-                        <h4 class="sm:col-span-6 flex items-start text-sm text-gray-700">
-                            Cuenta del administrador principal
-                            <x-icon data-tooltip-target="admin-account-help" 
-                            code="help" class="ml-1 text-blue-600" style="font-size: 20px" />
-                            <x-tooltip id="admin-account-help">
-                                Será el encargado de iniciar sesión por primera vez como administrador del comercio, <br> 
-                                también controlara los roles y accesos de los demás tipos de administradores
-                            </x-tooltip>
-                        </h4>
-
-                        <x-input class="sm:col-span-3 border-none p-0"
-                        error="{{ $errors->first('admin_name') }}" name="admin_name" label="Nombre administrador" 
-                        value="{{ old('admin_name') }}" />
-
-                        <x-input type="email" class="sm:col-span-3 border-none p-0"
-                        error="{{ $errors->first('admin_email') }}" name="admin_email" label="Email administrador" 
-                        value="{{ old('admin_email') }}" />
-
-                        <x-input type="password" class="sm:col-span-3 border-none p-0" placeholder="Luego se le pedira cambiarla por seguridad"
-                        label="Contraseña administrador" name="admin_password" error="{{ $errors->first('admin_password') }}"
-                        value="{{ old('admin_password') }}" />
                     </div>
                 </div>
                 <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
 
-                    <x-button submit x-show="!submiting" type="primary">Crear comercio</x-button>
+                    <x-button submit x-show="!submiting" type="primary">Actualizar comercio</x-button>
 
                     <div x-show="submiting" x-cloak class="flex items-center">
                         <div role="status">
@@ -105,11 +82,10 @@
                             </svg>
                             <span class="sr-only">Loading...</span>
                         </div>
-                        <span class="text-sm font-semibold text-gray-700">Creando comercio...</span>
+                        <span class="text-sm font-semibold text-gray-700">Actualizando comercio...</span>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
 @endsection

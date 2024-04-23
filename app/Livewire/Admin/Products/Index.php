@@ -42,9 +42,7 @@ class Index extends Component
         $productModel = Product::find($product['id']);
         $productModel->update(['published' => !$productModel->published]);
         
-        $message = $productModel->published 
-                    ? 'Publicaste este producto' 
-                    : 'El producto ya no está publicado';
+        $actionTitle = $productModel->published ? 'Publicaste' : 'Despublicaste';
 
         Log::channel('resources')->info("Producto actualizado", [
             'tenant'      => tenant('name'),
@@ -52,7 +50,7 @@ class Index extends Component
             'product'     => $productModel
         ]);
 
-        $this->notify($message);
+        $this->notify("$actionTitle este producto");
     }
 
     public function toggleFeaturedProduct(Product $product)

@@ -7,6 +7,8 @@ use App\Http\Requests\CreateTenantRequest;
 use App\Jobs\CreateTenantFromAdminForm;
 use App\Models\Plan;
 use App\Models\Sector;
+use App\Models\Tenant;
+use App\Services\TenantService;
 use Illuminate\Http\Request;
 
 class TenantController extends Controller
@@ -38,23 +40,28 @@ class TenantController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // 
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Tenant $tenant)
     {
-        //
+        return view('superadmin.tenants.edit', [
+            'tenant'  => $tenant,
+            'sectors' => Sector::all(),
+            'plans'   => Plan::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Tenant $tenant)
     {
-        //
+        TenantService::updateTenantFromAdminForm($request, $tenant);
+        return to_route('superadmin.tenants.index')->with('tenant_updated', true);
     }
 
     /**

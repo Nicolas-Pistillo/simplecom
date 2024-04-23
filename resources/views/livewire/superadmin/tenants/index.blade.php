@@ -21,6 +21,12 @@
                 </x-alert>
             @endif
 
+            @if (Session::has('tenant_updated'))
+                <x-alert class="mb-6 animate__bounceInLeft" type="success" dismissible>
+                    Tenant actualizado exitosamente
+                </x-alert>
+            @endif
+
             {{-- Notifications --}}
             <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
 
@@ -119,7 +125,8 @@
                                                         label="Activar sitio" icon="public" />
                                                     @endif
 
-                                                    <x-dropdown-item label="Editar" icon="edit" />
+                                                    <x-dropdown-item :href="route('superadmin.tenants.edit', $tenant)" 
+                                                    label="Editar" icon="edit" />
 
                                                     <x-dropdown-item @click="openDeleteDialog = true"
                                                     label="Eliminar" icon="delete" iconClass="text-red-500" />
