@@ -80,7 +80,10 @@ class Upsert extends Component
         if (!$tag)
             $tag = Tag::create(['name' => trim($name)]);
 
-        array_push($this->selectedTags, $tag->id);
+        if (!in_array($tag->id, $this->selectedTags))
+        {
+            array_push($this->selectedTags, $tag->id);
+        }
     }
 
     public function removeTag($tagId)

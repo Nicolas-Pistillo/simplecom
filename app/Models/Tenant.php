@@ -12,7 +12,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
 
-    protected $appends = ['products_url', 'categories_url'];
+    protected $appends = ['products_url', 'categories_url', 'banners_url'];
 
     public static function getCustomColumns(): array
     {
@@ -77,5 +77,10 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     public function getCategoriesUrlAttribute()
     {
         return $this->name . "/categories";
+    }
+
+    public function getBannersUrlAttribute()
+    {
+        return $this->name . "/banners";
     }
 }

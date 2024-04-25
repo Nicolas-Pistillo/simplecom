@@ -13,13 +13,15 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        /******* PERMISOS *******/
+        /******* PERMISSIONS *******/
 
         $editCategories = Permission::create(['name' => 'Editar categorias', 'guard_name' => 'operator']);
         $deleteCategories = Permission::create(['name' => 'Eliminar categorias', 'guard_name' => 'operator']);
 
         $editProducts = Permission::create((['name' => 'Editar productos', 'guard_name' => 'operator']));
         $deleteProducts = Permission::create(['name' => 'Eliminar productos', 'guard_name' => 'operator']);
+
+        $editBanners = Permission::create(['name' => 'Editar banners', 'guard_name' => 'operator']);
 
         $createOperators = Permission::create(['name' => 'Editar operadores', 'guard_name' => 'operator']);
 
@@ -29,11 +31,12 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::create(['name' => 'Administrador', 'guard_name' => 'operator']);
         $contentManager = Role::create(['name' => 'Editor de contenido', 'guard_name' => 'operator']);
 
+        /******* ATTACH PERMISSIONS TO ROLES *******/
         $admin->syncPermissions([
             $editCategories, $deleteCategories, $editProducts, $deleteProducts,
-            $createOperators, $viewSales
+            $createOperators, $viewSales, $editBanners
         ]);
 
-        $contentManager->syncPermissions([$editCategories, $editProducts]);
+        $contentManager->syncPermissions([$editBanners]);
     }
 }

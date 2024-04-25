@@ -24,7 +24,7 @@
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"
-                src="https://www.munishop.com.ar/webfiles/marketplace/slider/63/1_1920x800.jpg">
+                src="https://img.freepik.com/vector-gratis/plantilla-banner-venta-plano-horizontal-foto_23-2149000923.jpg?w=740&t=st=1713967568~exp=1713968168~hmac=daa49d6bef4f74952dec05b39880a840effd5824cd3f8fe5559dc95c466cf00e">
         </div>
         <div class="w-full h-full">
             <img class="w-full h-full object-cover"

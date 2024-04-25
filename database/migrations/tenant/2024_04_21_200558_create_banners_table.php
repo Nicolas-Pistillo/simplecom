@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('image_url');
+            $table->string('name')->unique();
+            $table->string('image_url')->nullable();
             $table->integer('order')->nullable();
             $table->string('link')->nullable();
+            $table->boolean('published')->default(true);
             $table->timestamps();
         });
     }

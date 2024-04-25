@@ -251,50 +251,7 @@
 
                         <div class="sm:col-span-6">
 
-                            <div x-data="dropzone()"
-                            @click="document.getElementById('file-upload-input').click()"
-                            @dragenter.prevent="dragEntered = true"
-                            @dragover.prevent="dragEntered = true"
-                            @dragleave.prevent="dragEntered = false"
-                            @drop.prevent="dragEntered = false; handleDropEvent($event)"
-                            @uploaddropped.window="loadingDroppedFiles = true;
-                            $wire.upload('images', $event.detail, (results) => loadingDroppedFiles = false)"
-                            class="cursor-pointer flex justify-center rounded-lg 
-                            border border-dashed px-6 py-8 mb-2 relative"
-                            :class="dragEntered ? 'border-blue-600' : 'border-gray-400/70'">
-
-                                <div class="text-center py-2">
-
-                                    <i x-text="dragEntered ? 'place_item' : 'photo_library'"
-                                    :class="dragEntered ? 'text-blue-600/70' : 'text-gray-400'"
-                                    class="material-symbols-outlined text-4xl"></i>
-
-                                    <div class="flex text-sm leading-6 text-gray-600">
-                                        <p class="pl-1"
-                                        x-text="dragEntered 
-                                        ? 'Soltá tus archivos para subirlos' 
-                                        : 'Selecciona o arrastra tus imágenes acá'">
-                                        </p>
-                                    </div>
-
-                                    <p class="text-xs leading-5 text-gray-600"
-                                    :class="dragEntered ? 'opacity-0' : 'opacity-100'">
-                                        Solo formatos PNG o JPG de hasta 4MB
-                                    </p>
-
-                                    <input wire:model='images' accept="image/jpeg, image/png" id="file-upload-input" type="file" class="sr-only">
-                                </div>
-
-                                {{-- Dropped files loader --}}
-                                <div x-show="loadingDroppedFiles" x-cloak class="h-6 w-full absolute bottom-2">
-                                    <x-spinner />
-                                </div>
-
-                                {{-- Simple upload loader --}}
-                                <div wire:loading wire:target='images' class="h-6 w-full absolute bottom-2">
-                                    <x-spinner />
-                                </div>
-                            </div>
+                            <x-dropzone model="images" />
 
                             <div id="previewImages" class="flex items-center flex-wrap">
                                 @if (!empty($images))
@@ -388,33 +345,6 @@
                                 @endif
                             </div>
 
-                            <script>
-                                const dropzone = () =>
-                                {
-                                    return {
-                                        dragEntered: false,
-                                        loadingDroppedFiles: false,
-                                        handleDropEvent: (event) => {
-
-                                            const files = event.dataTransfer.files;
-                                            
-                                            if (!files.length) return;
-
-                                            const validImageTypes = ['image/jpeg', 'image/png'];
-
-                                            Array.from(files).forEach(file => 
-                                            {
-                                                if (!validImageTypes.includes(file.type)) return;
-
-                                                if (file.size >= 4000000) return;
-
-                                                window.dispatchEvent(new CustomEvent('uploaddropped', {detail: file}))
-                                            })
-                                        }
-                                    }
-                                }
-                            </script>
-
                         </div>
                     </div>
                 </div>
@@ -434,8 +364,11 @@
                     {{-- Price field --}}
                     <div x-data="{tagsPanelOpen: false}" @click.away="tagsPanelOpen = false" 
                     class="sm:col-span-4">
-                        <label for="tags" class="block text-sm font-medium leading-6 text-gray-900">
-                            Elegir etiqueta
+                        <label for="tags" class="flex items-center text-sm font-medium leading-6 text-gray-900">
+                            Elegir etiqueta 
+                            <x-icon x-tooltip.raw.placement.top="Podés crear nuevas etiquetas escribiendo 
+                            su nombre en este campo y luego presionando ENTER para guardarlas y asociarlas al producto." 
+                            code="help" class="ml-1 text-blue-500" />
                         </label>
 
                         <div class="mt-2 flex items-center">

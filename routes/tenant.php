@@ -54,6 +54,9 @@ Route::middleware([
                 Route::view('operators', 'admin.operators.index')->name('admin.operators.index')
                     ->middleware('can:Editar operadores');
 
+                Route::view('banners', 'admin.contents.banners')->name('admin.contents.banners')
+                    ->middleware('can:Editar banners');
+
                 // Admin resource routes
                 Route::name('admin.')->group(function() {
 

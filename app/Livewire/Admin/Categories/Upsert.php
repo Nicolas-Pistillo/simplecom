@@ -221,6 +221,8 @@ class Upsert extends Component
             'operator_id' => Auth::id(),
             'category'    => $this->category
         ]);
+
+        $this->setPage(1);
     }
 
     public function mount()

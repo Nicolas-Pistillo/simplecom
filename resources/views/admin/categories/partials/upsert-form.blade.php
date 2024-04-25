@@ -59,7 +59,8 @@
                                             Marcar como publicada 
                                         </label>
                                         <span
-                                        x-tooltip.raw.placement.bottom="Si no se marca como publicada, no aparecera en tu tienda hasta que decidas publicarla"
+                                        x-tooltip.raw.placement.bottom="Si no se marca como publicada, no aparecera en tu tienda 
+                                        hasta que decidas publicarla. Tampoco se mostrarán los productos asociados a esta categoría."
                                         class="material-symbols-outlined ml-2 text-blue-600">help</span>
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@
                                         <label for="featured" class="block font-medium text-gray-900">
                                             Marcar como destacada 
                                         </label>
-                                        <span x-tooltip.raw.placement.bottom="Tendra mayor visibilidad con respecto al resto de categorías en tu tienda"
+                                        <span x-tooltip.raw.placement.bottom="Destacar la categoría hara que tenga mayor visibilidad con respecto al resto de categorías en tu tienda."
                                         class="material-symbols-outlined ml-2 text-blue-600">help</span>
                                     </div>
                                 </div>

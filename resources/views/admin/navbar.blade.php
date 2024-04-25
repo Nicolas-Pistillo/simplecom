@@ -29,6 +29,17 @@
             </ul>
         </li>
 
+        <li>
+            <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Contenidos</h5>
+            <ul role="list" class="-mx-2 mt-2 space-y-1">
+
+                @can('Editar banners')
+                    <x-navbar-item route="admin.contents.banners" icon="burst_mode" title="Banners" />
+                @endcan
+
+            </ul>
+        </li>
+
         <x-navbar-item itemClasses="mt-auto" linkClasses="-mx-2" 
         route="admin.setup" icon="settings" title="Configuracion" />
     </ul>
