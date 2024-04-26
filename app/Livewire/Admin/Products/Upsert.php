@@ -132,9 +132,9 @@ class Upsert extends Component
         $this->product->update($this->form->all());
 
         Log::channel('resources')->info('Producto actualizado', [
-            'tenant'   => tenant('name'),
-            'operator' => Auth::id(),
-            'product'  => $this->product
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'product'     => $this->product
         ]);
 
         return $this->product;
@@ -145,9 +145,9 @@ class Upsert extends Component
         $product = Product::create($this->form->all());
 
         Log::channel('resources')->info('Nuevo producto', [
-            'tenant'   => tenant('name'),
-            'operator' => Auth::id(),
-            'product'  => $product
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'product'     => $product
         ]);
 
         return $product;

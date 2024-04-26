@@ -11,32 +11,10 @@
 @endsection
 
 @section('content')
-    <!-- Slider (Images size recommended: 1920x800) -->
-    <div class="mb-16 shadow-md" style="height: 420px" 
-    data-flickity='{ "wrapAround": true, "prevNextButtons": false, "autoPlay": 5000 }'>
-        <div class="w-full h-full">
-            <img class="w-full h-full object-cover"
-                src="https://http2.mlstatic.com/D_NQ_609473-MLA75157155755_032024-OO.webp">
-        </div>
-        <div class="w-full h-full">
-            <img class="w-full h-full object-cover"
-                src="https://http2.mlstatic.com/D_NQ_846284-MLA75236489991_032024-OO.webp">
-        </div>
-        <div class="w-full h-full">
-            <img class="w-full h-full object-cover"
-                src="https://img.freepik.com/vector-gratis/plantilla-banner-venta-plano-horizontal-foto_23-2149000923.jpg?w=740&t=st=1713967568~exp=1713968168~hmac=daa49d6bef4f74952dec05b39880a840effd5824cd3f8fe5559dc95c466cf00e">
-        </div>
-        <div class="w-full h-full">
-            <img class="w-full h-full object-cover"
-                src="https://www.munishop.com.ar/webfiles/marketplace/slider/66/1_1920x800.jpg">
-        </div>
-        <div class="w-full h-full">
-            <img class="w-full h-full object-cover"
-                src="https://http2.mlstatic.com/D_NQ_938619-MLA75215011957_032024-OO.webp">
-        </div>
-    </div>
+    {{-- Slider (Images size recommended: 1920x800) --}}
+    @include('ecommerce.partials.slider')
 
-    <!-- Categories overview -->
+    {{-- Categories presentation --}}
     <div class="bg-gray-50">
         <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
             <div class="sm:flex sm:items-baseline sm:justify-between">
@@ -113,195 +91,60 @@
         </div>
     </div>
 
-    <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8 flex flex-wrap items-center justify-center">
-        <article
-            class="relative m-3 isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
-            <img src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=3270&amp;q=80"
-                alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
-            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-            <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+    {{-- Featured products section --}}
+    <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-8">Featured Products</h2>
+        <div class="flex items-center justify-center flex-wrap gap-8">
 
-            <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
-                <time datetime="2020-03-10" class="mr-8">Mar 10, 2020</time>
-                <div class="-ml-4 flex items-center gap-x-4">
-                    <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
-                        <circle cx="1" cy="1" r="1"></circle>
-                    </svg>
-                    <div class="flex gap-x-2.5">
-                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                            alt="" class="h-6 w-6 flex-none rounded-full bg-white/10">
-                        Lindsay Walton
-                    </div>
-                </div>
-            </div>
-            <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
-                <a href="#">
-                    <span class="absolute inset-0"></span>
-                    Libero quisquam voluptatibus nam iusto qui dolor
-                </a>
-            </h3>
-        </article>
-        <article
-            class="relative m-3 isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
-            <img src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=3270&amp;q=80"
-                alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
-            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-            <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+            @for ($i = 0; $i < 2; $i++)
+                <x-product-card image="https://picsum.photos/200/300" />
+            @endfor
 
-            <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
-                <time datetime="2020-03-10" class="mr-8">Mar 10, 2020</time>
-                <div class="-ml-4 flex items-center gap-x-4">
-                    <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
-                        <circle cx="1" cy="1" r="1"></circle>
-                    </svg>
-                    <div class="flex gap-x-2.5">
-                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                            alt="" class="h-6 w-6 flex-none rounded-full bg-white/10">
-                        Lindsay Walton
-                    </div>
-                </div>
-            </div>
-            <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
-                <a href="#">
-                    <span class="absolute inset-0"></span>
-                    Libero quisquam voluptatibus nam iusto qui dolor
-                </a>
-            </h3>
-        </article>
-        <article
-            class="relative m-3 isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
-            <img src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=3270&amp;q=80"
-                alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
-            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-            <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
-
-            <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
-                <time datetime="2020-03-10" class="mr-8">Mar 10, 2020</time>
-                <div class="-ml-4 flex items-center gap-x-4">
-                    <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
-                        <circle cx="1" cy="1" r="1"></circle>
-                    </svg>
-                    <div class="flex gap-x-2.5">
-                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                            alt="" class="h-6 w-6 flex-none rounded-full bg-white/10">
-                        Lindsay Walton
-                    </div>
-                </div>
-            </div>
-            <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
-                <a href="#">
-                    <span class="absolute inset-0"></span>
-                    Libero quisquam voluptatibus nam iusto qui dolor
-                </a>
-            </h3>
-        </article>
+        </div>
     </div>
 
-    <div class="bg-white">
-        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-            <h2 class="text-xl font-bold text-gray-900">Customers also bought</h2>
-
-            <div class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-
-                <div>
-                    <div class="relative">
-                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
-                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
-                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
-                                class="h-full w-full object-cover object-center">
-                        </div>
-                        <div class="relative mt-4">
-                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
-                            <p class="mt-1 text-sm text-gray-500">White and black</p>
-                        </div>
-                        <div
-                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-                            <div aria-hidden="true"
-                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
-                            <p class="relative text-lg font-semibold text-white">$140</p>
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <a href="#"
-                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
-                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
+    <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
+        <div class="flex items-center justify-center w-full h-full py-24 sm:py-8 px-4">
+            <div class="w-full relative flex items-center justify-center">
+                <button aria-label="slide backward" class="mr-6 left-0 ml-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer" id="prev">
+                    <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden">
+                    <div id="slider" class="h-full grid grid-flow-col lg:gap-8 md:gap-6 gap-14 items-center transition ease-out duration-700">
+                        @foreach ([1,2,3,4,5, 6, 7, 8] as $item)
+                            <x-product-card />
+                        @endforeach
                     </div>
                 </div>
-
-                <div>
-                    <div class="relative">
-                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
-                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
-                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
-                                class="h-full w-full object-cover object-center">
-                        </div>
-                        <div class="relative mt-4">
-                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
-                            <p class="mt-1 text-sm text-gray-500">White and black</p>
-                        </div>
-                        <div
-                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-                            <div aria-hidden="true"
-                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
-                            <p class="relative text-lg font-semibold text-white">$140</p>
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <a href="#"
-                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
-                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="relative">
-                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
-                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
-                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
-                                class="h-full w-full object-cover object-center">
-                        </div>
-                        <div class="relative mt-4">
-                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
-                            <p class="mt-1 text-sm text-gray-500">White and black</p>
-                        </div>
-                        <div
-                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-                            <div aria-hidden="true"
-                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
-                            <p class="relative text-lg font-semibold text-white">$140</p>
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <a href="#"
-                            class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
-                            to bag<span class="sr-only">, Zip Tote Basket</span></a>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="relative">
-                        <div class="relative h-72 w-full overflow-hidden rounded-lg">
-                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-related-product-01.jpg"
-                                alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
-                                class="h-full w-full object-cover object-center">
-                        </div>
-                        <div class="relative mt-4">
-                            <h3 class="text-sm font-medium text-gray-900">Zip Tote Basket</h3>
-                            <p class="mt-1 text-sm text-gray-500">White and black</p>
-                        </div>
-                        <div
-                            class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-                            <div aria-hidden="true"
-                                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
-                            <p class="relative text-lg font-semibold text-white">$140</p>
-                        </div>
-                    </div>
-                    <x-button type="soft" class="font-extrabold w-full mt-6">Agregar al carrito</x-button>
-                </div>
-                <!-- More products... -->
+                <button aria-label="slide forward" class="ml-6 right-0 mr-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400" id="next">
+                    <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
+  
+    <script>
+        let defaultTransform = 0;
+        function goNext() {
+            defaultTransform = defaultTransform - 398;
+            var slider = document.getElementById("slider");
+            if (Math.abs(defaultTransform) >= slider.scrollWidth / 1.7) defaultTransform = 0;
+            slider.style.transform = "translateX(" + defaultTransform + "px)";
+        }
+        next.addEventListener("click", goNext);
+        function goPrev() {
+            var slider = document.getElementById("slider");
+            if (Math.abs(defaultTransform) === 0) defaultTransform = 0;
+            else defaultTransform = defaultTransform + 398;
+            slider.style.transform = "translateX(" + defaultTransform + "px)";
+        }
+        prev.addEventListener("click", goPrev);
+
+    </script>
 
     <!-- Advicements/Features -->
     <div class="bg-gray-50">

@@ -63,14 +63,14 @@
                         <div>
                             <div class="-mt-px flex divide-x">
                                 <div class="flex w-0 rounded-bl-lg flex-1 border-t transition-colors duration-200 hover:bg-gray-50">
-                                    <button wire:click='openEditOperator({{ $operator }})'
+                                    <button wire:click='openEditOperator({{ $operator->id }})'
                                     class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
                                         <x-icon code="edit" class="text-gray-400" style="font-size: 20px" />
                                         Editar
                                     </button>
                                 </div>
                                 <div class="-ml-px border-t rounded-br-lg flex w-0 flex-1 transition-colors duration-200 hover:bg-gray-50">
-                                    <button wire:click='openDeleteOperator({{ $operator }})'
+                                    <button wire:click='openDeleteOperator({{ $operator->id }})'
                                     class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
                                         <x-icon code="delete" class="text-red-400" style="font-size: 20px" />
                                         Eliminar

@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use Illuminate\Http\Request;
 
 class EcommerceController extends Controller
 {
     public function index(Request $request)
     {
-        return view('ecommerce.index');
+        return view('ecommerce.index', [
+            'banners' => Banner::published()->orderBy('order')->get()
+        ]);
     }
 
     public function contact(Request $request)

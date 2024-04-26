@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('image_url')->nullable();
-            $table->integer('order')->nullable();
             $table->string('link')->nullable();
             $table->boolean('published')->default(true);
             $table->timestamps();
