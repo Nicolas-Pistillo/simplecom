@@ -15,84 +15,81 @@
     @include('ecommerce.partials.slider')
 
     {{-- Categories presentation --}}
-    <div class="bg-gray-50">
-        <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
-            <div class="sm:flex sm:items-baseline sm:justify-between">
-                <h2 class="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
-                <a href="#" class="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
-                    Browse all categories
-                    <span aria-hidden="true"> &rarr;</span>
-                </a>
-            </div>
+    <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
+        <div class="sm:flex sm:items-baseline sm:justify-between">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
+            <a href="#" class="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+                Browse all categories
+                <span aria-hidden="true"> &rarr;</span>
+            </a>
+        </div>
 
-            <div class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
-                <div
-                    class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2">
-                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-featured-category.jpg"
-                        alt="Two models wearing women's black cotton crewneck tee and off-white cotton crewneck tee."
-                        class="object-cover object-center group-hover:opacity-75">
-                    <div aria-hidden="true" class="bg-gradient-to-b from-transparent to-black opacity-50"></div>
-                    <div class="flex items-end p-6">
-                        <div>
-                            <h3 class="font-semibold text-white">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    New Arrivals
-                                </a>
-                            </h3>
-                            <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
-                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-01.jpg"
-                        alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
-                        class="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full">
-                    <div aria-hidden="true"
-                        class="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"></div>
-                    <div class="flex items-end p-6 sm:absolute sm:inset-0">
-                        <div>
-                            <h3 class="font-semibold text-white">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    Accessories
-                                </a>
-                            </h3>
-                            <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
-                    <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-02.jpg"
-                        alt="Walnut desk organizer set with white modular trays, next to porcelain mug on wooden desk."
-                        class="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full">
-                    <div aria-hidden="true"
-                        class="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"></div>
-                    <div class="flex items-end p-6 sm:absolute sm:inset-0">
-                        <div>
-                            <h3 class="font-semibold text-white">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    Workspace
-                                </a>
-                            </h3>
-                            <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
-                        </div>
+        <div class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
+            <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2">
+                <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-featured-category.jpg"
+                    alt="Two models wearing women's black cotton crewneck tee and off-white cotton crewneck tee."
+                    class="object-cover object-center group-hover:opacity-75">
+                <div aria-hidden="true" class="bg-gradient-to-b from-transparent to-black opacity-50"></div>
+                <div class="flex items-end p-6">
+                    <div>
+                        <h3 class="font-semibold text-white">
+                            <a href="#">
+                                <span class="absolute inset-0"></span>
+                                New Arrivals
+                            </a>
+                        </h3>
+                        <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
                     </div>
                 </div>
             </div>
+            <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
+                <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-01.jpg"
+                    alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
+                    class="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full">
+                <div aria-hidden="true"
+                    class="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"></div>
+                <div class="flex items-end p-6 sm:absolute sm:inset-0">
+                    <div>
+                        <h3 class="font-semibold text-white">
+                            <a href="#">
+                                <span class="absolute inset-0"></span>
+                                Accessories
+                            </a>
+                        </h3>
+                        <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
+                    </div>
+                </div>
+            </div>
+            <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
+                <img src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-02.jpg"
+                    alt="Walnut desk organizer set with white modular trays, next to porcelain mug on wooden desk."
+                    class="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full">
+                <div aria-hidden="true"
+                    class="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"></div>
+                <div class="flex items-end p-6 sm:absolute sm:inset-0">
+                    <div>
+                        <h3 class="font-semibold text-white">
+                            <a href="#">
+                                <span class="absolute inset-0"></span>
+                                Workspace
+                            </a>
+                        </h3>
+                        <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <div class="mt-6 sm:hidden">
-                <a href="#" class="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
-                    Browse all categories
-                    <span aria-hidden="true"> &rarr;</span>
-                </a>
-            </div>
+        <div class="mt-6 sm:hidden">
+            <a href="#" class="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+                Browse all categories
+                <span aria-hidden="true"> &rarr;</span>
+            </a>
         </div>
     </div>
 
     {{-- Featured products section --}}
-    <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
         <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-8">Featured Products</h2>
         <div class="flex items-center justify-center flex-wrap gap-8">
 
@@ -103,32 +100,42 @@
         </div>
     </div>
 
-    <div class="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
         <div class="flex items-center justify-center w-full h-full py-24 sm:py-8 px-4">
             <div class="w-full relative flex items-center justify-center">
-                <button aria-label="slide backward" class="mr-6 left-0 ml-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer" id="prev">
-                    <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <button aria-label="slide backward"
+                    class="mr-6 left-0 ml-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer"
+                    id="prev">
+                    <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </button>
-                <div class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden">
-                    <div id="slider" class="h-full grid grid-flow-col lg:gap-8 md:gap-6 gap-14 items-center transition ease-out duration-700">
-                        @foreach ([1,2,3,4,5, 6, 7, 8] as $item)
+                <div class="w-full h-full mx-auto overflow-x-hidden p-4">
+                    <div id="slider"
+                        class="h-full grid grid-flow-col lg:gap-8 md:gap-6 gap-14 items-center transition ease-out duration-700">
+                        @foreach ([1, 2, 3, 4, 5, 6, 7, 8] as $item)
                             <x-product-card />
                         @endforeach
                     </div>
                 </div>
-                <button aria-label="slide forward" class="ml-6 right-0 mr-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400" id="next">
-                    <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <button aria-label="slide forward"
+                    class="ml-6 right-0 mr-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+                    id="next">
+                    <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </button>
             </div>
         </div>
     </div>
-  
+
     <script>
         let defaultTransform = 0;
+
         function goNext() {
             defaultTransform = defaultTransform - 398;
             var slider = document.getElementById("slider");
@@ -136,6 +143,7 @@
             slider.style.transform = "translateX(" + defaultTransform + "px)";
         }
         next.addEventListener("click", goNext);
+
         function goPrev() {
             var slider = document.getElementById("slider");
             if (Math.abs(defaultTransform) === 0) defaultTransform = 0;
@@ -143,7 +151,6 @@
             slider.style.transform = "translateX(" + defaultTransform + "px)";
         }
         prev.addEventListener("click", goPrev);
-
     </script>
 
     <!-- Advicements/Features -->

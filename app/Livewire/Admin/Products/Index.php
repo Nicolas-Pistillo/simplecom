@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Products;
 use App\Exports\ProductsExport;
 use App\Models\Product;
 use App\Models\Tag;
+use App\Services\BrandFetch;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;

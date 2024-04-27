@@ -3,13 +3,16 @@
 namespace App\Livewire\Admin\Products;
 
 use App\Livewire\Forms\ProductForm;
+use App\Models\Brand;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Tag;
+use App\Services\BrandFetch;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 
@@ -20,11 +23,12 @@ class Upsert extends Component
     public ProductForm $form;
     public $product;
 
-    public $tagSearch = '';
+    public $tagSearch, $brandSearch = '';
     public $notificationMessage = '';
 
     public $images = [];
     public $selectedTags = [];
+    public $selectedBrand;
 
     #[On('change-images-order')]
     public function changeImagesOrder($newOrder)
@@ -90,6 +94,16 @@ class Upsert extends Component
     {
         $index = array_search($tagId, $this->selectedTags);
         unset($this->selectedTags[$index]);
+    }
+
+    public function getBrands()
+    {
+        if (!empty($this->brandSearch) && strlen($this->brandSearch) >= 2)
+        {
+            $brands = BrandFetch::searchBrand($this->brandSearch);
+        }
+
+        return $brands ?? [];
     }
 
     public function save()
@@ -179,6 +193,7 @@ class Upsert extends Component
         return view('livewire.admin.products.upsert', [
             'categories' => Category::principal()->with('childs')->orderBy('name')->get(),
             'tags'       => $this->getTags(),
+            'brands'     => $this->getBrands(),
             'selectedTagsModels' => Tag::find($this->selectedTags)
         ]);
     }

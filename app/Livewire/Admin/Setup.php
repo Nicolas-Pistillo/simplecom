@@ -86,8 +86,6 @@ class Setup extends Component
         {
             $path = $this->ecommerceLogo->store(tenant()->name);
 
-            if (!$path) abort(500);
-
             if (tenant()->logo_url) Storage::delete(tenant()->logo_url);
 
             tenant()->update(['logo_url' => $path]);
