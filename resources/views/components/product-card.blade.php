@@ -1,28 +1,50 @@
-<div x-data="{hoverOnProduct: false}" @mouseenter="hoverOnProduct = true" @mouseleave="hoverOnProduct = false"
-    class="w-72 group cursor-pointer">
-    <div class="relative rounded-t-xl w-full overflow-hidden">
-        <img src="{{ $image ?? URL::to('img/no-image.png') }}"
-        class="w-full h-56 transition-all duration-700 group-hover:scale-[1.05]">
+<div x-data="{hoverOnProduct: false}" class="w-72 group cursor-pointer no-select"
+@mouseenter="hoverOnProduct = true" @mouseleave="hoverOnProduct = false">
+
+    {{-- Image & widgets --}}
+    <div class="relative rounded-t-xl w-full overflow-hidden border-b">
+        <img src="{{ $product->first_image }}"
+        class="w-full h-56 transition-all duration-700 object-cover group-hover:scale-[1.03]">
 
         <div class="absolute top-3 left-0">
             <h6 class="text-center py-1 px-2 rounded-r-full bg-red-400 text-white text-xs">Destacado</h6>
         </div>
 
         <div x-show="hoverOnProduct" x-cloak x-transition class="p-0.5 absolute top-1 right-1">
-            <x-icon code="favorite" class="transition duration-300 cursor-pointer p-2 text-red-400 bg-white shadow-md rounded-full"
+            <x-icon code="favorite" x-tooltip.raw="Añadir a favoritos" 
+            class="transition duration-300 cursor-pointer p-2 text-red-400 bg-white shadow-md rounded-full"
             style="font-size: 20px" />
         </div>
     </div>
-    <div class="border border-t-0 border-gray-200 w-full rounded-b-xl pb-5 pt-2 px-3 shadow-transparent 
-        transition duration-500 group-hover:shadow-gray-300 group-hover:bg-gray-50 group-hover:border-gray-300"
-        :class="hoverOnProduct ? '!shadow-lg' : '!shadow-sm'">
-        <h5 class="font-medium text-lg leading-8 text-gray-700 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">Trendy Whites</h5>
-        <div class="flex min-[400px]:items-center justify-between gap-2 flex-col min-[400px]:flex-row">
+
+    {{-- Body --}}
+    <div class="border border-t-0 border-gray-200 w-full rounded-b-xl pb-5 pt-2 px-3 
+    shadow-transparent transition duration-500 group-hover:shadow-gray-300 
+    group-hover:bg-gray-50 group-hover:border-gray-300"
+    :class="hoverOnProduct ? '!shadow-lg' : '!shadow-sm'">
+
+        <h5 class="font-medium text-lg leading-8 text-gray-700 mb-2 whitespace-nowrap 
+        overflow-hidden text-ellipsis">{{ $product->name }}</h5>
+
+        <div class="flex min-[400px]:items-center justify-between gap-2 flex-col 
+        min-[400px]:flex-row">
             <div class="flex items-center gap-2">
-                <h6 class="font-semibold text-xl leading-8 text-black">$74.99</h6>
+                <h6 class="font-semibold text-xl leading-8 text-black">
+                    @if ($product->hasDiscount())
+                        <div class="flex items-center">
+                            <del class="block text-xs text-gray-500">${{ priceFormat($product->price) }}</del> 
+                            <span class="text-green-500 text-xs ml-1.5">%{{ $product->discount_percent }} OFF</span>
+                        </div>
+                        <span class="inline-block">${{ priceFormat($product->calculateDiscount()) }}</span>
+                    @else
+                        ${{ priceFormat($product->price) }}
+                    @endif
+                </h6>
             </div>
+            <x-badge color="indigo">{{ $product->category?->name }}</x-badge>
+            {{-- Rating (stars)
             <div class="flex items-center gap-2">
-                <p class="font-medium text-sm text-black">2.4K</p>
+                <p class="font-medium text-sm text-black">2.4k</p>
                 <span
                     class="flex items-center gap-1 py-1 px-2 rounded-3xl  text-white font-medium text-sm bg-amber-400">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
@@ -48,7 +70,7 @@
                     </svg>
                     4.8
                 </span>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

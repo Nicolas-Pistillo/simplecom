@@ -17,7 +17,7 @@
     {{-- Categories presentation --}}
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
         <div class="sm:flex sm:items-baseline sm:justify-between">
-            <h2 class="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900" x-tooltip.raw.placement.top="DALE">Shop by Category</h2>
             <a href="#" class="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
                 Browse all categories
                 <span aria-hidden="true"> &rarr;</span>
@@ -89,55 +89,47 @@
     </div>
 
     {{-- Featured products section --}}
-    <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-8">Featured Products</h2>
-        <div class="flex items-center justify-center flex-wrap gap-8">
-
-            @for ($i = 0; $i < 2; $i++)
-                <x-product-card image="https://picsum.photos/200/300" />
-            @endfor
-
-        </div>
-    </div>
-
-    <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-        <div class="flex items-center justify-center w-full h-full py-24 sm:py-8 px-4">
-            <div class="w-full relative flex items-center justify-center">
-                <button aria-label="slide backward"
-                    class="mr-6 left-0 ml-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer"
-                    id="prev">
-                    <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </button>
-                <div class="w-full h-full mx-auto overflow-x-hidden p-4">
-                    <div id="slider"
-                        class="h-full grid grid-flow-col lg:gap-8 md:gap-6 gap-14 items-center transition ease-out duration-700">
-                        @foreach ([1, 2, 3, 4, 5, 6, 7, 8] as $item)
-                            <x-product-card />
-                        @endforeach
+    @if ($featuredProducts->isNotEmpty())
+        <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900">Featured Products</h2>
+            <div class="flex items-center justify-center w-full h-full py-24 sm:py-8 px-4">
+                <div class="w-full relative flex items-center justify-center">
+                    <button aria-label="slide backward"
+                        class="mr-6 left-0 ml-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer"
+                        id="prev">
+                        <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="w-full h-full mx-auto overflow-x-hidden p-4">
+                        <div id="slider"
+                            class="h-full grid grid-flow-col lg:gap-8 md:gap-6 gap-14 items-center transition ease-out duration-700">
+                            @foreach ($featuredProducts as $product)
+                                <x-product-card  :product="$product" />
+                            @endforeach
+                        </div>
                     </div>
+                    <button aria-label="slide forward"
+                        class="ml-6 right-0 mr-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+                        id="next">
+                        <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
                 </div>
-                <button aria-label="slide forward"
-                    class="ml-6 right-0 mr-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-                    id="next">
-                    <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </button>
             </div>
         </div>
-    </div>
+    @endif
 
     <script>
         let defaultTransform = 0;
 
         function goNext() {
-            defaultTransform = defaultTransform - 398;
+            defaultTransform = defaultTransform - 300;
             var slider = document.getElementById("slider");
             if (Math.abs(defaultTransform) >= slider.scrollWidth / 1.7) defaultTransform = 0;
             slider.style.transform = "translateX(" + defaultTransform + "px)";
@@ -147,7 +139,7 @@
         function goPrev() {
             var slider = document.getElementById("slider");
             if (Math.abs(defaultTransform) === 0) defaultTransform = 0;
-            else defaultTransform = defaultTransform + 398;
+            else defaultTransform = defaultTransform + 300;
             slider.style.transform = "translateX(" + defaultTransform + "px)";
         }
         prev.addEventListener("click", goPrev);

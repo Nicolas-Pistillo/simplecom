@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class EcommerceController extends Controller
@@ -11,7 +12,8 @@ class EcommerceController extends Controller
     public function index(Request $request)
     {
         return view('ecommerce.index', [
-            'banners' => Banner::published()->get()
+            'banners'          => Banner::published()->get(),
+            'featuredProducts' => Product::available()->featured()->with('category')->get()
         ]);
     }
 

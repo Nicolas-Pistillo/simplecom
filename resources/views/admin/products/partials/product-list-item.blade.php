@@ -14,7 +14,7 @@
 
             <label for="select-product-{{ $product->id }}" class="cursor-pointer hidden md:block">
                 <img class="w-12 h-10 object-cover rounded flex-none shadow-md" alt="product-img"
-                src="{{ $product->getPresentationImage() ?: URL::to('img/no-image.png') }}">
+                src="{{ $product->first_image }}">
             </label>
 
             <div class="min-w-0 flex-auto">

@@ -1,3 +1,7 @@
+@php
+  $tenantColor = tenant('color')
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,20 +10,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ URL::to('favicon-store-default.png') }}" type="image/x-icon">
-    <title>@yield('title', tenant()->ecommerce_name ?? tenant()->name)</title>
     <style> [x-cloak] { display: none !important; } [data-carousel-item] { z-index: 5; } </style>
-    @php
-        $tenantColor = tenant('color')
-    @endphp
+    <title>@yield('title', tenant()->ecommerce_name ?? tenant()->name)</title>
     @yield('head')
 </head>
 <body>
-    @yield('top-body')
+    @yield('begin-body')
 
     <!-- Navbar -->
     <div class="bg-white fixed w-full shadow-md z-10" 
@@ -840,7 +843,6 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.js"></script>
-    @yield('bottom-body')
-    @yield('scripts')
+    @yield('end-body')
 </body>
 </html>

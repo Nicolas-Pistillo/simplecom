@@ -59,8 +59,7 @@
                                             Marcar como publicada 
                                         </label>
                                         <span
-                                        x-tooltip.raw.placement.bottom="Si no se marca como publicada, no aparecera en tu tienda 
-                                        hasta que decidas publicarla. Tampoco se mostrarán los productos asociados a esta categoría."
+                                        x-tooltip.raw.placement.bottom="Si no se marca como publicada, no se publicará el acceso a esta categoría ni se mostrarán los productos que estén asociados a esta categoría."
                                         class="material-symbols-outlined ml-2 text-blue-600">help</span>
                                     </div>
                                 </div>
