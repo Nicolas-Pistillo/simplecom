@@ -23,7 +23,7 @@
     group-hover:bg-gray-50 group-hover:border-gray-300"
     :class="hoverOnProduct ? '!shadow-lg' : '!shadow-sm'">
 
-        <h5 class="font-medium text-lg leading-8 text-gray-700 mb-2 whitespace-nowrap 
+        <h5 class="font-medium leading-8 text-gray-700 mb-2 whitespace-nowrap 
         overflow-hidden text-ellipsis">{{ $product->name }}</h5>
 
         <div class="flex min-[400px]:items-center justify-between gap-2 flex-col 

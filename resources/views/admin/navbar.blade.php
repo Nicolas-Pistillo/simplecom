@@ -26,6 +26,10 @@
                     <x-navbar-item route="admin.categories.index" icon="format_list_bulleted" title="Categorías" />
                 @endcan
 
+                @can('Editar marcas')
+                    <x-navbar-item route="admin.brands.index" icon="sell" title="Marcas" />
+                @endcan
+
             </ul>
         </li>
 

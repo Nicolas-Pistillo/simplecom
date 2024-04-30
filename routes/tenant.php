@@ -51,6 +51,9 @@ Route::middleware([
                 Route::view('categories', 'admin.categories.index')->name('admin.categories.index')
                     ->middleware('can:Editar categorias');
 
+                Route::view('brands', 'admin.brands.index')->name('admin.brands.index')
+                    ->middleware('can:Editar marcas');
+
                 Route::view('operators', 'admin.operators.index')->name('admin.operators.index')
                     ->middleware('can:Editar operadores');
 
