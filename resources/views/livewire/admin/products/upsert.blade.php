@@ -73,17 +73,34 @@
                     <div x-data="{brandPanelOpen: false}" @click.away="brandPanelOpen = false" class="sm:col-span-3">
                         <label for="brands" class="flex items-center text-sm font-medium leading-6 text-gray-900">
                             Marca
-                            <x-icon x-tooltip.raw.placement.top="Podes buscar y seleccionar la marca que quieras 
-                            asociar al producto en este campo."
+                            <x-icon x-tooltip.raw.placement.top="Podes buscar y seleccionar tu marca dentro de los resultados sugeridos de esta búsqueda para poder registarla."
                             code="help" class="ml-1 text-blue-500" />
                         </label>
 
                         <div class="mt-2 flex items-center">
-                            <div class="flex items-center w-full rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
-                                <input type="search" wire:model.live.debounce.800ms='brandSearch' autocomplete="off" id="brands"
+                            <div class="flex items-center w-full rounded-md shadow-sm sm:max-w-md ring-gray-300 ring-1 ring-inset
+                            {{ !$selectedBrand ? 'focus-within:ring-blue-600 focus-within:ring-2 focus-within:ring-inset' : '' }}">
+
+                                @if ($selectedBrand)
+                                    <img class="ml-1 rounded-full w-6 h-6 object-contain" 
+                                    src="{{ !empty($selectedBrand->image_url) ? $selectedBrand->image_url : URL::to('img/brand-placeholder.jpg') }}" />
+
+                                    <input type="text" readonly value="{{ $selectedBrand->name }}"
+                                    class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm sm:leading-6"
+                                    placeholder="Buscar marca por nombre...">
+
+                                    <x-icon code="delete" x-tooltip.raw.placement.top="Desvincular marca"
+                                    wire:click='removeBrand' 
+                                    class="ml-auto mr-1 cursor-pointer text-red-500" />
+                                @else
+                                    <input type="search" wire:model.live.debounce.800ms='brandSearch' autocomplete="off" id="brands"
                                     @focus="brandPanelOpen = true" @keydown="brandPanelOpen = true"
                                     class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm sm:leading-6"
                                     placeholder="Buscar marca por nombre...">
+
+                                    <x-spinner wire:loading wire:target='selectBrand'
+                                    class="ml-auto mr-1" />
+                                @endif
                             </div>
                         </div>
 
@@ -94,13 +111,25 @@
                                     <x-spinner wire:loading wire:target='brandSearch' class="mx-auto py-4" />
                                 </div>
                                 @forelse ($brands as $brand)
-                                    <li wire:key='{{ $brand['brandId'] }}' @click="brandPanelOpen = false"
+                                    @isset($brand['id'])
+                                        <li wire:key='{{ $brand['id'] }}' @click="brandPanelOpen = false"
                                         wire:loading.remove wire:target='brandSearch'
-                                        wire:click=''
+                                        wire:click="selectBrand('{{ $brand['image_url'] }}', '{{ $brand['name'] }}')"
                                         class="text-sm my-2 p-2 flex items-center hover:bg-gray-100 cursor-pointer">
-                                        <img src="{{ $brand['icon'] }}" class="h-6 w-6 mr-2 rounded-full" alt="brand-logo">
-                                        {{ $brand['name'] }}
-                                    </li>
+                                        <img src="{{ !empty($brand['image_url']) ? $brand['image_url'] : URL::to('img/brand-placeholder.jpg') }}" 
+                                        class="h-6 w-6 mr-2 rounded-full object-contain" alt="brand-logo">
+                                            {{ $brand['name'] }}
+                                        </li>
+                                    @else
+                                        <li wire:key='{{ $brand['brandId'] }}' @click="brandPanelOpen = false"
+                                        wire:loading.remove wire:target='brandSearch'
+                                        wire:click="selectBrand('{{ $brand['icon'] }}', '{{ $brand['name'] }}')"
+                                        class="text-sm my-2 p-2 flex items-center hover:bg-gray-100 cursor-pointer">
+                                        <img src="{{ !empty($brand['icon']) ? $brand['icon'] : URL::to('img/brand-placeholder.jpg') }}" 
+                                        class="h-6 w-6 mr-2 rounded-full object-contain" alt="brand-logo">
+                                            {{ $brand['name'] }}
+                                        </li>
+                                    @endif
                                 @empty
                                 @endforelse
                             </ul>
@@ -307,7 +336,7 @@
 
                                                     <img src="{{ Storage::url($image->url) }}"
                                                         alt="preview-product-image"
-                                                        class="w-24 h-20 border rounded-lg shadow object-contain">
+                                                        class="w-24 h-20 border rounded-lg shadow object-cover">
 
                                                     <x-icon x-show="showDelete" code="delete"
                                                         @click="deleteDialogOpen = true"
@@ -362,7 +391,7 @@
 
                                                     <img src="{{ $image->temporaryUrl() }}"
                                                         alt="preview-product-image"
-                                                        class="w-24 h-20 border rounded-lg shadow object-contain">
+                                                        class="w-24 h-20 border rounded-lg shadow object-cover">
 
                                                     <x-icon x-show="showDelete" code="delete"
                                                         wire:click='deleteImage({{ $key }})'

@@ -35,7 +35,8 @@ class Banners extends Component
     {
         if($this->image->getSize() >= 4000000)
         {
-            return $this->image = null;
+            $this->image = null;
+            return $this->imagePreview = null;
         }
 
         $this->imagePreview = $this->image->temporaryUrl();
@@ -153,7 +154,7 @@ class Banners extends Component
     public function render()
     {
         return view('livewire.admin.contents.banners', [
-            'banners' => Banner::orderBy('order')->get()
+            'banners' => Banner::all()
         ]);
     }
 }

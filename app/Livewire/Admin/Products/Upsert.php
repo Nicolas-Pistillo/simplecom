@@ -103,7 +103,22 @@ class Upsert extends Component
             $brands = BrandFetch::searchBrand($this->brandSearch);
         }
 
-        return $brands ?? [];
+        return $brands ?? Brand::all()->toArray();
+    }
+
+    public function selectBrand($brandLogo, $brandName)
+    {
+        $this->brandSearch = $brandName;
+
+        $this->selectedBrand = Brand::firstOrCreate([
+            'image_url' => $brandLogo,
+            'name'      => $brandName
+        ]);
+    }
+
+    public function removeBrand()
+    {
+        $this->reset('selectedBrand', 'brandSearch');
     }
 
     public function save()
@@ -135,6 +150,22 @@ class Upsert extends Component
         if (!empty($this->selectedTags))
         {
             $product->tags()->sync($this->selectedTags);
+        }
+
+        if ($this->selectedBrand)
+        {
+            $product->update(['brand_id' => $this->selectedBrand->id]);
+        } else
+        {
+            $brandId = null;
+
+            if (!empty(trim($this->brandSearch)))
+            {
+                $brand = Brand::firstOrCreate(['name' => trim($this->brandSearch)]);
+                $brandId = $brand->id;
+            }
+            
+            $product->update(['brand_id' => $brandId]);
         }
 
         $actionPerformed = $product->wasRecentlyCreated ? 'product_created' : 'product_updated';
@@ -183,6 +214,8 @@ class Upsert extends Component
 
             $product->tags->each(fn($tag) => array_push($this->selectedTags, $tag->id));
             $product->images->sortBy('order')->each(fn($image) => array_push($this->images, $image));
+
+            $this->selectedBrand = $product->brand;
         }
 
         $this->form->created_by = Auth::id();

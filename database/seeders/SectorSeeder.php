@@ -29,6 +29,7 @@ class SectorSeeder extends Seeder
         Sector::updateOrCreate(['name' => 'Artículos de ferreteria']);
         Sector::updateOrCreate(['name' => 'Pinturerías']);
         Sector::updateOrCreate(['name' => 'Blanquerías']);
+        Sector::updateOrCreate(['name' => 'Artículos y accesorios escolares']);
         Sector::updateOrCreate(['name' => 'Gastronomía']);
         Sector::updateOrCreate(['name' => 'Alimentos y bebidas']);
         Sector::updateOrCreate(['name' => 'Comidas rápidas']);

@@ -13,7 +13,7 @@
             style="font-size: 20px" />
         </div>
     </div>
-    <div class="border border-t-0 border-gray-200 w-full rounded-b-xl p-5 shadow-transparent 
+    <div class="border border-t-0 border-gray-200 w-full rounded-b-xl pb-5 pt-2 px-3 shadow-transparent 
         transition duration-500 group-hover:shadow-gray-300 group-hover:bg-gray-50 group-hover:border-gray-300"
         :class="hoverOnProduct ? '!shadow-lg' : '!shadow-sm'">
         <h5 class="font-medium text-lg leading-8 text-gray-700 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">Trendy Whites</h5>

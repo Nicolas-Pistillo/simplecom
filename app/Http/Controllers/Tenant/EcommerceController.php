@@ -11,7 +11,7 @@ class EcommerceController extends Controller
     public function index(Request $request)
     {
         return view('ecommerce.index', [
-            'banners' => Banner::published()->orderBy('order')->get()
+            'banners' => Banner::published()->get()
         ]);
     }
 
