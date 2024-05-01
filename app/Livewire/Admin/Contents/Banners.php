@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\Contents;
 
 use App\Models\Banner;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
