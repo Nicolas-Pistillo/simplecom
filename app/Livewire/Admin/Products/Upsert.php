@@ -12,7 +12,6 @@ use App\Models\Tag;
 use App\Services\BrandFetch;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 

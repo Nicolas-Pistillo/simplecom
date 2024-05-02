@@ -67,7 +67,7 @@ class="relative flex justify-between  gap-x-6 p-3 sm:px-6 cursor-pointer transit
 
         {{-- Add subcategory --}}
         <div x-tooltip.raw.placement.left="Agregar subcategoría">
-            <x-icon wire:click='openAddSubcategory({{ $category }})' x-show="mouseOnCategory" code="library_add"
+            <x-icon wire:click='openAddSubcategory({{ $category->id }})' x-show="mouseOnCategory" code="library_add"
             @click="selected = {{ $category->id }};"
             class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
             rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
@@ -75,7 +75,7 @@ class="relative flex justify-between  gap-x-6 p-3 sm:px-6 cursor-pointer transit
 
         {{-- Edit category --}}
         <div x-tooltip.raw.placement.left="Editar categoría">
-            <x-icon wire:click='openEditCategory({{ $category }})' x-show="mouseOnCategory" code="edit"
+            <x-icon wire:click='openEditCategory({{ $category->id }})' x-show="mouseOnCategory" code="edit"
             class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
             rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>
@@ -84,7 +84,7 @@ class="relative flex justify-between  gap-x-6 p-3 sm:px-6 cursor-pointer transit
         <div x-tooltip.raw.placement.left="Elminar categoría">
             <x-icon x-show="mouseOnCategory" code="delete" 
             @click="selected = null"
-            wire:click='openDeleteCategory({{ $category }})'
+            wire:click='openDeleteCategory({{ $category->id }})'
             class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
             bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>

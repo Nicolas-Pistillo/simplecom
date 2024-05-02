@@ -68,7 +68,7 @@
 
         {{-- Add subcategory --}}
         <div x-tooltip.raw.placement.left="Agregar subcategoría">
-            <x-icon wire:click='openAddSubcategory({{ $childCategory }})' x-show="mouseOnSubCategory" code="library_add"
+            <x-icon wire:click='openAddSubcategory({{ $childCategory->id }})' x-show="mouseOnSubCategory" code="library_add"
             @click="subcategorySelected = {{ $childCategory->id }}"
             class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
             rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
@@ -76,7 +76,7 @@
 
         {{-- Edit subcategory --}}
         <div x-tooltip.raw.placement.left="Editar subcategoría">
-            <x-icon x-show="mouseOnSubCategory" code="edit" wire:click='openEditCategory({{ $childCategory }})'
+            <x-icon x-show="mouseOnSubCategory" code="edit" wire:click='openEditCategory({{ $childCategory->id }})'
             class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
             rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>
@@ -85,7 +85,7 @@
         <div x-tooltip.raw.placement.left="Elminar subcategoría">
             <x-icon x-show="mouseOnSubCategory" code="delete" 
             @click="subcategorySelected = null"
-            wire:click='openDeleteCategory({{ $childCategory }})'
+            wire:click='openDeleteCategory({{ $childCategory->id }})'
             class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
             bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>

@@ -1,4 +1,5 @@
-<label class="inline-flex items-center cursor-pointer">
+<label class="inline-flex items-center cursor-pointer"
+@isset($tooltip) x-tooltip.raw.placement.{{ $tooltipPosition ?? 'left' }}="{{ $tooltip }}"  @endisset>
 
     <input type="checkbox" class="sr-only peer" @isset($value) value="{{ $value }}" @endisset
     @if (isset($checked) && $checked == true) checked @endif

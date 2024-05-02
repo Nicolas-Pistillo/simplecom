@@ -68,14 +68,14 @@
 
         {{-- Edit subcategory --}}
         <div x-tooltip.raw.placement.left="Editar subcategoría">
-            <x-icon x-show="mouseOnGrandChild" code="edit" wire:click='openEditCategory({{ $grandChild }})'
+            <x-icon x-show="mouseOnGrandChild" code="edit" wire:click='openEditCategory({{ $grandChild->id }})'
                 class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
                 rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>
 
         {{-- Delete subcategory --}}
         <div x-tooltip.raw.placement.left="Elminar subcategoría">
-            <x-icon x-show="mouseOnGrandChild" code="delete" wire:click='openDeleteCategory({{ $grandChild }})'
+            <x-icon x-show="mouseOnGrandChild" code="delete" wire:click='openDeleteCategory({{ $grandChild->id }})'
                 class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
                 bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         </div>

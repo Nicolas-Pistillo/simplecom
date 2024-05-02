@@ -3,15 +3,18 @@
 namespace App\Livewire\Admin\Brands;
 
 use App\Models\Brand;
+use App\Models\Product;
 use App\Services\BrandFetch;
 use App\Traits\Livewire\WithNotifications;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Upsert extends Component
 {
     use WithNotifications;
 
-    public $hasBrands, $brandSearch, $brandSearchResults;
+    public $brandSearch, $brandSearchResults;
 
     public function togglePublished(Brand $brand, $published)
     {
@@ -39,12 +42,27 @@ class Upsert extends Component
             'image_url'     => $brand['icon']
         ]);
 
+        Log::channel('resources')->info("Nueva marca", [
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'brand'       => $brand
+        ]);
+
         $this->notify("Agregaste la marca $brand->name");
     }
 
-    public function mount()
+    public function deleteBrand(Brand $brand)
     {
-        $this->hasBrands = Brand::count() > 0;
+        $brand->delete();
+        Product::where('brand_id', $brand->id)->update(['brand_id' => null]);
+
+        Log::channel('resources')->info("Marca eliminada", [
+            'tenant'      => tenant('name'),
+            'operator_id' => Auth::id(),
+            'brand'       => $brand
+        ]);
+
+        $this->notify("Eliminaste la marca $brand->name");
     }
 
     public function render()
