@@ -22,7 +22,7 @@ class Upsert extends Component
     public ProductForm $form;
     public $product;
 
-    public $tagSearch, $brandSearch = '';
+    public $tagSearch = '';
     public $notificationMessage = '';
 
     public $images = [];
@@ -95,29 +95,14 @@ class Upsert extends Component
         unset($this->selectedTags[$index]);
     }
 
-    public function getBrands()
+    public function selectBrand(Brand $brand)
     {
-        if (!empty($this->brandSearch) && strlen($this->brandSearch) >= 2)
-        {
-            $brands = BrandFetch::searchBrand($this->brandSearch);
-        }
-
-        return $brands ?? Brand::all()->toArray();
-    }
-
-    public function selectBrand($brandLogo, $brandName)
-    {
-        $this->brandSearch = $brandName;
-
-        $this->selectedBrand = Brand::firstOrCreate([
-            'image_url' => $brandLogo,
-            'name'      => $brandName
-        ]);
+        $this->selectedBrand = $brand;
     }
 
     public function removeBrand()
     {
-        $this->reset('selectedBrand', 'brandSearch');
+        $this->reset('selectedBrand');
     }
 
     public function save()
@@ -154,17 +139,6 @@ class Upsert extends Component
         if ($this->selectedBrand)
         {
             $product->update(['brand_id' => $this->selectedBrand->id]);
-        } else
-        {
-            $brandId = null;
-
-            if (!empty(trim($this->brandSearch)))
-            {
-                $brand = Brand::firstOrCreate(['name' => trim($this->brandSearch)]);
-                $brandId = $brand->id;
-            }
-            
-            $product->update(['brand_id' => $brandId]);
         }
 
         $actionPerformed = $product->wasRecentlyCreated ? 'product_created' : 'product_updated';
@@ -225,7 +199,7 @@ class Upsert extends Component
         return view('livewire.admin.products.upsert', [
             'categories' => Category::principal()->with('childs')->orderBy('name')->get(),
             'tags'       => $this->getTags(),
-            'brands'     => $this->getBrands(),
+            'brands'     => Brand::orderBy('name')->get(),
             'selectedTagsModels' => Tag::find($this->selectedTags)
         ]);
     }

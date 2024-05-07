@@ -69,73 +69,6 @@
                         </div>
                     </div>
 
-                    {{-- Brand field --}}
-                    <div x-data="{brandPanelOpen: false}" @click.away="brandPanelOpen = false" class="sm:col-span-3">
-                        <label for="brands" class="flex items-center text-sm font-medium leading-6 text-gray-900">
-                            Marca
-                            <x-icon x-tooltip.raw.placement.top="Podes buscar y seleccionar tu marca dentro de los resultados sugeridos de esta búsqueda para poder registarla."
-                            code="help" class="ml-1 text-blue-500" />
-                        </label>
-
-                        <div class="mt-2 flex items-center">
-                            <div class="flex items-center w-full rounded-md shadow-sm sm:max-w-md ring-gray-300 ring-1 ring-inset
-                            {{ !$selectedBrand ? 'focus-within:ring-blue-600 focus-within:ring-2 focus-within:ring-inset' : '' }}">
-
-                                @if ($selectedBrand)
-                                    <img class="ml-1 rounded-full w-6 h-6 object-contain" 
-                                    src="{{ !empty($selectedBrand->image_url) ? $selectedBrand->image_url : URL::to('img/brand-placeholder.jpg') }}" />
-
-                                    <input type="text" readonly value="{{ $selectedBrand->name }}"
-                                    class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm sm:leading-6"
-                                    placeholder="Buscar marca por nombre...">
-
-                                    <x-icon code="delete" x-tooltip.raw.placement.top="Desvincular marca"
-                                    wire:click='removeBrand' 
-                                    class="ml-auto mr-1 cursor-pointer text-red-500" />
-                                @else
-                                    <input type="search" wire:model.live.debounce.800ms='brandSearch' autocomplete="off" id="brands"
-                                    @focus="brandPanelOpen = true" @keydown="brandPanelOpen = true"
-                                    class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm sm:leading-6"
-                                    placeholder="Buscar marca por nombre...">
-
-                                    <x-spinner wire:loading wire:target='selectBrand'
-                                    class="ml-auto mr-1" />
-                                @endif
-                            </div>
-                        </div>
-
-                        <div x-show="brandPanelOpen" x-cloak x-transition
-                            class="absolute z-10 mt-2 bg-white min-w-[14rem] rounded shadow-md overflow-y-auto max-h-44">
-                            <ul>
-                                <div class="flex items-center">
-                                    <x-spinner wire:loading wire:target='brandSearch' class="mx-auto py-4" />
-                                </div>
-                                @forelse ($brands as $brand)
-                                    @isset($brand['id'])
-                                        <li wire:key='{{ $brand['id'] }}' @click="brandPanelOpen = false"
-                                        wire:loading.remove wire:target='brandSearch'
-                                        wire:click="selectBrand('{{ $brand['image_url'] }}', '{{ $brand['name'] }}')"
-                                        class="text-sm my-2 p-2 flex items-center hover:bg-gray-100 cursor-pointer">
-                                        <img src="{{ !empty($brand['image_url']) ? $brand['image_url'] : URL::to('img/brand-placeholder.jpg') }}" 
-                                        class="h-6 w-6 mr-2 rounded-full object-contain" alt="brand-logo">
-                                            {{ $brand['name'] }}
-                                        </li>
-                                    @else
-                                        <li wire:key='{{ $brand['brandId'] }}' @click="brandPanelOpen = false"
-                                        wire:loading.remove wire:target='brandSearch'
-                                        wire:click="selectBrand('{{ $brand['icon'] }}', '{{ $brand['name'] }}')"
-                                        class="text-sm my-2 p-2 flex items-center hover:bg-gray-100 cursor-pointer">
-                                        <img src="{{ !empty($brand['icon']) ? $brand['icon'] : URL::to('img/brand-placeholder.jpg') }}" 
-                                        class="h-6 w-6 mr-2 rounded-full object-contain" alt="brand-logo">
-                                            {{ $brand['name'] }}
-                                        </li>
-                                    @endif
-                                @empty
-                                @endforelse
-                            </ul>
-                        </div>
-                    </div>
-
                     {{-- Category field --}}
                     <div class="sm:col-span-3">
                         <label for="category_id" class="block text-sm font-medium leading-6 text-gray-900">
@@ -175,6 +108,65 @@
                                 <small class="text-red-500 text-xs">{{ $message }}</small>
                             @enderror
                         </div>
+                    </div>
+
+                    {{-- Brand field --}}
+                    <div x-data="{brandPanelOpen: false}" @click.away="brandPanelOpen = false" class="sm:col-span-3">
+                        <label for="brands" class="flex items-center text-sm font-medium leading-6 text-gray-900">
+                            Marca
+                        </label>
+
+                        <div class="mt-2 flex items-center">
+                            <div class="flex items-center w-full rounded-md shadow-sm sm:max-w-md ring-gray-300 ring-1 ring-inset
+                            {{ !$selectedBrand ? 'focus-within:ring-blue-600 focus-within:ring-2 focus-within:ring-inset' : '' }}">
+
+                                @if ($selectedBrand)
+                                    <img class="ml-2 rounded-full w-6 h-6 object-contain" 
+                                    src="{{ !empty($selectedBrand->image_url) ? $selectedBrand->image_url : URL::to('img/brand-placeholder.jpg') }}" />
+
+                                    <input type="text" readonly value="{{ $selectedBrand->name }}"
+                                    class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 focus:ring-0 text-sm sm:leading-6">
+
+                                    <x-icon code="delete" x-tooltip.raw.placement.top="Desvincular marca"
+                                    wire:click='removeBrand' 
+                                    class="ml-auto mr-1 cursor-pointer text-red-500" />
+                                @else
+
+                                    <input type="text" readonly autocomplete="off" id="brands"
+                                    @click="brandPanelOpen = !brandPanelOpen"
+                                    class="relative no-select block w-full placeholder:text-gray-900 cursor-default placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 focus:ring-0 text-sm sm:leading-6"
+                                    placeholder="Seleccionar una marca...">
+
+                                    <x-icon code="expand_more" class="mr-1 text-gray-500" />
+
+                                    <x-spinner wire:loading wire:target='selectBrand'
+                                    class="ml-auto mr-1" />
+                                @endif
+                            </div>
+                        </div>
+
+                        <div x-show="brandPanelOpen" x-cloak x-transition
+                            class="absolute z-10 mt-2 bg-white min-w-[14rem] rounded shadow-md overflow-y-auto max-h-52">
+                            <ul>
+                                @forelse ($brands as $brand)
+                                    <li wire:key='{{ $brand->id }}' @click="brandPanelOpen = false"
+                                    wire:click="selectBrand('{{ $brand->id }}')"
+                                    class="text-sm my-2 p-2 flex items-center hover:bg-gray-100 cursor-pointer">
+                                    <img src="{{ !empty($brand->image_url) ? $brand->image_url : URL::to('img/brand-placeholder.jpg') }}" 
+                                    class="h-6 w-6 mr-2 rounded-full object-contain" alt="brand-logo">
+                                        {{ $brand->name }}
+                                    </li>
+                                @empty
+                                @endforelse
+                            </ul>
+                        </div>
+
+                        <span class="mt-1 text-xs text-gray-500">
+                            ¿No se encuentra tu marca? 
+                            <a class="text-blue-500 hover:underline" href="{{ route('admin.brands.index') }}">
+                                registrala acá.
+                            </a>
+                        </span>                        
                     </div>
 
                     {{-- Description field --}}
@@ -434,7 +426,7 @@
                             Elegir etiqueta
                             <x-icon
                                 x-tooltip.raw.placement.top="Podés crear nuevas etiquetas escribiendo 
-                            su nombre en este campo y luego presionando ENTER para guardarlas y asociarlas al producto."
+                                su nombre en este campo y luego presionando ENTER para guardarlas y asociarlas al producto."
                                 code="help" class="ml-1 text-blue-500" />
                         </label>
 
@@ -445,7 +437,9 @@
                                     @focus="tagsPanelOpen = true" @keydown="tagsPanelOpen = true"
                                     @keydown.enter.prevent="$wire.createTag($el.value); $el.value = ''; tagsPanelOpen = false"
                                     class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm sm:leading-6"
-                                    placeholder="Buscar etiqueta por nombre...">
+                                    placeholder="Buscar o agregar etiqueta...">
+
+                                <x-spinner wire:loading wire:target='createTag, addTag' class="mr-2" />
                             </div>
                         </div>
 
@@ -472,7 +466,7 @@
 
                                         {{ $selectedTag->name }}
 
-                                        <x-icon code="close" x-tooltip.raw.placement.bottom="Eliminar etiqueta"
+                                        <x-icon code="close" x-tooltip.raw.placement.bottom="Remover etiqueta"
                                             wire:click='removeTag({{ $selectedTag->id }})'
                                             class="text-sm ml-1 hover:text-red-500 cursor-pointer" />
                                     </x-badge>

@@ -2,6 +2,6 @@
 
 @section('content')
     
-    @livewire('admin.brands.upsert')
+    @livewire('admin.brands.index')
 
 @endsection

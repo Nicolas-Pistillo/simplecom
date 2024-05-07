@@ -8,7 +8,7 @@
             <div class="sm:flex-auto">
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Marcas</h1>
                 <p class="mt-2 text-sm text-gray-700">
-                    Podes buscar y agregar las marcas registradas con las que vas a comercializar, luego podrás asignar
+                    Podes buscar y agregar las marcas registradas oficiales con las que vas a comercializar, luego podrás asignar
                     la correspondiente a cada producto que crees.
                 </p>
             </div>
@@ -127,7 +127,7 @@
                                             bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
                                         </td>
 
-                                        {{-- Confirm delete product --}}
+                                        {{-- Confirm delete brand --}}
                                         <td>
                                             <x-modal ref="confirmDeleteBrand" type="danger" icon="warning">
         
@@ -136,8 +136,8 @@
                                                 </x-slot>
         
                                                 <x-slot name="body">
-                                                    ¿Estás seguro de que deseas eliminar esta marca?, se eliminara de todos
-                                                    los productos que ya esten asociados a esta marca.
+                                                    ¿Estás seguro de que deseas eliminar esta marca?, se removerá de todos
+                                                    los productos asociados.
                                                 </x-slot>
         
                                                 <x-slot name="actions">

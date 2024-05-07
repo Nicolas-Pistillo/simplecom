@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
-class Upsert extends Component
+class Index extends Component
 {
     use WithNotifications;
 
@@ -67,7 +67,7 @@ class Upsert extends Component
 
     public function render()
     {
-        return view('livewire.admin.brands.upsert', [
+        return view('livewire.admin.brands.index', [
             'brands' => Brand::with('products')->orderBy('name')->get()
         ]);
     }
