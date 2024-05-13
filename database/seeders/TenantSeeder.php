@@ -10,5 +10,6 @@ class TenantSeeder extends Seeder
     {
         $this->call(EcommerceConfigurationSeeder::class);
         $this->call(RolePermissionSeeder::class);
+        $this->call(DefaultAttributesSeeder::class);
     }
 }

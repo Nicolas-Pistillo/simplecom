@@ -30,6 +30,9 @@
             {{-- Images block | Imágenes --}}
             @include('admin.products.partials.upsert-form.images-block')
 
+            {{-- Variants block | Variantes --}}
+            @include('admin.products.partials.upsert-form.variants-block')
+
             {{-- Tags block | Etiquetas --}}
             @include('admin.products.partials.upsert-form.tags-block')
 

@@ -6,7 +6,8 @@
 
     <div class="flex min-h-screen flex-col justify-center px-6 lg:px-8"  
     style="background: linear-gradient(rgb(0 0 0 / 70%), rgb(0 0 0 / 70%)),
-    url({{ asset('img/office-1.jpg') }}); background-position: center; background-size: cover">
+    url({{ asset('img/office-1.jpg') }}); background-position: center; 
+    background-size: cover;">
 
         <div class="sm:mx-auto sm:w-full sm:max-w-sm text-white">
             <img class="mx-auto h-36 w-auto" src="{{ asset('img/simplecom/svg/logo-no-background.svg') }}"
@@ -53,14 +54,6 @@
                     </div>
                 </div>
             @endif
-              
-
-            {{-- <p class="mt-10 text-center text-sm text-gray-500">
-                <a href="#" class="font-semibold leading-6 text-white hover:underline">
-                    Olvide mi contraseña
-                </a>
-            </p> --}}
         </div>
-
     </div>
 @endsection

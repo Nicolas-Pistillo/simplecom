@@ -69,7 +69,7 @@
                     <p class="mt-1 text-sm text-gray-500">
                         <span @click="newBrandPanelOpen = true"
                             class="text-blue-500 hover:underline hover:text-blue-600 cursor-pointer">
-                            Crea tu primer marca
+                            Registrá tu primer marca
                         </span> cuando quieras
                     </p>
                 </div>

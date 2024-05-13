@@ -85,7 +85,7 @@
                 @else
                     <small class="mt-1 text-xs text-gray-500">¿No creaste la categoría? podes 
                         <a href="{{ route('admin.categories.index') }}"
-                        class="text-blue-500 hover:underline">crearla aca</a>
+                        class="text-blue-500 hover:underline">crearla acá</a>
                     </small>
                 @enderror
             </div>

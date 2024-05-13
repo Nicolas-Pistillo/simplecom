@@ -5,7 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductVariant extends Model
+class AttributeValue extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name', 'meta'];
+
+    protected $casts = [
+        'meta' => 'json'
+    ];
 }

@@ -9,7 +9,6 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Tag;
-use App\Services\BrandFetch;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithFileUploads;
@@ -104,6 +103,8 @@ class Upsert extends Component
     {
         $this->reset('selectedBrand');
     }
+
+    
 
     public function save()
     {
