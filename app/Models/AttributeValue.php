@@ -14,4 +14,9 @@ class AttributeValue extends Model
     protected $casts = [
         'meta' => 'json'
     ];
+
+    public function attribute()
+    {
+        return $this->belongsTo(Attribute::class);
+    }
 }

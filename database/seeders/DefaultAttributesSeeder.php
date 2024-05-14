@@ -13,7 +13,7 @@ class DefaultAttributesSeeder extends Seeder
     public function run(): void
     {
         // Attributes
-        $size      = Attribute::create(['name' => 'Talla']);
+        $size      = Attribute::create(['name' => 'Talle']);
         $footwear  = Attribute::create(['name' => 'Calzado']);
         $colors    = Attribute::create(['name' => 'Color']);
 

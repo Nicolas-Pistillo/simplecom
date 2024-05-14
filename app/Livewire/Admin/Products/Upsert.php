@@ -3,12 +3,14 @@
 namespace App\Livewire\Admin\Products;
 
 use App\Livewire\Forms\ProductForm;
+use App\Models\Attribute;
 use App\Models\Brand;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Tag;
+use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithFileUploads;
@@ -16,16 +18,16 @@ use Livewire\Attributes\On;
 
 class Upsert extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithNotifications;
 
     public ProductForm $form;
     public $product;
 
     public $tagSearch = '';
-    public $notificationMessage = '';
-
     public $images = [];
+    public $variants = [];
     public $selectedTags = [];
+    public $selectedAttributes = [];
     public $selectedBrand;
 
     #[On('change-images-order')]
@@ -104,7 +106,71 @@ class Upsert extends Component
         $this->reset('selectedBrand');
     }
 
-    
+    public function toggleVariantAttribute(Attribute $attribute, bool $append)
+    {
+        if ($append)
+        {
+            array_push($this->selectedAttributes, $attribute);
+
+            if (empty($this->variants)) return $this->addVariant();
+
+            if (!empty($this->variants))
+            {
+                $newArr = [];
+
+                foreach($this->variants as $variant)
+                {
+                    $variant['attributes'][$attribute->id] = null;
+                    array_push($newArr, $variant);
+                }
+
+                $this->variants = $newArr;
+            }
+            return;
+        }
+
+        foreach($this->selectedAttributes as $key => $attributeItem)
+        {
+            if (!empty($this->variants))
+            {
+                $newArr = [];
+
+                foreach($this->variants as $variant)
+                {
+                    unset($variant['attributes'][$attribute->id]);
+                    array_push($newArr, $variant);
+                }
+
+                $this->variants = $newArr;
+            }
+
+            if ($attributeItem->name === $attribute->name)
+            {
+                unset($this->selectedAttributes[$key]);
+                return;
+            }
+        }
+    }
+
+    public function addVariant()
+    {
+        $newVariant = [
+            'attributes' => [],
+            'stock' => 0
+        ];
+
+        foreach($this->selectedAttributes as $attribute)
+        {
+            $newVariant['attributes'][$attribute->id] = null;
+        }
+
+        array_push($this->variants, $newVariant);
+    }
+
+    public function removeVariant($index)
+    {
+        unset($this->variants[$index]);
+    }
 
     public function save()
     {
@@ -172,12 +238,6 @@ class Upsert extends Component
         return $product;
     }
 
-    public function notify($message)
-    {
-        $this->notificationMessage = $message;
-        $this->dispatch('open-notification');
-    }
-
     public function mount(Product|bool $product = false)
     {
         if ($product)
@@ -201,6 +261,7 @@ class Upsert extends Component
             'categories' => Category::principal()->with('childs')->orderBy('name')->get(),
             'tags'       => $this->getTags(),
             'brands'     => Brand::orderBy('name')->get(),
+            'attributes' => Attribute::with('values')->get(),
             'selectedTagsModels' => Tag::find($this->selectedTags)
         ]);
     }
