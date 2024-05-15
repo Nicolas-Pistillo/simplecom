@@ -172,6 +172,15 @@ class Upsert extends Component
         unset($this->variants[$index]);
     }
 
+    public function testValidateVariants()
+    {
+        $this->validate([
+            'variants.*.stock'        => 'integer|min:0',
+            'variants.*.attributes'   => 'array|present',
+            'variants.*.attributes.*' => 'required|exists:attribute_values,id'
+        ]);
+    }
+
     public function save()
     {
         $this->validate();

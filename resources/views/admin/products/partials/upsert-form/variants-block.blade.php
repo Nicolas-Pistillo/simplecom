@@ -21,10 +21,20 @@
 
             <div x-data="{attributesPanelOpen: false}" class="relative mb-3">
 
-                <x-button @click="attributesPanelOpen = !attributesPanelOpen" 
-                type="secondary" class="inline-flex items-center">
-                    Seleccionar atributo <x-icon code="expand_more" class="ml-1" />
-                </x-button>
+                <div class="flex items-center">
+                    <x-button @click="attributesPanelOpen = !attributesPanelOpen" 
+                    type="secondary" class="inline-flex items-center">
+                        Seleccionar atributo <x-icon code="expand_more" class="ml-1" />
+                    </x-button>
+
+                    @if (!empty($selectedAttributes))
+                    <div class="flex items-center flex-wrap gap-3 mx-3">
+                        @foreach ($selectedAttributes as $attribute)
+                            <x-badge color="blue">{{ $attribute->name }}</x-badge>
+                        @endforeach
+                    </div>
+                @endif
+                </div>
     
                 <!-- Dropdown menu -->
                 <div x-show="attributesPanelOpen" x-transition x-cloak
@@ -59,14 +69,6 @@
                 </div>
             </div>
 
-            @if (!empty($selectedAttributes))
-                <div class="flex items-center flex-wrap gap-2 mb-3">
-                    @foreach ($selectedAttributes as $attribute)
-                        <x-badge color="blue">{{ $attribute->name }}</x-badge>
-                    @endforeach
-                </div>
-            @endif
-
         </div>
 
         @if (!empty($selectedAttributes))
@@ -78,8 +80,6 @@
                     x-tooltip.raw.placement.top="Aca va texto"
                     />
                 </h4>
-
-                @dump($variants)
 
                 @forelse ($variants as $key => $variant)
                     <div wire:key='{{ $key }}' class="sm:col-span-6 border rounded-md my-3">
@@ -122,6 +122,11 @@
                                                         <option value="{{ $attributeValue->id }}">{{ $attributeValue->name }}</option>    
                                                     @endforeach
                                                 </select>
+                                                @error("variants.$key.attributes.$attribute->id")
+                                                    <small class="text-xs text-red-500">
+                                                        Seleccione un valor de {{ $attribute->name }} válido
+                                                    </small>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -129,12 +134,16 @@
                             @endforeach
                             <li class="w-auto pb-3">
                                 <div class="inline-block">
-                                    <label for="stock" class="block text-sm font-medium leading-6 text-gray-900">Stock</label>
+                                    <label class="block text-sm font-medium leading-6 text-gray-900">Stock</label>
                                     <div class="mt-0.5">
                                         <input wire:model.blur='variants.{{ $key }}.stock'
-                                        type="number" id="stock" autocomplete="off" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                                        type="number" autocomplete="off" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
                                         ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
                                         focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                                        @error("variants.$key.stock")
+                                            <small class="text-xs text-red-500">El campo stock es inválido</small>
+                                        @enderror
                                     </div>
                                 </div>
                             </li>
