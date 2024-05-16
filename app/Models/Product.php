@@ -77,16 +77,16 @@ class Product extends Model
         return $this->variants()->count() > 0;
     }
 
-    public function variantAttributes()
+    public function variantOptions()
     {
-        return $this->hasMany(VariantAttribute::class);
+        return $this->hasMany(VariantOption::class);
     }
 
     public function getSelectableAttributes()
     {
         if (!$this->hasVariants()) return false;
 
-        $attributeIds = $this->variantAttributes()->select('attribute_id')->distinct()->get();
+        $attributeIds = $this->variantOptions()->select('attribute_id')->distinct()->get();
 
         $attributeIds = $attributeIds->pluck('attribute_id')->toArray();
         return Attribute::find($attributeIds);

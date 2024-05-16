@@ -11,7 +11,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Models\Tag;
-use App\Models\VariantAttribute;
+use App\Models\VariantOption;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -242,7 +242,7 @@ class Upsert extends Component
                     'stock'      => $variant['stock']
                 ]);
 
-                $productVariant->attributes()->delete();
+                $productVariant->options()->delete();
 
             } else {
                 $productVariant = ProductVariant::create([
@@ -253,7 +253,7 @@ class Upsert extends Component
 
             foreach($variant['attributes'] as $attributeId => $attributeValueId)
             {
-                VariantAttribute::create(
+                VariantOption::create(
                 [
                     'product_id'   => $product->id,
                     'variant_id'   => $productVariant->id,
@@ -316,7 +316,7 @@ class Upsert extends Component
 
             if ($product->hasVariants())
             {
-                $product->load('variants.attributes');
+                $product->load('variants.options');
 
                 $attributes = $product->getSelectableAttributes();
                 $attributes->each(fn($attribute) => array_push($this->selectedAttributes, $attribute));
@@ -329,9 +329,9 @@ class Upsert extends Component
                         'stock'      => $variant->stock,
                     ];
 
-                    foreach($variant->attributes as $variantAttribute)
+                    foreach($variant->options as $option)
                     {
-                        $variantItem['attributes'][$variantAttribute->attribute_id] = $variantAttribute->attribute_value_id;
+                        $variantItem['attributes'][$option->attribute_id] = $option->attribute_value_id;
                     }
 
                     array_push($this->variants, $variantItem);

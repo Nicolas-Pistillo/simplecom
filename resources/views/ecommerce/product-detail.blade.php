@@ -1,7 +1,7 @@
 @extends('layouts.ecommerce')
 
 @section('content')
-    <section x-data class="py-10 lg:py-24 relative ">
+    <section x-data class="py-14 relative ">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
 
@@ -10,7 +10,7 @@
                 max-lg:max-w-[608px] max-lg:mx-auto">
                     <div class="w-full mx-auto relative mb-6">
                         <img src="{{ $product->first_image }}" alt="product-image"
-                        class="w-[500px] h-[450px] rounded-lg shadow object-cover">
+                            class="w-[500px] h-[450px] rounded-lg shadow object-cover">
                     </div>
                     <div class="flex items-center gap-3 flex-wrap">
                         <div class="bg-gray-200 w-20 h-20"></div>
@@ -26,9 +26,10 @@
                     <div class="flex items-center mb-4">
                         <p class="font-medium text-{{ tenant('color') }}-600"> {{ $product->category->name }} </p>
                         @if ($product->brand)
-                            <span class="ml-3 inline-flex items-center bg-white pr-3 shadow rounded-full
+                            <span
+                                class="ml-3 inline-flex items-center bg-white pl-1 pr-3 shadow rounded-full
                             transition duration-300 hover:shadow-lg cursor-pointer"
-                            x-tooltip.raw.placement.right="Ver más productos de esta marca">
+                                x-tooltip.raw.placement.right="Ver más productos de esta marca">
                                 <img src="{{ $product->brand->image_url }}" class="w-8 h-8 rounded-full" alt="brand-logo">
                                 <small class="ml-1 text-gray-700 font-semibold">{{ $product->brand->name }}</small>
                             </span>
@@ -42,11 +43,12 @@
 
                     {{-- Price & Reviews --}}
                     <div class="flex flex-col sm:flex-row sm:items-center mb-6">
-                        <h6 class="font-manrope font-semibold text-2xl leading-9 text-gray-900 pr-5 
+                        <h6
+                            class="font-manrope font-semibold text-2xl leading-9 text-gray-900 pr-5 
                         sm:border-r border-gray-200 mr-5">
                             @if ($product->hasDiscount())
                                 <div class="flex items-center">
-                                    <del class="block text-xs text-gray-500">${{ priceFormat($product->price) }}</del> 
+                                    <del class="block text-xs text-gray-500">${{ priceFormat($product->price) }}</del>
                                     <span class="text-green-500 text-xs ml-1.5">%{{ $product->discount_percent }} OFF</span>
                                 </div>
                                 ${{ priceFormat($product->calculateDiscount()) }}
@@ -170,19 +172,86 @@
 
                             </div>
 
-                            <div class="block w-full mb-6">
-                                <p class="font-medium text-lg leading-8 text-gray-900 mb-4">Bag size</p>
-                                <div class="grid grid-cols-2 min-[400px]:grid-cols-3 gap-3">
-                                    <button
-                                        class="border border-gray-200 text-gray-900 text-lg py-2 rounded-full px-1.5 sm:px-6 w-full font-semibold whitespace-nowrap shadow-sm shadow-transparent transition-all duration-300 hover:shadow-gray-300 hover:bg-gray-50 hover:border-gray-300">56
-                                        cm (S)</button>
-                                    <button
-                                        class="border border-gray-200 text-gray-900 text-lg py-2 rounded-full px-1.5 sm:px-6 w-full font-semibold whitespace-nowrap shadow-sm shadow-transparent transition-all duration-300 hover:shadow-gray-300 hover:bg-gray-50 hover:border-gray-300">67
-                                        cm (M)</button>
-                                    <button
-                                        class="border border-gray-200 text-gray-900 text-lg py-2 rounded-full px-1.5 sm:px-6 w-full font-semibold whitespace-nowrap shadow-sm shadow-transparent transition-all duration-300 hover:shadow-gray-300 hover:bg-gray-50 hover:border-gray-300">77
-                                        cm (L)</button>
+                            {{-- Tailwind UI sizes block --}}
+                            <div class="my-8">
+                                <div class="flex items-center justify-between">
+                                    <h2 class="text-sm font-medium text-gray-900">Size</h2>
+                                    <a href="#"
+                                        class="text-sm font-medium text-indigo-600 hover:text-indigo-500">See sizing
+                                        chart</a>
                                 </div>
+
+                                <fieldset class="mt-2">
+                                    <legend class="sr-only">Choose a size</legend>
+                                    <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                                        <!--
+                                          In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                          Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                          Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                                        -->
+                                        <label
+                                            class="flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none">
+                                            <input type="radio" name="size-choice" value="XXS" class="sr-only"
+                                                aria-labelledby="size-choice-0-label">
+                                            <span id="size-choice-0-label">XXS</span>
+                                        </label>
+                                        <!--
+                                          In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                          Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                          Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                                        -->
+                                        <label
+                                            class="flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none">
+                                            <input type="radio" name="size-choice" value="XS" class="sr-only"
+                                                aria-labelledby="size-choice-1-label">
+                                            <span id="size-choice-1-label">XS</span>
+                                        </label>
+                                        <!--
+                                          In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                          Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                          Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                                        -->
+                                        <label
+                                            class="flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none">
+                                            <input type="radio" name="size-choice" value="S" class="sr-only"
+                                                aria-labelledby="size-choice-2-label">
+                                            <span id="size-choice-2-label">S</span>
+                                        </label>
+                                        <!--
+                                          In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                          Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                          Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                                        -->
+                                        <label
+                                            class="flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none">
+                                            <input type="radio" name="size-choice" value="M" class="sr-only"
+                                                aria-labelledby="size-choice-3-label">
+                                            <span id="size-choice-3-label">M</span>
+                                        </label>
+                                        <!--
+                                          In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                          Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                          Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                                        -->
+                                        <label
+                                            class="flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none">
+                                            <input type="radio" name="size-choice" value="L" class="sr-only"
+                                                aria-labelledby="size-choice-4-label">
+                                            <span id="size-choice-4-label">L</span>
+                                        </label>
+                                        <!--
+                                          In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                          Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                          Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                                        -->
+                                        <label
+                                            class="flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1 cursor-not-allowed opacity-25">
+                                            <input type="radio" name="size-choice" value="XL" disabled
+                                                class="sr-only" aria-labelledby="size-choice-5-label">
+                                            <span id="size-choice-5-label">XL</span>
+                                        </label>
+                                    </div>
+                                </fieldset>
                             </div>
 
                             {{-- Quantity & Add to cart --}}
@@ -206,7 +275,8 @@
                                         w-full lg:max-w-[118px] border-y border-gray-400 bg-transparent 
                                         placeholder:text-gray-900 text-center hover:bg-gray-50 focus-within:bg-gray-50 outline-0"
                                         placeholder="1">
-                                    <button class="group py-4 px-6 border border-gray-400 rounded-r-full shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-300 hover:bg-gray-50">
+                                    <button
+                                        class="group py-4 px-6 border border-gray-400 rounded-r-full shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-300 hover:bg-gray-50">
                                         <svg class="stroke-gray-700 transition-all duration-500 group-hover:stroke-black"
                                             width="22" height="22" viewBox="0 0 22 22" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -227,7 +297,7 @@
 
                             {{-- Buy now --}}
                             <div class="flex items-center gap-3">
-                                <x-button size="big" class="!rounded-full w-full px-5 py-4 text-lg">
+                                <x-button size="big" class="!rounded-full w-full !p-3.5 text-lg">
                                     Comprar ahora
                                 </x-button>
                             </div>
