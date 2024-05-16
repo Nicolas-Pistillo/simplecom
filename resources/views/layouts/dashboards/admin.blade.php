@@ -143,11 +143,10 @@
                         <div class="flex items-center gap-x-4">
 
                             <!-- Ecommerce site link -->
-                            <a href="/" target="_blank" data-tooltip-target="visit-ecommerce-front"
+                            <a href="/" target="_blank" x-tooltip.raw.placement.bottom="Ver mi tienda"
                                 class="relative mr-3 pt-2 text-gray-400 transition hover:text-gray-500">
                                 <x-icon code="storefront" />
                             </a>
-                            <x-tooltip id="visit-ecommerce-front">Ver mi tienda</x-tooltip>
 
                             <!-- Notifications -->
                             @livewire('admin.notifications')

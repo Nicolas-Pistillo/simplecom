@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -15,6 +16,11 @@ class Product extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $appends = ['images_dir', 'first_image'];
+
+    public function detailPageUrl()
+    {
+        return route('ecommerce.product-detail', [Str::slug($this->name), $this->id]);
+    }
 
     public function getImagesDirAttribute()
     {

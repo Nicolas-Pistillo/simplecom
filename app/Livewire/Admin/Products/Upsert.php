@@ -234,7 +234,7 @@ class Upsert extends Component
     {
         foreach($this->variants as $variant)
         {
-            if ($variant['id'])
+            if (isset($variant['id']))
             {
                 $productVariant = ProductVariant::find($variant['id']);
 

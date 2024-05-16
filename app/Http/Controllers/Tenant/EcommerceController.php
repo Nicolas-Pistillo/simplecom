@@ -17,6 +17,12 @@ class EcommerceController extends Controller
         ]);
     }
 
+    public function productDetail($productName, Product $product)
+    {
+        $product->load('images', 'category', 'brand', 'tags', 'variants.attributes');
+        return view('ecommerce.product-detail', compact('product'));
+    }
+
     public function contact(Request $request)
     {
         return view('ecommerce.contact');

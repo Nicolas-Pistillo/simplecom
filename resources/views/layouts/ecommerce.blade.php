@@ -681,7 +681,7 @@
     </main>
 
     <!-- Cookies advicement popover -->
-    <div x-data="{open: true}" x-show="open"
+    {{-- <div x-data="{open: true}" x-show="open"
     class="animate__animated animate__bounceInLeft pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6">
         <div class="pointer-events-auto max-w-xl rounded-xl bg-white p-6 shadow-lg ring-1 ring-gray-900/10">
           <p class="text-sm leading-6 text-gray-900">This website uses cookies to supplement a balanced diet and provide a much deserved reward to the senses after consuming bland but nutritious meals. Accepting our cookies is optional but recommended, as they are delicious. See our <a href="#" class="font-semibold text-indigo-600">cookie policy</a>.</p>
@@ -691,7 +691,7 @@
           </div>
         </div>
     </div>
-    
+     --}}
     <!-- Newsletter -->
     <div class="bg-{{ tenant('color') }}-600 py-16">
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">

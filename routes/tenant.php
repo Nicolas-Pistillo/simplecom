@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
-use App\Http\Controllers\Tenant\ProductsController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -20,6 +20,9 @@ Route::middleware([
     Route::middleware(['tenant_setuped', 'tenant_active'])->group(function() {
 
         Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');
+
+        Route::get('{productName}/{product}', [EcommerceController::class, 'productDetail'])
+            ->name('ecommerce.product-detail');
 
         Route::get('sobre-nosotros', [EcommerceController::class, 'about'])->name('ecommerce.about');
 
@@ -60,12 +63,15 @@ Route::middleware([
                 Route::view('banners', 'admin.contents.banners')->name('admin.contents.banners')
                     ->middleware('can:Editar banners');
 
-                // Admin resource routes
-                Route::name('admin.')->group(function() {
+                Route::view('products', 'admin.products.index')->name('admin.products.index');
 
-                    Route::resource('products', ProductsController::class)->middleware('can:Editar productos');
-                    
-                });
+                Route::view('products/create', 'admin.products.upsert')
+                    ->name('admin.products.create')
+                    ->middleware('can:Editar productos');
+
+                Route::get('products/{product}/edit', function(Product $product) {
+                    return view('admin.products.upsert', compact('product'));
+                })->name('admin.products.edit')->middleware('can:Editar productos'); 
 
             });
 

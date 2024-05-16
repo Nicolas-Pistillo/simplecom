@@ -77,7 +77,8 @@
                 <h4 class="text-sm text-gray-500 mb-2 flex items-center">
                     2 - Crear variantes 
                     <x-icon code="help" class="ml-1 text-blue-500 cursor-default" 
-                    x-tooltip.raw.placement.top="Aca va texto"
+                    x-tooltip.raw.placement.top="Debes definir cada variante que tu producto tenga en base a los atributos que elegiste.
+                    Recordá que el stock final del producto se calculará en base a la sumatoria de stock de cada variante."
                     />
                 </h4>
 
