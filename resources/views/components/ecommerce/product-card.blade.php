@@ -2,7 +2,7 @@
 @mouseenter="hoverOnProduct = true" @mouseleave="hoverOnProduct = false">
 
     {{-- Image & widgets --}}
-    <div class="relative rounded-t-xl w-full overflow-hidden border-b">
+    <div class="relative rounded-t-xl w-full overflow-hidden border">
         <img src="{{ $product->first_image }}"
         class="w-full h-56 transition-all duration-700 object-cover group-hover:scale-[1.03]">
 
@@ -41,10 +41,11 @@
                     @endif
                 </h6>
             </div>
-            <x-badge color="indigo">{{ $product->category?->name }}</x-badge>
-            {{-- Rating (stars)
+            
+            {{-- <x-badge color="indigo">{{ $product->category?->name }}</x-badge> --}}
+
+            {{-- Rating (stars) --}}
             <div class="flex items-center gap-2">
-                <p class="font-medium text-sm text-black">2.4k</p>
                 <span
                     class="flex items-center gap-1 py-1 px-2 rounded-3xl  text-white font-medium text-sm bg-amber-400">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
@@ -70,7 +71,7 @@
                     </svg>
                     4.8
                 </span>
-            </div> --}}
+            </div>
         </div>
     </div>
 </div>

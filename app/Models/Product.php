@@ -61,6 +61,31 @@ class Product extends Model
         return $this->belongsToMany(Tag::class, 'product_tags');
     }
 
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
+    public function hasVariants()
+    {
+        return $this->variants()->count() > 0;
+    }
+
+    public function variantAttributes()
+    {
+        return $this->hasMany(VariantAttribute::class);
+    }
+
+    public function getSelectableAttributes()
+    {
+        if (!$this->hasVariants()) return false;
+
+        $attributeIds = $this->variantAttributes()->select('attribute_id')->distinct()->get();
+
+        $attributeIds = $attributeIds->pluck('attribute_id')->toArray();
+        return Attribute::find($attributeIds);
+    }
+
     public function operator()
     {
         return $this->belongsTo(Operator::class, 'created_by');

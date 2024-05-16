@@ -9,19 +9,42 @@
     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
 
         {{-- Stock field --}}
-        <div class="sm:col-span-2 sm:col-start-1">
-            <label for="stock" class="block text-sm font-medium leading-6 text-gray-900">Stock</label>
-            <div class="mt-2">
-                <input wire:model.blur='form.stock' type="number" id="stock" autocomplete="off"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
-                ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
-                focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+        @if ($calculatedStock)
+            <div class="sm:col-span-2 sm:col-start-1">
+                <div class="flex items-center">
+                    <label for="stock" class="block text-sm font-medium leading-6 text-gray-900">Stock</label>
+                    <x-icon code="help" class="ml-1 text-blue-500 cursor-default" 
+                    x-tooltip.raw.placement.top="El stock total del producto esta siendo calculado
+                    por la sumatoria de stock de cada variante."
+                    />
+                </div>
+                <div class="mt-2">
+                    <input wire:model.blur='form.stock' type="number" id="stock" autocomplete="off"
+                    disabled class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                    ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                    focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6
+                    bg-gray-100 cursor-not-allowed">
 
-                @error('form.stock')
-                    <small class="text-red-500 text-xs">{{ $message }}</small>
-                @enderror
+                    @error('form.stock')
+                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                    @enderror
+                </div>
             </div>
-        </div>
+        @else
+            <div class="sm:col-span-2 sm:col-start-1">
+                <label for="stock" class="block text-sm font-medium leading-6 text-gray-900">Stock</label>
+                <div class="mt-2">
+                    <input wire:model.blur='form.stock' type="number" id="stock" autocomplete="off"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                    ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                    focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+
+                    @error('form.stock')
+                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+        @endif
 
         {{-- Weight field --}}
         <div class="sm:col-span-2">

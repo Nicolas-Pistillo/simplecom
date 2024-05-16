@@ -9,7 +9,9 @@ use Livewire\Component;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductVariant;
 use App\Models\Tag;
+use App\Models\VariantAttribute;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +24,8 @@ class Upsert extends Component
 
     public ProductForm $form;
     public $product;
+
+    public $calculatedStock = false;
 
     public $tagSearch = '';
     public $images = [];
@@ -172,18 +176,18 @@ class Upsert extends Component
         unset($this->variants[$index]);
     }
 
-    public function testValidateVariants()
-    {
-        $this->validate([
-            'variants.*.stock'        => 'integer|min:0',
-            'variants.*.attributes'   => 'array|present',
-            'variants.*.attributes.*' => 'required|exists:attribute_values,id'
-        ]);
-    }
-
     public function save()
     {
         $this->validate();
+
+        if (!empty($this->variants))
+        {
+            $this->validate([
+                'variants.*.stock'        => 'integer|min:0',
+                'variants.*.attributes'   => 'array|present',
+                'variants.*.attributes.*' => 'required|exists:attribute_values,id'
+            ]);
+        }
 
         $product = $this->product ? $this->updateProduct() : $this->storeNewProduct();
 
@@ -207,6 +211,11 @@ class Upsert extends Component
             }
         }
 
+        if (!empty($this->variants))
+        {
+            $this->upsertVariants($product);
+        }
+
         if (!empty($this->selectedTags))
         {
             $product->tags()->sync($this->selectedTags);
@@ -219,6 +228,40 @@ class Upsert extends Component
 
         $actionPerformed = $product->wasRecentlyCreated ? 'product_created' : 'product_updated';
         return redirect()->route('admin.products.index')->with($actionPerformed, true);
+    }
+
+    public function upsertVariants(Product $product)
+    {
+        foreach($this->variants as $variant)
+        {
+            if ($variant['id'])
+            {
+                $productVariant = ProductVariant::find($variant['id']);
+
+                $productVariant->update([
+                    'stock'      => $variant['stock']
+                ]);
+
+                $productVariant->attributes()->delete();
+
+            } else {
+                $productVariant = ProductVariant::create([
+                    'product_id' => $product->id,
+                    'stock'      => $variant['stock']
+                ]);
+            }
+
+            foreach($variant['attributes'] as $attributeId => $attributeValueId)
+            {
+                VariantAttribute::create(
+                [
+                    'product_id'   => $product->id,
+                    'variant_id'   => $productVariant->id,
+                    'attribute_id' => $attributeId,
+                    'attribute_value_id' => $attributeValueId
+                ]);
+            }
+        }
     }
 
     public function updateProduct()
@@ -247,6 +290,17 @@ class Upsert extends Component
         return $product;
     }
 
+    public function calculateStockByVariants()
+    {
+        if (!empty($this->variants))
+        {
+            $this->calculatedStock = true;
+            return $this->form->stock = array_sum(array_column($this->variants, 'stock'));;
+        }
+
+        $this->calculatedStock = false;
+    }
+
     public function mount(Product|bool $product = false)
     {
         if ($product)
@@ -259,6 +313,30 @@ class Upsert extends Component
             $product->images->sortBy('order')->each(fn($image) => array_push($this->images, $image));
 
             $this->selectedBrand = $product->brand;
+
+            if ($product->hasVariants())
+            {
+                $product->load('variants.attributes');
+
+                $attributes = $product->getSelectableAttributes();
+                $attributes->each(fn($attribute) => array_push($this->selectedAttributes, $attribute));
+
+                foreach($product->variants as $variant)
+                {
+                    $variantItem = [
+                        'id'         => $variant->id,
+                        'attributes' => [],
+                        'stock'      => $variant->stock,
+                    ];
+
+                    foreach($variant->attributes as $variantAttribute)
+                    {
+                        $variantItem['attributes'][$variantAttribute->attribute_id] = $variantAttribute->attribute_value_id;
+                    }
+
+                    array_push($this->variants, $variantItem);
+                }
+            }
         }
 
         $this->form->created_by = Auth::id();
@@ -266,6 +344,8 @@ class Upsert extends Component
 
     public function render()
     {
+        $this->calculateStockByVariants();
+
         return view('livewire.admin.products.upsert', [
             'categories' => Category::principal()->with('childs')->orderBy('name')->get(),
             'tags'       => $this->getTags(),

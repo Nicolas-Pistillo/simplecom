@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('variant_attributes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id');
             $table->foreignId('variant_id');
             $table->foreignId('attribute_id');
             $table->foreignId('attribute_value_id');

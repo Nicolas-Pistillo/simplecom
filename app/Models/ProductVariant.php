@@ -10,4 +10,9 @@ class ProductVariant extends Model
     use HasFactory;
 
     protected $fillable = ['product_id', 'stock'];
+
+    public function attributes()
+    {
+        return $this->hasMany(VariantAttribute::class, 'variant_id');
+    }
 }
