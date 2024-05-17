@@ -20,6 +20,11 @@ class Category extends Model
         'cover_image_url'
     ];
 
+    public function father()
+    {
+        return $this->belongsTo(Category::class, 'category_father');
+    }
+
     public function childs()
     {
         return $this->hasMany(Category::class, 'category_father');
@@ -27,7 +32,7 @@ class Category extends Model
 
     public function hasChilds()
     {
-        return $this->childs->isNotEmpty();
+        return $this->childs()->count() > 0;
     }
 
     public function scopePrincipal(Builder $query): void

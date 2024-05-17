@@ -97,7 +97,7 @@
                         transition hover:bg-gray-200 text-center no-select shadow cursor-pointer" />
                 </x-slot>
 
-                <x-dropdown-item label="Ver en la tienda" icon="store" />
+                <x-dropdown-item :href="$product->detailPageUrl()" blank label="Ver en la tienda" icon="store" />
 
                 <x-dropdown-item :href="route('admin.products.edit', $product->id)" label="Editar" icon="edit" />
 

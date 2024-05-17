@@ -19,7 +19,8 @@ class EcommerceController extends Controller
 
     public function productDetail($productName, Product $product)
     {
-        $product->load('images', 'category', 'brand', 'tags', 'variants.options');
+        $product->load('images', 'category.father.father', 'brand', 'tags', 'variantOptions');
+
         return view('ecommerce.product-detail', compact('product'));
     }
 
