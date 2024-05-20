@@ -15,7 +15,7 @@ class Product extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    protected $appends = ['images_dir', 'first_image'];
+    protected $appends = ['images_dir', 'first_image', 'current_price'];
 
     public function detailPageUrl()
     {
@@ -34,6 +34,11 @@ class Product extends Model
         if (!$image) return URL::to('img/no-image.png');
 
         return Storage::url($image->url);
+    }
+
+    public function getCurrentPriceAttribute()
+    {
+        return $this->calculateDiscount();
     }
 
     public function hasDiscount()

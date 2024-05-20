@@ -6,7 +6,6 @@
             @if ($featuredProducts->count() > 3)
                 
                 {{-- Swiffy Slider for more than 3 featured products --}}
-
                 <div class="swiffy-slider slider-item-show3 slider-nav-autopause
                 slider-nav-round slider-nav-page slider-nav-outside slider-nav-autoplay	">
 

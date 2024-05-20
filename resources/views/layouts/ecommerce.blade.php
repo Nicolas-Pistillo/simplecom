@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -550,127 +549,8 @@
         </header>
 
         <!-- Cart Drawer -->
-        <div x-cloak x-show="cartMenuOpen" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-            <!-- Background backdrop -->
-            <div x-show="cartMenuOpen" 
-            x-transition:enter="ease-in-out duration-500"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="ease-in-out duration-500"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
-          
-            <div class="fixed inset-0 overflow-hidden">
-              <div class="absolute inset-0 overflow-hidden">
-                <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                  <!-- Slide-over panel -->
-                  <div x-show="cartMenuOpen" @click.away="cartMenuOpen = false"
-                  x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
-                  x-transition:enter-start="translate-x-full"
-                  x-transition:enter-end="translate-x-0"
-                  x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
-                  x-transition:leave-start="translate-x-0"
-                  x-transition:leave-end="translate-x-full" 
-                  class="pointer-events-auto w-screen max-w-md">
-                    <div class="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
-                      <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                        <div class="flex items-start justify-between">
-                          <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Productos en el carrito</h2>
-                          <div class="ml-3 flex h-7 items-center">
-                            <button data-tooltip-target="close-cart-drawer-tooltip" data-tooltip-placement="left" 
-                            type="button" class="relative -m-2 p-2 text-gray-500 hover:text-gray-500"
-                            @click="cartMenuOpen = false">
-                              <span class="absolute -inset-0.5"></span>
-                              <span class="sr-only">Close panel</span>
-                              <x-icon code="close" class="bg-gray-50 rounded-full" />
-                            </button>
-                            <x-tooltip id="close-cart-drawer-tooltip">Cerrar panel</x-tooltip>
-                          </div>
-                        </div>
-          
-                        <div class="mt-8">
-                          <div class="flow-root">
-                            <ul role="list" class="-my-6 divide-y divide-gray-200">
-                              <li class="flex py-6">
-                                <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                  <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
-                                </div>
-          
-                                <div class="ml-4 flex flex-1 flex-col">
-                                  <div>
-                                    <div class="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        <a href="#">Throwback Hip Bag</a>
-                                      </h3>
-                                      <p class="ml-4">$90.00</p>
-                                    </div>
-                                    <p class="mt-1 text-sm text-gray-500">Salmon</p>
-                                  </div>
-                                  <div class="flex flex-1 items-end justify-between text-sm">
-                                    <p class="text-gray-500">Qty 1</p>
-          
-                                    <div class="flex">
-                                      <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex py-6">
-                                <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                  <img class="h-full w-full object-cover object-center"
-                                  src="https://off.com.ph/-/media/images/off/ph/products-en/update-983/plp/overtime-group-plp.png" alt="Product img">
-                                </div>
-          
-                                <div class="ml-4 flex flex-1 flex-col">
-                                  <div>
-                                    <div class="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        <a href="#">Medium Stuff Satchel</a>
-                                      </h3>
-                                      <p class="ml-4">$32.00</p>
-                                    </div>
-                                    <p class="mt-1 text-sm text-gray-500">Blue</p>
-                                  </div>
-                                  <div class="flex flex-1 items-end justify-between text-sm">
-                                    <p class="text-gray-500">Qty 1</p>
-          
-                                    <div class="flex">
-                                      <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-          
-                              <!-- More products... -->
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-          
-                      <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
-                        <div class="flex justify-between text-base font-medium text-gray-900">
-                          <p>Subtotal</p>
-                          <p>$262.00</p>
-                        </div>
-                        <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-                        <x-button class="w-full mt-6" size="big">Finalizar compra</x-button>
-                        <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-                          <p>
-                            or
-                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
-                              Continue Shopping
-                              <span aria-hidden="true"> &rarr;</span>
-                            </button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
+        @livewire('ecommerce.cart-panel')
+      
     </div>
 
     <div class="pt-16 bg-gray-50"></div>
@@ -690,8 +570,8 @@
             <x-button @click="open = false" type="secondary">Rechazar</x-button>
           </div>
         </div>
-    </div>
-     --}}
+    </div> --}}
+    
     <!-- Newsletter -->
     <div class="bg-{{ tenant('color') }}-600 py-16">
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">

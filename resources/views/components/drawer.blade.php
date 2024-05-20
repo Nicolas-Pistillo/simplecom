@@ -28,8 +28,8 @@
                     </div>
 
                     <!-- Slide-over panel, show/hide based on slide-over state. -->
-                    <div @click.away="{{ $ref }} = false"
-                        class="h-full cursor-default overflow-y-auto bg-white py-6 px-8">
+                    <div @click.away="{{ $ref }} = false" class="h-full cursor-default overflow-y-auto 
+                    bg-white py-6 px-8 {{ $containerClasses ?? '' }}">
                         {{ $slot }}
                     </div>
                 </div>

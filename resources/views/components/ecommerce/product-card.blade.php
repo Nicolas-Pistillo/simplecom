@@ -35,10 +35,8 @@
                                 <del class="block text-xs text-gray-500">${{ priceFormat($product->price) }}</del> 
                                 <span class="text-green-500 text-xs ml-1.5">%{{ $product->discount_percent }} OFF</span>
                             </div>
-                            <span class="inline-block">${{ priceFormat($product->calculateDiscount()) }}</span>
-                        @else
-                            ${{ priceFormat($product->price) }}
                         @endif
+                        ${{ priceFormat($product->current_price) }}
                     </h6>
                 </div>
                 

@@ -137,7 +137,7 @@ class DefaultAttributesSeeder extends Seeder
             ],
             [
                 'name' => 'Violeta',
-                'meta' => ['hexa_value' => '##9900ff']
+                'meta' => ['hexa_value' => '#9900ff']
             ],
             [
                 'name' => 'Rosa',

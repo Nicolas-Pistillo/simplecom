@@ -9,8 +9,8 @@ use App\Models\Product;
 class ProductService
 {
     /**
-     * Generates an array grouping the attributes and values ​​of the variants of a product 
-     * to offer the variant selection feature to the user
+     * Generates an array grouping the attributes and values ​​of the product variants
+     * to offer the variant selection feature to the customer
      */
     public static function generateSelectableVariantOptions(Product $product)
     {
@@ -21,6 +21,7 @@ class ProductService
         $groupedVariantOptions = $product->variantOptions->groupBy('attribute_id');
 
         foreach ($groupedVariantOptions as $attributeId => $values) {
+            
             $attribute = Attribute::find($attributeId);
 
             $valuesIds = $values->unique('attribute_value_id')

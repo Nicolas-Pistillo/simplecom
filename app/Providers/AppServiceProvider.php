@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Category;
-use App\Observers\CategoryObserver;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        Livewire::forceAssetInjection();
     }
 
     /**
