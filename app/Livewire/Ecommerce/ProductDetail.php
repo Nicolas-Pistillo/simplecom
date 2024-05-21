@@ -80,7 +80,15 @@ class ProductDetail extends Component
                 'variant_attribute_names' => $variantAttributeNames
             ])->associate(Product::class);
 
-        $this->dispatch('updatedCart');
+        $this->dispatch('updated-cart');
+        $this->dispatch('open-cart-panel');
+        $this->dispatch('notification', [
+            'type'     => 'success',
+            'title'    => 'Añadido al carrito',
+            'position' => 'top-left',
+            'time'     => 16000,
+            'body'     => "Agregaste $this->quantitySelected unidades de {$this->product->name}"
+        ]);
     }
 
     public function selectVariantAttribute($attributeId, $valueId)

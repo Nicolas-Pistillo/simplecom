@@ -12,8 +12,7 @@
             </x-button>
         </div>
     @else
-        <div x-data="{showNotification: false}" class="px-4 sm:px-6 lg:px-8"
-        x-on:open-notification.window="showNotification = true">
+        <div class="px-4 sm:px-6 lg:px-8">
 
             @if (Session::has('tenant_created'))
                 <x-alert class="mb-6 animate__bounceInLeft" type="success" dismissible>
@@ -26,9 +25,6 @@
                     Tenant actualizado exitosamente
                 </x-alert>
             @endif
-
-            {{-- Notifications --}}
-            <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
 
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">

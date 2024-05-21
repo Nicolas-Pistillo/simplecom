@@ -1,8 +1,5 @@
 <div>
-    <div x-data="{ showNotification: false, newBrandPanelOpen: false }" class="px-4 sm:px-6 lg:px-8" x-on:open-notification.window="showNotification = true">
-
-        {{-- Success notification toast --}}
-        <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
+    <div x-data="{ newBrandPanelOpen: false }" class="px-4 sm:px-6 lg:px-8">
 
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">

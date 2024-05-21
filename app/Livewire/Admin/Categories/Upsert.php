@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Categories;
 
 use App\Models\Category;
+use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -14,8 +15,9 @@ class Upsert extends Component
 {
     use WithPagination;
     use WithFileUploads;
+    use WithNotifications;
 
-    public $drawerTitle, $drawerRef, $notificationMessage, $search = '';
+    public $drawerTitle, $drawerRef, $search = '';
     public $category, $categoryFather;
     public $name, $description, $image, $imagePreview, $coverImage, $coverImagePreview;
     public $featured, $published;
@@ -85,7 +87,10 @@ class Upsert extends Component
 
         $actionTitle = $category->published ? 'Publicaste' : 'Despublicaste';
 
-        $this->notify("$actionTitle la categoría $category->name");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "$actionTitle la categoría $category->name"
+        ]);
     }
 
     public function toggleFeaturedCategory(Category $category)
@@ -94,7 +99,10 @@ class Upsert extends Component
 
         $actionTitle = $category->featured ? 'Destacaste' : 'Removiste de destacados';
 
-        $this->notify("$actionTitle la categoría $category->name");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "$actionTitle la categoría $category->name"
+        ]);
     }
 
     public function updatedCoverImage()
@@ -124,12 +132,6 @@ class Upsert extends Component
 
         $this->coverImage = null;
         $this->coverImagePreview = null;
-    }
-
-    public function notify($message)
-    {
-        $this->notificationMessage = $message;
-        $this->dispatch('open-notification');
     }
 
     public function save()
@@ -193,8 +195,10 @@ class Upsert extends Component
         $this->resetDrawer();
         $this->dispatch('close-drawer');
 
-        $this->notificationMessage = 'Cambios aplicados con éxito';
-        $this->dispatch('open-notification');
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Cambios aplicados con éxito"
+        ]);
     }
 
     public function cancelForm()
@@ -214,7 +218,10 @@ class Upsert extends Component
         $this->category->delete();
         $this->dispatch('close-delete-dialog');
 
-        $this->notify("Eliminaste la categoría {$this->category->name}");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Eliminaste la categoría {$this->category->name}"
+        ]);
 
         Log::channel('resources')->info("Categoría eliminada", [
             'tenant'      => tenant('name'),

@@ -3,11 +3,12 @@
 namespace App\Livewire\Superadmin\Tenants;
 
 use App\Models\Tenant;
+use App\Traits\Livewire\WithNotifications;
 use Livewire\Component;
 
 class Index extends Component
 {
-    public $notificationMessage;
+    use WithNotifications;
 
     public function toggleActive(Tenant $tenant)
     {
@@ -15,19 +16,20 @@ class Index extends Component
 
         $actionTitle = $tenant->active ? 'activado' : 'desactivado';
 
-        $this->notify("Comercio $actionTitle con éxito");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Comercio $actionTitle con éxito"
+        ]);
     }
 
     public function deleteTenant(Tenant $tenant)
     {
         $tenant->delete();
-        $this->notify("Eliminaste el comercio $tenant->ecommerce_name");
-    }
-
-    public function notify($message)
-    {
-        $this->notificationMessage = $message;
-        $this->dispatch('open-notification');
+        
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Eliminaste el comercio $tenant->ecommerce_name"
+        ]);
     }
 
     public function render()

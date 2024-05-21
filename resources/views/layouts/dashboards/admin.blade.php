@@ -55,8 +55,11 @@
 
 <body x-data="{mobileMenuOpen: false}" class="min-h-screen overflow-y-auto">
 
+    {{-- Global notification --}}
+    @livewire('notification')
+
     <div>
-        <!-- Mobile menu -->
+        {{-- Mobile menu --}}
         <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
 
             <div x-cloak x-show="mobileMenuOpen" class="fixed inset-0 bg-gray-900/80"
@@ -92,8 +95,8 @@
             </div>
         </div>
 
-        <!-- Desktop menu -->
-        <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+        {{-- Desktop menu --}}
+        <div class="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-72 lg:flex-col">
             <!-- Desktop sidebar -->
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 py-4 border-r">
                 <div class="flex h-20 shrink-0 items-center">
@@ -214,10 +217,6 @@
             </main>
         </div>
     </div>
-
-    
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.js"></script>
 
     {{-- Loader remove --}}
     <script>

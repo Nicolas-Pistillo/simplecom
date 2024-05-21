@@ -1,9 +1,6 @@
 <div>
-    <div x-data="{ drawerOpen: false, showNotification: false }" class="px-4 sm:px-6 lg:px-8" x-on:open-drawer.window="drawerOpen = true"
-        x-on:close-drawer.window="drawerOpen = false" x-on:open-notification.window="showNotification = true">
-
-        {{-- Success notification toast --}}
-        <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
+    <div x-data="{ drawerOpen: false }" class="px-4 sm:px-6 lg:px-8" x-on:open-drawer.window="drawerOpen = true"
+        x-on:close-drawer.window="drawerOpen = false">
 
         <div class="sm:flex sm:items-center mb-8">
             <div class="sm:flex-auto">

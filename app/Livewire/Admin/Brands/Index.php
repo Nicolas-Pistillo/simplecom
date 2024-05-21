@@ -21,7 +21,10 @@ class Index extends Component
         $brand->update(compact('published'));
         
         $actionTitle = $brand->published ? 'Publicaste' : 'Despublicaste';
-        $this->notify("$actionTitle la marca $brand->name");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "$actionTitle la marca $brand->name"
+        ]);
     }
 
     public function updatedBrandSearch()
@@ -48,7 +51,10 @@ class Index extends Component
             'brand'       => $brand
         ]);
 
-        $this->notify("Agregaste la marca $brand->name");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Agregaste la marca $brand->name"
+        ]);
     }
 
     public function deleteBrand(Brand $brand)
@@ -62,7 +68,10 @@ class Index extends Component
             'brand'       => $brand
         ]);
 
-        $this->notify("Eliminaste la marca $brand->name");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Eliminaste la marca $brand->name"
+        ]);
     }
 
     public function render()

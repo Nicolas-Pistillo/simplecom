@@ -23,9 +23,13 @@
 <body>
     @yield('begin-body')
 
-    <!-- Navbar -->
+    {{-- Global notification --}}
+    @livewire('notification')
+
+    {{-- Navbar --}}
     <div class="bg-white fixed w-full shadow-md z-10" 
-    x-data="{megaMenu1Open: false, megaMenu2Open: false, mobileMenuOpen: false, cartMenuOpen: false}">
+    x-data="{megaMenu1Open: false, megaMenu2Open: false, mobileMenuOpen: false, cartMenuOpen: false}"
+    x-on:open-cart-panel.window="cartMenuOpen = true">
 
         <!-- Breaking news Banner -->
         {{-- <div class="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
@@ -561,12 +565,12 @@
 
     <div class="pt-16 bg-gray-50"></div>
 
-    <!-- Page main content -->
+    {{-- Page main content --}}
     <main class="bg-gray-50">
         @yield('content')
     </main>
 
-    <!-- Cookies advicement popover -->
+    {{-- Cookies advicement --}}
     {{-- <div x-data="{open: true}" x-show="open"
     class="animate__animated animate__bounceInLeft pointer-events-none fixed inset-x-0 bottom-0 px-6 pb-6">
         <div class="pointer-events-auto max-w-xl rounded-xl bg-white p-6 shadow-lg ring-1 ring-gray-900/10">
@@ -578,7 +582,7 @@
         </div>
     </div> --}}
     
-    <!-- Newsletter -->
+    {{-- Newsletter --}}
     <div class="bg-{{ tenant('color') }}-600 py-16">
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
             <div class="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:col-span-7">
@@ -599,7 +603,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    {{-- Footer --}}
     <footer class="bg-white border-t border-gray-900/10" aria-labelledby="footer-heading">
         <h2 id="footer-heading" class="sr-only">Footer</h2>
         <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 lg:px-8">

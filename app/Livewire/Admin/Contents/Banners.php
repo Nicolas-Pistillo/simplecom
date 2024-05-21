@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Contents;
 
 use App\Models\Banner;
+use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +14,7 @@ use Livewire\WithFileUploads;
 class Banners extends Component
 {
     use WithFileUploads;
+    use WithNotifications;
 
     #[Validate('required|image|max:4024', as: 'imagen')]
     public $image;
@@ -21,7 +23,7 @@ class Banners extends Component
     public $name;
 
     public $published = false;
-    public $banner, $drawerTitle, $imagePreview, $notificationMessage;
+    public $banner, $drawerTitle, $imagePreview;
 
     public function messages()
     {
@@ -74,18 +76,16 @@ class Banners extends Component
         $banner->update(['published' => !$banner->published]);
 
         $actionTitle = $banner->published ? 'Publicaste' : 'Despublicaste';
-        $this->notify("$actionTitle este banner");
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => "$actionTitle este banner"
+        ]);
     }
 
     public function cancelForm()
     {
         $this->dispatch('close-drawer');
-    }
-
-    public function notify($message)
-    {
-        $this->notificationMessage = $message;
-        $this->dispatch('open-notification');
     }
 
     public function save()
@@ -118,7 +118,10 @@ class Banners extends Component
             'banner'      => $this->banner
         ]);
 
-        $this->notify("Banner actualizado con éxito");        
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Banner actualizado con éxito"
+        ]);
     }
 
     public function createBanner()
@@ -139,7 +142,10 @@ class Banners extends Component
             'banner'      => $banner
         ]);
 
-        $this->notify("Banner creado con éxito");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Banner creado con éxito"
+        ]);
     }
 
     public function deleteBanner(Banner $banner)
@@ -147,7 +153,10 @@ class Banners extends Component
         Storage::delete($banner->image_url);
         $banner->delete();
 
-        $this->notify("Banner eliminado con éxito");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Banner eliminado con éxito"
+        ]);
     }
 
     public function render()

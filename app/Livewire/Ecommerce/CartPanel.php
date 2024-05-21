@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class CartPanel extends Component
 {
-    protected $listeners = ['updatedCart' => '$refresh'];
+    protected $listeners = ['updated-cart' => '$refresh'];
 
     public function removeItem($rowId)
     {

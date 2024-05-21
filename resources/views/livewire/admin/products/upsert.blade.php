@@ -1,9 +1,6 @@
 <div>
 
-    <form wire:submit='save' class="pb-6" x-data="{ showNotification: false }" x-on:open-notification.window="showNotification = true">
-
-        {{-- Success notification toast --}}
-        <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
+    <form wire:submit='save' class="pb-6">
 
         <div class="space-y-12">
 

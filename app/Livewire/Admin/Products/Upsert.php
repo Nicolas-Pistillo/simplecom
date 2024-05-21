@@ -55,7 +55,11 @@ class Upsert extends Component
         if ($image instanceof ProductImage)
         {
             $image->delete();
-            $this->notify("Imágen eliminada exitosamente");
+
+            $this->notify([
+                'type'  => 'success',
+                'title' => "Imágen eliminada exitosamente"
+            ]);
         }
         
         unset($this->images[$imageIndex]);

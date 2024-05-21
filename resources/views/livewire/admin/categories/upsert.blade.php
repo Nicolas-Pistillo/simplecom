@@ -1,11 +1,10 @@
 <div>
 
-    <div x-data="{ categoriesDrawerOpen: false, deleteDialogOpen: false, showNotification: false }" 
+    <div x-data="{ categoriesDrawerOpen: false, deleteDialogOpen: false }" 
         x-on:close-drawer.window="categoriesDrawerOpen = false"
         x-on:open-drawer.window="categoriesDrawerOpen = true" 
         x-on:close-delete-dialog.window="deleteDialogOpen = false"
-        x-on:open-delete-dialog.window="deleteDialogOpen = true" 
-        x-on:open-notification.window="showNotification = true">
+        x-on:open-delete-dialog.window="deleteDialogOpen = true">
 
         <div x-data="{ selected: null, subcategorySelected: null }" class="px-4 sm:px-6 lg:px-8">
 
@@ -156,9 +155,6 @@
 
         {{-- Create/Edit category drawer --}}
         @include('admin.categories.partials.upsert-form')
-
-        {{-- Success notification toast --}}
-        <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
 
     </div>
 

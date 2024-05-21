@@ -22,6 +22,9 @@
 <body>
     <div class="min-h-full">
 
+        {{-- Global notifications --}}
+        @livewire('notification')
+
         <nav x-data="{ mobileMenuOpen: false }" class="bg-blue-600">
             <!-- Desktop menu -->
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

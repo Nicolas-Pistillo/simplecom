@@ -15,16 +15,26 @@
         'secondary' => 'info'
     ];
 
+    $positions = [
+        'top-right'     => 'sm:items-end',
+        'top-left'      => 'sm:items-start',
+        'top-center'    => 'sm:items-center',
+        'bottom-right'  => 'mt-auto sm:items-end',
+        'bottom-left'   => 'mt-auto sm:items-start',
+        'bottom-center' => 'mt-auto sm:items-center'
+    ];
+
     $icon = $icon ?? $typeIcons[$type ?? 'info'];
     $color = $typeColors[$type ?? 'info'];
+    $placement = $positions[$position ?? 'top-right'];
 @endphp
 
 @if (isset($ref))
     <div x-data="{ timeoutId: false }" x-show="{{ $ref }}" x-cloak aria-live="assertive"
     class="z-50 pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6" 
     x-init="$watch('{{ $ref }}', value => { clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {{ $ref }} = false, {{ $time ?? 3000 }}) })">
-        <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+    timeoutId = setTimeout(() => {{ $ref }} = false, {{ $time ?? 5000 }}) })">
+        <div class="flex w-full flex-col items-center space-y-4 {{ $placement }}">
             <div x-show="{{ $ref }}" x-transition:enter="transform ease-out duration-300 transition"
                 x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
                 x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
@@ -37,7 +47,7 @@
                             <x-icon code="{{ $icon }}" class="text-{{ $color }}-500" />
                         </div>
                         <div class="ml-3 w-0 flex-1 pt-0.5">
-                            <p class="text-sm font-medium text-gray-700"> {{ $title ?? '' }} </p>
+                            <p class="text-sm font-medium text-{{ $color }}-700"> {{ $title ?? '' }} </p>
                             <p class="mt-1 text-sm text-gray-500"> {{ $body ?? '' }} </p>
                         </div>
                         <div class="ml-4 flex flex-shrink-0">
@@ -56,7 +66,7 @@
     <div x-data="{ timeoutId: false, show: true }" x-show="show" x-cloak aria-live="assertive"
     class="z-50 pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6" 
     x-init="setTimeout(() => show = false, {{ $time ?? 3000 }})">
-        <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+        <div class="flex w-full flex-col items-center space-y-4 {{ $placement }}">
             <div x-show="show" x-transition:enter="transform ease-out duration-300 transition"
                 x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
                 x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"

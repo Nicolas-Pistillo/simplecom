@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Products;
 
 use App\Exports\ProductsExport;
 use App\Models\Product;
+use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,11 +14,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class Index extends Component
 {
     use WithPagination;
+    use WithNotifications;
 
     public $selectedProducts = [];
     public $search = '';
     public $hasProducts = true;
-    public $notificationMessage;
 
     public function updatingPage()
     {
@@ -28,12 +29,6 @@ class Index extends Component
     {
         $this->selectedProducts = [];
         $this->setPage(1);
-    }
-
-    public function notify($message)
-    {
-        $this->notificationMessage = $message;
-        $this->dispatch('open-notification');
     }
 
     public function togglePublishedProduct(Product $product)
@@ -49,7 +44,10 @@ class Index extends Component
             'product'     => $productModel
         ]);
 
-        $this->notify("$actionTitle este producto");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "$actionTitle este producto"
+        ]);
     }
 
     public function toggleFeaturedProduct(Product $product)
@@ -67,14 +65,20 @@ class Index extends Component
             'product'     => $productModel
         ]);
 
-        $this->notify($message);
+        $this->notify([
+            'type'  => 'success',
+            'title' => $message
+        ]);
     }
 
     public function deleteProduct(Product $product)
     {
         $product->delete();
 
-        $this->notify("Eliminaste $product->name");
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Eliminaste $product->name"
+        ]);
 
         Log::channel('resources')->info("Producto eliminado", [
             'tenant'      => tenant('name'),
@@ -128,7 +132,11 @@ class Index extends Component
             'products'    => $products
         ]);
 
-        $this->notify($resultTitle . " $productsTotal productos");
+        $this->notify([
+            'type'  => 'success',
+            'title' => $resultTitle . " $productsTotal productos"
+        ]);
+
         $this->dispatch('close-bulk-delete-dialog');
         $this->selectedProducts = [];
     }

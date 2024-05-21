@@ -1,8 +1,7 @@
 <div>
-    <div x-data="{operatorsDrawerOpen: false, deleteDialogOpen: false, showNotification: false}" 
+    <div x-data="{operatorsDrawerOpen: false, deleteDialogOpen: false }" 
     x-on:close-drawer.window="operatorsDrawerOpen = false"
     x-on:open-drawer.window="operatorsDrawerOpen = true"
-    x-on:open-notification.window="showNotification = true"
     x-on:open-delete-dialog.window="deleteDialogOpen = true"
     x-on:close-delete-dialog.window="deleteDialogOpen = false"
     class="px-4 sm:px-6 lg:px-8">
@@ -85,9 +84,6 @@
           
         {{-- Create/Edit operator drawer --}}
         @include('admin.operators.partials.upsert-form')
-
-        {{-- Success notification toast --}}
-        <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
 
         {{-- Delete operator dialog --}}
         @include('admin.operators.partials.delete-dialog')

@@ -4,11 +4,8 @@ namespace App\Traits\Livewire;
 
 trait WithNotifications
 {
-    public $notificationMessage;
-
-    public function notify($message, $notifyEvent = 'open-notification')
+    public function notify($data = [], $notifyEvent = 'notification')
     {
-        $this->notificationMessage = $message;
-        $this->dispatch($notifyEvent);
+        $this->dispatch($notifyEvent, $data);
     }
 }

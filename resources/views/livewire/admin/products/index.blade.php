@@ -16,8 +16,8 @@
             </div>
         </div>
     @else
-        <div x-data="{ showNotification: false, showBulkDeleteConfirm: false }" x-on:open-notification.window="showNotification = true"
-            x-on:close-bulk-delete-dialog.window="showBulkDeleteConfirm = false">
+        <div x-data="{ showBulkDeleteConfirm: false }"
+        x-on:close-bulk-delete-dialog.window="showBulkDeleteConfirm = false">
 
             {{-- Product list header --}}
             <div class="flex justify-between items-end mt-8 mb-6">
@@ -107,9 +107,6 @@
                     <h3 class="mt-2 text-sm font-semibold text-gray-900">No se encontraron resultados</h3>
                 </div>
             @else
-                {{-- Notifications --}}
-                <x-toast ref="showNotification" type="success" title="{{ $notificationMessage }}" />
-
                 {{-- Confirm bulk delete products --}}
                 <x-modal ref="showBulkDeleteConfirm" type="danger" icon="warning">
 
