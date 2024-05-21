@@ -86,7 +86,7 @@
                     <div wire:key='{{ $key }}' class="sm:col-span-6 border rounded-md my-3">
 
                         <div class="text-sm font-semibold leading-7 flex items-center justify-between bg-gray-50">
-                            <h5 class="p-2 text-gray-900">Variante {{ $loop->index + 1 }} </h5>
+                            <h5 class="p-2 text-gray-900">Variante {{ $loop->index + 1 }}</h5>
                             <div class="p-2">
                                 <x-icon code="delete" class="text-red-500 cursor-pointer" 
                                 wire:click='removeVariant({{ $key }})'

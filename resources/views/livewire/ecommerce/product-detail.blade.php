@@ -112,8 +112,7 @@
 
                     {{-- Price & Reviews --}}
                     <div class="flex flex-col sm:flex-row sm:items-center mb-6">
-                        <h6
-                            class="font-manrope font-semibold text-2xl leading-9 text-gray-900 pr-5 
+                        <h6 class="font-manrope font-semibold text-2xl leading-9 text-gray-900 pr-5 
                         sm:border-r border-gray-200 mr-5">
                             @if ($product->hasDiscount())
                                 <div class="flex items-center">
@@ -204,137 +203,62 @@
 
                     {{-- Variants --}}
                     @if (!empty($variants))
-                        <div>
-                            @foreach ($variants as $variant)
-
-                                @if ($variant['attribute_name'] == 'Color')
-                                    <div wire:key='{{ $variant['attribute_id'] }}' class="my-8">
-                                        <p class="text-sm font-medium text-gray-900 mb-2">Seleccione un color</p>
-                                        <div class="flex items-center flex-wrap justify-start gap-4 relative">
-                                            @foreach ($variant['values'] as $color)
-                                            @php
-                                                $isSelected = $selectedVariants[$variant['attribute_id']] === $color['id'];
-                                            @endphp
-                                                <button wire:key='{{ $color['id'] . $color['name'] }}'
-                                                wire:click='selectVariantAttribute({{ $variant['attribute_id'] }}, {{ $color['id'] }})'
-                                                x-tooltip.raw.placement.top="{{ $color['name'] }}"
-                                                class="p-2 border-2 rounded-full transition-all 
-                                                {{ $isSelected ? 'border-transparent shadow-md' : 'border-gray-200 hover:border-gray-300' }}"
-                                                style="{{ $isSelected ? "background-color: {$color['meta']['hexa_value']}" : '' }}">
-                                                    <div class="w-5 h-5 rounded-full flex justify-center items-center"
-                                                    style="background-color: {{ $color['meta']['hexa_value'] }}">
-                                                        @if ($isSelected)
-                                                            <x-icon code="check" class="w-4 h-4 text-xs 
-                                                            bg-green-500 rounded-full text-white" />
-                                                        @endif
-                                                    </div>
-                                                </button>
-                                            @endforeach
-                                        </div>
-                                        @error("selectedVariants.{$variant['attribute_id']}")
-                                            <small class="inline-block text-red-500 mt-2">
-                                                Por favor seleccione una opción de {{ $variant['attribute_name'] }}
-                                            </small>
-                                        @enderror
-                                    </div>
-                                @endif
-
-                                @if (in_array($variant['attribute_name'], ['Calzado', 'Talle']))
-                                    <div wire:key='{{ $variant['attribute_id'] }}' class="my-8">
-                                        <div class="flex items-center justify-between">
-                                            <h2 class="text-sm font-medium text-gray-900">
-                                                Seleccione un {{ $variant['attribute_name'] }}
-                                            </h2>
-                                            <a href="#"
-                                                class="text-sm font-medium text-indigo-600 hover:text-indigo-500">See
-                                                sizing
-                                                chart</a>
-                                        </div>
-
-                                        <fieldset class="mt-2">
-                                            <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
-
-                                                @foreach ($variant['values'] as $size)
-                                                @php
-                                                    $isSelected = $selectedVariants[$variant['attribute_id']] === $size['id'];
-                                                @endphp
-                                                    <label wire:key='{{ $size['id'] . $size['name'] }}'
-                                                    wire:click='selectVariantAttribute({{ $variant['attribute_id'] }}, {{ $size['id'] }})'
-                                                    class="flex items-center justify-center transition duration-200 
-                                                    rounded-md border py-3 px-3 
-                                                    text-sm font-medium uppercase sm:flex-1 
-                                                    cursor-pointer focus:outline-none
-                                                    {{ $isSelected ? 'bg-blue-600 text-white' : 'hover:bg-gray-100' }}">
-                                                        <span> {{ $size['name'] }} </span>
-                                                    </label>
-                                                @endforeach
-
-                                                {{-- Not available size --}}
-                                                <label class="flex items-center justify-center rounded-md border py-3 px-3 
-                                                text-sm font-medium uppercase sm:flex-1 cursor-not-allowed opacity-40"
-                                                x-tooltip.raw.placement.top="No disponible">
-                                                    <input type="radio" name="size-choice" value="XL" disabled
-                                                    class="sr-only" aria-labelledby="size-choice-5-label">
-                                                    <span id="size-choice-5-label">XL</span>
-                                                </label>
-                                            </div>
-                                            @error("selectedVariants.{$variant['attribute_id']}")
-                                                <small class="inline-block text-red-500 mt-2">
-                                                    Por favor seleccione una opción de {{ $variant['attribute_name'] }}
-                                                </small>
-                                            @enderror
-                                        </fieldset>
-                                    </div>
-                                @endif
-
-                            @endforeach
-                        </div>
+                        @include('ecommerce.partials.product-detail.variants')
                     @endif
 
                     {{-- Quantity & Add to cart --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                    <div class="flex items-start flex-wrap sm:flex-nowrap gap-3 mb-8">
 
-                        <div class="flex items-center justify-center border border-gray-400 rounded-full">
+                        <div class="w-full sm:w-1/2">
+                            <div class="flex">
+                                <div class="flex items-center justify-center border border-gray-400 rounded-full">
 
-                            {{-- Substract 1 quantity --}}
-                            <button wire:click='substractQuantity'
-                                class="group px-3 w-full border-r border-gray-400 rounded-l-full h-full flex items-center justify-center bg-white shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
-                                <svg class="stroke-black group-hover:stroke-black" width="22" height="22"
-                                    viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.5 11H5.5" stroke="" stroke-width="1.6" stroke-linecap="round">
-                                    </path>
-                                    <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
-                                        stroke-linecap="round"></path>
-                                    <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
-                                        stroke-linecap="round"></path>
-                                </svg>
-                            </button>
-
-                            {{-- Quantity --}}
-                            <input type="text" readonly wire:model.live='quantitySelected'
-                                class="font-semibold text-gray-900 
-                                text-lg py-3 px-2 w-full min-[400px]:min-w-[75px] h-full bg-transparent 
-                                placeholder:text-gray-900 text-center hover:text-blue-600 outline-0 
-                                hover:placeholder:text-blue-600"
-                                placeholder="1">
-
-                            {{-- Add 1 quantity --}}
-                            <button wire:click='addQuantity'
-                                class="group px-3 w-full border-l border-gray-400 rounded-r-full h-full flex items-center justify-center bg-white shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
-                                <svg class="stroke-black group-hover:stroke-black" width="22" height="22"
-                                    viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="#9CA3AF" stroke-width="1.6"
-                                        stroke-linecap="round"></path>
-                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" stroke-opacity="0.2"
-                                        stroke-width="1.6" stroke-linecap="round"></path>
-                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" stroke-opacity="0.2"
-                                        stroke-width="1.6" stroke-linecap="round"></path>
-                                </svg>
-                            </button>
+                                    {{-- Substract 1 quantity --}}
+                                    <button wire:click='substractQuantity'
+                                        class="px-3 w-full border-r border-gray-400 rounded-l-full h-full flex items-center justify-center bg-white shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
+                                        <svg class="stroke-black group-hover:stroke-black" width="22" height="22"
+                                            viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16.5 11H5.5" stroke="" stroke-width="1.6" stroke-linecap="round">
+                                            </path>
+                                            <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
+                                                stroke-linecap="round"></path>
+                                            <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
+                                                stroke-linecap="round"></path>
+                                        </svg>
+                                    </button>
+        
+                                    {{-- Quantity --}}
+                                    <input type="text" readonly wire:model.live='quantitySelected'
+                                        class="font-semibold text-gray-900 
+                                        text-lg py-3 px-2 w-full min-[400px]:min-w-[75px] h-full bg-transparent 
+                                        placeholder:text-gray-900 text-center hover:text-blue-600 outline-0 
+                                        hover:placeholder:text-blue-600"
+                                        placeholder="1">
+        
+                                    {{-- Add 1 quantity --}}
+                                    <button wire:click='addQuantity'
+                                        class="group px-3 w-full border-l border-gray-400 rounded-r-full h-full flex items-center justify-center bg-white shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
+                                        <svg class="stroke-black group-hover:stroke-black" width="22" height="22"
+                                            viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11 5.5V16.5M16.5 11H5.5" stroke="#9CA3AF" stroke-width="1.6"
+                                                stroke-linecap="round"></path>
+                                            <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" stroke-opacity="0.2"
+                                                stroke-width="1.6" stroke-linecap="round"></path>
+                                            <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" stroke-opacity="0.2"
+                                                stroke-width="1.6" stroke-linecap="round"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            @error('quantitySelected')
+                                <small class="inline-block text-red-500 mt-1">
+                                    La cantidad supera el stock actual
+                                </small>
+                            @enderror
                         </div>
 
-                        <x-button wire:click='testAddToCart'
-                        type="soft" class="flex !p-3.5 justify-center items-center !rounded-full">
+                        <x-button wire:click='addToCart'
+                        type="soft" class="w-full sm:w-1/2 flex !p-3.5 justify-center items-center !rounded-full">
                             <x-icon code="shopping_cart" class="mr-2" />
                             Agregar al carrito
                         </x-button>
@@ -794,6 +718,4 @@
         </section>
                                                         
     </div>
-
-    {{-- @dump($product) --}}
 </div>

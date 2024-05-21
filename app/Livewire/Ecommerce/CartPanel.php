@@ -9,9 +9,9 @@ class CartPanel extends Component
 {
     protected $listeners = ['updatedCart' => '$refresh'];
 
-    public function removeAll()
+    public function removeItem($rowId)
     {
-        Cart::destroy();
+        Cart::remove($rowId);
     }
 
     public function render()

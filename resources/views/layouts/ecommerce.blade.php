@@ -531,14 +531,20 @@
                                     <div class="flex items-center lg:ml-8">
 
                                         <!-- Account -->
-                                        <x-icon code="person" data-tooltip-target="account-tooltip" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
-                                        <x-tooltip id="account-tooltip">Mi cuenta</x-tooltip>
+                                        <x-icon code="person" x-tooltip.raw.placement.bottom="Mi cuenta"
+                                        class="transition colors duration-300 
+                                        cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
+                                        hover:bg-gray-200 focus:outline-none focus:ring" />
 
                                         <span class="mx-4 h-6 w-px bg-gray-200" aria-hidden="true"></span>
 
                                         <!-- Cart -->
-                                        <x-icon code="shopping_cart" @click="cartMenuOpen = true" data-tooltip-target="cart-tooltip" class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" /> 
-                                        <x-tooltip id="cart-tooltip">Carrito</x-tooltip>
+                                        <x-icon code="shopping_cart" @click="cartMenuOpen = true" 
+                                        x-tooltip.raw.placement.bottom="Carrito"
+                                        class="transition colors cursor-pointer bg-gray-100
+                                        text-gray-600 p-2 rounded-full hover:bg-gray-200 
+                                        focus:outline-none focus:ring duration-300" /> 
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -575,21 +581,21 @@
     <!-- Newsletter -->
     <div class="bg-{{ tenant('color') }}-600 py-16">
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
-        <div class="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:col-span-7">
-            <h2 class="inline mb-2 sm:block lg:inline xl:block">No te pierdas ninguna novedad.</h2>
-            <p class="inline sm:block lg:inline xl:block">Suscribite a nuestro newsletter</p>
-        </div>
-        <form class="w-full max-w-md lg:col-span-5 lg:pt-2">
-            <div class="flex gap-x-4 mb-2">
-                <label for="email-address" class="sr-only">Email address</label>
-                <input id="email-address" name="newsletter_email" type="email" required class="min-w-0 flex-auto rounded-md border-0 bg-white/10 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset placeholder:text-white/75 sm:text-sm sm:leading-6" placeholder="Ingresa tu correo aquí">
-                <button type="submit" class="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Suscribirme</button>
+            <div class="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:col-span-7">
+                <h2 class="inline mb-2 sm:block lg:inline xl:block">No te pierdas ninguna novedad.</h2>
+                <p class="inline sm:block lg:inline xl:block">Suscribite a nuestro newsletter</p>
             </div>
-            <p class="text-xs text-gray-300">
-                Tus datos se mantienen confidenciales con nosotros. Puedes revisar nuestro 
-                <a href="#" class="font-semibold text-white hover:underline">acuerdo de privacidad</a>.
-            </p>
-        </form>
+            <form class="w-full max-w-md lg:col-span-5 lg:pt-2">
+                <div class="flex gap-x-4 mb-2">
+                    <label for="email-address" class="sr-only">Email address</label>
+                    <input id="email-address" name="newsletter_email" type="email" required class="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset sm:text-sm sm:leading-6" placeholder="Ingresa tu correo aquí">
+                    <button type="submit" class="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Suscribirme</button>
+                </div>
+                <p class="text-xs text-gray-300">
+                    Tus datos se mantienen confidenciales con nosotros. Puedes revisar nuestro 
+                    <a href="#" class="font-semibold text-white hover:underline">acuerdo de privacidad</a>.
+                </p>
+            </form>
         </div>
     </div>
 
