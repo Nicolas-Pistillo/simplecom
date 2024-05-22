@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class Notification extends Component
 {
-    public $type, $title, $body, $position, $time;
+    public $type, $title, $body, $position, $time, $icon;
 
     protected $listeners = ['notification' => 'handleNotificationData'];
 
@@ -17,7 +17,8 @@ class Notification extends Component
             'title'    => $data['title']     ?? null,
             'body'     => $data['body']      ?? null,
             'position' => $data['position']  ?? null,
-            'time'     => $data['time']      ?? null
+            'time'     => $data['time']      ?? null,
+            'icon'     => $data['icon']      ?? null
         ]);
 
         $this->dispatch('open-notification');

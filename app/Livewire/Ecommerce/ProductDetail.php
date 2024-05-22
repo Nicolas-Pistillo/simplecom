@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\VariantOption;
 use App\Services\ProductService;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class ProductDetail extends Component
@@ -25,103 +26,150 @@ class ProductDetail extends Component
 
     public function substractQuantity()
     {
-        if ($this->quantitySelected > 1)
-        {
+        if ($this->quantitySelected > 1) {
             $this->quantitySelected -= 1;
         }
     }
 
-    public function testValidations()
+    public function validateSelection()
     {
-        if (!empty($this->selectedVariants))
-        {
-            $this->validate(['selectedVariants.*' => 'required']);
-
-            dd($this->selectedVariants);
-        }
-    }
-
-    public function addToCart()
-    {
-        $variant_id = null;
+        $variantId = null;
         $variantAttributeNames = [];
 
         if (!empty($this->variants))
         {
-            $this->validate(['selectedVariants.*' => 'required']);
+            $variantValidationOutput = $this->validateSelectionWithVariants();
 
-            $variant = ProductService::getProductVariantByAttributes($this->product->id, $this->selectedVariants);
-            
-            $this->validate(['quantitySelected' => "integer|max:$variant->stock"]);
+            $variantId = $variantValidationOutput['variantId'];
+            $variantAttributeNames = $variantValidationOutput['variantAttributeNames'];
+        } else
+            $this->validateSelectionWithoutVariants();
+           
+        return compact('variantId', 'variantAttributeNames');
+    }
 
-            $variant_id = $variant->id;
+    public function validateSelectionWithVariants()
+    {
+        $this->validate(['selectedVariants.*' => 'required']);
 
-            foreach($this->selectedVariants as $attributeId => $valueId)
-            {
-                $attributeName = Attribute::find($attributeId)->name;
-                $attributeValueName = AttributeValue::find($valueId)->name;
+        $variant = ProductService::getProductVariantByAttributes($this->product->id, $this->selectedVariants);
 
-                $variantAttributeNames[$attributeName] = $attributeValueName;
-            }
+        $variantId = $variant->id;
 
-        } else 
+        $productOnCart = Cart::search(
+            fn ($cartItem) => $cartItem->id === $this->product->id &&
+                            $cartItem->options->variant_id === $variantId)->first();
+
+        $totalProductQty = $this->quantitySelected;
+
+        if ($productOnCart)
         {
-            $this->validate(['quantitySelected' => "integer|max:{$this->product->stock}"]);
+            $totalProductQty += $productOnCart->qty;
         }
 
+        Validator::make(
+            ['more_than_stock' => $totalProductQty],
+            ['more_than_stock' => "lte:$variant->stock"],
+            ['lte'             => 'La cantidad total supera el stock de la variante']
+        )->validate();
+
+        $variantAttributeNames = [];
+
+        foreach ($this->selectedVariants as $attributeId => $valueId) {
+            $attributeName = Attribute::find($attributeId)->name;
+            $attributeValueName = AttributeValue::find($valueId)->name;
+
+            $variantAttributeNames[$attributeName] = $attributeValueName;
+        }
+
+        return compact('variantId', 'variantAttributeNames');
+    }
+
+    public function validateSelectionWithoutVariants()
+    {
+        $productOnCart = Cart::search(
+            fn ($cartItem) => $cartItem->id === $this->product->id
+        )->first();
+
+        $totalProductQty = $this->quantitySelected;
+
+        if ($productOnCart)
+        {
+            $totalProductQty += $productOnCart->qty;
+        }
+
+        Validator::make(
+            ['more_than_stock'  => $totalProductQty],
+            ['more_than_stock'  => "lte:{$this->product->stock}"],
+            ['lte'              => 'La cantidad total supera el stock del producto']
+        )->validate();
+    }
+
+    public function addToCart()
+    {
+        $validationsOutput = $this->validateSelection();
+
         Cart::add(
-            $this->product->id, 
-            $this->product->name, 
-            $this->quantitySelected, 
-            $this->product->current_price, 
+            $this->product->id,
+            $this->product->name,
+            $this->quantitySelected,
+            $this->product->current_price,
             [
                 'image_url'  => $this->product->first_image,
-                'variant_id' => $variant_id,
-                'variant_attribute_names' => $variantAttributeNames
-            ])->associate(Product::class);
+                'variant_id' => $validationsOutput['variantId'],
+                'variant_attribute_names' => $validationsOutput['variantAttributeNames']
+            ]
+        )->associate(Product::class);
 
         $this->dispatch('updated-cart');
         $this->dispatch('open-cart-panel');
+
+        $unitsTitle = $this->quantitySelected > 1 ? 'unidades' : 'unidad';
+
         $this->dispatch('notification', [
             'type'     => 'success',
             'title'    => 'Añadido al carrito',
             'position' => 'top-left',
-            'time'     => 16000,
-            'body'     => "Agregaste $this->quantitySelected unidades de {$this->product->name}"
+            'icon'     => 'add_shopping_cart',
+            'body'     => "Agregaste $this->quantitySelected $unitsTitle de {$this->product->name}"
         ]);
+    }
+
+    public function buyNow()
+    {
+        // $validationsOutput = $this->validateSelection();
     }
 
     public function selectVariantAttribute($attributeId, $valueId)
     {
         $this->selectedVariants[$attributeId] = $valueId;
 
-        // Check available combinations for the selected attribute
-        foreach($this->variants as $variantIndex => $variant)
-        {
+        // Check available combinations for the selected variant attribute
+        foreach ($this->variants as $variantIndex => $variant) {
             if ($variant['attribute_id'] == $attributeId) continue;
 
             $variantIds = VariantOption::where('product_id', $this->product->id)
-                                    ->where('attribute_id', $attributeId)
-                                    ->where('attribute_value_id', $valueId)
-                                    ->pluck('variant_id');
+                ->where('attribute_id', $attributeId)
+                ->where('attribute_value_id', $valueId)
+                ->pluck('variant_id');
 
             $availableCombinations = VariantOption::whereIn('variant_id', $variantIds)
-                                                ->where('attribute_id', '!=', $attributeId)
-                                                ->where('attribute_id', $variant['attribute_id'])
-                                                ->whereHas('variant', function($query) {
-                                                    return $query->where('stock', '>', 0);
-                                                })
-                                                ->get();
+                ->where('attribute_id', '!=', $attributeId)
+                ->where('attribute_id', $variant['attribute_id'])
+                ->whereHas('variant', function ($query) {
+                    return $query->where('stock', '>', 0);
+                })
+                ->get();
 
-            foreach($variant['values'] as $index => $variantValue)
-            {
+            foreach ($variant['values'] as $index => $variantValue) {
                 $availableCombination = $availableCombinations->contains('attribute_value_id', $variantValue['id']);
 
-                // Remove previous selected attribute if it is not available
-                if (!$availableCombination && 
-                isset($this->selectedVariants[$variant['attribute_id']]) && 
-                $this->selectedVariants[$variant['attribute_id']] == $variantValue['id'])
-                {
+                // Remove previous selected variant attribute combination if it is not available
+                if (
+                    !$availableCombination &&
+                    isset($this->selectedVariants[$variant['attribute_id']]) &&
+                    $this->selectedVariants[$variant['attribute_id']] == $variantValue['id']
+                ) {
                     $this->selectedVariants[$variant['attribute_id']] = null;
                 }
 
@@ -132,12 +180,10 @@ class ProductDetail extends Component
 
     public function mount(Product $product)
     {
-        if($product->hasVariants())
-        {
+        if ($product->hasVariants()) {
             $this->variants = ProductService::generateSelectableVariantOptions($product);
 
-            foreach($this->variants as $variant)
-            {
+            foreach ($this->variants as $variant) {
                 $this->selectedVariants[$variant['attribute_id']] = null;
             }
         }

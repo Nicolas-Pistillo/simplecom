@@ -250,9 +250,9 @@
                                     </button>
                                 </div>
                             </div>
-                            @error('quantitySelected')
+                            @error('more_than_stock')
                                 <small class="inline-block text-red-500 mt-1">
-                                    La cantidad supera el stock actual
+                                    {{ $message }}
                                 </small>
                             @enderror
                         </div>
@@ -266,7 +266,7 @@
 
                     {{-- Buy now --}}
                     <div class="flex items-center gap-3">
-                        <x-button wire:click='testValidations' size="big" class="!rounded-full w-full !p-3.5 text-lg">
+                        <x-button wire:click='buyNow' size="big" class="!rounded-full w-full !p-3.5 text-lg">
                             Comprar ahora
                         </x-button>
                     </div>

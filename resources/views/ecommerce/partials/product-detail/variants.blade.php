@@ -80,7 +80,7 @@
                                 class="flex items-center justify-center transition duration-200 
                                 rounded-md border py-3 px-3 min-w-[80px]
                                 text-sm font-medium uppercase cursor-pointer focus:outline-none
-                                {{ $isSelected ? 'bg-blue-600 text-white' : 'hover:bg-gray-100 opacity-40' }}">
+                                {{ $isSelected ? 'bg-blue-600 text-white' : 'opacity-40' }}">
                                     <span> {{ $size['name'] }} </span>
                                 </label>
                             @else

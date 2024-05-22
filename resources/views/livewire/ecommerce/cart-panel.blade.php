@@ -95,7 +95,9 @@
                         <p>Subtotal</p>
                         <p>${{ priceFormat(Cart::subtotal()) }} </p>
                     </div>
-                    <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                    <p class="mt-0.5 text-sm text-gray-500">
+                        Las tarifas de envío o impuestos se calcularán durante el checkout.
+                    </p>
                     <x-button class="w-full mt-6" size="big">Finalizar compra</x-button>
                     <div class="mt-5 flex justify-center text-center text-sm text-gray-500">
                         <p>
