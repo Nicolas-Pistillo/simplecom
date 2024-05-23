@@ -11,8 +11,18 @@ class Attribute extends Model
 
     protected $fillable = ['name'];
 
+    public function isPredetermined()
+    {
+        return in_array($this->name, ['Color', 'Talle', 'Calzado']);
+    }
+
     public function values()
     {
         return $this->hasMany(AttributeValue::class);
+    }
+
+    public function hasValues()
+    {
+        return $this->values()->count() > 0;
     }
 }

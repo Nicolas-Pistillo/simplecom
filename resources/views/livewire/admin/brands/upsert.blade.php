@@ -10,7 +10,9 @@
                 </p>
             </div>
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                <x-button @click="newBrandPanelOpen = true" class="flex items-center">
+                <x-button class="flex items-center"
+                @click="newBrandPanelOpen = true;
+                $nextTick(() => document.getElementById('brand_searcher').focus())">
                     <x-icon code="add" class="mr-1" />
                     Nueva marca
                 </x-button>
@@ -28,7 +30,7 @@
                         clip-rule="evenodd" />
                 </svg>
 
-                <input type="search" wire:model.live.debounce.800ms='brandSearch'
+                <input type="search" id="brand_searcher" wire:model.live.debounce.800ms='brandSearch'
                     class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                     placeholder="Buscar marca por nombre..." role="combobox" aria-expanded="false"
                     aria-controls="options">

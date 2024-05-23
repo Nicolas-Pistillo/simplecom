@@ -543,11 +543,18 @@
                                         <span class="mx-4 h-6 w-px bg-gray-200" aria-hidden="true"></span>
 
                                         <!-- Cart -->
-                                        <x-icon code="shopping_cart" @click="cartMenuOpen = true" 
-                                        x-tooltip.raw.placement.bottom="Carrito"
-                                        class="transition colors cursor-pointer bg-gray-100
-                                        text-gray-600 p-2 rounded-full hover:bg-gray-200 
-                                        focus:outline-none focus:ring duration-300" /> 
+                                        <div class="relative">
+                                            <x-icon code="shopping_cart" @click="cartMenuOpen = true" 
+                                            x-tooltip.raw.placement.bottom="Carrito"
+                                            class="transition colors cursor-pointer bg-gray-100
+                                            text-gray-600 p-2 rounded-full hover:bg-gray-200 
+                                            focus:outline-none focus:ring duration-300" /> 
+
+                                            @if (Cart::count() > 0)
+                                                <x-badge color="green" class="absolute -bottom-3 right-0
+                                                !rounded-full"> {{ Cart::content()->count() }} </x-badge>
+                                            @endif
+                                        </div>
                                         
                                     </div>
                                 </div>

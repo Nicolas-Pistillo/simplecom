@@ -52,19 +52,29 @@ Route::middleware([
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
-                Route::view('categories', 'admin.categories.index')->name('admin.categories.index')
+                Route::view('categories', 'admin.categories.index')
+                    ->name('admin.categories.index')
                     ->middleware('can:Editar categorias');
 
-                Route::view('brands', 'admin.brands.index')->name('admin.brands.index')
+                Route::view('brands', 'admin.brands.index')
+                    ->name('admin.brands.index')
                     ->middleware('can:Editar marcas');
 
-                Route::view('operators', 'admin.operators.index')->name('admin.operators.index')
+                Route::view('operators', 'admin.operators.index')
+                    ->name('admin.operators.index')
                     ->middleware('can:Editar operadores');
 
-                Route::view('banners', 'admin.contents.banners')->name('admin.contents.banners')
+                Route::view('banners', 'admin.contents.banners')
+                    ->name('admin.contents.banners')
                     ->middleware('can:Editar banners');
 
-                Route::view('products', 'admin.products.index')->name('admin.products.index');
+                Route::view('attributes', 'admin.attributes.index')
+                    ->name('admin.attributes.index')
+                    ->middleware('can:Editar atributos');
+
+                Route::view('products', 'admin.products.index')
+                    ->name('admin.products.index')
+                    ->middleware('can:Editar productos');
 
                 Route::view('products/create', 'admin.products.upsert')
                     ->name('admin.products.create')

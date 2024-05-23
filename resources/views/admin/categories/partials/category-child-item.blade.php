@@ -2,7 +2,8 @@
 <li x-data="{ mouseOnSubCategory: false }" x-cloak
     @mouseover="mouseOnSubCategory = true" @mouseover.away = "mouseOnSubCategory = false" 
     class="relative flex justify-between gap-x-6 p-3 
-    transition duration-200 hover:bg-gray-50 hover:shadow sm:px-6 rounded-l-md"
+    transition duration-200 hover:bg-gray-50 hover:shadow sm:px-6 rounded-l-md
+    {{ $loop->last ? 'mb-2' : '' }}"
     :class="subcategorySelected == {{ $childCategory->id }} && 'bg-gray-50 shadow'">
 
     <div class="flex w-full gap-x-4"

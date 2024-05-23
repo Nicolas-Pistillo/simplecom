@@ -3,7 +3,8 @@
     @mouseover="mouseOnGrandChild = true"
     @mouseover.away="mouseOnGrandChild = false"
     class="relative flex justify-between gap-x-6 p-3 
-    transition duration-200 hover:bg-gray-50 hover:shadow sm:px-6 rounded-l-md">
+    transition duration-200 hover:bg-gray-50 hover:shadow sm:px-6 rounded-l-md
+    {{ $loop->last ? 'mb-2' : '' }}">
 
     <div class="flex min-w-0 gap-x-4">
 

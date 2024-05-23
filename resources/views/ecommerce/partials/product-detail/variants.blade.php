@@ -57,7 +57,7 @@
             <div wire:key='{{ $variant['attribute_id'] }}' class="my-8">
                 <div class="flex items-center justify-between">
                     <h2 class="text-sm font-medium text-gray-900">
-                        Seleccione un {{ $variant['attribute_name'] }}
+                        Seleccione un {{ strtolower($variant['attribute_name']) }}
                     </h2>
                     <a href="#"
                         class="text-sm font-medium text-indigo-600 hover:text-indigo-500">See

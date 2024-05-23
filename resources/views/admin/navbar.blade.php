@@ -22,6 +22,10 @@
                     active="{{ Route::is('admin.products.*') }}"/>
                 @endcan
 
+                @can('Editar atributos')
+                    <x-navbar-item route="admin.attributes.index" icon="category" title="Atributos" />
+                @endcan
+
                 @can('Editar categorias')
                     <x-navbar-item route="admin.categories.index" icon="format_list_bulleted" title="Categorías" />
                 @endcan
