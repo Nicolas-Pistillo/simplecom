@@ -6,6 +6,7 @@ use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use Illuminate\Support\Facades\Validator;
 
 class ProductService
 {
@@ -62,5 +63,45 @@ class ProductService
         }
 
         return $variantQuery->first();
+    }
+
+    /**
+     * Determines if the given selected product or variant is available to buy or add to cart
+     */
+    public static function validateProductSelection(int $quantity, Product $product, $options = [])
+    {
+        $variantId = data_get($options, 'variant_id');
+        $validationLabel = data_get($options, 'validator_label', 'selection');
+        $hasMinSale = $product->min_sale && $product->min_sale > 1;
+        $hasMaxSale = $product->max_sale && $product->max_sale >= 1;
+        $stock = data_get($options, 'variant_id') ? ProductVariant::find($variantId)->stock : $product->stock;
+
+        // Stock validation
+        Validator::make(
+            [$validationLabel => $quantity],
+            [$validationLabel => "lte:$stock"],
+            [$validationLabel => 'La cantidad seleccionada supera el stock '. ($variantId ? 'de la variante' : 'del producto')]
+        )->validate();
+
+        // Max and Min sale validation
+        if ($hasMinSale || $hasMaxSale)
+        {
+            $validatorRules = [];
+            $validatorMessages = [];
+
+            if ($hasMinSale)
+            {
+                $validatorRules[$validationLabel][] = "gte:$product->min_sale";
+                $validatorMessages["$validationLabel.gte"] = "Este producto tiene un mínimo de compra de $product->min_sale unidades";
+            }
+
+            if ($hasMaxSale)
+            {
+                $validatorRules[$validationLabel][] = "lte:$product->max_sale";
+                $validatorMessages["$validationLabel.lte"] = "Solo podés agregar un máximo de hasta $product->max_sale unidades";
+            }
+
+            Validator::make([$validationLabel => $quantity], $validatorRules, $validatorMessages)->validate();
+        }
     }
 }

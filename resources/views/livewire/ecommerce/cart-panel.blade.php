@@ -50,12 +50,16 @@
                                             <div class="flex flex-1 items-end justify-between text-sm">
 
                                                 <div class="flex items-center gap-3">
-                                                    <div class="w-5 h-5 flex items-center justify-center cursor-pointer
+                                                    <div wire:click="substractUnit('{{ $product->rowId }}')"
+                                                    class="w-5 h-5 flex items-center justify-center cursor-pointer
                                                     border rounded-full transition duration-200 hover:bg-gray-100">
                                                         <x-icon code="remove" class="text-sm" />
                                                     </div>
+
                                                     <p class="no-select text-gray-500">{{ $product->qty }}</p>
-                                                    <div class="w-5 h-5 flex items-center justify-center cursor-pointer
+
+                                                    <div wire:click="addUnit('{{ $product->rowId }}')"
+                                                    class="w-5 h-5 flex items-center justify-center cursor-pointer
                                                     border rounded-full transition duration-200 hover:bg-gray-100">
                                                         <x-icon code="add" class="text-sm" />
                                                     </div>

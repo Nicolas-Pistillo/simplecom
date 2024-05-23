@@ -7,16 +7,20 @@ use App\Models\AttributeValue;
 use App\Models\Product;
 use App\Models\VariantOption;
 use App\Services\ProductService;
+use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class ProductDetail extends Component
 {
+    use WithNotifications;
+
+    protected $listeners = ['updated-cart' => '$refresh'];
+
     public Product $product;
     public $variants = [];
     public $selectedVariants = [];
-
     public $quantitySelected = 1;
 
     public function addQuantity()
@@ -26,9 +30,8 @@ class ProductDetail extends Component
 
     public function substractQuantity()
     {
-        if ($this->quantitySelected > 1) {
+        if ($this->quantitySelected > 1) 
             $this->quantitySelected -= 1;
-        }
     }
 
     public function validateSelection()
@@ -60,18 +63,12 @@ class ProductDetail extends Component
             fn ($cartItem) => $cartItem->id === $this->product->id &&
                             $cartItem->options->variant_id === $variantId)->first();
 
-        $totalProductQty = $this->quantitySelected;
+        $totalProductQty = $productOnCart ? $this->quantitySelected + $productOnCart->qty 
+                                          : $this->quantitySelected;
 
-        if ($productOnCart)
-        {
-            $totalProductQty += $productOnCart->qty;
-        }
-
-        Validator::make(
-            ['more_than_stock' => $totalProductQty],
-            ['more_than_stock' => "lte:$variant->stock"],
-            ['lte'             => 'La cantidad total supera el stock de la variante']
-        )->validate();
+        ProductService::validateProductSelection($totalProductQty, $this->product, [
+            'variant_id' => $variantId,
+        ]);
 
         $variantAttributeNames = [];
 
@@ -91,18 +88,10 @@ class ProductDetail extends Component
             fn ($cartItem) => $cartItem->id === $this->product->id
         )->first();
 
-        $totalProductQty = $this->quantitySelected;
+        $totalProductQty = $productOnCart ? $this->quantitySelected + $productOnCart->qty 
+                                          : $this->quantitySelected;
 
-        if ($productOnCart)
-        {
-            $totalProductQty += $productOnCart->qty;
-        }
-
-        Validator::make(
-            ['more_than_stock'  => $totalProductQty],
-            ['more_than_stock'  => "lte:{$this->product->stock}"],
-            ['lte'              => 'La cantidad total supera el stock del producto']
-        )->validate();
+        ProductService::validateProductSelection($totalProductQty, $this->product);
     }
 
     public function addToCart()
@@ -126,7 +115,7 @@ class ProductDetail extends Component
 
         $unitsTitle = $this->quantitySelected > 1 ? 'unidades' : 'unidad';
 
-        $this->dispatch('notification', [
+        $this->notify([
             'type'     => 'success',
             'title'    => 'Añadido al carrito',
             'position' => 'top-left',
