@@ -208,7 +208,8 @@
                         @endphp
                         @if ($qtyOnCart)
                             <div class="flex items-center mt-3 no-select">
-                                <div class="flex items-center py-1 px-2 rounded-full border text-xs">
+                                <div wire:click='openCartPanel' class="flex items-center py-1 px-2 rounded-full border text-xs
+                                transition duration-300 hover:bg-white hover:shadow-md cursor-pointer">
                                     <x-icon code="shopping_cart" class="text-lg mr-1 text-gray-600" />
                                     Ya tenés {{ $qtyOnCart }} {{ $qtyOnCart === 1 ? 'unidad' : 'unidades' }} en tu carrito
                                 </div>

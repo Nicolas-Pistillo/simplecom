@@ -21,7 +21,7 @@
                         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                         x-transition:leave="ease-in-out duration-500" x-transition:leave-start="opacity-100"
                         x-transition:leave-end="opacity-0"
-                        class="absolute left-0 top-0 -ml-8 flex pr-2 pt-4 sm:-ml-14 sm:pr-4">
+                        class="absolute left-0 top-0 flex pr-2 pt-4 -ml-12 sm:-ml-14 sm:pr-4">
 
                             <x-icon @click="{{ $ref }} = false" code="close"
                             class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-50 rounded-full hover:bg-gray-100 focus:outline-none focus:ring" />

@@ -3,44 +3,42 @@
 namespace App\Livewire\Ecommerce;
 
 use App\Models\ProductVariant;
+use App\Services\ProductService;
+use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class CartPanel extends Component
 {
+    use WithNotifications;
+
     protected $listeners = ['updated-cart' => '$refresh'];
 
-    public function substractUnit($rowId)
-    {
-        dd($rowId);
-    }
-
-    public function addUnit($rowId)
+    public function changeQty($operation, $rowId)
     {
         $cartItem = Cart::get($rowId);
         $actualQty = $cartItem->qty;
+        $variantId = $cartItem->options->variant_id;
 
-        if ($cartItem->options->variant_id)
-        {
-            $variant = ProductVariant::find($cartItem->options->variant_id);
+        if ($actualQty === 1 && $operation === 'subtract') return;
 
-            Validator::make(
-                [
-                    'more_than_stock'    => $cartItem->qty,
-                    'less_than_min_sale' => $cartItem->qty,
-                    'more_than_max_sale' => $cartItem->qty
-                ],
-                [],
-                []
-            )->validate();
+        $newQty = $operation === 'subtract' ? $actualQty - 1 : $actualQty + 1;
 
-            dd($variant);
+        ProductService::validateProductSelection($newQty, $cartItem->model, [
+            'variant_id'      => $variantId,
+            'validator_label' => "product-$rowId-selection"
+        ]);
 
+        Cart::update($rowId, $newQty);
 
-        } else {
-            dd("ESTE PRODUCTO NO TIENE VARIANTES");
-        }
+        $this->notify([
+            'type'      => 'success',
+            'title'     => 'Carrito actualizado',
+            'position'  => 'top-left'
+        ]);
+
+        $this->dispatch('updated-cart');
     }
 
     public function removeItem($rowId)

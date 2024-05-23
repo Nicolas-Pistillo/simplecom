@@ -9,7 +9,6 @@ use App\Models\VariantOption;
 use App\Services\ProductService;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class ProductDetail extends Component
@@ -165,6 +164,11 @@ class ProductDetail extends Component
                 $this->variants[$variantIndex]['values'][$index]['available'] = $availableCombination;
             }
         }
+    }
+
+    public function openCartPanel()
+    {
+        $this->dispatch('open-cart-panel');
     }
 
     public function mount(Product $product)

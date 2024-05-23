@@ -80,7 +80,7 @@ class ProductService
         Validator::make(
             [$validationLabel => $quantity],
             [$validationLabel => "lte:$stock"],
-            [$validationLabel => 'La cantidad seleccionada supera el stock '. ($variantId ? 'de la variante' : 'del producto')]
+            [$validationLabel => 'No podes agregar más unidades de '. ($variantId ? 'esta variante' : 'este producto')]
         )->validate();
 
         // Max and Min sale validation
@@ -92,13 +92,13 @@ class ProductService
             if ($hasMinSale)
             {
                 $validatorRules[$validationLabel][] = "gte:$product->min_sale";
-                $validatorMessages["$validationLabel.gte"] = "Este producto tiene un mínimo de compra de $product->min_sale unidades";
+                $validatorMessages["$validationLabel.gte"] = "Debes agregar como mínimo $product->min_sale unidades";
             }
 
             if ($hasMaxSale)
             {
                 $validatorRules[$validationLabel][] = "lte:$product->max_sale";
-                $validatorMessages["$validationLabel.lte"] = "Solo podés agregar un máximo de hasta $product->max_sale unidades";
+                $validatorMessages["$validationLabel.lte"] = "Sólo podes agregar hasta $product->max_sale unidades";
             }
 
             Validator::make([$validationLabel => $quantity], $validatorRules, $validatorMessages)->validate();
