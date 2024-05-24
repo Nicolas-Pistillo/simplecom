@@ -11,7 +11,7 @@ class Attribute extends Model
 
     protected $fillable = ['name'];
 
-    public function isPredetermined()
+    public function isDefault()
     {
         return in_array($this->name, ['Color', 'Talle', 'Calzado']);
     }
