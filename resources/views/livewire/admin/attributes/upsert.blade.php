@@ -41,7 +41,7 @@
             @enderror
         </div>
 
-        <div x-data="{ selected: null }">
+        <div x-data="{selected: null}">
             <div class="divide-y bg-gr mb-8 divide-gray-100 overflow-hidden 
             shadow ring-1 ring-gray-900/5 rounded-xl">
                 <ul class="w-full" x-cloak role="list">
@@ -67,15 +67,6 @@
                                 </div>
 
                                 <div class="flex shrink-0 items-center gap-x-4">
-
-                                    {{-- Add value --}}
-                                    <div @click.prevent="$event.stopPropagation()" 
-                                    x-tooltip.raw.placement.left="Agregar valor">
-                                        <x-icon x-show="mouseOnAttribute" code="library_add"
-                                            @click.prevent="selected = {{ $attribute->id }}; creatingNewValue = true"
-                                            class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
-                                            rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-                                    </div>
 
                                     @if (!$attribute->isDefault())
                                         {{-- Edit attribute --}}
@@ -112,17 +103,25 @@
                                 </div>
                             </li>
 
-                            <div x-show="selected == {{ $attribute->id }}" x-collapse.duration.500
-                            @click.away="creatingNewValue = false; $wire.resetNewValue()">
+                            <div x-show="selected == {{ $attribute->id }}" x-collapse.duration.500>
 
                                 @if ($attribute->hasValues())
                                     <div class="ml-8 sm:ml-11"
                                         :class="selected == {{ $attribute->id }} && 'border-l border-gray-200'">
                                         <div class="pl-5">
 
-                                            <h4 class="text-sm font-semibold text-gray-700 my-3">
-                                                Valores de {{ $attribute->name }}
-                                            </h4>
+                                            <div class="flex items-center mt-3 mb-5">
+                                                <h4 class="text-sm font-semibold text-gray-700">
+                                                    Valores de {{ $attribute->name }}
+                                                </h4>
+    
+                                                <x-button type="secondary" size="small"
+                                                @click="creatingNewValue = true" 
+                                                class="ml-2 flex items-center">
+                                                    <x-icon code="add" style="font-size: 20px" />
+                                                    Agregar
+                                                </x-button>
+                                            </div>
   
                                             @include('admin.attributes.partials.new-value-panel')
 
@@ -130,7 +129,7 @@
 
                                                 @foreach ($attribute->values as $value)
 
-                                                    <div x-data="{confirmDeleteValue: false}"
+                                                    <div wire:key='{{ $value->id . $value->name }}' x-data="{confirmDeleteValue: false}"
                                                     x-on:close-deletevalue-panel.window="confirmDeleteValue = false">
                                                         
                                                         <x-badge wire:key='{{ $value->id }}'
@@ -160,7 +159,18 @@
                                     </div>
                                 @else
                                     <div class="border-l ml-8 sm:ml-11 pl-10 py-3.5">
-                                        <h4 x-show="!creatingNewValue" class="text-sm font-semibold text-gray-400">Sin valores</h4>
+                                        <div x-show="!creatingNewValue" class="flex items-center">
+
+                                            <h4 class="text-sm font-semibold text-gray-400">Sin valores</h4>
+
+                                            <x-button type="secondary" size="small"
+                                            @click="creatingNewValue = true" 
+                                            class="ml-2 flex items-center">
+                                                <x-icon code="add" style="font-size: 20px" />
+                                                Agregar
+                                            </x-button>
+                                            
+                                        </div>
                                         @include('admin.attributes.partials.new-value-panel')
                                     </div>
                                 @endif

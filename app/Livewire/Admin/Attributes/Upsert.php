@@ -73,6 +73,8 @@ class Upsert extends Component
         $newValue->save();
 
         $this->dispatch('close-newvalue-panel');
+        
+        $this->resetNewValue();
 
         $this->notify([
             'type'  => 'success',

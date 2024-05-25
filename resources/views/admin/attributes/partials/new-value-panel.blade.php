@@ -1,15 +1,16 @@
-<div x-show="creatingNewValue" x-cloak class="mb-6">
+<div x-show="creatingNewValue" x-transition.duration.300 x-cloak class="mb-6"
+@click.away="creatingNewValue = false; $wire.resetNewValue()">
 
-    <label for="new_value" class="inline-block text-sm font-medium leading-6 text-gray-900">
+    <label for="new_value_{{ $attribute->id }}" 
+    class="inline-block text-sm font-medium leading-6 text-gray-900">
         Nuevo valor
     </label>
 
     <div class="mt-1 flex items-center flex-wrap">
 
         <div class="relative">
-            <input id="new_value" wire:model='newValueName' @keyup.enter="$wire.addNewValue({{ $attribute->id }})"
-                autocomplete="off"
-                class="block rounded-md border-0 
+            <input id="new_value_{{ $attribute->id }}" wire:model='newValueName' @keyup.enter="$wire.addNewValue({{ $attribute->id }})"
+            autocomplete="off" class="block rounded-md border-0 
             py-1.5 text-gray-900 shadow-sm ring-1 ring-inset 
             ring-gray-300 text-sm placeholder:text-gray-400 
             focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:leading-6 pr-10"
