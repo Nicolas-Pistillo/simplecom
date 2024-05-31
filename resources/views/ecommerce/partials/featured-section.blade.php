@@ -1,35 +1,59 @@
 <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Featured Products</h2>
-    <div class="flex items-center justify-center w-full h-full py-8 px-4">
-        <div class="relative w-full">
 
-            @if ($featuredProducts->count() > 3)
-                
-                {{-- Swiffy Slider for more than 3 featured products --}}
-                <div class="swiffy-slider slider-item-show3 slider-nav-autopause
-                slider-nav-round slider-nav-page slider-nav-outside slider-nav-autoplay	">
+    <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-8">
+        Productos destacados
+    </h2>
 
-                    <ul class="slider-container" style="padding: 0.75rem 0px">
-                        @foreach ($featuredProducts as $product)
-                            <li class="flex justify-center">
-                                <x-ecommerce.product-card :product="$product" />
-                            </li>
-                        @endforeach
-                    </ul>
-                
-                    <button type="button" class="slider-nav" aria-label="Go left"></button>
-                    <button type="button" class="slider-nav slider-nav-next" aria-label="Go left"></button>
-                </div>
+    <div class="w-full relative">
+        <div class="swiper featured-products-slider swiper-container relative mb-6">
+            <div class="swiper-wrapper relative w-full h-max">
+                @foreach ($featuredProducts as $product)
+                    <div class="swiper-slide">
+                        <div class="w-full flex justify-center items-start">
+                            <x-ecommerce.product-card :product="$product" />
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="flex justify-center items-center">
 
-            @else 
+            <x-icon id="featured-prev-btn" code="navigate_before" 
+            class="no-select p-2 rounded-full border-2 hover:bg-gray-200/60 
+            transition-colors duration-300"
+            />
 
-                <div class="flex items-center justify-center flex-wrap gap-6">
-                    @foreach ($featuredProducts as $product)
-                        <x-ecommerce.product-card :product="$product" />
-                    @endforeach
-                </div>
-
-            @endif
+            <x-icon id="featured-next-btn" code="navigate_next" 
+            class="no-select ml-2 p-2 rounded-full border-2 hover:bg-gray-200/60 
+            transition-colors duration-300"
+            />
         </div>
     </div>
 </div>
+
+<script>
+    new Swiper(".featured-products-slider", {
+        loop: true,
+        speed: 200,
+        slidesPerView: 1,
+        spaceBetween: 20,
+        navigation: {
+            nextEl: "#featured-next-btn",
+            prevEl: "#featured-prev-btn",
+        },
+        breakpoints: {
+            700: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            1000: {
+                slidesPerView: 3,
+                spaceBetween: 40
+            },
+            1280: {
+                slidesPerView: 4,
+                spaceBetween: 40,
+            }
+        }
+    });
+</script>

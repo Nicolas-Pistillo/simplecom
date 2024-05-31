@@ -1,15 +1,15 @@
 @extends('layouts.ecommerce')
 
 @section('head')
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 @endsection
 
 @section('content')
     {{-- Slider (Images size recommended: 1920x800) --}}
-    @include('ecommerce.partials.slider')
+    @if ($banners->isNotEmpty())
+        @include('ecommerce.partials.banner-slider')
+    @endif
 
     {{-- Categories presentation --}}
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">

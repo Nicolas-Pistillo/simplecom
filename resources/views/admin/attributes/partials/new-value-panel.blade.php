@@ -25,14 +25,14 @@
         </div>
 
         <x-icon code="check" wire:click='addNewValue({{ $attribute->id }})' x-tooltip.raw.placement.top="Agregar"
-            class="ml-2 p-1 border transition duration-200 
-            hover:border-green-400 rounded-full bg-green-50 
-            text-green-400 cursor-pointer" />
+        class="ml-2 p-1 border transition duration-200 
+        hover:border-green-400 rounded-full 
+        text-green-400 cursor-pointer" />
 
         <x-icon code="close" x-tooltip.raw.placement.top="Cancelar"
-            @click="creatingNewValue = false; $wire.resetNewValue()"
-            class="ml-2 p-1 border transition duration-200 
-        hover:border-red-400 rounded-full bg-red-50 
+        @click="creatingNewValue = false; $wire.resetNewValue()"
+        class="ml-2 p-1 border transition duration-200 
+        hover:border-red-400 rounded-full
         text-red-400 cursor-pointer" />
 
         <x-spinner wire:loading wire:target='addNewValue' class="ml-2" />

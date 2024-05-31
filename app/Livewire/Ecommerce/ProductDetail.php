@@ -132,24 +132,28 @@ class ProductDetail extends Component
     {
         $this->selectedVariants[$attributeId] = $valueId;
 
+        // IDs of all variants that having the selected attribute and value
+        $variantIds = VariantOption::where('product_id', $this->product->id)
+                                    ->where('attribute_id', $attributeId)
+                                    ->where('attribute_value_id', $valueId)
+                                    ->whereHas('variant', function ($query) {
+                                        return $query->where('stock', '>', 0);
+                                    })
+                                    ->pluck('variant_id')
+                                    ->toArray();
+
         // Check available combinations for the selected variant attribute
         foreach ($this->variants as $variantIndex => $variant) {
-            if ($variant['attribute_id'] == $attributeId) continue;
 
-            $variantIds = VariantOption::where('product_id', $this->product->id)
-                ->where('attribute_id', $attributeId)
-                ->where('attribute_value_id', $valueId)
-                ->pluck('variant_id');
+            if ($variant['attribute_id'] == $attributeId) continue;
 
             $availableCombinations = VariantOption::whereIn('variant_id', $variantIds)
                 ->where('attribute_id', '!=', $attributeId)
                 ->where('attribute_id', $variant['attribute_id'])
-                ->whereHas('variant', function ($query) {
-                    return $query->where('stock', '>', 0);
-                })
                 ->get();
 
             foreach ($variant['values'] as $index => $variantValue) {
+
                 $availableCombination = $availableCombinations->contains('attribute_value_id', $variantValue['id']);
 
                 // Remove previous selected variant attribute combination if it is not available
@@ -173,6 +177,8 @@ class ProductDetail extends Component
 
     public function mount(Product $product)
     {
+        if (!$product->published) abort(404);
+
         if ($product->hasVariants()) {
             $this->variants = ProductService::generateSelectableVariantOptions($product);
 

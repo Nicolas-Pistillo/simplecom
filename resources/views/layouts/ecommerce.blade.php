@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ URL::to('favicon-store-default.png') }}" type="image/x-icon">
-    <style> [x-cloak] { display: none !important; } [data-carousel-item] { z-index: 5; } </style>
+    <style> [x-cloak] { display: none !important; } </style>
     <title>@yield('title', tenant()->ecommerce_name ?? tenant()->name)</title>
     @yield('head')
 </head>

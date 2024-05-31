@@ -1,5 +1,4 @@
 <div>
-
     <div class="px-4 sm:px-6 lg:px-8">
 
         <div class="sm:flex sm:items-center mb-8">
@@ -47,8 +46,7 @@
                 <ul class="w-full" x-cloak role="list">
                     @foreach ($attributes as $attribute)
                         <div wire:key='{{ $attribute->id }}' 
-                        x-data="{ mouseOnAttribute: false, confirmDeleteAttribute: false, creatingNewValue: false }"
-                        x-on:close-newvalue-panel.window="creatingNewValue = false">
+                        x-data="{ mouseOnAttribute: false, confirmDeleteAttribute: false, creatingNewValue: false }">
 
                             <li @mouseover="mouseOnAttribute = true" @mouseover.away="mouseOnAttribute = false"
                                 class="relative flex justify-between  gap-x-6 p-3 sm:px-6 cursor-pointer transition duration-200"
@@ -169,7 +167,7 @@
                                                 <x-icon code="add" style="font-size: 20px" />
                                                 Agregar
                                             </x-button>
-                                            
+
                                         </div>
                                         @include('admin.attributes.partials.new-value-panel')
                                     </div>

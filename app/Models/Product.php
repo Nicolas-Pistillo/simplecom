@@ -107,6 +107,7 @@ class Product extends Model
         $query->where(function ($query) {
 
             $query->where('published', 1)
+                ->where('stock', '>', 0)
                 ->whereHas('category', function($q) {
                     $q->where('published', 1);
                 })
@@ -115,7 +116,6 @@ class Product extends Model
                         $q->where('published', 1);
                     });
                 });
-
         });
     }
 

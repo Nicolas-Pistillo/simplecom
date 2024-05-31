@@ -295,6 +295,8 @@
             </div>
         </section>
 
+        {{-- END SWIPER TEST --}}
+
         {{-- Product reviews stats --}}
         <section class="pt-14 relative">
             <div class="w-full max-w-7xl px-4 md:px-5 lg:px-6 mx-auto">
