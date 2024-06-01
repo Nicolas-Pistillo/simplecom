@@ -17,6 +17,11 @@ class EcommerceController extends Controller
         ]);
     }
 
+    public function products(Request $request)
+    {
+        return view('ecommerce.products', ['products' => Product::all()]);
+    }
+
     public function productDetail($productName, Product $product)
     {
         $product->load('images', 'category.father.father', 'brand', 'tags', 'variantOptions');

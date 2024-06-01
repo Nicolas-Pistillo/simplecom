@@ -14,7 +14,8 @@
     {{-- Categories presentation --}}
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
         <div class="sm:flex sm:items-baseline sm:justify-between">
-            <h2 class="text-2xl font-bold tracking-tight text-gray-900" x-tooltip.raw.placement.top="DALE">Shop by Category</h2>
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900" x-tooltip.raw.placement.top="DALE">Shop by Category
+            </h2>
             <a href="#" class="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
                 Browse all categories
                 <span aria-hidden="true"> &rarr;</span>
@@ -113,108 +114,109 @@
     </div>
 
     <div class="bg-gray-50">
-        <div class="mx-auto max-w-7xl sm:px-2 py-16 lg:px-4">
-            <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 px-4 lg:max-w-none lg:grid-cols-3">
-                <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
+        <h2 class="sr-only">Our perks</h2>
+        <div class="mx-auto max-w-7xl py-24 sm:px-2 sm:py-32 lg:px-4">
+            <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-12 px-4 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+                <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="mx-auto h-24 w-28"
-                                src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg" alt="">
-                        </div>
-                    </div>
-                    <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
-                        <h3 class="text-sm font-medium text-gray-900">Free Shipping</h3>
-                        <p class="mt-2 text-sm text-gray-500">It&#039;s not actually free we just price it into the
-                            products. Someone&#039;s paying for it, and it&#039;s not us.</p>
-                    </div>
-                </div>
-                <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
-                    <div class="sm:flex-shrink-0">
-                        <div class="flow-root">
-                            <img class="mx-auto h-24 w-28"
-                                src="https://tailwindui.com/img/ecommerce/icons/icon-chat-light.svg" alt="">
-                        </div>
-                    </div>
-                    <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
-                        <h3 class="text-sm font-medium text-gray-900">24/7 Customer Support</h3>
-                        <p class="mt-2 text-sm text-gray-500">Our AI chat widget is powered by a naive series of if/else
-                            statements. Guaranteed to irritate.</p>
-                    </div>
-                </div>
-                <div class="text-center sm:flex sm:text-left lg:block lg:text-center">
-                    <div class="sm:flex-shrink-0">
-                        <div class="flow-root">
-                            <img class="mx-auto h-24 w-28"
-                                src="https://tailwindui.com/img/ecommerce/icons/icon-fast-checkout-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg"
                                 alt="">
                         </div>
                     </div>
-                    <div class="mt-3 sm:ml-3 sm:mt-0 lg:ml-0 lg:mt-3">
-                        <h3 class="text-sm font-medium text-gray-900">Fast Shopping Cart</h3>
-                        <p class="mt-2 text-sm text-gray-500">Look how fast that cart is going. What does this mean for the
-                            actual experience? I don&#039;t know.</p>
+                    <div class="mt-3 sm:ml-3 sm:mt-0">
+                        <h3 class="text-sm font-medium text-gray-900">Free delivery</h3>
+                        <p class="mt-2 text-sm text-gray-500">Order now and you&#039;ll get delivery absolutely free. Well,
+                            it&#039;s not actually free, we just price it into the products. Someone&#039;s paying for it,
+                            and it&#039;s not us.</p>
+                    </div>
+                </div>
+                <div class="sm:flex">
+                    <div class="sm:flex-shrink-0">
+                        <div class="flow-root">
+                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-warranty-light.svg"
+                                alt="">
+                        </div>
+                    </div>
+                    <div class="mt-3 sm:ml-3 sm:mt-0">
+                        <h3 class="text-sm font-medium text-gray-900">10-year warranty</h3>
+                        <p class="mt-2 text-sm text-gray-500">We have a 10 year warranty with every product that you
+                            purchase, whether thats a new pen or organizer, you can be sure we&#039;ll stand behind it.</p>
+                    </div>
+                </div>
+                <div class="sm:flex">
+                    <div class="sm:flex-shrink-0">
+                        <div class="flow-root">
+                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg"
+                                alt="">
+                        </div>
+                    </div>
+                    <div class="mt-3 sm:ml-3 sm:mt-0">
+                        <h3 class="text-sm font-medium text-gray-900">Exchanges</h3>
+                        <p class="mt-2 text-sm text-gray-500">We understand that when your product arrives you might not
+                            particularly like it, or you ordered the wrong thing. Conditions apply here.</p>
+                    </div>
+                </div>
+                <div class="sm:flex">
+                    <div class="sm:flex-shrink-0">
+                        <div class="flow-root">
+                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg"
+                                alt="">
+                        </div>
+                    </div>
+                    <div class="mt-3 sm:ml-3 sm:mt-0">
+                        <h3 class="text-sm font-medium text-gray-900">For the planet</h3>
+                        <p class="mt-2 text-sm text-gray-500">Like you, we love the planet, and so we&#039;ve pledged 1% of
+                            all sales to the preservation and restoration of the natural environment.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 gap-y-12 pb-16 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-0">
+    </div>
 
-            <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
-                <div class="md:flex-shrink-0">
-                    <div class="flow-root">
-                        <img class="-my-1 mx-auto h-24 w-auto"
-                            src="https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg" alt="">
+    <div class="bg-white">
+        <h2 class="sr-only">Our perks</h2>
+        <div
+            class="mx-auto max-w-7xl divide-y divide-gray-200 lg:flex lg:justify-center lg:divide-x lg:divide-y-0 lg:py-8">
+            <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
+                <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
+                    <svg class="h-8 w-8 flex-shrink-0 text-indigo-600" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                    <div class="ml-4 flex flex-auto flex-col-reverse">
+                        <h3 class="font-medium text-gray-900">10-year all-inclusive warranty</h3>
+                        <p class="text-sm text-gray-500">We’ll replace it with a new one</p>
                     </div>
                 </div>
-                <div class="mt-6 md:ml-4 md:mt-0 lg:ml-0 lg:mt-6">
-                    <h3 class="text-base font-medium text-gray-900">Free returns</h3>
-                    <p class="mt-3 text-sm text-gray-500">Not what you expected? Place it back in the parcel and attach the
-                        pre-paid postage stamp.</p>
-                </div>
             </div>
-
-            <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
-                <div class="md:flex-shrink-0">
-                    <div class="flow-root">
-                        <img class="-my-1 mx-auto h-24 w-auto"
-                            src="https://tailwindui.com/img/ecommerce/icons/icon-calendar-light.svg" alt="">
+            <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
+                <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
+                    <svg class="h-8 w-8 flex-shrink-0 text-indigo-600" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                    <div class="ml-4 flex flex-auto flex-col-reverse">
+                        <h3 class="font-medium text-gray-900">Free shipping on returns</h3>
+                        <p class="text-sm text-gray-500">Send it back for free</p>
                     </div>
                 </div>
-                <div class="mt-6 md:ml-4 md:mt-0 lg:ml-0 lg:mt-6">
-                    <h3 class="text-base font-medium text-gray-900">Same day delivery</h3>
-                    <p class="mt-3 text-sm text-gray-500">We offer a delivery service that has never been done before.
-                        Checkout today and receive your products within hours.</p>
-                </div>
             </div>
-
-            <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
-                <div class="md:flex-shrink-0">
-                    <div class="flow-root">
-                        <img class="-my-1 mx-auto h-24 w-auto"
-                            src="https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg" alt="">
+            <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
+                <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
+                    <svg class="h-8 w-8 flex-shrink-0 text-indigo-600" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                    <div class="ml-4 flex flex-auto flex-col-reverse">
+                        <h3 class="font-medium text-gray-900">Free, contactless delivery</h3>
+                        <p class="text-sm text-gray-500">The shipping is on us</p>
                     </div>
                 </div>
-                <div class="mt-6 md:ml-4 md:mt-0 lg:ml-0 lg:mt-6">
-                    <h3 class="text-base font-medium text-gray-900">All year discount</h3>
-                    <p class="mt-3 text-sm text-gray-500">Looking for a deal? You can use the code "ALLYEAR" at checkout
-                        and get money off all year round.</p>
-                </div>
             </div>
-
-            <div class="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
-                <div class="md:flex-shrink-0">
-                    <div class="flow-root">
-                        <img class="-my-1 mx-auto h-24 w-auto"
-                            src="https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg" alt="">
-                    </div>
-                </div>
-                <div class="mt-6 md:ml-4 md:mt-0 lg:ml-0 lg:mt-6">
-                    <h3 class="text-base font-medium text-gray-900">For the planet</h3>
-                    <p class="mt-3 text-sm text-gray-500">We’ve pledged 1% of sales to the preservation and restoration of
-                        the natural environment.</p>
-                </div>
-            </div>
-
         </div>
     </div>
 @endsection

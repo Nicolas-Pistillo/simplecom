@@ -1,5 +1,5 @@
-<div x-data="{hoverOnProduct: false}" class="w-72 group cursor-pointer no-select"
-@mouseenter="hoverOnProduct = true" @mouseleave="hoverOnProduct = false">
+<article x-data="{hoverOnProduct: false}" class="w-72 group cursor-pointer no-select"
+@mouseenter="hoverOnProduct = true" @mouseleave="hoverOnProduct = false" title="{{ $product->name }}">
     <a href="{{ $product->detailPageUrl() }}">
         {{-- Image & widgets --}}
         <div class="relative rounded-t-xl w-full overflow-hidden border">
@@ -23,7 +23,9 @@
         group-hover:bg-gray-50 group-hover:border-gray-300"
         :class="hoverOnProduct ? '!shadow-lg' : '!shadow-sm'">
 
-            <h5 class="font-medium text-gray-700 mb-2 line-clamp-2">{{ $product->name }}</h5>
+            <h5 class="mb-2 line-clamp-1 text-sm font-semibold">
+                {{ $product->name }}
+            </h5>
 
             <div class="flex min-[400px]:items-center justify-between gap-2 flex-col 
             min-[400px]:flex-row">
@@ -72,4 +74,4 @@
             </div>
         </div>
     </a>
-</div>
+</article>

@@ -19,11 +19,11 @@
         speed: 500,
         pagination: {
             el: ".swiper-pagination",
-            clickable: true,
+            clickable: true
         },
-        navigation: {
-            nextEl: ".next-btn",
-            prevEl: ".prev-btn",
+        autoplay: {
+            delay: 5000,
+            pauseOnMouseEnter: true
         },
     });
 </script>

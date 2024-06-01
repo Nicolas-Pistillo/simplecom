@@ -5,8 +5,8 @@
     </h2>
 
     <div class="w-full relative">
-        <div class="swiper featured-products-slider swiper-container relative mb-6">
-            <div class="swiper-wrapper relative w-full h-max">
+        <div class="swiper featured-products-slider swiper-container relative mb-4">
+            <div class="swiper-wrapper relative w-full h-max pb-2">
                 @foreach ($featuredProducts as $product)
                     <div class="swiper-slide">
                         <div class="w-full flex justify-center items-start">
@@ -34,17 +34,21 @@
 <script>
     new Swiper(".featured-products-slider", {
         loop: true,
-        speed: 200,
+        speed: 500,
         slidesPerView: 1,
         spaceBetween: 20,
         navigation: {
             nextEl: "#featured-next-btn",
             prevEl: "#featured-prev-btn",
         },
+        autoplay: {
+            delay: 3000,
+            pauseOnMouseEnter: true
+        },
         breakpoints: {
             700: {
                 slidesPerView: 2,
-                spaceBetween: 20
+                spaceBetween: 0
             },
             1000: {
                 slidesPerView: 3,
