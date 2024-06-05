@@ -9,6 +9,10 @@
                 @can('Editar operadores')
                     <x-navbar-item route="admin.operators.index" icon="contacts" title="Operadores" />
                 @endcan
+
+                @can('Editar configuraciones')
+                    <x-navbar-item route="admin.configurations.index" icon="settings" title="Configuracion" />
+                @endcan
                 
             </ul>
         </li>
@@ -47,8 +51,5 @@
 
             </ul>
         </li>
-
-        <x-navbar-item itemClasses="mt-auto" linkClasses="-mx-2" 
-        route="admin.setup" icon="settings" title="Configuracion" />
     </ul>
 </nav>

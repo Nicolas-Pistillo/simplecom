@@ -26,6 +26,8 @@ class RolePermissionSeeder extends Seeder
 
         $editAttributes = Permission::create(['name' => 'Editar atributos', 'guard_name' => 'operator']);
 
+        $editConfigs = Permission::create(['name' => 'Editar configuraciones', 'guard_name' => 'operator']);
+
         $viewSales = Permission::create(['name' => 'Ver ventas', 'guard_name' => 'operator']);
 
         /******* ROLES *******/
@@ -35,7 +37,7 @@ class RolePermissionSeeder extends Seeder
         /******* ATTACH PERMISSIONS TO ROLES *******/
         $admin->syncPermissions([
             $editCategories, $editProducts, $editOperators, $editBanners, 
-            $editBrands, $viewSales, $editAttributes
+            $editBrands, $viewSales, $editAttributes, $editConfigs
         ]);
 
         $contentManager->syncPermissions([$editBanners]);

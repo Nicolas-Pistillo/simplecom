@@ -54,6 +54,10 @@ Route::middleware([
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
+                Route::view('configurations', 'admin.configurations.index')
+                    ->name('admin.configurations.index')
+                    ->middleware('can:Editar configuraciones');
+
                 Route::view('categories', 'admin.categories.index')
                     ->name('admin.categories.index')
                     ->middleware('can:Editar categorias');

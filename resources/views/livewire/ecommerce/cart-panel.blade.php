@@ -101,6 +101,11 @@
                             <p class="text-sm text-gray-500">
                                 Explorá y agrega los productos que estés buscando en {{ tenant('ecommerce_name') }}
                             </p>
+
+                            <x-button :href="route('ecommerce.products')" 
+                            class="inline-block mt-3" type="soft">
+                                Ver productos
+                            </x-button>
                         </div>
                     </div>
                 @endif

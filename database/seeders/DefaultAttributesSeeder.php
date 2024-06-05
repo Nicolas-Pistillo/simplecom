@@ -16,6 +16,7 @@ class DefaultAttributesSeeder extends Seeder
         $size      = Attribute::create(['name' => 'Talle']);
         $footwear  = Attribute::create(['name' => 'Calzado']);
         $colors    = Attribute::create(['name' => 'Color']);
+        $material  = Attribute::create(['name' => 'Material']);
 
         // Attach values to attributes
         $size->values()->createMany([
@@ -150,6 +151,45 @@ class DefaultAttributesSeeder extends Seeder
             [
                 'name' => 'Marrón',
                 'meta' => ['hexa_value' => '#be6013']
+            ]
+        ]);
+
+        $material->values()->createMany([
+            [
+                'name' => 'Madera'
+            ],
+            [
+                'name' => 'Plástico'
+            ],
+            [
+                'name' => 'Acero quirúrgico'
+            ],
+            [
+                'name' => 'Bronce'
+            ],
+            [
+                'name' => 'Plata'
+            ],
+            [
+                'name' => 'Oro'
+            ],
+            [
+                'name' => 'Porcelana'
+            ],
+            [
+                'name' => 'Algodón'
+            ],
+            [
+                'name' => 'Lana'
+            ],
+            [
+                'name' => 'Cuero'
+            ],
+            [
+                'name' => 'Nylon'
+            ],
+            [
+                'name' => 'Poliéster'
             ]
         ]);
     }

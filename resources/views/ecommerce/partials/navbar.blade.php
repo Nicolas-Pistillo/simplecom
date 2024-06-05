@@ -165,10 +165,11 @@
 
                                     {{-- Products --}}
                                     <a href="{{ route('ecommerce.products') }}"
-                                    class="flex items-center text-sm font-medium text-gray-700 border-b-2
-                                    {{ Route::is('ecommerce.products')
+                                    class="flex items-center text-sm font-medium border-b-2
+                                    {{ Route::is('ecommerce.products') 
                                         ? "border-$tenantColor-600 text-$tenantColor-600"
-                                        : 'border-transparent text-gray-700 hover:text-gray-800' }}">
+                                        : 'border-transparent text-gray-700 hover:text-gray-800'
+                                    }}">
                                         Productos
                                     </a>
                                     
@@ -205,21 +206,25 @@
 
                         <!-- Account & cart -->
                         <div class="flex flex-1 items-center justify-end">
-                            <div class="flex items-center lg:ml-8">
+                            <div class="flex items-center lg:ml-8 no-select">
 
                                 <!-- Account -->
                                 <x-icon code="person" x-tooltip.raw.placement.bottom="Mi cuenta"
-                                    class="transition colors duration-300 
+                                class="transition colors duration-300
                                 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                                 hover:bg-gray-200 focus:outline-none focus:ring" />
 
-                                <span class="mx-4 h-6 w-px bg-gray-200" aria-hidden="true"></span>
+                                <!-- wishlist -->
+                                <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
+                                class="transition colors duration-300 ml-3
+                                cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
+                                hover:bg-gray-200 focus:outline-none focus:ring" />
 
                                 <!-- Cart -->
-                                <div class="relative">
+                                <div class="relative ml-3">
                                     <x-icon code="shopping_cart" @click="cartMenuOpen = true"
-                                        x-tooltip.raw.placement.bottom="Carrito"
-                                        class="transition colors cursor-pointer bg-gray-100
+                                    x-tooltip.raw.placement.bottom="Carrito"
+                                    class="transition colors cursor-pointer bg-gray-100
                                     text-gray-600 p-2 rounded-full hover:bg-gray-200 
                                     focus:outline-none focus:ring duration-300" />
 

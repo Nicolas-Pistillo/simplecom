@@ -13,7 +13,7 @@ class Attribute extends Model
 
     public function isDefault()
     {
-        return in_array($this->name, ['Color', 'Talle', 'Calzado']);
+        return in_array($this->name, ['Color', 'Talle', 'Calzado', 'Material']);
     }
 
     public function values()

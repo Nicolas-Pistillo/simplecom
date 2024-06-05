@@ -22,7 +22,7 @@ class Banners extends Component
     #[Validate('required|string|max:40|unique:banners,name', as: 'nombre')]
     public $name;
 
-    public $published = false;
+    public $published = true;
     public $banner, $drawerTitle, $imagePreview;
 
     public function messages()

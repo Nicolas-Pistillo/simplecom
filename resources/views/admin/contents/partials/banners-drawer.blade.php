@@ -13,7 +13,7 @@
                 {{-- Image preview --}}
                 <div class="mb-4">
 
-                    <img src="{{ $imagePreview ?: 'http://via.placeholder.com/1920x800' }}" alt="avatar-category"
+                    <img src="{{ $imagePreview ?: 'http://via.placeholder.com/1920x800' }}" alt="banner-img"
                         class="w-full h-28 rounded-lg object-cover shadow">
 
                     <p class="mt-1.5 text-xs font-medium text-gray-500" wire:loading.remove

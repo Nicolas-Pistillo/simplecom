@@ -23,7 +23,7 @@ class Setup extends Component
     public $availableColors = [
         'pink', 'red', 'indigo', 'purple', 'sky', 'cyan', 'orange',
         'emerald', 'lime', 'blue', 'green', 'rose', 'yellow',
-        'violet', 'amber', 'teal', 'fuchsia'
+        'violet', 'amber', 'teal', 'fuchsia', 'gray'
     ];
 
     protected $validationAttributes = [

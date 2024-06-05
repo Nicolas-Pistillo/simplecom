@@ -38,7 +38,7 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
             'Stock',
             'Venta mínima',
             'Venta máxima',
-            'Dimensiones (ancho x largo x alto)',
+            'Dimensiones (ancho x alto x largo)',
             'Peso (gramos)'
         ];
     }
