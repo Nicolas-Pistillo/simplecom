@@ -6,7 +6,8 @@
 @endsection
 
 @section('content')
-    {{-- Slider (Images size recommended: 1920x800) --}}
+
+    {{-- Main Slider --}}
     @if ($banners->isNotEmpty())
         @include('ecommerce.partials.banner-slider')
     @endif
@@ -174,37 +175,39 @@
         </div>
     </div>
 
-    <div class="bg-white">
-        <h2 class="sr-only">Our perks</h2>
-        <div
-            class="mx-auto max-w-7xl divide-y divide-gray-200 lg:flex lg:justify-center lg:divide-x lg:divide-y-0 lg:py-8">
-            <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
-                <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
-                    <x-icon code="calendar_today" class="text-{{ tenant('color') }}-600 text-3xl" />
-                    <div class="ml-4 flex flex-auto flex-col-reverse">
-                        <h3 class="font-medium text-gray-900">10-year all-inclusive warranty</h3>
-                        <p class="text-sm text-gray-500">We’ll replace it with a new one</p>
+    @if ($banners->isEmpty())
+        <div class="bg-white">
+            <h2 class="sr-only">Our perks</h2>
+            <div
+                class="mx-auto max-w-7xl divide-y divide-gray-200 lg:flex lg:justify-center lg:divide-x lg:divide-y-0 lg:py-8">
+                <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
+                    <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
+                        <x-icon code="calendar_today" class="text-{{ tenant('color') }}-600 text-3xl" />
+                        <div class="ml-4 flex flex-auto flex-col-reverse">
+                            <h3 class="font-medium text-gray-900">10-year all-inclusive warranty</h3>
+                            <p class="text-sm text-gray-500">We’ll replace it with a new one</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
-                <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
-                    <x-icon code="sync" class="text-{{ tenant('color') }}-600 text-3xl" />
-                    <div class="ml-4 flex flex-auto flex-col-reverse">
-                        <h3 class="font-medium text-gray-900">Free shipping on returns</h3>
-                        <p class="text-sm text-gray-500">Send it back for free</p>
+                <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
+                    <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
+                        <x-icon code="sync" class="text-{{ tenant('color') }}-600 text-3xl" />
+                        <div class="ml-4 flex flex-auto flex-col-reverse">
+                            <h3 class="font-medium text-gray-900">Free shipping on returns</h3>
+                            <p class="text-sm text-gray-500">Send it back for free</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
-                <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
-                    <x-icon code="local_shipping" class="text-{{ tenant('color') }}-600 text-3xl" />
-                    <div class="ml-4 flex flex-auto flex-col-reverse">
-                        <h3 class="font-medium text-gray-900">Free, contactless delivery</h3>
-                        <p class="text-sm text-gray-500">The shipping is on us</p>
+                <div class="py-8 lg:w-1/3 lg:flex-none lg:py-0">
+                    <div class="mx-auto flex max-w-xs items-center px-4 lg:max-w-none lg:px-8">
+                        <x-icon code="local_shipping" class="text-{{ tenant('color') }}-600 text-3xl" />
+                        <div class="ml-4 flex flex-auto flex-col-reverse">
+                            <h3 class="font-medium text-gray-900">Free, contactless delivery</h3>
+                            <p class="text-sm text-gray-500">The shipping is on us</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection

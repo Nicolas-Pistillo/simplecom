@@ -149,7 +149,6 @@
                                         placeholder="{{ $configField->description }}"
                                         withAsterisk="{{ $configField->required }}"
                                         value="{{ $configField->key === 'contact_whatsapp' ? '549' : $this->{$configField->key} }}"
-                                        type="{{ $configField->datatype }}"
                                         />
 
                                         @if ($configField->key === 'contact_whatsapp')
@@ -160,7 +159,6 @@
                                             </a>
                                         @endif
                                     </div>
-                                    
                                 @endforeach
 
                             </div>

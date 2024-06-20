@@ -231,8 +231,8 @@
         <h2 id="footer-heading" class="sr-only">Footer</h2>
         <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 lg:px-8">
           <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-            <div class="space-y-8">
-              <img class="h-20" src="{{ Storage::url(tenant('logo_url')) }}" alt="{{ tenant('name') }} logo">
+            <div class="space-y-4">
+              <img class="h-20 w-64 object-contain" src="{{ Storage::url(tenant('logo_url')) }}" alt="{{ tenant('name') }} logo">
               <p class="text-sm leading-6 text-gray-600">Making the world a better place through constructing elegant hierarchies.</p>
               <div class="flex space-x-6">
                 <a href="#" class="text-gray-400 hover:text-gray-500">

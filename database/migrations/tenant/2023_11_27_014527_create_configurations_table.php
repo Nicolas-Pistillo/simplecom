@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('key')->unique();
             $table->string('display_name');
+            $table->string('topic')->nullable();
             $table->string('description')->nullable();
+            $table->string('input_type')->default('text');
             $table->text('value')->nullable();
             $table->boolean('show_in_setup')->default(false);
             $table->boolean('required')->default(false);

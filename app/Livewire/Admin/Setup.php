@@ -99,10 +99,10 @@ class Setup extends Component
     public function submitSecondStep()
     {
         $fields = $this->validate([
-            'fisical_address'     => 'required|string',
-            'attention_schedule'  => 'required|string',
+            'fisical_address'     => 'nullable|string',
+            'attention_schedule'  => 'nullable|string',
             'contact_email'       => 'required|email',
-            'contact_whatsapp'    => 'required|numeric',
+            'contact_whatsapp'    => 'nullable|numeric',
             'ecommerce_instagram' => 'nullable|url',
             'ecommerce_youtube'   => 'nullable|url'
         ]);
