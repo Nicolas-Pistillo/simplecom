@@ -8,7 +8,7 @@
             <div class="mx-auto w-full max-w-sm lg:w-96">
 
                 <div class="relative mt-24">
-                    <img class="absolute -top-36 left-0 h-20" 
+                    <img class="absolute -top-36 left-0 h-20 object-contain" 
                     src="{{ tenant()->logo_url ? Storage::url(tenant()->logo_url) : URL::to('favicon.ico') }}"
                         alt="Ecommerce logo">
                     <h4 class="text-2xl font-bold leading-9 tracking-tight text-{{ tenant('color') }}-600">{{ tenant()->ecommerce_name }}

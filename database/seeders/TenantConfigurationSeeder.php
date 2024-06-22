@@ -70,6 +70,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name'  => 'Módulo de reseñas',
             'topic'         => ConfigurationTopics::Modules,
             'input_type'    => 'boolean',
+            'value'         => true,
             'description'   => 'Tus productos podrán ser puntuados y reseñados por compradores',
         ]);
 
@@ -78,6 +79,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name'  => 'Módulo de newsletter',
             'topic'         => ConfigurationTopics::Modules,
             'input_type'    => 'boolean',
+            'value'         => false,
             'description'   => 'Envía novedades y nuevos lanzamientos a tus clientes suscritos'
         ]);
     }

@@ -9,7 +9,7 @@ return [
 
     'modules' => [
         'title'       => 'Módulos del sistema',
-        'description' => 'Activa o desactiva funcionalidades.'
+        'description' => 'Activa o desactiva funcionalidades específicas.'
     ],
 
     'ecommerce_data' => [

@@ -14,7 +14,6 @@
                     <hr class="mb-6">
 
                     <h4 class="text-sm text-gray-500 text-center font-semibold mt-3 pb-2">Información general</h4>
-                    <hr class="mb-3">
             
                     <div class="mb-6">
                         <label class="block text-sm font-semibold leading-6 text-gray-500">
@@ -82,8 +81,8 @@
                     </div>
 
                     @if (!$this->operator)
+                    
                         <h4 class="text-sm text-gray-500 text-center font-semibold mt-3 pb-2">Acceso al panel</h4>
-                        <hr class="mb-3">
 
                         <div class="mb-6">
                             <label class="block text-sm font-semibold leading-6 text-gray-500">
