@@ -36,7 +36,7 @@
                         </div>
 
                         @error('ecommerce_logo')
-                            <small class="text-red-500 text-xs">Aca va ir el error</small>
+                            <small class="text-red-500 text-xs">{{ $message }}</small>
                         @enderror
 
                     </div>
@@ -90,7 +90,7 @@
                                 id="{{ $config->key }}"
                                 wire:model.blur="{{ $config->key }}"
                                 value="{{ $config->value }}"
-                                :type="$config->input_type" 
+                                type="{{ $config->input_type }}" 
                                 autocomplete="off"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 
                                 shadow-sm ring-1 ring-inset placeholder:text-gray-400
