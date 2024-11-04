@@ -93,7 +93,7 @@
                                         @csrf
                                         <button type="submit"
                                             class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
-                                            role="menuitem" tabindex="-1" id="user-menu-item-2">
+                                            role="menuitem" tabindex="-1" id="user-desktop-logout">
                                             Cerrar sesión
                                         </button>
                                     </form>
@@ -106,7 +106,7 @@
                         <!-- Mobile menu button -->
                         <button @click="mobileMenuOpen = !mobileMenuOpen" type="button"
                             class="relative inline-flex items-center justify-center rounded-md p-2 
-            text-gray-400 focus:outline-none">
+                            text-gray-400 focus:outline-none">
                             <span class="absolute -inset-0.5"></span>
                             <span class="sr-only">Open main menu</span>
                             <!-- Menu open: "hidden", Menu closed: "block" -->
@@ -158,7 +158,7 @@
                             @csrf
                             <button type="submit"
                                 class="block rounded-md px-3 py-2 text-base font-medium text-gray-300" role="menuitem"
-                                tabindex="-1" id="user-menu-item-2">
+                                tabindex="-1" id="user-mobile-logout">
                                 Cerrar sesión
                             </button>
                         </form>

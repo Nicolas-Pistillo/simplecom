@@ -3,10 +3,6 @@
 @section('title')
     Comercios - <span class="text-blue-600"> {{ $tenant->ecommerce_name }} </span>
 @endsection
-
-@section('head')
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
-@endsection
     
 @section('content')
     <x-button type="secondary" class="inline-flex items-center" href="{{ route('superadmin.tenants.index') }}">

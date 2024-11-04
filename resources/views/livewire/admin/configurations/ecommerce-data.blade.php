@@ -13,14 +13,14 @@
                 {{ config('config_topics.ecommerce_data.description') }}
             </p>
 
-            <div class="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
+            <div class="mt-10 space-y-8 border-b border-gray-900/10 pb-4 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
 
                 {{-- Ecommerce logo --}}
                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
 
-                    <label for="ecommerce_logo" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                    <label for="ecommerce_logo" class="block text-sm font-semibold leading-6 text-gray-900 sm:pt-1.5">
                         Logo
-                        <h5 class="text-xs text-gray-500">Medidas recomendadas: 270 x 100</h5>
+                        <h5 class="text-xs text-gray-500 font-medium">Medidas recomendadas: 220 x 40</h5>
                     </label>
 
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
@@ -44,9 +44,9 @@
 
                 {{-- Whatsapp Phone --}}
                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:pt-6 sm:pb-3">
-                    <label for="whatsapp" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                    <label for="whatsapp" class="block font-semibold text-sm leading-6 text-gray-900 sm:pt-1.5">
                         Número de whatsapp
-                        <h5 class="text-xs text-gray-500">Whatsapp para consultas directas de clientes</h5>
+                        <h5 class="text-xs text-gray-500 font-medium">Whatsapp para consultas directas de clientes</h5>
                     </label>
 
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
@@ -78,10 +78,10 @@
 
                 @foreach ($configurations as $config)
                     <div wire:key='{{ $config->id }}' class="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:py-6">
-                        <label for="{{ $config->key }}" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                        <label for="{{ $config->key }}" class="block text-sm font-semibold leading-6 text-gray-900 sm:pt-1.5">
                             {{ $config->display_name }} 
                             @if ($config->required) <sup class="text-red-500">*</sup> @endif
-                            <h5 class="text-xs text-gray-500">{{ $config->description }}</h5>
+                            <h5 class="text-xs text-gray-500 font-medium">{{ $config->description }}</h5>
                         </label>
 
                         <div class="relative mt-2 sm:col-span-2 sm:mt-0">

@@ -23,11 +23,11 @@ class EcommerceData extends Component
     public function save()
     {
         $this->validate([
-            'ecommerce_logo'      => 'required',
+            'ecommerce_logo'      => 'nullable',
             'fisical_address'     => 'required',
-            'ecommerce_instagram' => 'required',
+            'ecommerce_instagram' => 'nullable',
             'attention_schedule'  => 'required',
-            'contact_whatsapp'    => 'required|url'
+            'contact_whatsapp'    => 'required'
         ]);
     }
 

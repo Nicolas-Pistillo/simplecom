@@ -72,7 +72,7 @@
                                     <div wire:loading wire:target='ecommerceLogo' class="w-full mx-auto">
                                         <x-spinner />
                                     </div>
-                                    <small class="font-extralight text-xs">Medidas recomendadas: 270 x 100</small>
+                                    <small class="font-extralight text-xs">Medidas recomendadas: 220 x 40</small>
                                     @error('ecommerceLogo')
                                         <br>
                                         <small class="font-extralight text-red-500 text-xs"> {{ $message }} </small>
