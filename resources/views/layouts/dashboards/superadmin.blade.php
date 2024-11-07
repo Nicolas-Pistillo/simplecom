@@ -85,10 +85,6 @@
                                             {{ Auth::user()->email }} </p>
                                     </div>
                                     <!-- Active: "bg-gray-100", Not Active: "" -->
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
                                     <form action="{{ route('superadmin.logout') }}" method="post">
                                         @csrf
                                         <button type="submit"
@@ -150,10 +146,6 @@
                         </div>
                     </div>
                     <div class="mt-3 space-y-1 px-2">
-                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300">Your
-                            Profile</a>
-                        <a href="#"
-                            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300">Settings</a>
                         <form action="{{ route('superadmin.logout') }}" method="post">
                             @csrf
                             <button type="submit"
