@@ -34,7 +34,7 @@
                 <div class="absolute bottom-4 right-4 flex items-center justify-center gap-x-6">
                     <a href="{{ route('simplecom.landing') }}" target="_blank">
                         <img src="{{ URL::to('img/simplecom/png/logo-color.png') }}" alt="Simplecom logo"
-                        class="rounded-full h-28 sm:h-32 transition duration-300 hover:shadow-2xl" title="Visitar sitio oficial de Simplecom">
+                        class="rounded-full h-28 transition duration-300 hover:shadow-2xl" title="Visitar sitio oficial de Simplecom">
                     </a>
                 </div>
             @endif

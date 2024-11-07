@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Operators;
 
 use App\Models\Operator;
+use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -11,6 +12,8 @@ use Spatie\Permission\Models\Role;
 
 class Upsert extends Component
 {
+    use WithNotifications;
+
     public $operator, $name, $email, $password, $password_confirmation, $role, $area;
 
     public $notificationMessage, $drawerTitle, $roles;
@@ -62,9 +65,11 @@ class Upsert extends Component
     {
         $this->operator->delete();
         $this->dispatch('close-delete-dialog');
-
-        $this->notificationMessage = "Eliminaste al operador {$this->operator->name}";
-        $this->dispatch('open-notification');
+        
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Eliminaste al operador {$this->operator->name}"
+        ]);
 
         Log::channel('resources')->info("Operador eliminado", [
             'tenant'      => tenant('name'),
@@ -116,8 +121,10 @@ class Upsert extends Component
 
             $this->resetDrawer();
 
-            $this->notificationMessage = "Nuevo operador creado";
-            $this->dispatch('open-notification');
+            $this->notify([
+                'type'  => 'success',
+                'title' => "Nuevo operador creado"
+            ]);
 
             return $this->dispatch('close-drawer');
         }
@@ -147,8 +154,11 @@ class Upsert extends Component
 
         $this->resetDrawer();
 
-        $this->notificationMessage = "Operador actualizado con éxito";
-        $this->dispatch('open-notification');
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Operador actualizado con éxito"
+        ]);
+        
         $this->dispatch('close-drawer');
     }
 

@@ -16,7 +16,7 @@
 
             @if (Session::has('tenant_created'))
                 <x-alert class="mb-6 animate__bounceInLeft" type="success" dismissible>
-                    Tenant creado exitosamente
+                    Comercio creado exitosamente
                 </x-alert>
             @endif
 
