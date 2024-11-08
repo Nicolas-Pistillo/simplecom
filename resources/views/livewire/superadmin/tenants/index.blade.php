@@ -22,7 +22,7 @@
 
             @if (Session::has('tenant_updated'))
                 <x-alert class="mb-6 animate__bounceInLeft" type="success" dismissible>
-                    Tenant actualizado exitosamente
+                    Comercio actualizado exitosamente
                 </x-alert>
             @endif
 

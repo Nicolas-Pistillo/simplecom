@@ -26,6 +26,15 @@
     display: none !important;
 }
 
+[hover-scrollbar] {
+    overflow-x: 'visible';
+    overflow-y: hidden;
+}
+
+[hover-scrollbar]:hover {
+    overflow-y: auto
+}
+
 /* prevent selectable element */
 .no-select {
     -webkit-tap-highlight-color: transparent;

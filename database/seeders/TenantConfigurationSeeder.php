@@ -52,8 +52,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name'  => 'Instagram',
             'description'   => 'Link al instagram del comercio',
             'input_type'    => 'url',
-            'topic'         => ConfigurationTopics::EcommerceData,
-            'show_in_setup' => true
+            'topic'         => ConfigurationTopics::EcommerceData
         ]);
 
         Configuration::create([
@@ -61,8 +60,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name'  => 'Canal de youtube',
             'description'   => 'Link al canal de youtube del comercio',
             'input_type'    => 'url',
-            'topic'         => ConfigurationTopics::EcommerceData,
-            'show_in_setup' => true
+            'topic'         => ConfigurationTopics::EcommerceData
         ]);
 
         Configuration::create([

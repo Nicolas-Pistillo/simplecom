@@ -15,8 +15,7 @@ class Setup extends Component
 
     public $ecommerceLogo, $ecommerceLogoPreview, $ecommerceColor;
 
-    public $fisical_address, $attention_schedule, $contact_email, $contact_whatsapp,
-    $ecommerce_instagram, $ecommerce_youtube;
+    public $fisical_address, $attention_schedule, $contact_email, $contact_whatsapp;
 
     public $configurationModels;
 
@@ -30,9 +29,7 @@ class Setup extends Component
         'fisical_address'     => 'dirección fisica',
         'attention_schedule'  => 'horarios de atención',
         'contact_email'       => 'email de contacto',
-        'contact_whatsapp'    => 'whatsapp',
-        'ecommerce_instagram' => 'link a instagram',
-        'ecommerce_youtube'   => 'link a youtube'
+        'contact_whatsapp'    => 'whatsapp'
     ];
 
     private function configValue($key)
@@ -52,9 +49,7 @@ class Setup extends Component
             'fisical_address'     => $this->configValue('fisical_address'),
             'attention_schedule'  => $this->configValue('attention_schedule'),
             'contact_email'       => $this->configValue('contact_email'),
-            'contact_whatsapp'    => $this->configValue('contact_whatsapp'),
-            'ecommerce_instagram' => $this->configValue('ecommerce_instagram'),
-            'ecommerce_youtube'   => $this->configValue('ecommerce_youtube')
+            'contact_whatsapp'    => $this->configValue('contact_whatsapp')
         ]);
     }
 
@@ -102,9 +97,7 @@ class Setup extends Component
             'fisical_address'     => 'nullable|string',
             'attention_schedule'  => 'nullable|string',
             'contact_email'       => 'required|email',
-            'contact_whatsapp'    => 'nullable|numeric',
-            'ecommerce_instagram' => 'nullable|url',
-            'ecommerce_youtube'   => 'nullable|url'
+            'contact_whatsapp'    => 'nullable|numeric'
         ]);
 
         foreach($fields as $key => $value)
