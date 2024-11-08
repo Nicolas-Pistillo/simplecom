@@ -6,9 +6,13 @@
             <img src="{{ $product->first_image }}"
             class="w-full h-56 transition-all duration-700 object-cover group-hover:scale-[1.03]">
 
-            <div class="absolute top-3 left-0">
-                <h6 class="text-center py-1 px-2 rounded-r-full bg-red-400 text-white text-xs">Destacado</h6>
-            </div>
+            @if ($product->featured)
+                <div class="absolute top-0 left-0 transition duration-200" :class="hoverOnProduct ? 'opacity-40' : 'opacity-100'">
+                    <h6 class="text-center font-semibold py-2 tracking-wider px-3 rounded-r-full bg-red-400 text-white text-xs">
+                        Destacado
+                    </h6>
+                </div>
+            @endif
 
             <div x-show="hoverOnProduct" x-cloak x-transition class="p-0.5 absolute top-1 right-1">
                 <x-icon @click.prevent="" code="favorite" x-tooltip.raw="Añadir a favoritos" 

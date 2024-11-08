@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Forms;
 
-use App\Models\Tag;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
