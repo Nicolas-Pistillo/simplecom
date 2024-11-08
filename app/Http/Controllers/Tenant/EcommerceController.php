@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
 class EcommerceController extends Controller
@@ -27,6 +28,11 @@ class EcommerceController extends Controller
         $product->load('images', 'category.father.father', 'brand', 'tags', 'variantOptions');
 
         return view('ecommerce.product-detail', compact('product'));
+    }
+
+    public function checkout()
+    {
+        return view('ecommerce.checkout');
     }
 
     public function contact(Request $request)

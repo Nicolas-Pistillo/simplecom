@@ -5,7 +5,6 @@ declare(strict_types=1);
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
-use App\Http\Middleware\EcommerceRoute;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -26,6 +25,8 @@ Route::middleware([
 
         Route::get('productos/{productName}/{product}', [EcommerceController::class, 'productDetail'])
             ->name('ecommerce.product-detail');
+
+        Route::get('checkout', [EcommerceController::class, 'checkout'])->name('ecommerce.checkout');
 
         Route::get('sobre-nosotros', [EcommerceController::class, 'about'])->name('ecommerce.about');
 

@@ -2,11 +2,9 @@
 
 namespace App\Livewire\Ecommerce;
 
-use App\Models\ProductVariant;
 use App\Services\ProductService;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class CartPanel extends Component

@@ -114,22 +114,28 @@
 
             @if (Cart::count() > 0)
                 <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+
                     <div class="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
                         <p>${{ priceFormat(Cart::subtotal()) }} </p>
                     </div>
+
                     <p class="mt-0.5 text-sm text-gray-500">
                         Las tarifas de envío o impuestos se calcularán durante el checkout.
                     </p>
-                    <x-button class="w-full mt-6" size="big">Finalizar compra</x-button>
-                    <div class="mt-5 flex justify-center text-center text-sm text-gray-500">
-                        <p>
-                            or
-                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
-                                Continue Shopping
-                                <span aria-hidden="true"> &rarr;</span>
-                            </button>
-                        </p>
+
+                    <x-button :href="route('ecommerce.checkout')" size="big"
+                    class="inline-block w-full text-center mt-6">
+                        Finalizar compra
+                    </x-button>
+
+                    <div class="mt-3 flex justify-center text-center text-sm text-gray-500">
+                        <div class="flex items-center">
+                            <a href="{{ route('ecommerce.products') }}" class="font-medium text-blue-600 hover:text-blue-500 flex items-center cursor-pointer">
+                                continuar comprando
+                                <x-icon code="arrow_forward" class="ml-1" />
+                            </a>
+                        </div>
                     </div>
                 </div>
             @endif
