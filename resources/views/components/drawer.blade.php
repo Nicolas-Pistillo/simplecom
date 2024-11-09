@@ -6,7 +6,7 @@
     class="fixed inset-0 bg-gray-700 bg-opacity-60 transition-opacity"></div>
 
     <div class="fixed inset-0 cursor-default overflow-hidden">
-        <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden z-50">
             <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
 
                 <div x-show="{{ $ref }}"

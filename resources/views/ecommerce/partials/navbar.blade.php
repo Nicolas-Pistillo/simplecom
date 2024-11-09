@@ -221,20 +221,23 @@
                                 hover:bg-gray-200 focus:outline-none focus:ring" />
 
                                 <!-- Cart -->
-                                <div class="relative ml-3">
-                                    <x-icon code="shopping_cart" @click="cartMenuOpen = true"
-                                    x-tooltip.raw.placement.bottom="Carrito"
-                                    class="transition colors cursor-pointer bg-gray-100
-                                    text-gray-600 p-2 rounded-full hover:bg-gray-200 
-                                    focus:outline-none focus:ring duration-300" />
 
-                                    @if (Cart::count() > 0)
-                                        <x-badge color="green"
-                                            class="absolute -bottom-3 right-0
-                                        !rounded-full">
-                                            {{ Cart::content()->count() }} </x-badge>
-                                    @endif
-                                </div>
+                                @if (!Route::is('ecommerce.checkout'))
+                                    <div class="relative ml-3">
+                                        <x-icon code="shopping_cart" @click="cartMenuOpen = true"
+                                        x-tooltip.raw.placement.bottom="Carrito"
+                                        class="transition colors cursor-pointer bg-gray-100
+                                        text-gray-600 p-2 rounded-full hover:bg-gray-200 
+                                        focus:outline-none focus:ring duration-300" />
+
+                                        @if (Cart::count() > 0)
+                                            <x-badge color="green"
+                                                class="absolute -bottom-3 right-0
+                                            !rounded-full">
+                                                {{ Cart::content()->count() }} </x-badge>
+                                        @endif
+                                    </div>
+                                @endif
 
                             </div>
                         </div>

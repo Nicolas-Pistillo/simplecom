@@ -1,5 +1,5 @@
 <div>
-    <x-drawer ref="cartMenuOpen" containerClasses="!p-0">
+    <x-drawer ref="cartMenuOpen" containerClasses="!p-0 relative z-50">
         <div class="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
 
             <div class="flex items-start justify-between border-b px-4 sm:px-6 pt-6 pb-2">

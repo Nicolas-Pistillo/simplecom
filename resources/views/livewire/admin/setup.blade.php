@@ -41,7 +41,7 @@
                             </div>
                         </div>
 
-                        <x-button wire:click='beginSetup' type="primary"
+                        <x-button size="large" wire:click='beginSetup' type="primary"
                             class="flex items-center justify-center w-full">
                             Comenzar ahora
                             <x-icon code="arrow_forward" class="ml-4" />

@@ -536,7 +536,7 @@
                         </form>
 
                         <!-- Product grid -->
-                        <div class="lg:col-span-3 flex justify-start items-start 
+                        <div class="lg:col-span-3 flex justify-start items-end 
                         flex-wrap gap-x-4 gap-y-8 h-max">
                             @foreach ($products as $product)
                                 <x-ecommerce.product-card :product="$product" />

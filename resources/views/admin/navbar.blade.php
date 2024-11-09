@@ -11,7 +11,7 @@
                 @endcan
 
                 @can('Editar configuraciones')
-                    <x-navbar-item route="admin.configurations.index" icon="settings" title="Configuracion" />
+                    {{-- <x-navbar-item route="admin.configurations.index" icon="settings" title="Configuracion" /> --}}
                 @endcan
                 
             </ul>
