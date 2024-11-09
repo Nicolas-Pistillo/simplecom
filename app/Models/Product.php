@@ -38,18 +38,13 @@ class Product extends Model
 
     public function getCurrentPriceAttribute()
     {
-        return $this->calculateDiscount();
+        if (!$this->hasDiscount()) return $this->price;
+        return $this->price - (($this->price * $this->discount_percent) / 100);
     }
 
     public function hasDiscount()
     {
         return !empty($this->discount_percent) && $this->discount_percent > 0;
-    }
-
-    public function calculateDiscount()
-    {
-        if (!$this->hasDiscount()) return $this->price;
-        return $this->price - (($this->price * $this->discount_percent) / 100);
     }
 
     public function images()

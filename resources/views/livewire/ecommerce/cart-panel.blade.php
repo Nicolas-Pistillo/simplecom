@@ -13,7 +13,7 @@
             </div>
 
             <div class="flex-1 {{ Cart::count() > 0 ? 'overflow-y-auto' : 'overflow-y-hidden' }} 
-                overflow-x-hidden px-4 py-6 sm:px-6 scroll-mx-16">
+                overflow-x-hidden px-4 py-6 sm:px-6 scroll-mx-16" scrollbar-thin>
 
                 @if (Cart::count() > 0)
 
