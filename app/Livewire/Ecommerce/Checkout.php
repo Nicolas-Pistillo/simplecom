@@ -2,16 +2,16 @@
 
 namespace App\Livewire\Ecommerce;
 
-use App\Services\ProductService;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
+use App\Services\ProductService;
 
-class CartPanel extends Component
+class Checkout extends Component
 {
     use WithNotifications;
 
-    protected $listeners = ['updated-cart' => '$refresh'];
+    public $shippingOption;
 
     public function changeQty($operation, $rowId)
     {
@@ -33,20 +33,26 @@ class CartPanel extends Component
         $this->notify([
             'type'      => 'success',
             'title'     => 'Carrito actualizado',
-            'position'  => 'top-left'
+            'position'  => 'bottom-right'
         ]);
-
-        $this->dispatch('updated-cart');
     }
 
     public function removeItem($rowId)
     {
-        $this->dispatch('updated-cart');
         Cart::remove($rowId);
+        
+        if (Cart::count() > 0)
+        {
+            $this->notify([
+                'type'      => 'success',
+                'title'     => 'Carrito actualizado',
+                'position'  => 'bottom-right'
+            ]);
+        }
     }
 
     public function render()
     {
-        return view('livewire.ecommerce.cart-panel');
+        return view('livewire.ecommerce.checkout');
     }
 }

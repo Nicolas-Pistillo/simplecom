@@ -35,6 +35,11 @@
     overflow-y: auto
 }
 
+[scrollbar-thin]
+{
+    scrollbar-width: thin !important;
+}
+
 /* prevent selectable element */
 .no-select {
     -webkit-tap-highlight-color: transparent;

@@ -180,7 +180,7 @@
                         <!-- Mobile menu toggle -->
                         <div class="flex flex-1 items-center lg:hidden">
                             <x-icon @click="mobileMenuOpen = true" code="menu"
-                                class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring" />
+                                class="transition colors duration-300 cursor-pointer text-gray-600 mr-2 focus:outline-none focus:ring" />
                         </div>
 
                         <!-- Main search -->
