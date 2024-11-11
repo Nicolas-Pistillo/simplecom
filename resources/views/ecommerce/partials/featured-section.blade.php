@@ -6,10 +6,10 @@
 
     <div class="w-full relative">
         <div class="swiper featured-products-slider swiper-container relative mb-4">
-            <div class="swiper-wrapper relative w-full h-max pb-2">
+            <div class="swiper-wrapper flex items-end relative w-full h-max pb-2">
                 @foreach ($featuredProducts as $product)
                     <div class="swiper-slide">
-                        <div class="w-full flex justify-center items-start">
+                        <div class="w-full flex justify-center items-end">
                             <x-ecommerce.product-card :product="$product" />
                         </div>
                     </div>

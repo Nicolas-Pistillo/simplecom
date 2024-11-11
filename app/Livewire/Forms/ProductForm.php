@@ -11,7 +11,7 @@ class ProductForm extends Form
     #[Validate('nullable|boolean')]
     public $published = false;
 
-    #[Validate('required|min:3|max:60', as: 'nombre')]
+    #[Validate('required|min:3|max:70', as: 'nombre')]
     public $name;
 
     #[Validate('nullable|string', as: 'código')]

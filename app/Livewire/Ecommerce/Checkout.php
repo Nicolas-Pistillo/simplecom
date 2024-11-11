@@ -13,6 +13,11 @@ class Checkout extends Component
 
     public $shippingOption;
 
+    public function checkUser()
+    {
+        
+    }
+
     public function changeQty($operation, $rowId)
     {
         $cartItem = Cart::get($rowId);

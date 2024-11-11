@@ -38,4 +38,9 @@ Before to start, It's important for you already have installed Docker or Docker 
 ```
     ./vendor/bin/sail artisan migrate --seed
 ```
+- Install and run the assets compiler
+```
+    ./vendor/bin/sail npm install
+    ./vendor/bin/sail npm run dev
+```
 - Enjoy developing 😎

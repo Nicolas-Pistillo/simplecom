@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
+use App\Http\Controllers\Tenant\SocialiteController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -19,6 +20,11 @@ Route::middleware([
     /*****  TENANT ECOMMERCE ROUTES  *****/
     Route::middleware(['tenant_setuped', 'tenant_active'])->group(function() {
 
+        // SSO user login and registration
+        Route::get('sso/{provider}/redirect', [SocialiteController::class, 'redirect']);
+        Route::get('sso/{provider}/callback', [SocialiteController::class, 'callback']);
+
+        // Ecommerce navigation
         Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');
 
         Route::get('productos', [EcommerceController::class, 'products'])->name('ecommerce.products');

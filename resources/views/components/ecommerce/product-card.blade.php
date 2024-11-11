@@ -8,7 +8,7 @@
 
             @if ($product->featured)
                 <div class="absolute top-0 left-0 transition duration-200" :class="hoverOnProduct ? 'opacity-40' : 'opacity-100'">
-                    <h6 class="text-center font-semibold py-2 tracking-wider px-3 rounded-r-full bg-red-400 text-white text-xs">
+                    <h6 class="text-center font-semibold py-2 tracking-wider px-3 rounded-br-xl bg-red-400 text-white text-xs">
                         Destacado
                     </h6>
                 </div>
@@ -27,7 +27,7 @@
         group-hover:bg-gray-50 group-hover:border-gray-300"
         :class="hoverOnProduct ? '!shadow-lg' : '!shadow-sm'">
 
-            <h5 class="mb-2 line-clamp-1 text-sm font-semibold">
+            <h5 class="mb-2 line-clamp-2 text-sm font-semibold">
                 {{ $product->name }}
             </h5>
 

@@ -6,7 +6,7 @@
                 Finalizá tu compra</h1>
         </div>
 
-        <main class="lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden">
+        <main class="lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden pb-16">
 
             <!-- Order summary -->
             <div aria-labelledby="summary-heading" class="mx-auto lg:mr-10 flex w-full max-w-md flex-col bg-gray-50">
@@ -58,7 +58,7 @@
                                             <button wire:click="removeItem('{{ $product->rowId }}')" 
                                             x-tooltip.raw.placement.left="Quitar del carrito" type="button"
                                             class="-m-2.5 flex items-center transition
-                                            duration-300 justify-center bg-white p-2.5 bg-inherit text-gray-400 
+                                            duration-300 justify-center bg-inherit p-2.5 bg-inherit text-gray-400 
                                             hover:text-red-500">
                                                 <x-icon code="delete" />
                                             </button>
@@ -141,8 +141,34 @@
                 class="flex-auto overflow-y-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-24 lg:pt-0">
 
                 <div class="mx-auto max-w-lg">
-                    <h2 class="text-lg font-medium text-gray-900">Tus datos</h2>
-                    <form class="mt-6">
+                    <h2 class="text-lg font-medium text-gray-900">Inicia sesión o registrate</h2>
+                    <div class="mt-6">
+
+                        <div class="grid grid-cols-12 gap-x-4 gap-y-6">
+
+                            <div class="col-span-full sm:col-span-6">
+                                <label for="email-address" class="block text-sm font-medium text-gray-700">
+                                    Email
+                                </label>
+                                <div class="mt-1">
+                                    <input type="email" id="email-address" name="email-address" autocomplete="email"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                </div>
+                            </div>
+
+                            <div class="col-span-full sm:col-span-6">
+                                <label for="" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                                <div class="mt-1">
+                                    <input type="password" name="" id=""
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <x-button wire:click="checkUser" size="large" class="mt-3">Continuar</x-button>
+
+                        {{-- 
+                            Form example
                         <div class="grid grid-cols-12 gap-x-4 gap-y-6">
 
                             <div class="col-span-full">
@@ -244,8 +270,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             Payment details stored in plain text
-                        </p>
-                    </form>
+                        </p> --}}
+                    </div>
                 </div>
             </section>
         </main>
