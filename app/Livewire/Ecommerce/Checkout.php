@@ -2,20 +2,26 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Livewire\Forms\CheckoutForm;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 use App\Services\ProductService;
+use Illuminate\Support\Facades\Http;
 
 class Checkout extends Component
 {
     use WithNotifications;
 
+    public CheckoutForm $form;
+
     public $shippingOption;
 
     public function checkUser()
     {
-        
+        $req = Http::withToken(env('ENVIA_TOKEN'))->get('https://geocodes.envia.com/zipcode/AR/2000');
+
+        dd($req->json());
     }
 
     public function changeQty($operation, $rowId)

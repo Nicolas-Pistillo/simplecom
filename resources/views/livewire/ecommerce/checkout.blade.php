@@ -30,7 +30,7 @@
 
                                 <div class="shrink-0">
                                     <img src="{{ $product->options->image_url }}" alt="{{ $product->name }}"
-                                        class="w-20 rounded-md">
+                                        class="w-14 h-14 rounded-md">
                                 </div>
 
                                 <div class="ml-6 flex flex-1 flex-col">
@@ -58,7 +58,7 @@
                                             <button wire:click="removeItem('{{ $product->rowId }}')" 
                                             x-tooltip.raw.placement.left="Quitar del carrito" type="button"
                                             class="-m-2.5 flex items-center transition
-                                            duration-300 justify-center bg-inherit p-2.5 bg-inherit text-gray-400 
+                                            duration-300 justify-center p-2.5 bg-inherit text-gray-400 
                                             hover:text-red-500">
                                                 <x-icon code="delete" />
                                             </button>
@@ -141,31 +141,28 @@
                 class="flex-auto overflow-y-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-24 lg:pt-0">
 
                 <div class="mx-auto max-w-lg">
-                    <h2 class="text-lg font-medium text-gray-900">Inicia sesión o registrate</h2>
+                    <h2 class="text-lg font-semibold text-gray-900">Calcular envío</h2>
                     <div class="mt-6">
 
-                        <div class="grid grid-cols-12 gap-x-4 gap-y-6">
+                        <div class="grid grid-cols-12 gap-x-4 gap-y-3">
 
                             <div class="col-span-full sm:col-span-6">
-                                <label for="email-address" class="block text-sm font-medium text-gray-700">
-                                    Email
+                                <label for="shipping_postal_code" class="block text-sm font-medium text-gray-700">
+                                    Código postal
                                 </label>
                                 <div class="mt-1">
-                                    <input type="email" id="email-address" name="email-address" autocomplete="email"
-                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                    <input type="email" id="shipping_postal_code" name="shipping_postal_code"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 
+                                    focus:ring-blue-500 sm:text-sm">
                                 </div>
                             </div>
 
-                            <div class="col-span-full sm:col-span-6">
-                                <label for="" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                                <div class="mt-1">
-                                    <input type="password" name="" id=""
-                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                                </div>
+                            <div class="col-span-full sm:col-span-6 self-end">
+                                <x-button type="secondary" wire:click="checkUser" size="large">Calcular</x-button>
                             </div>
+
+                            <small class="text-red-500 col-span-full sm:col-span-8">Por favor escriba el código postal</small>
                         </div>
-
-                        <x-button wire:click="checkUser" size="large" class="mt-3">Continuar</x-button>
 
                         {{-- 
                             Form example
