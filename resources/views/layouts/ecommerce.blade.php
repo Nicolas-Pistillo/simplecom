@@ -184,7 +184,7 @@
       
     </div>
 
-    <div class="pt-16 bg-gray-50"></div>
+    <div class="pt-24 bg-gray-50"></div>
 
     {{-- Page main content --}}
     <main class="bg-gray-50">

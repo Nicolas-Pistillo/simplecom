@@ -24,7 +24,7 @@
         {{-- Body --}}
         <div class="border border-t-0 border-gray-200 w-full rounded-b-xl pb-5 pt-2 px-3 
         shadow-transparent transition duration-500 group-hover:shadow-gray-300 
-        group-hover:bg-gray-50 group-hover:border-gray-300"
+        group-hover:bg-gray-50 group-hover:border-gray-300 min-h-[120px] flex flex-col justify-between"
         :class="hoverOnProduct ? '!shadow-lg' : '!shadow-sm'">
 
             <h5 class="mb-2 line-clamp-2 text-sm font-semibold">
