@@ -55,9 +55,9 @@
                                         </div>
 
                                         <div class="ml-4 flow-root shrink-0">
-                                            <button wire:click="removeItem('{{ $product->rowId }}')" 
-                                            x-tooltip.raw.placement.left="Quitar del carrito" type="button"
-                                            class="-m-2.5 flex items-center transition
+                                            <button wire:click="removeItem('{{ $product->rowId }}')"
+                                                x-tooltip.raw.placement.left="Quitar del carrito" type="button"
+                                                class="-m-2.5 flex items-center transition
                                             duration-300 justify-center p-2.5 bg-inherit text-gray-400 
                                             hover:text-red-500">
                                                 <x-icon code="delete" />
@@ -120,7 +120,6 @@
                             <dt class="text-sm">Envío</dt>
                             <dd class="text-sm font-medium text-gray-900">
                                 @if ($shippingOption)
-                                    
                                 @else
                                     No calculado
                                 @endif
@@ -140,8 +139,69 @@
             <section aria-labelledby="payment-heading"
                 class="flex-auto overflow-y-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-24 lg:pt-0">
 
-                <div class="mx-auto max-w-lg">
-                    <h2 class="text-lg font-semibold text-gray-900">Calcular envío</h2>
+                <div class="mx-auto max-w-xl">
+                    {{-- <h2 class="text-lg font-semibold text-gray-900">Calcular envío</h2> --}}
+
+                    <nav aria-label="Progress">
+                        <ol role="list" class="divide-y divide-gray-300 rounded-md border border-gray-300 md:flex md:divide-y-0">
+                            <li class="relative md:flex md:flex-1">
+                                <!-- Completed Step -->
+                                <div class="bg-gray-100 border-r group flex w-full items-center rounded-l-md">
+                                    <span class="flex items-center px-6 py-4 text-sm font-medium">
+                                        <span
+                                            class="flex size-10 shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
+                                            <svg class="size-6 text-white" viewBox="0 0 24 24" fill="currentColor"
+                                                aria-hidden="true" data-slot="icon">
+                                                <path fill-rule="evenodd"
+                                                    d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        <x-icon code="person" />
+                                        <span class="ml-4 text-sm font-medium text-gray-900">Tus datos</span>
+                                    </span>
+                                </div>
+                                <!-- Arrow separator for lg screens and up -->
+                                {{-- <div class="absolute overflow-hidden right-[-10px] top-0 hidden h-full w-5 md:block" aria-hidden="true">
+                                    <svg class="h-[57px] text-gray-300" viewBox="0 0 22 80" fill="none"
+                                        preserveAspectRatio="none">
+                                        <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke"
+                                            stroke="currentcolor" stroke-linejoin="round" />
+                                    </svg>
+                                </div> --}}
+                            </li>
+
+                            <li class="relative md:flex md:flex-1">
+                                <!-- Current Step -->
+                                <div class="group bg-gray-100 border-r flex w-full items-center">
+                                    <span class="flex items-center px-6 py-4 text-sm font-medium">
+                                        <span
+                                            class="flex size-10 shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
+                                            <svg class="size-6 text-white" viewBox="0 0 24 24" fill="currentColor"
+                                                aria-hidden="true" data-slot="icon">
+                                                <path fill-rule="evenodd"
+                                                    d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        <x-icon code="local_mall" />
+                                        <span class="ml-4 text-sm font-medium text-gray-900">Entrega</span>
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="relative md:flex md:flex-1">
+                                <!-- Upcoming Step -->
+                                <div class="group bg-gray-100 w-full rounded-r-md flex items-center">
+                                    <span class="flex items-center px-6 py-4 text-sm font-medium">
+                                        <x-icon code="check_circle" />
+                                        <span class="ml-4 text-sm font-medium text-gray-900">Confirmar</span>
+                                    </span>
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+
                     <div class="mt-6">
 
                         <div class="grid grid-cols-12 gap-x-4 gap-y-3">
@@ -152,7 +212,7 @@
                                 </label>
                                 <div class="mt-1">
                                     <input type="email" id="shipping_postal_code" name="shipping_postal_code"
-                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 
+                                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 
                                     focus:ring-blue-500 sm:text-sm">
                                 </div>
                             </div>
@@ -161,7 +221,8 @@
                                 <x-button type="secondary" wire:click="checkUser" size="large">Calcular</x-button>
                             </div>
 
-                            <small class="text-red-500 col-span-full sm:col-span-8">Por favor escriba el código postal</small>
+                            <small class="text-red-500 col-span-full sm:col-span-8">Por favor escriba el código
+                                postal</small>
                         </div>
 
                         {{-- 
