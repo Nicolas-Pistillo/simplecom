@@ -22,8 +22,9 @@ class CheckoutForm extends Form
     #[Validate('required|string', as: 'código de area')]
     public $customer_area_phone;
 
+    #[Validate('required|numeric', as: 'código postal')]
+    public $customer_postal_code;
+
     #[Validate('required|numeric', as: 'dirección')]
     public $address_id;
-
-
 }

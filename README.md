@@ -27,20 +27,20 @@ Before to start, It's important for you already have installed Docker or Docker 
 ```
 - Create the Application Key with artisan
 ```
-    ./vendor/bin/sail artisan key:generate
+    sail artisan key:generate
 ```
 - Add "mysql" as database host (DB_HOST=mysql) <br>
 - Run the application containers with sail
 ```
-    ./vendor/bin/sail up -d
+    sail up -d
 ```
 - Run the application migrations and seeders
 ```
-    ./vendor/bin/sail artisan migrate --seed
+    sail artisan migrate --seed
 ```
 - Install and run the assets compiler
 ```
-    ./vendor/bin/sail npm install
-    ./vendor/bin/sail npm run dev
+    sail npm install
+    sail npm run dev
 ```
 - Enjoy developing 😎
