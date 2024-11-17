@@ -5,8 +5,8 @@
     </h2>
 
     <div class="w-full relative">
-        <div class="swiper featured-products-slider swiper-container relative mb-4">
-            <div class="swiper-wrapper flex items-end relative w-full h-max pb-2">
+        <div class="swiper featured-products-slider swiper-container relative">
+            <div class="swiper-wrapper flex items-end relative w-full h-max pb-8">
                 @foreach ($featuredProducts as $product)
                     <div class="swiper-slide">
                         <div class="w-full flex justify-center items-end">

@@ -62,20 +62,20 @@
 
                             <div class="flex items-center gap-2">
                                 <button wire:click="changeQty('subtract' ,'{{ $product->rowId }}')"
-                                    class="group rounded-full border border-gray-200 shadow-sm shadow-transparent 
+                                class="group rounded-full border border-gray-200 shadow-sm shadow-transparent 
                                 p-2 flex items-center justify-center bg-white transition-all duration-500 hover:shadow-gray-200 
                                 hover:bg-gray-50 hover:border-gray-300 focus-within:outline-gray-300">
                                     <x-icon code="remove" style="font-size: 16px" />
                                 </button>
 
                                 <input type="text" readonly
-                                    class="border border-gray-200 rounded-full w-10
+                                class="border border-gray-200 rounded-full w-10
                                 aspect-square outline-none text-gray-900 font-semibold 
                                 text-sm py-1.5 px-3 bg-gray-100  text-center"
                                     placeholder="{{ $product->qty }}">
 
                                 <button wire:click="changeQty('add' ,'{{ $product->rowId }}')"
-                                    class="group rounded-full border border-gray-200 shadow-sm shadow-transparent 
+                                class="group rounded-full border border-gray-200 shadow-sm shadow-transparent 
                                 p-2 flex items-center justify-center bg-white transition-all duration-500 hover:shadow-gray-200 
                                 hover:bg-gray-50 hover:border-gray-300 focus-within:outline-gray-300">
                                     <x-icon code="add" style="font-size: 16px" />
@@ -99,12 +99,12 @@
                     ${{ priceFormat(Cart::subtotal()) }}
                 </dd>
             </div>
-            <div class="flex items-center justify-between">
+            {{-- <div class="flex items-center justify-between">
                 <dt class="text-sm">Impuestos</dt>
                 <dd class="text-sm font-medium text-gray-900">
                     ${{ priceFormat(Cart::tax()) }}
                 </dd>
-            </div>
+            </div> --}}
             <div class="flex items-center justify-between">
                 <dt class="text-sm">Envío</dt>
                 <dd class="text-sm font-medium text-gray-900">

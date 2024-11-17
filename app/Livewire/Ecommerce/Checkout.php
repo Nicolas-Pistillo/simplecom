@@ -17,7 +17,7 @@ class Checkout extends Component
 
     public CheckoutForm $form;
 
-    public $current_step = 'customer';
+    public $current_step = 'shipping';
 
     public $shipping_options, $selected_shipping;
 
@@ -27,52 +27,40 @@ class Checkout extends Component
 
         $postal_code = $this->form->customer_postal_code;
 
-        $req = Http::get("https://geocodes.envia.com/zipcode/AR/$postal_code");
+        $providers = Http::withToken(env('ENVIA_TEST_TOKEN'))->get("https://queries-test.envia.com/available-carrier/AR/0")->json();
+        $location_data = Http::get("https://geocodes.envia.com/zipcode/AR/$postal_code")->json();
 
-        dd($req->json());
+        // dd($providers);
 
-        /* $dataJson = '{
+        $dataJson = '{
             "origin": {
-                "name": "Alex",
-                "company": "envia",
-                "email": "noreply@envia.com",
-                "phone": "8110000ewdased000",
-                "street": "shreeji sadan 24 bhandarkar rd",
-                "number": "opposite matunga kabutar khana",
-                "district": "",
-                "city": "Monterrey",
-                "state": "NL",
+                "name": "Julian Caceres",
+                "company": "Andromeda Store",
+                "email": "noreply@andromedastore.com",
+                "phone": "11405060",
+                "street": "Prueba 113",
+                "number": "334",
+                "postalCode": "1879",
+                "city": "Quilmes Oeste",
+                "state": "BA",
                 "category": 1,
-                "country": "MX",
-                "postalCode": "66236",
-                "reference": "",
-                "coordinates": {
-                    "latitude": "19.027686",
-                    "longitude": "72.853462"
-                }
+                "country": "AR"
             },
             "destination": {
-                "name": "new delhi",
-                "company": "new delhi",
-                "email": "new@delhi.com",
-                "phone": "8180000000",
-                "street": "yashwant place commercial complex",
-                "number": "123",
-                "district": "",
-                "city": "Monterrey",
-                "state": "NL",
+                "name": "Martinsito",
+                "email": "noreply@andromedastore.com",
+                "phone": "11405060",
+                "street": "Prueba 113",
+                "number": "334",
+                "postalCode": "1880",
+                "city": "Berazategui",
+                "state": "BA",
                 "category": 1,
-                "country": "MX",
-                "postalCode": "66236",
-                "reference": "",
-                "coordinates": {
-                    "latitude": "28.578938",
-                    "longitude": "77.165053"
-                }
+                "country": "AR"
             },
             "packages": [
                 {
-                    "content": "shoes",
+                    "content": "zapatillas jordan",
                     "boxCode": "",
                     "amount": 1,
                     "type": "box",
@@ -89,25 +77,21 @@ class Checkout extends Component
                 }
             ],
             "shipment": {
-                "carrier": "fedex",
-                "service": "ground",
-                "type": 1
+                "carrier": "correoArgentino",
+                "type": "priority_suc"
             },
             "settings": {
                 "printFormat": "PDF",
                 "printSize": "STOCK_4X6",
-                "currency": "USD",
-                "cashOnDelivery" :"1000.00",
-                "comments": ""
-            },
-            "additionalServices": []
+                "currency": "ARS"
+            }
         }';
 
-        $req = Http::withToken(env('ENVIA_TOKEN'))
+        $req = Http::withToken(env('ENVIA_TEST_TOKEN'))
                 ->withBody($dataJson)
                 ->post('https://api-test.envia.com/ship/rate');
 
-        dd($req->json() ?? $req->status()); */
+        dd($req->json() ?? $req->status());
         
     }
 

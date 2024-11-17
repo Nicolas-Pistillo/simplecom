@@ -3,7 +3,8 @@
     @if (Cart::count() > 0)
         <div class="pt-10 pb-4 mb-6">
             <h1 class="text-3xl text-center font-bold tracking-tight text-gray-900">
-                Finalizá tu compra</h1>
+                Finalizá tu compra
+            </h1>
         </div>
 
         <div class="lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden pb-16">
@@ -19,25 +20,12 @@
 
                     {{-- Stepper --}}
                     <ul class="relative flex flex-col md:flex-row gap-2">
-                        <!-- Item -->
+                        
                         <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
                             <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <span class="font-semibold bg-{{tenant('color')}}-600 text-white p-2 w-8 h-8 flex justify-center items-center shrink-0 rounded-full">
-                                    1
-                                </span>
-                                <span class="ms-2 block grow md:grow-0 text-sm font-medium text-gray-800">
-                                    Tus datos
-                                </span>
-                            </div>
-                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 bg-gray-200 group-last:hidden"></div>
-                        </li>
-                        <!-- End Item -->
-                    
-                        <!-- Item -->
-                        <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
-                            <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <span class="p-2 w-8 h-8 flex justify-center items-center shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full">
-                                    2
+                                <span class="p-2 w-8 h-8 flex justify-center items-center shrink-0
+                                bg-{{tenant('color')}}-600 text-white font-semibold rounded-full shadow">
+                                    <x-icon code="deployed_code" />
                                 </span>
                                 <span class="ms-2 block grow md:grow-0 text-sm font-medium text-gray-800">
                                     Entrega
@@ -45,13 +33,25 @@
                             </div>
                             <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 bg-gray-200 group-last:hidden"></div>
                         </li>
-                        <!-- End Item -->
-                    
-                        <!-- Item -->
+
                         <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
                             <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <span class="p-2 w-8 h-8 flex justify-center items-center shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full">
-                                    3
+                                <span class="font-semibold bg-gray-100 text-gray-800 p-2 
+                                w-8 h-8 flex justify-center items-center shrink-0 rounded-full shadow">
+                                    <x-icon code="person_edit" />
+                                </span>
+                                <span class="ms-2 block grow md:grow-0 text-sm font-medium text-gray-800">
+                                    Tus datos
+                                </span>
+                            </div>
+                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 bg-gray-200 group-last:hidden"></div>
+                        </li>
+                    
+                        <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
+                            <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
+                                <span class="p-2 w-8 h-8 flex justify-center items-center shrink-0 bg-gray-100 
+                                font-medium text-gray-800 rounded-full shadow">
+                                    <x-icon code="credit_card" />
                                 </span>
                                 <span class="ms-2 block grow md:grow-0 text-sm font-medium text-gray-800">
                                     Confirmar
@@ -59,7 +59,7 @@
                             </div>
                             <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 bg-gray-200 group-last:hidden"></div>
                         </li>
-                        <!-- End Item -->
+
                     </ul>
 
                     {{-- Step Content --}}
