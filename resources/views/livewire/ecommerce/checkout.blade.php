@@ -23,35 +23,46 @@
                         
                         <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
                             <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <span class="p-2 w-8 h-8 flex justify-center items-center shrink-0
-                                bg-{{tenant('color')}}-600 text-white font-semibold rounded-full shadow">
-                                    <x-icon code="deployed_code" />
-                                </span>
-                                <span class="ms-2 block grow md:grow-0 text-sm font-medium text-gray-800">
-                                    Entrega
-                                </span>
+                                <div class="font-semibold p-2 w-8 h-8 flex justify-center items-center shrink-0 rounded-full shadow
+                                    @if($current_step === 1) bg-{{tenant('color')}}-600 text-white @endif
+                                    @if($current_step > 1) bg-green-600 text-white @endif">
+                                    @if ($current_step > 1) <x-icon code="check" wire:click='setStep(1)' class="cursor-pointer" /> @else 1 @endif
+                                </div>
+                                <div class="ms-2 block grow md:grow-0 text-sm font-medium @if($current_step > 1) text-green-600 @else text-gray-800 @endif">
+                                    <span @if($current_step > 1) class="cursor-pointer" wire:click="setStep(1)" @endif>
+                                        Tus datos
+                                    </span>
+                                </div>
                             </div>
-                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 bg-gray-200 group-last:hidden"></div>
+                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 group-last:hidden
+                            @if($current_step === 1) bg-gray-200 @else bg-green-600 @endif"></div>
                         </li>
 
                         <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
                             <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <span class="font-semibold bg-gray-100 text-gray-800 p-2 
-                                w-8 h-8 flex justify-center items-center shrink-0 rounded-full shadow">
-                                    <x-icon code="person_edit" />
-                                </span>
-                                <span class="ms-2 block grow md:grow-0 text-sm font-medium text-gray-800">
-                                    Tus datos
-                                </span>
+                                <div class="p-2 w-8 h-8 flex justify-center items-center shrink-0 font-semibold rounded-full shadow
+                                    @if($current_step === 2) bg-{{tenant('color')}}-600 text-white @endif
+                                    @if($current_step < 2) bg-gray-100 text-gray-800 @endif
+                                    @if($current_step > 2) bg-green-600 text-white @endif">
+                                    @if ($current_step > 2) <x-icon code="check" wire:click="setStep(2)" class="cursor-pointer" /> @else 2 @endif
+                                </div>
+                                <div class="ms-2 block grow md:grow-0 text-sm font-medium
+                                    @if($current_step > 2) text-green-600 @else text-gray-800 @endif">
+                                    <span @if($current_step > 2) class="cursor-pointer" wire:click="setStep(2)" @endif>
+                                        Entrega
+                                    </span>
+                                </div>
                             </div>
-                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 bg-gray-200 group-last:hidden"></div>
+                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 group-last:hidden
+                            @if($current_step > 2) bg-green-600 @else bg-gray-200 @endif"></div>
                         </li>
                     
                         <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
                             <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <span class="p-2 w-8 h-8 flex justify-center items-center shrink-0 bg-gray-100 
-                                font-medium text-gray-800 rounded-full shadow">
-                                    <x-icon code="credit_card" />
+                                <span class="p-2 w-8 h-8 flex justify-center items-center shrink-0 font-semibold rounded-full shadow
+                                @if($current_step === 3) bg-{{tenant('color')}}-600 text-white @endif
+                                @if($current_step < 3) bg-gray-100 text-gray-800 @endif">
+                                    3
                                 </span>
                                 <span class="ms-2 block grow md:grow-0 text-sm font-medium text-gray-800">
                                     Confirmar
@@ -65,15 +76,15 @@
                     {{-- Step Content --}}
                     <div class="mt-12">
 
-                        @if ($current_step === 'customer')
+                        @if ($current_step === 1)
                             @include('ecommerce.partials.checkout.customer')
                         @endif
 
-                        @if ($current_step === 'shipping')
+                        @if ($current_step === 2)
                             @include('ecommerce.partials.checkout.shipping')
                         @endif
 
-                        @if ($current_step === 'review')
+                        @if ($current_step === 3)
                             @include('ecommerce.partials.checkout.review')
                         @endif
 
@@ -91,7 +102,7 @@
 
             <h4 class="text-xl mb-2 font-semibold text-gray-900">Carrito vacío</h4>
             <p class="text-sm mb-3">Agrega productos para completar tu próxima compra</p>
-            <x-button :href="route('ecommerce.products')" type="secondary">Explorar productos</x-button>
+            <x-button :href="route('ecommerce.products')" type="soft">Explorar productos</x-button>
 
         </div>
     @endif

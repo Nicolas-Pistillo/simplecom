@@ -1,6 +1,7 @@
 <div x-data x-init="window.scrollTo({top: 0, behavior: 'smooth'})" 
 class="animate__animated animate__bounceInLeft">
 
+    {{-- Express Checkout - See later --}}
     <div class="grid grid-cols-12 gap-x-4 gap-y-3 items-end">
 
         <fieldset class="col-span-full border border-solid rounded-md 
@@ -54,105 +55,86 @@ class="animate__animated animate__bounceInLeft">
 
     <div class="grid grid-cols-12 gap-x-4 gap-y-6">
 
-        <div class="col-span-full">
-            <label for="email-address" class="block text-sm font-medium text-gray-700">Email
-                address</label>
+        <div class="col-span-full sm:col-span-6">
+            <label for="customer_name" class="block text-sm font-medium text-gray-700">
+                Nombre
+            </label>
             <div class="mt-1">
-                <input type="email" id="email-address" name="email-address" autocomplete="email"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-            </div>
-        </div>
+                <input type="text" wire:model.blur='form.customer_name' id="customer_name"
+                class="block w-full rounded-md border-gray-300 shadow-sm 
+                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
 
-        <div class="col-span-full">
-            <label for="name-on-card" class="block text-sm font-medium text-gray-700">Name on
-                card</label>
-            <div class="mt-1">
-                <input type="text" id="name-on-card" name="name-on-card" autocomplete="cc-name"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-            </div>
-        </div>
-
-        <div class="col-span-full">
-            <label for="card-number" class="block text-sm font-medium text-gray-700">Card number</label>
-            <div class="mt-1">
-                <input type="text" id="card-number" name="card-number" autocomplete="cc-number"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-            </div>
-        </div>
-
-        <div class="col-span-8 sm:col-span-9">
-            <label for="expiration-date" class="block text-sm font-medium text-gray-700">Expiration date
-                (MM/YY)</label>
-            <div class="mt-1">
-                <input type="text" name="expiration-date" id="expiration-date" autocomplete="cc-exp"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-            </div>
-        </div>
-
-        <div class="col-span-4 sm:col-span-3">
-            <label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label>
-            <div class="mt-1">
-                <input type="text" name="cvc" id="cvc" autocomplete="csc"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-            </div>
-        </div>
-
-        <div class="col-span-full sm:col-span-7">
-            <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-            <div class="mt-1">
-                <input type="text" id="address" name="address" autocomplete="street-address"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-            </div>
-        </div>
-
-        <div class="col-span-full sm:col-span-5">
-            <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-            <div class="mt-1">
-                <input type="text" id="city" name="city" autocomplete="address-level2"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                @error('form.customer_name')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
             </div>
         </div>
 
         <div class="col-span-full sm:col-span-6">
-            <label for="region" class="block text-sm font-medium text-gray-700">State /
-                Province</label>
+            <label for="customer_lastname" class="block text-sm font-medium text-gray-700">
+                Apellido
+            </label>
             <div class="mt-1">
-                <input type="text" id="region" name="region" autocomplete="address-level1"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <input type="text" wire:model.blur='form.customer_lastname' id="customer_lastname"
+                class="block w-full rounded-md border-gray-300 shadow-sm 
+                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                @error('form.customer_lastname')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
             </div>
         </div>
 
         <div class="col-span-full sm:col-span-6">
-            <label for="postal-code" class="block text-sm font-medium text-gray-700">Postal
-                code</label>
+            <label for="customer_phone" class="block text-sm font-medium text-gray-700">
+                Teléfono
+            </label>
             <div class="mt-1">
-                <input type="text" id="postal-code" name="postal-code" autocomplete="postal-code"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <input type="number" wire:model.blur='form.customer_phone' id="customer_phone" 
+                class="block w-full rounded-md border-gray-300 shadow-sm
+                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                @error('form.customer_phone')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
             </div>
         </div>
-    </div>
 
-    <div class="my-6 flex space-x-2">
-        <div class="flex h-5 items-center">
-            <input id="same-as-shipping" name="same-as-shipping" type="checkbox" checked
-                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+        <div class="col-span-full sm:col-span-6">
+            <label for="customer_email" class="block text-sm font-medium text-gray-700">
+                Email
+            </label>
+            <div class="mt-1">
+                <input type="email" wire:model.blur='form.customer_email' id="customer_email"
+                class="block w-full rounded-md border-gray-300 shadow-sm 
+                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                @error('form.customer_email')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+            </div>
         </div>
-        <label for="same-as-shipping" class="text-sm font-medium text-gray-900">Billing address is the
-            same as shipping address</label>
+
+        <div class="col-span-full sm:col-span-6">
+            <label for="customer_document" class="block text-sm font-medium text-gray-700">
+                DNI
+            </label>
+            <div class="mt-1">
+                <input type="text" id="customer_document"
+                wire:model.blur='form.customer_document' 
+                class="block w-full rounded-md border-gray-300 shadow-sm 
+                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                @error('form.customer_document')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
     </div>
 
-    <x-button wire:click='shippingStep' size="big" class="w-full my-2">
-        Confirmar
+    <x-button wire:click="setStep(2)" size="big" class="mt-8">
+        Continuar
     </x-button>
-
-    <p class="mt-1 flex justify-center text-sm font-medium text-gray-500">
-        <svg class="mr-1.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-            data-slot="icon">
-            <path fill-rule="evenodd"
-                d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z"
-                clip-rule="evenodd" />
-        </svg>
-        Payment details stored in plain text
-    </p>
 
 </div>
