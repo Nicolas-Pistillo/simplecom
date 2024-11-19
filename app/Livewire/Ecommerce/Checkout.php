@@ -22,7 +22,7 @@ class Checkout extends Component
 
     public $shipping_rates, $selected_shipping;
 
-    public function checkAddress()
+    public function getShippingRates()
     {
         $this->form->validateOnly('customer_postal_code'); 
 
@@ -47,11 +47,7 @@ class Checkout extends Component
 
         foreach($available_carrier_services as $carrier_service)
         {
-            if ($rates_collected->contains('service_id', $carrier_service['service_id']))
-            {
-                dd($carrier_service);
-                continue;
-            }
+            if ($rates_collected->contains('service_id', $carrier_service['service_id'])) continue;
 
             $quote_params = [
                 'origin' => [
@@ -108,13 +104,18 @@ class Checkout extends Component
             {
                 foreach($service_rates['data'] as $rate)
                 {
+                    if ($rates_collected->contains('service_id', $rate['serviceId'])) continue;
+
                     $rates_collected->push([
                         'carrier_id'        => $rate['carrierId'],
-                        'carrier_name'      => $rate['carrier'],
+                        'carrier_code'      => $rate['carrier'],
+                        'carrier_name'      => $rate['carrierDescription'],
                         'carrier_logo'      => $carrier_service['logo'],
                         'service_id'        => $rate['serviceId'],
                         'service_code'      => $rate['service'],
                         'service_name'      => $rate['serviceDescription'],
+                        'rate_dropoff'      => $rate['dropOff'],
+                        'rate_branches'     => $rate['branches'],
                         'delivery_estimate' => $rate['deliveryEstimate'],
                         'price'             => $rate['totalPrice'],
                         'total_tax'         => (!empty($rate['shipmentTaxes']) ? $rate['shipmentTaxes']['totalTax'] : null)
@@ -123,14 +124,10 @@ class Checkout extends Component
             }
         }
 
-        dd($rates_collected);
-
-        $this->shipping_rates = array_map("unserialize", array_unique(array_map("serialize", $this->shipping_rates)));
-
-        $this->shipping_rates = collect($this->shipping_rates)->sortBy('price')->take(5);
-
-        dd($this->shipping_rates);
-        
+        if ($rates_collected->isNotEmpty())
+        {
+            $this->shipping_rates = $rates_collected->sortBy('price');
+        }
     }
 
     public function expressCheckout($provider)

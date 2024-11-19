@@ -17,7 +17,7 @@ class="animate__animated animate__bounceInLeft">
         </div>
 
         <div class="col-span-full sm:col-span-6">
-            <x-button type="secondary" wire:click="checkAddress" size="large">Calcular</x-button>
+            <x-button type="secondary" wire:click="getShippingRates" size="large">Calcular</x-button>
         </div>
 
         @error('form.customer_postal_code')
@@ -28,52 +28,53 @@ class="animate__animated animate__bounceInLeft">
 
     </div>
 
-    {{-- Shipping providers quotes results
-    <fieldset class="col-span-full mt-8" aria-label="Privacy setting">
-        <div class="-space-y-px rounded-md bg-white">
-            <!-- Checked: "z-10 border-indigo-200 bg-indigo-50", Not Checked: "border-gray-200" -->
-            <label aria-label="Public access"
-                aria-description="This project would be available to anyone who has the link"
-                class="relative flex cursor-pointer rounded-tl-md rounded-tr-md border p-4 focus:outline-none">
-                <input type="radio" name="privacy-setting" value="Public access"
-                    class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 active:ring-offset-2">
-                <span class="ml-3 flex flex-col">
-                    <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
-                    <span class="block text-sm font-medium">Public access</span>
-                    <!-- Checked: "text-indigo-700", Not Checked: "text-gray-500" -->
-                    <span class="block text-sm">This project would be available to anyone who has the link</span>
-                </span>
-            </label>
-            <!-- Checked: "z-10 border-indigo-200 bg-indigo-50", Not Checked: "border-gray-200" -->
-            <label aria-label="Private to Project Members"
-                aria-description="Only members of this project would be able to access"
-                class="relative flex cursor-pointer border p-4 focus:outline-none">
-                <input type="radio" name="privacy-setting" value="Private to Project Members"
-                    class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 text-indigo-600 focus:ring-indigo-600 active:ring-2 active:ring-indigo-600 active:ring-offset-2">
-                <span class="ml-3 flex flex-col">
-                    <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
-                    <span class="block text-sm font-medium">Private to Project Members</span>
-                    <!-- Checked: "text-indigo-700", Not Checked: "text-gray-500" -->
-                    <span class="block text-sm">Only members of this project would be able to access</span>
-                </span>
-            </label>
-            <!-- Checked: "z-10 border-indigo-200 bg-indigo-50", Not Checked: "border-gray-200" -->
-            <label aria-label="Private to you" aria-description="You are the only one able to access this project"
-                class="relative flex cursor-pointer rounded-bl-md rounded-br-md border p-4 focus:outline-none">
-                <input type="radio" name="privacy-setting" value="Private to you"
-                    class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 text-indigo-600 focus:ring-indigo-600 active:ring-2 active:ring-indigo-600 active:ring-offset-2">
-                <span class="ml-3 flex flex-col">
-                    <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
-                    <span class="block text-sm font-medium">Private to you</span>
-                    <!-- Checked: "text-indigo-700", Not Checked: "text-gray-500" -->
-                    <span class="block text-sm">You are the only one able to access this project</span>
-                </span>
-            </label>
+    <div wire:loading wire:target='getShippingRates'>
+        <div class="flex w-full items-center gap-3 mt-8 text-sm text-gray-800">
+            <x-spinner spinnerclass="!w-4 !h-4" /> Cargando opciones de envío...
         </div>
-    </fieldset> --}}
+    </div>
 
-    <x-button wire:click='setStep(3)' :disabled="false" size="big" class="mt-8">
-        Continuar
-    </x-button>
+    @if (isset($shipping_rates) && $shipping_rates->isNotEmpty())
+
+        <fieldset class="col-span-full mt-8" aria-label="Shipping Rates">
+            @foreach ($shipping_rates as $rate)
+                <div class="-space-y-px rounded-md bg-white">                        
+                    <label class="relative flex cursor-pointer rounded-tl-md rounded-tr-md border p-4 focus:outline-none">
+                        <input type="radio" class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
+                        text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
+                        active:ring-offset-2">
+                        <span class="ml-3 flex flex-col">
+                            <div class="flex items-center text-sm font-medium">
+                                <img src="{{ $rate['carrier_logo'] }}" class="w-8 h-8" alt="Carrier Logo">
+                                {{ $rate['carrier_name'] }}
+                            </div>
+                            <span class="block text-sm">{{ $rate['service_name'] }}</span>
+                        </span>
+                    </label>
+                </div>
+            @endforeach
+        </fieldset>
+
+        {{-- array:12 [ // resources/views/ecommerce/partials/checkout/shipping.blade.php
+            "carrier_id" => 127
+            "carrier_code" => "correoArgentino"
+            "carrier_name" => "Correo Argentino"
+            "carrier_logo" => "https://s3.us-east-2.amazonaws.com/enviapaqueteria/uploads/logos/carriers/correoArgentino.svg"
+            "service_id" => 346
+            "service_code" => "priority_dom"
+            "service_name" => "Correo Argentino Prioritario a Domicilio"
+            "rate_dropoff" => 0
+            "rate_branches" => []
+            "delivery_estimate" => "1-3 días"
+            "price" => 9466
+            "total_tax" => null
+        ] --}}
+    @endif
+
+    <div>
+        <x-button wire:click='setStep(3)' :disabled="true" size="big" class="mt-8">
+            Continuar
+        </x-button>
+    </div>
 
 </div>
