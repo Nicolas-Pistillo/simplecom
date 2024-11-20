@@ -69,9 +69,9 @@
                                 </button>
 
                                 <input type="text" readonly
-                                class="border border-gray-200 rounded-full w-10
+                                class="border border-gray-200 rounded-full w-11
                                 aspect-square outline-none text-gray-900 font-semibold 
-                                text-sm py-1.5 px-3 bg-gray-100  text-center"
+                                text-sm py-1.5 px-3 bg-gray-100 text-center"
                                     placeholder="{{ $product->qty }}">
 
                                 <button wire:click="changeQty('add' ,'{{ $product->rowId }}')"

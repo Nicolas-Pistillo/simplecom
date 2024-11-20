@@ -11,6 +11,7 @@ use App\Services\ProductService;
 use Illuminate\Support\Facades\Http;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
+use App\Enums\DeliveryType;
 
 class Checkout extends Component
 {
@@ -19,6 +20,8 @@ class Checkout extends Component
     public CheckoutForm $form;
 
     public $current_step = 1;
+
+    public $delivery_type = DeliveryType::Shipping;
 
     public $shipping_rates, $selected_shipping;
 
