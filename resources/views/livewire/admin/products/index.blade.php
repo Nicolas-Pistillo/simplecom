@@ -57,7 +57,7 @@
                                 label="Remover de destacados" icon="remove_circle_outline" />
 
                             <x-dropdown-item wire:click="download(true)" @click="open = false"
-                                label="Descargar excel" icon="file_download" />
+                                label="Descargar seleccionados" icon="file_download" />
 
                             <x-dropdown-item @click="showBulkDeleteConfirm = true; open = false"
                                 label="Eliminar" icon="delete" iconClass="text-red-400" />

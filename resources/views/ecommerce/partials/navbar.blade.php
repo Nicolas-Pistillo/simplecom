@@ -1,16 +1,51 @@
 <header class="relative">
     <nav aria-label="Top">
+        <div class="bg-{{ tenant('color') }}-600">
+            <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+                <!-- Currency selector -->
+                <form>
+                    {{-- <div>
+                        <label for="desktop-currency" class="sr-only">Currency</label>
+                        <div
+                            class="group relative -ml-2 rounded-md border-transparent bg-white-700 focus-within:ring-2 focus-within:ring-white">
+                            <select id="desktop-currency" name="currency"
+                                class="flex items-center rounded-md border-transparent bg-white tex-black bg-none py-0.5 pl-2 pr-5 text-sm font-medium focus:border-transparent focus:outline-none focus:ring-0">
+                                <option>CAD</option>
+                                <option>USD</option>
+                                <option>AUD</option>
+                                <option>EUR</option>
+                                <option>GBP</option>
+
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center">
+                                <svg class="size-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor"
+                                    aria-hidden="true" data-slot="icon">
+                                    <path fill-rule="evenodd"
+                                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div> --}}
+                </form>
+
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="text-sm font-medium text-white hover:text-gray-100">Sign in</a>
+                    <a href="#" class="text-sm font-medium text-white hover:text-gray-100">Create an account</a>
+                </div>
+            </div>
+        </div>
         <div class="bg-white z-30">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div>
                     <div class="flex h-16 items-center justify-between">
-                        
+
                         {{-- Ecommerce logo --}}
                         <div class="hidden lg:flex lg:items-center">
                             <a class="w-32" href="{{ route('ecommerce.index') }}">
                                 <span class="sr-only">{{ tenant('name') }}</span>
-                                <img class="h-12 w-32 object-contain" title="Inicio" 
-                                alt="logo" src="{{ Storage::url(tenant()->logo_url) }}">
+                                <img class="h-12 w-32 object-contain" title="Inicio" alt="logo"
+                                    src="{{ Storage::url(tenant()->logo_url) }}">
                             </a>
                         </div>
 
@@ -138,7 +173,8 @@
                                                                             Nelson</a>
                                                                     </li>
                                                                     <li class="flex">
-                                                                        <a href="#" class="hover:text-gray-800">My
+                                                                        <a href="#"
+                                                                            class="hover:text-gray-800">My
                                                                             Way</a>
                                                                     </li>
                                                                     <li class="flex">
@@ -165,14 +201,13 @@
 
                                     {{-- Products --}}
                                     <a href="{{ route('ecommerce.products') }}"
-                                    class="flex items-center text-sm font-medium border-b-2
-                                    {{ Route::is('ecommerce.products') 
+                                        class="flex items-center text-sm font-medium border-b-2
+                                    {{ Route::is('ecommerce.products')
                                         ? "border-$tenantColor-600 text-$tenantColor-600"
-                                        : 'border-transparent text-gray-700 hover:text-gray-800'
-                                    }}">
+                                        : 'border-transparent text-gray-700 hover:text-gray-800' }}">
                                         Productos
                                     </a>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -210,13 +245,13 @@
 
                                 <!-- Account -->
                                 <x-icon code="person" x-tooltip.raw.placement.bottom="Mi cuenta"
-                                class="transition colors duration-300
+                                    class="transition colors duration-300
                                 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                                 hover:bg-gray-200 focus:outline-none focus:ring" />
 
                                 <!-- wishlist -->
                                 <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
-                                class="transition colors duration-300 ml-3
+                                    class="transition colors duration-300 ml-3
                                 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                                 hover:bg-gray-200 focus:outline-none focus:ring" />
 
@@ -225,8 +260,8 @@
                                 @if (!Route::is('ecommerce.checkout'))
                                     <div class="relative ml-3">
                                         <x-icon code="shopping_cart" @click="cartMenuOpen = true"
-                                        x-tooltip.raw.placement.bottom="Carrito"
-                                        class="transition colors cursor-pointer bg-gray-100
+                                            x-tooltip.raw.placement.bottom="Carrito"
+                                            class="transition colors cursor-pointer bg-gray-100
                                         text-gray-600 p-2 rounded-full hover:bg-gray-200 
                                         focus:outline-none focus:ring duration-300" />
 
