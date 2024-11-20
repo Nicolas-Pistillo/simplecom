@@ -36,19 +36,24 @@ class="animate__animated animate__bounceInLeft">
 
     @if (isset($shipping_rates) && $shipping_rates->isNotEmpty())
 
-        <fieldset class="col-span-full mt-8" aria-label="Shipping Rates">
+        <fieldset class="col-span-full mt-8 rounded-lg overflow-hidden border shadow-sm" aria-label="Shipping Rates">
             @foreach ($shipping_rates as $rate)
-                <div class="-space-y-px rounded-md bg-white">                        
-                    <label class="relative flex cursor-pointer rounded-tl-md rounded-tr-md border p-4 focus:outline-none">
-                        <input type="radio" class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
+                <div wire:key='{{ $rate['service_id'] }}' class="-space-y-px bg-white">                        
+                    <label class="relative flex cursor-pointer border-b p-4 focus:outline-none">
+                        <input type="radio" name="shipping_method" class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
                         text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
                         active:ring-offset-2">
-                        <span class="ml-3 flex flex-col">
-                            <div class="flex items-center text-sm font-medium">
-                                <img src="{{ $rate['carrier_logo'] }}" class="w-8 h-8" alt="Carrier Logo">
-                                {{ $rate['carrier_name'] }}
+                        <span class="ml-3 flex items-center justify-between w-full">
+                            <div class="flex items-center text-sm">
+                                <img src="{{ $rate['carrier_logo'] }}" class="w-10 h-10 shadow rounded-xl mr-2" alt="Carrier Logo">
+                                <div>
+                                    <h5 class="font-medium mb-0.5">{{ $rate['service_name'] }}</h5>
+                                    <span class="block text-xs text-gray-700">Estimado: {{ $rate['delivery_estimate'] }}</span>
+                                </div>
                             </div>
-                            <span class="block text-sm">{{ $rate['service_name'] }}</span>
+                            <div>
+                                <span class="text-sm font-medium">${{ priceFormat($rate['price']) }}</span>
+                            </div>
                         </span>
                     </label>
                 </div>
