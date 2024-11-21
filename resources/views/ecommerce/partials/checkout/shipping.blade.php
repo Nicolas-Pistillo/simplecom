@@ -113,7 +113,7 @@
                             <div>
                                 <x-button type="soft" href="https://maps.app.goo.gl/PgTffHG1nW5wjJXr6" blank 
                                 class="ml-4 text-xs flex items-center">
-                                    <x-icon code="moved_location" class="mr-1" /> Ubicar
+                                    <x-icon code="moved_location" class="mr-1" /> Ver
                                 </x-button>
                             </div>
                         </div>
