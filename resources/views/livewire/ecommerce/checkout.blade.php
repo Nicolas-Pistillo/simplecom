@@ -14,61 +14,82 @@
 
             <!-- Checkout form -->
             <section aria-labelledby="payment-heading"
-            class="flex-auto overflow-y-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 
+                class="flex-auto overflow-y-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 
             lg:px-8 lg:pb-24 lg:pt-0">
                 <div class="mx-auto max-w-xl">
 
                     {{-- Stepper --}}
                     <ul class="relative flex flex-col md:flex-row gap-2">
-                        
+
                         <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
                             <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <div class="font-semibold p-2 w-8 h-8 flex justify-center items-center shrink-0 rounded-full shadow
-                                    @if($current_step === 1) bg-{{tenant('color')}}-600 text-white @endif
-                                    @if($current_step > 1) bg-green-600 text-white @endif">
-                                    @if ($current_step > 1) <x-icon code="check" wire:click='setStep(1)' class="cursor-pointer" /> @else 1 @endif
+                                <div
+                                    class="font-semibold p-2 w-8 h-8 flex justify-center items-center shrink-0 rounded-full shadow
+                                    @if ($current_step === 1) bg-{{ tenant('color') }}-600 text-white @endif
+                                    @if ($current_step > 1) bg-green-600 text-white @endif">
+                                    @if ($current_step > 1)
+                                        <x-icon code="check" wire:click='setStep(1)' class="cursor-pointer" />
+                                    @else
+                                        1
+                                    @endif
                                 </div>
-                                <div class="ms-2 block grow md:grow-0 text-sm font-medium @if($current_step > 1) text-green-600 @else text-gray-800 @endif">
-                                    <span @if($current_step > 1) class="cursor-pointer" wire:click="setStep(1)" @endif>
+                                <div
+                                    class="ms-2 block grow md:grow-0 text-sm font-medium @if ($current_step > 1) text-green-600 @else text-gray-800 @endif">
+                                    <span
+                                        @if ($current_step > 1) class="cursor-pointer" wire:click="setStep(1)" @endif>
                                         Tus datos
                                     </span>
                                 </div>
                             </div>
-                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 group-last:hidden
-                            @if($current_step === 1) bg-gray-200 @else bg-green-600 @endif"></div>
+                            <div
+                                class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 group-last:hidden
+                            @if ($current_step === 1) bg-gray-200 @else bg-green-600 @endif">
+                            </div>
                         </li>
 
                         <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
                             <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <div class="p-2 w-8 h-8 flex justify-center items-center shrink-0 font-semibold rounded-full shadow
-                                    @if($current_step === 2) bg-{{tenant('color')}}-600 text-white @endif
-                                    @if($current_step < 2) bg-gray-100 text-gray-800 @endif
-                                    @if($current_step > 2) bg-green-600 text-white @endif">
-                                    @if ($current_step > 2) <x-icon code="check" wire:click="setStep(2)" class="cursor-pointer" /> @else 2 @endif
+                                <div
+                                    class="p-2 w-8 h-8 flex justify-center items-center shrink-0 font-semibold rounded-full shadow
+                                    @if ($current_step === 2) bg-{{ tenant('color') }}-600 text-white @endif
+                                    @if ($current_step < 2) bg-gray-100 text-gray-800 @endif
+                                    @if ($current_step > 2) bg-green-600 text-white @endif">
+                                    @if ($current_step > 2)
+                                        <x-icon code="check" wire:click="setStep(2)" class="cursor-pointer" />
+                                    @else
+                                        2
+                                    @endif
                                 </div>
-                                <div class="ms-2 block grow md:grow-0 text-sm font-medium
-                                    @if($current_step > 2) text-green-600 @else text-gray-800 @endif">
-                                    <span @if($current_step > 2) class="cursor-pointer" wire:click="setStep(2)" @endif>
+                                <div
+                                    class="ms-2 block grow md:grow-0 text-sm font-medium
+                                    @if ($current_step > 2) text-green-600 @else text-gray-800 @endif">
+                                    <span
+                                        @if ($current_step > 2) class="cursor-pointer" wire:click="setStep(2)" @endif>
                                         Entrega
                                     </span>
                                 </div>
                             </div>
-                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 group-last:hidden
-                            @if($current_step > 2) bg-green-600 @else bg-gray-200 @endif"></div>
+                            <div
+                                class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 group-last:hidden
+                            @if ($current_step > 2) bg-green-600 @else bg-gray-200 @endif">
+                            </div>
                         </li>
-                    
+
                         <li class="flex flex-col md:flex-row md:items-center gap-x-2 shrink basis-0 flex-1 group">
                             <div class="min-w-7 min-h-7 inline-flex items-center text-xs align-middle grow md:grow-0">
-                                <span class="p-2 w-8 h-8 flex justify-center items-center shrink-0 font-semibold rounded-full shadow
-                                @if($current_step === 3) bg-{{tenant('color')}}-600 text-white @endif
-                                @if($current_step < 3) bg-gray-100 text-gray-800 @endif">
+                                <span
+                                    class="p-2 w-8 h-8 flex justify-center items-center shrink-0 font-semibold rounded-full shadow
+                                @if ($current_step === 3) bg-{{ tenant('color') }}-600 text-white @endif
+                                @if ($current_step < 3) bg-gray-100 text-gray-800 @endif">
                                     3
                                 </span>
                                 <span class="ms-2 block grow md:grow-0 text-sm font-medium text-gray-800">
                                     Confirmar
                                 </span>
                             </div>
-                            <div class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 bg-gray-200 group-last:hidden"></div>
+                            <div
+                                class="mt-2 w-px h-4 md:mt-0 ms-3.5 md:ms-0 md:w-full md:h-px md:flex-1 bg-gray-200 group-last:hidden">
+                            </div>
                         </li>
 
                     </ul>
@@ -85,7 +106,7 @@
                         @endif
 
                         @if ($current_step === 3)
-                            @include('ecommerce.partials.checkout.review')
+                            @include('ecommerce.partials.checkout.payment')
                         @endif
 
                     </div>
@@ -106,4 +127,37 @@
 
         </div>
     @endif
+
+    @script
+        <script>
+            Livewire.on('open-modo-checkout', (event) => 
+            {
+                const paymentIntention = event[0];
+
+                ModoSDK.modoInitPayment({
+                    qrString: paymentIntention.qrString,
+                    checkoutId: paymentIntention.checkoutId,
+                    deeplink: {
+                        url: paymentIntention.deeplink,
+                        callbackURL: 'https://tiendadeprueba.com/checkout',
+                        callbackURLSuccess: 'https://tiendadeprueba/thankyou'
+                    },
+                    callbackURL: 'https://tiendadeprueba/thankyou',
+                    refreshData: false,
+                    onSuccess: function() {
+                        console.log('onSuccess')
+                    },
+                    onFailure: function() {
+                        console.log('onFailure')
+                    },
+                    onCancel: function() {
+                        console.log('onCancel')
+                    },
+                    onClose: function() {
+                        console.log('onClose')
+                    },
+                })
+            });
+        </script>
+    @endscript
 </div>

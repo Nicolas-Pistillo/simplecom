@@ -133,6 +133,42 @@ class Checkout extends Component
         }
     }
 
+    public function selectedPaymentMethod($payment_method)
+    {
+        if ($payment_method === 'modo')
+        {
+            $req = Http::withUserAgent('Simplecom')
+                        ->asJson()
+                        ->withBody(json_encode(['username' => 'sdkmodostage', 'password' => 'sdkmodostage'])) 
+                        ->post("https://merchants.preprod.playdigital.com.ar/merchants/middleman/token");
+
+            $response = $req->json();
+
+            if (isset($response['accessToken']))
+            {
+                $intentionReq = Http::withUserAgent('Simplecom')
+                                    ->withToken($response['accessToken'])
+                                    ->asJson()
+                                    ->withBody(json_encode([
+                                        'productName' => 'Zapatillas dupla',
+                                        'price'       => 12500.60,
+                                        'quantity'    => 2,
+                                        'currency'    => 'ARS',
+                                        'storeId'     => '2e10e1e2-1046-47a9-b5aa-12f0749940f8',
+                                        'externalIntentionId' => uniqid()
+                                    ]))
+                                    ->post('https://merchants.preprod.playdigital.com.ar/merchants/ecommerce/payment-intention');
+
+                $payment_intention = $intentionReq->json();
+
+                if (isset($payment_intention['qr']))
+                {
+                    $this->dispatch('open-modo-checkout', $payment_intention);
+                }
+            }
+        }
+    }
+
     public function expressCheckout($provider)
     {
         if ($provider === 'mercadopago')
