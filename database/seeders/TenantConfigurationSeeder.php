@@ -180,5 +180,14 @@ class TenantConfigurationSeeder extends Seeder
             'helper'        => 'Lo encontraras junto al mail enviado con el asunto "¡Ya podés integrar la API!"',
             'required'      => true
         ]);
+
+        Configuration::create([
+            'key'           => 'gocuotas_api_key',
+            'display_name'  => 'API Key',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Api Key proveida por gocuotas',
+            'helper'        => 'Si ya tenes una cuenta en gocuotas, podes solicitarla a tu asesor',
+            'required'      => true
+        ]);
     }
 }
