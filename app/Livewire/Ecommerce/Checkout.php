@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
 use App\Enums\DeliveryType;
+use Uala\SDK as Uala;
 
 class Checkout extends Component
 {
@@ -21,9 +22,11 @@ class Checkout extends Component
 
     public $current_step = 1;
 
-    public $delivery_type = DeliveryType::Shipping;
+    public $delivery_type = DeliveryType::Picking;
 
     public $shipping_rates, $selected_shipping;
+
+    public $payment_method;
 
     public function getShippingRates()
     {
@@ -133,7 +136,24 @@ class Checkout extends Component
         }
     }
 
-    public function selectedPaymentMethod($payment_method)
+    public function updatedPaymentMethod($payment_method)
+    {
+        if ($payment_method === 'uala')
+        {
+            $uala = new Uala("new_user_1631906477", "5qqGKGm4EaawnAH0J6xluc6AWdQBvLW3", "cVp1iGEB-DE6KtL4Hi7tocdopP2pZxzaEVciACApWH92e8_Hloe8CD5ilM63NppG", true);
+
+            $ualaOrder = $uala->createOrder(15000, 'Order #1687', 'https://www.google.com', 'https://www.google.com');
+
+            if (isset($ualaOrder->id))
+            {
+                dd($uala->getOrder($ualaOrder->uuid));
+                $this->redirect($ualaOrder->links->checkoutLink);
+            }
+
+        }
+    }
+
+    public function selectedPayment($payment_method)
     {
         if ($payment_method === 'modo')
         {

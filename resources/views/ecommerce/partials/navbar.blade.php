@@ -4,13 +4,12 @@
             <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
                 <div class="flex items-center space-x-6 text-white">
-                    <a href="{{ route('ecommerce.contact') }}" class="text-sm font-medium">Contacto</a>
-                    <a href="{{ route('ecommerce.about') }}" class="text-sm font-medium">Nosotros</a>
+                    <a href="{{ route('ecommerce.contact') }}" class="text-xs sm:text-sm font-medium">Contacto</a>
+                    <a href="{{ route('ecommerce.about') }}" class="text-xs sm:text-sm font-medium">Nosotros</a>
                 </div>
 
                 <div class="flex items-center space-x-6 text-white">
-                    <a href="#" class="text-sm font-medium">Sign in</a>
-                    <a href="#" class="text-sm font-medium">Create an account</a>
+                    <a href="#" class="text-xs sm:text-sm font-medium">Ingresar | Registrarse</a>
                 </div>
             </div>
         </div>
@@ -210,8 +209,8 @@
                                         </div>
                                         <input id="search" autocomplete="off" name="search"
                                             class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 
-                                  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
-                                  focus:ring-gray-500 sm:text-sm sm:leading-6"
+                                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
+                                          focus:ring-gray-400/80 sm:text-sm sm:leading-6"
                                             placeholder="Buscar..." type="search">
                                     </div>
                                 </div>
@@ -222,12 +221,6 @@
                         <div class="flex flex-1 items-center justify-end">
                             <div class="flex items-center lg:ml-8 no-select">
 
-                                <!-- Account -->
-                                <x-icon code="person" x-tooltip.raw.placement.bottom="Mi cuenta"
-                                    class="transition colors duration-300
-                                cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
-                                hover:bg-gray-200 focus:outline-none focus:ring" />
-
                                 <!-- wishlist -->
                                 <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
                                     class="transition colors duration-300 ml-3
@@ -235,7 +228,6 @@
                                 hover:bg-gray-200 focus:outline-none focus:ring" />
 
                                 <!-- Cart -->
-
                                 @if (!Route::is('ecommerce.checkout'))
                                     <div class="relative ml-3">
                                         <x-icon code="shopping_cart" @click="cartMenuOpen = true"

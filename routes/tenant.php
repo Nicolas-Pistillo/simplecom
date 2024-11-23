@@ -85,6 +85,14 @@ Route::middleware([
                     ->name('admin.attributes.index')
                     ->middleware('can:Editar atributos');
 
+                Route::view('payment-methods', 'admin.payment-methods.index')
+                    ->name('admin.payment-methods.index')
+                    ->middleware('can:Editar formas de pago');
+
+                Route::view('delivery-methods', 'admin.delivery-methods.index')
+                    ->name('admin.delivery-methods.index')
+                    ->middleware('can:Editar formas de envio');
+
                 Route::view('products', 'admin.products.index')
                     ->name('admin.products.index')
                     ->middleware('can:Editar productos');

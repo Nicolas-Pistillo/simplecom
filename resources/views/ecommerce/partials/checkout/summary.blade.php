@@ -10,7 +10,7 @@
         </x-button>
     </div>
 
-    <div class="mt-2 rounded-lg border border-gray-200 bg-white shadow-sm">
+    <div class="mt-2 rounded-lg border border-gray-200 overflow-hidden bg-white shadow-sm">
         <ul role="list" class="divide-y divide-gray-200 overflow-y-auto sm:max-h-[350px]" scrollbar-thin>
 
             @foreach (Cart::content() as $product)

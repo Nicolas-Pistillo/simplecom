@@ -18,6 +18,23 @@
         </li>
 
         <li>
+            <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Operatoria</h5>
+            <ul role="list" class="-mx-2 mt-2 space-y-1">
+
+                @can('Editar formas de pago')
+                    <x-navbar-item route="admin.payment-methods.index" icon="credit_card" title="Formas de pago" 
+                    active="{{ Route::is('admin.payment-methods.*') }}"/>
+                @endcan
+
+                @can('Editar formas de envio')
+                    <x-navbar-item route="admin.delivery-methods.index" icon="shopping_bag_speed" title="Formas de entrega" 
+                    active="{{ Route::is('admin.delivery-methods.*') }}"/>
+                @endcan
+
+            </ul>
+        </li>
+
+        <li>
             <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Catálogo</h5>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
