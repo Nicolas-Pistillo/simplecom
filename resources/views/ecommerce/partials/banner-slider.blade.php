@@ -4,7 +4,7 @@
             @foreach ($banners as $banner)
                 <div class="swiper-slide">
                     <img src="{{ Storage::url($banner->image_url) }}" alt="{{ $banner->name }}"
-                    class="w-full h-[420px] object-cover">
+                    class="w-full object-cover">
                 </div>
             @endforeach
         </div>

@@ -1,16 +1,29 @@
 <header class="relative">
     <nav aria-label="Top">
+        <div class="bg-{{ tenant('color') }}-600">
+            <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+
+                <div class="flex items-center space-x-6 text-white">
+                    <a href="{{ route('ecommerce.contact') }}" class="text-xs sm:text-sm font-medium">Contacto</a>
+                    <a href="{{ route('ecommerce.about') }}" class="text-xs sm:text-sm font-medium">Nosotros</a>
+                </div>
+
+                <div class="flex items-center space-x-6 text-white">
+                    <a href="#" class="text-xs sm:text-sm font-medium">Ingresar | Registrarse</a>
+                </div>
+            </div>
+        </div>
         <div class="bg-white z-30">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div>
                     <div class="flex h-16 items-center justify-between">
-                        
+
                         {{-- Ecommerce logo --}}
                         <div class="hidden lg:flex lg:items-center">
                             <a class="w-32" href="{{ route('ecommerce.index') }}">
                                 <span class="sr-only">{{ tenant('name') }}</span>
-                                <img class="h-12 w-32 object-contain" title="Inicio" 
-                                alt="logo" src="{{ Storage::url(tenant()->logo_url) }}">
+                                <img class="h-12 w-32 object-contain" title="Inicio" alt="logo"
+                                    src="{{ Storage::url(tenant()->logo_url) }}">
                             </a>
                         </div>
 
@@ -138,7 +151,8 @@
                                                                             Nelson</a>
                                                                     </li>
                                                                     <li class="flex">
-                                                                        <a href="#" class="hover:text-gray-800">My
+                                                                        <a href="#"
+                                                                            class="hover:text-gray-800">My
                                                                             Way</a>
                                                                     </li>
                                                                     <li class="flex">
@@ -165,14 +179,13 @@
 
                                     {{-- Products --}}
                                     <a href="{{ route('ecommerce.products') }}"
-                                    class="flex items-center text-sm font-medium border-b-2
-                                    {{ Route::is('ecommerce.products') 
+                                        class="flex items-center text-sm font-medium border-b-2
+                                    {{ Route::is('ecommerce.products')
                                         ? "border-$tenantColor-600 text-$tenantColor-600"
-                                        : 'border-transparent text-gray-700 hover:text-gray-800'
-                                    }}">
+                                        : 'border-transparent text-gray-700 hover:text-gray-800' }}">
                                         Productos
                                     </a>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -196,8 +209,8 @@
                                         </div>
                                         <input id="search" autocomplete="off" name="search"
                                             class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 
-                                  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
-                                  focus:ring-gray-500 sm:text-sm sm:leading-6"
+                                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
+                                          focus:ring-gray-400/80 sm:text-sm sm:leading-6"
                                             placeholder="Buscar..." type="search">
                                     </div>
                                 </div>
@@ -208,25 +221,18 @@
                         <div class="flex flex-1 items-center justify-end">
                             <div class="flex items-center lg:ml-8 no-select">
 
-                                <!-- Account -->
-                                <x-icon code="person" x-tooltip.raw.placement.bottom="Mi cuenta"
-                                class="transition colors duration-300
-                                cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
-                                hover:bg-gray-200 focus:outline-none focus:ring" />
-
                                 <!-- wishlist -->
                                 <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
-                                class="transition colors duration-300 ml-3
+                                    class="transition colors duration-300 ml-3
                                 cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                                 hover:bg-gray-200 focus:outline-none focus:ring" />
 
                                 <!-- Cart -->
-
                                 @if (!Route::is('ecommerce.checkout'))
                                     <div class="relative ml-3">
                                         <x-icon code="shopping_cart" @click="cartMenuOpen = true"
-                                        x-tooltip.raw.placement.bottom="Carrito"
-                                        class="transition colors cursor-pointer bg-gray-100
+                                            x-tooltip.raw.placement.bottom="Carrito"
+                                            class="transition colors cursor-pointer bg-gray-100
                                         text-gray-600 p-2 rounded-full hover:bg-gray-200 
                                         focus:outline-none focus:ring duration-300" />
 

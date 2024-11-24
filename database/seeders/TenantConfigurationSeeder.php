@@ -80,5 +80,114 @@ class TenantConfigurationSeeder extends Seeder
             'value'         => false,
             'description'   => 'Envía novedades y nuevos lanzamientos a tus clientes suscritos'
         ]);
+
+        // Bank transfer configs
+        Configuration::create([
+            'key'           => 'transfer_bank',
+            'display_name'  => 'Nombre del banco',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'El banco donde pertenece tu cuenta',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'transfer_account_owner',
+            'display_name'  => 'Nombre del titular',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Titular de la cuenta (como figura en el online banking)',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'transfer_cbu',
+            'display_name'  => 'CBU',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'CBU de tu cuenta bancaria',
+            'helper'        => 'Podes consultarlo en el online banking',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'transfer_alias',
+            'display_name'  => 'Alias',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => '(Opcional) podes añadirlo a modo de facilidad para el comprador',
+            'helper'        => 'Podes consultarlo en el online banking'
+        ]);
+
+        // MercadoPago Configs
+        Configuration::create([
+            'key'           => 'mp_access_token',
+            'display_name'  => 'Access Token',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Token de acceso para el Checkout Pro',
+            'helper'        => 'Lo encontraras en la sección "credenciales de producción"',
+            'required'      => true
+        ]);
+
+        // MODO Configs
+        Configuration::create([
+            'key'           => 'modo_username',
+            'display_name'  => 'Username',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Usuario proveido por comercial de MODO',
+            'helper'        => 'Lo encontraras junto a las credenciales que te envió el personal de MODO por email',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'modo_password',
+            'display_name'  => 'Password',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Contraseña proveida por comercial de MODO',
+            'helper'        => 'Lo encontraras junto a las credenciales que te envió el personal de MODO por email',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'modo_store_id',
+            'display_name'  => 'Store ID',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Store ID proveido por comercial de MODO',
+            'helper'        => 'Lo encontraras junto a las credenciales que te envió el personal de MODO por email',
+            'required'      => true
+        ]);
+
+        // Ualabis Configs
+        Configuration::create([
+            'key'           => 'ualabis_username',
+            'display_name'  => 'Username',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Username proveido por ualá',
+            'helper'        => 'Lo encontraras junto al mail enviado con el asunto "¡Ya podés integrar la API!"',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'ualabis_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client ID proveido por ualá',
+            'helper'        => 'Lo encontraras junto al mail enviado con el asunto "¡Ya podés integrar la API!"',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'ualabis_client_secret_id',
+            'display_name'  => 'Client Secret',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client Secret proveido por ualá',
+            'helper'        => 'Lo encontraras junto al mail enviado con el asunto "¡Ya podés integrar la API!"',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'gocuotas_api_key',
+            'display_name'  => 'API Key',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Api Key proveida por gocuotas',
+            'helper'        => 'Si ya tenes una cuenta en gocuotas, podes solicitarla a tu asesor',
+            'required'      => true
+        ]);
     }
 }

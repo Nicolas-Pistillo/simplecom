@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('input_type')->default('text');
             $table->text('value')->nullable();
+            $table->string('helper')->nullable();
             $table->boolean('show_in_setup')->default(false);
             $table->boolean('required')->default(false);
             $table->timestamps();

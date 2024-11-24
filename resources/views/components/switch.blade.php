@@ -14,6 +14,6 @@
     after:border after:rounded-full after:h-5 after:w-5 after:transition-all 
     peer-checked:bg-blue-600"></div>
     @isset($label)
-        <span class="ms-3 text-sm font-medium text-gray-900">{{ $label }}</span>
+        <span class="ms-3 text-xs sm:text-sm font-medium text-gray-900">{{ $label }}</span>
     @endisset
 </label>
