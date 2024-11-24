@@ -130,7 +130,7 @@
 
     @script
         <script>
-            Livewire.on('open-modo-checkout', (event) => 
+            Livewire.on('modo-checkout', (event) => 
             {
                 const paymentIntention = event[0];
 

@@ -11,6 +11,9 @@ class PaymentMethod extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    /**
+     * Returns the associated service class for manage the order payment logic
+     */
     public function service()
     {
         if (!$this->service_class) return null;

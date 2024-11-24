@@ -2,7 +2,7 @@
 class="animate__animated animate__bounceInLeft">
 
     {{-- Express Checkout - See later --}}
-    <div class="grid grid-cols-12 gap-x-4 gap-y-3 items-end">
+    {{-- <div class="grid grid-cols-12 gap-x-4 gap-y-3 items-end">
 
         <fieldset class="col-span-full border border-solid rounded-md 
         border-gray-200 p-3">
@@ -51,7 +51,7 @@ class="animate__animated animate__bounceInLeft">
                 <span class="px-4 text-sm font-medium text-gray-500">O</span>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="grid grid-cols-12 gap-x-4 gap-y-6">
 
