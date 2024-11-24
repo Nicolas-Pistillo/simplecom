@@ -15,4 +15,20 @@ class Ualabis implements Configurable
             'ualabis_username', 'ualabis_client_id', 'ualabis_client_secret_id'
         ])->get();
     }
+
+    public function isConfigurated(): bool
+    {
+        $configurated = true;
+
+        foreach($this->getConfigurableFields() as $field)
+        {
+            if ($field->required)
+            {
+                if ($field->input_type === 'text' && empty($field->value))
+                    $configurated = false;
+            }
+        }
+
+        return $configurated;
+    }
 }

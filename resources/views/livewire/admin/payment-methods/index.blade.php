@@ -25,16 +25,19 @@
                     <div class="flex rounded-t-xl items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-4">
 
                         <img src='{{ URL::to("img/providers/$method->code") }}.png' alt="{{ $method->display_name }}"
-                            class="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10 shadow">
+                        class="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
 
                         <div class="flex flex-col">
 
-                            <h6 class="text-sm mb-1 font-semibold leading-6 text-gray-900">{{ $method->display_name }}
+                            <h6 class="text-sm mb-1 font-semibold leading-6 text-gray-900">
+                                {{ $method->display_name }}
                             </h6>
 
-                            <x-badge>Falta configurar</x-badge>
-
-                            {{-- <x-switch label="Activada" /> --}}
+                            @if (!$method->needs_configuration || $method->service()->isConfigurated())
+                                <x-switch :checked="$method->active" wireChange="toggleActivated({{ $method->id }})" />
+                            @else
+                                <x-badge>No configurada</x-badge>
+                            @endif
 
                         </div>
 
@@ -53,8 +56,8 @@
                                 x-transition:leave-start="opacity-100 scale-100"
                                 x-transition:leave-end="opacity-0 scale-95"
                                 class="absolute right-0 z-10 mt-0.5 w-max origin-top-right 
-                            rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 
-                            focus:outline-none"
+                                rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 
+                                focus:outline-none"
                                 role="menu" aria-orientation="vertical">
 
                                 @if (!empty($method->support_url))
@@ -106,7 +109,6 @@
         <x-drawer ref="openCredentialsDrawer">
             @if ($method_editing && $configurable_fields)
                 <div class="h-full">
-
                     <form wire:submit='save' class="h-full flex flex-col justify-between">
 
                         <div class="mb-3">
@@ -121,42 +123,57 @@
 
                             <div class="mb-4">
 
-                                <label class="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-500">
-                                    Nombre público <x-icon code="info" class="text-blue-600" 
+                                <label class="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-500"
+                                for="checkout_name">
+                                    Nombre público <sup class="text-red-500 -ml-1">*</sup> 
+                                    <x-icon code="info" class="text-blue-600" 
                                     x-tooltip.raw.placement.bottom="Es el nombre que verá el comprador en el listado de métodos de pago del checkout" 
                                     style="font-size: 20px" />
                                 </label>
 
                                 <div class="mt-2">
-                                    <input type="text" value="{{ $method_editing->checkout_name }}" autocomplete="off"
-                                    wire:model='checkout_name'
+                                    <input type="text" value="{{ $method_editing->checkout_name }}"
+                                    id="checkout_name" 
+                                    wire:model='checkout_name' autocomplete="off"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 
                                     shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                                     focus:ring-2 focus:ring-inset transition duration-300 
                                     focus:ring-blue-600  sm:text-sm sm:leading-6">
                                 </div>
 
+                                @error('checkout_name')
+                                    <small class="text-red-500">{{ $message }}</small>
+                                @enderror
+
                             </div>
 
                             @foreach ($configurable_fields as $key => $field)
                                 <div wire:key='{{ $field['id'] }}' class="mb-4">
 
-                                    <label class="block text-sm font-semibold leading-6 text-gray-500">
+                                    <label class="block text-sm font-semibold leading-6 text-gray-500"
+                                    for="{{ $field['key'] }}">
                                         {{ $field['display_name'] }}
+                                        @if ($field['required'])
+                                            <sup class="text-red-500">*</sup> 
+                                        @endif
                                     </label>
 
                                     <div class="mt-2">
-                                        <input type="text" value="{{ $field['value'] }}" 
-                                            wire:model.blur="configurable_fields.{{ $key }}.value" autocomplete="off"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
-                                            shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2
-                                            placeholder:text-gray-400 focus:ring-inset sm:text-sm
-                                            transition duration-300 focus:ring-blue-600 sm:leading-6">
+                                        <input type="text" value="{{ $field['value'] }}" id="{{ $field['key'] }}"
+                                        wire:model.blur="configurable_fields.{{ $key }}.value" autocomplete="off"
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                                        shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2
+                                        placeholder:text-gray-400 focus:ring-inset sm:text-sm
+                                        transition duration-300 focus:ring-blue-600 sm:leading-6">
                                     </div>
 
-                                    @if ($field['helper'])
-                                        <small class="text-gray-500 leading-3">{{ $field['helper'] }}</small>
+                                    @if ($field['helper'] && !$errors->has($field['key']))
+                                        <small class="text-gray-500">{{ $field['helper'] }}</small>
                                     @endif
+
+                                    @error($field['key'])
+                                        <small class="text-red-500">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             @endforeach
                         </div>
@@ -178,5 +195,4 @@
             @endif
         </x-drawer>
     </div>
-
 </div>
