@@ -182,11 +182,20 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         Configuration::create([
-            'key'           => 'gocuotas_api_key',
-            'display_name'  => 'API Key',
+            'key'           => 'gocuotas_redirect_email',
+            'display_name'  => 'Email',
             'topic'         => ConfigurationTopics::PaymentMethods,
-            'description'   => 'Api Key proveida por gocuotas',
-            'helper'        => 'Si ya tenes una cuenta en gocuotas, podes solicitarla a tu asesor',
+            'description'   => 'Email - Api Redirect',
+            'helper'        => 'Email proveido por gocuotas para el servicio API Redirect',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'gocuotas_redirect_password',
+            'display_name'  => 'Contraseña (Api Key)',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Contraseña (Api Key) - API Redirect',
+            'helper'        => 'Contraseña (Api Key) proveida por gocuotas para el servicio API Redirect',
             'required'      => true
         ]);
     }

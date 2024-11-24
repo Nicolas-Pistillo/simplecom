@@ -13,13 +13,13 @@
                 class="h-4 w-4 rounded cursor-pointer border-gray-300 text-blue-600">
 
             <label for="select-product-{{ $product->id }}" class="cursor-pointer hidden md:block">
-                <img class="w-12 h-10 object-cover rounded flex-none shadow-md" alt="product-img"
+                <img class="w-12 h-10 object-contain rounded flex-none shadow-md" alt="product-img"
                 src="{{ $product->first_image }}">
             </label>
 
             <div class="min-w-0 flex-auto">
 
-                <p class="text-sm font-semibold leading-6 text-gray-900 flex items-center">
+                <p class="text-xs md:text-sm font-semibold leading-6 text-gray-900 flex items-center">
                     {{ $product->name }}
                 </p>
 

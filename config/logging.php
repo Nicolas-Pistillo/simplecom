@@ -135,6 +135,11 @@ return [
             'driver' => 'single',
             'path'   => storage_path('logs/access.log'),
             'level'  => 'debug'
+        ],
+        'payment-returns' => [
+            'driver' => 'single',
+            'path'   => storage_path('logs/payment-returns.log'),
+            'level'  => 'debug'
         ]
     ],
 

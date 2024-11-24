@@ -19,7 +19,7 @@
 
                     <div class="shrink-0">
                         <img src="{{ $product->options->image_url }}" alt="{{ $product->name }}"
-                            class="w-14 h-14 rounded-md">
+                        class="w-14 h-14 rounded-md object-contain">
                     </div>
 
                     <div class="ml-6 flex flex-1 flex-col">

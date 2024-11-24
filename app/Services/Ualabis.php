@@ -24,16 +24,14 @@ class Ualabis implements PaymentGateway
         
         $uala = new Uala($user, $client_id, $client_secret, true);
 
-        $ualaOrder = $uala->createOrder(15000, 'Order #1687', 'https://www.google.com', 'https://www.google.com');
+        $ualaOrder = $uala->createOrder(50, 'Order #1687', 'https://www.google.com', 'https://www.google.com');
 
-        if (!isset($ualaOrder->links))
-        {
-            $ualaOrder = $uala->createOrder(15000, 'Order #1687', 'https://www.google.com', 'https://www.google.com');
-        }
+        $retries = 1;
 
-        if (!isset($ualaOrder->links))
+        while(!isset($ualaOrder->links) && $retries <= 5)
         {
-            $ualaOrder = $uala->createOrder(15000, 'Order #1687', 'https://www.google.com', 'https://www.google.com');
+            $ualaOrder = $uala->createOrder(50, 'Order #1687', 'https://www.google.com', 'https://www.google.com');
+            $retries++;
         }
 
         $this->provider_checkout_url = $ualaOrder->links->checkoutLink;
