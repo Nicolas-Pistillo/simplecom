@@ -11,7 +11,7 @@ class GOcuotas implements PaymentGateway
 {
     use Configurable;
 
-    protected $configuration_keys = ['gocuotas_api_key'];
+    protected $configuration_keys = ['gocuotas_email', 'gocuotas_password'];
 
     public $redirect_type = PaymentRedirectType::ProviderPlatform;
     public $provider_checkout_url;
@@ -21,9 +21,10 @@ class GOcuotas implements PaymentGateway
 
     public function generateToken()
     {
-        $api_key = tenant()->configValue('gocuotas_api_key');
+        $email = tenant()->configValue('gocuotas_email');
+        $password = tenant()->configValue('gocuotas_password');
 
-        $response = Http::post("$this->base_url/authentication?email=elpalacioonline@gocuotas.com&password=$api_key")->json();
+        $response = Http::post("$this->base_url/authentication?email=$email&password=$password")->json();
 
         $this->token = $response['token'];
     }

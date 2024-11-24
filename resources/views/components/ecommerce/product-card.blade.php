@@ -4,7 +4,7 @@
         {{-- Image & widgets --}}
         <div class="relative rounded-t-xl w-full overflow-hidden border">
             <img src="{{ $product->first_image }}"
-            class="w-full h-56 transition-all duration-700 object-cover group-hover:scale-[1.03]">
+            class="w-full h-56 transition-all duration-700 object-contain group-hover:scale-[1.03]">
 
             @if ($product->featured)
                 <div class="absolute top-0 left-0 transition duration-200" :class="hoverOnProduct ? 'opacity-40' : 'opacity-100'">

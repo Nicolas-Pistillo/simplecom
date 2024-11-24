@@ -27,7 +27,7 @@
                                                 rounded-md border border-gray-200 hover:border-gray-300">
                                                 <a href="{{ $product->model->detailPageUrl() }}">
                                                     <img src="{{ $product->options->image_url }}" alt="product-img"
-                                                        class="h-full w-full object-cover object-center">
+                                                    class="h-full w-full object-contain object-center">
                                                 </a>
                                             </div>
 
