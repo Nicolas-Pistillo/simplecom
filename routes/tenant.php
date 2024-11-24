@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\PaymentReturnController;
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
@@ -23,6 +24,10 @@ Route::middleware([
         // SSO user login and registration
         Route::get('sso/{provider}/redirect', [SocialiteController::class, 'redirect']);
         Route::get('sso/{provider}/callback', [SocialiteController::class, 'callback']);
+
+        // Payment providers return urls
+        Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'return'])
+            ->name('payment.return');
 
         // Ecommerce navigation
         Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');

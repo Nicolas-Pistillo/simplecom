@@ -19,7 +19,7 @@
 
             <div class="min-w-0 flex-auto">
 
-                <p class="text-sm font-semibold leading-6 text-gray-900 flex items-center">
+                <p class="text-xs md:text-sm font-semibold leading-6 text-gray-900 flex items-center">
                     {{ $product->name }}
                 </p>
 

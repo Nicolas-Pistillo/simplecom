@@ -5,13 +5,14 @@ namespace App\Services;
 use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class GOcuotas implements PaymentGateway
 {
     use Configurable;
 
-    protected $configuration_keys = ['gocuotas_email', 'gocuotas_password'];
+    protected $configuration_keys = ['gocuotas_redirect_email', 'gocuotas_redirect_password'];
 
     public $redirect_type = PaymentRedirectType::ProviderPlatform;
     public $provider_checkout_url;
@@ -21,8 +22,8 @@ class GOcuotas implements PaymentGateway
 
     public function generateToken()
     {
-        $email = tenant()->configValue('gocuotas_email');
-        $password = tenant()->configValue('gocuotas_password');
+        $email = tenant()->configValue('gocuotas_redirect_email');
+        $password = tenant()->configValue('gocuotas_redirect_password');
 
         $response = Http::post("$this->base_url/authentication?email=$email&password=$password")->json();
 
@@ -38,9 +39,9 @@ class GOcuotas implements PaymentGateway
             'email'                 => 'prueba@gocuotas.com',
             'order_reference_id'    => 'U145P345',
             'phone_number'          => '1140506070',
-            'url_success'           => 'https://elpalaciodelaoportunidad.com/pruebas/gocuotas/url_success.php',
-            'url_failure'           => 'https://elpalaciodelaoportunidad.com/pruebas/gocuotas/url_failure.php',
-            'webhook_url'           => 'https://elpalaciodelaoportunidad.com/pruebas/gocuotas/url_webhook.php'
+            'url_success'           => route('payment.return', 'gocuotas'),
+            'url_failure'           => route('payment.return', 'gocuotas'),
+            'webhook_url'           => route('payment.return', 'gocuotas')
         ];
 
         $response = Http::withToken($this->token)

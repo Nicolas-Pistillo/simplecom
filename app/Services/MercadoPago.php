@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
-use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Client\Preference\PreferenceClient;
+use MercadoPago\MercadoPagoConfig;
 
 class MercadoPago implements PaymentGateway
 {
@@ -26,12 +26,20 @@ class MercadoPago implements PaymentGateway
         $client = new PreferenceClient();
 
         $preference = $client->create([
-            'items' => [[
-                'title'      => 'Producto pruebita',
-                'quantity'   => 1,
-                'unit_price' => 3500
+            'auto_return' => 'approved',
+            'items' => [
+                [
+                    'title'      => 'Producto pruebita',
+                    'quantity'   => 1,
+                    'unit_price' => 3500
+                ]
+            ],
+            'back_urls' => [
+                'success' => route('payment.return', 'mercadopago'),
+                'failure' => route('payment.return', 'mercadopago'),
+                'pending' => route('payment.return', 'mercadopago'),
             ]
-        ]]);
+        ]);
 
         $this->provider_checkout_url = $preference->init_point;
     }
