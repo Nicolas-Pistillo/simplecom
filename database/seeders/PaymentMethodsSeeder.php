@@ -53,7 +53,7 @@ class PaymentMethodsSeeder extends Seeder
             'code'          => 'ualabis',
             'service_class' => Ualabis::class,
             'display_name'  => 'UALA bis',
-            'checkout_name' => 'UALA - Pagar con tarjeta de crédito o débito',
+            'checkout_name' => 'UALA bis - Pagar con crédito o débito',
             'description'   => 'El checkout de Ualá Bis está optimizado para aumentar la conversión, desalentando el abandono, dando confianza y seguridad al usuario. Apuesta a la mejora constante de la experiencia del usuario, por lo que es posible completar el pago de manera más rápida y con menos esfuerzo.',
             'support_url'   => 'https://www.ualabis.com.ar/contacto',
             'support_email' => 'hola@ualabis.com.ar'

@@ -2,31 +2,37 @@
 
 namespace App\Services;
 
-use App\Models\Configuration;
-use App\Interfaces\Configurable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
+use App\Enums\PaymentRedirectType;
+use App\Interfaces\PaymentGateway;
+use App\Traits\Configurable;
+use MercadoPago\MercadoPagoConfig;
+use MercadoPago\Client\Preference\PreferenceClient;
 
-class MercadoPago implements Configurable
+class MercadoPago implements PaymentGateway
 {
-    public function getConfigurableFields(): Collection
+    use Configurable;
+
+    protected $configuration_keys = ['mp_access_token'];
+
+    public $redirect_type = PaymentRedirectType::ProviderPlatform;
+    public $provider_checkout_url;
+
+    public function generateCheckout($order)
     {
-        return Configuration::whereIn('key', ['mp_access_token'])->get();
-    }
+        $access_token = tenant()->configValue('mp_access_token');
 
-    public function isConfigurated(): bool
-    {
-        $configurated = true;
+        MercadoPagoConfig::setAccessToken($access_token);
 
-        foreach($this->getConfigurableFields() as $field)
-        {
-            if ($field->required)
-            {
-                if ($field->input_type === 'text' && empty($field->value))
-                    $configurated = false;
-            }
-        }
+        $client = new PreferenceClient();
 
-        return $configurated;
+        $preference = $client->create([
+            'items' => [[
+                'title'      => 'Producto pruebita',
+                'quantity'   => 1,
+                'unit_price' => 3500
+            ]
+        ]]);
+
+        $this->provider_checkout_url = $preference->init_point;
     }
 }

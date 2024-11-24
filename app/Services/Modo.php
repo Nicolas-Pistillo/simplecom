@@ -2,31 +2,60 @@
 
 namespace App\Services;
 
-use App\Interfaces\Configurable;
+use App\Enums\PaymentRedirectType;
+use App\Interfaces\PaymentGateway;
 use App\Models\Configuration;
+use App\Traits\Configurable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class Modo implements Configurable
+class Modo implements PaymentGateway
 {
-    public function getConfigurableFields(): Collection
+    use Configurable;
+
+    protected $configuration_keys = ['modo_username', 'modo_password', 'modo_store_id'];
+
+    public $redirect_type = PaymentRedirectType::FrontendCheckout;
+
+    private $base_url = 'https://merchants.preprod.playdigital.com.ar/merchants';
+    private $token;
+
+    public $frontend_payload;
+
+    public function generateToken()
     {
-        return Configuration::whereIn('key', ['modo_username', 'modo_password', 'modo_store_id'])->get();
+        $user = tenant()->configValue('modo_username');
+        $password = tenant()->configValue('modo_password');
+
+        $response = Http::withUserAgent('Simplecom')
+                        ->asJson()
+                        ->withBody(json_encode(['username' => $user, 'password' => $password])) 
+                        ->post("$this->base_url/middleman/token")
+                        ->json();
+
+        $this->token = $response['accessToken'];
     }
 
-    public function isConfigurated(): bool
+    public function generateCheckout($order)
     {
-        $configurated = true;
+        $this->generateToken();
 
-        foreach($this->getConfigurableFields() as $field)
-        {
-            if ($field->required)
-            {
-                if ($field->input_type === 'text' && empty($field->value))
-                    $configurated = false;
-            }
-        }
+        $store_id = tenant()->configValue('modo_store_id');
 
-        return $configurated;
+        $response = Http::withUserAgent('Simplecom')
+                        ->withToken($this->token)
+                        ->asJson()
+                        ->withBody(json_encode([
+                            'productName' => 'Zapatillas dupla',
+                            'price'       => 12500.60,
+                            'quantity'    => 2,
+                            'currency'    => 'ARS',
+                            'storeId'     => $store_id,
+                            'externalIntentionId' => uniqid()
+                        ]))
+                        ->post("$this->base_url/ecommerce/payment-intention")
+                        ->json();
+
+        $this->frontend_payload = $response;
     }
 }

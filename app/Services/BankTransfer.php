@@ -2,33 +2,14 @@
 
 namespace App\Services;
 
-use App\Interfaces\Configurable;
-use App\Models\Configuration;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
+use App\Enums\PaymentRedirectType;
+use App\Traits\Configurable;
 
-class BankTransfer implements Configurable
+class BankTransfer
 {
-    public function getConfigurableFields(): Collection
-    {
-        return Configuration::whereIn('key', [
-            'transfer_bank', 'transfer_account_owner', 'transfer_cbu', 'transfer_alias'
-        ])->get();
-    }
+    use Configurable;
 
-    public function isConfigurated(): bool
-    {
-        $configurated = true;
+    protected $configuration_keys = ['transfer_bank', 'transfer_account_owner', 'transfer_cbu', 'transfer_alias'];
 
-        foreach($this->getConfigurableFields() as $field)
-        {
-            if ($field->required)
-            {
-                if ($field->input_type === 'text' && empty($field->value))
-                    $configurated = false;
-            }
-        }
-
-        return $configurated;
-    }
+    public $redirect_type = PaymentRedirectType::None;
 }
