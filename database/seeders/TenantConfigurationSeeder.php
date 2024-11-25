@@ -198,5 +198,41 @@ class TenantConfigurationSeeder extends Seeder
             'helper'        => 'Contraseña (Api Key) proveida por gocuotas para el servicio API Redirect',
             'required'      => true
         ]);
+
+        Configuration::create([
+            'key'           => 'mobbex_api_key',
+            'display_name'  => 'Api Key',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Api Key generada en portal de desarrolladores',
+            'helper'        => 'Podes generar estas claves en tu portal de desarrolladores',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'mobbex_access_token',
+            'display_name'  => 'Access Token',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Access token generado en portal de desarrolladores',
+            'helper'        => 'Podes generar estas claves en tu portal de desarrolladores',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'getnet_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client ID generado en dashboard',
+            'helper'        => 'Podes generarlo la seccion Comercios > Credenciales de tu dashboard',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'getnet_client_secret',
+            'display_name'  => 'Client Secret',
+            'topic'         => ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client secret generado en dashboard',
+            'helper'        => 'Podes generarlo la seccion Comercios > Credenciales de tu dashboard',
+            'required'      => true
+        ]);
     }
 }

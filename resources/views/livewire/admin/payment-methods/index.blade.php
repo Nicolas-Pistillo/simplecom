@@ -20,7 +20,7 @@
             @foreach ($payment_methods as $method)
                 <li wire:key='{{ $method->id }}' x-data="{ open: false, expanded: false }"
                 class="relative rounded-xl border border-gray-200 
-                w-96 transition-shadow duration-300 hover:shadow-md">
+                w-full sm:w-96 transition-shadow duration-300 hover:shadow-md">
 
                     <div class="flex rounded-t-xl items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-4">
 
