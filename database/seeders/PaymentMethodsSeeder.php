@@ -33,6 +33,7 @@ class PaymentMethodsSeeder extends Seeder
             'service_class' => MercadoPago::class,
             'display_name'  => 'Mercado Pago',
             'checkout_name' => 'Mercado Pago',
+            'page_url'      => 'https://www.mercadopago.com.ar/developers/es',
             'description'   => 'El Checkout Pro de Mercado Pago es una solución que permite a tus clientes realizar compras a través de las páginas de pago de Mercado Pago de forma segura, rápida y con la posibilidad de pagar con los principales medios de pago disponibles actualmente.',
             'support_url'   => 'https://www.mercadopago.com.ar/developers/es/support/center'
         ]);
@@ -44,6 +45,7 @@ class PaymentMethodsSeeder extends Seeder
             'display_name'  => 'MODO',
             'checkout_name' => 'MODO - Pagar con QR',
             'description'   => 'MODO es una plataforma de pagos que integra más de 35 bancos, ofreciendo una experiencia de pago ágil para el usuario final. Con MODO, tus clientes pueden pagar sus compras en línea de manera rápida y segura, utilizando las tarjetas asociadas a su billetera digital.',
+            'page_url'      => 'https://www.modo.com.ar',
             'support_url'   => 'https://merchants.modo.com.ar/docs/soporte',
             'support_email' => 'comercios@modo.com.ar'
         ]);
@@ -55,6 +57,7 @@ class PaymentMethodsSeeder extends Seeder
             'display_name'  => 'UALA bis',
             'checkout_name' => 'UALA bis - Pagar con crédito o débito',
             'description'   => 'El checkout de Ualá Bis está optimizado para aumentar la conversión, desalentando el abandono, dando confianza y seguridad al usuario. Apuesta a la mejora constante de la experiencia del usuario, por lo que es posible completar el pago de manera más rápida y con menos esfuerzo.',
+            'page_url'      => 'https://www.ualabis.com.ar',
             'support_url'   => 'https://www.ualabis.com.ar/contacto',
             'support_email' => 'hola@ualabis.com.ar'
         ]);

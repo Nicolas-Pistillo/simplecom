@@ -18,6 +18,8 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
 
+    Route::view('test', 'ecommerce.thanks');
+
     /*****  TENANT ECOMMERCE ROUTES  *****/
     Route::middleware(['tenant_setuped', 'tenant_active'])->group(function() {
 
