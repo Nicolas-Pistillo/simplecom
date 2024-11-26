@@ -46,6 +46,7 @@ class GOcuotas implements PaymentGateway
 
         $response = Http::withToken($this->token)
                         ->withQueryParameters($payload)
+                        ->throw()
                         ->post("$this->base_url/checkouts")
                         ->json();
 

@@ -20,10 +20,10 @@ if(!function_exists('priceFormat'))
     }
 }
 
-if (!function_exists('geocodeZip'))
+if (!function_exists('postalCodeInfo'))
 {
     function postalCodeInfo($postalCode)
     {
-        return Http::get("https://geocodes.envia.com/zipcode/AR/1890");
+        return Http::get("https://geocodes.envia.com/zipcode/AR/$postalCode")->json();
     }
 }

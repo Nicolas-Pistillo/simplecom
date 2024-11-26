@@ -8,6 +8,7 @@ use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
 use App\Http\Controllers\Tenant\SocialiteController;
 use App\Models\Product;
+use App\Services\Modo;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -30,6 +31,14 @@ Route::middleware([
         // Payment providers return urls
         Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
+
+        Route::post('modo-payment-intention', function() 
+        {
+            $modo = new Modo();
+            $modo->generateCheckout([]);
+
+            return response()->json($modo->frontend_payload);
+        })->name('modo.payment-intention');
 
         // Ecommerce navigation
         Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');

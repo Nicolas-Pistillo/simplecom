@@ -127,35 +127,57 @@
         </div>
     @endif
 
+    {{-- Frontend Checkouts section --}}
+
     @script
         <script>
             Livewire.on('modo-checkout', (event) => 
             {
-                const paymentIntention = event[0];
+                async function createPaymentIntention()
+                {
+                    const res = await fetch('{{ route("modo.payment-intention") }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-Token': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({price: 77 })
+                        }  
+                    );
+                    
+                    const jsonRes = await res.json();
 
-                ModoSDK.modoInitPayment({
-                    qrString: paymentIntention.qrString,
-                    checkoutId: paymentIntention.checkoutId,
-                    deeplink: {
-                        url: paymentIntention.deeplink,
-                        callbackURL: 'https://tiendadeprueba.com/checkout',
-                        callbackURLSuccess: 'https://tiendadeprueba/thankyou'
-                    },
-                    callbackURL: 'https://tiendadeprueba/thankyou',
-                    refreshData: false,
-                    onSuccess: function() {
-                        console.log('onSuccess')
-                    },
-                    onFailure: function() {
-                        console.log('onFailure')
-                    },
-                    onCancel: function() {
-                        console.log('onCancel')
-                    },
-                    onClose: function() {
-                        console.log('onClose')
-                    },
-                })
+                    return {
+                        checkoutId: jsonRes.id,
+                        qrString: jsonRes.qr,
+                        deeplink: jsonRes.deeplink,
+                    };
+                }
+
+                async function showModal() 
+                {
+                    const modalData = await createPaymentIntention();
+
+                    var modalObject = {
+                        qrString: modalData.qrString,
+                        checkoutId: modalData.checkoutId,
+                        deeplink:  {
+                            url: modalData.deeplink,
+                            callbackURL: 'https://tiendadeprueba.com/checkout',
+                            callbackURLSuccess: 'https://tiendadeprueba/thankyou'
+                        },
+                        callbackURL: 'https://tiendadeprueba/thankyou',
+                        refreshData: createPaymentIntention,
+                        onSuccess: function () { console.log('onSuccess') },
+                        onFailure: function () { console.log('onFailure') },
+                        onCancel: function () { console.log('onCancel') },
+                        onClose: function () { console.log('Cerro el modal') },
+                    }
+
+                    ModoSDK.modoInitPayment(modalObject);
+                }
+
+                showModal();
             });
         </script>
     @endscript

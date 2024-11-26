@@ -66,6 +66,7 @@ class Getnet implements PaymentGateway
                             'Content-Type' => 'application/vnd.api+json',
                             'Accept'       => 'application/vnd.api+json'
                         ])
+                        ->throw()
                         ->post('https://api.globalgetnet.com.ar/api/v2/orders')
                         ->json();
 

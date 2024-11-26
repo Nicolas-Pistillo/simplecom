@@ -39,6 +39,7 @@ class Mobbex implements PaymentGateway
                 'identification' => '42395031'
             ]
         ]))
+        ->throw()
         ->post("https://api.mobbex.com/p/checkout")
         ->json();
 

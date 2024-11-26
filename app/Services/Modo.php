@@ -43,6 +43,7 @@ class Modo implements PaymentGateway
         $response = Http::withUserAgent('Simplecom')
                         ->withToken($this->token)
                         ->asJson()
+                        ->throw()
                         ->withBody(json_encode([
                             'productName' => 'Zapatillas dupla',
                             'price'       => 12500.60,

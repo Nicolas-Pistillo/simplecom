@@ -11,6 +11,7 @@ use App\Services\ProductService;
 use Illuminate\Support\Facades\Http;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
+use App\Services\Modo;
 use Illuminate\Support\Facades\Log;
 
 class Checkout extends Component
@@ -188,15 +189,14 @@ class Checkout extends Component
             {
                 dd("termina aca el checkout");
             }
-    
+
+            if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
+                $this->dispatch("$paymentMethod->code-checkout");
+
             $service->generateCheckout(['id' => 123]);
-    
+
             if ($service->redirect_type === PaymentRedirectType::ProviderPlatform)
                 $this->redirect($service->provider_checkout_url);
-            
-    
-            if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
-                $this->dispatch("$paymentMethod->code-checkout", $service->frontend_payload);
 
         } catch (\Throwable $th) 
         {
