@@ -7,7 +7,7 @@
             </h1>
         </div>
 
-        <div class="flex flex-col lg:flex-row-reverse min-h-full overflow-hidden pb-16">
+        <div class="flex flex-col lg:flex-row-reverse min-h-full overflow-hidden">
 
             <!-- Order summary -->
             @include('ecommerce.partials.checkout.summary')

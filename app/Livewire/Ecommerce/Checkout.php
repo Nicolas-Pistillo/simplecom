@@ -9,7 +9,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 use App\Services\ProductService;
 use Illuminate\Support\Facades\Http;
-use App\Enums\DeliveryType;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\Log;
@@ -21,8 +20,6 @@ class Checkout extends Component
     public CheckoutForm $form;
 
     public $current_step = 1;
-
-    public $delivery_type = DeliveryType::Picking;
 
     public $shipping_rates, $selected_shipping;
 
@@ -211,6 +208,7 @@ class Checkout extends Component
 
             Log::error("Error al generar un pedido", [
                 'tenant'            => tenant('name'),
+                'payment_method'    => $paymentMethod->code,
                 'exception_message' =>  $th->getMessage()
             ]);
         }

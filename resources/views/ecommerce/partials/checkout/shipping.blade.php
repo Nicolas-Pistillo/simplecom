@@ -9,7 +9,7 @@
             <div class="mt-3 flex items-center space-x-10 space-y-0">
 
                 <div class="flex items-center">
-                    <input wire:model.live='delivery_type' value="{{ DeliveryType::Shipping }}" 
+                    <input wire:model.live='form.delivery_type' value="{{ DeliveryType::Shipping }}" 
                     id="shipping_delivery" name="delivery_type" type="radio"
                     class="size-4 border-gray-300 text-blue-600 focus:ring-blue-600">
                     <label for="shipping_delivery" class="ml-3 block text-sm/6 font-medium text-gray-900">
@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="flex items-center">
-                    <input wire:model.live='delivery_type' value="{{ DeliveryType::Picking }}" 
+                    <input wire:model.live='form.delivery_type' value="{{ DeliveryType::Picking }}" 
                     id="withdraw_delivery" name="delivery_type" type="radio"
                     class="size-4 border-gray-300 text-blue-600 focus:ring-blue-600">
                     <label for="withdraw_delivery" class="ml-3 no-select block text-sm/6 font-medium text-gray-900">
@@ -28,7 +28,7 @@
             </div>
         </fieldset>
 
-        @if ($delivery_type === DeliveryType::Picking)
+        @if ($form->delivery_type === DeliveryType::Picking)
 
             <div class="col-span-full">
                 <h4 class="text-sm/6 font-semibold text-gray-900">Elija un punto de retiro</h4>
@@ -133,7 +133,7 @@
             </div>
         @endif
 
-        @if ($delivery_type === DeliveryType::Shipping)
+        @if ($form->delivery_type === DeliveryType::Shipping)
 
             <div class="col-span-full sm:col-span-6">
                 <label for="shipping_postal_code" class="block text-sm font-medium text-gray-700">

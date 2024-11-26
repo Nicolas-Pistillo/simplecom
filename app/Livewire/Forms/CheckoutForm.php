@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\DeliveryType;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -27,4 +28,7 @@ class CheckoutForm extends Form
 
     #[Validate('required|numeric', as: 'dirección')]
     public $address_id;
+
+    #[Validate('required|in:picking_delivery,shipping_delivery', as: 'tipo de entrega')]
+    public $delivery_type = DeliveryType::Picking;
 }

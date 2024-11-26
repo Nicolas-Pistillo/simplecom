@@ -28,7 +28,7 @@ Route::middleware([
         Route::get('sso/{provider}/callback', [SocialiteController::class, 'callback']);
 
         // Payment providers return urls
-        Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'return'])
+        Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
 
         // Ecommerce navigation

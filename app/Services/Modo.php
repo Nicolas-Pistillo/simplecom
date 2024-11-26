@@ -4,23 +4,21 @@ namespace App\Services;
 
 use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
-use App\Models\Configuration;
 use App\Traits\Configurable;
-use Illuminate\Support\Collection;
+use App\Traits\ManagesPaymentRedirections;
 use Illuminate\Support\Facades\Http;
 
 class Modo implements PaymentGateway
 {
-    use Configurable;
+    use Configurable, ManagesPaymentRedirections;
 
     protected $configuration_keys = ['modo_username', 'modo_password', 'modo_store_id'];
 
-    public $redirect_type = PaymentRedirectType::FrontendCheckout;
-
-    private $base_url = 'https://merchants.preprod.playdigital.com.ar/merchants';
-    private $token;
-
-    public $frontend_payload;
+    public function __construct()
+    {
+        $this->redirect_type = PaymentRedirectType::FrontendCheckout;
+        $this->base_url = 'https://merchants.preprod.playdigital.com.ar/merchants';
+    }
 
     public function generateToken()
     {

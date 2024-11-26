@@ -35,7 +35,7 @@ class GOcuotas implements PaymentGateway
         $this->generateToken();
 
         $payload = [
-            'amount_in_cents'       => 150050,
+            'amount_in_cents'       => 150000,
             'email'                 => 'prueba@gocuotas.com',
             'order_reference_id'    => 'U145P345',
             'phone_number'          => '1140506070',
