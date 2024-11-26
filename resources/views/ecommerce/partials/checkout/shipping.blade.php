@@ -19,9 +19,9 @@
 
                 <div class="flex items-center">
                     <input wire:model.live='form.delivery_type' value="{{ DeliveryType::Picking }}" 
-                    id="withdraw_delivery" name="delivery_type" type="radio"
+                    id="picking_delivery" name="delivery_type" type="radio"
                     class="size-4 border-gray-300 text-blue-600 focus:ring-blue-600">
-                    <label for="withdraw_delivery" class="ml-3 no-select block text-sm/6 font-medium text-gray-900">
+                    <label for="picking_delivery" class="ml-3 no-select block text-sm/6 font-medium text-gray-900">
                         Retiro personalmente
                     </label>
                 </div>

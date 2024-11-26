@@ -17,6 +17,9 @@ class CheckoutForm extends Form
     #[Validate('required|email', as: 'email')]
     public $customer_email;
 
+    #[Validate('required|numeric', as: 'cod. de área')]
+    public $customer_phone_area;
+
     #[Validate('required|numeric', as: 'telefono')]
     public $customer_phone;
 
@@ -29,6 +32,6 @@ class CheckoutForm extends Form
     #[Validate('required|numeric', as: 'dirección')]
     public $address_id;
 
-    #[Validate('required|in:picking_delivery,shipping_delivery', as: 'tipo de entrega')]
+    #[Validate('required', as: 'tipo de entrega')]
     public $delivery_type = DeliveryType::Picking;
 }
