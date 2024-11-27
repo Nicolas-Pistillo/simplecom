@@ -28,11 +28,11 @@ Route::middleware([
         Route::get('sso/{provider}/redirect', [SocialiteController::class, 'redirect']);
         Route::get('sso/{provider}/callback', [SocialiteController::class, 'callback']);
 
-        // Payment providers return urls
+        // Payment providers urls
         Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
 
-        Route::post('modo-payment-intention', function() 
+        Route::post('payment-providers/modo-payment-intention', function() 
         {
             $modo = new Modo();
             $modo->generateCheckout([]);

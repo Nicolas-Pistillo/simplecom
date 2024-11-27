@@ -33,5 +33,5 @@ class CheckoutForm extends Form
     public $address_id;
 
     #[Validate('required', as: 'tipo de entrega')]
-    public $delivery_type = DeliveryType::Picking;
+    public $delivery_type = DeliveryType::Shipping;
 }

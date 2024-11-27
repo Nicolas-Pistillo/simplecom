@@ -47,8 +47,8 @@
                                 <button wire:click="removeItem('{{ $product->rowId }}')"
                                     x-tooltip.raw.placement.left="Quitar del carrito" type="button"
                                     class="-m-2.5 flex items-center transition
-                                duration-300 justify-center p-2.5 bg-inherit text-gray-400 
-                                hover:text-red-500">
+                                    duration-300 justify-center p-2.5 bg-inherit text-gray-400 
+                                    hover:text-red-500">
                                     <x-icon code="delete" />
                                 </button>
                             </div>
@@ -72,7 +72,7 @@
                                 class="border border-gray-200 rounded-full w-11
                                 aspect-square outline-none text-gray-900 font-semibold 
                                 text-sm py-1.5 px-3 bg-gray-100 text-center"
-                                    placeholder="{{ $product->qty }}">
+                                placeholder="{{ $product->qty }}">
 
                                 <button wire:click="changeQty('add' ,'{{ $product->rowId }}')"
                                 class="group rounded-full border border-gray-200 shadow-sm shadow-transparent 
@@ -106,12 +106,15 @@
                 </dd>
             </div> --}}
             <div class="flex items-center justify-between">
-                <dt class="text-sm">Envío</dt>
-                <dd class="text-sm font-medium text-gray-900">
-                    @if ($selected_shipping)
-                    @else
-                        No calculado
+                <dt class="text-sm">
+                    @if ($form->delivery_type === DeliveryType::Shipping)
+                        Envío
+                    @elseif($form->delivery_type === DeliveryType::Picking)
+                        Retiro
                     @endif
+                </dt>
+                <dd class="text-sm font-medium text-gray-900">
+                    No calculado
                 </dd>
             </div>
             <div class="flex items-center justify-between border-t border-gray-200 pt-6">
