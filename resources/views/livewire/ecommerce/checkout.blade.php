@@ -128,8 +128,9 @@
         </div>
     @endif
 
-    {{-- Frontend Checkouts section --}}
+    
 
+    {{-- Frontend Checkouts section --}}
     @script
         <script>
             Livewire.on('modo-checkout', (event) => 

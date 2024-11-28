@@ -191,7 +191,7 @@ class Checkout extends Component
             }
 
             if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
-                $this->dispatch("$paymentMethod->code-checkout");
+                $this->dispatch("$paymentMethod->code-checkout", $service->frontend_init_data);
 
             $service->generateCheckout(['id' => 123]);
 
@@ -220,11 +220,9 @@ class Checkout extends Component
 
         $zippin = new Zippin();
 
-        /* $accounts = $zippin->getAccounts();
-        $origins = $zippin->getOrigins();
-        $webhooks = $zippin->getWebhooks();
+        $rates = $zippin->getRates();
 
-        dd($accounts, $origins, $webhooks); */
+        dd($rates);
     }
 
     public function render()
