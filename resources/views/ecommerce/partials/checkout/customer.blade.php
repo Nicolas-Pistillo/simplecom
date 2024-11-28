@@ -124,21 +124,6 @@
         </div>
 
         <div class="col-span-full sm:col-span-6">
-            <label for="customer_document" class="block text-sm font-medium text-gray-700">
-                DNI
-            </label>
-            <div class="mt-1">
-                <input type="text" id="customer_document" wire:model.blur='form.customer_document'
-                    class="block w-full rounded-md border-gray-300 shadow-sm 
-                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-
-                @error('form.customer_document')
-                    <small class="text-red-500">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-
-        <div class="col-span-full sm:col-span-6">
             <label for="customer_email" class="block text-sm font-medium text-gray-700">
                 Email
             </label>
@@ -148,6 +133,21 @@
                 focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
 
                 @error('form.customer_email')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-span-full sm:col-span-6">
+            <label for="customer_document" class="block text-sm font-medium text-gray-700">
+                DNI
+            </label>
+            <div class="mt-1">
+                <input type="text" id="customer_document" wire:model.blur='form.customer_document'
+                    class="block w-full rounded-md border-gray-300 shadow-sm 
+                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                @error('form.customer_document')
                     <small class="text-red-500">{{ $message }}</small>
                 @enderror
             </div>

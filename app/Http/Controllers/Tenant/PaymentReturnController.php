@@ -29,6 +29,11 @@ class PaymentReturnController extends Controller
         dd("llego al webhook de mobbex", $request->all());
     }
 
+    public function stripe(Request $request)
+    {
+        dd("llego al webhook de stripe", $request->all());
+    }
+
     public function ualabis(Request $request)
     {
         

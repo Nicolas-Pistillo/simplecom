@@ -1,11 +1,10 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\PaymentProviders;
 
 use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
-use Exception;
 use Illuminate\Support\Facades\Http;
 
 class GOcuotas implements PaymentGateway

@@ -3,7 +3,7 @@
 namespace App\Livewire\Ecommerce;
 
 use App\Livewire\Forms\CheckoutForm;
-use App\Services\EnviaService;
+use App\Services\ShippingProviders\Envia;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
@@ -11,6 +11,7 @@ use App\Services\ProductService;
 use Illuminate\Support\Facades\Http;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
+use App\Services\ShippingProviders\Zippin;
 use Illuminate\Support\Facades\Log;
 
 class Checkout extends Component
@@ -31,7 +32,7 @@ class Checkout extends Component
 
         $postal_code = $this->form->customer_postal_code;
 
-        $envia = new EnviaService();
+        $envia = new Envia();
 
         $available_carriers = ['oca', 'andreani', 'correoArgentino', 'urbano'];
         $available_carrier_services = [];
@@ -216,6 +217,14 @@ class Checkout extends Component
     public function mount()
     {
         $this->payment_methods = PaymentMethod::where('active', true)->get();
+
+        $zippin = new Zippin();
+
+        /* $accounts = $zippin->getAccounts();
+        $origins = $zippin->getOrigins();
+        $webhooks = $zippin->getWebhooks();
+
+        dd($accounts, $origins, $webhooks); */
     }
 
     public function render()

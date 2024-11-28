@@ -16,11 +16,6 @@ class Index extends Component
     public $drawerTitle; 
     public $method_editing, $checkout_name, $configurable_fields;
 
-    public function mount()
-    {
-        $this->payment_methods = PaymentMethod::all();
-    }
-
     public function openConfiguration(PaymentMethod $method)
     {
         $this->resetErrorBag();
@@ -81,6 +76,11 @@ class Index extends Component
     public function cancel()
     {
         $this->dispatch('close-drawer');
+    }
+
+    public function mount()
+    {
+        $this->payment_methods = PaymentMethod::orderBy('active', 'desc')->get();
     }
 
     public function render()

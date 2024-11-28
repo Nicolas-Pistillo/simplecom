@@ -18,6 +18,7 @@
         "mindscms/laravelshoppingcart": "^2.1",
         "spatie/laravel-permission": "^6.4",
         "stancl/tenancy": "^3.7",
+        "stripe/stripe-php": "^16.3",
         "uala-bis/ualabis-php": "^1.0"
     },
     "require-dev": {

@@ -4,12 +4,13 @@ namespace Database\Seeders;
 
 use App\Models\PaymentMethod;
 use App\Services\BankTransfer;
-use App\Services\Getnet;
-use App\Services\GOcuotas;
-use App\Services\MercadoPago;
-use App\Services\Mobbex;
-use App\Services\Modo;
-use App\Services\Ualabis;
+use App\Services\PaymentProviders\Getnet;
+use App\Services\PaymentProviders\GOcuotas;
+use App\Services\PaymentProviders\MercadoPago;
+use App\Services\PaymentProviders\Mobbex;
+use App\Services\PaymentProviders\Modo;
+use App\Services\PaymentProviders\Stripe;
+use  App\Services\PaymentProviders\Ualabis;
 use Illuminate\Database\Seeder;
 
 class PaymentMethodsSeeder extends Seeder
@@ -92,8 +93,19 @@ class PaymentMethodsSeeder extends Seeder
             'display_name'  => 'Getnet',
             'checkout_name' => 'Getnet - Tarjetas de crédito, débito y prepagas',
             'description'   => 'Getnet es una solución de cobros y servicios que brinda a comerciantes, emprendedores y profesionales una alternativa más fácil, rápida y segura de cobrar. Con Getnet podés realizar el cobro de tus ventas de forma presencial y a distancia, a través de diferentes medios de pago como tarjetas de crédito, tarjetas de débito, tarjetas prepagas y links de pago, en un solo pago o en cuotas.',
-            'page_url'      => 'https://www.getnet.com.ar/',
+            'page_url'      => 'https://www.getnet.com.ar/cobra-online/get-checkout',
             'support_url'   => 'https://www.getnet.com.ar/ventas'
+        ]);
+
+        // Stripe
+        PaymentMethod::create([
+            'code'          => 'stripe',
+            'service_class' => Stripe::class,
+            'display_name'  => 'Stripe',
+            'checkout_name' => 'Stripe - Tarjetas de crédito o débito',
+            'description'   => 'El formulario de pago prediseñado de Stripe ofrece una experiencia de proceso de compra optimizado para tus clientes. Reduce la fricción, admite decenas de métodos de pago internacionales y se adapta al idioma y dispositivo de tus clientes.',
+            'page_url'      => 'https://stripe.com/es-us/use-cases/ecommerce',
+            'support_url'   => 'https://support.stripe.com'
         ]);
     }
 }

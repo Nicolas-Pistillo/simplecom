@@ -1,10 +1,10 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\ShippingProviders;
 
 use Illuminate\Support\Facades\Http;
 
-class EnviaService
+class Envia
 {
     private $token;
 

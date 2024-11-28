@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\PaymentProviders;
 
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;

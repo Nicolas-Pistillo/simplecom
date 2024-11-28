@@ -1,13 +1,14 @@
 <div>
 
     @if (Cart::count() > 0)
+    
         <div class="pt-10 pb-4 mb-6">
             <h1 class="text-3xl text-center font-bold tracking-tight text-gray-900">
                 Finalizá tu compra
             </h1>
         </div>
 
-        <div class="flex flex-col lg:flex-row-reverse min-h-full overflow-hidden">
+        <div class="flex flex-col lg:flex-row-reverse min-h-full overflow-hidden pb-8">
 
             <!-- Order summary -->
             @include('ecommerce.partials.checkout.summary')
