@@ -2,7 +2,6 @@
 
 namespace App\Services\PaymentProviders;
 
-use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;

@@ -13,6 +13,8 @@ class Getnet implements PaymentGateway
 
     protected $configuration_keys = ['getnet_client_id', 'getnet_client_secret'];
 
+    private $token;
+
     public function generateToken()
     {
         $client_id = tenant()->configValue('getnet_client_id');
@@ -61,7 +63,7 @@ class Getnet implements PaymentGateway
                                     ]
                                 ]
                             ]
-                                        ]), 'application/vnd.api+json')
+                        ]), 'application/vnd.api+json')
                         ->withHeaders([
                             'Content-Type' => 'application/vnd.api+json',
                             'Accept'       => 'application/vnd.api+json'

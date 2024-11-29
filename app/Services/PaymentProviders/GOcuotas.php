@@ -2,19 +2,16 @@
 
 namespace App\Services\PaymentProviders;
 
-use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
+use App\Traits\ManagesPaymentRedirections;
 use Illuminate\Support\Facades\Http;
 
 class GOcuotas implements PaymentGateway
 {
-    use Configurable;
+    use Configurable, ManagesPaymentRedirections;
 
     protected $configuration_keys = ['gocuotas_redirect_email', 'gocuotas_redirect_password'];
-
-    public $redirect_type = PaymentRedirectType::ProviderPlatform;
-    public $provider_checkout_url;
 
     private $base_url = 'https://sandbox.gocuotas.com/api_redirect/v1';
     private $token;

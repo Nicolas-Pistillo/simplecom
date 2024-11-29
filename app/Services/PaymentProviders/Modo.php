@@ -14,6 +14,8 @@ class Modo implements PaymentGateway
 
     protected $configuration_keys = ['modo_username', 'modo_password', 'modo_store_id'];
 
+    private $base_url, $token;
+
     public function __construct()
     {
         $this->redirect_type = PaymentRedirectType::FrontendCheckout;

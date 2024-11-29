@@ -24,9 +24,9 @@ class Mobbex implements PaymentGateway
         $checkout = Http::withHeaders([
             'x-api-key'      => $api_key,
             'x-access-token' => $access_token,
-            'Content-Type'   => 'application/json'
+            'content-type'   => 'application/json'
         ])->withBody(json_encode([
-            'total' => 25000,
+            'total'       => 25000,
             'description' => 'Pedido TEST',
             'reference'   => uniqid(),
             'currency'    => 'ARS',

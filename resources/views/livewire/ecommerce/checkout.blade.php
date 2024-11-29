@@ -165,10 +165,10 @@
                         checkoutId: modalData.checkoutId,
                         deeplink:  {
                             url: modalData.deeplink,
-                            callbackURL: 'https://tiendadeprueba.com/checkout',
-                            callbackURLSuccess: 'https://tiendadeprueba/thankyou'
+                            callbackURL: 'http://andromeda.localhost/test',
+                            callbackURLSuccess: 'http://andromeda.localhost/test'
                         },
-                        callbackURL: 'https://tiendadeprueba/thankyou',
+                        callbackURL: 'http://andromeda.localhost/test',
                         refreshData: createPaymentIntention,
                         onSuccess: function () { console.log('onSuccess') },
                         onFailure: function () { console.log('onFailure') },

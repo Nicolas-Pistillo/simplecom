@@ -9,6 +9,7 @@ use App\Services\PaymentProviders\GOcuotas;
 use App\Services\PaymentProviders\MercadoPago;
 use App\Services\PaymentProviders\Mobbex;
 use App\Services\PaymentProviders\Modo;
+use App\Services\PaymentProviders\Nave;
 use App\Services\PaymentProviders\Sipago;
 use App\Services\PaymentProviders\Stripe;
 use App\Services\PaymentProviders\Ualabis;
@@ -57,8 +58,8 @@ class PaymentMethodsSeeder extends Seeder
         PaymentMethod::create([
             'code'          => 'ualabis',
             'service_class' => Ualabis::class,
-            'display_name'  => 'UALA bis',
-            'checkout_name' => 'UALA bis - Tarjetas de crédito, débito y prepagas',
+            'display_name'  => 'Uala bis',
+            'checkout_name' => 'Uala bis - Tarjetas de crédito, débito y prepagas',
             'description'   => 'El checkout de Ualá Bis está optimizado para aumentar la conversión, desalentando el abandono, dando confianza y seguridad al usuario. Apuesta a la mejora constante de la experiencia del usuario, por lo que es posible completar el pago de manera más rápida y con menos esfuerzo.',
             'page_url'      => 'https://www.ualabis.com.ar',
             'support_url'   => 'https://www.ualabis.com.ar/contacto',
@@ -118,6 +119,17 @@ class PaymentMethodsSeeder extends Seeder
             'description'   => 'Sipago es la plataforma que facilita las ventas de tu comercio. Te permite cobrar con las principales tarjetas de crédito y débito del mercado, y administrar todas tus liquidaciones de ventas en un mismo lugar.',
             'page_url'      => 'https://www.sipago.coop/tiendas',
             'support_url'   => 'https://www.sipago.coop/contact'
+        ]);
+
+        // Nave
+        PaymentMethod::create([
+            'code'          => 'nave',
+            'service_class' => Nave::class,
+            'display_name'  => 'Nave',
+            'checkout_name' => 'Nave - Tarjetas de crédito, débito o QR',
+            'description'   => 'Nave simplifica tu día a día para que cobres con seguridad. Tendrás confirmación de los cobros en tiempo real, detalles de todas las ventas y resúmenes personalizados. Vendés más con promociones exclusivas, cuotas sin tarjeta y cuotas fijas.',
+            'page_url'      => 'https://navenegocios.ar/home/cobrar-con-tienda-online',
+            'support_url'   => 'https://www.galicia.ar/personas/contactanos'
         ]);
     }
 }

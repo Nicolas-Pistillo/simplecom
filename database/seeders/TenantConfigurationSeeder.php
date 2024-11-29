@@ -222,7 +222,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name'  => 'Client ID',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Client ID generado en dashboard',
-            'helper'        => 'Podes generarlo la seccion Comercios > Credenciales de tu dashboard',
+            'helper'        => 'Podes generar estas claves en la sección Comercios > Credenciales de tu dashboard',
             'required'      => true
         ]);
 
@@ -231,7 +231,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name'  => 'Client Secret',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Client secret generado en dashboard',
-            'helper'        => 'Podes generarlo la seccion Comercios > Credenciales de tu dashboard',
+            'helper'        => 'Podes generar estas claves en la sección Comercios > Credenciales de tu dashboard',
             'required'      => true
         ]);
 
@@ -268,6 +268,24 @@ class TenantConfigurationSeeder extends Seeder
             'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Clave secreta para acceder a los servicios de sipago',
             'helper'        => 'Solicitá estas claves a tu asesor comercial',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'nave_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave pública para acceder a los servicios de nave',
+            'helper'        => 'Recibiras estas claves de parte del equipo de navenegocios',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'nave_client_secret',
+            'display_name'  => 'Client Secret',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave secreta para acceder a los servicios de nave',
+            'helper'        => 'Recibiras estas claves de parte del equipo de navenegocios',
             'required'      => true
         ]);
     }

@@ -115,7 +115,7 @@
 
                             <div class="mb-3 flex items-center gap-x-3">
                                 <img src="{{ URL::to("img/providers/$method_editing->code.png") }}" 
-                                class="w-10 h-10 rounded-lg" alt="Provider logo">
+                                class="w-10 h-10 rounded-lg object-cover" alt="Provider logo">
                                 <h3 class="text-lg text-gray-700 font-semibold">
                                     {{ $drawerTitle }}
                                 </h3>

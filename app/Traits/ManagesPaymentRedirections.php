@@ -10,7 +10,9 @@ trait ManagesPaymentRedirections
 
     public string $provider_checkout_url;
 
-    public $frontend_init_data, $frontend_payload;
+    public $frontend_init_data; 
+    
+    public $frontend_payload;
 
-    private string $base_url, $token;
+    public $redirect_route;
 }
