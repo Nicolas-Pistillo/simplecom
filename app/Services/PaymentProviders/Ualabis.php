@@ -11,13 +11,13 @@ class Ualabis implements PaymentGateway
 {
     use Configurable, ManagesPaymentRedirections;
 
-    protected $configuration_keys = ['ualabis_username', 'ualabis_client_id', 'ualabis_client_secret_id'];
+    protected $configuration_keys = ['ualabis_username', 'ualabis_client_id', 'ualabis_client_secret'];
 
     public function generateCheckout($order)
     {
         $user = tenant()->configValue('ualabis_username');
         $client_id = tenant()->configValue('ualabis_client_id');
-        $client_secret = tenant()->configValue('ualabis_client_secret_id');
+        $client_secret = tenant()->configValue('ualabis_client_secret');
 
         $payment_return = route('payment.return', ['provider' => 'ualabis']); // Must be in HTTPs protocol
         

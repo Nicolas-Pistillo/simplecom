@@ -16,7 +16,7 @@
             </h2>
         </div>
 
-        <p class="text-gray-500 mb-6 md:mb-8">
+        <p class="text-gray-500 text-center mb-6 md:mb-8">
             Your order <span class="font-medium text-gray-900 hover:underline">#7564804</span> 
             will be processed within 24 hours during working days. We will notify you by email once your order has been shipped.
         </p>
@@ -33,7 +33,7 @@
 
         <div class="flex items-center space-x-4">
             <x-button size="large" type="secondary">Ver en mis pedidos</x-button>
-            <x-button size="large" type="secondary">Seguir comprando </x-button>
+            <x-button :href="route('ecommerce.products')" size="large" type="secondary">Seguir comprando </x-button>
         </div>
     </div>
   </section>

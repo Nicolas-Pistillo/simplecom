@@ -173,7 +173,7 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         Configuration::create([
-            'key'           => 'ualabis_client_secret_id',
+            'key'           => 'ualabis_client_secret',
             'display_name'  => 'Client Secret',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Client Secret proveido por ualá',
@@ -250,6 +250,24 @@ class TenantConfigurationSeeder extends Seeder
             'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Clave secreta para acceder a los servicios de stripe',
             'helper'        => 'Encontrarás estas claves en tu dashboard de Stripe',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'sipago_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave pública para acceder a los servicios de sipago',
+            'helper'        => 'Solicitá estas claves a tu asesor comercial',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'sipago_client_secret',
+            'display_name'  => 'Client Secret',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave secreta para acceder a los servicios de sipago',
+            'helper'        => 'Solicitá estas claves a tu asesor comercial',
             'required'      => true
         ]);
     }

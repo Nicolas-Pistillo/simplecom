@@ -9,8 +9,9 @@ use App\Services\PaymentProviders\GOcuotas;
 use App\Services\PaymentProviders\MercadoPago;
 use App\Services\PaymentProviders\Mobbex;
 use App\Services\PaymentProviders\Modo;
+use App\Services\PaymentProviders\Sipago;
 use App\Services\PaymentProviders\Stripe;
-use  App\Services\PaymentProviders\Ualabis;
+use App\Services\PaymentProviders\Ualabis;
 use Illuminate\Database\Seeder;
 
 class PaymentMethodsSeeder extends Seeder
@@ -102,10 +103,21 @@ class PaymentMethodsSeeder extends Seeder
             'code'          => 'stripe',
             'service_class' => Stripe::class,
             'display_name'  => 'Stripe',
-            'checkout_name' => 'Stripe - Tarjetas de crédito o débito',
+            'checkout_name' => 'Stripe - Tarjetas de crédito y débito',
             'description'   => 'El formulario de pago prediseñado de Stripe ofrece una experiencia de proceso de compra optimizado para tus clientes. Reduce la fricción, admite decenas de métodos de pago internacionales y se adapta al idioma y dispositivo de tus clientes.',
             'page_url'      => 'https://stripe.com/es-us/use-cases/ecommerce',
             'support_url'   => 'https://support.stripe.com'
+        ]);
+
+        // Sipago
+        PaymentMethod::create([
+            'code'          => 'sipago',
+            'service_class' => Sipago::class,
+            'display_name'  => 'Sipago',
+            'checkout_name' => 'Sipago - Tarjetas de crédito y débito',
+            'description'   => 'Sipago es la plataforma que facilita las ventas de tu comercio. Te permite cobrar con las principales tarjetas de crédito y débito del mercado, y administrar todas tus liquidaciones de ventas en un mismo lugar.',
+            'page_url'      => 'https://www.sipago.coop/tiendas',
+            'support_url'   => 'https://www.sipago.coop/contact'
         ]);
     }
 }

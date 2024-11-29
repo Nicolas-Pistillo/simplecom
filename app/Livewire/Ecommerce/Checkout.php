@@ -32,6 +32,8 @@ class Checkout extends Component
 
         $postal_code = $this->form->customer_postal_code;
 
+        dd(postalCodeInfo($postal_code));
+
         $envia = new Envia();
 
         $available_carriers = ['oca', 'andreani', 'correoArgentino', 'urbano'];
@@ -218,11 +220,11 @@ class Checkout extends Component
     {
         $this->payment_methods = PaymentMethod::where('active', true)->get();
 
-        $zippin = new Zippin();
+        /* $zippin = new Zippin();
 
         $rates = $zippin->getRates();
 
-        dd($rates);
+        dd($rates); */
     }
 
     public function render()
