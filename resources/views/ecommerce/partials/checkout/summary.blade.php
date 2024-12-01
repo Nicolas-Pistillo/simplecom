@@ -11,7 +11,7 @@
     </div>
 
     <div class="mt-2 rounded-lg border border-gray-200 overflow-hidden bg-white shadow-sm">
-        <ul role="list" class="divide-y divide-gray-200 overflow-y-auto sm:max-h-[350px]" scrollbar-thin>
+        <ul role="list" class="divide-y divide-gray-200 overflow-y-auto sm:max-h-[260px]" scrollbar-thin>
 
             @foreach (Cart::content() as $product)
                 <li wire:key='{{ $product->rowId }}'

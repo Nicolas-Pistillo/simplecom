@@ -13,6 +13,7 @@ use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
 use App\Services\ShippingProviders\Zippin;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 
 class Checkout extends Component
 {
@@ -30,9 +31,11 @@ class Checkout extends Component
     {
         $this->form->validateOnly('customer_postal_code'); 
 
-        $postal_code = $this->form->customer_postal_code;
+        $postalCode = $this->form->customer_postal_code;
 
-        dd(postalCodeInfo($postal_code));
+        $addressInfo = postalCodeInfo($postalCode);
+
+        dd($addressInfo);
 
         $envia = new Envia();
 
@@ -177,6 +180,7 @@ class Checkout extends Component
     public function setStep($step)
     {
         $this->current_step = $step;
+        if ($step == 3) $this->dispatch('testEvent', ['id' => 1015]);
     }
 
     public function confirmOrder()
