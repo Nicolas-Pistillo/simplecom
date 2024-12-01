@@ -8,6 +8,7 @@ use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
 use App\Http\Controllers\Tenant\SocialiteController;
 use App\Models\Product;
+use App\Services\PaymentProviders\Modo;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -27,9 +28,17 @@ Route::middleware([
         Route::get('sso/{provider}/redirect', [SocialiteController::class, 'redirect']);
         Route::get('sso/{provider}/callback', [SocialiteController::class, 'callback']);
 
-        // Payment providers return urls
-        Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'return'])
+        // Payment providers urls
+        Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
+
+        Route::post('payment-providers/modo-payment-intention', function() 
+        {
+            $modo = new Modo();
+            $modo->generateCheckout([]);
+
+            return response()->json($modo->frontend_payload);
+        })->name('modo.payment-intention');
 
         // Ecommerce navigation
         Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');

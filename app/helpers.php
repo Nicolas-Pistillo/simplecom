@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+use Illuminate\Support\Facades\Http;
 
 if (!function_exists('formatBytes'))
 {
@@ -15,5 +17,13 @@ if(!function_exists('priceFormat'))
     function priceFormat($price)
     {
         return number_format($price, 0, '.', '.');
+    }
+}
+
+if (!function_exists('postalCodeInfo'))
+{
+    function postalCodeInfo($postalCode)
+    {
+        return Http::get("https://geocodes.envia.com/zipcode/AR/$postalCode")->json();
     }
 }

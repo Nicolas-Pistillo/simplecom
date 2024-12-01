@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class DeleteTenantStorage implements ShouldQueue
@@ -31,5 +32,6 @@ class DeleteTenantStorage implements ShouldQueue
     public function handle(): void
     {
         Storage::deleteDirectory($this->tenant->name);
+        File::deleteDirectory(storage_path('tenant' . $this->tenant->id));
     }
 }

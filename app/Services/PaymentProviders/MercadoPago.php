@@ -1,21 +1,18 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\PaymentProviders;
 
-use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
+use App\Traits\ManagesPaymentRedirections;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
 
 class MercadoPago implements PaymentGateway
 {
-    use Configurable;
+    use Configurable, ManagesPaymentRedirections;
 
     protected $configuration_keys = ['mp_access_token'];
-
-    public $redirect_type = PaymentRedirectType::ProviderPlatform;
-    public $provider_checkout_url;
 
     public function generateCheckout($order)
     {

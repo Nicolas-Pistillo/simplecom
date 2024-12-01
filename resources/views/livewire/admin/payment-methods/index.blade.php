@@ -20,7 +20,7 @@
             @foreach ($payment_methods as $method)
                 <li wire:key='{{ $method->id }}' x-data="{ open: false, expanded: false }"
                 class="relative rounded-xl border border-gray-200 
-                w-96 transition-shadow duration-300 hover:shadow-md">
+                w-full sm:w-96 transition-shadow duration-300 hover:shadow-md">
 
                     <div class="flex rounded-t-xl items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-4">
 
@@ -36,7 +36,7 @@
                             @if (!$method->needs_configuration || $method->service()->isConfigurated())
                                 <x-switch :checked="$method->active" wireChange="toggleActivated({{ $method->id }})" />
                             @else
-                                <x-badge>No configurada</x-badge>
+                                <x-badge class="w-max">No configurada</x-badge>
                             @endif
 
                         </div>
@@ -44,7 +44,7 @@
                         <div class="relative ml-auto">
 
                             <button @click="open = !open" @click.away="open = false" type="button"
-                                class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-gray-500 
+                            class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-gray-500 
                             bg-white transition-colors duration-300 border rounded-full hover:border-gray-300">
                                 <x-icon code="more_horiz" style="font-size: 20px" />
                             </button>
@@ -63,7 +63,7 @@
                                 @if (!empty($method->support_url))
                                     <a href="{{ $method->support_url }}" target="_blank"
                                         class="block w-full text-left px-3 py-1 hover:bg-gray-100 text-sm leading-6 
-                                    text-gray-900 transition-colors duration-200"
+                                        text-gray-800 transition-colors duration-200"
                                         role="menuitem">
                                         Ir a la página de soporte
                                     </a>
@@ -86,7 +86,7 @@
                         <div class="flex w-0 flex-1 transition-colors duration-300 hover:bg-gray-50 rounded-bl-xl">
                             <button
                                 class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 
-                            rounded-bl-lg border border-transparent py-4 text-xs sm:text-sm font-semibold text-gray-900">
+                                rounded-bl-lg border border-transparent py-2 md:py-4 text-xs sm:text-sm font-semibold text-gray-900">
                                 <x-icon code="article" class="text-gray-400" />
                                 Instructivo
                             </button>
@@ -95,7 +95,7 @@
                             class="-ml-px flex w-0 flex-1 transition-colors duration-300 hover:bg-gray-50 rounded-br-xl">
                             <button wire:click='openConfiguration({{ $method->id }})'
                                 class="relative inline-flex w-0 flex-1 items-center justify-center 
-                            gap-x-3 rounded-br-lg border border-transparent py-4 text-xs sm:text-sm font-semibold text-gray-900">
+                                gap-x-3 rounded-br-lg border border-transparent py-2 md:py-4 text-xs sm:text-sm font-semibold text-gray-900">
                                 <x-icon code="edit" class="text-gray-400" />
                                 Configurar
                             </button>
@@ -114,9 +114,11 @@
                         <div class="mb-3">
 
                             <div class="mb-3 flex items-center gap-x-3">
-                                <img src="{{ URL::to("img/providers/$method_editing->code.png") }}" class="w-10 h-10"
-                                    alt="Provider logo">
-                                <h3 class="text-lg text-gray-700 font-semibold">{{ $drawerTitle }}</h3>
+                                <img src="{{ URL::to("img/providers/$method_editing->code.png") }}" 
+                                class="w-10 h-10 rounded-lg object-cover" alt="Provider logo">
+                                <h3 class="text-lg text-gray-700 font-semibold">
+                                    {{ $drawerTitle }}
+                                </h3>
                             </div>
 
                             <hr class="mb-6">

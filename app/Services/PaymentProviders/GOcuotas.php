@@ -1,21 +1,17 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\PaymentProviders;
 
-use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
-use Exception;
+use App\Traits\ManagesPaymentRedirections;
 use Illuminate\Support\Facades\Http;
 
 class GOcuotas implements PaymentGateway
 {
-    use Configurable;
+    use Configurable, ManagesPaymentRedirections;
 
     protected $configuration_keys = ['gocuotas_redirect_email', 'gocuotas_redirect_password'];
-
-    public $redirect_type = PaymentRedirectType::ProviderPlatform;
-    public $provider_checkout_url;
 
     private $base_url = 'https://sandbox.gocuotas.com/api_redirect/v1';
     private $token;
@@ -35,7 +31,7 @@ class GOcuotas implements PaymentGateway
         $this->generateToken();
 
         $payload = [
-            'amount_in_cents'       => 150050,
+            'amount_in_cents'       => 150000,
             'email'                 => 'prueba@gocuotas.com',
             'order_reference_id'    => 'U145P345',
             'phone_number'          => '1140506070',
@@ -46,6 +42,7 @@ class GOcuotas implements PaymentGateway
 
         $response = Http::withToken($this->token)
                         ->withQueryParameters($payload)
+                        ->throw()
                         ->post("$this->base_url/checkouts")
                         ->json();
 

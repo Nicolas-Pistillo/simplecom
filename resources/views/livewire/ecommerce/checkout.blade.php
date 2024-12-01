@@ -1,13 +1,14 @@
 <div>
 
     @if (Cart::count() > 0)
+    
         <div class="pt-10 pb-4 mb-6">
             <h1 class="text-3xl text-center font-bold tracking-tight text-gray-900">
                 Finalizá tu compra
             </h1>
         </div>
 
-        <div class="flex flex-col lg:flex-row-reverse min-h-full overflow-hidden pb-16">
+        <div class="flex flex-col lg:flex-row-reverse min-h-full overflow-hidden pb-8">
 
             <!-- Order summary -->
             @include('ecommerce.partials.checkout.summary')
@@ -127,36 +128,4 @@
         </div>
     @endif
 
-    @script
-        <script>
-            Livewire.on('modo-checkout', (event) => 
-            {
-                const paymentIntention = event[0];
-
-                ModoSDK.modoInitPayment({
-                    qrString: paymentIntention.qrString,
-                    checkoutId: paymentIntention.checkoutId,
-                    deeplink: {
-                        url: paymentIntention.deeplink,
-                        callbackURL: 'https://tiendadeprueba.com/checkout',
-                        callbackURLSuccess: 'https://tiendadeprueba/thankyou'
-                    },
-                    callbackURL: 'https://tiendadeprueba/thankyou',
-                    refreshData: false,
-                    onSuccess: function() {
-                        console.log('onSuccess')
-                    },
-                    onFailure: function() {
-                        console.log('onFailure')
-                    },
-                    onCancel: function() {
-                        console.log('onCancel')
-                    },
-                    onClose: function() {
-                        console.log('onClose')
-                    },
-                })
-            });
-        </script>
-    @endscript
 </div>

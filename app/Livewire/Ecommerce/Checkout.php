@@ -3,16 +3,17 @@
 namespace App\Livewire\Ecommerce;
 
 use App\Livewire\Forms\CheckoutForm;
-use App\Services\EnviaService;
+use App\Services\ShippingProviders\Envia;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 use App\Services\ProductService;
 use Illuminate\Support\Facades\Http;
-use App\Enums\DeliveryType;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
+use App\Services\ShippingProviders\Zippin;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 
 class Checkout extends Component
 {
@@ -22,8 +23,6 @@ class Checkout extends Component
 
     public $current_step = 1;
 
-    public $delivery_type = DeliveryType::Picking;
-
     public $shipping_rates, $selected_shipping;
 
     public $payment_methods, $selected_payment_method;
@@ -32,9 +31,13 @@ class Checkout extends Component
     {
         $this->form->validateOnly('customer_postal_code'); 
 
-        $postal_code = $this->form->customer_postal_code;
+        $postalCode = $this->form->customer_postal_code;
 
-        $envia = new EnviaService();
+        $addressInfo = postalCodeInfo($postalCode);
+
+        dd($addressInfo);
+
+        $envia = new Envia();
 
         $available_carriers = ['oca', 'andreani', 'correoArgentino', 'urbano'];
         $available_carrier_services = [];
@@ -177,6 +180,7 @@ class Checkout extends Component
     public function setStep($step)
     {
         $this->current_step = $step;
+        if ($step == 3) $this->dispatch('testEvent', ['id' => 1015]);
     }
 
     public function confirmOrder()
@@ -191,15 +195,14 @@ class Checkout extends Component
             {
                 dd("termina aca el checkout");
             }
-    
+
+            if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
+                $this->dispatch("$paymentMethod->code-checkout", $service->frontend_init_data);
+
             $service->generateCheckout(['id' => 123]);
-    
+
             if ($service->redirect_type === PaymentRedirectType::ProviderPlatform)
                 $this->redirect($service->provider_checkout_url);
-            
-    
-            if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
-                $this->dispatch("$paymentMethod->code-checkout", $service->frontend_payload);
 
         } catch (\Throwable $th) 
         {
@@ -211,6 +214,7 @@ class Checkout extends Component
 
             Log::error("Error al generar un pedido", [
                 'tenant'            => tenant('name'),
+                'payment_method'    => $paymentMethod->code,
                 'exception_message' =>  $th->getMessage()
             ]);
         }
@@ -219,6 +223,12 @@ class Checkout extends Component
     public function mount()
     {
         $this->payment_methods = PaymentMethod::where('active', true)->get();
+
+        /* $zippin = new Zippin();
+
+        $rates = $zippin->getRates();
+
+        dd($rates); */
     }
 
     public function render()

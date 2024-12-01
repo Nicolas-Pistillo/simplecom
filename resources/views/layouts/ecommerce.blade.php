@@ -18,6 +18,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ URL::to('favicon-store-default.png') }}" type="image/x-icon">
     <title>@yield('title', tenant()->ecommerce_name ?? tenant()->name)</title>
+    <!-- Código de instalación Cliengo para pistillonicolas@gmail.com --> <script type="text/javascript">(function () { var ldk = document.createElement('script'); ldk.type = 'text/javascript'; ldk.async = true; ldk.src = 'https://s.cliengo.com/weboptimizer/6744b7d57529db60fe57b09e/6744b7d57529db60fe57b0a1.js?platform=view_installation_code'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ldk, s); })();</script>
     @yield('head')
 </head>
 
@@ -264,8 +265,8 @@
         </div>
     </div>
 
-    {{-- Float Widget --}}
-    <div id="web3forms__widget" x-data="{ open: false }">
+    {{-- Floating Widget - replaced by cliengo --}}
+    {{-- <div id="web3forms__widget" x-data="{ open: false }">
         <div id="w3f__widget--content" x-show="open" x-transition:enter-start="opacity-0 translate-y-5"
             x-transition:enter="transition duration-200 transform ease"
             x-transition:leave="transition duration-200 transform ease"
@@ -358,7 +359,7 @@
                 <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
         </button>
-    </div>
+    </div> --}}
 
     {{-- Footer --}}
     <footer class="bg-white border-t border-gray-900/10" aria-labelledby="footer-heading">

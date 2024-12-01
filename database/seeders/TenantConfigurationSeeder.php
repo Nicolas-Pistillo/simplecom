@@ -33,7 +33,7 @@ class TenantConfigurationSeeder extends Seeder
             'key'           => 'contact_email',
             'display_name'  => 'Email de contacto',
             'description'   => 'Correo de consultas para clientes',
-            'topic'         => ConfigurationTopics::EcommerceData,
+            'topic'         =>  ConfigurationTopics::EcommerceData,
             'input_type'    => 'email',
             'show_in_setup' => true,
             'required'      => true
@@ -43,7 +43,7 @@ class TenantConfigurationSeeder extends Seeder
             'key'           => 'contact_whatsapp',
             'display_name'  => 'Número de whatsapp',
             'description'   => 'Whatsapp para consultas directas de clientes',
-            'topic'         => ConfigurationTopics::EcommerceData,
+            'topic'         =>  ConfigurationTopics::EcommerceData,
             'show_in_setup' => true
         ]);
 
@@ -52,15 +52,15 @@ class TenantConfigurationSeeder extends Seeder
             'display_name'  => 'Instagram',
             'description'   => 'Link al instagram del comercio',
             'input_type'    => 'url',
-            'topic'         => ConfigurationTopics::EcommerceData
+            'topic'         =>  ConfigurationTopics::EcommerceData
         ]);
 
         Configuration::create([
-            'key'           => 'ecommerce_youtube',
-            'display_name'  => 'Canal de youtube',
-            'description'   => 'Link al canal de youtube del comercio',
-            'input_type'    => 'url',
-            'topic'         => ConfigurationTopics::EcommerceData
+            'key'           =>  'ecommerce_youtube',
+            'display_name'  =>  'Canal de youtube',
+            'description'   =>  'Link al canal de youtube del comercio',
+            'input_type'    =>  'url',
+            'topic'         =>  ConfigurationTopics::EcommerceData
         ]);
 
         Configuration::create([
@@ -173,9 +173,9 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         Configuration::create([
-            'key'           => 'ualabis_client_secret_id',
+            'key'           => 'ualabis_client_secret',
             'display_name'  => 'Client Secret',
-            'topic'         => ConfigurationTopics::PaymentMethods,
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Client Secret proveido por ualá',
             'helper'        => 'Lo encontraras junto al mail enviado con el asunto "¡Ya podés integrar la API!"',
             'required'      => true
@@ -184,7 +184,7 @@ class TenantConfigurationSeeder extends Seeder
         Configuration::create([
             'key'           => 'gocuotas_redirect_email',
             'display_name'  => 'Email',
-            'topic'         => ConfigurationTopics::PaymentMethods,
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Email - Api Redirect',
             'helper'        => 'Email proveido por gocuotas para el servicio API Redirect',
             'required'      => true
@@ -193,9 +193,99 @@ class TenantConfigurationSeeder extends Seeder
         Configuration::create([
             'key'           => 'gocuotas_redirect_password',
             'display_name'  => 'Contraseña (Api Key)',
-            'topic'         => ConfigurationTopics::PaymentMethods,
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Contraseña (Api Key) - API Redirect',
             'helper'        => 'Contraseña (Api Key) proveida por gocuotas para el servicio API Redirect',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'mobbex_api_key',
+            'display_name'  => 'Api Key',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Api Key generada en portal de desarrolladores',
+            'helper'        => 'Podes generar estas claves en tu portal de desarrolladores',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'mobbex_access_token',
+            'display_name'  => 'Access Token',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Access token generado en portal de desarrolladores',
+            'helper'        => 'Podes generar estas claves en tu portal de desarrolladores',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'getnet_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client ID generado en dashboard',
+            'helper'        => 'Podes generar estas claves en la sección Comercios > Credenciales de tu dashboard',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'getnet_client_secret',
+            'display_name'  => 'Client Secret',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client secret generado en dashboard',
+            'helper'        => 'Podes generar estas claves en la sección Comercios > Credenciales de tu dashboard',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'stripe_key',
+            'display_name'  => 'Clave pública',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave pública para acceder a los servicios de stripe',
+            'helper'        => 'Encontrarás estas claves en tu dashboard de Stripe',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'stripe_secret',
+            'display_name'  => 'Clave secreta',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave secreta para acceder a los servicios de stripe',
+            'helper'        => 'Encontrarás estas claves en tu dashboard de Stripe',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'sipago_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave pública para acceder a los servicios de sipago',
+            'helper'        => 'Solicitá estas claves a tu asesor comercial',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'sipago_client_secret',
+            'display_name'  => 'Client Secret',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave secreta para acceder a los servicios de sipago',
+            'helper'        => 'Solicitá estas claves a tu asesor comercial',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'nave_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave pública para acceder a los servicios de nave',
+            'helper'        => 'Recibiras estas claves de parte del equipo de navenegocios',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'nave_client_secret',
+            'display_name'  => 'Client Secret',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave secreta para acceder a los servicios de nave',
+            'helper'        => 'Recibiras estas claves de parte del equipo de navenegocios',
             'required'      => true
         ]);
     }
