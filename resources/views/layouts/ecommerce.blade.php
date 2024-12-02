@@ -28,6 +28,9 @@
     {{-- Global notification --}}
     @livewire('notification')
 
+    {{-- User Login/Registration panel --}}
+    @livewire('ecommerce.login-panel')
+
     {{-- Navbar --}}
     <div class="bg-white fixed w-full shadow-md z-10" x-data="{ megaMenu1Open: false, megaMenu2Open: false, mobileMenuOpen: false, cartMenuOpen: false }"
         x-on:open-cart-panel.window="cartMenuOpen = true">

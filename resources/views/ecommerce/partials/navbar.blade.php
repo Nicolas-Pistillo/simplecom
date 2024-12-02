@@ -9,8 +9,11 @@
                 </div>
 
                 <div class="flex items-center space-x-6 text-white">
-                    <a href="#" class="text-xs sm:text-sm font-medium">Ingresar | Registrarse</a>
+                    <span @click="$dispatch('open-user-panel')" class="cursor-pointer text-xs sm:text-sm font-medium">
+                        Ingresar | Registrarse
+                    </span>
                 </div>
+
             </div>
         </div>
         <div class="bg-white z-30">
