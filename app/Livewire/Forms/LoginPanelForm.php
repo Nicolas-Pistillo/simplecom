@@ -13,10 +13,10 @@ class LoginPanelForm extends Form
     #[Validate('required', as: 'contraseña')]
     public $login_password;
 
-    #[Validate('required|max:16', as: 'nombre')]
+    #[Validate('required|min:3|max:16', as: 'nombre')]
     public $register_name;
 
-    #[Validate('required|max:20', as: 'apellido')]
+    #[Validate('required|min:3|max:20', as: 'apellido')]
     public $register_lastname;
 
     #[Validate('required|email|unique:users,email', as: 'email')]
@@ -26,5 +26,12 @@ class LoginPanelForm extends Form
     public $register_password;
 
     #[Validate('required|same:register_password', as: 'repetir contraseña')]
-    public $register_repeat_password;
+    public $register_password_repeat;
+
+    protected function messages()
+    {
+        return [
+            'register_password_repeat.same' => 'Las contraseñas no coinciden'
+        ];
+    }
 }

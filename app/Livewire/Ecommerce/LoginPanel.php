@@ -21,11 +21,6 @@ class LoginPanel extends Component
         }
     }
 
-    public function mount()
-    {
-
-    }
-
     public function render()
     {
         return view('livewire.ecommerce.login-panel');
