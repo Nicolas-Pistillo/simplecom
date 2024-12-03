@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password')->nullable();
-            $table->string('phone');
-            $table->foreignId('tax_condition_id');
-            $table->string('document');
+            $table->string('google_id')->nullable();
+            $table->string('facebook_id')->nullable();
+            $table->string('phone')->nullable();
+            $table->foreignId('tax_condition_id')->nullable();
+            $table->string('document')->nullable();
             $table->boolean('newsletter_subscribed')->default(false);
             $table->timestamps();
         });
