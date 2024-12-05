@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="flex items-center space-x-6 text-white">
-                    <span @click="$dispatch('open-user-panel')" class="cursor-pointer text-xs sm:text-sm font-medium">
+                    <span @click="$dispatch('open-login-panel')" class="cursor-pointer text-xs sm:text-sm font-medium">
                         Ingresar | Registrarse
                     </span>
                 </div>

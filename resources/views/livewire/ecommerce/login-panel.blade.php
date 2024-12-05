@@ -1,6 +1,7 @@
 <div>
-    <div x-data="{ open: false }" x-on:open-user-panel.window="open = true" class="relative z-20"
-        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div x-data="{ open: false }" class="relative z-20" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+        x-on:open-login-panel.window="open = true" 
+        x-on:close-login-panel.window="open = false">
 
         <div x-cloak x-show="open" class="fixed inset-0 bg-gray-800/80 transition-opacity" aria-hidden="true"
             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
@@ -29,7 +30,7 @@
                                     <li @click="tab = 'login'"
                                         class="w-1/2 border-b-2 rounded-t-md px-1 py-3 text-center text-sm font-medium cursor-pointer"
                                         :class="tab == 'login' ?
-                                            'text-blue-600 border-blue-600 hover:text-blue-700 bg-blue-50' :
+                                            'text-{{ tenant('color') }}-600 border-{{ tenant('color') }}-600 hover:text-{{ tenant('color') }}-700 bg-{{ tenant('color') }}-50' :
                                             'text-gray-500 hover:border-gray-300 hover:text-gray-700'">
                                         Ingresar
                                     </li>
@@ -37,9 +38,9 @@
                                     <li @click="tab = 'register'"
                                         class="w-1/2 border-b-2 rounded-t-md px-1 py-3 text-center text-sm font-medium cursor-pointer"
                                         :class="tab == 'register' ?
-                                            'text-blue-600 border-blue-600 hover:text-blue-700 bg-blue-50' :
+                                            'text-{{ tenant('color') }}-600 border-{{ tenant('color') }}-600 hover:text-{{ tenant('color') }}-700 bg-{{ tenant('color') }}-50' :
                                             'text-gray-500 hover:border-gray-300 hover:text-gray-700'">
-                                        Registrarse
+                                        Registrarme
                                     </li>
                                 </ul>
                             </div>
@@ -59,30 +60,12 @@
                                 shadow rounded-lg text-gray-600 bg-white hover:shadow-md
                                 transition-colors duration-300 hover:bg-gray-50 
                                 hover:text-gray-800 focus:outline-none">
-                                    <svg width="18" height="18" viewBox="0 0 22 22" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_924_23028)">
-                                            <path
-                                                d="M20.7816 11.2282C20.7824 10.5466 20.7234 9.8662 20.6053 9.19446H10.957V13.0466H16.4832C16.3701 13.6619 16.1307 14.2484 15.7796 14.7708C15.4284 15.2931 14.9726 15.7406 14.4398 16.0861V18.5866H17.7379C19.669 16.846 20.7816 14.2719 20.7816 11.2282Z"
-                                                fill="#4285F4"></path>
-                                            <path
-                                                d="M10.9574 21.0024C13.7184 21.0024 16.0431 20.1161 17.7383 18.5881L14.4402 16.0875C13.5223 16.696 12.3401 17.0433 10.9574 17.0433C8.28889 17.0433 6.02388 15.2846 5.21393 12.9147H1.81641V15.4916C2.66795 17.1481 3.97368 18.5407 5.58784 19.5138C7.202 20.487 9.06106 21.0023 10.9574 21.0024Z"
-                                                fill="#34A853"></path>
-                                            <path
-                                                d="M5.21545 12.9146C4.78726 11.6728 4.78726 10.3279 5.21545 9.08607V6.50916H1.81792C1.10159 7.90271 0.728516 9.44072 0.728516 11.0003C0.728516 12.56 1.10159 14.098 1.81792 15.4915L5.21545 12.9146Z"
-                                                fill="#FBBC04"></path>
-                                            <path
-                                                d="M10.9574 4.95748C12.4165 4.93417 13.8263 5.4731 14.8821 6.45778L17.8022 3.60303C15.9506 1.90279 13.4976 0.969332 10.9574 0.998337C9.06106 0.998421 7.202 1.5138 5.58784 2.48692C3.97368 3.46005 2.66795 4.85262 1.81641 6.50918L5.21393 9.08609C6.02388 6.71617 8.28889 4.95748 10.9574 4.95748Z"
-                                                fill="#EA4335"></path>
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_924_23028">
-                                                <rect width="21.0569" height="22" fill="white"
-                                                    transform="translate(0.226562)"></rect>
-                                            </clipPath>
-                                        </defs>
+                                    <svg aria-hidden="true" class="native svg-icon iconGoogle" width="18" height="18" viewBox="0 0 18 18">
+                                        <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18">
+                                        </path>
+                                        <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17"></path><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18z"></path><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.8 4.8 0 0 1 4.48-3.3">
+                                        </path>
                                     </svg>
-                                    
                                 </button>
     
                                 <button x-tooltip.raw="Iniciar sesión con Facebook" type="button" 
@@ -135,7 +118,7 @@
                                         h-4 w-4 rounded dark:bg-gray-600">
                                     </div>
 
-                                    <div class="text-sm ml-3">
+                                    <div class="text-sm ml-2">
                                         <label for="remember" class="font-medium text-gray-900 text-xs">
                                             Recordarme
                                         </label>
@@ -168,12 +151,12 @@
 
                                 <div class="mt-1">
                                     <input type="text" id="register_name"
-                                    wire:model.blur='form.register_name'
+                                    wire:model.blur='register_form.name'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @error('form.register_name')
+                                @error('register_form.name')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
                             </div>
@@ -187,12 +170,12 @@
 
                                 <div class="mt-1">
                                     <input type="text" id="register_lastname"
-                                    wire:model.blur='form.register_lastname'
+                                    wire:model.blur='register_form.lastname'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @error('form.register_lastname')
+                                @error('register_form.lastname')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
                             </div>
@@ -206,12 +189,12 @@
 
                                 <div class="mt-1">
                                     <input type="email" id="register_email"
-                                    wire:model.blur='form.register_email'
+                                    wire:model.blur='register_form.email'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @error('form.register_email')
+                                @error('register_form.email')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
 
@@ -226,27 +209,18 @@
 
                                 <div class="mt-1">
                                     <input type="password" id="register_password"
-                                    wire:model.blur='form.register_password'
+                                    wire:model.blur='register_form.password'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @if (!$errors->first('form.register_password'))
-                                    
-                                    @if (empty($form->register_password))
-                                        <small class="text-gray-500 text-xs">
-                                            Debe contener 8 caracteres como mínimo y una letra mayúscula
-                                        </small>    
-                                    @else
-                                        <small class="text-green-500 text-xs flex items-center mt-1">
-                                            <x-icon code="check_circle" class="mr-2" />
-                                            Aceptable
-                                        </small>  
-                                    @endif
-
+                                @if (!$errors->first('register_form.password') && empty($register_form->password))
+                                    <small class="text-gray-500 text-xs">
+                                        Debe contener 8 caracteres como mínimo y una letra mayúscula
+                                    </small>    
                                 @endif
 
-                                @error('form.register_password')
+                                @error('register_form.password')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
 
@@ -261,12 +235,12 @@
 
                                 <div class="mt-1">
                                     <input type="password" id="register_repeat_password"
-                                    wire:model.blur='form.register_password_repeat'
+                                    wire:model.blur='register_form.password_repeat'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @error('form.register_password_repeat')
+                                @error('register_form.password_repeat')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
                             </div>
@@ -275,12 +249,13 @@
 
                                 <div class="flex items-start">
                                     <div class="flex items-center h-5">
-                                        <input id="newsletter_check" aria-describedby="remember" type="checkbox" 
+                                        <input id="newsletter_check" wire:model.blur='register_form.newsletter_check'
+                                        aria-describedby="remember" type="checkbox" 
                                         class="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 
                                         h-4 w-4 rounded dark:bg-gray-600">
 
                                         <label for="newsletter_check" class="font-medium text-gray-900 
-                                        text-xs ml-3">
+                                        text-xs ml-2">
                                             Deseo recibir novedades y promociones
                                         </label>
                                     </div>
@@ -294,7 +269,7 @@
 
                         <div class="mt-8 grid grid-flow-row-dense grid-cols-2 gap-3">
                             <x-button @click="open = false" size="large" type="secondary">Cancelar</x-button>
-                            <x-button size="large">Registrarme</x-button>
+                            <x-button wire:click='register' size="large">Registrarme</x-button>
                         </div>
                     </div>
                 </div>

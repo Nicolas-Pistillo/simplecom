@@ -137,7 +137,7 @@
 
     </div>
 
-    <x-button wire:click="setStep(2)" disabled size="big" class="mt-12">
+    <x-button wire:click="setStep(2)" size="big" class="mt-12">
         Continuar
     </x-button>
 

@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE'),
+    'timezone' => env('APP_TIMEZONE', 'America/Argentina/Buenos_Aires'),
 
     /*
     |--------------------------------------------------------------------------
@@ -185,6 +185,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'DeliveryType' => App\Enums\DeliveryType::class,
+        'CustomerType' => App\Enums\CustomerType::class,
+        'AddressType'  => App\Enums\AddressType::class
     ])->toArray(),
 
 ];
