@@ -126,16 +126,25 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
         'resources' => [
             'driver' => 'single',
             'path'   => storage_path('logs/resources.log'),
             'level'  => 'debug'
         ],
+
         'access' => [
             'driver' => 'single',
             'path'   => storage_path('logs/access.log'),
             'level'  => 'debug'
         ],
+
+        'error' => [
+            'driver' => 'single',
+            'path'   => storage_path('logs/error.log'),
+            'level'  => 'debug'
+        ],
+
         'payment-returns' => [
             'driver' => 'single',
             'path'   => storage_path('logs/payment-returns.log'),

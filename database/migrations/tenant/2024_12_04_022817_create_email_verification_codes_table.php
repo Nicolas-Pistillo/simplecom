@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('code');
             $table->boolean('used')->default(false);
-            $table->timestamp('expires_at');
+            $table->dateTime('expires_at');
             $table->timestamps();
         });
     }

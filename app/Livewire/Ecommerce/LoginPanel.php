@@ -3,10 +3,15 @@
 namespace App\Livewire\Ecommerce;
 
 use App\Enums\CustomerType;
-use App\Livewire\Forms\LoginPanelForm;
+use App\Livewire\Forms\RegisterForm;
+use App\Livewire\Forms\LoginForm;
+use App\Mail\EmailVerification;
 use App\Mail\TestEmail;
+use App\Models\EmailVerificationCode;
 use App\Models\User;
 use App\Traits\Livewire\WithNotifications;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
@@ -18,7 +23,9 @@ class LoginPanel extends Component
 
     public $tab = 'login';
 
-    public LoginPanelForm $form;
+    public LoginForm $login_form;
+
+    public RegisterForm $register_form;
 
     public function open($params = null)
     {
@@ -30,27 +37,50 @@ class LoginPanel extends Component
 
     public function register()
     {
-        $register_fields = $this->form->register_fields;
+        $this->register_form->validate();
 
-        foreach($register_fields as $field)
+        try 
         {
-            $this->form->validateOnly($field);
+            $registerEmail = $this->register_form->email;
+
+            $verificationModel = EmailVerificationCode::create([
+                'ip'         => request()->ip(),
+                'email'      => $registerEmail,
+                'code'       => rand(100000, 999999),
+                'expires_at' => now()->addMinutes(15)->toDateTimeString()
+            ]);
+
+            $recipient_name = $this->register_form->name;
+            $code = $verificationModel->code;
+
+            Mail::to($registerEmail)->send(new EmailVerification($recipient_name, $code));
+    
+            dd("Mail enviado");
+
+        } catch (\Throwable $err) 
+        {
+            Log::channel('error')->info($err->getMessage(), [
+                'tenant'  => tenant('name'),
+                'context' => 'user-registration'
+            ]);
+
+            $this->notify([
+                'type'  => 'danger', 
+                'title' => 'Error al enviar el correo de verificación',
+                'body'  => 'Por favor, vuelva a intentarlo mas tarde'
+            ]);
         }
+    }
 
-        $email_used = User::where([
-            'type'  => CustomerType::Registered->value, 
-            'email' => $this->form->register_email
-        ])->exists();
-
-        if ($email_used) return $this->addError('form.register_email', 'Este email ya se encuentra en uso');
-
-        $code = rand(100000, 999999);
-
-        dd($code);
-
-        Mail::to($this->form->register_email)->send(new TestEmail());
-
-        dd("Mail enviado");
+    public function mount()
+    {
+        $this->register_form->fill([
+            'name'     => 'Nicolas',
+            'lastname' => 'Pistillo',
+            'email'    => 'pistillonicolas@gmail.com',
+            'password' => 'Xeneize12',
+            'password_repeat' => 'Xeneize12'
+        ]);
     }
 
     public function render()

@@ -35,7 +35,7 @@ class Checkout extends Component
 
         $addressInfo = postalCodeInfo($postalCode);
 
-        dd($addressInfo);
+        // dd($addressInfo);
 
         $envia = new Envia();
 

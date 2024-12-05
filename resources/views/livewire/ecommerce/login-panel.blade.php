@@ -151,12 +151,12 @@
 
                                 <div class="mt-1">
                                     <input type="text" id="register_name"
-                                    wire:model.blur='form.register_name'
+                                    wire:model.blur='register_form.name'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @error('form.register_name')
+                                @error('register_form.name')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
                             </div>
@@ -170,12 +170,12 @@
 
                                 <div class="mt-1">
                                     <input type="text" id="register_lastname"
-                                    wire:model.blur='form.register_lastname'
+                                    wire:model.blur='register_form.lastname'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @error('form.register_lastname')
+                                @error('register_form.lastname')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
                             </div>
@@ -189,12 +189,12 @@
 
                                 <div class="mt-1">
                                     <input type="email" id="register_email"
-                                    wire:model.blur='form.register_email'
+                                    wire:model.blur='register_form.email'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @error('form.register_email')
+                                @error('register_form.email')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
 
@@ -209,18 +209,18 @@
 
                                 <div class="mt-1">
                                     <input type="password" id="register_password"
-                                    wire:model.blur='form.register_password'
+                                    wire:model.blur='register_form.password'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @if (!$errors->first('form.register_password') && empty($form->register_password))
+                                @if (!$errors->first('register_form.password') && empty($register_form->password))
                                     <small class="text-gray-500 text-xs">
                                         Debe contener 8 caracteres como mínimo y una letra mayúscula
                                     </small>    
                                 @endif
 
-                                @error('form.register_password')
+                                @error('register_form.password')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
 
@@ -235,12 +235,12 @@
 
                                 <div class="mt-1">
                                     <input type="password" id="register_repeat_password"
-                                    wire:model.blur='form.register_password_repeat'
+                                    wire:model.blur='register_form.password_repeat'
                                     class="block w-full rounded-md border-gray-300 shadow-sm 
                                     focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                 </div>
 
-                                @error('form.register_password_repeat')
+                                @error('register_form.password_repeat')
                                     <small class="text-red-500 text-xs">{{ $message }}</small>
                                 @enderror
                             </div>
@@ -249,7 +249,7 @@
 
                                 <div class="flex items-start">
                                     <div class="flex items-center h-5">
-                                        <input id="newsletter_check" wire:model.blur='form.register_newsletter_check'
+                                        <input id="newsletter_check" wire:model.blur='register_form.newsletter_check'
                                         aria-describedby="remember" type="checkbox" 
                                         class="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 
                                         h-4 w-4 rounded dark:bg-gray-600">
