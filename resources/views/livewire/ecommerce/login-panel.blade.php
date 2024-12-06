@@ -93,27 +93,45 @@
 
                             <div class="mt-4">
                                 <div class="col-span-full sm:col-span-8">
+
                                     <label for="login_email" class="block text-sm font-medium text-gray-700">
                                         Email
                                     </label>
+
                                     <div class="mt-1">
                                         <input type="email" id="login_email"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm 
+                                        wire:model.blur='login_form.email'
+                                        class="block w-full rounded-md border-gray-300 shadow-sm 
                                         focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                     </div>
+
+                                    @error('login_form.email')
+                                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="mt-4">
                                 <div class="col-span-full sm:col-span-8">
+
                                     <label for="login_password" class="block text-sm font-medium text-gray-700">
                                         Contraseña
                                     </label>
+
                                     <div class="mt-1">
                                         <input type="password" id="login_password"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm 
+                                        wire:model.blur='login_form.password'
+                                        class="block w-full rounded-md border-gray-300 shadow-sm 
                                         focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                     </div>
+
+                                    @error('login_form.password')
+                                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                                    @enderror
+
+                                    @session('login_error')
+                                        <small class="text-red-500 text-xs">Usuario o contraseña incorrectos</small>
+                                    @endsession
                                 </div>
                             </div>
 
@@ -122,7 +140,8 @@
 
                                     <div class="flex items-center h-5">
                                         <input id="remember" aria-describedby="remember" type="checkbox"
-                                            class="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 
+                                        wire:model.blur='login_form.remember'
+                                        class="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 
                                         h-4 w-4 rounded dark:bg-gray-600">
                                     </div>
 
@@ -140,7 +159,7 @@
 
                             <div class="mt-8 grid grid-flow-row-dense grid-cols-2 gap-3">
                                 <x-button @click="open = false" size="large" type="secondary">Cancelar</x-button>
-                                <x-button size="large">Ingresar</x-button>
+                                <x-button wire:click='login' size="large">Ingresar</x-button>
                             </div>
                         </div>
 

@@ -8,8 +8,11 @@ use Livewire\Form;
 class LoginForm extends Form
 {
     #[Validate('required|email', as: 'email')]
-    public $login_email;
+    public $email;
 
-    #[Validate('required', as: 'contraseña')]
-    public $login_password;
+    #[Validate('required|min:8', as: 'contraseña')]
+    public $password;
+
+    #[Validate('required|boolean', as: 'recordar sesion')]
+    public $remember = false;
 }

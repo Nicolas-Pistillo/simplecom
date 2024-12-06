@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $appends = ['full_name'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -35,4 +37,9 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed'
     ];
+
+    public function getFullNameAttribute()
+    {
+        return "$this->name $this->lastname";
+    }
 }

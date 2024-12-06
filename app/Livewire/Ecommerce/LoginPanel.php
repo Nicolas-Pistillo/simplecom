@@ -8,6 +8,7 @@ use App\Livewire\Forms\LoginForm;
 use App\Models\User;
 use App\Services\EmailVerificationService;
 use App\Traits\Livewire\WithNotifications;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -21,16 +22,15 @@ class LoginPanel extends Component
     public $tab = 'login';
 
     public LoginForm $login_form;
-
     public RegisterForm $register_form;
 
-    public $waiting_recovery_code = false;
     public $waiting_register_code = false;
-
     public $email_verify_code;
 
     public function open($params = null)
     {
+        if (Auth::check()) return $this->dispatch('close-login-panel');
+
         if (isset($params['tab']))
         {
             $this->tab = $params['tab'];
@@ -40,8 +40,6 @@ class LoginPanel extends Component
     public function validateRegister()
     {
         $this->register_form->validate();
-
-        sleep(5);
 
         try 
         {
@@ -104,6 +102,40 @@ class LoginPanel extends Component
             $this->notify([
                 'type'  => 'danger', 
                 'title' => 'Error al completar el registro',
+                'body'  => 'Por favor, vuelva a intentarlo mas tarde'
+            ]);
+        }
+    }
+
+    public function login()
+    {
+        $this->login_form->validate();
+
+        try 
+        {
+            $user = User::where([
+                'type'     => CustomerType::Registered,
+                'email'    => $this->login_form->email
+            ])->first();
+    
+            if (!$user instanceof User) return session()->flash('login_error');
+    
+            if (Hash::check($this->login_form->password, $user->password))
+            {
+                Auth::login($user);
+                return redirect(request()->header('Referer'));
+            }
+
+        } catch (\Throwable $err) 
+        {
+            Log::channel('error')->info($err->getMessage(), [
+                'tenant'  => tenant('name'),
+                'context' => 'user-login'
+            ]);
+
+            $this->notify([
+                'type'  => 'danger',
+                'title' => 'Error ',
                 'body'  => 'Por favor, vuelva a intentarlo mas tarde'
             ]);
         }
