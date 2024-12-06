@@ -31,6 +31,16 @@
     {{-- User Login/Registration panel --}}
     @livewire('ecommerce.login-panel')
 
+    {{-- Welcome message | Login --}}
+    @session('login_message')
+        <x-toast type="success" position="bottom-center" title="¡Bienvenido {{ auth()->user()->name }}!" />
+    @endsession
+
+    {{-- Goodbye message | Logout --}}
+    @session('logout_message')
+        <x-toast icon="waving_hand" position="bottom-center" title="¡Hasta la próxima!" />
+    @endsession
+
     {{-- Navbar --}}
     <div class="bg-white fixed w-full shadow-md z-10" x-data="{ megaMenu1Open: false, megaMenu2Open: false, mobileMenuOpen: false, cartMenuOpen: false }"
         x-on:open-cart-panel.window="cartMenuOpen = true">

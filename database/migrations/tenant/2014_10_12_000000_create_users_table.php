@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('tax_condition_id')->nullable();
             $table->string('document')->nullable();
             $table->boolean('newsletter_subscribed')->default(false);
+            $table->rememberToken();
             $table->timestamps();
         });
     }

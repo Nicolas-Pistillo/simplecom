@@ -9,6 +9,7 @@ use App\Http\Controllers\Tenant\EcommerceController;
 use App\Http\Controllers\Tenant\SocialiteController;
 use App\Models\Product;
 use App\Services\PaymentProviders\Modo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -53,6 +54,15 @@ Route::middleware([
         Route::get('sobre-nosotros', [EcommerceController::class, 'about'])->name('ecommerce.about');
 
         Route::get('contacto', [EcommerceController::class, 'contact'])->name('ecommerce.contact');
+
+        // Auth customer routes
+        Route::middleware('auth')->group(function() 
+        {
+            Route::post('logout', function() {
+                Auth::logout();
+                return back()->with('logout_message', true);
+            })->name('customer.logout');
+        });
 
     });
 

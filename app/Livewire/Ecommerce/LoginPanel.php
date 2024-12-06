@@ -118,13 +118,13 @@ class LoginPanel extends Component
                 'email'    => $this->login_form->email
             ])->first();
     
-            if (!$user instanceof User) return session()->flash('login_error');
-    
-            if (Hash::check($this->login_form->password, $user->password))
+            if ($user instanceof User && Hash::check($this->login_form->password, $user->password))
             {
-                Auth::login($user);
-                return redirect(request()->header('Referer'));
+                Auth::login($user, $this->login_form->remember);
+                return redirect(request()->header('Referer'))->with('login_message', true);
             }
+
+            return session()->flash('login_error');
 
         } catch (\Throwable $err) 
         {
@@ -135,7 +135,7 @@ class LoginPanel extends Component
 
             $this->notify([
                 'type'  => 'danger',
-                'title' => 'Error ',
+                'title' => 'Error al generar la sesión',
                 'body'  => 'Por favor, vuelva a intentarlo mas tarde'
             ]);
         }

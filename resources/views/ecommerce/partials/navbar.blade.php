@@ -10,10 +10,11 @@
 
                 @auth
                     <div x-data="{ openUserMenu: false }" class="relative">
+
                         <button @click="openUserMenu = !openUserMenu" type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <span class="sr-only">Open user menu</span>
                             <img class="h-8 w-8 rounded-full bg-gray-50" 
-                            src="https://ui-avatars.com/api/?name={{ Auth::user()->full_name }}&bold=true&background=fff&amp;color=000" alt="user avatar">
+                            src="{{ initialsAvatar() }}" 
+                            alt="user avatar">
                             <span class="hidden lg:flex lg:items-center">
                                 <span class="ml-3 text-sm font-semibold leading-6 text-white" aria-hidden="true">{{ Auth::user()->name }}</span>
                                 <x-icon code="keyboard_arrow_down" class="text-white" />                                        
@@ -27,17 +28,23 @@
                         x-transition:leave="transition ease-in duration-75" 
                         x-transition:leave-start="transform opacity-100 scale-100" 
                         x-transition:leave-end="transform opacity-0 scale-95" 
-                        class="absolute right-0 top-12 z-10 w-32 origin-top-right rounded-md 
+                        class="absolute right-0 top-12 z-10 w-max origin-top-right rounded-md 
                         bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                            <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900 
-                            transition hover:bg-gray-50">
-                                Mi perfil
+
+                            <a href="#" class="flex items-center gap-x-2 px-3 py-1 text-sm leading-6 
+                            text-gray-900 transition hover:bg-gray-50">
+                                <x-icon code="person_edit" />
+                                Mis datos
                             </a>
-                            {{-- <form action="http://andromeda.localhost/admin/logout" method="POST">
-                                <button type="submit" class="block w-full text-left px-3 py-1 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
+
+                            <form action="{{ route('customer.logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="flex items-center w-full text-left px-3 
+                                py-1 gap-x-2 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
+                                    <x-icon code="logout" />
                                     Cerrar sesión
                                 </button>
-                            </form> --}}
+                            </form>
                         </div>
                     </div>
                 @else
