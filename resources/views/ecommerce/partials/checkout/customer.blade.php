@@ -2,7 +2,7 @@
 
     <div class="grid grid-cols-12 gap-x-4 gap-y-6">
 
-        <div class="col-span-full flex items-center justify-center gap-4 flex-wrap">
+        {{-- <div class="col-span-full flex items-center justify-center gap-4 flex-wrap">
 
             <button type="button" class="flex text-sm items-center w-full justify-center sm:w-auto py-2.5 px-4 shadow rounded-lg text-gray-600 bg-white hover:shadow-md
                 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-800 focus:outline-none">
@@ -42,7 +42,7 @@
                     Ingresar o registrarse con email
                 </span>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-span-full sm:col-span-6">
             <label for="customer_name" class="block text-sm font-medium text-gray-700">

@@ -1,7 +1,6 @@
 <div>
     <div x-data="{ open: false }" class="relative z-20" aria-labelledby="modal-title" role="dialog" aria-modal="true"
-        x-on:open-login-panel.window="open = true" 
-        x-on:close-login-panel.window="open = false">
+        x-on:open-login-panel.window="open = true" x-on:close-login-panel.window="open = false">
 
         <div x-cloak x-show="open" class="fixed inset-0 bg-gray-800/80 transition-opacity" aria-hidden="true"
             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
@@ -16,7 +15,7 @@
             class="fixed inset-0 z-10 w-screen overflow-y-auto">
             <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
 
-                <div x-data="{ tab: $wire.entangle('tab').live }"
+                <div @click.away="open = false" x-data="{ tab: $wire.entangle('tab').live }"
                     class="relative transform overflow-x-hidden overflow-y-auto rounded-lg bg-white px-4 
                     pb-4 pt-5 text-left shadow-xl transition-all my-8 w-full sm:max-w-lg sm:p-6"
                     style="max-height: 80vh; scrollbar-width: thin">
@@ -47,7 +46,7 @@
                         </div>
                     </div>
 
-                    <div x-show="tab == 'login'" x-cloak 
+                    <div x-show="tab == 'login'" x-cloak
                     x-transition:enter="animate__animated animate__fadeIn animate__fast">
 
                         <div>
@@ -82,7 +81,16 @@
                                     
                                 </button>
                             </div> --}}
-    
+
+                            @session('account_created')
+                                <div class="flex items-center gap-2">
+                                    <x-icon code="check_circle" class="text-green-600" />
+                                    <span class="text-green-800 text-xs">
+                                        ¡Listo! Ya podes iniciar sesión con el email y contraseña que registraste
+                                    </span>
+                                </div>
+                            @endsession
+
                             <div class="mt-4">
                                 <div class="col-span-full sm:col-span-8">
                                     <label for="login_email" class="block text-sm font-medium text-gray-700">
@@ -95,7 +103,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div class="mt-4">
                                 <div class="col-span-full sm:col-span-8">
                                     <label for="login_password" class="block text-sm font-medium text-gray-700">
@@ -108,13 +116,13 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div class="mt-4 flex justify-between items-end gap-4 flex-wrap">
                                 <div class="flex items-start">
 
                                     <div class="flex items-center h-5">
-                                        <input id="remember" aria-describedby="remember" type="checkbox" 
-                                        class="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 
+                                        <input id="remember" aria-describedby="remember" type="checkbox"
+                                            class="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 
                                         h-4 w-4 rounded dark:bg-gray-600">
                                     </div>
 
@@ -124,11 +132,12 @@
                                         </label>
                                     </div>
                                 </div>
-                                <a href="https://google.com" target="_blank" class="text-xs text-blue-700 hover:underline">
+                                <a href="https://google.com" target="_blank"
+                                    class="text-xs text-blue-700 hover:underline">
                                     Olvidé mi contraseña
                                 </a>
                             </div>
-    
+
                             <div class="mt-8 grid grid-flow-row-dense grid-cols-2 gap-3">
                                 <x-button @click="open = false" size="large" type="secondary">Cancelar</x-button>
                                 <x-button size="large">Ingresar</x-button>
@@ -137,140 +146,200 @@
 
                     </div>
 
-                    <div x-show="tab == 'register'" x-cloak 
+                    <div x-show="tab == 'register'" x-cloak
                     x-transition:enter="animate__animated animate__fadeIn animate__fast">
 
-                        <div class="grid grid-cols-12 gap-x-4 gap-y-6">
+                        @if ($waiting_register_code)
 
-                            <div class="col-span-6">
+                            <div>
 
-                                <label for="register_name" class="block text-xs sm:text-sm 
-                                font-medium text-gray-700">
-                                    Nombre
-                                </label>
-
-                                <div class="mt-1">
-                                    <input type="text" id="register_name"
-                                    wire:model.blur='register_form.name'
-                                    class="block w-full rounded-md border-gray-300 shadow-sm 
-                                    focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
+                                <div class="w-max mx-auto flex items-center justify-center rounded-full bg-blue-100">
+                                    <x-icon code="mail" class="text-blue-600 p-2" />
                                 </div>
 
-                                @error('register_form.name')
-                                    <small class="text-red-500 text-xs">{{ $message }}</small>
-                                @enderror
-                            </div>
+                                <div class="mt-2 text-center">
 
-                            <div class="col-span-6">
+                                    <h3 class="text-base font-semibold text-gray-900" id="modal-title">
+                                        Verifica tu correo
+                                    </h3>
 
-                                <label for="register_lastname" class="block text-xs sm:text-sm 
-                                font-medium text-gray-700">
-                                    Apellido
-                                </label>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-gray-700">
+                                            Ingresá el código de verificación que enviamos a
+                                            <span class="font-semibold">{{ $register_form->email }}</span>
+                                            para poder completar tu registro.
+                                        </p>
+                                    </div>
 
-                                <div class="mt-1">
-                                    <input type="text" id="register_lastname"
-                                    wire:model.blur='register_form.lastname'
-                                    class="block w-full rounded-md border-gray-300 shadow-sm 
-                                    focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
-                                </div>
+                                    <div class="mt-4 flex items-end gap-4">
 
-                                @error('register_form.lastname')
-                                    <small class="text-red-500 text-xs">{{ $message }}</small>
-                                @enderror
-                            </div>
+                                        <input type="text" id="register_name" 
+                                        wire:model.live='email_verify_code' autocomplete="off"
+                                        class="block w-full rounded-md border-gray-300 shadow-sm 
+                                        focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
 
-                            <div class="col-span-full">
-
-                                <label for="register_email" class="block text-xs sm:text-sm 
-                                font-medium text-gray-700">
-                                    Email
-                                </label>
-
-                                <div class="mt-1">
-                                    <input type="email" id="register_email"
-                                    wire:model.blur='register_form.email'
-                                    class="block w-full rounded-md border-gray-300 shadow-sm 
-                                    focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
-                                </div>
-
-                                @error('register_form.email')
-                                    <small class="text-red-500 text-xs">{{ $message }}</small>
-                                @enderror
-
-                            </div>
-
-                            <div class="col-span-full sm:col-span-6">
-
-                                <label for="register_password" class="block text-xs sm:text-sm 
-                                font-medium text-gray-700">
-                                    Contraseña
-                                </label>
-
-                                <div class="mt-1">
-                                    <input type="password" id="register_password"
-                                    wire:model.blur='register_form.password'
-                                    class="block w-full rounded-md border-gray-300 shadow-sm 
-                                    focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
-                                </div>
-
-                                @if (!$errors->first('register_form.password') && empty($register_form->password))
-                                    <small class="text-gray-500 text-xs">
-                                        Debe contener 8 caracteres como mínimo y una letra mayúscula
-                                    </small>    
-                                @endif
-
-                                @error('register_form.password')
-                                    <small class="text-red-500 text-xs">{{ $message }}</small>
-                                @enderror
-
-                            </div>
-
-                            <div class="col-span-full sm:col-span-6">
-
-                                <label for="register_repeat_password" class="block text-xs sm:text-sm 
-                                font-medium text-gray-700">
-                                    Repetir Contraseña
-                                </label>
-
-                                <div class="mt-1">
-                                    <input type="password" id="register_repeat_password"
-                                    wire:model.blur='register_form.password_repeat'
-                                    class="block w-full rounded-md border-gray-300 shadow-sm 
-                                    focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
-                                </div>
-
-                                @error('register_form.password_repeat')
-                                    <small class="text-red-500 text-xs">{{ $message }}</small>
-                                @enderror
-                            </div>
-
-                            <div class="col-span-full flex gap-4 justify-between flex-wrap">
-
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="newsletter_check" wire:model.blur='register_form.newsletter_check'
-                                        aria-describedby="remember" type="checkbox" 
-                                        class="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 
-                                        h-4 w-4 rounded dark:bg-gray-600">
-
-                                        <label for="newsletter_check" class="font-medium text-gray-900 
-                                        text-xs ml-2">
-                                            Deseo recibir novedades y promociones
-                                        </label>
+                                        <x-button wire:click='register' size="large"
+                                        :disabled="(strlen($email_verify_code) != 6)">
+                                            Verificar
+                                        </x-button>
                                     </div>
                                 </div>
 
-                                <button @click="tab = 'login'" type="button" class="text-xs text-blue-700 hover:underline">
-                                    Ya tengo una cuenta
-                                </button>
-                            </div>
-                        </div>
+                                @error('email_verify_code')
+                                    <small class="text-red-500 text-xs">{{ $message }}</small>
+                                @enderror
 
-                        <div class="mt-8 grid grid-flow-row-dense grid-cols-2 gap-3">
-                            <x-button @click="open = false" size="large" type="secondary">Cancelar</x-button>
-                            <x-button wire:click='register' size="large">Registrarme</x-button>
-                        </div>
+                            </div>
+                        @else
+
+                            <div class="grid grid-cols-12 gap-x-4 gap-y-6">
+
+                                <div class="col-span-6">
+
+                                    <label for="register_name"
+                                        class="block text-xs sm:text-sm 
+                                    font-medium text-gray-700">
+                                        Nombre
+                                    </label>
+
+                                    <div class="mt-1">
+                                        <input type="text" id="register_name" wire:model.blur='register_form.name'
+                                        class="block w-full rounded-md border-gray-300 shadow-sm 
+                                        focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
+                                    </div>
+
+                                    @error('register_form.name')
+                                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="col-span-6">
+
+                                    <label for="register_lastname"
+                                        class="block text-xs sm:text-sm 
+                                    font-medium text-gray-700">
+                                        Apellido
+                                    </label>
+
+                                    <div class="mt-1">
+                                        <input type="text" id="register_lastname"
+                                            wire:model.blur='register_form.lastname'
+                                            class="block w-full rounded-md border-gray-300 shadow-sm 
+                                        focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
+                                    </div>
+
+                                    @error('register_form.lastname')
+                                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="col-span-full">
+
+                                    <label for="register_email"
+                                        class="block text-xs sm:text-sm 
+                                    font-medium text-gray-700">
+                                        Email
+                                    </label>
+
+                                    <div class="mt-1">
+                                        <input type="email" id="register_email"
+                                            wire:model.blur='register_form.email'
+                                            class="block w-full rounded-md border-gray-300 shadow-sm 
+                                        focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
+                                    </div>
+
+                                    @error('register_form.email')
+                                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                                    @enderror
+
+                                </div>
+
+                                <div class="col-span-full sm:col-span-6">
+
+                                    <label for="register_password"
+                                        class="block text-xs sm:text-sm 
+                                    font-medium text-gray-700">
+                                        Contraseña
+                                    </label>
+
+                                    <div class="mt-1">
+                                        <input type="password" id="register_password"
+                                            wire:model.blur='register_form.password'
+                                            class="block w-full rounded-md border-gray-300 shadow-sm 
+                                        focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
+                                    </div>
+
+                                    @if (!$errors->first('register_form.password') && empty($register_form->password))
+                                        <small class="text-gray-500 text-xs">
+                                            Debe contener 8 caracteres como mínimo y una letra mayúscula
+                                        </small>
+                                    @endif
+
+                                    @error('register_form.password')
+                                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                                    @enderror
+
+                                </div>
+
+                                <div class="col-span-full sm:col-span-6">
+
+                                    <label for="register_repeat_password"
+                                        class="block text-xs sm:text-sm 
+                                    font-medium text-gray-700">
+                                        Repetir Contraseña
+                                    </label>
+
+                                    <div class="mt-1">
+                                        <input type="password" id="register_repeat_password"
+                                            wire:model.blur='register_form.password_repeat'
+                                            class="block w-full rounded-md border-gray-300 shadow-sm 
+                                        focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
+                                    </div>
+
+                                    @error('register_form.password_repeat')
+                                        <small class="text-red-500 text-xs">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="col-span-full flex gap-4 justify-between flex-wrap">
+
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="newsletter_check"
+                                                wire:model.blur='register_form.newsletter_check'
+                                                aria-describedby="remember" type="checkbox"
+                                                class="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 
+                                            h-4 w-4 rounded dark:bg-gray-600">
+
+                                            <label for="newsletter_check"
+                                                class="font-medium text-gray-900 
+                                            text-xs ml-2">
+                                                Deseo recibir novedades y promociones
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <button @click="tab = 'login'" type="button"
+                                        class="text-xs text-blue-700 hover:underline">
+                                        Ya tengo una cuenta
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 grid grid-flow-row-dense grid-cols-2 gap-3 items-center">
+
+                                <x-button @click="open = false" size="large" type="secondary">Cancelar</x-button>
+
+                                <div wire:loading wire:target='validateRegister'>
+                                    <x-spinner />
+                                </div>
+
+                                <x-button wire:click='validateRegister' size="large"
+                                wire:loading.remove wire:target='validateRegister'>
+                                    Registrarme
+                                </x-button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

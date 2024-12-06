@@ -5,14 +5,11 @@ namespace App\Livewire\Ecommerce;
 use App\Enums\CustomerType;
 use App\Livewire\Forms\RegisterForm;
 use App\Livewire\Forms\LoginForm;
-use App\Mail\EmailVerification;
-use App\Mail\TestEmail;
-use App\Models\EmailVerificationCode;
 use App\Models\User;
+use App\Services\EmailVerificationService;
 use App\Traits\Livewire\WithNotifications;
-use Exception;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class LoginPanel extends Component
@@ -27,6 +24,11 @@ class LoginPanel extends Component
 
     public RegisterForm $register_form;
 
+    public $waiting_recovery_code = false;
+    public $waiting_register_code = false;
+
+    public $email_verify_code;
+
     public function open($params = null)
     {
         if (isset($params['tab']))
@@ -35,27 +37,17 @@ class LoginPanel extends Component
         }
     }
 
-    public function register()
+    public function validateRegister()
     {
         $this->register_form->validate();
 
+        sleep(5);
+
         try 
         {
-            $registerEmail = $this->register_form->email;
-
-            $verificationModel = EmailVerificationCode::create([
-                'ip'         => request()->ip(),
-                'email'      => $registerEmail,
-                'code'       => rand(100000, 999999),
-                'expires_at' => now()->addMinutes(15)->toDateTimeString()
-            ]);
-
-            $recipient_name = $this->register_form->name;
-            $code = $verificationModel->code;
-
-            Mail::to($registerEmail)->send(new EmailVerification($recipient_name, $code));
+            EmailVerificationService::sendTo($this->register_form->email, $this->register_form->name);
     
-            dd("Mail enviado");
+            $this->waiting_register_code = true;
 
         } catch (\Throwable $err) 
         {
@@ -72,15 +64,49 @@ class LoginPanel extends Component
         }
     }
 
-    public function mount()
+    public function register()
     {
-        $this->register_form->fill([
-            'name'     => 'Nicolas',
-            'lastname' => 'Pistillo',
-            'email'    => 'pistillonicolas@gmail.com',
-            'password' => 'Xeneize12',
-            'password_repeat' => 'Xeneize12'
-        ]);
+        try 
+        {
+            if (EmailVerificationService::check($this->register_form->email, $this->email_verify_code))
+            {
+                User::create([
+                    'type'      => CustomerType::Registered,
+                    'name'      => $this->register_form->name,
+                    'lastname'  => $this->register_form->lastname,
+                    'email'     => $this->register_form->email,
+                    'password'  => Hash::make($this->register_form->password),
+                    'newsletter_subscribed' => $this->register_form->newsletter_check
+                ]);
+
+                $this->tab = 'login';
+                $this->waiting_register_code = false;
+                $this->register_form->reset();
+
+                session()->flash('account_created');
+
+                $this->notify([
+                    'type'  => 'success',
+                    'title' => 'Registro de cuenta',
+                    'body'  => 'Te registraste exitosamente, ¡Bienvenido a '.tenant('ecommerce_name').'!'
+                ]);
+            }
+
+            return $this->addError('email_verify_code', 'El código expiró o es incorrecto');
+
+        } catch (\Throwable $err) 
+        {
+            Log::channel('error')->info($err->getMessage(), [
+                'tenant'  => tenant('name'),
+                'context' => 'user-creating-from-panel'
+            ]);
+
+            $this->notify([
+                'type'  => 'danger', 
+                'title' => 'Error al completar el registro',
+                'body'  => 'Por favor, vuelva a intentarlo mas tarde'
+            ]);
+        }
     }
 
     public function render()

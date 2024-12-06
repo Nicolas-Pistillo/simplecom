@@ -17,14 +17,13 @@
         <section class="max-w-2xl bg-white">
 
             <header class="p-5 text-center">
-                <a href="{{ tenant()->domain() }}">
-                    <img src="{{ tenant()->logo() }}" class="h-12"
-                    alt="{{ tenant('ecommerce_name') }} logo" />
+                <a href="http://{{ tenant()->domain() }}">
+                    <img src="{{ tenant()->logo() }}" class="h-12" alt="{{ tenant('ecommerce_name') }} logo" />
                 </a>
             </header>
 
-            <div class="bg-{{ tenant('color') }}-600 h-52 px-5 w-full text-white flex 
-            items-center justify-center flex-col gap-5 py-4">
+            <div class="bg-{{ tenant('color') }}-600 px-5 py-8 w-full text-white flex 
+            items-center justify-center flex-col gap-5">
 
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
 
@@ -56,17 +55,7 @@
                 </p>
 
                 <div class="flex items-center gap-3 mt-4 text-sm">
-
-                    @php
-                        $stringCode = (string) $code;
-                    @endphp
-
-                    @for ($i = 0; $i < strlen($stringCode); $i++)
-                        <article class="flex items-center font-semibold justify-center 
-                        w-8 h-8 rounded-md text-blue-600 border border-blue-600"> 
-                            {{ $stringCode[$i] }} 
-                        </article>
-                    @endfor
+                    <h5 class="text-blue-600 font-semibold text-2xl tracking-widest"> {{ $code }} </h5>
                 </div>
 
                 <p class="mt-4 leading-7 text-gray-600">
@@ -81,7 +70,7 @@
                 </p>
             </main>
 
-            <p class="text-gray-600 px-5 mt-8 text-xs">
+            <p class="text-gray-600 px-5 mt-8 text-xs text-center">
                 Si la plataforma no te solicitó ningún código de verificación o crees que se deba a un error, por favor desestima este correo.
             </p>
 
@@ -96,7 +85,7 @@
 
                 <div class="bg-gray-100 text-gray-700 flex flex-col justify-center items-center gap-5 py-4">
 
-                    <div class="text-center flex flex-col gap-3">
+                    <div class="text-center flex flex-col gap-3 px-5">
 
                         <h1 class="font-semibold text-xl tracking-wider">
                             {{ tenant('ecommerce_name') }}
@@ -157,8 +146,8 @@
 
                 <div class="bg-blue-600 text-center text-white">
                     <p class="text-xs py-2">
-                        © 2024 Desarrollador por 
-                        <a href="{{ route('simplecom.landing') }}">Simplecom</a>  - Todos los derechos reservados
+                        © 2024 Desarrollado por 
+                        <a class="underline" href="{{ route('simplecom.landing') }}">Simplecom</a>
                     </p>
                 </div>
             </footer>
