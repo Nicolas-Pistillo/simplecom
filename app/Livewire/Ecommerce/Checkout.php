@@ -11,9 +11,8 @@ use App\Services\ProductService;
 use Illuminate\Support\Facades\Http;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
-use App\Services\ShippingProviders\Zippin;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Livewire\Attributes\On;
 
 class Checkout extends Component
 {
@@ -35,7 +34,7 @@ class Checkout extends Component
 
         $addressInfo = postalCodeInfo($postalCode);
 
-        // dd($addressInfo);
+        dd($addressInfo);
 
         $envia = new Envia();
 
@@ -180,7 +179,6 @@ class Checkout extends Component
     public function setStep($step)
     {
         $this->current_step = $step;
-        if ($step == 3) $this->dispatch('testEvent', ['id' => 1015]);
     }
 
     public function confirmOrder()
@@ -220,9 +218,45 @@ class Checkout extends Component
         }
     }
 
+    public function updatedForm($value, $key)
+    {
+        if (Auth::guest())
+        {
+            session()->put("guest_customer.$key", $value);
+        }
+    }
+
+    public function autocompleteByUser()
+    {
+        $this->form->fill([
+            'customer_name'       => Auth::user()->name,
+            'customer_lastname'   => Auth::user()->lastname,
+            'customer_email'      => Auth::user()->email,
+            'customer_phone_area' => Auth::user()->phone_area,
+            'customer_phone'      => Auth::user()->phone,
+            'customer_document'   => Auth::user()->document
+        ]);
+    }
+
+    public function autocompleteByGuest()
+    {
+        $this->form->fill([
+            'customer_name'       => session('guest_customer.customer_name'),
+            'customer_lastname'   => session('guest_customer.customer_lastname'),
+            'customer_email'      => session('guest_customer.customer_email'),
+            'customer_phone_area' => session('guest_customer.customer_phone_area'),
+            'customer_phone'      => session('guest_customer.customer_phone'),
+            'customer_document'   => session('guest_customer.customer_document'),
+            'delivery_type'       => session('guest_customer.delivery_type')
+        ]);
+    }
+
     public function mount()
     {
         $this->payment_methods = PaymentMethod::where('active', true)->get();
+
+        Auth::check() ? $this->autocompleteByUser()
+                      : $this->autocompleteByGuest();
 
         /* $zippin = new Zippin();
 

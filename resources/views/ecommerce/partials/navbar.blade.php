@@ -11,14 +11,19 @@
                 @auth
                     <div x-data="{ openUserMenu: false }" class="relative">
 
-                        <button @click="openUserMenu = !openUserMenu" type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <img class="h-8 w-8 rounded-full bg-gray-50" 
-                            src="{{ initialsAvatar() }}" 
-                            alt="user avatar">
-                            <span class="hidden lg:flex lg:items-center">
-                                <span class="ml-3 text-sm font-semibold leading-6 text-white" aria-hidden="true">{{ Auth::user()->name }}</span>
-                                <x-icon code="keyboard_arrow_down" class="text-white" />                                        
-                            </span>
+                        <button @click="openUserMenu = !openUserMenu" type="button" 
+                        class="-m-1.5 flex items-center p-1.5 gap-x-2" id="user-menu-button" 
+                        aria-expanded="false" aria-haspopup="true">
+
+                            <img class="h-8 w-8 rounded-full" 
+                            src="{{ initialsAvatar() }}" alt="user avatar">
+
+                            <div class="hidden lg:flex lg:items-center text-white">
+                                <span class="text-sm font-semibold leading-6" aria-hidden="true">
+                                    {{ Auth::user()->name }}
+                                </span>
+                                <x-icon code="keyboard_arrow_down" class="opacity-70" />
+                            </div>
                         </button>
 
                         <div x-cloak x-show="openUserMenu" @click.away="openUserMenu = false" 
@@ -29,19 +34,32 @@
                         x-transition:leave-start="transform opacity-100 scale-100" 
                         x-transition:leave-end="transform opacity-0 scale-95" 
                         class="absolute right-0 top-12 z-10 w-max origin-top-right rounded-md 
-                        bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                        bg-white pb-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
 
-                            <a href="#" class="flex items-center gap-x-2 px-3 py-1 text-sm leading-6 
-                            text-gray-900 transition hover:bg-gray-50">
-                                <x-icon code="person_edit" />
+                            <div class="px-4 py-3 border-b" role="none">
+                                <p class="text-sm font-semibold" role="none">{{ Auth::user()->full_name }}</p>
+                                <p class="truncate text-xs font-medium text-gray-900" role="none">
+                                    {{ Auth::user()->email }}
+                                </p>
+                            </div>
+
+                            <a href="#" class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
+                            transition hover:bg-gray-50">
+                                <x-icon code="shopping_bag" class="text-gray-700" style="font-size: 21px" />
+                                Mis pedidos
+                            </a>
+
+                            <a href="#" class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
+                            transition hover:bg-gray-50">
+                                <x-icon code="person_edit" class="text-gray-700" style="font-size: 21px" />
                                 Mis datos
                             </a>
 
                             <form action="{{ route('customer.logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="flex items-center w-full text-left px-3 
-                                py-1 gap-x-2 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
-                                    <x-icon code="logout" />
+                                py-2 gap-x-2 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
+                                    <x-icon code="logout" style="font-size: 21px" />
                                     Cerrar sesión
                                 </button>
                             </form>

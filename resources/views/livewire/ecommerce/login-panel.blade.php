@@ -100,7 +100,7 @@
 
                                     <div class="mt-1">
                                         <input type="email" id="login_email"
-                                        wire:model.blur='login_form.email'
+                                        wire:model.blur='login_form.email' autocomplete="no"
                                         class="block w-full rounded-md border-gray-300 shadow-sm 
                                         focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                     </div>
@@ -120,7 +120,7 @@
 
                                     <div class="mt-1">
                                         <input type="password" id="login_password"
-                                        wire:model.blur='login_form.password'
+                                        wire:model.blur='login_form.password' autocomplete="no"
                                         class="block w-full rounded-md border-gray-300 shadow-sm 
                                         focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm">
                                     </div>

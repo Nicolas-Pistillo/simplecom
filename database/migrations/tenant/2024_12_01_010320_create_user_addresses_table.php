@@ -15,15 +15,20 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('address_type');
+            $table->string('name')->nullable();
+            $table->string('postal_code');
             $table->string('street');
             $table->string('number');
-            $table->string('province');
             $table->string('locality');
-            $table->string('postal_code');
+            $table->string('state');
+            $table->string('state_code')->nullable();
             $table->string('floor')->nullable();
             $table->string('apartment')->nullable();
             $table->string('office')->nullable();
             $table->string('details')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('lng')->nullable();
+            $table->string('google_place_id')->nullable();
             $table->timestamps();
         });
     }

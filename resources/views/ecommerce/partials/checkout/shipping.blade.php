@@ -140,7 +140,7 @@
                     Código postal
                 </label>
                 <div class="mt-1">
-                    <input type="text" wire:model.live='form.customer_postal_code' id="shipping_postal_code"
+                    <input type="text" wire:model.blur='form.customer_postal_code' id="shipping_postal_code"
                     name="shipping_postal_code"
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 
                     focus:ring-blue-500 sm:text-sm">

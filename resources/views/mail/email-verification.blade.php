@@ -18,7 +18,7 @@
 
             <header class="p-5 text-center">
                 <a href="http://{{ tenant()->domain() }}">
-                    <img src="{{ tenant()->logo() }}" class="h-12" alt="{{ tenant('ecommerce_name') }} logo" />
+                    <img src="{{ tenant()->logo() }}" class="h-16 mx-auto" alt="{{ tenant('ecommerce_name') }} logo" />
                 </a>
             </header>
 
@@ -103,7 +103,7 @@
 
                         @if (!empty($contactEmail))
                             <a href="mailto:{{ $contactEmail }}" class="text-gray-600 text-sm">
-                                Contacto: {{ $contactEmail }}
+                                Email: {{ $contactEmail }}
                             </a>                            
                         @endif
 
