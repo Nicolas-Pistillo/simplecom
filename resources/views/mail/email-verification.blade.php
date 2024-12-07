@@ -25,7 +25,7 @@
             <div class="bg-{{ tenant('color') }}-600 px-5 py-8 w-full text-white flex 
             items-center justify-center flex-col gap-5">
 
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="flex items-center gap-3">
 
                     <div class="w-10 h-px bg-white"></div>
 
@@ -51,11 +51,11 @@
 
                 <p class="leading-6 text-gray-600">
                     Este es tu código de verificación de email para {{ tenant('ecommerce_name') }},
-                    copialo y pegalo donde se te lo haya solicitado
+                    copialo y pegalo donde se te lo solicite.
                 </p>
 
                 <div class="flex items-center gap-3 mt-4 text-sm">
-                    <h5 class="text-blue-600 font-semibold text-2xl tracking-widest"> {{ $code }} </h5>
+                    <h5 class="text-blue-600 font-semibold text-2xl tracking-widest">{{ $code }}</h5>
                 </div>
 
                 <p class="mt-4 leading-7 text-gray-600">

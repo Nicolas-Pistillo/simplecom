@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Enums\DeliveryType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Services\ShippingProviders\Envia;
 use App\Traits\Livewire\WithNotifications;
@@ -247,7 +248,7 @@ class Checkout extends Component
             'customer_phone_area' => session('guest_customer.customer_phone_area'),
             'customer_phone'      => session('guest_customer.customer_phone'),
             'customer_document'   => session('guest_customer.customer_document'),
-            'delivery_type'       => session('guest_customer.delivery_type')
+            'delivery_type'       => session('guest_customer.delivery_type') ?? DeliveryType::Shipping
         ]);
     }
 
