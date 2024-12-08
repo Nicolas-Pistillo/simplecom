@@ -279,24 +279,27 @@
                             </div>
                         </div>
 
-                        <!-- Account & cart -->
+                        <!-- Wishlist, Location & Cart -->
                         <div class="flex flex-1 items-center justify-end">
                             <div class="flex items-center lg:ml-4 no-select">
 
-                                <!-- wishlist -->
                                 @auth
-                                    <x-icon code="location_pin" x-tooltip.raw.placement.bottom="Mis direcciones"
+
+                                    {{-- Location --}}
+                                    <x-icon code="location_pin" @click="$dispatch('open-new-address-panel')"
+                                    x-tooltip.raw.placement.bottom="Mis direcciones"
                                     class="transition colors duration-300 ml-3
                                     cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                                     hover:bg-gray-200 focus:outline-none focus:ring" />
 
+                                    {{-- Wishlist --}}
                                     <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
                                     class="transition colors duration-300 ml-3
                                     cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                                     hover:bg-gray-200 focus:outline-none focus:ring" />
                                 @endauth
 
-                                <!-- Cart -->
+                                {{-- Cart --}}
                                 @if (!Route::is('ecommerce.checkout'))
                                     <div class="relative ml-3">
                                         <x-icon code="shopping_cart" @click="cartMenuOpen = true"

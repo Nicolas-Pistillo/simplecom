@@ -172,7 +172,8 @@
                             @endforeach
                         @endif
 
-                        <label class="no-select w-max relative flex items-center justify-center cursor-pointer 
+                        <label @click="$dispatch('open-new-address-panel')" 
+                        class="no-select w-max relative flex items-center justify-center cursor-pointer 
                         rounded-lg border-2 border-dashed bg-white hover:bg-gray-50 transition-colors duration-300 
                         p-4 focus:outline-hidden">
                             <div class="text-center text-blue-500 text-sm">

@@ -242,6 +242,11 @@
         @yield('content')
     </main>
 
+    @auth
+        {{-- New Address Panel --}}
+        @livewire('ecommerce.new-address-panel')
+    @endauth
+
     {{-- Cookies advicement --}}
     {{-- <div x-data="{open: true}" x-show="open"
     class="animate__animated animate__bounceInLeft pointer-events-none fixed z-10 inset-x-0 bottom-0 px-6 pb-6">
