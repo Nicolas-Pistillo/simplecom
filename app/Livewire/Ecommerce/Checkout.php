@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Enums\AddressType;
 use App\Enums\DeliveryType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Services\ShippingProviders\Envia;
@@ -27,11 +28,13 @@ class Checkout extends Component
 
     public $payment_methods, $selected_payment_method;
 
+    public $user_addresses;
+
     public function getShippingRates()
     {
-        $this->form->validateOnly('customer_postal_code'); 
+        $this->form->validateOnly('postal_code'); 
 
-        $postalCode = $this->form->customer_postal_code;
+        $postalCode = $this->form->postal_code;
 
         $addressInfo = postalCodeInfo($postalCode);
 
@@ -177,6 +180,33 @@ class Checkout extends Component
         }
     }
 
+    public function customerDataStep()
+    {
+
+    }
+
+    public function shippingStep()
+    {
+        $data = $this->form->validateCustomerData();
+
+        if (Auth::check())
+        {
+            Auth::user()->update([
+                'name'     => $data['name'],
+                'lastname' => $data['lastname'],
+                'phone'    => $data['phone'],
+                'document' => $data['document']
+            ]);
+        }
+
+        $this->current_step = 2;
+    }
+
+    public function paymentStep()
+    {
+
+    }
+
     public function setStep($step)
     {
         $this->current_step = $step;
@@ -221,34 +251,29 @@ class Checkout extends Component
 
     public function updatedForm($value, $key)
     {
-        if (Auth::guest())
-        {
-            session()->put("guest_customer.$key", $value);
-        }
+        if (Auth::guest()) session()->put("guest_customer.$key", $value);
     }
 
     public function autocompleteByUser()
     {
         $this->form->fill([
-            'customer_name'       => Auth::user()->name,
-            'customer_lastname'   => Auth::user()->lastname,
-            'customer_email'      => Auth::user()->email,
-            'customer_phone_area' => Auth::user()->phone_area,
-            'customer_phone'      => Auth::user()->phone,
-            'customer_document'   => Auth::user()->document
+            'name'      => Auth::user()->name,
+            'lastname'  => Auth::user()->lastname,
+            'email'     => Auth::user()->email,
+            'phone'     => Auth::user()->phone,
+            'document'  => Auth::user()->document
         ]);
     }
 
     public function autocompleteByGuest()
     {
         $this->form->fill([
-            'customer_name'       => session('guest_customer.customer_name'),
-            'customer_lastname'   => session('guest_customer.customer_lastname'),
-            'customer_email'      => session('guest_customer.customer_email'),
-            'customer_phone_area' => session('guest_customer.customer_phone_area'),
-            'customer_phone'      => session('guest_customer.customer_phone'),
-            'customer_document'   => session('guest_customer.customer_document'),
-            'delivery_type'       => session('guest_customer.delivery_type') ?? DeliveryType::Shipping
+            'name'          => session('guest_customer.name'),
+            'lastname'      => session('guest_customer.lastname'),
+            'email'         => session('guest_customer.email'),
+            'phone'         => session('guest_customer.phone'),
+            'document'      => session('guest_customer.document'),
+            'delivery_type' => session('guest_customer.delivery_type') ?? DeliveryType::Shipping
         ]);
     }
 
@@ -256,14 +281,13 @@ class Checkout extends Component
     {
         $this->payment_methods = PaymentMethod::where('active', true)->get();
 
-        Auth::check() ? $this->autocompleteByUser()
-                      : $this->autocompleteByGuest();
+        if (Auth::check())
+        {
+            $this->user_addresses = Auth::user()->shippingAddresses();
+            return $this->autocompleteByUser();
+        }
 
-        /* $zippin = new Zippin();
-
-        $rates = $zippin->getRates();
-
-        dd($rates); */
+        $this->autocompleteByGuest();
     }
 
     public function render()

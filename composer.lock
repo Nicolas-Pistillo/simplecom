@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a67c795a6d93122ffc6300031e6c2d56",
+    "content-hash": "f9058d749af95265902047392d781c13",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3682,6 +3682,70 @@
                 }
             ],
             "time": "2024-10-15T15:27:12+00:00"
+        },
+        {
+            "name": "pablorsk/argentina-data-validator",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pablorsk/argentina-data-validator.git",
+                "reference": "703abadc967ea222b3b65f6cf34fbfd7ad5273f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pablorsk/argentina-data-validator/zipball/703abadc967ea222b3b65f6cf34fbfd7ad5273f8",
+                "reference": "703abadc967ea222b3b65f6cf34fbfd7ad5273f8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "0.19.10",
+                "orchestra/testbench": "3.4.*|3.5.*|3.6.*",
+                "phpunit/phpunit": "7.2.6",
+                "reyesoft/ci": "1.0.5",
+                "sebastian/phpcpd": "4.0.0",
+                "squizlabs/php_codesniffer": "3.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArgentinaDataValidator\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArgentinaDataValidator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Reyes",
+                    "email": "pablo@reyesoft.com",
+                    "homepage": "https://pabloreyes.com.ar/"
+                }
+            ],
+            "description": "Argentina data validator for CUIT and CBU numbers",
+            "homepage": "https://github.com/pablorsk/argentina-data-validator",
+            "keywords": [
+                "CUIT",
+                "argentina",
+                "cbu",
+                "laravel",
+                "validator"
+            ],
+            "support": {
+                "issues": "https://github.com/pablorsk/argentina-data-validator/issues",
+                "source": "https://github.com/pablorsk/argentina-data-validator/tree/master"
+            },
+            "time": "2018-09-14T02:32:45+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",

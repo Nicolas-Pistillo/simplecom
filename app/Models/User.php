@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\AddressType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,5 +43,15 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return "$this->name $this->lastname";
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function shippingAddresses()
+    {
+        return $this->addresses()->where('type', AddressType::Shippping)->get();
     }
 }

@@ -281,28 +281,33 @@
 
                         <!-- Account & cart -->
                         <div class="flex flex-1 items-center justify-end">
-                            <div class="flex items-center lg:ml-8 no-select">
+                            <div class="flex items-center lg:ml-4 no-select">
 
                                 <!-- wishlist -->
-                                <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
+                                @auth
+                                    <x-icon code="location_pin" x-tooltip.raw.placement.bottom="Mis direcciones"
                                     class="transition colors duration-300 ml-3
-                                cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
-                                hover:bg-gray-200 focus:outline-none focus:ring" />
+                                    cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
+                                    hover:bg-gray-200 focus:outline-none focus:ring" />
+
+                                    <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
+                                    class="transition colors duration-300 ml-3
+                                    cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
+                                    hover:bg-gray-200 focus:outline-none focus:ring" />
+                                @endauth
 
                                 <!-- Cart -->
                                 @if (!Route::is('ecommerce.checkout'))
                                     <div class="relative ml-3">
                                         <x-icon code="shopping_cart" @click="cartMenuOpen = true"
-                                            x-tooltip.raw.placement.bottom="Carrito"
-                                            class="transition colors cursor-pointer bg-gray-100
+                                        x-tooltip.raw.placement.bottom="Carrito"
+                                        class="transition colors cursor-pointer bg-gray-100
                                         text-gray-600 p-2 rounded-full hover:bg-gray-200 
                                         focus:outline-none focus:ring duration-300" />
 
                                         @if (Cart::count() > 0)
-                                            <x-badge color="green"
-                                                class="absolute -bottom-3 right-0
-                                            !rounded-full">
-                                                {{ Cart::content()->count() }} </x-badge>
+                                            <x-badge color="green" class="absolute -bottom-3 right-0 !rounded-full">
+                                            {{ Cart::content()->count() }} </x-badge>
                                         @endif
                                     </div>
                                 @endif

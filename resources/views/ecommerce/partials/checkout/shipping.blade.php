@@ -22,7 +22,7 @@
                         id="picking_delivery" name="delivery_type" type="radio"
                         class="size-4 border-gray-300 text-blue-600 focus:ring-blue-600">
                     <label for="picking_delivery" class="ml-3 no-select block text-sm/6 font-medium text-gray-900">
-                        Retiro personalmente
+                        Retiro
                     </label>
                 </div>
             </div>
@@ -147,37 +147,30 @@
                     <div class="flex items-end gap-3 flex-wrap">
 
                         {{-- Address Component --}}
-                        <label class="no-select w-max relative flex cursor-pointer rounded-lg border 
-                        bg-white hover:bg-gray-50 transition-colors duration-300 
-                        p-4 shadow focus:outline-hidden border-transparent">
-                            <div class="flex flex-1">
-                                <span class="flex flex-col">
-                                <span class="block text-sm font-medium text-gray-900">Casa</span>
-                                <span class="mt-1 flex items-center text-xs text-gray-500">
-                                    Enre Ríos 3692  - CP 1879
-                                </span>
-                                <span class="mt-1 flex items-center text-xs text-gray-500">
-                                    Quilmes - Buenos Aires
-                                </span>
-                            </div>
-                            <span class="pointer-events-none absolute -inset-px rounded-lg border-2 
-                            border-blue-500" aria-hidden="true"></span>
-                        </label>
-
-                        <label class="no-select w-max relative flex cursor-pointer rounded-lg border 
-                        bg-white hover:bg-gray-50 transition-colors duration-300 
-                        p-4 shadow focus:outline-hidden border-transparent">
-                            <div class="flex flex-1">
-                                <span class="flex flex-col">
-                                <span class="block text-sm font-medium text-gray-900">Trabajo</span>
-                                <span class="mt-1 flex items-center text-xs text-gray-500">
-                                    Comandante Franco 7348  - CP 1745
-                                </span>
-                                <span class="mt-1 flex items-center text-xs text-gray-500">
-                                    Don Bosco - Tierra del Fuego
-                                </span>
-                            </div>
-                        </label>
+                        @if (isset($user_addresses) && $user_addresses->isNotEmpty())
+                            @foreach ($user_addresses as $address)
+                                <label wire:key='{{ $address->id }}' 
+                                class="no-select w-max relative flex cursor-pointer rounded-lg border 
+                                bg-white hover:bg-gray-50 transition-colors duration-300 
+                                p-4 shadow focus:outline-hidden border-transparent">
+                                    <div class="flex flex-1">
+                                        <div class="flex flex-col">
+                                            <span class="block text-sm font-medium text-gray-900">
+                                                {{ $address->name }}
+                                            </span>
+                                            <span class="mt-1 flex items-center text-xs text-gray-500">
+                                                {{ $address->street }} {{ $address->number }} - CP {{ $address->postal_code }}
+                                            </span>
+                                            <span class="mt-1 flex items-center text-xs text-gray-500">
+                                                {{ $address->locality }} - {{ $address->state }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="pointer-events-none absolute -inset-px rounded-lg border-2 
+                                    border-blue-500" aria-hidden="true"></span>
+                                </label>  
+                            @endforeach
+                        @endif
 
                         <label class="no-select w-max relative flex items-center justify-center cursor-pointer 
                         rounded-lg border-2 border-dashed bg-white hover:bg-gray-50 transition-colors duration-300 
@@ -190,6 +183,7 @@
 
                     </div>
                 </fieldset>
+    
             @else
                 <div class="col-span-full sm:col-span-6">
                     <label for="shipping_postal_code" class="block text-sm font-medium text-gray-700">
@@ -271,7 +265,7 @@
             @endif
 
             <div>
-                <x-button wire:click='setStep(3)' :disabled="true" size="big" class="mt-8">
+                <x-button wire:click='summaryStep' :disabled="true" size="big" class="mt-8">
                     Continuar
                 </x-button>
             </div>
