@@ -284,17 +284,16 @@
                             <div class="flex items-center lg:ml-4 no-select">
 
                                 @auth
-
                                     {{-- Location --}}
                                     <x-icon code="location_pin" @click="$dispatch('open-new-address-panel')"
                                     x-tooltip.raw.placement.bottom="Mis direcciones"
-                                    class="transition colors duration-300 ml-3
+                                    class="hidden sm:block transition colors duration-300 ml-3
                                     cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                                     hover:bg-gray-200 focus:outline-none focus:ring" />
 
                                     {{-- Wishlist --}}
                                     <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
-                                    class="transition colors duration-300 ml-3
+                                    class="hidden sm:block transition colors duration-300 ml-3
                                     cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                                     hover:bg-gray-200 focus:outline-none focus:ring" />
                                 @endauth
