@@ -2,7 +2,7 @@
 
     <div class="grid grid-cols-12 gap-x-4 gap-y-6">
 
-        <div class="col-span-full flex items-center justify-center gap-4 flex-wrap">
+        {{-- <div class="col-span-full flex items-center justify-center gap-4 flex-wrap">
 
             <button type="button" class="flex text-sm items-center w-full justify-center sm:w-auto py-2.5 px-4 shadow rounded-lg text-gray-600 bg-white hover:shadow-md
                 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-800 focus:outline-none">
@@ -42,94 +42,80 @@
                     Ingresar o registrarse con email
                 </span>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-span-full sm:col-span-6">
-            <label for="customer_name" class="block text-sm font-medium text-gray-700">
+            <label for="name" class="block text-sm font-medium text-gray-700">
                 Nombre
             </label>
             <div class="mt-1">
-                <input type="text" wire:model.blur='form.customer_name' id="customer_name"
+                <input type="text" wire:model.blur='form.name' id="name"
                     class="block w-full rounded-md border-gray-300 shadow-sm 
                 focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
 
-                @error('form.customer_name')
+                @error('form.name')
                     <small class="text-red-500">{{ $message }}</small>
                 @enderror
             </div>
         </div>
 
         <div class="col-span-full sm:col-span-6">
-            <label for="customer_lastname" class="block text-sm font-medium text-gray-700">
+            <label for="lastname" class="block text-sm font-medium text-gray-700">
                 Apellido
             </label>
             <div class="mt-1">
-                <input type="text" wire:model.blur='form.customer_lastname' id="customer_lastname"
+                <input type="text" wire:model.blur='form.lastname' id="lastname"
                     class="block w-full rounded-md border-gray-300 shadow-sm 
                 focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
 
-                @error('form.customer_lastname')
+                @error('form.lastname')
                     <small class="text-red-500">{{ $message }}</small>
                 @enderror
             </div>
         </div>
+
+        @guest
+            <div class="col-span-full sm:col-span-6">
+                <label for="email" class="block text-sm font-medium text-gray-700">
+                    Email
+                </label>
+                <div class="mt-1">
+                    <input type="email" wire:model.blur='form.email' id="email"
+                        class="block w-full rounded-md border-gray-300 shadow-sm 
+                    focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                    @error('form.email')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+        @endguest
 
         <div class="col-span-full sm:col-span-6">
-            <label for="customer_email" class="block text-sm font-medium text-gray-700">
-                Email
-            </label>
-            <div class="mt-1">
-                <input type="email" wire:model.blur='form.customer_email' id="customer_email"
-                    class="block w-full rounded-md border-gray-300 shadow-sm 
-                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-
-                @error('form.customer_email')
-                    <small class="text-red-500">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-
-        <div class="col-span-full sm:col-span-6">
-            <label for="customer_document" class="block text-sm font-medium text-gray-700">
-                DNI
-            </label>
-            <div class="mt-1">
-                <input type="text" id="customer_document" wire:model.blur='form.customer_document'
-                    class="block w-full rounded-md border-gray-300 shadow-sm 
-                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-
-                @error('form.customer_document')
-                    <small class="text-red-500">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-
-        <div class="col-span-full sm:col-span-2">
-            <label for="customer_phone" class="block text-sm font-medium text-gray-700">
-                Cod. Area
-            </label>
-            <div class="mt-1">
-                <input type="number" wire:model.blur='form.customer_phone_area' id="customer_phone"
-                    class="block w-full rounded-md border-gray-300 shadow-sm
-                focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="011">
-
-                @error('form.customer_phone_area')
-                    <small class="text-red-500">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-
-        <div class="col-span-full sm:col-span-5">
-            <label for="customer_phone" class="block text-sm font-medium text-gray-700">
+            <label for="phone" class="block text-sm font-medium text-gray-700">
                 Teléfono
             </label>
             <div class="mt-1">
-                <input type="number" wire:model.blur='form.customer_phone' id="customer_phone"
+                <input type="number" wire:model.blur='form.phone' id="phone"
                     class="block w-full rounded-md border-gray-300 shadow-sm
                 focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
 
-                @error('form.customer_phone')
+                @error('form.phone')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-span-full sm:col-span-6">
+            <label for="document" class="block text-sm font-medium text-gray-700">
+                DNI
+            </label>
+            <div class="mt-1">
+                <input type="text" id="document" wire:model.blur='form.document'
+                    class="block w-full rounded-md border-gray-300 shadow-sm 
+                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                @error('form.document')
                     <small class="text-red-500">{{ $message }}</small>
                 @enderror
             </div>
@@ -137,7 +123,7 @@
 
     </div>
 
-    <x-button wire:click="setStep(2)" size="big" class="mt-12">
+    <x-button wire:click="shippingStep" size="big" class="mt-12">
         Continuar
     </x-button>
 

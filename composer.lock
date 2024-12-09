@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b94d546273d7065af6a0df5ba32406a2",
+    "content-hash": "f9058d749af95265902047392d781c13",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3165,6 +3165,61 @@
             "time": "2024-11-12T13:57:08+00:00"
         },
         {
+            "name": "motomedialab/laravel-vite-helper",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/motomedialab/laravel-vite-helper.git",
+                "reference": "f30d1397addac2133a6d38d1ce30f3045bb7973a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/motomedialab/laravel-vite-helper/zipball/f30d1397addac2133a6d38d1ce30f3045bb7973a",
+                "reference": "f30d1397addac2133a6d38d1ce30f3045bb7973a",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^8.5.8|^9.5.21|^10.0.7|^10.5|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Motomedialab\\LaravelViteHelper\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Page",
+                    "email": "chris@motocom.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A helper method to generate absolute asset URL's to Vite assets",
+            "homepage": "https://github.com/motomedialab/laravel-vite-helper",
+            "keywords": [
+                "laravel-vite-helper",
+                "motomedialab"
+            ],
+            "support": {
+                "issues": "https://github.com/motomedialab/laravel-vite-helper/issues",
+                "source": "https://github.com/motomedialab/laravel-vite-helper/tree/v1.7.0"
+            },
+            "time": "2024-03-14T20:01:25+00:00"
+        },
+        {
             "name": "mtdowling/jmespath.php",
             "version": "2.8.0",
             "source": {
@@ -3627,6 +3682,70 @@
                 }
             ],
             "time": "2024-10-15T15:27:12+00:00"
+        },
+        {
+            "name": "pablorsk/argentina-data-validator",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pablorsk/argentina-data-validator.git",
+                "reference": "703abadc967ea222b3b65f6cf34fbfd7ad5273f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pablorsk/argentina-data-validator/zipball/703abadc967ea222b3b65f6cf34fbfd7ad5273f8",
+                "reference": "703abadc967ea222b3b65f6cf34fbfd7ad5273f8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "0.19.10",
+                "orchestra/testbench": "3.4.*|3.5.*|3.6.*",
+                "phpunit/phpunit": "7.2.6",
+                "reyesoft/ci": "1.0.5",
+                "sebastian/phpcpd": "4.0.0",
+                "squizlabs/php_codesniffer": "3.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArgentinaDataValidator\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArgentinaDataValidator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Reyes",
+                    "email": "pablo@reyesoft.com",
+                    "homepage": "https://pabloreyes.com.ar/"
+                }
+            ],
+            "description": "Argentina data validator for CUIT and CBU numbers",
+            "homepage": "https://github.com/pablorsk/argentina-data-validator",
+            "keywords": [
+                "CUIT",
+                "argentina",
+                "cbu",
+                "laravel",
+                "validator"
+            ],
+            "support": {
+                "issues": "https://github.com/pablorsk/argentina-data-validator/issues",
+                "source": "https://github.com/pablorsk/argentina-data-validator/tree/master"
+            },
+            "time": "2018-09-14T02:32:45+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",

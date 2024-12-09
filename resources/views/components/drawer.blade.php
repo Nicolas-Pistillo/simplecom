@@ -8,7 +8,6 @@
     <div class="fixed inset-0 cursor-default overflow-hidden">
         <div class="absolute inset-0 overflow-hidden z-50">
             <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
-
                 <div x-show="{{ $ref }}"
                     x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
                     x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
@@ -24,7 +23,9 @@
                         class="absolute left-0 top-0 flex pr-2 pt-4 -ml-12 sm:-ml-14 sm:pr-4">
 
                             <x-icon @click="{{ $ref }} = false" code="close"
-                            class="transition colors duration-300 cursor-pointer text-gray-600 p-2 bg-gray-50 rounded-full hover:bg-gray-100 focus:outline-none focus:ring" />
+                            class="hidden sm:block transition colors duration-300 
+                            cursor-pointer text-gray-600 p-2 bg-gray-50 rounded-full 
+                            hover:bg-gray-100 focus:outline-none focus:ring" />
 
                         </div>
                     @endif

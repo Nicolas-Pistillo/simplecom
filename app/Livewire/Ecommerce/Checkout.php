@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Enums\AddressType;
+use App\Enums\DeliveryType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Services\ShippingProviders\Envia;
 use App\Traits\Livewire\WithNotifications;
@@ -11,9 +13,8 @@ use App\Services\ProductService;
 use Illuminate\Support\Facades\Http;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
-use App\Services\ShippingProviders\Zippin;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Livewire\Attributes\On;
 
 class Checkout extends Component
 {
@@ -27,15 +28,17 @@ class Checkout extends Component
 
     public $payment_methods, $selected_payment_method;
 
+    public $user_addresses;
+
     public function getShippingRates()
     {
-        $this->form->validateOnly('customer_postal_code'); 
+        $this->form->validateOnly('postal_code'); 
 
-        $postalCode = $this->form->customer_postal_code;
+        $postalCode = $this->form->postal_code;
 
         $addressInfo = postalCodeInfo($postalCode);
 
-        // dd($addressInfo);
+        dd($addressInfo);
 
         $envia = new Envia();
 
@@ -177,10 +180,36 @@ class Checkout extends Component
         }
     }
 
+    public function customerDataStep()
+    {
+
+    }
+
+    public function shippingStep()
+    {
+        $data = $this->form->validateCustomerData();
+
+        if (Auth::check())
+        {
+            Auth::user()->update([
+                'name'     => $data['name'],
+                'lastname' => $data['lastname'],
+                'phone'    => $data['phone'],
+                'document' => $data['document']
+            ]);
+        }
+
+        $this->current_step = 2;
+    }
+
+    public function paymentStep()
+    {
+
+    }
+
     public function setStep($step)
     {
         $this->current_step = $step;
-        if ($step == 3) $this->dispatch('testEvent', ['id' => 1015]);
     }
 
     public function confirmOrder()
@@ -220,15 +249,45 @@ class Checkout extends Component
         }
     }
 
+    public function updatedForm($value, $key)
+    {
+        if (Auth::guest()) session()->put("guest_customer.$key", $value);
+    }
+
+    public function autocompleteByUser()
+    {
+        $this->form->fill([
+            'name'      => Auth::user()->name,
+            'lastname'  => Auth::user()->lastname,
+            'email'     => Auth::user()->email,
+            'phone'     => Auth::user()->phone,
+            'document'  => Auth::user()->document
+        ]);
+    }
+
+    public function autocompleteByGuest()
+    {
+        $this->form->fill([
+            'name'          => session('guest_customer.name'),
+            'lastname'      => session('guest_customer.lastname'),
+            'email'         => session('guest_customer.email'),
+            'phone'         => session('guest_customer.phone'),
+            'document'      => session('guest_customer.document'),
+            'delivery_type' => session('guest_customer.delivery_type') ?? DeliveryType::Shipping
+        ]);
+    }
+
     public function mount()
     {
         $this->payment_methods = PaymentMethod::where('active', true)->get();
 
-        /* $zippin = new Zippin();
+        if (Auth::check())
+        {
+            $this->user_addresses = Auth::user()->shippingAddresses();
+            return $this->autocompleteByUser();
+        }
 
-        $rates = $zippin->getRates();
-
-        dd($rates); */
+        $this->autocompleteByGuest();
     }
 
     public function render()

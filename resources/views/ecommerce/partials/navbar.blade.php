@@ -8,11 +8,70 @@
                     <a href="{{ route('ecommerce.about') }}" class="text-xs sm:text-sm font-medium">Nosotros</a>
                 </div>
 
-                <div class="flex items-center space-x-6 text-white">
-                    <span @click="$dispatch('open-login-panel')" class="cursor-pointer text-xs sm:text-sm font-medium">
-                        Ingresar | Registrarse
-                    </span>
-                </div>
+                @auth
+                    <div x-data="{ openUserMenu: false }" class="relative">
+
+                        <button @click="openUserMenu = !openUserMenu" type="button" 
+                        class="-m-1.5 flex items-center p-1.5 gap-x-2" id="user-menu-button" 
+                        aria-expanded="false" aria-haspopup="true">
+
+                            <img class="h-8 w-8 rounded-full" 
+                            src="{{ initialsAvatar() }}" alt="user avatar">
+
+                            <div class="hidden lg:flex lg:items-center text-white">
+                                <span class="text-sm font-semibold leading-6" aria-hidden="true">
+                                    {{ Auth::user()->name }}
+                                </span>
+                                <x-icon code="keyboard_arrow_down" class="opacity-70" />
+                            </div>
+                        </button>
+
+                        <div x-cloak x-show="openUserMenu" @click.away="openUserMenu = false" 
+                        x-transition:enter="transition ease-out duration-100" 
+                        x-transition:enter-start="transform opacity-0 scale-95" 
+                        x-transition:enter-end="transform opacity-100 scale-100" 
+                        x-transition:leave="transition ease-in duration-75" 
+                        x-transition:leave-start="transform opacity-100 scale-100" 
+                        x-transition:leave-end="transform opacity-0 scale-95" 
+                        class="absolute right-0 top-12 z-10 w-max origin-top-right rounded-md 
+                        bg-white pb-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+
+                            <div class="px-4 py-3 border-b" role="none">
+                                <p class="text-sm font-semibold" role="none">{{ Auth::user()->full_name }}</p>
+                                <p class="truncate text-xs font-medium text-gray-900" role="none">
+                                    {{ Auth::user()->email }}
+                                </p>
+                            </div>
+
+                            <a href="#" class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
+                            transition hover:bg-gray-50">
+                                <x-icon code="shopping_bag" class="text-gray-700" style="font-size: 21px" />
+                                Mis pedidos
+                            </a>
+
+                            <a href="#" class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
+                            transition hover:bg-gray-50">
+                                <x-icon code="person_edit" class="text-gray-700" style="font-size: 21px" />
+                                Mis datos
+                            </a>
+
+                            <form action="{{ route('customer.logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="flex items-center w-full text-left px-3 
+                                py-2 gap-x-2 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
+                                    <x-icon code="logout" style="font-size: 21px" />
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <div class="flex items-center space-x-6 text-white">
+                        <span @click="$dispatch('open-login-panel')" class="cursor-pointer text-xs sm:text-sm font-medium">
+                            Ingresar | Registrarse
+                        </span>
+                    </div>
+                @endauth
 
             </div>
         </div>
@@ -220,30 +279,37 @@
                             </div>
                         </div>
 
-                        <!-- Account & cart -->
+                        <!-- Wishlist, Location & Cart -->
                         <div class="flex flex-1 items-center justify-end">
-                            <div class="flex items-center lg:ml-8 no-select">
+                            <div class="flex items-center lg:ml-4 no-select">
 
-                                <!-- wishlist -->
-                                <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
-                                    class="transition colors duration-300 ml-3
-                                cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
-                                hover:bg-gray-200 focus:outline-none focus:ring" />
+                                @auth
+                                    {{-- Location --}}
+                                    <x-icon code="location_pin" @click="$dispatch('open-new-address-panel')"
+                                    x-tooltip.raw.placement.bottom="Mis direcciones"
+                                    class="hidden sm:block transition colors duration-300 ml-3
+                                    cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
+                                    hover:bg-gray-200 focus:outline-none focus:ring" />
 
-                                <!-- Cart -->
+                                    {{-- Wishlist --}}
+                                    <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
+                                    class="hidden sm:block transition colors duration-300 ml-3
+                                    cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
+                                    hover:bg-gray-200 focus:outline-none focus:ring" />
+                                @endauth
+
+                                {{-- Cart --}}
                                 @if (!Route::is('ecommerce.checkout'))
                                     <div class="relative ml-3">
                                         <x-icon code="shopping_cart" @click="cartMenuOpen = true"
-                                            x-tooltip.raw.placement.bottom="Carrito"
-                                            class="transition colors cursor-pointer bg-gray-100
+                                        x-tooltip.raw.placement.bottom="Carrito"
+                                        class="transition colors cursor-pointer bg-gray-100
                                         text-gray-600 p-2 rounded-full hover:bg-gray-200 
                                         focus:outline-none focus:ring duration-300" />
 
                                         @if (Cart::count() > 0)
-                                            <x-badge color="green"
-                                                class="absolute -bottom-3 right-0
-                                            !rounded-full">
-                                                {{ Cart::content()->count() }} </x-badge>
+                                            <x-badge color="green" class="absolute -bottom-3 right-0 !rounded-full">
+                                            {{ Cart::content()->count() }} </x-badge>
                                         @endif
                                     </div>
                                 @endif

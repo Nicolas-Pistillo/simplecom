@@ -15,15 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('name');
-            $table->string('last_name');
+            $table->string('company_name')->nullable();
+            $table->string('lastname');
+            $table->string('phone')->nullable();
             $table->string('email');
             $table->string('password')->nullable();
             $table->string('google_id')->nullable();
             $table->string('facebook_id')->nullable();
-            $table->string('phone')->nullable();
             $table->foreignId('tax_condition_id')->nullable();
             $table->string('document')->nullable();
             $table->boolean('newsletter_subscribed')->default(false);
+            $table->rememberToken();
             $table->timestamps();
         });
     }

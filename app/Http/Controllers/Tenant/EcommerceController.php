@@ -19,7 +19,9 @@ class EcommerceController extends Controller
 
     public function products(Request $request)
     {
-        return view('ecommerce.products', ['products' => Product::available()->get()]);
+        return view('ecommerce.products', [
+            'products' => Product::available()->orderBy('featured', 'DESC')->get()
+        ]);
     }
 
     public function productDetail($productName, Product $product)
