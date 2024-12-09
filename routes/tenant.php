@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\PaymentWebhookController;
 use App\Http\Controllers\Tenant\PaymentReturnController;
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
@@ -32,6 +33,9 @@ Route::middleware([
         // Payment providers urls
         Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
+
+        Route::post('payment-providers/{provider}/webhook', [PaymentWebhookController::class, 'handler'])
+            ->name('payment.webhook');
 
         Route::post('payment-providers/modo-payment-intention', function() 
         {

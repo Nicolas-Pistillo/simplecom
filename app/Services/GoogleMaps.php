@@ -46,6 +46,8 @@ class GoogleMaps
 
             $data['name'] = $response['result']['name'];
 
+            $data['full_name'] = $response['result']['formatted_address'];
+
             $data['map_url'] = $response['result']['url'];
 
             $data['coordinates'] = $response['result']['geometry']['location'];

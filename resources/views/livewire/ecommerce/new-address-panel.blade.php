@@ -32,8 +32,41 @@
 
                                 @if (!empty($selected_address))
                                     
-                                    @dump($selected_address)
+                                    {{-- @dump($selected_address) --}}
+                                    
+                                    <label class="flex items-center gap-x-3 py-2 px-3 
+                                    no-select transition duration-300 
+                                    rounded-md bg-gray-50 shadow">
 
+                                        <x-icon code="location_on" class="text-gray-700" />
+
+                                        <div class="flex items-center w-full gap-x-3">
+
+                                            <div class="block w-full">
+                                                <p class="text-sm font-medium text-gray-900">
+                                                    {{ $selected_address['name'] }}
+                                                </p>
+                                            </div>
+
+                                            <div class="flex items-center gap-3.5">
+                                                <input type="radio" checked readonly>
+                                            </div>
+                                        </div>
+                                    </label>
+
+                                    <gmp-map center="{{ $selected_address['coordinates']['lat'] }},{{ $selected_address['coordinates']['lng'] }}" 
+                                    zoom="18" map-id="selected_address_map" class="mt-4 h-[200px] md:h-[320px] rounded-lg shadow-md">
+                                        <gmp-advanced-marker position="{{ $selected_address['coordinates']['lat'] }},{{ $selected_address['coordinates']['lng'] }}"></gmp-advanced-marker>
+                                    </gmp-map>
+
+
+                                    <div class="flex items-center pt-8 gap-4">
+                                        <x-button size="large" type="soft" class="w-full flex items-center justify-center">
+                                            <x-icon code="arrow_back" class="mr-2" />
+                                            Volver
+                                        </x-button>
+                                        <x-button size="large" class="w-full">Confirmar</x-button>
+                                      </div>
                                 @else
                                     <div class="w-full relative">
 
@@ -54,14 +87,18 @@
                                                     for="location-{{ $address['place_id'] }}"
                                                     wire:click="selectedAddress('{{ $address['place_id'] }}')"
                                                     class="flex items-center gap-x-3 py-2 px-3 hover:shadow cursor-pointer
-                                                        transition duration-300 rounded-md hover:bg-gray-50">
+                                                    transition duration-300 rounded-md hover:bg-gray-50">
+
                                                     <x-icon code="location_on" class="text-gray-700" />
+
                                                     <div class="flex items-center w-full gap-x-3">
+
                                                         <div class="block w-full">
                                                             <p class="text-sm font-medium text-gray-900">
                                                                 {{ $address['description'] }}
                                                             </p>
                                                         </div>
+
                                                         <div class="flex items-center gap-3.5">
                                                             <input type="radio" name="location_option"
                                                                 id="location-{{ $address['place_id'] }}">
