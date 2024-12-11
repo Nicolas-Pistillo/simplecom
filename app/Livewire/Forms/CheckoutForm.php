@@ -24,13 +24,18 @@ class CheckoutForm extends Form
     public $document;
 
     #[Validate('required|numeric', as: 'código postal')]
-    public $postal_code;
+    public $zipcode;
 
     #[Validate('required|numeric', as: 'dirección')]
     public $address_id;
 
     #[Validate('required', as: 'tipo de entrega')]
     public $delivery_type = DeliveryType::Shipping;
+
+    public function hasCustomerData()
+    {
+        return isset($this->name, $this->lastname, $this->email, $this->phone, $this->document);
+    }
 
     public function validateCustomerData()
     {

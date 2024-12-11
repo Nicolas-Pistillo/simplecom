@@ -41,14 +41,4 @@ class Envia
     {
         return Http::get("$this->queries_base_url/service?country_code=AR")->json();
     }
-
-    public static function geocodeByPostalCode($postal_code)
-    {
-        return Http::get("https://geocodes.envia.com/zipcode/AR/$postal_code")->json();
-    }
-
-    public static function geocodeByCity($city)
-    {
-        return Http::get("https://geocodes.envia.com/locate/AR/$city")->json();
-    }
 }

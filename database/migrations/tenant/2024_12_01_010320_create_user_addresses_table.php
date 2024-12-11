@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('user_addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('type');
             $table->string('name')->nullable();
-            $table->string('postal_code');
+            $table->string('zipcode');
             $table->string('street');
             $table->string('number');
             $table->string('locality');

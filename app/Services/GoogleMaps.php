@@ -52,6 +52,8 @@ class GoogleMaps
 
             $data['coordinates'] = $response['result']['geometry']['location'];
 
+            $data['lat_lng'] = $data['coordinates']['lat'] . ',' . $data['coordinates']['lng'];
+
             foreach($response['result']['address_components'] as $component)
             {
                 if (in_array('route', $component['types']))
@@ -66,8 +68,7 @@ class GoogleMaps
 
                 if (in_array('postal_code', $component['types']))
                 {
-                    $data['raw_zipcode'] = $component['short_name'];
-                    $data['zipcode'] = preg_replace("/[^0-9.]/", '', $data['raw_zipcode']);
+                    $data['zipcode'] = $component['short_name'];
                 }
 
                 if (in_array('locality', $component['types']))
@@ -75,10 +76,26 @@ class GoogleMaps
                     $data['locality'] = $component['short_name'];
                 }
 
+                if (in_array('administrative_area_level_2', $component['types']))
+                {
+                    $data['locality_lvl_2'] = $component['short_name'];
+                }
+
                 if (in_array('administrative_area_level_1', $component['types']))
                 {
-                    $data['province'] = str_replace('Provincia de ', '', $component['short_name']);
+                    $data['state'] = str_replace('Provincia de ', '', $component['short_name']);
                 }
+            }
+        }
+
+        if (isset($data['locality']) || isset($data['locality_lvl_2']))
+        {
+            $cityInfo = cityInfo($data['locality'] ?? $data['locality_lvl_2']);
+
+            if (!empty($cityInfo))
+            {
+                $data['state_code'] = $cityInfo[0]['state']['code']['2digit'];
+                $data['zipcode'] = $data['zipcode'] ?? $cityInfo[0]['zip_codes'][0]['zip_code'];
             }
         }
 

@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Ecommerce;
 
-use App\Enums\AddressType;
 use App\Enums\DeliveryType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Services\ShippingProviders\Envia;
@@ -13,12 +12,15 @@ use App\Services\ProductService;
 use Illuminate\Support\Facades\Http;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
+use App\Models\UserAddress;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class Checkout extends Component
 {
     use WithNotifications;
+
+    protected $listeners = ['new-address-created' => 'receiveNewAddress'];
 
     public CheckoutForm $form;
 
@@ -32,11 +34,11 @@ class Checkout extends Component
 
     public function getShippingRates()
     {
-        $this->form->validateOnly('postal_code'); 
+        $this->form->validateOnly('zipcode'); 
 
-        $postalCode = $this->form->postal_code;
+        $postalCode = $this->form->zipcode;
 
-        $addressInfo = postalCodeInfo($postalCode);
+        $addressInfo = zipcodeInfo($postalCode);
 
         dd($addressInfo);
 
@@ -140,6 +142,11 @@ class Checkout extends Component
         {
             $this->shipping_rates = $rates_collected->sortBy('price');
         }
+    }
+
+    public function receiveNewAddress($address)
+    {
+        $this->user_addresses->push(UserAddress::find($address['id']));
     }
 
     public function changeQty($operation, $rowId)
@@ -281,13 +288,15 @@ class Checkout extends Component
     {
         $this->payment_methods = PaymentMethod::where('active', true)->get();
 
+        if (Auth::guest()) $this->autocompleteByGuest();
+
         if (Auth::check())
         {
-            $this->user_addresses = Auth::user()->shippingAddresses();
-            return $this->autocompleteByUser();
+            $this->user_addresses = Auth::user()->addresses;
+            $this->autocompleteByUser();
         }
 
-        $this->autocompleteByGuest();
+        if ($this->form->hasCustomerData()) $this->shippingStep();
     }
 
     public function render()

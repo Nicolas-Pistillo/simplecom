@@ -159,7 +159,7 @@
                                                 {{ $address->name }}
                                             </span>
                                             <span class="mt-1 flex items-center text-xs text-gray-500">
-                                                {{ $address->street }} {{ $address->number }} - CP {{ $address->postal_code }}
+                                                {{ $address->street }} {{ $address->number }} - CP {{ $address->zipcode }}
                                             </span>
                                             <span class="mt-1 flex items-center text-xs text-gray-500">
                                                 {{ $address->locality }} - {{ $address->state }}
@@ -178,7 +178,7 @@
                         p-4 focus:outline-hidden">
                             <div class="text-center text-blue-500 text-sm">
                                 <x-icon code="add_circle" />
-                                <h4>Añadir dirección</h4>
+                                <h4>Agregar dirección</h4>
                             </div>
                         </label>
 
@@ -187,12 +187,12 @@
     
             @else
                 <div class="col-span-full sm:col-span-6">
-                    <label for="shipping_postal_code" class="block text-sm font-medium text-gray-700">
+                    <label for="shipping_zipcode" class="block text-sm font-medium text-gray-700">
                         Código postal
                     </label>
                     <div class="mt-1">
-                        <input type="text" wire:model.blur='form.customer_postal_code' id="shipping_postal_code"
-                            name="shipping_postal_code"
+                        <input type="text" wire:model.blur='form.customer_zipcode' id="shipping_zipcode"
+                            name="shipping_zipcode"
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 
                                 focus:ring-blue-500 sm:text-sm">
                     </div>
@@ -202,7 +202,7 @@
                     <x-button type="secondary" wire:click="getShippingRates" size="large">Calcular</x-button>
                 </div>
 
-                @error('form.customer_postal_code')
+                @error('form.customer_zipcode')
                     <small class="text-red-500 col-span-full">
                         {{ $message }}
                     </small>
