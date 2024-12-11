@@ -2,7 +2,7 @@
 
     <div class="grid grid-cols-12 gap-x-4 gap-y-3 items-end">
 
-        <fieldset class="col-span-full mb-6 no-select">
+        <fieldset class="col-span-full mb-3 no-select">
             <legend class="text-sm/6 font-semibold text-gray-900">Forma de entrega</legend>
             <p class="mt-1 text-sm/6 text-gray-600">Elige como quieres recibir tu compra</p>
 
@@ -123,37 +123,59 @@
 
         @if ($form->delivery_type === DeliveryType::Shipping)
 
-            @auth
-                {{-- Address Selection --}}
-                <fieldset class="col-span-full">
-                    <legend class="font-medium text-gray-900 mb-3">Mis direcciones</legend>
-                    <div class="flex items-end gap-3 flex-wrap">
+            @if ($form->selected_address)
+                {{-- Shipping To: --}}
+                <div class="col-span-full animate__animated animate__fadeIn">
 
-                        {{-- Address Component --}}
-                        @if (isset($user_addresses) && $user_addresses->isNotEmpty())
-                            @foreach ($user_addresses as $address)
-                                <label wire:key='{{ $address->id }}' 
-                                class="no-select w-max relative flex cursor-pointer rounded-lg border 
+                    <h4 class="text-sm/6 font-semibold text-gray-900">Enviar a:</h4>
+
+                    <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+
+                        <label class="mt-1 no-select w-full sm:w-max relative flex rounded-lg 
+                        bg-white p-4 shadow focus:outline-hidden border border-gray-300">
+                            <div class="flex flex-1">
+                                <div class="flex flex-col">
+                                    <span class="flex items-center text-sm font-medium text-gray-900">
+                                        <x-icon code="location_pin" class="mr-1" /> 
+                                        {{ $form->selected_address->street }} {{ $form->selected_address->number }} - CP {{ $form->selected_address->zipcode }}
+                                    </span>
+                                </div>
+                            </div>
+                        </label>
+
+                        <button wire:click='changeAddress' class="mt-2 py-2 px-4 w-max border bg-white rounded-full 
+                        text-xs text-gray-700 flex items-center cursor-pointer
+                        transition duration-300 hover:shadow-md hover:text-gray-900">
+                            <span>Modificar</span>
+                        </button>
+                    </div>
+                </div>     
+            @else
+                {{-- Select or create shipping address --}}
+                <fieldset class="col-span-full animate__animated animate__fadeIn">
+                    <legend class="text-sm/6 font-semibold text-gray-900">Seleccionar dirección</legend>
+                    <p class="mt-1 text-sm/6 text-gray-600">Elige donde quieres recibir tu compra</p>
+
+                    <div class="mt-3 flex items-end gap-3 flex-wrap">
+                        @forelse ($form->addresses as $address)
+
+                            <label wire:key='{{ $address->id }}' wire:click='selectAddress({{ $address->id }})'
+                                class="no-select w-full sm:w-max relative flex cursor-pointer rounded-lg border 
                                 bg-white hover:bg-gray-50 transition-colors duration-300 
                                 p-4 shadow focus:outline-hidden border-transparent">
                                     <div class="flex flex-1">
                                         <div class="flex flex-col">
-                                            <span class="block text-sm font-medium text-gray-900">
-                                                {{ $address->name }}
+                                            <span class="flex items-center text-sm font-medium text-gray-900">
+                                                <x-icon code="location_pin" class="mr-1" /> {{ $address->name ?? 'Sin nombre' }}
                                             </span>
                                             <span class="mt-1 flex items-center text-xs text-gray-500">
                                                 {{ $address->street }} {{ $address->number }} - CP {{ $address->zipcode }}
                                             </span>
-                                            <span class="mt-1 flex items-center text-xs text-gray-500">
-                                                {{ $address->locality }} - {{ $address->state }}
-                                            </span>
                                         </div>
                                     </div>
-                                    <span class="pointer-events-none absolute -inset-px rounded-lg border-2 
-                                    border-blue-500" aria-hidden="true"></span>
-                                </label>  
-                            @endforeach
-                        @endif
+                            </label>  
+                        @empty
+                        @endforelse
 
                         <label @click="$dispatch('open-new-address-panel')" 
                         class="no-select w-max relative flex items-center justify-center cursor-pointer 
@@ -164,81 +186,9 @@
                                 <h4>Agregar dirección</h4>
                             </div>
                         </label>
-
                     </div>
                 </fieldset>
-            @else
-            {{-- Address Selection --}}
-            <fieldset class="col-span-full">
-                <legend class="font-medium text-gray-900 mb-3">Direcciones de entrega</legend>
-                <div class="flex items-end gap-3 flex-wrap">
-
-                    {{-- Address Component --}}
-                    @if (!empty($guest_addresses))
-                        @foreach ($guest_addresses as $address)
-                            <label wire:key='{{ $address['guid'] }}' wire:click='selectAddress({{ json_encode($address) }})'
-                            class="no-select w-max relative flex cursor-pointer rounded-lg border 
-                            bg-white hover:bg-gray-50 transition-colors duration-300 
-                            p-4 shadow focus:outline-hidden border-transparent">
-
-                                <div class="flex flex-1">
-                                    <div class="flex flex-col">
-                                        <span class="block text-sm font-medium text-gray-900">
-                                            {{ $address['name'] ?? 'Dirección' }}
-                                        </span>
-                                        <span class="mt-1 flex items-center text-xs text-gray-500">
-                                            {{ $address['street'] }} {{ $address['number'] }} - CP {{ $address['zipcode'] }}
-                                        </span>
-                                        <span class="mt-1 flex items-center text-xs text-gray-500">
-                                            {{ $address['locality'] }} - {{ $address['state'] }}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                @if ($selected_guest_address == $address)
-                                    <span class="pointer-events-none absolute -inset-px rounded-lg border-2 
-                                    border-blue-500" aria-hidden="true"></span>
-                                @endif
-                            </label>  
-                        @endforeach
-
-                        @dump($selected_guest_address)
-                    @endif
-
-                    <label @click="$dispatch('open-new-address-panel')" 
-                    class="no-select w-max relative flex items-center justify-center cursor-pointer 
-                    rounded-lg border bg-white hover:bg-gray-50 transition-colors duration-300 
-                    p-4 focus:outline-hidden">
-                        <div class="text-center text-blue-500 text-sm">
-                            <x-icon code="add_circle" />
-                            <h4>Agregar dirección</h4>
-                        </div>
-                    </label>
-
-                </div>
-            </fieldset>
-                {{-- <div class="col-span-full sm:col-span-6">
-                    <label for="shipping_zipcode" class="block text-sm font-medium text-gray-700">
-                        Código postal
-                    </label>
-                    <div class="mt-1">
-                        <input type="text" wire:model.blur='form.customer_zipcode' id="shipping_zipcode"
-                            name="shipping_zipcode"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 
-                                focus:ring-blue-500 sm:text-sm">
-                    </div>
-                </div>
-
-                <div wire:loading.remove wire:target='getShippingRates' class="col-span-full sm:col-span-6">
-                    <x-button type="secondary" wire:click="getShippingRates" size="large">Calcular</x-button>
-                </div>
-
-                @error('form.customer_zipcode')
-                    <small class="text-red-500 col-span-full">
-                        {{ $message }}
-                    </small>
-                @enderror --}}
-            @endauth
+            @endif
 
             <div wire:loading wire:target='getShippingRates' class="col-span-full">
                 <div class="flex items-center gap-3 mt-4 text-sm text-gray-800">
@@ -246,11 +196,11 @@
                 </div>
             </div>
 
-            @if (isset($shipping_rates) && $shipping_rates->isNotEmpty())
+            @if (isset($form->shipping_rates) && $form->shipping_rates->isNotEmpty())
 
                 <fieldset wire:loading.remove wire:target='getShippingRates' aria-label="Shipping Rates"
                     class="col-span-full mt-4 rounded-lg overflow-hidden border shadow-sm">
-                    @foreach ($shipping_rates as $rate)
+                    @foreach ($form->shipping_rates as $rate)
                         <div wire:key='{{ $rate['service_id'] }}'
                             class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
                             <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">

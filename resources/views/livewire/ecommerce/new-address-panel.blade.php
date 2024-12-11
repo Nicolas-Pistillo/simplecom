@@ -50,8 +50,8 @@
                                                 flex items-center ps-3 pointer-events-none">Etiqueta:</span>
 
                                                 <input type="text" wire:model.blur='name'
-                                                placeholder="Ej: Casa, trabajo, local etc..."
-                                                class="block w-full rounded-md border-gray-300 shadow-sm 
+                                                placeholder="Nombre propio para identificar esta dirección..."
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.5rem]">
                                 
                                                 @error('name')
@@ -67,8 +67,8 @@
                                                 flex items-center ps-3 pointer-events-none">Indicaciones:</span>
 
                                                 <input type="text" wire:model.blur='details'
-                                                placeholder="Ej: Puerta azul, rejas grises, esquina etc..."
-                                                class="block w-full rounded-md border-gray-300 shadow-sm 
+                                                placeholder="Datos adicionales para el repartidor..."
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[6.3rem]">
                                 
                                                 @error('details')
@@ -195,7 +195,10 @@
                                             @endforeach
                                         </div>
                                         <div wire:loading wire:target='selectedAddress' class="w-full">
-                                            <div class="mt-8 flex justify-center items-center">
+                                            <div class="mt-8 flex justify-center items-center gap-x-2">
+                                                <span class="text-xs text-gray-700 font-semibold">
+                                                    Cargando información
+                                                </span>
                                                 <x-spinner />
                                             </div>
                                         </div>

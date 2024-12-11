@@ -9,16 +9,15 @@
     {{-- Pament Methods Selection --}}
     <fieldset class="no-select col-span-full rounded-lg overflow-hidden border shadow-sm" aria-label="Shipping Rates">
 
-        @foreach ($payment_methods as $method)
+        @foreach ($form->payment_methods as $method)
             <div wire:key='{{ $method->id }}'
                 class="-space-y-px transition-colors duration-300
-                {{ $selected_payment_method == $method->id ? 'bg-gray-100' : 'bg-white hover:bg-gray-50' }}">
+                {{ $form->selected_payment_method == $method->id ? 'bg-gray-100' : 'bg-white hover:bg-gray-50' }}">
 
                 <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
 
-                    <input type="radio" wire:model.live='selected_payment_method' value="{{ $method->id }}"
-                        name="payment_method"
-                        class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
+                    <input type="radio" wire:model.live='form.selected_payment_method' value="{{ $method->id }}"
+                    name="payment_method" class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
                     text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
                     active:ring-offset-2">
 
@@ -51,7 +50,7 @@
         </x-button>
 
         <x-button wire:loading.remove wire:target='confirmOrder' wire:click='confirmOrder' size="big" class="mt-8"
-            :disabled="!isset($selected_payment_method)">
+            :disabled="!isset($form->selected_payment_method)">
             Confirmar
         </x-button>
 

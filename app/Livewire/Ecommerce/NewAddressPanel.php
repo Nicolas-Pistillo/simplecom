@@ -42,7 +42,7 @@ class NewAddressPanel extends Component
     {
         try 
         {
-            $newAddressData = [
+            $newAddress = UserAddress::create([
                 'user_id'         => Auth::id(),
                 'name'            => $this->name,
                 'zipcode'         => $this->selected_address['zipcode'],
@@ -59,22 +59,16 @@ class NewAddressPanel extends Component
                 'lng'             => $this->selected_address['coordinates']['lng'],
                 'map_url'         => $this->selected_address['map_url'],
                 'google_place_id' => $this->selected_address['place_id']
-            ];
+            ]);
 
             if (Auth::guest())
             {
-                $newAddressData['guid'] = uniqid();
-                session()->push('guest_customer.addresses', $newAddressData);
-            }
-
-            if (Auth::check())
-            {
-                Auth::user()->addresses()->create($newAddressData);
+                session()->push('guest_customer.addresses', $newAddress);
             }
 
             $this->reset();
 
-            $this->dispatch('new-address-created', $newAddressData);
+            $this->dispatch('new-address-created', $newAddress->id);
 
             $this->dispatch('close-new-address-panel');
 
@@ -93,7 +87,8 @@ class NewAddressPanel extends Component
 
             $this->notify([
                 'type'  => 'danger',
-                'title' => 'Ocurrio un error al crear la nueva dirección, por favor intente de nuevo más tarde'
+                'title' => 'Error al crear la dirección',
+                'body'  => 'Por favor intentelo de nuevo más tarde'
             ]);
         }
     }

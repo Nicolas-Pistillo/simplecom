@@ -23,14 +23,14 @@ class CheckoutForm extends Form
     #[Validate('required|numeric|min:1000000|max:999999999', as: 'dni')]
     public $document;
 
-    #[Validate('required|numeric', as: 'código postal')]
-    public $zipcode;
-
-    #[Validate('required|numeric', as: 'dirección')]
-    public $address_id;
-
     #[Validate('required', as: 'tipo de entrega')]
     public $delivery_type = DeliveryType::Shipping;
+
+    public $addresses, $selected_address;
+
+    public $shipping_rates, $selected_shipping_rate;
+
+    public $payment_methods, $selected_payment_method;
 
     public function hasCustomerData()
     {

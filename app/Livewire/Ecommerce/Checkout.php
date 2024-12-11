@@ -26,18 +26,8 @@ class Checkout extends Component
 
     public $current_step = 1;
 
-    public $shipping_rates, $selected_shipping_rate;
-
-    public $payment_methods, $selected_payment_method;
-
-    public $user_addresses, $guest_addresses;
-
-    public $selected_user_address, $selected_guest_address;
-
-    public function getShippingRates()
+    /* public function getShippingRates()
     {
-        $this->form->validateOnly('zipcode'); 
-
         $postalCode = $this->form->zipcode;
 
         $addressInfo = zipcodeInfo($postalCode);
@@ -142,19 +132,23 @@ class Checkout extends Component
 
         if ($rates_collected->isNotEmpty())
         {
-            $this->shipping_rates = $rates_collected->sortBy('price');
+            $this->form->shipping_rates = $rates_collected->sortBy('price');
         }
+    } */
+
+    public function receiveNewAddress(UserAddress $address)
+    {
+        $this->form->addresses->push($address);
     }
 
-    public function selectAddress($address)
+    public function selectAddress(UserAddress $address)
     {
-        $this->selected_guest_address = $address;
+        $this->form->selected_address = $address;
     }
 
-    public function receiveNewAddress($address)
+    public function changeAddress()
     {
-        Auth::guest() ? array_push($this->guest_addresses, $address)
-                      : $this->user_addresses->push(UserAddress::find($address['id']));
+        $this->form->reset('selected_address');
     }
 
     public function changeQty($operation, $rowId)
@@ -195,11 +189,6 @@ class Checkout extends Component
         }
     }
 
-    public function customerDataStep()
-    {
-
-    }
-
     public function shippingStep()
     {
         $data = $this->form->validateCustomerData();
@@ -217,11 +206,6 @@ class Checkout extends Component
         $this->current_step = 2;
     }
 
-    public function paymentStep()
-    {
-
-    }
-
     public function setStep($step)
     {
         $this->current_step = $step;
@@ -231,7 +215,7 @@ class Checkout extends Component
     {
         try 
         {
-            $paymentMethod = PaymentMethod::find($this->selected_payment_method);
+            $paymentMethod = PaymentMethod::find($this->form->selected_payment_method);
 
             $service = $paymentMethod->service();
     
@@ -294,18 +278,21 @@ class Checkout extends Component
 
     public function mount()
     {
-        $this->payment_methods = PaymentMethod::where('active', true)->get();
+        $this->form->payment_methods = PaymentMethod::where('active', true)->get();
+
+        /* dd(session()->all()); */
 
         if (Auth::guest())
         {
-            $this->guest_addresses = session('guest_customer.addresses') ?? [];
             $this->autocompleteByGuest();
+            $this->form->addresses = collect(session('guest_customer.addresses')) ?? collect();
         }
 
         if (Auth::check())
         {
-            $this->user_addresses = Auth::user()->addresses;
             $this->autocompleteByUser();
+
+            $this->form->addresses = Auth::user()->addresses;
         }
 
         if ($this->form->hasCustomerData()) $this->shippingStep();
