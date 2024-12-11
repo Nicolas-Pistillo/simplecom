@@ -136,6 +136,28 @@ class Checkout extends Component
         }
     } */
 
+    public function getShippingRates()
+    {
+        try 
+        {
+            
+
+        } catch (\Throwable $err) 
+        {
+            Log::channel('error')->error('Error al cotizar envío', [
+                'tenant'        => tenant('name'),
+                'message'       => $err->getMessage(),
+                'address_rated' => $this->form->selected_address
+            ]);
+
+            $this->notify([
+                'type'  => 'danger',
+                'title' => 'Error al cotizar envío',
+                'body'  => 'Ocurrió un problema al solicitar las tarifas, por favor vuelva a intentarlo más tarde'
+            ]);
+        }
+    }
+
     public function receiveNewAddress(UserAddress $address)
     {
         $this->form->addresses->push($address);
@@ -144,6 +166,13 @@ class Checkout extends Component
     public function selectAddress(UserAddress $address)
     {
         $this->form->selected_address = $address;
+        
+        if (Auth::guest())
+        {
+            session()->put('guest_customer.selected_address', $address);
+        }
+
+        $this->getShippingRates();
     }
 
     public function changeAddress()
@@ -203,6 +232,18 @@ class Checkout extends Component
             ]);
         }
 
+        if (Auth::guest())
+        {
+            $lastAddress = session('guest_customer.selected_address');
+
+            if ($lastAddress instanceof UserAddress && 
+            $this->form->addresses->contains('id', $lastAddress->id))
+            {
+                $this->form->selected_address = $lastAddress;
+                $this->getShippingRates();
+            }
+        }
+
         $this->current_step = 2;
     }
 
@@ -253,47 +294,15 @@ class Checkout extends Component
         if (Auth::guest()) session()->put("guest_customer.$key", $value);
     }
 
-    public function autocompleteByUser()
-    {
-        $this->form->fill([
-            'name'      => Auth::user()->name,
-            'lastname'  => Auth::user()->lastname,
-            'email'     => Auth::user()->email,
-            'phone'     => Auth::user()->phone,
-            'document'  => Auth::user()->document
-        ]);
-    }
-
-    public function autocompleteByGuest()
-    {
-        $this->form->fill([
-            'name'          => session('guest_customer.name'),
-            'lastname'      => session('guest_customer.lastname'),
-            'email'         => session('guest_customer.email'),
-            'phone'         => session('guest_customer.phone'),
-            'document'      => session('guest_customer.document'),
-            'delivery_type' => session('guest_customer.delivery_type') ?? DeliveryType::Shipping
-        ]);
-    }
-
     public function mount()
     {
         $this->form->payment_methods = PaymentMethod::where('active', true)->get();
 
-        /* dd(session()->all()); */
+        $this->form->autocomplete();
 
-        if (Auth::guest())
-        {
-            $this->autocompleteByGuest();
-            $this->form->addresses = collect(session('guest_customer.addresses')) ?? collect();
-        }
-
-        if (Auth::check())
-        {
-            $this->autocompleteByUser();
-
-            $this->form->addresses = Auth::user()->addresses;
-        }
+        $this->form->addresses = Auth::check() 
+                                 ? Auth::user()->addresses
+                                 : collect(session('guest_customer.addresses')) ?? collect();
 
         if ($this->form->hasCustomerData()) $this->shippingStep();
     }

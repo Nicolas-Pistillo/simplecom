@@ -127,7 +127,7 @@
                 {{-- Shipping To: --}}
                 <div class="col-span-full animate__animated animate__fadeIn">
 
-                    <h4 class="text-sm/6 font-semibold text-gray-900">Enviar a:</h4>
+                    <h4 class="text-sm/6 font-semibold text-gray-900">Enviar a</h4>
 
                     <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
 
@@ -154,19 +154,20 @@
                 {{-- Select or create shipping address --}}
                 <fieldset class="col-span-full animate__animated animate__fadeIn">
                     <legend class="text-sm/6 font-semibold text-gray-900">Seleccionar dirección</legend>
-                    <p class="mt-1 text-sm/6 text-gray-600">Elige donde quieres recibir tu compra</p>
+                    <p class="mt-1 text-sm/6 text-gray-600">Elige o agrega una dirección para calcular el envío</p>
 
                     <div class="mt-3 flex items-end gap-3 flex-wrap">
                         @forelse ($form->addresses as $address)
 
                             <label wire:key='{{ $address->id }}' wire:click='selectAddress({{ $address->id }})'
+                                @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
                                 class="no-select w-full sm:w-max relative flex cursor-pointer rounded-lg border 
                                 bg-white hover:bg-gray-50 transition-colors duration-300 
                                 p-4 shadow focus:outline-hidden border-transparent">
                                     <div class="flex flex-1">
                                         <div class="flex flex-col">
                                             <span class="flex items-center text-sm font-medium text-gray-900">
-                                                <x-icon code="location_pin" class="mr-1" /> {{ $address->name ?? 'Sin nombre' }}
+                                                <x-icon code="location_pin" class="mr-1" /> {{ $address->name ?? 'Sin etiqueta' }}
                                             </span>
                                             <span class="mt-1 flex items-center text-xs text-gray-500">
                                                 {{ $address->street }} {{ $address->number }} - CP {{ $address->zipcode }}
@@ -181,7 +182,7 @@
                         class="no-select w-max relative flex items-center justify-center cursor-pointer 
                         rounded-lg border-2 border-dashed bg-white hover:bg-gray-50 transition-colors duration-300 
                         p-4 focus:outline-hidden">
-                            <div class="text-center text-blue-500 text-sm">
+                            <div class="text-center text-blue-500 text-xs">
                                 <x-icon code="add_circle" />
                                 <h4>Agregar dirección</h4>
                             </div>

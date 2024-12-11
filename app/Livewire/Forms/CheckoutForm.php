@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Enums\DeliveryType;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -45,6 +46,29 @@ class CheckoutForm extends Form
             'email'      => 'required|email',
             'phone'      => 'required|size:10',
             'document'   => 'required|numeric|min:1000000|max:999999999',
+        ]);
+    }
+
+    public function autocomplete()
+    {
+        if (Auth::check())
+        {
+            return $this->fill([
+                'name'      => Auth::user()->name,
+                'lastname'  => Auth::user()->lastname,
+                'email'     => Auth::user()->email,
+                'phone'     => Auth::user()->phone,
+                'document'  => Auth::user()->document
+            ]);
+        }
+
+        $this->fill([
+            'name'          => session('guest_customer.name'),
+            'lastname'      => session('guest_customer.lastname'),
+            'email'         => session('guest_customer.email'),
+            'phone'         => session('guest_customer.phone'),
+            'document'      => session('guest_customer.document'),
+            'delivery_type' => session('guest_customer.delivery_type') ?? DeliveryType::Shipping
         ]);
     }
 
