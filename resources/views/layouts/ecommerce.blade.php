@@ -41,6 +41,9 @@
         <x-toast icon="waving_hand" position="bottom-center" title="¡Hasta la próxima!" />
     @endsession
 
+    {{-- New Address Panel --}}
+    @livewire('ecommerce.new-address-panel')
+
     {{-- Navbar --}}
     <div class="bg-white fixed w-full shadow-md z-10" x-data="{ megaMenu1Open: false, megaMenu2Open: false, mobileMenuOpen: false, cartMenuOpen: false }"
         x-on:open-cart-panel.window="cartMenuOpen = true">
@@ -241,11 +244,6 @@
     <main class="bg-gray-50">
         @yield('content')
     </main>
-
-    @auth
-        {{-- New Address Panel --}}
-        @livewire('ecommerce.new-address-panel')
-    @endauth
 
     {{-- Cookies advicement --}}
     {{-- <div x-data="{open: true}" x-show="open"

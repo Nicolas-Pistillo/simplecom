@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->nullable();
             $table->string('name')->nullable();
             $table->string('zipcode');
             $table->string('street');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('details')->nullable();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
+            $table->string('map_url')->nullable();
             $table->string('google_place_id')->nullable();
             $table->timestamps();
         });

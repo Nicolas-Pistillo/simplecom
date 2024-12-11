@@ -29,27 +29,10 @@
         </fieldset>
 
         @if ($form->delivery_type === DeliveryType::Picking)
+
             <div class="col-span-full">
                 <h4 class="text-sm/6 font-semibold text-gray-900">Elija un punto de retiro</h4>
             </div>
-
-            @php
-                $rate = [
-                    'carrier_id' => 127,
-                    'carrier_code' => 'correoArgentino',
-                    'carrier_name' => 'Correo Argentino',
-                    'carrier_logo' =>
-                        'https://s3.us-east-2.amazonaws.com/enviapaqueteria/uploads/logos/carriers/correoArgentino.svg',
-                    'service_id' => 346,
-                    'service_code' => 'priority_dom',
-                    'service_name' => 'Correo Argentino Prioritario a Domicilio',
-                    'rate_dropoff' => 0,
-                    'rate_branches' => [],
-                    'delivery_estimate' => '1-3 días',
-                    'price' => 9466,
-                    'total_tax' => null,
-                ];
-            @endphp
 
             <fieldset class="col-span-full rounded-lg overflow-hidden border shadow-sm" aria-label="Shipping Rates">
                 <div class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
@@ -70,7 +53,7 @@
                                 </div>
                             </div>
                             <div>
-                                <span class="text-sm font-medium ml-4">${{ priceFormat($rate['price']) }}</span>
+                                <span class="text-sm font-medium ml-4">${{ priceFormat(2500.99) }}</span>
                             </div>
                         </div>
                     </label>
@@ -184,9 +167,57 @@
 
                     </div>
                 </fieldset>
-    
             @else
-                <div class="col-span-full sm:col-span-6">
+            {{-- Address Selection --}}
+            <fieldset class="col-span-full">
+                <legend class="font-medium text-gray-900 mb-3">Direcciones de entrega</legend>
+                <div class="flex items-end gap-3 flex-wrap">
+
+                    {{-- Address Component --}}
+                    @if (!empty($guest_addresses))
+                        @foreach ($guest_addresses as $address)
+                            <label wire:key='{{ $address['guid'] }}' wire:click='selectAddress({{ json_encode($address) }})'
+                            class="no-select w-max relative flex cursor-pointer rounded-lg border 
+                            bg-white hover:bg-gray-50 transition-colors duration-300 
+                            p-4 shadow focus:outline-hidden border-transparent">
+
+                                <div class="flex flex-1">
+                                    <div class="flex flex-col">
+                                        <span class="block text-sm font-medium text-gray-900">
+                                            {{ $address['name'] ?? 'Dirección' }}
+                                        </span>
+                                        <span class="mt-1 flex items-center text-xs text-gray-500">
+                                            {{ $address['street'] }} {{ $address['number'] }} - CP {{ $address['zipcode'] }}
+                                        </span>
+                                        <span class="mt-1 flex items-center text-xs text-gray-500">
+                                            {{ $address['locality'] }} - {{ $address['state'] }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                @if ($selected_guest_address == $address)
+                                    <span class="pointer-events-none absolute -inset-px rounded-lg border-2 
+                                    border-blue-500" aria-hidden="true"></span>
+                                @endif
+                            </label>  
+                        @endforeach
+
+                        @dump($selected_guest_address)
+                    @endif
+
+                    <label @click="$dispatch('open-new-address-panel')" 
+                    class="no-select w-max relative flex items-center justify-center cursor-pointer 
+                    rounded-lg border bg-white hover:bg-gray-50 transition-colors duration-300 
+                    p-4 focus:outline-hidden">
+                        <div class="text-center text-blue-500 text-sm">
+                            <x-icon code="add_circle" />
+                            <h4>Agregar dirección</h4>
+                        </div>
+                    </label>
+
+                </div>
+            </fieldset>
+                {{-- <div class="col-span-full sm:col-span-6">
                     <label for="shipping_zipcode" class="block text-sm font-medium text-gray-700">
                         Código postal
                     </label>
@@ -206,7 +237,7 @@
                     <small class="text-red-500 col-span-full">
                         {{ $message }}
                     </small>
-                @enderror
+                @enderror --}}
             @endauth
 
             <div wire:loading wire:target='getShippingRates' class="col-span-full">
@@ -221,13 +252,14 @@
                     class="col-span-full mt-4 rounded-lg overflow-hidden border shadow-sm">
                     @foreach ($shipping_rates as $rate)
                         <div wire:key='{{ $rate['service_id'] }}'
-                            class="-space-y-px bg-white
-                                    transition-colors duration-300 hover:bg-gray-50">
+                            class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
                             <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
+
                                 <input type="radio" name="shipping_method"
-                                    class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
-                                            text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
-                                            active:ring-offset-2">
+                                class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
+                                text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
+                                active:ring-offset-2">
+
                                 <span class="ml-3 flex items-center justify-between w-full">
                                     <div class="flex items-center text-sm">
                                         <img src="{{ $rate['carrier_logo'] }}" class="w-10 h-10 shadow rounded-xl mr-2"
@@ -249,20 +281,6 @@
                     @endforeach
                 </fieldset>
 
-                {{-- array:12 [ // resources/views/ecommerce/partials/checkout/shipping.blade.php
-                                "carrier_id" => 127
-                                "carrier_code" => "correoArgentino"
-                                "carrier_name" => "Correo Argentino"
-                                "carrier_logo" => "https://s3.us-east-2.amazonaws.com/enviapaqueteria/uploads/logos/carriers/correoArgentino.svg"
-                                "service_id" => 346
-                                "service_code" => "priority_dom"
-                                "service_name" => "Correo Argentino Prioritario a Domicilio"
-                                "rate_dropoff" => 0
-                                "rate_branches" => []
-                                "delivery_estimate" => "1-3 días"
-                                "price" => 9466
-                                "total_tax" => null
-                            ] --}}
             @endif
 
             <div>

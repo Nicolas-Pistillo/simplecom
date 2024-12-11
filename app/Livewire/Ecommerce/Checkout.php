@@ -26,11 +26,13 @@ class Checkout extends Component
 
     public $current_step = 1;
 
-    public $shipping_rates, $selected_shipping;
+    public $shipping_rates, $selected_shipping_rate;
 
     public $payment_methods, $selected_payment_method;
 
-    public $user_addresses;
+    public $user_addresses, $guest_addresses;
+
+    public $selected_user_address, $selected_guest_address;
 
     public function getShippingRates()
     {
@@ -144,9 +146,15 @@ class Checkout extends Component
         }
     }
 
+    public function selectAddress($address)
+    {
+        $this->selected_guest_address = $address;
+    }
+
     public function receiveNewAddress($address)
     {
-        $this->user_addresses->push(UserAddress::find($address['id']));
+        Auth::guest() ? array_push($this->guest_addresses, $address)
+                      : $this->user_addresses->push(UserAddress::find($address['id']));
     }
 
     public function changeQty($operation, $rowId)
@@ -288,7 +296,11 @@ class Checkout extends Component
     {
         $this->payment_methods = PaymentMethod::where('active', true)->get();
 
-        if (Auth::guest()) $this->autocompleteByGuest();
+        if (Auth::guest())
+        {
+            $this->guest_addresses = session('guest_customer.addresses') ?? [];
+            $this->autocompleteByGuest();
+        }
 
         if (Auth::check())
         {

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Models\UserAddress;
 use App\Services\GoogleMaps;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,8 @@ class NewAddressPanel extends Component
     {
         try 
         {
-            $newAddress = Auth::user()->addresses()->create([
+            $newAddressData = [
+                'user_id'         => Auth::id(),
                 'name'            => $this->name,
                 'zipcode'         => $this->selected_address['zipcode'],
                 'street'          => $this->selected_address['street'],
@@ -57,11 +59,22 @@ class NewAddressPanel extends Component
                 'lng'             => $this->selected_address['coordinates']['lng'],
                 'map_url'         => $this->selected_address['map_url'],
                 'google_place_id' => $this->selected_address['place_id']
-            ]);
+            ];
+
+            if (Auth::guest())
+            {
+                $newAddressData['guid'] = uniqid();
+                session()->push('guest_customer.addresses', $newAddressData);
+            }
+
+            if (Auth::check())
+            {
+                Auth::user()->addresses()->create($newAddressData);
+            }
 
             $this->reset();
 
-            $this->dispatch('new-address-created', $newAddress);
+            $this->dispatch('new-address-created', $newAddressData);
 
             $this->dispatch('close-new-address-panel');
 
