@@ -30,11 +30,12 @@
 
         @if ($form->delivery_type === DeliveryType::Picking)
 
-            <div class="col-span-full">
+            <div class="col-span-full animate__animated animate__fadeIn">
                 <h4 class="text-sm/6 font-semibold text-gray-900">Elija un punto de retiro</h4>
             </div>
 
-            <fieldset class="col-span-full rounded-lg overflow-hidden border shadow-sm" aria-label="Shipping Rates">
+            <fieldset class="col-span-full rounded-lg overflow-hidden 
+            border shadow-sm animate__animated animate__fadeIn" aria-label="Shipping Rates">
                 <div class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
                     <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
                         <input type="radio" name="shipping_method"
@@ -170,7 +171,7 @@
                                                 <x-icon code="location_pin" class="mr-1" /> {{ $address->name ?? 'Sin etiqueta' }}
                                             </span>
                                             <span class="mt-1 flex items-center text-xs text-gray-500">
-                                                {{ $address->street }} {{ $address->number }} - CP {{ $address->zipcode }}
+                                                {{ $address->street }} {{ $address->number }} - {{ $address->locality }}
                                             </span>
                                         </div>
                                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Services\ShippingProviders;
 
+use App\Models\UserAddress;
 use Illuminate\Support\Facades\Http;
 
 class Envia
@@ -24,21 +25,93 @@ class Envia
         }
     }
 
-    /**
-     * Muestra los proveedores de mensajeria activos en envia.com
-     * URL: https://docs.envia.com/?version=latest#5962b030-c37f-449c-899b-7935cb93d66b
-     */
-    public function getCarriers()
+    public function getRates(UserAddress $destination)
     {
-        return Http::withToken($this->token)->get("$this->queries_base_url/available-carrier/AR/0")->json();
+        $origins = $this->getOrigins();
+
+        $origin = $origins->first();
+
+        $carriers = $this->getCarriers();
+
+        $rates = collect();
+
+        foreach($carriers as $carrier)
+        {
+            $rateBody = json_encode([
+                'origin' => [
+                    'name'       => $origin['name'],
+                    'company'    => $origin['company'],
+                    'street'     => $origin['street'],
+                    'email'      => $origin['email'],
+                    'phone'      => $origin['phone'],
+                    'number'     => $origin['number'],
+                    'postalCode' => $origin['postal_code'],
+                    'city'       => $origin['city'],
+                    'state'      => $origin['state'],
+                    'country'    => 'AR'
+                ],
+                'destination' => [
+                    'name'       => 'Ramon Díaz',
+                    'street'     => $destination->street,
+                    'number'     => $destination->number,
+                    'postalCode' => preg_replace("/[^0-9]/", "", $destination->zipcode),
+                    'city'       => $destination->locality,
+                    'state'      => $destination->state_code,
+                    'country'    => 'AR'
+                ],
+                'packages' => [
+                    [
+                        'content'       => 'zapatillas jordan',
+                        'boxCode'       => '',
+                        'amount'        => 1,
+                        'type'          => 'box',
+                        'weight'        => 1,
+                        'insurance'     => 0,
+                        'declaredValue' => 0,
+                        'weightUnit'    => 'KG',
+                        'lengthUnit' => 'CM',
+                        'dimensions' => [
+                            'length' => 11,
+                            'width' => 15,
+                            'height' => 20
+                        ]
+                    ]
+                ],
+                'shipment' => [
+                    'carrier' => $carrier['name'],
+                ],
+                'settings' => [
+                    'printFormat' => "PDF",
+                    'printSize'   => "PAPER_7X4.75",
+                    'currency'    => 'ARS'
+                ]
+            ]);
+
+            $rate = $this->calculateRate($rateBody);
+
+            if ($rate->isNotEmpty()) $rates->push($rate);
+        }
+
+        return $rates;
     }
 
-    /**
-     * Muestra los servicios que dispone cada proveedor de logística
-     * URL: https://docs.envia.com/?version=latest#04f62716-1922-4be1-ae35-2abc48288fb0
-     */
-    public function getCarrierServices()
+    public function calculateRate($rateBody)
     {
-        return Http::get("$this->queries_base_url/service?country_code=AR")->json();
+        return Http::withToken($this->token)->withBody($rateBody)->post("$this->api_base_url/ship/rate")->collect('data');
+    }
+
+    public function getCarriers()
+    {
+        return Http::withToken($this->token)->get("$this->queries_base_url/available-carrier/AR/0")->collect('data');
+    }
+
+    public function getServices()
+    {
+        return Http::withToken($this->token)->get("$this->queries_base_url/available-service/AR/0/1")->collect('data');
+    }
+
+    public function getOrigins()
+    {
+        return Http::withToken($this->token)->get("$this->queries_base_url/all-addresses/origin")->collect('data');
     }
 }

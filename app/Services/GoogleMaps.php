@@ -97,6 +97,16 @@ class GoogleMaps
                 $data['state_code'] = $cityInfo[0]['state']['code']['2digit'];
                 $data['zipcode'] = $data['zipcode'] ?? $cityInfo[0]['zip_codes'][0]['zip_code'];
             }
+
+            if (empty($cityInfo) && isset($data['zipcode']))
+            {
+                $zipcodeInfo = zipcodeInfo($data['zipcode']);
+
+                if (!empty($zipcodeInfo))
+                {
+                    $data['state_code'] = $zipcodeInfo[0]['state']['code']['2digit'];
+                }
+            }
         }
 
         return $data;
