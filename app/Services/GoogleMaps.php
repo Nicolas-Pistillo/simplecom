@@ -83,7 +83,9 @@ class GoogleMaps
 
                 if (in_array('administrative_area_level_1', $component['types']))
                 {
-                    $data['state'] = str_replace('Provincia de ', '', $component['short_name']);
+                    $data['state'] = $component['short_name'] == 'Cdad. Autónoma de Buenos Aires'
+                                     ? 'Capital Federal'
+                                     : str_replace('Provincia de ', '', $component['short_name']);
                 }
             }
         }

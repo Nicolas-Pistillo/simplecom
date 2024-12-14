@@ -3,14 +3,16 @@
 namespace App\Services\ShippingProviders;
 
 use App\Models\UserAddress;
+use App\Utils\ShippingRate;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\URL;
 
 class Envia
 {
     private $token;
 
-    public $api_base_url = 'https://api.envia.com';
-    public $queries_base_url = 'https://queries.envia.com';
+    private $api_base_url = 'https://api.envia.com';
+    private $queries_base_url = 'https://queries.envia.com';
 
     public function __construct()
     {
@@ -54,7 +56,7 @@ class Envia
                     'name'       => 'Ramon Díaz',
                     'street'     => $destination->street,
                     'number'     => $destination->number,
-                    'postalCode' => preg_replace("/[^0-9]/", "", $destination->zipcode),
+                    'postalCode' => $destination->zipcode_number,
                     'city'       => $destination->locality,
                     'state'      => $destination->state_code,
                     'country'    => 'AR'
@@ -87,9 +89,25 @@ class Envia
                 ]
             ]);
 
-            $rate = $this->calculateRate($rateBody);
+            $carrierRates = $this->calculateRate($rateBody);
 
-            if ($rate->isNotEmpty()) $rates->push($rate);
+            if ($carrierRates->isNotEmpty())
+            {
+                $carrierRates->each(function($rate) use ($rates)
+                {
+                    $rates->push(new ShippingRate([
+                        'source'        => 'envia',
+                        'source_name'   => 'Envia.com',
+                        'service_id'    => $rate['serviceId'],
+                        'service_name'  => $rate['serviceDescription'],
+                        'carrier_id'    => $rate['carrierId'],
+                        'carrier_name'  => $rate['carrierDescription'],
+                        'carrier_logo'  => URL::to("img/providers/{$rate['carrier']}.svg"),
+                        'price'         => $rate['totalPrice'],
+                        'estimate'      => $rate['deliveryEstimate']
+                    ]));
+                });
+            }
         }
 
         return $rates;

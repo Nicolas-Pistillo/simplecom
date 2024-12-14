@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Http;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
 use App\Models\UserAddress;
+use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Zippin;
+use App\Utils\ShippingRate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -32,12 +34,20 @@ class Checkout extends Component
         try 
         {
             $envia = new Envia();
+
+            $enviaRates = $envia->getRates($this->form->selected_address);
+
+            dd($enviaRates);
+
+            /* $envia = new Envia();
             $zippin = new Zippin();
+            $enviopack = new EnvioPack();
 
             $enviaRate = $envia->getRates($this->form->selected_address);
             $zippinRate = $zippin->getRates($this->form->selected_address);
+            $enviopackRate = $enviopack->getRates($this->form->selected_address);
 
-            dd($enviaRate, $zippinRate);
+            dd($enviaRate, $zippinRate, $enviopackRate); */
 
         } catch (\Throwable $err) 
         {
@@ -50,7 +60,7 @@ class Checkout extends Component
             $this->notify([
                 'type'  => 'danger',
                 'title' => 'Error al cotizar envío',
-                'body'  => 'Ocurrió un problema al solicitar las tarifas, por favor vuelva a intentarlo más tarde'
+                'body'  => 'Ocurrió un problema al solicitar las tarifas, por favor vuelva a intentarlo más tarde o eliga otra forma de entrega'
             ]);
         }
     }

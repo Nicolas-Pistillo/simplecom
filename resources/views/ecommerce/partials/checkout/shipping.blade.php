@@ -138,7 +138,7 @@
                                 <div class="flex flex-col">
                                     <span class="flex items-center text-sm font-medium text-gray-900">
                                         <x-icon code="location_pin" class="mr-1" /> 
-                                        {{ $form->selected_address->street }} {{ $form->selected_address->number }} - CP {{ $form->selected_address->zipcode }}
+                                        {{ $form->selected_address->summary }}
                                     </span>
                                 </div>
                             </div>
@@ -168,10 +168,10 @@
                                     <div class="flex flex-1">
                                         <div class="flex flex-col">
                                             <span class="flex items-center text-sm font-medium text-gray-900">
-                                                <x-icon code="location_pin" class="mr-1" /> {{ $address->name ?? 'Sin etiqueta' }}
+                                                <x-icon code="location_pin" class="mr-1" /> {{ $address->label }}
                                             </span>
                                             <span class="mt-1 flex items-center text-xs text-gray-500">
-                                                {{ $address->street }} {{ $address->number }} - {{ $address->locality }}
+                                                {{ $address->summary }}
                                             </span>
                                         </div>
                                     </div>
