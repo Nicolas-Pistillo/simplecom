@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Utils\Address;
 use Illuminate\Support\Facades\Http;
 
 class GoogleMaps
@@ -16,101 +17,89 @@ class GoogleMaps
     {
         $api_key =  env('MAPS_API_KEY');
 
-        $results = collect();
+        $predictions = Http::get("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&language=es&type=address&components=country:ar&key=$api_key")->collect('predictions');
 
-        $response = Http::get("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&language=es&type=address&components=country:ar&key=$api_key")->json();
-
-        if (!empty($response) && !empty($response['predictions']))
-        {
-            foreach ($response['predictions'] as $prediction) 
-            {
-                if (in_array('route', $prediction['types'])) continue;
-                $results->push($prediction);
-            }
-        }
-
-        return $results;
+        return $predictions->filter(fn($prediction) => !in_array('route', $prediction['types']));
     }
 
     public static function getPlaceDetails($placeId)
     {
         $api_key = env('MAPS_API_KEY');
+        return Http::get("https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$api_key")->collect('result');
+    }
 
-        $data = [];
+    public static function getAddressByPlace($placeId)
+    {
+        $result = self::getPlaceDetails($placeId);
 
-        $response = Http::get("https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$api_key")->json();
+        if (!$result || $result->isEmpty()) return false;
 
-        if (isset($response['status']) && $response['status'] == 'OK')
+        $address = new Address([
+            'google_place_id' => $placeId,
+            'google_map_url'  => $result->get('url'),
+            'coordinates'     => data_get($result, 'geometry.location')
+        ]);
+
+        foreach ($result->get('address_components') as $component) 
         {
-            $data['place_id'] = $placeId;
-
-            $data['name'] = $response['result']['name'];
-
-            $data['full_name'] = $response['result']['formatted_address'];
-
-            $data['map_url'] = $response['result']['url'];
-
-            $data['coordinates'] = $response['result']['geometry']['location'];
-
-            $data['lat_lng'] = $data['coordinates']['lat'] . ',' . $data['coordinates']['lng'];
-
-            foreach($response['result']['address_components'] as $component)
+            if (in_array('route', $component['types'])) 
             {
-                if (in_array('route', $component['types']))
-                {
-                    $data['street'] = $component['short_name'];
-                }
+                $address->street = $component['short_name'];
+            }
 
-                if (in_array('street_number', $component['types']))
-                {
-                    $data['number'] = $component['short_name'];
-                }
+            if (in_array('street_number', $component['types'])) 
+            {
+                $address->number = $component['short_name'];
+            }
 
-                if (in_array('postal_code', $component['types']))
-                {
-                    $data['zipcode'] = $component['short_name'];
-                }
+            if (in_array('postal_code', $component['types'])) 
+            {
+                $address->zipcode = $component['short_name'];
+            }
 
-                if (in_array('locality', $component['types']))
-                {
-                    $data['locality'] = $component['short_name'];
-                }
+            if (in_array('locality', $component['types'])) 
+            {
+                $address->locality = $component['short_name'];
+            }
 
-                if (in_array('administrative_area_level_2', $component['types']) && empty($data['locality']))
-                {
-                    $data['locality'] = $component['short_name'];
-                }
+            if (in_array('administrative_area_level_2', $component['types']) 
+            && empty($address->locality)) 
+            {
+                $address->locality = $component['short_name'];
+            }
 
-                if (in_array('administrative_area_level_1', $component['types']))
-                {
-                    $data['state'] = $component['short_name'] == 'Cdad. Autónoma de Buenos Aires'
-                                     ? 'Capital Federal'
-                                     : str_replace('Provincia de ', '', $component['short_name']);
-                }
+            if (in_array('administrative_area_level_1', $component['types'])) 
+            {
+                $address->state = $component['short_name'] == 'Cdad. Autónoma de Buenos Aires'
+                                                            ? 'Capital Federal'
+                                                            : str_replace('Provincia de ', '', $component['short_name']);
             }
         }
 
-        if (isset($data['locality']))
+        if (isset($address->locality))
         {
-            $cityInfo = cityInfo($data['locality']);
+            $cityInfo = cityInfo($address->locality);
 
             if (!empty($cityInfo))
             {
-                $data['state_code'] = $cityInfo[0]['state']['code']['2digit'];
-                $data['zipcode'] = $data['zipcode'] ?? $cityInfo[0]['zip_codes'][0]['zip_code'];
+                $address->state_code = $cityInfo[0]['state']['code']['2digit'];
+                $address->zipcode = $address->zipcode ?? $cityInfo[0]['zip_codes'][0]['zip_code'];
             }
 
-            if (empty($cityInfo) && isset($data['zipcode']))
+            if (empty($cityInfo) && isset($address->zipcode))
             {
-                $zipcodeInfo = zipcodeInfo($data['zipcode']);
+                $zipcodeInfo = zipcodeInfo($address->zipcode);
 
                 if (!empty($zipcodeInfo))
                 {
-                    $data['state_code'] = $zipcodeInfo[0]['state']['code']['2digit'];
+                    $address->state_code = data_get($zipcodeInfo, '0.state.code.2digit');
                 }
             }
         }
 
-        return $data;
+        $address->summary = "$address->street $address->number - $address->locality";
+        $address->lat_lng = $address->coordinates['lat'] . ',' . $address->coordinates['lng'];
+
+        return $address;
     }
 }

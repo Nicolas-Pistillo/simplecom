@@ -37,7 +37,7 @@
                                     <div class="flex items-center mb-3">
                                         <x-icon code="location_on" class="text-gray-700 mr-1" />
                                         <p class="text-sm font-medium text-gray-900">
-                                            {{ $selected_address['name'] }} - {{ $selected_address['locality'] }}
+                                            {{ $selected_address['summary'] }}
                                         </p>
                                     </div>
 
@@ -49,12 +49,12 @@
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
                                                 flex items-center ps-3 pointer-events-none">Etiqueta:</span>
 
-                                                <input type="text" wire:model.blur='name'
+                                                <input type="text" wire:model.blur='tag'
                                                 placeholder="Nombre propio para identificar esta dirección..."
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.5rem]">
                                 
-                                                @error('name')
+                                                @error('tag')
                                                     <small class="text-red-500">{{ $message }}</small>
                                                 @enderror
                                             </div>

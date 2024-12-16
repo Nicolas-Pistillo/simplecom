@@ -4,8 +4,7 @@ namespace App\Utils;
 
 class Address
 {
-    public $short_name;
-    public $name;
+    public $summary;
 
     public $street;
     public $number;
@@ -13,11 +12,10 @@ class Address
     public $locality;
     public $state;
     public $state_code;
-    public $references;
 
+    public $references;
     public $coordinates;
     public $lat_lng;
-
     public $google_place_id;
     public $google_map_url;
 
@@ -29,6 +27,16 @@ class Address
             {
                 $this->{$property} = $value;
             }
-        }        
+        }
+    }
+
+    public function summary()
+    {
+        return "$this->street $this->number - $this->locality";
+    }
+
+    public function mapCoordinates()
+    {
+        return $this->coordinates['lat'] . ',' . $this->coordinates['lng'];
     }
 }

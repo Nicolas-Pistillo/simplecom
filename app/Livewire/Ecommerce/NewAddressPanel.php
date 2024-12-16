@@ -8,6 +8,7 @@ use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use App\Utils\Address;
 
 class NewAddressPanel extends Component
 {
@@ -15,9 +16,10 @@ class NewAddressPanel extends Component
 
     public $search;
 
-    public $addresses, $selected_address;
+    public $addresses;
+    public $selected_address;
 
-    public $name, $apartment, $floor, $office, $details;
+    public $tag, $apartment, $floor, $office, $details;
 
     public function updatedSearch()
     {
@@ -28,9 +30,18 @@ class NewAddressPanel extends Component
 
     public function selectedAddress($placeId)
     {
-        $addressInfo = GoogleMaps::getPlaceDetails($placeId);
+        $addressInfo = GoogleMaps::getAddressByPlace($placeId);
 
-        $this->selected_address = $addressInfo;
+        if (!$addressInfo)
+        {
+            return $this->notify([
+                'type'  => 'danger',
+                'title' => 'Error al obtener la información',
+                'body'  => 'Ocurrió un problema al cargar los detalles de esta ubicación, por favor intentelo de nuevo más tarde'
+            ]);
+        }
+
+        $this->selected_address = (array) $addressInfo;
     }
 
     public function removeSelectedAddress()
@@ -44,7 +55,7 @@ class NewAddressPanel extends Component
         {
             $newAddress = UserAddress::create([
                 'user_id'         => Auth::id(),
-                'name'            => $this->name,
+                'tag'             => $this->tag,
                 'zipcode'         => $this->selected_address['zipcode'],
                 'street'          => $this->selected_address['street'],
                 'number'          => $this->selected_address['number'],
@@ -57,8 +68,8 @@ class NewAddressPanel extends Component
                 'details'         => $this->details,
                 'lat'             => $this->selected_address['coordinates']['lat'],
                 'lng'             => $this->selected_address['coordinates']['lng'],
-                'map_url'         => $this->selected_address['map_url'],
-                'google_place_id' => $this->selected_address['place_id']
+                'map_url'         => $this->selected_address['google_map_url'],
+                'google_place_id' => $this->selected_address['google_place_id']
             ]);
 
             if (Auth::guest())
