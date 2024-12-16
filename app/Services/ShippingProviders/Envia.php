@@ -95,7 +95,7 @@ class Envia
             {
                 $carrierRates->each(function($rate) use ($rates)
                 {
-                    $rates->push(new ShippingRate([
+                    $shippingRate = new ShippingRate([
                         'source'        => 'envia',
                         'source_name'   => 'Envia.com',
                         'service_id'    => $rate['serviceId'],
@@ -105,7 +105,17 @@ class Envia
                         'carrier_logo'  => URL::to("img/providers/{$rate['carrier']}.svg"),
                         'price'         => $rate['totalPrice'],
                         'estimate'      => $rate['deliveryEstimate']
-                    ]));
+                    ]);
+
+                    if (!empty($rate['branches']))
+                    {
+                        foreach($rate['branches'] as $branch)
+                        {
+                            $shippingRate->branches->push($branch);
+                        }
+                    }
+
+                    $rates->push($shippingRate);
                 });
             }
         }

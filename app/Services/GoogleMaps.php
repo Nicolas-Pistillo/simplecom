@@ -76,9 +76,9 @@ class GoogleMaps
                     $data['locality'] = $component['short_name'];
                 }
 
-                if (in_array('administrative_area_level_2', $component['types']))
+                if (in_array('administrative_area_level_2', $component['types']) && empty($data['locality']))
                 {
-                    $data['locality_lvl_2'] = $component['short_name'];
+                    $data['locality'] = $component['short_name'];
                 }
 
                 if (in_array('administrative_area_level_1', $component['types']))
@@ -90,9 +90,9 @@ class GoogleMaps
             }
         }
 
-        if (isset($data['locality']) || isset($data['locality_lvl_2']))
+        if (isset($data['locality']))
         {
-            $cityInfo = cityInfo($data['locality'] ?? $data['locality_lvl_2']);
+            $cityInfo = cityInfo($data['locality']);
 
             if (!empty($cityInfo))
             {

@@ -37,7 +37,7 @@
                                     <div class="flex items-center mb-3">
                                         <x-icon code="location_on" class="text-gray-700 mr-1" />
                                         <p class="text-sm font-medium text-gray-900">
-                                            {{ $selected_address['name'] }} - {{ $selected_address['locality'] ?? $selected_address['locality_lvl_2'] }}
+                                            {{ $selected_address['name'] }} - {{ $selected_address['locality'] }}
                                         </p>
                                     </div>
 

@@ -2,10 +2,13 @@
 
 namespace App\Utils;
 
+use Illuminate\Support\Collection;
+
 class ShippingRate
 {
     public $source;
     public $source_name;
+    public $source_data;
 
     public $service_id;
     public $service_name;
@@ -16,7 +19,7 @@ class ShippingRate
 
     public $price;
     public $estimate;
-    public $branch;
+    public Collection $branches;
 
     public function __construct($properties = [])
     {
@@ -27,5 +30,7 @@ class ShippingRate
                 $this->{$property} = $value;
             }
         }
+
+        if (empty($this->branches)) $this->branches = collect();
     }
 }

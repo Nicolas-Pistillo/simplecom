@@ -48,7 +48,7 @@ class NewAddressPanel extends Component
                 'zipcode'         => $this->selected_address['zipcode'],
                 'street'          => $this->selected_address['street'],
                 'number'          => $this->selected_address['number'],
-                'locality'        => $this->selected_address['locality'] ?? $this->selected_address['locality_lvl_2'],
+                'locality'        => $this->selected_address['locality'],
                 'state'           => $this->selected_address['state'],
                 'state_code'      => $this->selected_address['state_code'] ?? null,
                 'floor'           => $this->floor,
