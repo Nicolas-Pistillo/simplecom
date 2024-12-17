@@ -3,9 +3,12 @@
 namespace App\Services\ShippingProviders;
 
 use App\Models\UserAddress;
+use App\Services\CartService;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
+use App\Utils\ShippingRateParameters;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
@@ -29,7 +32,7 @@ class Envia
         }
     }
 
-    public function getRates(UserAddress $destination): Collection
+    public function getRates(ShippingRateParameters $parameters): Collection
     {
         $origins = $this->getOrigins();
 
@@ -39,7 +42,26 @@ class Envia
 
         $rates = collect();
 
-        foreach ($carriers as $carrier) 
+        $cartPackage = CartService::getPackageInfo('kg');
+
+        if (!$cartPackage) return $rates;
+
+        $package = [
+            'content'       => 'Productos',
+            'amount'        => 1,
+            'type'          => 'box',
+            'declaredValue' => $cartPackage['declaredValue'],
+            'weight'        => data_get($cartPackage, 'dimensions.weight'),
+            'weightUnit'    => 'KG',
+            'lengthUnit'    => 'CM',
+            'dimensions' => [
+                'width'  => data_get($cartPackage, 'dimensions.width'),
+                'height' => data_get($cartPackage, 'dimensions.height'),
+                'length' => data_get($cartPackage, 'dimensions.length')
+            ]
+        ];
+
+        foreach ($carriers as $carrier)
         {
             $rateBody = json_encode([
                 'origin' => [
@@ -55,34 +77,19 @@ class Envia
                     'country'    => 'AR'
                 ],
                 'destination' => [
-                    'name'       => 'Ramon Díaz',
-                    'street'     => $destination->street,
-                    'number'     => $destination->number,
-                    'postalCode' => $destination->zipcode_number,
-                    'city'       => $destination->locality,
-                    'state'      => $destination->state_code,
+                    'name'       => $parameters->recipient_name,
+                    'email'      => $parameters->recipient_email,
+                    'phone'      => $parameters->recipient_phone,
+                    'street'     => $parameters->recipient_address->street,
+                    'number'     => $parameters->recipient_address->number,
+                    'postalCode' => $parameters->recipient_address->zipcode_number,
+                    'city'       => $parameters->recipient_address->locality,
+                    'state'      => $parameters->recipient_address->state_code,
                     'country'    => 'AR'
                 ],
-                'packages' => [
-                    [
-                        'content'       => 'zapatillas jordan',
-                        'boxCode'       => '',
-                        'amount'        => 1,
-                        'type'          => 'box',
-                        'weight'        => 1,
-                        'insurance'     => 0,
-                        'declaredValue' => 0,
-                        'weightUnit'    => 'KG',
-                        'lengthUnit'    => 'CM',
-                        'dimensions' => [
-                            'length' => 11,
-                            'width'  => 15,
-                            'height' => 20
-                        ]
-                    ]
-                ],
+                'packages' => [$package],
                 'shipment' => [
-                    'carrier' => $carrier['name'],
+                    'carrier' => $carrier['name']
                 ],
                 'settings' => [
                     'printFormat' => "PDF",

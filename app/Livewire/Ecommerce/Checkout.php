@@ -16,6 +16,7 @@ use App\Models\UserAddress;
 use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Zippin;
 use App\Utils\ShippingRate;
+use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -33,23 +34,23 @@ class Checkout extends Component
     {
         try 
         {
+            $shippingParameters = new ShippingRateParameters([
+                'recipient_name'     => "{$this->form->name} {$this->form->lastname}",
+                'recipient_email'    => $this->form->email,
+                'recipient_phone'    => $this->form->phone,
+                'recipient_document' => $this->form->document,
+                'recipient_address'  => $this->form->selected_address
+            ]);
+
             $envia = new Envia();
             $zippin = new Zippin();
 
-            $enviaRates = $envia->getRates($this->form->selected_address);
-            $zippinRates = $zippin->getRates($this->form->selected_address);
+            $enviaRates = $envia->getRates($shippingParameters);
+            $zippinRates = $zippin->getRates($shippingParameters);
 
-            dd($enviaRates, $zippinRates);
+            $shippingRates = $enviaRates->merge($zippinRates);
 
-            /* $envia = new Envia();
-            $zippin = new Zippin();
-            $enviopack = new EnvioPack();
-
-            $enviaRate = $envia->getRates($this->form->selected_address);
-            $zippinRate = $zippin->getRates($this->form->selected_address);
-            $enviopackRate = $enviopack->getRates($this->form->selected_address);
-
-            dd($enviaRate, $zippinRate, $enviopackRate); */
+            dd($shippingRates);
 
         } catch (\Throwable $err) 
         {

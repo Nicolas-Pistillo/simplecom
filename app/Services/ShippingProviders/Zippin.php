@@ -7,6 +7,7 @@ use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
+use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -18,7 +19,7 @@ class Zippin
 
     private $base_url = 'https://api.zippin.com.ar/v2';
 
-    public function getRates(UserAddress $destination): Collection
+    public function getRates(ShippingRateParameters $parameters): Collection
     {
         $rates = collect();
 
@@ -30,9 +31,9 @@ class Zippin
                         'source'         => 'simplecom',
                         'destination' => [
                             'country' => 'AR',
-                            'state'   => $destination->state,
-                            'city'    => $destination->locality,
-                            'zipcode' => $destination->zipcode
+                            'state'   => $parameters->recipient_address->state,
+                            'city'    => $parameters->recipient_address->locality,
+                            'zipcode' => $parameters->recipient_address->zipcode_number
                         ],
                         'items' => [
                             [
