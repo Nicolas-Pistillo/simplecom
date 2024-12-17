@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 
 class ShippingRate
 {
+    public $key;
     public $label;
 
     public $source;
@@ -29,6 +30,7 @@ class ShippingRate
 
     public function __construct($properties = [])
     {
+        $this->key = uniqid();
         $this->branches = collect();
 
         foreach($properties as $property => $value)

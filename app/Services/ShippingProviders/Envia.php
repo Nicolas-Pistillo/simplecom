@@ -2,16 +2,13 @@
 
 namespace App\Services\ShippingProviders;
 
-use App\Models\UserAddress;
 use App\Services\CartService;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\URL;
 
 class Envia
 {
@@ -35,33 +32,16 @@ class Envia
     public function getRates(ShippingRateParameters $parameters): Collection
     {
         $origins = $this->getOrigins();
-
         $origin = $origins->first();
 
-        $carriers = $this->getCarriers();
-
+        $services = $this->getServices();
         $rates = collect();
 
-        $cartPackage = CartService::getPackageInfo('kg');
+        $package = $this->calculatePackage();
 
-        if (!$cartPackage) return $rates;
+        if (!$package) return $rates;
 
-        $package = [
-            'content'       => 'Productos',
-            'amount'        => 1,
-            'type'          => 'box',
-            'declaredValue' => $cartPackage['declaredValue'],
-            'weight'        => data_get($cartPackage, 'dimensions.weight'),
-            'weightUnit'    => 'KG',
-            'lengthUnit'    => 'CM',
-            'dimensions' => [
-                'width'  => data_get($cartPackage, 'dimensions.width'),
-                'height' => data_get($cartPackage, 'dimensions.height'),
-                'length' => data_get($cartPackage, 'dimensions.length')
-            ]
-        ];
-
-        foreach ($carriers as $carrier)
+        foreach ($services as $service) 
         {
             $rateBody = json_encode([
                 'origin' => [
@@ -85,70 +65,70 @@ class Envia
                     'postalCode' => $parameters->recipient_address->zipcode_number,
                     'city'       => $parameters->recipient_address->locality,
                     'state'      => $parameters->recipient_address->state_code,
+                    'reference'  => $parameters->recipient_address->references,
                     'country'    => 'AR'
                 ],
                 'packages' => [$package],
                 'shipment' => [
-                    'carrier' => $carrier['name']
+                    'carrier' => $service['carrier_name'],
+                    'service' => $service['name']
                 ],
                 'settings' => [
                     'printFormat' => "PDF",
                     'printSize'   => "PAPER_7X4.75",
-                    'currency'    => 'ARS'
+                    'currency'    => 'ARS',
+                    'comments'    => $parameters->recipient_address->references
                 ]
             ]);
 
-            $carrierRates = $this->calculateRate($rateBody);
+            $serviceRate = $this->calculateRate($rateBody)->first();
 
-            if ($carrierRates->isEmpty()) continue;
+            if (!$serviceRate || empty($serviceRate)) continue;
 
-            $carrierRates->each(function ($rate) use ($rates)
+            $shippingRate = new ShippingRate([
+                'source'        => 'envia',
+                'source_name'   => 'Envia.com',
+                'source_data'   => $serviceRate,
+                'label'         => $serviceRate['serviceDescription'],
+                'source_data'   => $serviceRate,
+                'service_id'    => $serviceRate['serviceId'],
+                'service_name'  => $serviceRate['serviceDescription'],
+                'carrier_id'    => $serviceRate['carrierId'],
+                'carrier_name'  => $serviceRate['carrierDescription'],
+                'carrier_logo'  => $service['logo'],
+                'price'         => $serviceRate['totalPrice'],
+                'estimate'      => $serviceRate['deliveryEstimate']
+            ]);
+
+            foreach ($serviceRate['branches'] as $branch) 
             {
-                $shippingRate = new ShippingRate([
-                    'source'        => 'envia',
-                    'source_name'   => 'Envia.com',
-                    'source_data'   => $rate,
-                    'label'         => $rate['serviceDescription'],
-                    'source_data'   => $rate,
-                    'service_id'    => $rate['serviceId'],
-                    'service_name'  => $rate['serviceDescription'],
-                    'carrier_id'    => $rate['carrierId'],
-                    'carrier_name'  => $rate['carrierDescription'],
-                    'carrier_logo'  => URL::to("img/providers/{$rate['carrier']}.svg"),
-                    'price'         => $rate['totalPrice'],
-                    'estimate'      => $rate['deliveryEstimate']
+                $branchAddress = new Address([
+                    'street'      => data_get($branch, 'address.street'),
+                    'number'      => data_get($branch, 'address.number'),
+                    'zipcode'     => data_get($branch, 'address.postalCode'),
+                    'locality'    => data_get($branch, 'address.locality'),
+                    'state'       => data_get($branch, 'address.'),
+                    'state_code'  => data_get($branch, 'address.province'),
+                    'coordinates' => [
+                        'lat' => data_get($branch, 'address.latitude'),
+                        'lng' => data_get($branch, 'address.longitude')
+                    ]
                 ]);
 
-                foreach ($rate['branches'] as $branch) 
-                {
-                    $branchAddress = new Address([
-                        'street'      => data_get($branch, 'address.street'),
-                        'number'      => data_get($branch, 'address.number'),
-                        'zipcode'     => data_get($branch, 'address.postalCode'),
-                        'locality'    => data_get($branch, 'address.locality'),
-                        'state'       => data_get($branch, 'address.'),
-                        'state_code'  => data_get($branch, 'address.province'),
-                        'coordinates' => [
-                            'lat' => data_get($branch, 'address.latitude'),
-                            'lng' => data_get($branch, 'address.longitude')
-                        ]
-                    ]);
+                $branch = new ShippingBranch([
+                    'source'        => 'envia',
+                    'source_name'   => 'Envia.com',
+                    'name'          => $branch['reference'],
+                    'external_id'   => $branch['branch_id'],
+                    'external_code' => $branch['branch_code'],
+                    'external_type' => $branch['branch_type'],
+                    'address'       => $branchAddress
+                ]);
 
-                    $branch = new ShippingBranch([
-                        'source'        => 'envia',
-                        'source_name'   => 'Envia.com',
-                        'name'          => $branch['reference'],
-                        'external_id'   => $branch['branch_id'],
-                        'external_code' => $branch['branch_code'],
-                        'external_type' => $branch['branch_type'],
-                        'address'       => $branchAddress
-                    ]);
+                $shippingRate->branches->push($branch);
+            }
 
-                    $shippingRate->branches->push($branch);
-                }
-
-                $rates->push($shippingRate);
-            });
+            $rates->push($shippingRate);
         }
 
         return $rates;
@@ -157,6 +137,30 @@ class Envia
     public function calculateRate($rateBody)
     {
         return Http::withToken($this->token)->withBody($rateBody)->post("$this->api_base_url/ship/rate")->collect('data');
+    }
+
+    public function calculatePackage(): array|false
+    {
+        $cartPackage = CartService::getPackageInfo('kg');
+
+        if (!$cartPackage || empty($cartPackage)) return false;
+
+        $package = [
+            'content'       => 'Productos',
+            'amount'        => 1,
+            'type'          => 'box',
+            'declaredValue' => $cartPackage['declaredValue'],
+            'weight'        => data_get($cartPackage, 'dimensions.weight'),
+            'weightUnit'    => 'KG',
+            'lengthUnit'    => 'CM',
+            'dimensions' => [
+                'width'  => data_get($cartPackage, 'dimensions.width'),
+                'height' => data_get($cartPackage, 'dimensions.height'),
+                'length' => data_get($cartPackage, 'dimensions.length')
+            ]
+        ];
+
+        return $package;
     }
 
     public function getCarriers()

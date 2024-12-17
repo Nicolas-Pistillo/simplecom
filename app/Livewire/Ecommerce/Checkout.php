@@ -2,14 +2,12 @@
 
 namespace App\Livewire\Ecommerce;
 
-use App\Enums\DeliveryType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Services\ShippingProviders\Envia;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 use App\Services\ProductService;
-use Illuminate\Support\Facades\Http;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
 use App\Models\UserAddress;
@@ -17,6 +15,7 @@ use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Zippin;
 use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -34,6 +33,12 @@ class Checkout extends Component
     {
         try 
         {
+            if (session('shipping_rates') 
+            && session('shipping_rates.address.id') === $this->form->selected_address->id)
+            {
+                return $this->form->show_shipping_rates = true;
+            }
+
             $shippingParameters = new ShippingRateParameters([
                 'recipient_name'     => "{$this->form->name} {$this->form->lastname}",
                 'recipient_email'    => $this->form->email,
@@ -50,7 +55,21 @@ class Checkout extends Component
 
             $shippingRates = $enviaRates->merge($zippinRates);
 
-            dd($shippingRates);
+            if ($shippingRates->isNotEmpty())
+            {
+                session()->put('shipping_rates', [
+                    'address' => $this->form->selected_address,
+                    'rates'   => $shippingRates
+                ]);
+
+                return $this->form->show_shipping_rates = true;
+            }
+
+            $this->notify([
+                'type'  => 'danger',
+                'title' => 'Sin tarifas de envío',
+                'body'  => 'No se encontraron tarifas de envío para la ubicación seleccionada'
+            ]);
 
         } catch (\Throwable $err) 
         {
@@ -88,6 +107,7 @@ class Checkout extends Component
     public function changeAddress()
     {
         $this->form->reset('selected_address');
+        $this->form->show_shipping_rates = false;
     }
 
     public function changeQty($operation, $rowId)
@@ -205,7 +225,7 @@ class Checkout extends Component
     }
 
     public function mount()
-    {
+    {   
         $this->form->payment_methods = PaymentMethod::where('active', true)->get();
 
         $this->form->autocomplete();

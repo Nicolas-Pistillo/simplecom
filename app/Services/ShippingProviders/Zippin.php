@@ -2,7 +2,6 @@
 
 namespace App\Services\ShippingProviders;
 
-use App\Models\UserAddress;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;

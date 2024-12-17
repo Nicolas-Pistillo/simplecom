@@ -150,10 +150,50 @@
                             <span>Modificar</span>
                         </button>
                     </div>
+
+                    {{-- Select shipping rate --}}
+                    @if ($form->show_shipping_rates)
+
+                        <fieldset wire:loading.remove wire:target='getShippingRates' aria-label="Shipping Rates"
+                            class="col-span-full mt-4 rounded-lg overflow-hidden border shadow-sm">
+                            @foreach (session('shipping_rates.rates') as $rate)
+                                <div wire:key='{{ $rate->key }}'
+                                    class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
+                                    <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
+
+                                        <input type="radio" name="shipping_method"
+                                        class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
+                                        text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
+                                        active:ring-offset-2">
+
+                                        <span class="ml-3 flex items-center justify-between w-full">
+                                            <div class="flex items-center text-sm">
+                                                <img src="{{ $rate->carrier_logo }}" class="w-10 h-10 object-contain shadow rounded-xl mr-2"
+                                                    alt="Carrier Logo">
+                                                <div>
+                                                    <h5 class="font-medium mb-0.5 text-xs sm:text-sm">
+                                                        {{ $rate->label }}
+                                                    </h5>
+                                                    <span class="block text-xs text-gray-700">
+                                                        Estimado: {{ $rate->estimate }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span class="text-sm font-medium ml-4">${{ priceFormat($rate->price) }}</span>
+                                            </div>
+                                        </span>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </fieldset>
+
+                    @endif
                 </div>     
             @else
                 {{-- Select or create shipping address --}}
-                <fieldset class="col-span-full animate__animated animate__fadeIn">
+                <fieldset wire:loading.remove wire:target='selectAddress' 
+                class="col-span-full animate__animated animate__fadeIn">
                     <legend class="text-sm/6 font-semibold text-gray-900">Seleccionar dirección</legend>
                     <p class="mt-1 text-sm/6 text-gray-600">Elige o agrega una dirección para calcular el envío</p>
 
@@ -168,7 +208,8 @@
                                     <div class="flex flex-1">
                                         <div class="flex flex-col">
                                             <span class="flex items-center text-sm font-medium text-gray-900">
-                                                <x-icon code="location_pin" class="mr-1" /> {{ $address->label }}
+                                                <x-icon code="location_pin" class="mr-1" /> 
+                                                {{ $address->label }}
                                             </span>
                                             <span class="mt-1 flex items-center text-xs text-gray-500">
                                                 {{ $address->summary }}
@@ -192,50 +233,13 @@
                 </fieldset>
             @endif
 
-            <div wire:loading wire:target='getShippingRates' class="col-span-full">
+            <div wire:loading wire:target='selectAddress' class="col-span-full">
                 <div class="flex items-center gap-3 mt-4 text-sm text-gray-800">
                     <x-spinner spinnerclass="!w-4 !h-4" /> Buscando opciones de envío...
                 </div>
             </div>
 
-            @if (isset($form->shipping_rates) && $form->shipping_rates->isNotEmpty())
-
-                <fieldset wire:loading.remove wire:target='getShippingRates' aria-label="Shipping Rates"
-                    class="col-span-full mt-4 rounded-lg overflow-hidden border shadow-sm">
-                    @foreach ($form->shipping_rates as $rate)
-                        <div wire:key='{{ $rate['service_id'] }}'
-                            class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
-                            <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
-
-                                <input type="radio" name="shipping_method"
-                                class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
-                                text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
-                                active:ring-offset-2">
-
-                                <span class="ml-3 flex items-center justify-between w-full">
-                                    <div class="flex items-center text-sm">
-                                        <img src="{{ $rate['carrier_logo'] }}" class="w-10 h-10 shadow rounded-xl mr-2"
-                                            alt="Carrier Logo">
-                                        <div>
-                                            <h5 class="font-medium mb-0.5 text-xs sm:text-sm">
-                                                {{ $rate['service_name'] }}</h5>
-                                            <span class="block text-xs text-gray-700">
-                                                Estimado: {{ $rate['delivery_estimate'] }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="text-sm font-medium ml-4">${{ priceFormat($rate['price']) }}</span>
-                                    </div>
-                                </span>
-                            </label>
-                        </div>
-                    @endforeach
-                </fieldset>
-
-            @endif
-
-            <div>
+            <div wire:loading.remove wire:target='selectAddress'>
                 <x-button wire:click='summaryStep' :disabled="true" size="big" class="mt-8">
                     Continuar
                 </x-button>
