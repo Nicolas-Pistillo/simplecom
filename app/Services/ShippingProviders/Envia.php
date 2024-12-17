@@ -1,9 +1,12 @@
-<?php 
+<?php
 
 namespace App\Services\ShippingProviders;
 
 use App\Models\UserAddress;
+use App\Utils\Address;
+use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 
@@ -18,8 +21,7 @@ class Envia
     {
         $this->token = env('ENVIA_TOKEN');
 
-        if (env('ENVIA_TEST'))
-        {
+        if (env('ENVIA_TEST')) {
             $this->token = env('ENVIA_TEST_TOKEN');
 
             $this->api_base_url = 'https://api-test.envia.com';
@@ -27,7 +29,7 @@ class Envia
         }
     }
 
-    public function getRates(UserAddress $destination)
+    public function getRates(UserAddress $destination): Collection
     {
         $origins = $this->getOrigins();
 
@@ -37,7 +39,7 @@ class Envia
 
         $rates = collect();
 
-        foreach($carriers as $carrier)
+        foreach ($carriers as $carrier) 
         {
             $rateBody = json_encode([
                 'origin' => [
@@ -71,10 +73,10 @@ class Envia
                         'insurance'     => 0,
                         'declaredValue' => 0,
                         'weightUnit'    => 'KG',
-                        'lengthUnit' => 'CM',
+                        'lengthUnit'    => 'CM',
                         'dimensions' => [
                             'length' => 11,
-                            'width' => 15,
+                            'width'  => 15,
                             'height' => 20
                         ]
                     ]
@@ -91,33 +93,55 @@ class Envia
 
             $carrierRates = $this->calculateRate($rateBody);
 
-            if ($carrierRates->isNotEmpty())
+            if ($carrierRates->isEmpty()) continue;
+
+            $carrierRates->each(function ($rate) use ($rates)
             {
-                $carrierRates->each(function($rate) use ($rates)
+                $shippingRate = new ShippingRate([
+                    'source'        => 'envia',
+                    'source_name'   => 'Envia.com',
+                    'source_data'   => $rate,
+                    'label'         => $rate['serviceDescription'],
+                    'source_data'   => $rate,
+                    'service_id'    => $rate['serviceId'],
+                    'service_name'  => $rate['serviceDescription'],
+                    'carrier_id'    => $rate['carrierId'],
+                    'carrier_name'  => $rate['carrierDescription'],
+                    'carrier_logo'  => URL::to("img/providers/{$rate['carrier']}.svg"),
+                    'price'         => $rate['totalPrice'],
+                    'estimate'      => $rate['deliveryEstimate']
+                ]);
+
+                foreach ($rate['branches'] as $branch) 
                 {
-                    $shippingRate = new ShippingRate([
-                        'source'        => 'envia',
-                        'source_name'   => 'Envia.com',
-                        'service_id'    => $rate['serviceId'],
-                        'service_name'  => $rate['serviceDescription'],
-                        'carrier_id'    => $rate['carrierId'],
-                        'carrier_name'  => $rate['carrierDescription'],
-                        'carrier_logo'  => URL::to("img/providers/{$rate['carrier']}.svg"),
-                        'price'         => $rate['totalPrice'],
-                        'estimate'      => $rate['deliveryEstimate']
+                    $branchAddress = new Address([
+                        'street'      => data_get($branch, 'address.street'),
+                        'number'      => data_get($branch, 'address.number'),
+                        'zipcode'     => data_get($branch, 'address.postalCode'),
+                        'locality'    => data_get($branch, 'address.locality'),
+                        'state'       => data_get($branch, 'address.'),
+                        'state_code'  => data_get($branch, 'address.province'),
+                        'coordinates' => [
+                            'lat' => data_get($branch, 'address.latitude'),
+                            'lng' => data_get($branch, 'address.longitude')
+                        ]
                     ]);
 
-                    if (!empty($rate['branches']))
-                    {
-                        foreach($rate['branches'] as $branch)
-                        {
-                            $shippingRate->branches->push($branch);
-                        }
-                    }
+                    $branch = new ShippingBranch([
+                        'source'        => 'envia',
+                        'source_name'   => 'Envia.com',
+                        'name'          => $branch['reference'],
+                        'external_id'   => $branch['branch_id'],
+                        'external_code' => $branch['branch_code'],
+                        'external_type' => $branch['branch_type'],
+                        'address'       => $branchAddress
+                    ]);
 
-                    $rates->push($shippingRate);
-                });
-            }
+                    $shippingRate->branches->push($branch);
+                }
+
+                $rates->push($shippingRate);
+            });
         }
 
         return $rates;

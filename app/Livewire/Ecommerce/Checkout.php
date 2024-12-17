@@ -34,10 +34,12 @@ class Checkout extends Component
         try 
         {
             $envia = new Envia();
+            $zippin = new Zippin();
 
             $enviaRates = $envia->getRates($this->form->selected_address);
+            $zippinRates = $zippin->getRates($this->form->selected_address);
 
-            dd($enviaRates);
+            dd($enviaRates, $zippinRates);
 
             /* $envia = new Envia();
             $zippin = new Zippin();
