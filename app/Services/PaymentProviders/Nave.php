@@ -25,8 +25,8 @@ class Nave implements PaymentGateway
             'client_secret' => $client_secret,
             'audience'      => 'https://naranja.com/ranty/merchants/api'
         ]))
-            ->post('https://homoservices.apinaranja.com/security-ms/api/security/auth0/b2b/m2ms')
-            ->json();
+        ->post('https://homoservices.apinaranja.com/security-ms/api/security/auth0/b2b/m2ms')
+        ->json();
 
         $this->token = $response['access_token'];
     }

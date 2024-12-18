@@ -18,7 +18,7 @@
                         <div class="flex items-start bg-white p-6 rounded-lg">
                             <div class="block w-full">
 
-                                <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center justify-between mb-3">
 
                                     <h6 class="text-lg font-bold leading-8 text-gray-900">
                                         {{ empty($selected_address) ? 'Nueva' : 'Confirmar' }} dirección
@@ -32,8 +32,128 @@
 
                                 @if (!empty($selected_address))
                                     
-                                    @dump($selected_address)
+                                    {{-- @dump($selected_address) --}}
+                                    
+                                    <div class="flex items-center mb-3">
+                                        <x-icon code="location_on" class="text-gray-700 mr-1" />
+                                        <p class="text-sm font-medium text-gray-900">
+                                            {{ $selected_address['summary'] }}
+                                        </p>
+                                    </div>
 
+                                    <div class="grid grid-cols-12 gap-3 text-gray-700">
+
+                                        <div class="col-span-full">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">Etiqueta:</span>
+
+                                                <input type="text" wire:model.blur='tag'
+                                                placeholder="Nombre propio para identificar esta dirección..."
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.5rem]">
+                                
+                                                @error('tag')
+                                                    <small class="text-red-500">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">Indicaciones:</span>
+
+                                                <input type="text" wire:model.blur='details'
+                                                placeholder="Datos adicionales para el repartidor..."
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[6.3rem]">
+                                
+                                                @error('details')
+                                                    <small class="text-red-500">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-span-6 sm:col-span-4">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">Piso:</span>
+
+                                                <input type="text" wire:model.blur='floor'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm 
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
+                                
+                                                @error('floor')
+                                                    <small class="text-red-500">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-6 sm:col-span-4">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">Depto:</span>
+
+                                                <input type="text" wire:model.blur='apartment'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm 
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
+                                
+                                                @error('apartment')
+                                                    <small class="text-red-500">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-span-6 sm:col-span-4">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">Oficina:</span>
+
+                                                <input type="text" wire:model.blur='office'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm 
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
+                                
+                                                @error('office')
+                                                    <small class="text-red-500">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <gmp-map wire:ignore center="{{ $selected_address['lat_lng'] }}" 
+                                    zoom="18" map-id="selected_address_map" class="mt-4 h-[130px] md:h-[250px] rounded-lg shadow-md">
+                                        <gmp-advanced-marker position="{{ $selected_address['lat_lng'] }}"></gmp-advanced-marker>
+                                    </gmp-map>
+
+                                    <div class="flex items-center justify-center pt-8 gap-4">
+
+                                        <div wire:loading wire:target='save'>
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="text-xs text-gray-700 font-semibold">
+                                                    Guardando dirección
+                                                </span>
+                                                <x-spinner />
+                                            </div>
+                                        </div>
+
+                                        <x-button wire:click='removeSelectedAddress' 
+                                        wire:loading.remove wire:target='save'
+                                        size="large" type="soft" class="w-full flex items-center justify-center">
+                                            <x-icon code="arrow_back" class="mr-2" />
+                                            Volver
+                                        </x-button>
+
+                                        <x-button wire:click='save' 
+                                        wire:loading.remove wire:target='save'
+                                        size="large" class="w-full">Confirmar</x-button>
+                                    </div>
                                 @else
                                     <div class="w-full relative">
 
@@ -48,20 +168,24 @@
                                     </div>
 
                                     @if (isset($addresses) && $addresses->isNotEmpty())
-                                        <div class="flex flex-col gap-3 pr-2 my-5 max-h-[250px] overflow-y-auto pb-2" scrollbar-thin>
+                                        <div wire:loading.remove wire:target='selectedAddress' class="flex flex-col gap-3 pr-2 my-5 max-h-[250px] overflow-y-auto pb-2" scrollbar-thin>
                                             @foreach ($addresses as $address)
                                                 <label wire:key='{{ $address['place_id'] }}'
                                                     for="location-{{ $address['place_id'] }}"
                                                     wire:click="selectedAddress('{{ $address['place_id'] }}')"
                                                     class="flex items-center gap-x-3 py-2 px-3 hover:shadow cursor-pointer
-                                                        transition duration-300 rounded-md hover:bg-gray-50">
+                                                    transition duration-300 rounded-md hover:bg-gray-50">
+
                                                     <x-icon code="location_on" class="text-gray-700" />
+
                                                     <div class="flex items-center w-full gap-x-3">
+
                                                         <div class="block w-full">
-                                                            <p class="text-sm font-medium text-gray-900">
+                                                            <p class="text-xs sm:text-sm font-medium text-gray-900">
                                                                 {{ $address['description'] }}
                                                             </p>
                                                         </div>
+
                                                         <div class="flex items-center gap-3.5">
                                                             <input type="radio" name="location_option"
                                                                 id="location-{{ $address['place_id'] }}">
@@ -69,6 +193,14 @@
                                                     </div>
                                                 </label>
                                             @endforeach
+                                        </div>
+                                        <div wire:loading wire:target='selectedAddress' class="w-full">
+                                            <div class="mt-8 flex justify-center items-center gap-x-2">
+                                                <span class="text-xs text-gray-700 font-semibold">
+                                                    Cargando información
+                                                </span>
+                                                <x-spinner />
+                                            </div>
                                         </div>
                                     @endif
                                 @endif

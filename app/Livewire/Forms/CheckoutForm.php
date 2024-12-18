@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Enums\DeliveryType;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -23,14 +24,19 @@ class CheckoutForm extends Form
     #[Validate('required|numeric|min:1000000|max:999999999', as: 'dni')]
     public $document;
 
-    #[Validate('required|numeric', as: 'código postal')]
-    public $postal_code;
-
-    #[Validate('required|numeric', as: 'dirección')]
-    public $address_id;
-
     #[Validate('required', as: 'tipo de entrega')]
     public $delivery_type = DeliveryType::Shipping;
+
+    public $addresses, $selected_address;
+
+    public $show_shipping_rates, $selected_shipping_rate;
+
+    public $payment_methods, $selected_payment_method;
+
+    public function hasCustomerData()
+    {
+        return isset($this->name, $this->lastname, $this->email, $this->phone, $this->document);
+    }
 
     public function validateCustomerData()
     {
@@ -40,6 +46,29 @@ class CheckoutForm extends Form
             'email'      => 'required|email',
             'phone'      => 'required|size:10',
             'document'   => 'required|numeric|min:1000000|max:999999999',
+        ]);
+    }
+
+    public function autocomplete()
+    {
+        if (Auth::check())
+        {
+            return $this->fill([
+                'name'      => Auth::user()->name,
+                'lastname'  => Auth::user()->lastname,
+                'email'     => Auth::user()->email,
+                'phone'     => Auth::user()->phone,
+                'document'  => Auth::user()->document
+            ]);
+        }
+
+        $this->fill([
+            'name'          => session('guest_customer.name'),
+            'lastname'      => session('guest_customer.lastname'),
+            'email'         => session('guest_customer.email'),
+            'phone'         => session('guest_customer.phone'),
+            'document'      => session('guest_customer.document'),
+            'delivery_type' => session('guest_customer.delivery_type') ?? DeliveryType::Shipping
         ]);
     }
 

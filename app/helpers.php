@@ -17,15 +17,23 @@ if(!function_exists('priceFormat'))
 {
     function priceFormat($price)
     {
-        return number_format($price, 0, '.', '.');
+        return number_format($price, 0, ',', '.');
     }
 }
 
-if (!function_exists('postalCodeInfo'))
+if (!function_exists('zipcodeInfo'))
 {
-    function postalCodeInfo($postalCode)
+    function zipcodeInfo($zipCode)
     {
-        return Http::get("https://geocodes.envia.com/zipcode/AR/$postalCode")->json();
+        return Http::get("https://geocodes.envia.com/zipcode/AR/$zipCode")->json();
+    }
+}
+
+if (!function_exists('cityInfo'))
+{
+    function cityInfo($city)
+    {
+        return Http::get("https://geocodes.envia.com/locate/AR/$city")->json();
     }
 }
 

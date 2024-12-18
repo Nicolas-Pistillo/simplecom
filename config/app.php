@@ -185,8 +185,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'DeliveryType' => App\Enums\DeliveryType::class,
-        'CustomerType' => App\Enums\CustomerType::class,
-        'AddressType'  => App\Enums\AddressType::class
+        'CustomerType' => App\Enums\CustomerType::class
     ])->toArray(),
 
 ];

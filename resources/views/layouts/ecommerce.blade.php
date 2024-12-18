@@ -10,15 +10,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{ env('MAPS_API_KEY') }}&loading=async&libraries=marker&v=beta" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ URL::to('favicon-store-default.png') }}" type="image/x-icon">
     <title>@yield('title', tenant()->ecommerce_name ?? tenant()->name)</title>
-    <!-- Código de instalación Cliengo para pistillonicolas@gmail.com --> <script type="text/javascript">(function () { var ldk = document.createElement('script'); ldk.type = 'text/javascript'; ldk.async = true; ldk.src = 'https://s.cliengo.com/weboptimizer/6744b7d57529db60fe57b09e/6744b7d57529db60fe57b0a1.js?platform=view_installation_code'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ldk, s); })();</script>
+    <script type="text/javascript">(function () { var ldk = document.createElement('script'); ldk.type = 'text/javascript'; ldk.async = true; ldk.src = 'https://s.cliengo.com/weboptimizer/6744b7d57529db60fe57b09e/6744b7d57529db60fe57b0a1.js?platform=view_installation_code'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ldk, s); })();</script>
     @yield('head')
 </head>
 
@@ -40,6 +40,9 @@
     @session('logout_message')
         <x-toast icon="waving_hand" position="bottom-center" title="¡Hasta la próxima!" />
     @endsession
+
+    {{-- New Address Panel --}}
+    @livewire('ecommerce.new-address-panel')
 
     {{-- Navbar --}}
     <div class="bg-white fixed w-full shadow-md z-10" x-data="{ megaMenu1Open: false, megaMenu2Open: false, mobileMenuOpen: false, cartMenuOpen: false }"
@@ -241,11 +244,6 @@
     <main class="bg-gray-50">
         @yield('content')
     </main>
-
-    @auth
-        {{-- New Address Panel --}}
-        @livewire('ecommerce.new-address-panel')
-    @endauth
 
     {{-- Cookies advicement --}}
     {{-- <div x-data="{open: true}" x-show="open"
