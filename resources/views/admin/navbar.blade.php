@@ -6,10 +6,6 @@
 
                 <x-navbar-item route="admin.dashboard.index" icon="home" title="Inicio" />
 
-                @can('Editar operadores')
-                    <x-navbar-item route="admin.operators.index" icon="contacts" title="Operadores" />
-                @endcan
-
                 @can('Editar configuraciones')
                     {{-- <x-navbar-item route="admin.configurations.index" icon="settings" title="Configuracion" /> --}}
                 @endcan
@@ -26,9 +22,13 @@
                     active="{{ Route::is('admin.payment-methods.*') }}"/>
                 @endcan
 
-                @can('Editar formas de envio')
+                @can('Editar formas de entrega')
                     <x-navbar-item route="admin.delivery-methods.index" icon="shopping_bag_speed" title="Formas de entrega" 
                     active="{{ Route::is('admin.delivery-methods.*') }}"/>
+                @endcan
+
+                @can('Editar operadores')
+                    <x-navbar-item route="admin.operators.index" icon="contacts" title="Operadores" />
                 @endcan
 
             </ul>

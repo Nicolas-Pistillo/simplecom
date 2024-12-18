@@ -28,7 +28,7 @@ class RolePermissionSeeder extends Seeder
 
         $editPaymentMethods = Permission::create(['name' => 'Editar formas de pago', 'guard_name' => 'operator']);
 
-        $editDeliveryMethods = Permission::create(['name' => 'Editar formas de envio', 'guard_name' => 'operator']);
+        $editDeliveryMethods = Permission::create(['name' => 'Editar formas de entrega', 'guard_name' => 'operator']);
 
         $editConfigs = Permission::create(['name' => 'Editar configuraciones', 'guard_name' => 'operator']);
 

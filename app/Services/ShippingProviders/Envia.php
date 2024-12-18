@@ -3,6 +3,7 @@
 namespace App\Services\ShippingProviders;
 
 use App\Services\CartService;
+use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Http;
 
 class Envia
 {
+    use Configurable;
+
+    protected $configuration_keys = ['envia_token'];
+
     private $token;
 
     private $api_base_url = 'https://api.envia.com';
@@ -21,7 +26,8 @@ class Envia
     {
         $this->token = env('ENVIA_TOKEN');
 
-        if (env('ENVIA_TEST')) {
+        if (env('ENVIA_TEST')) 
+        {
             $this->token = env('ENVIA_TEST_TOKEN');
 
             $this->api_base_url = 'https://api-test.envia.com';

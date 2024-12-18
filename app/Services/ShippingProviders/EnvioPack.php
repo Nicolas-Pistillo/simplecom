@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Http;
 
 class EnvioPack
 {
+    use Configurable;
+
+    protected $configuration_keys = ['enviopack_api_key', 'enviopack_secret_key'];
+
     private $token;
 
     public $base_url = "https://api.enviopack.com";
