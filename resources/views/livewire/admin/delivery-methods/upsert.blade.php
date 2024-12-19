@@ -7,7 +7,7 @@
 
             <section class="py-4 relative">
                 <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-                    <div class="w-full flex-col justify-start items-start gap-14 inline-flex">
+                    <div class="w-full flex-col justify-start items-start gap-8 inline-flex">
                         <div class="w-full flex-col justify-start items-start gap-2.5 flex">
                             <h2 class="w-full text-center text-gray-900 text-lg sm:text-3xl font-bold 
                             font-manrope leading-normal">
@@ -15,26 +15,40 @@
                             </h2>
                             <p class="w-full max-w-4xl mx-auto text-center text-gray-500 
                             text-xs sm:text-sm font-normal">
-                                Integrations refer to the process of combining different software systems or components
-                                to work together seamlessly. This involves connecting various applications.
+                                Simplecom cuenta con soporte para multiples proveedores logísticos según tus
+                                necesidades. Al elegir uno, deberas registrarte como cliente en su plataforma correspondiente 
+                                y cargar tus credenciales obtenidas para comenzar a operar.
                             </p>
                         </div>
 
-                        <div class="flex items-center justify-center gap-4 flex-wrap">
-                            @for ($i = 0; $i < 6; $i++)
-                                <div class="relative max-w-2xs border border-solid 
-                                border-gray-200 rounded-2xl transition-all duration-500">
+                        <div class="w-full flex justify-center gap-4 flex-wrap">
+                            @foreach ($shipping_providers as $provider)
+                                <div wire:key='{{ $provider->id }}' x-data="{expanded: false}" 
+                                class="relative max-w-2xs border border-solid border-gray-200 
+                                rounded-2xl transition-all duration-500 h-max">
                                     <div class="block overflow-hidden border-b">
-                                        <img src="{{ URL::to('img/providers/saires.png') }}" 
+                                        <img src="{{ URL::to("img/providers/$provider->code.png") }}" 
                                         class="w-full h-32 object-cover rounded-t-2xl" />
                                     </div>
                                     <div class="p-4">
-                                        <h4 class="text-base font-semibold text-gray-900 mb-2 capitalize transition-all duration-500 ">Fast Transaction</h4>
-                                        <p class="text-xs font-normal text-gray-600 transition-all duration-500 leading-5 mb-5"> Provides faster transaction, so money arrives in realtime </p>
-                                        <x-button class="!rounded-full">Integrar</x-button>
+
+                                        <h4 class="text-base font-semibold text-gray-900 
+                                        transition-all duration-500">
+                                            {{ $provider->name }}
+                                        </h4>
+
+                                        <p class="text-xs font-normal text-gray-600 transition-all duration-500 leading-5 mb-2"
+                                        :class="expanded ? 'line-clamp-none' : 'line-clamp-3'" x-transition> 
+                                            {{ $provider->description }} 
+                                        </p>
+
+                                        <small class="no-select block hover:underline text-blue-500 cursor-pointer mb-4"
+                                        x-text="expanded ? 'Ver menos' : 'Ver mas'" @click="expanded = !expanded"></small>
+
+                                        <x-button class="!rounded-full w-full">Integrar</x-button>
                                     </div>
                                 </div>
-                            @endfor
+                            @endforeach
                         </div>
 
                     </div>

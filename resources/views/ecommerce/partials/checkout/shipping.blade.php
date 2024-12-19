@@ -175,8 +175,17 @@
 
                                             <span class="ml-3 flex items-center justify-between w-full">
                                                 <div class="flex items-center text-sm">
-                                                    <img src="{{ $rate->carrier_logo }}" class="w-10 h-10 object-contain shadow rounded-xl mr-2"
-                                                        alt="Carrier Logo">
+                                                    @if ($rate->carrier_logo)
+                                                        <img src="{{ $rate->carrier_logo }}" class="w-10 h-10 object-contain shadow 
+                                                        rounded-xl mr-2 bg-white"
+                                                        alt="Carrier Logo">    
+                                                    @else
+                                                        <div class="w-10 h-10 flex items-center justify-center shadow 
+                                                        bg-white rounded-xl mr-2">
+                                                            <x-icon code="delivery_truck_speed" class="text-gray-700" />
+                                                        </div>
+                                                    @endif
+                                                    
                                                     <div>
                                                         <h5 class="font-medium mb-0.5 text-xs sm:text-sm">
                                                             {{ $rate->label }}
@@ -216,7 +225,7 @@
                                         <div class="flex flex-col">
                                             <span class="flex items-center text-sm font-medium text-gray-900">
                                                 <x-icon code="location_pin" class="mr-1" /> 
-                                                {{ $address->label }}
+                                                {{ $address->tag }}
                                             </span>
                                             <span class="mt-1 flex items-center text-xs text-gray-500">
                                                 {{ $address->summary }}

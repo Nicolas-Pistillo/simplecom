@@ -13,9 +13,7 @@ use App\Models\PaymentMethod;
 use App\Models\UserAddress;
 use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Zippin;
-use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -49,11 +47,13 @@ class Checkout extends Component
 
             $envia = new Envia();
             $zippin = new Zippin();
+            $envioPack = new EnvioPack();
 
             $enviaRates = $envia->getRates($shippingParameters);
+            $envioPackRates = $envioPack->getRates($shippingParameters);
             $zippinRates = $zippin->getRates($shippingParameters);
 
-            $shippingRates = $enviaRates->merge($zippinRates);
+            $shippingRates = $zippinRates->merge($envioPackRates)->merge($enviaRates);
 
             if ($shippingRates->isNotEmpty())
             {
@@ -108,6 +108,7 @@ class Checkout extends Component
     {
         $this->form->reset('selected_address');
         $this->form->show_shipping_rates = false;
+        session()->remove('shipping_rates');
     }
 
     public function changeQty($operation, $rowId)

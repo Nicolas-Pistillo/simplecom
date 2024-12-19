@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Enums\LogisticType;
 use Illuminate\Support\Collection;
 
 class ShippingRate
@@ -12,12 +13,13 @@ class ShippingRate
     public $source;
     public $source_name;
     public $source_data;
+    public $source_logistic_type;
 
     public $service_id;
     public $service_code;
     public $service_name;
 
-    public $dispatch_type;
+    public LogisticType $logistic_type;
 
     public $carrier_id;
     public $carrier_name;
@@ -25,7 +27,6 @@ class ShippingRate
 
     public $price;
     public $estimate;
-    public $meta;
     public Collection $branches;
 
     public function __construct($properties = [])

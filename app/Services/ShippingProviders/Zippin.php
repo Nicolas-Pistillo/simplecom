@@ -2,6 +2,7 @@
 
 namespace App\Services\ShippingProviders;
 
+use App\Enums\LogisticType;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
@@ -10,7 +11,6 @@ use App\Utils\ShippingRateParameters;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Carbon;
 
 class Zippin
 {
@@ -19,6 +19,25 @@ class Zippin
     protected $configuration_keys = ['zippin_account_id', 'zippin_key', 'zippin_secret', 'zippin_origin_id'];
 
     private $base_url = 'https://api.zippin.com.ar/v2';
+
+    private $logistic_type_parser = [ // logistic_type field
+        'pickup_point' => [
+            'xd_dropoff'        => LogisticType::DropoffToDropoff,  // Alcance al centro de distribución
+            'carrier_dropoff'   => LogisticType::DropoffToDropoff,  // Despacho en sucursal del transporte
+            'carrier_pickup'    => LogisticType::OriginToDropoff,   // Recolección del transporte en el origen
+            'crossdock'         => LogisticType::OriginToDropoff,   // Recolección unificada de Zippin en el origen
+            'point_dropoff'     => LogisticType::DropoffToDropoff,  // Alcance a un punto de despacho propio de Zippin
+            'self_service'      => LogisticType::OriginToDropoff    // Flota propia del vendedor
+        ],
+        'standard_delivery' => [
+            'xd_dropoff'        => LogisticType::DropoffToDoor,  // Alcance al centro de distribución
+            'carrier_dropoff'   => LogisticType::DropoffToDoor,  // Despacho en sucursal del transporte
+            'carrier_pickup'    => LogisticType::OriginToDoor,   // Recolección del transporte en el origen
+            'crossdock'         => LogisticType::OriginToDoor,   // Recolección unificada de Zippin en el origen
+            'point_dropoff'     => LogisticType::DropoffToDoor,  // Alcance a un punto de despacho propio de Zippin
+            'self_service'      => LogisticType::OriginToDoor    // Flota propia del vendedor
+        ]
+    ];
 
     public function getRates(ShippingRateParameters $parameters): Collection
     {
@@ -48,10 +67,7 @@ class Zippin
             ]
         ];
 
-        $response = Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
-                        ->withBody(json_encode($rateBody))
-                        ->post("$this->base_url/shipments/quote")
-                        ->collect();
+        $response = $this->getRate($rateBody);
 
         if ($response->isEmpty()) return collect();
 
@@ -65,22 +81,31 @@ class Zippin
 
             $estimate = in_array($dayDifference, [0, 1])
                             ? 'Entre hoy y mañana'
-                            : "$dayDifference días habiles";
+                            : "$dayDifference días";
+
+            $serviceCode        = data_get($result, 'service_type.code');
+            $sourceLogisticType = data_get($result, 'logistic_type');
+
+            $logisticType = data_get($this->logistic_type_parser, "$serviceCode.$sourceLogisticType");
+
+            $carrierName    = data_get($result, 'carrier.name');
+            $carrierService = data_get($result, 'service_type.name');
 
             $shippingRate = new ShippingRate([
-                'source'        => 'zippin',
-                'source_name'   => 'Zippin',
-                'label'         => data_get($result, 'carrier.name') . ' - ' . data_get($result, 'service_type.name'),
-                'source_data'   => $result,
-                'service_id'    => data_get($result, 'service_type.id'),
-                'service_name'  => data_get($result, 'service_type.name'),
-                'service_code'  => data_get($result, 'service_type.code'),
-                'dispatch_type' => $result['logistic_type'],
-                'carrier_id'    => data_get($result, 'carrier.id'),
-                'carrier_name'  => data_get($result, 'carrier.name'),
-                'carrier_logo'  => data_get($result, 'carrier.logo'),
-                'price'         => data_get($result, 'amounts.price'),
-                'estimate'      => $estimate
+                'source'                => 'zippin',
+                'source_name'           => 'Zippin',
+                'source_data'           => $result,
+                'label'                 => "$carrierName - $carrierService",
+                'service_id'            => data_get($result, 'service_type.id'),
+                'service_name'          => $carrierService,
+                'service_code'          => $serviceCode,
+                'logistic_type'         => $logisticType,
+                'source_logistic_type'  => $sourceLogisticType,
+                'carrier_id'            => data_get($result, 'carrier.id'),
+                'carrier_name'          => $carrierName,
+                'carrier_logo'          => data_get($result, 'carrier.logo'),
+                'price'                 => data_get($result, 'amounts.price'),
+                'estimate'              => $estimate
             ]);
 
             if (isset($result['pickup_points']))
@@ -116,6 +141,14 @@ class Zippin
         }
 
         return $rates;
+    }
+
+    public function getRate($rateBody)
+    {
+        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
+                    ->withBody(json_encode($rateBody))
+                    ->post("$this->base_url/shipments/quote")
+                    ->collect();
     }
 
     public function getAccounts()
