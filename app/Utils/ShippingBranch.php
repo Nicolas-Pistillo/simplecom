@@ -9,6 +9,9 @@ class ShippingBranch
     public $source;
     public $source_name;
 
+    public $price;
+    public $meta;
+
     public $external_id;
     public $external_code;
     public $external_type;

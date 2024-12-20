@@ -6,7 +6,7 @@
         <div x-cloak x-show="current === 'Proveedores'" class="animate__animated animate__fadeIn">
 
             <section class="py-4 relative">
-                <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+                <div class="w-full max-w-7xl sm:px-4 mx-auto">
                     <div class="w-full flex-col justify-start items-start gap-8 inline-flex">
                         <div class="w-full flex-col justify-start items-start gap-2.5 flex">
                             <h2 class="w-full text-center text-gray-900 text-lg sm:text-3xl font-bold 
@@ -15,9 +15,10 @@
                             </h2>
                             <p class="w-full max-w-4xl mx-auto text-center text-gray-500 
                             text-xs sm:text-sm font-normal">
-                                Simplecom cuenta con soporte para multiples proveedores logísticos según tus
-                                necesidades. Al elegir uno, deberas registrarte como cliente en su plataforma correspondiente 
-                                y cargar tus credenciales obtenidas para comenzar a operar.
+                                Simplecom cuenta con soporte para múltiples proveedores logísticos según tus
+                                necesidades. Al elegir uno, deberás registrarte como cliente en su plataforma correspondiente 
+                                y cargar tus credenciales API obtenidas para comenzar a operar con el servicio, 
+                                para ello preparamos un instructivo de integración por cada proveedor en particular para guiarte en cada paso.
                             </p>
                         </div>
 
@@ -32,10 +33,11 @@
                                     </div>
                                     <div class="p-4">
 
-                                        <h4 class="text-base font-semibold text-gray-900 
-                                        transition-all duration-500">
+                                        <a href="{{ $provider->page_url }}" target="_blank" 
+                                        class="text-base font-semibold text-gray-900 inline-block cursor-pointer
+                                        transition mb-1 hover:underline hover:text-blue-700" x-tooltip.raw="Visitar página">
                                             {{ $provider->name }}
-                                        </h4>
+                                        </a>
 
                                         <p class="text-xs font-normal text-gray-600 transition-all duration-500 leading-5 mb-2"
                                         :class="expanded ? 'line-clamp-none' : 'line-clamp-3'" x-transition> 

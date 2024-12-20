@@ -47,13 +47,14 @@ class EnvioPack
 
     public function getRates(ShippingRateParameters $parameters)
     {
-        $provinceId = $this->getProvinceIdByState($parameters->recipient_address->state);
-
         $rates = collect();
 
         $cartPackage = CartService::getPackageInfo('kg');
+        $provinceId = $this->getProvinceIdByName($parameters->recipient_address->state);
 
-        if (!$cartPackage) return $rates;
+        if (!$cartPackage || !$provinceId) return $rates;
+
+        $localityId = $this->getLocalityIdByUserAddress($provinceId, $parameters->recipient_address);
 
         $packageHeight = data_get($cartPackage, 'dimensions.height');
         $packageWidth  = data_get($cartPackage, 'dimensions.width');
@@ -62,16 +63,24 @@ class EnvioPack
         $rateBody = [
             'access_token'  => $this->token,
             'provincia'     => $provinceId,
+            'localidad'     => $localityId,
             'codigo_postal' => $parameters->recipient_address->zipcode_number,
             'peso'          => data_get($cartPackage, 'dimensions.weight'),
             'paquetes'      => $packageHeight . 'x' . $packageWidth . 'x' . $packageLength
         ];
 
-        $response = $this->getRate($rateBody);
+        $toHomeRates = $this->getToHomeRates($rateBody);
+        $dropoffRates = $this->getDropOffRates($rateBody);
+
+        dd($dropoffRates);
+
+        /* $response = $this->getToHomeRates($rateBody);
 
         if ($response->isEmpty()) return $rates;
 
-        foreach($response as $result)
+        dd($response); */
+
+        /* foreach($response as $result)
         {
             if ($result['servicio'] == 'R') continue;
 
@@ -113,10 +122,103 @@ class EnvioPack
             ]));
         }
 
+        return $rates; */
+    }
+
+    public function getToHomeRates($rateBody): Collection
+    {
+        $rateBody['modalidad'] = 'D';
+
+        $response = Http::withQueryParameters($rateBody)->acceptJson()->get("$this->base_url/cotizar/costo")->collect();
+
+        $rates = collect();
+
+        if ($response->isEmpty()) return $rates;
+
+        $response = $response->where('servicio', '!=', 'R')->sortBy('valor')->take(3);
+
+        foreach($response as $result)
+        {
+            $carrierName  = data_get($result, 'correo.nombre');
+
+            $dispatchType = data_get($result, 'despacho');
+
+            $serviceCode  = data_get($result, 'servicio');
+
+            $serviceName  = data_get($this->service_name_parser, $serviceCode);
+
+            $logisticType = data_get($this->logistic_type_parser, "$dispatchType.D");
+
+            $deliveryDate = Carbon::createFromFormat('d/m/Y', data_get($result, 'fecha_estimada'));
+
+            $dayDifference = now()->diffInDays($deliveryDate);
+
+            $estimate = in_array($dayDifference, [0, 1])
+                        ? 'Entre hoy y mañana'
+                        : "$dayDifference días";
+
+            $rates->push(new ShippingRate([
+                'source'                => 'enviopack',
+                'source_name'           => 'EnvioPack',
+                'source_data'           => $result,
+                'label'                 => "$carrierName - $serviceName a domicilio",
+                'service_id'            => $serviceCode,
+                'service_name'          => $serviceName,
+                'logistic_type'         => $logisticType,
+                'source_logistic_type'  => "$dispatchType - D",
+                'carrier_id'            => data_get($result, 'correo.id'),
+                'carrier_name'          => $carrierName,
+                'price'                 => data_get($result, 'valor'),
+                'estimate'              => $estimate
+            ]));
+        }
+
         return $rates;
     }
 
-    public function getRate($rateBody)
+    public function getDropOffRates($rateBody): Collection
+    {
+        $response = Http::withQueryParameters($rateBody)->acceptJson()->get("$this->base_url/cotizar/precio/a-sucursal")->collect();
+
+        $rates = collect();
+
+        if ($response->isEmpty()) return $rates;
+
+        $response = $response->where('servicio', '!=', 'R')
+                             ->sortBy('valor');
+
+        dd($response, $rateBody);
+
+        foreach($response as $result)
+        {
+            /* $carrierName  = data_get($result, 'sucursal.correo.nombre');
+
+            $serviceCode  = data_get($result, 'servicio');
+
+            $serviceName  = data_get($this->service_name_parser, $serviceCode);
+
+            $logisticType = data_get($this->logistic_type_parser, "D.S");
+
+            $shippingRate = new ShippingRate([
+                'source'                => 'enviopack',
+                'source_name'           => 'EnvioPack',
+                'source_data'           => $result,
+                'label'                 => "$carrierName - $serviceName a sucursal",
+                'service_id'            => $serviceCode,
+                'service_name'          => $serviceName,
+                'logistic_type'         => $logisticType,
+                'source_logistic_type'  => "D - S",
+                'carrier_id'            => data_get($result, 'sucursal.correo.id'),
+                'carrier_name'          => $carrierName,
+                'price'                 => data_get($result, 'valor'),
+                'estimate'              => data_get($result, 'horas_entrega') . ' horas hábiles'
+            ]); */
+        }
+
+        return $rates;
+    }
+
+    public function getSellerRates($rateBody)
     {
         return Http::withQueryParameters($rateBody)->acceptJson()->get("$this->base_url/cotizar/costo")->collect();
     }
@@ -131,13 +233,27 @@ class EnvioPack
         $this->token = $response['token'] ?? false;
     }
 
-    public function getProvinceIdByState($state)
+    public function getProvinceIdByName($provinceName)
     {
         $provinces = $this->getProvinces();
 
-        $province = $provinces->where('nombre', $state)->first();
+        $province = $provinces->where('nombre', $provinceName)->first();
 
         return $province['id'] ?? null;
+    }
+
+    public function getLocalityIdByUserAddress($provinceId, UserAddress $address)
+    {
+        $localities = $this->getLocalities($provinceId);
+
+        $locality = $localities->filter(function($locality) use ($address) 
+        {
+            return strtolower($locality['nombre'])  == strtolower($address->locality)  OR
+                   strtolower($locality['partido']) == strtolower($address->locality)  OR
+                   strtolower($locality['barrio'])  == strtolower($address->locality);
+        })->first();
+
+        return $locality['id'] ?? null;
     }
 
     public function getCarriers()
@@ -148,5 +264,16 @@ class EnvioPack
     public function getProvinces()
     {
         return Http::acceptJson()->get("$this->base_url/provincias?access_token=$this->token")->collect();
+    }
+
+    public function getLocalities($provinceId)
+    {
+        return Http::acceptJson()
+                    ->withQueryParameters([
+                        'access_token' => $this->token,
+                        'id_provincia' => $provinceId
+                    ])
+                    ->get("$this->base_url/localidades")
+                    ->collect();
     }
 }
