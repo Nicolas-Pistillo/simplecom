@@ -106,10 +106,8 @@ class Checkout extends Component
     {
         $this->form->selected_address = $address;
         
-        if (Auth::guest())
-        {
-            session()->put('guest_customer.selected_address', $address);
-        }
+        Auth::guest() ? session()->put('guest_customer.selected_address', $address)
+                      : session()->put('user.selected_address', $address);
 
         $this->getShippingRates();
     }
@@ -118,6 +116,12 @@ class Checkout extends Component
     {
         $this->form->show_rates_results = false;
         $this->form->show_dropoff_selection = true;
+    }
+
+    public function hideDropoffSelection()
+    {
+        $this->form->show_rates_results = true;
+        $this->form->show_dropoff_selection = false;
     }
 
     public function changeAddress()
@@ -177,6 +181,15 @@ class Checkout extends Component
                 'phone'    => $data['phone'],
                 'document' => $data['document']
             ]);
+
+            $lastAddress = session('user.selected_address');
+
+            if ($lastAddress instanceof UserAddress &&
+            $this->form->addresses->contains('id', $lastAddress->id))
+            {
+                $this->form->selected_address = $lastAddress;
+                $this->getShippingRates();
+            }
         }
 
         if (Auth::guest())

@@ -14,9 +14,8 @@
             @include('ecommerce.partials.checkout.summary')
 
             <!-- Checkout form -->
-            <section aria-labelledby="payment-heading"
-                class="flex-auto overflow-y-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-24 lg:pt-0">
-                <div class="mx-auto max-w-xl">
+            <section class="flex-auto overflow-y-auto px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-24 lg:pt-0">
+                <div class="mx-auto max-w-2xl">
 
                     {{-- Stepper --}}
                     <ul class="relative flex flex-col md:flex-row gap-2">

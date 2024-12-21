@@ -54,21 +54,10 @@
 
                     {{-- Select carrier dropoff points --}}
                     @if ($form->show_dropoff_selection)
-                        @include('ecommerce.partials.checkout.carrier_dropoff_selection')        
+                        @livewire('ecommerce.dropoff-point-selector')
                     @endif
                 </div>     
             @endif
-
-            <div wire:loading.remove wire:target='selectAddress' class="flex items-center gap-3 mt-8">
-
-                <x-button wire:click='setStep(1)' type="soft" :disabled="false" size="big" class="!shadow">
-                    Volver
-                </x-button>
-
-                <x-button wire:click='summaryStep' :disabled="true" size="big">
-                    Continuar
-                </x-button>
-            </div>
         @endif
     </div>
 </div>
