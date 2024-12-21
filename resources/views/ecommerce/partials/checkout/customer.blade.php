@@ -1,6 +1,6 @@
 <div x-data x-init="window.scrollTo({ top: 0, behavior: 'smooth' })" class="animate__animated animate__bounceInLeft">
 
-    <div class="grid grid-cols-12 gap-x-4 gap-y-6">
+    <div class="grid grid-cols-12 gap-x-4 gap-y-6 max-w-xl">
 
         {{-- <div class="col-span-full flex items-center justify-center gap-4 flex-wrap">
 

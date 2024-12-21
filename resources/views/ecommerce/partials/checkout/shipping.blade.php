@@ -54,7 +54,7 @@
 
                     {{-- Select carrier dropoff points --}}
                     @if ($form->show_dropoff_selection)
-                        @livewire('ecommerce.dropoff-point-selector')
+                        @livewire('ecommerce.dropoff-point-selector', compact('form'))
                     @endif
                 </div>     
             @endif

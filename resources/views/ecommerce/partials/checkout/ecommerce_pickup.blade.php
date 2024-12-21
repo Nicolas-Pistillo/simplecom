@@ -2,7 +2,7 @@
     <h4 class="text-sm/6 font-semibold text-gray-900">Elija un punto de retiro</h4>
 </div>
 
-<fieldset class="col-span-full rounded-lg overflow-hidden 
+<fieldset class="col-span-full rounded-lg overflow-hidden max-w-xl
 border shadow-sm animate__animated animate__fadeIn" aria-label="Shipping Rates">
     <div class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
         <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">

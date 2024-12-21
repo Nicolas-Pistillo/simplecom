@@ -24,7 +24,7 @@
         </button>
     </div>
 
-    <div class="col-span-full mt-4">
+    <div class="max-w-xl col-span-full mt-4">
         @if (!empty(session('rates_results')))
             <div>
                 <h4 class="text-sm/6 font-semibold text-gray-900">
@@ -117,7 +117,7 @@
         @endif
     </div>
 
-    <div wire:loading.remove wire:target='selectAddress' class="flex items-center gap-3 mt-8">
+    {{-- <div wire:loading.remove wire:target='selectAddress' class="flex items-center gap-3 mt-8">
 
         <x-button wire:click='setStep(1)' type="soft" :disabled="false" size="big" class="!shadow">
             Volver
@@ -126,5 +126,5 @@
         <x-button wire:click='summaryStep' :disabled="true" size="big">
             Continuar
         </x-button>
-    </div>
+    </div> --}}
 </div>
