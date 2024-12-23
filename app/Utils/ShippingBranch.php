@@ -18,6 +18,7 @@ class ShippingBranch
 
     public $name;
     public $phone;
+    public $schedule;
     public Address $address;
 
     public function __construct($properties = [])
