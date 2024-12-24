@@ -121,7 +121,7 @@ Route::middleware([
 
                 Route::view('delivery-methods', 'admin.delivery-methods.index')
                     ->name('admin.delivery-methods.index')
-                    ->middleware('can:Editar formas de envio');
+                    ->middleware('can:Editar formas de entrega');
 
                 Route::view('products', 'admin.products.index')
                     ->name('admin.products.index')

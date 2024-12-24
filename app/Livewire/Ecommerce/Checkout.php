@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Enums\LogisticType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Services\ShippingProviders\Envia;
 use App\Traits\Livewire\WithNotifications;
@@ -13,9 +14,7 @@ use App\Models\PaymentMethod;
 use App\Models\UserAddress;
 use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Zippin;
-use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -33,10 +32,10 @@ class Checkout extends Component
     {
         try 
         {
-            if (session('shipping_rates') 
-            && session('shipping_rates.address.id') === $this->form->selected_address->id)
+            if (session('rates_results') 
+            && session('rates_results.address.id') === $this->form->selected_address->id)
             {
-                return $this->form->show_shipping_rates = true;
+                return $this->form->show_rates_results = true;
             }
 
             $shippingParameters = new ShippingRateParameters([
@@ -49,20 +48,31 @@ class Checkout extends Component
 
             $envia = new Envia();
             $zippin = new Zippin();
+            // $envioPack = new EnvioPack();
 
-            $enviaRates = $envia->getRates($shippingParameters);
-            $zippinRates = $zippin->getRates($shippingParameters);
+             $enviaRates = $envia->getRates($shippingParameters);
+            // $envioPackRates = $envioPack->getRates($shippingParameters);
+             $zippinRates = $zippin->getRates($shippingParameters);
 
-            $shippingRates = $enviaRates->merge($zippinRates);
+            //$shippingRates = $zippinRates->merge($envioPackRates)->merge($enviaRates);
+            $rates = $enviaRates->merge($zippinRates);
 
-            if ($shippingRates->isNotEmpty())
+            if ($rates->isNotEmpty())
             {
-                session()->put('shipping_rates', [
-                    'address' => $this->form->selected_address,
-                    'rates'   => $shippingRates
+                $shippingRates = $rates->whereIn('logistic_type', [LogisticType::DropoffToDoor, LogisticType::OriginToDoor]) 
+                                                ->sortBy('price')
+                                                ->take(4);
+
+                $dropoffRates = $rates->whereIn('logistic_type', [LogisticType::DropoffToDropoff, LogisticType::OriginToDropoff])
+                                                ->sortBy('price');
+
+                session()->put('rates_results', [
+                    'address'         => $this->form->selected_address,
+                    'shipping_rates'  => $shippingRates,
+                    'dropoff_rates'   => $dropoffRates
                 ]);
 
-                return $this->form->show_shipping_rates = true;
+                return $this->form->show_rates_results = true;
             }
 
             $this->notify([
@@ -96,18 +106,29 @@ class Checkout extends Component
     {
         $this->form->selected_address = $address;
         
-        if (Auth::guest())
-        {
-            session()->put('guest_customer.selected_address', $address);
-        }
+        Auth::guest() ? session()->put('guest_customer.selected_address', $address)
+                      : session()->put('user.selected_address', $address);
 
         $this->getShippingRates();
+    }
+
+    public function showDropoffSelection()
+    {
+        $this->form->show_rates_results = false;
+        $this->form->show_dropoff_selection = true;
+    }
+
+    public function hideDropoffSelection()
+    {
+        $this->form->show_rates_results = true;
+        $this->form->show_dropoff_selection = false;
     }
 
     public function changeAddress()
     {
         $this->form->reset('selected_address');
-        $this->form->show_shipping_rates = false;
+        $this->form->show_rates_results = false;
+        session()->remove('shipping_rates');
     }
 
     public function changeQty($operation, $rowId)
@@ -160,6 +181,15 @@ class Checkout extends Component
                 'phone'    => $data['phone'],
                 'document' => $data['document']
             ]);
+
+            $lastAddress = session('user.selected_address');
+
+            if ($lastAddress instanceof UserAddress &&
+            $this->form->addresses->contains('id', $lastAddress->id))
+            {
+                $this->form->selected_address = $lastAddress;
+                $this->getShippingRates();
+            }
         }
 
         if (Auth::guest())

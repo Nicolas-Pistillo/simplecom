@@ -70,8 +70,8 @@ class PaymentMethodsSeeder extends Seeder
         PaymentMethod::create([
             'code'          => 'gocuotas',
             'service_class' => GOcuotas::class,
-            'display_name'  => 'GO Cuotas - Redirect',
-            'checkout_name' => 'GOcuotas - Cuotas con débito',
+            'display_name'  => 'GO Cuotas',
+            'checkout_name' => 'GO Cuotas - Cuotas con débito',
             'description'   => 'Con GOcuotas, abrís las puertas a clientes que no tienen tarjeta de crédito, dando la opción de pagar en cuotas con tarjeta de débito, sin complicaciones, rápido y fácil. Tu cliente hace la compra y paga la primera cuota en el momento. Las siguientes cuotas las paga en los meses siguientes, de acuerdo a la cantidad de cuotas que haya elegido',
             'page_url'      => 'https://www.gocuotas.com',
             'support_url'   => 'https://www.gocuotas.com/consultas'

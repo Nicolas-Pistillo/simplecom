@@ -2,7 +2,9 @@
 
 namespace App\Services\ShippingProviders;
 
+use App\Enums\LogisticType;
 use App\Services\CartService;
+use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
@@ -12,16 +14,28 @@ use Illuminate\Support\Facades\Http;
 
 class Envia
 {
+    use Configurable;
+
+    protected $configuration_keys = ['envia_token'];
+
     private $token;
 
     private $api_base_url = 'https://api.envia.com';
     private $queries_base_url = 'https://queries.envia.com';
 
+    private $logistic_type_parser = [ // drop_off field
+        0 => LogisticType::OriginToDoor,     // Puerta a Puerta
+        1 => LogisticType::DropoffToDoor,    // Sucursal a Puerta
+        2 => LogisticType::OriginToDropoff,  // Puerta a Sucursal
+        3 => LogisticType::DropoffToDropoff, // sucursal a Sucursal
+    ];
+
     public function __construct()
     {
         $this->token = env('ENVIA_TOKEN');
 
-        if (env('ENVIA_TEST')) {
+        if (env('ENVIA_TEST')) 
+        {
             $this->token = env('ENVIA_TEST_TOKEN');
 
             $this->api_base_url = 'https://api-test.envia.com';
@@ -81,23 +95,24 @@ class Envia
                 ]
             ]);
 
-            $serviceRate = $this->calculateRate($rateBody)->first();
+            $serviceRate = $this->getRate($rateBody)->first();
 
             if (!$serviceRate || empty($serviceRate)) continue;
 
             $shippingRate = new ShippingRate([
                 'source'        => 'envia',
                 'source_name'   => 'Envia.com',
+                'source_logistic_type' => data_get($service, 'drop_off'),
                 'source_data'   => $serviceRate,
-                'label'         => $serviceRate['serviceDescription'],
-                'source_data'   => $serviceRate,
-                'service_id'    => $serviceRate['serviceId'],
-                'service_name'  => $serviceRate['serviceDescription'],
-                'carrier_id'    => $serviceRate['carrierId'],
-                'carrier_name'  => $serviceRate['carrierDescription'],
-                'carrier_logo'  => $service['logo'],
-                'price'         => $serviceRate['totalPrice'],
-                'estimate'      => $serviceRate['deliveryEstimate']
+                'label'         => data_get($serviceRate, 'serviceDescription'),
+                'service_id'    => data_get($serviceRate, 'serviceId'),
+                'service_name'  => data_get($serviceRate, 'serviceDescription'),
+                'logistic_type' => data_get($this->logistic_type_parser, data_get($service, 'drop_off')),
+                'carrier_id'    => data_get($serviceRate, 'carrierId'),
+                'carrier_name'  => data_get($serviceRate, 'carrierDescription'),
+                'carrier_logo'  => data_get($service, 'logo'),
+                'price'         => data_get($serviceRate, 'totalPrice'),
+                'estimate'      => data_get($serviceRate, 'deliveryEstimate')
             ]);
 
             foreach ($serviceRate['branches'] as $branch) 
@@ -134,7 +149,7 @@ class Envia
         return $rates;
     }
 
-    public function calculateRate($rateBody)
+    public function getRate($rateBody)
     {
         return Http::withToken($this->token)->withBody($rateBody)->post("$this->api_base_url/ship/rate")->collect('data');
     }

@@ -288,5 +288,68 @@ class TenantConfigurationSeeder extends Seeder
             'helper'        => 'Recibiras estas claves de parte del equipo de navenegocios',
             'required'      => true
         ]);
+
+        Configuration::create([
+            'key'          => 'envia_token',
+            'display_name' => 'Token',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Token de acceso a la API de envía',
+            'helper'       => 'Podras verlo o generarlo dentro de tu panel en la sección Desarrolladores > Acceso de API',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'zippin_account_id',
+            'display_name' => 'ID de tu cuenta',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'ID de tu cuenta de Zippin',
+            'helper'       => 'Lo encontraras dentro de tu panel en la sección Configuración > Integraciones > Gestionar Credenciales y Webhooks',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'zippin_key',
+            'display_name' => 'API KEY',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'API KEY de tu cuenta',
+            'helper'       => 'Lo encontraras dentro de tu panel en la sección Configuración > Integraciones > Gestionar Credenciales y Webhooks',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'zippin_secret',
+            'display_name' => 'API SECRET',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'API SECRET de tu cuenta',
+            'helper'       => 'Lo encontraras dentro de tu panel en la sección Configuración > Integraciones > Gestionar Credenciales y Webhooks',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'zippin_origin_id',
+            'display_name' => 'ID de tu origen',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'ID del origen',
+            'helper'       => 'Es el origen que usaras para calcular las tarifas e indicar las recolecciones (si corresponde), copialo desde tu panel en la sección Configuración > Orígenes > ID del origen que quieras usar',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'enviopack_api_key',
+            'display_name' => 'API KEY',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'API KEY de tu cuenta',
+            'helper'       => 'Lo encontraras en tu panel haciendo click en los 3 puntos debajo a la izquierda y luego Configuración > Integraciones > Ver claves',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'enviopack_secret_key',
+            'display_name' => 'SECRET KEY',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'SECRET KEY de tu cuenta',
+            'helper'       => 'Lo encontraras en tu panel haciendo click en los 3 puntos debajo a la izquierda y luego Configuración > Integraciones > Ver claves',
+            'required'     => true
+        ]);
     }
 }

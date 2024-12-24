@@ -12,6 +12,11 @@ trait Configurable
         return Configuration::whereIn('key', $this->configuration_keys)->get();
     }
 
+    public function key($key)
+    {
+        return tenant()->configValue($key);
+    }
+
     public function isConfigurated(): bool
     {
         $configurated = true;
