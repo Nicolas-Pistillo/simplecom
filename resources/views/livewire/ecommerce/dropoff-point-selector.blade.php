@@ -1,4 +1,13 @@
 <div>
+    <style>
+        .selected {
+            border-left: 2px solid blue;
+            background-color: #eff6ff;
+        }
+        .selected:hover {
+            background-color: #eff6ff !important; 
+        }
+    </style>
     <div x-init="window.scrollTo({ top: 0, behavior: 'smooth'})">
 
         <h4 class="text-sm/6 font-semibold text-gray-900 mb-2">Seleccionar sucursal de retiro</h4>
@@ -31,10 +40,13 @@
                         shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                     </div>
 
-                    <ul class="no-select max-h-[300px] flow-root overflow-y-auto" scrollbar-thin>
+                    <ul id="dropoff-options" class="no-select max-h-[300px] flow-root overflow-y-auto" scrollbar-thin>
                         @foreach (session('rates_results.dropoff_rates') as $rate)
                             @foreach ($rate->branches as $rate_branch)
-                                <li wire:key='{{ $rate->key }}' data-branch='{!! json_encode($rate_branch) !!}'                                class="relative flex items-center cursor-pointer dropoff-point
+                                <li wire:key='{{ $rate->key . $rate_branch->external_id }}' 
+                                id="{{ $rate->key . $rate_branch->external_id }}"
+                                data-rate-key="{{ $rate->key }}" data-branch-id='{{ $rate_branch->external_id }}'
+                                class="relative flex items-center cursor-pointer dropoff-point
                                 border-b pr-2 py-4 focus:outline-none hover:bg-gray-50">
                                     <div class="ml-3 flex items-center justify-between w-full">
                                         <div class="flex items-center text-sm">
@@ -44,8 +56,8 @@
                                                 <x-icon code="store" class="text-blue-500" />
                                             </div>
         
-                                            <div class="flex-1">
-                                                <h5 class="font-medium mb-0.5 text-xs">
+                                            <div class="flex-1 gap-y-3">
+                                                <h5 class="font-medium mb-1 text-xs">
                                                      {{ $rate_branch->name }}
                                                 </h5>
 
@@ -53,28 +65,28 @@
                                                     {{ $rate_branch->address->summary() }}
                                                 </span>
 
-                                                <span class="block text-xs text-green-700 font-semibold">
+                                                <span class="block text-xs text-green-700 font-semibold mb-1">
                                                     ${{ priceFormat($rate_branch->price ?? $rate->price) }}
                                                 </span>
 
                                                 @if ($rate_branch->phone)
-                                                    <span class="block text-xs text-gray-700">
+                                                    <span class="block text-xs text-gray-700 mb-1">
                                                         {{ $rate_branch->phone }}
                                                     </span>
                                                 @endif
 
                                                 @if ($rate_branch->schedule)
-                                                    <span class="block text-xs text-gray-700">
+                                                    <span class="block text-xs text-gray-700 mb-1">
                                                         Horarios: {{ $rate_branch->schedule }}
                                                     </span>
                                                 @endif
 
-                                                <span class="block text-xs text-gray-700">
+                                                <span class="block text-xs text-gray-700 mb-1">
                                                     Estimado: {{ $rate->estimate }}
                                                 </span>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div class="ml-2">
                                             <x-button size="small">Elegir</x-button>
                                         </div>
                                     </div>
@@ -108,6 +120,8 @@
         let map = null;
         let markers = [];
 
+        const dropoffOptionList = document.getElementById('dropoff-options');
+
         const dropoffPoints = JSON.parse('{!! session('rates_results.dropoff_rates') !!}');
 
         const addressPosition = { 
@@ -117,12 +131,12 @@
 
         const homeIcon = {
             url: '{{ URL::to('img/home-pin.png') }}',
-            scaledSize: new google.maps.Size(50, 50), // scaled size
+            scaledSize: new google.maps.Size(62, 62), // scaled size
         };
 
         const dropoffIcon = {
             url: '{{ URL::to('img/dropoff-pin.png') }}',
-            scaledSize: new google.maps.Size(50, 50), // scaled size
+            scaledSize: new google.maps.Size(60, 60), // scaled size
         };
 
         const initMap = () => 
@@ -142,11 +156,11 @@
                 }]
             });
 
-            createUserMarker();
+            createAddressMarker();
             createDropoffMarkers();
         }
 
-        const createUserMarker = () => 
+        const createAddressMarker = () => 
         {
             const userMarker = new google.maps.Marker({
                 position: addressPosition,
@@ -166,25 +180,24 @@
 
         const createDropoffMarkers = () => 
         {
-            for(let point of Object.values(dropoffPoints))
+            for(let rate of Object.values(dropoffPoints))
             {
-                point.branches.forEach((branch) => 
+                rate.branches.forEach((branch) => 
                 {
                     const marker = new google.maps.Marker({
                         position: {
                             lat: parseFloat(branch.address.coordinates.lat),
                             lng: parseFloat(branch.address.coordinates.lng)
                         },
-                        title: 'Punto de retíro',
+                        title: branch.name,
                         animation: google.maps.Animation.DROP,
                         map: map,
+                        id: `${rate.key}${branch.external_id}`,
                         icon: dropoffIcon,
-                        data: {result: true, marker: branch.external_id}
+                        data: {rate_key: rate.key, branch_id: branch.external_id}
                     });
 
-                    marker.addListener("click", function() {
-                        console.log(marker.data);
-                    });
+                    marker.addListener("click", () => selectOption(rate.key, branch.external_id));
 
                     markers.push(marker);
                 });
@@ -197,14 +210,36 @@
         {
             point.addEventListener('click', (evt) => 
             {
-                const branch = JSON.parse(evt.currentTarget.dataset.branch);
+                const rateKey = evt.currentTarget.dataset.rateKey;
+                const branchId = evt.currentTarget.dataset.branchId;
 
-                map.setCenter({
-                    lat: parseFloat(branch.address.coordinates.lat),
-                    lng: parseFloat(branch.address.coordinates.lng)
-                });
+                selectOption(rateKey, branchId);
             })
         });
+
+        const selectOption = (rateKey, branchId) =>
+        {
+            const rate = Object.values(dropoffPoints).find(rate => rate.key == rateKey);
+            const branch = rate.branches.find(branch => branch.external_id == branchId);
+
+            const elementOption = document.getElementById(rateKey + branchId);
+
+            dropoffOptionList.scrollTop = (elementOption.offsetTop - 60);
+
+            document.querySelectorAll('.dropoff-point').forEach((point) => 
+            {
+                point.classList.remove('selected');
+            })
+
+            elementOption.classList.add('selected');
+
+            map.setCenter({
+                lat: parseFloat(branch.address.coordinates.lat),
+                lng: parseFloat(branch.address.coordinates.lng)
+            });
+
+            map.setZoom(16);
+        }
     </script>
     @endscript
 </div>
