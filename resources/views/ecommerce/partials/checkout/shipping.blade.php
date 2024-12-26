@@ -34,29 +34,166 @@
 
         @if ($form->delivery_type === DeliveryType::Shipping)
 
-            @if (!$form->selected_address)
-                @include('ecommerce.partials.checkout.address_selection')
-            @endif
+            @if ($form->show_selected_branch)
+                
+                <div class="col-span-full" x-init="window.scrollTo({ top: 0, behavior: 'smooth' })">
 
-            <div wire:loading wire:target='selectAddress' class="col-span-full">
-                <div class="flex items-center gap-3 mt-4 text-sm text-gray-800">
-                    <x-spinner spinnerclass="!w-4 !h-4" /> Buscando opciones de envío...
+                    <h4 class="text-sm/6 font-semibold text-gray-900">Punto de retiro seleccionado</h4>
+
+                    <div class="flex items-center gap-3">
+
+                        <button wire:click='changeDropoffPoint'
+                            class="mt-2 py-2 px-4 w-max border bg-white rounded-full 
+                            text-xs text-gray-700 flex items-center cursor-pointer
+                            transition duration-300 hover:shadow-md hover:text-gray-900">
+                            <span>Cambiar punto</span>
+                        </button>
+
+                        <button wire:click='changeShippingRate'
+                            class="mt-2 py-2 px-4 w-max border bg-white rounded-full 
+                            text-xs text-gray-700 flex items-center cursor-pointer
+                            transition duration-300 hover:shadow-md hover:text-gray-900">
+                            <span>Cambiar forma de envío</span>
+                        </button>
+                    </div>
+
+                    {{-- Selected dropoff point --}}
+                    <div class="w-full md:w-3/4 mt-3 relative border border-solid border-gray-200 
+                    rounded-2xl p-4 transition-all duration-500 xl:p-7 bg-white">
+
+                        <div class="flex items-center justify-between mb-2">
+
+                            <div class="flex items-center text-blue-600">
+                                <x-icon code="location_pin" class="mr-1" />
+                                <h4 class="text-sm font-semibold">Punto de retiro</h4>
+                            </div>
+
+                            <a href="https://maps.google.com/?q={{ data_get($form->selected_branch, 'address.coordinates.lat') }},{{ data_get($form->selected_branch, 'address.coordinates.lng') }}" target="_blank">
+                                <x-icon code="moved_location" x-tooltip.raw.placement.top="Ver en mapa"
+                                class="p-2 border rounded-full transition 
+                                duration-300 hover:bg-gray-50 text-gray-700" />
+                            </a>
+                        </div>
+
+                        <h4 class="text-sm sm:text-base text-gray-900 transition-all duration-500 mb-3">
+                            <span class="font-semibold">
+                                Retiras en: {{ $form->selected_branch['name'] }}
+                            </span>
+                        </h4>
+
+                        <p class="flex justify-between font-normal text-gray-500 transition-all 
+                        duration-500 leading-5 text-xs mb-1 gap-x-3">
+                            <span class="font-semibold">Servicio</span>
+                            <span class="text-right">{{ $form->selected_rate['service_name'] }}</span>
+                        </p>
+
+                        <p class="flex justify-between font-normal text-gray-500 transition-all 
+                        duration-500 leading-5 text-xs mb-1 gap-x-3">
+                            <span class="font-semibold">Dirección</span>
+                            <span class="text-right">
+                                {{ data_get($form->selected_branch, 'address.street') }}
+                                {{ data_get($form->selected_branch, 'address.number') }} -
+                                {{ data_get($form->selected_branch, 'address.locality') }}
+                            </span>
+                        </p>
+
+                        <p class="flex justify-between font-normal text-gray-500 transition-all 
+                        duration-500 leading-5 text-xs mb-1 gap-x-3">
+                            <span class="font-semibold">Estimado</span>
+                            <span class="text-right">{{ $form->selected_rate['estimate'] }}</span>
+                        </p>
+
+                        <p class="flex justify-between font-normal text-gray-500 transition-all 
+                        duration-500 leading-5 text-xs mb-1 gap-x-3">
+                            <span class="font-semibold">Telefono</span>
+                            <span class="text-right">(011) 42150-618455-3</span>
+                        </p>
+
+                        <p class="flex justify-between font-normal text-gray-500 transition-all 
+                        duration-500 leading-5 text-xs mb-1 gap-x-3">
+                            <span class="font-semibold">Horarios</span>
+                            <span class="text-right">Lunes a viernes de 17:00 a 18:00 - Fines de semana CERRADO</span>
+                        </p>
+                    </div>
+
+                    <div wire:loading.remove wire:target='selectAddress' class="flex items-center gap-3 mt-8">
+
+                        <x-button wire:click='changeShippingRate' type="soft" size="big" class="!shadow">
+                            Volver
+                        </x-button>
+                
+                        <x-button wire:click='setStep(3)' :disabled="!isset($form->selected_branch)" size="big">
+                            Continuar
+                        </x-button>
+                    </div>
+
                 </div>
-            </div>
 
-            @if ($form->selected_address)
-                <div class="col-span-full animate__animated animate__fadeIn">
+            @else
 
-                    {{-- Select shipping rate --}}
-                    @if ($form->show_rates_results)
-                        @include('ecommerce.partials.checkout.rates_result_selection')
-                    @endif
+                @if (!$form->selected_address)
+                    {{-- Select or create shipping address --}}
+                    <fieldset wire:loading.remove wire:target='selectAddress' 
+                    class="col-span-full animate__animated animate__fadeIn">
+                        <legend class="text-sm/6 font-semibold text-gray-900">Seleccionar dirección</legend>
+                        <p class="mt-1 text-sm/6 text-gray-600">Elige o agrega una dirección para calcular el envío</p>
 
-                    {{-- Select carrier dropoff points --}}
-                    @if ($form->show_dropoff_selection)
-                        @livewire('ecommerce.dropoff-point-selector', compact('form'))
-                    @endif
-                </div>     
+                        <div class="mt-3 flex items-end gap-3 flex-wrap">
+                            @forelse ($form->addresses as $address)
+
+                                <label wire:key='{{ $address->id }}' wire:click='selectAddress({{ $address->id }})'
+                                    @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+                                    class="no-select w-full sm:w-max relative flex cursor-pointer rounded-lg border 
+                                    bg-white hover:bg-gray-50 transition-colors duration-300 
+                                    p-4 shadow focus:outline-hidden border-transparent">
+                                        <div class="flex flex-1">
+                                            <div class="flex flex-col">
+                                                <span class="flex items-center text-sm font-medium text-gray-900">
+                                                    <x-icon code="location_pin" class="mr-1" /> 
+                                                    {{ !empty($address->tag) ? $address->tag : 'Sin etiqueta' }}
+                                                </span>
+                                                <span class="mt-1 flex items-center text-xs text-gray-500">
+                                                    {{ $address->summary }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                </label>  
+                            @empty
+                            @endforelse
+
+                            <label @click="$dispatch('open-new-address-panel')" 
+                            class="no-select w-max relative flex items-center justify-center cursor-pointer 
+                            rounded-lg border-2 border-dashed bg-white hover:bg-gray-50 transition-colors duration-300 
+                            p-4 focus:outline-hidden">
+                                <div class="text-center text-blue-500 text-xs">
+                                    <x-icon code="add_circle" />
+                                    <h4>Agregar dirección</h4>
+                                </div>
+                            </label>
+                        </div>
+                    </fieldset>
+                @endif
+
+                <div wire:loading wire:target='selectAddress' class="col-span-full">
+                    <div class="flex items-center gap-3 mt-4 text-sm text-gray-800">
+                        <x-spinner spinnerclass="!w-4 !h-4" /> Buscando opciones de envío...
+                    </div>
+                </div>
+
+                @if ($form->selected_address)
+                    <div class="col-span-full animate__animated animate__fadeIn">
+
+                        {{-- Select shipping rate --}}
+                        @if ($form->show_rates_results)
+                            @include('ecommerce.partials.checkout.rates_result_selection')
+                        @endif
+
+                        {{-- Select dropoff point --}}
+                        @if ($form->show_dropoff_selection)
+                            @livewire('ecommerce.dropoff-point-selector', compact('form'))
+                        @endif
+                    </div>     
+                @endif
             @endif
         @endif
     </div>

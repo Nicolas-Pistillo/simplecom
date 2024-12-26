@@ -14,6 +14,8 @@ use App\Models\PaymentMethod;
 use App\Models\UserAddress;
 use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Zippin;
+use App\Utils\ShippingBranch;
+use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +24,10 @@ class Checkout extends Component
 {
     use WithNotifications;
 
-    protected $listeners = ['new-address-created' => 'receiveNewAddress'];
+    protected $listeners = [
+        'new-address-created'    => 'receiveNewAddress', 
+        'selected-dropoff-point' => 'confirmDropoffPoint'
+    ];
 
     public CheckoutForm $form;
 
@@ -59,11 +64,17 @@ class Checkout extends Component
 
             if ($rates->isNotEmpty())
             {
-                $shippingRates = $rates->whereIn('logistic_type', [LogisticType::DropoffToDoor, LogisticType::OriginToDoor]) 
+                $shippingRates = $rates->whereIn('logistic_type', [
+                                                    LogisticType::DropoffToDoor, 
+                                                    LogisticType::OriginToDoor
+                                                ]) 
                                                 ->sortBy('price')
                                                 ->take(4);
 
-                $dropoffRates = $rates->whereIn('logistic_type', [LogisticType::DropoffToDropoff, LogisticType::OriginToDropoff])
+                $dropoffRates = $rates->whereIn('logistic_type', [
+                                                    LogisticType::DropoffToDropoff, 
+                                                    LogisticType::OriginToDropoff
+                                                ])
                                                 ->sortBy('price');
 
                 session()->put('rates_results', [
@@ -102,14 +113,34 @@ class Checkout extends Component
         $this->form->addresses->push($address);
     }
 
+    public function confirmDropoffPoint($rate, $branch)
+    {
+        $this->form->selected_rate = $rate;
+        $this->form->selected_branch = $branch;
+
+        $this->form->show_rates_results = false;
+        $this->form->show_dropoff_selection = false;
+        $this->form->show_selected_branch = true;
+
+        session()->put('selected_rate', $rate);
+        session()->put('selected_branch', $branch);
+    }
+
     public function selectAddress(UserAddress $address)
     {
         $this->form->selected_address = $address;
-        
-        Auth::guest() ? session()->put('guest_customer.selected_address', $address)
-                      : session()->put('user.selected_address', $address);
+
+        session()->put('selected_address', $address);
 
         $this->getShippingRates();
+    }
+
+    public function selectShippingRate($rateKey)
+    {
+        $rate = session('rates_results.shipping_rates')->where('key', $rateKey)->first();
+
+        $this->form->selected_rate = (array) $rate;
+        session()->put('selected_rate', (array) $rate);
     }
 
     public function showDropoffSelection()
@@ -126,9 +157,31 @@ class Checkout extends Component
 
     public function changeAddress()
     {
-        $this->form->reset('selected_address');
+        $this->form->reset('selected_address', 'selected_rate', 'selected_branch');
         $this->form->show_rates_results = false;
-        session()->remove('shipping_rates');
+
+        session()->forget([
+            'rates_results', 'selected_address', 'selected_rate', 'selected_branch'
+        ]);
+    }
+
+    public function changeDropoffPoint()
+    {
+        $this->form->reset('selected_rate', 'selected_branch');
+        session()->forget(['selected_rate', 'selected_branch']);
+
+        $this->form->show_selected_branch = false;
+        $this->form->show_dropoff_selection = true;
+    }
+
+    public function changeShippingRate()
+    {
+        $this->form->reset('selected_rate', 'selected_branch');
+        session()->forget(['selected_rate', 'selected_branch']);
+
+        $this->form->show_selected_branch = false;
+        $this->form->show_dropoff_selection = false;
+        $this->form->show_rates_results = true;
     }
 
     public function changeQty($operation, $rowId)
@@ -173,6 +226,15 @@ class Checkout extends Component
     {
         $data = $this->form->validateCustomerData();
 
+        if (!empty(session('rates_results')) && !empty(session('selected_branch')))
+        {
+            $this->form->selected_rate = session('selected_rate');
+            $this->form->selected_branch = session('selected_branch');
+            
+            $this->form->show_selected_branch = true;
+            return $this->current_step = 2;
+        }
+
         if (Auth::check())
         {
             Auth::user()->update([
@@ -181,27 +243,15 @@ class Checkout extends Component
                 'phone'    => $data['phone'],
                 'document' => $data['document']
             ]);
-
-            $lastAddress = session('user.selected_address');
-
-            if ($lastAddress instanceof UserAddress &&
-            $this->form->addresses->contains('id', $lastAddress->id))
-            {
-                $this->form->selected_address = $lastAddress;
-                $this->getShippingRates();
-            }
         }
 
-        if (Auth::guest())
-        {
-            $lastAddress = session('guest_customer.selected_address');
+        $lastAddress = session('selected_address');
 
-            if ($lastAddress instanceof UserAddress && 
-            $this->form->addresses->contains('id', $lastAddress->id))
-            {
-                $this->form->selected_address = $lastAddress;
-                $this->getShippingRates();
-            }
+        if ($lastAddress instanceof UserAddress && 
+        $this->form->addresses->contains('id', $lastAddress->id))
+        {
+            $this->form->selected_address = $lastAddress;
+            $this->getShippingRates();
         }
 
         $this->current_step = 2;
@@ -251,7 +301,14 @@ class Checkout extends Component
 
     public function updatedForm($value, $key)
     {
-        if (Auth::guest()) session()->put("guest_customer.$key", $value);
+        if ($key === 'delivery_type')
+        {
+            session()->put('delivery_type', $value);       
+
+        } else 
+        {
+            if (Auth::guest()) session()->put("guest_customer.$key", $value);
+        }
     }
 
     public function mount()
@@ -259,10 +316,6 @@ class Checkout extends Component
         $this->form->payment_methods = PaymentMethod::where('active', true)->get();
 
         $this->form->autocomplete();
-
-        $this->form->addresses = Auth::check() 
-                                 ? Auth::user()->addresses
-                                 : collect(session('guest_customer.addresses')) ?? collect();
 
         if ($this->form->hasCustomerData()) $this->shippingStep();
     }

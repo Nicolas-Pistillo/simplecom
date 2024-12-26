@@ -42,10 +42,10 @@
 
                     <ul id="dropoff-options" class="no-select max-h-[300px] flow-root overflow-y-auto" scrollbar-thin>
                         @foreach (session('rates_results.dropoff_rates') as $rate)
-                            @foreach ($rate->branches as $rate_branch)
-                                <li wire:key='{{ $rate->key . $rate_branch->external_id }}' 
-                                id="{{ $rate->key . $rate_branch->external_id }}"
-                                data-rate-key="{{ $rate->key }}" data-branch-id='{{ $rate_branch->external_id }}'
+                            @foreach ($rate->branches as $branch)
+                                <li wire:key='{{ $rate->key . $branch->external_id }}' 
+                                id="{{ $rate->key . $branch->external_id }}"
+                                data-rate-key="{{ $rate->key }}" data-branch-id='{{ $branch->external_id }}'
                                 class="relative flex items-center cursor-pointer dropoff-point
                                 border-b pr-2 py-4 focus:outline-none hover:bg-gray-50">
                                     <div class="ml-3 flex items-center justify-between w-full">
@@ -58,26 +58,26 @@
         
                                             <div class="flex-1 gap-y-3">
                                                 <h5 class="font-medium mb-1 text-xs">
-                                                     {{ $rate_branch->name }}
+                                                     {{ $branch->name }}
                                                 </h5>
 
                                                 <span class="block text-xs text-gray-700 mb-1">
-                                                    {{ $rate_branch->address->summary() }}
+                                                    {{ $branch->address->summary() }}
                                                 </span>
 
                                                 <span class="block text-xs text-green-700 font-semibold mb-1">
-                                                    ${{ priceFormat($rate_branch->price ?? $rate->price) }}
+                                                    ${{ priceFormat($branch->price ?? $rate->price) }}
                                                 </span>
 
-                                                @if ($rate_branch->phone)
+                                                @if ($branch->phone)
                                                     <span class="block text-xs text-gray-700 mb-1">
-                                                        {{ $rate_branch->phone }}
+                                                        {{ $branch->phone }}
                                                     </span>
                                                 @endif
 
-                                                @if ($rate_branch->schedule)
+                                                @if ($branch->schedule)
                                                     <span class="block text-xs text-gray-700 mb-1">
-                                                        Horarios: {{ $rate_branch->schedule }}
+                                                        Horarios: {{ $branch->schedule }}
                                                     </span>
                                                 @endif
 
@@ -87,10 +87,9 @@
                                             </div>
                                         </div>
                                         <div class="ml-2">
-                                            <x-button size="small">Elegir</x-button>
+                                            <x-button wire:click="confirm('{{ $rate->key }}', '{{ $branch->external_id }}')" size="small">Elegir</x-button>
                                         </div>
                                     </div>
-                                    {{-- @dump($rate_branch) --}}
                                 </li>
                             @endforeach
                         @endforeach
@@ -99,20 +98,11 @@
             </div>
         </div>
 
-    </div>
-
-    {{-- @dump(session('rates_results.dropoff_rates.7')) --}}
-    
-    <div wire:loading.remove wire:target='selectAddress' class="flex items-center gap-3 mt-8">
-    
-        <x-button wire:click='$parent.hideDropoffSelection' type="soft" 
-        :disabled="false" size="big" class="!shadow">
-            Volver
-        </x-button>
-    
-        <x-button wire:click='summaryStep' :disabled="true" size="big">
-            Continuar
-        </x-button>
+        <div class="flex items-center gap-3 mt-8">
+            <x-button wire:click='$parent.hideDropoffSelection' type="soft" size="big" class="!shadow">
+                Volver
+            </x-button>
+        </div>
     </div>
 
     @script
@@ -144,7 +134,7 @@
             /* const { AdvancedMarkerElement } = await google.maps.importLibrary("marker"); */
 
             map = new google.maps.Map(document.getElementById("dropoff_points_map"), {
-                zoom: 13,
+                zoom: 14,
                 center: addressPosition,
                 mapTypeControl: false,
                 scaleControl: false,

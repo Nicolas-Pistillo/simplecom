@@ -29,9 +29,9 @@ class CheckoutForm extends Form
 
     public $addresses, $selected_address;
 
-    public $show_rates_results, $show_dropoff_selection;
-    
-    public $selected_shipping_rate;
+    public $show_rates_results, $show_dropoff_selection, $show_selected_branch;
+
+    public $selected_rate, $selected_branch;
 
     public $payment_methods, $selected_payment_method;
 
@@ -56,21 +56,30 @@ class CheckoutForm extends Form
         if (Auth::check())
         {
             return $this->fill([
-                'name'      => Auth::user()->name,
-                'lastname'  => Auth::user()->lastname,
-                'email'     => Auth::user()->email,
-                'phone'     => Auth::user()->phone,
-                'document'  => Auth::user()->document
+                'name'              => Auth::user()->name,
+                'lastname'          => Auth::user()->lastname,
+                'email'             => Auth::user()->email,
+                'phone'             => Auth::user()->phone,
+                'document'          => Auth::user()->document,
+                'addresses'         => Auth::user()->addresses,
+                'delivery_type'     => session('delivery_type') ?? DeliveryType::Shipping,
+                'selected_address'  => session('selected_address'),
+                'selected_rate'     => session('selected_rate'),
+                'selected_branch'   => session('selected_branch')
             ]);
         }
 
         $this->fill([
-            'name'          => session('guest_customer.name'),
-            'lastname'      => session('guest_customer.lastname'),
-            'email'         => session('guest_customer.email'),
-            'phone'         => session('guest_customer.phone'),
-            'document'      => session('guest_customer.document'),
-            'delivery_type' => session('guest_customer.delivery_type') ?? DeliveryType::Shipping
+            'name'              => session('guest_customer.name'),
+            'lastname'          => session('guest_customer.lastname'),
+            'email'             => session('guest_customer.email'),
+            'phone'             => session('guest_customer.phone'),
+            'document'          => session('guest_customer.document'),
+            'addresses'         => collect(session('guest_customer.addresses')) ?? collect(),
+            'delivery_type'     => session('delivery_type') ?? DeliveryType::Shipping,
+            'selected_address'  => session('selected_address'),
+            'selected_rate'     => session('selected_rate'),
+            'selected_branch'   => session('selected_branch')
         ]);
     }
 
