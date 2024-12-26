@@ -3,9 +3,8 @@
 
     <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
 
-        <label
-            class="mt-1 no-select w-full sm:w-max relative flex rounded-lg 
-                            bg-white p-4 focus:outline-hidden border border-gray-300">
+        <label class="mt-1 no-select w-full sm:w-max relative flex rounded-lg 
+        bg-white p-4 focus:outline-hidden border border-gray-300">
             <div class="flex flex-1">
                 <div class="flex flex-col">
                     <span class="flex items-center text-sm font-medium text-gray-900">
@@ -18,8 +17,8 @@
 
         <button wire:click='changeAddress'
             class="mt-2 py-2 px-4 w-max border bg-white rounded-full 
-                            text-xs text-gray-700 flex items-center cursor-pointer
-                            transition duration-300 hover:shadow-md hover:text-gray-900">
+            text-xs text-gray-700 flex items-center cursor-pointer
+            transition duration-300 hover:shadow-md hover:text-gray-900">
             <span>Modificar</span>
         </button>
     </div>
