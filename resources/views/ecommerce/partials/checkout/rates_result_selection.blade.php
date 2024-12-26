@@ -1,4 +1,5 @@
 <div x-init="window.scrollTo({ top: 0, behavior: 'smooth' })">
+
     <h4 class="text-sm/6 font-semibold text-gray-900">Enviar a</h4>
 
     <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
@@ -71,11 +72,12 @@
                     @endif
 
                     @foreach (session('rates_results.shipping_rates') as $rate)
-                        <div wire:key='{{ $rate->key }}'
+                        <div wire:key='{{ $rate->key }}' wire:click="selectShippingRate('{{ $rate->key }}')"
                             class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
                             <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
 
                                 <input type="radio" name="shipping_method"
+                                @if (session('selected_rate.key') == $rate->key) checked @endif
                                 class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
                                 text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
                                 active:ring-offset-2">
@@ -116,14 +118,14 @@
         @endif
     </div>
 
-    {{-- <div wire:loading.remove wire:target='selectAddress' class="flex items-center gap-3 mt-8">
+    <div wire:loading.remove wire:target='selectAddress' class="flex items-center gap-3 mt-8">
 
-        <x-button wire:click='setStep(1)' type="soft" :disabled="false" size="big" class="!shadow">
+        <x-button wire:click='setStep(1)' type="soft" size="big" class="!shadow">
             Volver
         </x-button>
 
-        <x-button wire:click='summaryStep' :disabled="true" size="big">
+        <x-button wire:click='summaryStep' :disabled="!isset($form->selected_rate)" size="big">
             Continuar
         </x-button>
-    </div> --}}
+    </div>
 </div>

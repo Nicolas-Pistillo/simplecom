@@ -98,6 +98,11 @@
             </div>
         </div>
 
+        <div class="flex items-center gap-3 mt-8">
+            <x-button wire:click='$parent.hideDropoffSelection' type="soft" size="big" class="!shadow">
+                Volver
+            </x-button>
+        </div>
     </div>
 
     @script

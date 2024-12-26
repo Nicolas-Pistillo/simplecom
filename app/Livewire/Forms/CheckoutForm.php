@@ -29,7 +29,7 @@ class CheckoutForm extends Form
 
     public $addresses, $selected_address;
 
-    public $show_rates_results, $show_dropoff_selection, $show_confirmation;
+    public $show_rates_results, $show_dropoff_selection, $show_selected_branch;
 
     public $selected_rate, $selected_branch;
 

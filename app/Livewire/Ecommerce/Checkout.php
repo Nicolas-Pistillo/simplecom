@@ -120,7 +120,7 @@ class Checkout extends Component
 
         $this->form->show_rates_results = false;
         $this->form->show_dropoff_selection = false;
-        $this->form->show_confirmation = true;
+        $this->form->show_selected_branch = true;
 
         session()->put('selected_rate', $rate);
         session()->put('selected_branch', $branch);
@@ -133,6 +133,14 @@ class Checkout extends Component
         session()->put('selected_address', $address);
 
         $this->getShippingRates();
+    }
+
+    public function selectShippingRate($rateKey)
+    {
+        $rate = session('rates_results.shipping_rates')->where('key', $rateKey)->first();
+
+        $this->form->selected_rate = (array) $rate;
+        session()->put('selected_rate', (array) $rate);
     }
 
     public function showDropoffSelection()
@@ -149,17 +157,31 @@ class Checkout extends Component
 
     public function changeAddress()
     {
-        $this->form->reset('selected_address');
+        $this->form->reset('selected_address', 'selected_rate', 'selected_branch');
         $this->form->show_rates_results = false;
 
-        session()->remove('rates_results');
+        session()->forget([
+            'rates_results', 'selected_address', 'selected_rate', 'selected_branch'
+        ]);
     }
 
     public function changeDropoffPoint()
     {
         $this->form->reset('selected_rate', 'selected_branch');
-        $this->form->show_confirmation = false;
+        session()->forget(['selected_rate', 'selected_branch']);
+
+        $this->form->show_selected_branch = false;
         $this->form->show_dropoff_selection = true;
+    }
+
+    public function changeShippingRate()
+    {
+        $this->form->reset('selected_rate', 'selected_branch');
+        session()->forget(['selected_rate', 'selected_branch']);
+
+        $this->form->show_selected_branch = false;
+        $this->form->show_dropoff_selection = false;
+        $this->form->show_rates_results = true;
     }
 
     public function changeQty($operation, $rowId)
@@ -204,12 +226,12 @@ class Checkout extends Component
     {
         $data = $this->form->validateCustomerData();
 
-        if (!empty(session('rates_results')) && !empty(session('selected_rate')))
+        if (!empty(session('rates_results')) && !empty(session('selected_branch')))
         {
             $this->form->selected_rate = session('selected_rate');
             $this->form->selected_branch = session('selected_branch');
             
-            $this->form->show_confirmation = true;
+            $this->form->show_selected_branch = true;
             return $this->current_step = 2;
         }
 
