@@ -4,7 +4,6 @@ namespace App\Livewire\Ecommerce;
 
 use App\Enums\LogisticType;
 use App\Livewire\Forms\CheckoutForm;
-use App\Services\ShippingProviders\Envia;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
@@ -12,10 +11,7 @@ use App\Services\ProductService;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
 use App\Models\UserAddress;
-use App\Services\ShippingProviders\EnvioPack;
-use App\Services\ShippingProviders\Zippin;
-use App\Utils\ShippingBranch;
-use App\Utils\ShippingRate;
+use App\Services\ShippingRateService;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -51,46 +47,27 @@ class Checkout extends Component
                 'recipient_address'  => $this->form->selected_address
             ]);
 
-            $envia = new Envia();
-            $zippin = new Zippin();
-            // $envioPack = new EnvioPack();
+            $rates = ShippingRateService::get($shippingParameters);
 
-             $enviaRates = $envia->getRates($shippingParameters);
-            // $envioPackRates = $envioPack->getRates($shippingParameters);
-             $zippinRates = $zippin->getRates($shippingParameters);
-
-            //$shippingRates = $zippinRates->merge($envioPackRates)->merge($enviaRates);
-            $rates = $enviaRates->merge($zippinRates);
-
-            if ($rates->isNotEmpty())
+            if ($rates->isEmpty())
             {
-                $shippingRates = $rates->whereIn('logistic_type', [
-                                                    LogisticType::DropoffToDoor, 
-                                                    LogisticType::OriginToDoor
-                                                ]) 
-                                                ->sortBy('price')
-                                                ->take(4);
+                $this->form->reset('selected_address');
+                session()->remove('selected_address');
 
-                $dropoffRates = $rates->whereIn('logistic_type', [
-                                                    LogisticType::DropoffToDropoff, 
-                                                    LogisticType::OriginToDropoff
-                                                ])
-                                                ->sortBy('price');
-
-                session()->put('rates_results', [
-                    'address'         => $this->form->selected_address,
-                    'shipping_rates'  => $shippingRates,
-                    'dropoff_rates'   => $dropoffRates
+                return $this->notify([
+                    'type'  => 'danger',
+                    'title' => 'Sin tarifas de envío',
+                    'body'  => 'No se encontraron tarifas de envío para la ubicación seleccionada'
                 ]);
-
-                return $this->form->show_rates_results = true;
             }
 
-            $this->notify([
-                'type'  => 'danger',
-                'title' => 'Sin tarifas de envío',
-                'body'  => 'No se encontraron tarifas de envío para la ubicación seleccionada'
+            session()->put('rates_results', [
+                'address'         => $this->form->selected_address,
+                'shipping_rates'  => $rates->get('shipping'),
+                'dropoff_rates'   => $rates->get('dropoff')
             ]);
+
+            return $this->form->show_rates_results = true;
 
         } catch (\Throwable $err) 
         {
@@ -139,12 +116,17 @@ class Checkout extends Component
     {
         $rate = session('rates_results.shipping_rates')->where('key', $rateKey)->first();
 
-        $this->form->selected_rate = (array) $rate;
-        session()->put('selected_rate', (array) $rate);
+        $rate = collect($rate)->except('branches')->toArray();
+
+        $this->form->selected_rate = $rate;
+        session()->put('selected_rate', $rate);
     }
 
     public function showDropoffSelection()
     {
+        $this->form->reset('selected_rate', 'selected_branch');
+        session()->forget(['selected_rate', 'selected_branch']);
+
         $this->form->show_rates_results = false;
         $this->form->show_dropoff_selection = true;
     }
@@ -322,6 +304,11 @@ class Checkout extends Component
 
     public function render()
     {
+        if ($this->form->selected_rate)
+        {
+            Cart::addCost('shipping', $this->form->selected_rate['price']);
+        }
+
         return view('livewire.ecommerce.checkout');
     }
 }

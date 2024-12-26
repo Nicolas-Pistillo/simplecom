@@ -3,14 +3,14 @@
 namespace Database\Seeders;
 
 use App\Enums\ShippingMethodType;
-use App\Models\ShippingMethod;
+use App\Models\ShippingProvider;
 use App\Services\ShippingProviders\Envia;
 use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Zippin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ShippingMethodSeeder extends Seeder
+class ShippingProviderSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,7 @@ class ShippingMethodSeeder extends Seeder
     public function run(): void
     {
         // Envia.com
-        ShippingMethod::create([
+        ShippingProvider::create([
             'type'          => ShippingMethodType::MultiCarrier,
             'code'          => 'envia',
             'service_class' => Envia::class,
@@ -29,7 +29,7 @@ class ShippingMethodSeeder extends Seeder
         ]);
 
         // Zippin
-        ShippingMethod::create([
+        ShippingProvider::create([
             'type'          => ShippingMethodType::MultiCarrier,
             'code'          => 'zippin',
             'service_class' => Zippin::class,
@@ -40,7 +40,7 @@ class ShippingMethodSeeder extends Seeder
         ]);
 
         // EnvioPack
-        ShippingMethod::create([
+        ShippingProvider::create([
             'type'          => ShippingMethodType::MultiCarrier,
             'code'          => 'enviopack',
             'service_class' => EnvioPack::class,

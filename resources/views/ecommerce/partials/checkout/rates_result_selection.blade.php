@@ -124,7 +124,7 @@
             Volver
         </x-button>
 
-        <x-button wire:click='summaryStep' :disabled="!isset($form->selected_rate)" size="big">
+        <x-button wire:click='setStep(3)' :disabled="!isset($form->selected_rate)" size="big">
             Continuar
         </x-button>
     </div>

@@ -10,7 +10,7 @@ class ShippingRateParameters
     public $recipient_email;
     public $recipient_phone;
     public $recipient_document;
-    public UserAddress $recipient_address;
+    public UserAddress|Address $recipient_address;
 
     public function __construct($properties = [])
     {
