@@ -94,7 +94,7 @@
                     </ul>
 
                     {{-- Step Content --}}
-                    <div class="mt-12">
+                    <div class="mt-8">
 
                         @if ($current_step === 1)
                             @include('ecommerce.partials.checkout.customer')

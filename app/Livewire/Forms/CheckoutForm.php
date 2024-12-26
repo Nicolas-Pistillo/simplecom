@@ -29,9 +29,9 @@ class CheckoutForm extends Form
 
     public $addresses, $selected_address;
 
-    public $show_rates_results, $show_dropoff_selection;
-    
-    public $selected_shipping_rate;
+    public $show_rates_results, $show_dropoff_selection, $show_confirmation;
+
+    public $selected_rate, $selected_branch;
 
     public $payment_methods, $selected_payment_method;
 

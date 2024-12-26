@@ -14,6 +14,8 @@ use App\Models\PaymentMethod;
 use App\Models\UserAddress;
 use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Zippin;
+use App\Utils\ShippingBranch;
+use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +24,10 @@ class Checkout extends Component
 {
     use WithNotifications;
 
-    protected $listeners = ['new-address-created' => 'receiveNewAddress'];
+    protected $listeners = [
+        'new-address-created'    => 'receiveNewAddress', 
+        'selected-dropoff-point' => 'confirmDropoffPoint'
+    ];
 
     public CheckoutForm $form;
 
@@ -102,6 +107,18 @@ class Checkout extends Component
         $this->form->addresses->push($address);
     }
 
+    public function confirmDropoffPoint($rate, $branch)
+    {
+        $this->form->selected_rate = $rate;
+        $this->form->selected_branch = $branch;
+        $this->form->show_rates_results = false;
+        $this->form->show_dropoff_selection = false;
+        $this->form->show_confirmation = true;
+
+        session()->put('selected_rate', $rate);
+        session()->put('selected_branch', $branch);
+    }
+
     public function selectAddress(UserAddress $address)
     {
         $this->form->selected_address = $address;
@@ -172,6 +189,15 @@ class Checkout extends Component
     public function shippingStep()
     {
         $data = $this->form->validateCustomerData();
+
+        if (!empty(session('rates_results')) && !empty(session('selected_rate')))
+        {
+            $this->form->selected_rate = session('selected_rate');
+            $this->form->selected_branch = session('selected_rate');
+            
+            $this->form->show_confirmation = true;
+            return $this->current_step = 2;
+        }
 
         if (Auth::check())
         {
@@ -256,6 +282,8 @@ class Checkout extends Component
 
     public function mount()
     {   
+        /* session()->forget(['selected_rate_key', 'selected_branch_id']); */
+
         $this->form->payment_methods = PaymentMethod::where('active', true)->get();
 
         $this->form->autocomplete();

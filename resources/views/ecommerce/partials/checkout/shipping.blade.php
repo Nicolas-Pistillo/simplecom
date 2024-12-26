@@ -34,29 +34,40 @@
 
         @if ($form->delivery_type === DeliveryType::Shipping)
 
-            @if (!$form->selected_address)
-                @include('ecommerce.partials.checkout.address_selection')
-            @endif
+            @if ($form->show_confirmation)
+                
+                <div class="col-span-full">
+                    <h1>Confirmar direccion aca</h1>
 
-            <div wire:loading wire:target='selectAddress' class="col-span-full">
-                <div class="flex items-center gap-3 mt-4 text-sm text-gray-800">
-                    <x-spinner spinnerclass="!w-4 !h-4" /> Buscando opciones de envío...
+                    @dump($form->show_confirmation, $form->selected_rate, $form->selected_branch)
                 </div>
-            </div>
 
-            @if ($form->selected_address)
-                <div class="col-span-full animate__animated animate__fadeIn">
+            @else
 
-                    {{-- Select shipping rate --}}
-                    @if ($form->show_rates_results)
-                        @include('ecommerce.partials.checkout.rates_result_selection')
-                    @endif
+                @if (!$form->selected_address)
+                    @include('ecommerce.partials.checkout.address_selection')
+                @endif
 
-                    {{-- Select carrier dropoff points --}}
-                    @if ($form->show_dropoff_selection)
-                        @livewire('ecommerce.dropoff-point-selector', compact('form'))
-                    @endif
-                </div>     
+                <div wire:loading wire:target='selectAddress' class="col-span-full">
+                    <div class="flex items-center gap-3 mt-4 text-sm text-gray-800">
+                        <x-spinner spinnerclass="!w-4 !h-4" /> Buscando opciones de envío...
+                    </div>
+                </div>
+
+                @if ($form->selected_address)
+                    <div class="col-span-full animate__animated animate__fadeIn">
+
+                        {{-- Select shipping rate --}}
+                        @if ($form->show_rates_results)
+                            @include('ecommerce.partials.checkout.rates_result_selection')
+                        @endif
+
+                        {{-- Select carrier dropoff points --}}
+                        @if ($form->show_dropoff_selection)
+                            @livewire('ecommerce.dropoff-point-selector', compact('form'))
+                        @endif
+                    </div>     
+                @endif
             @endif
         @endif
     </div>
