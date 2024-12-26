@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\PaymentMethod;
 use App\Services\BankTransfer;
+use App\Services\PaymentProviders\Cajero24;
 use App\Services\PaymentProviders\Getnet;
 use App\Services\PaymentProviders\GOcuotas;
 use App\Services\PaymentProviders\MercadoPago;
@@ -126,10 +127,21 @@ class PaymentMethodsSeeder extends Seeder
             'code'          => 'nave',
             'service_class' => Nave::class,
             'display_name'  => 'Nave',
-            'checkout_name' => 'Nave - Tarjetas de crédito, débito o QR',
+            'checkout_name' => 'Nave - Tarjetas de crédito, débito y QR',
             'description'   => 'Nave simplifica tu día a día para que cobres con seguridad. Tendrás confirmación de los cobros en tiempo real, detalles de todas las ventas y resúmenes personalizados. Vendés más con promociones exclusivas, cuotas sin tarjeta y cuotas fijas.',
             'page_url'      => 'https://navenegocios.ar/home/cobrar-con-tienda-online',
             'support_url'   => 'https://www.galicia.ar/personas/contactanos'
+        ]);
+
+        // Cajero24
+        PaymentMethod::create([
+            'code'          => 'cajero24',
+            'service_class' => Cajero24::class,
+            'display_name'  => 'Cajero24',
+            'checkout_name' => 'Cajero24 - Tarjetas de crédito, débito y QR',
+            'description'   => 'Cajero24 opera con todas las tarjetas de crédito, débito, prepagas y QR para facilitarte soluciones de pago eficaces y adaptables para tu negocio con las comisiones más bajas del mercado.',
+            'page_url'      => 'https://cajero24.co',
+            'support_email' => 'hola@cajero24.co'
         ]);
     }
 }
