@@ -290,6 +290,33 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         Configuration::create([
+            'key'           => 'nave_platform',
+            'display_name'  => 'Platform',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'código de plataforma',
+            'helper'        => 'Código de plataforma para tu integración',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'nave_store_id',
+            'display_name'  => 'Store ID',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Código de comercio',
+            'helper'        => 'Código de comercio para tu integración',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'cajero24_token',
+            'display_name'  => 'Clave de acceso',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Clave de acceso',
+            'helper'        => 'La encontrarás en tu panel dentro de la sección integraciones > Punto de cobro > Ver clave de acceso',
+            'required'      => true
+        ]);
+
+        Configuration::create([
             'key'          => 'envia_token',
             'display_name' => 'Token',
             'topic'        => ConfigurationTopics::DeliveryMethods,

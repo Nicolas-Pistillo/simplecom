@@ -92,31 +92,54 @@
                 </li>
             @endforeach
         </ul>
-        <dl class="space-y-6 border-t border-gray-200 px-4 py-6 sm:px-6">
+        <dl class="border-t border-gray-200 px-4 py-6 sm:px-6">
+
             <div class="flex items-center justify-between">
                 <dt class="text-sm">Subtotal</dt>
                 <dd class="text-sm font-medium text-gray-900">
                     ${{ priceFormat(Cart::subtotal()) }}
                 </dd>
             </div>
-            {{-- <div class="flex items-center justify-between">
-                <dt class="text-sm">Impuestos</dt>
-                <dd class="text-sm font-medium text-gray-900">
-                    ${{ priceFormat(Cart::tax()) }}
-                </dd>
-            </div> --}}
-            <div class="flex items-center justify-between">
+
+            <div class="flex items-center justify-between my-3">
                 <dt class="text-sm">
-                    @if ($form->delivery_type === DeliveryType::Shipping)
-                        Envío
-                    @elseif($form->delivery_type === DeliveryType::Picking)
-                        Retiro
-                    @endif
+                    {{ $form->delivery_type === DeliveryType::Shipping ? 'Envío' : 'Retiro' }}
                 </dt>
                 <dd class="text-sm font-medium text-gray-900">
-                    No calculado
+                    @if ($form->delivery_type === DeliveryType::Shipping)
+                        
+                        @if (isset($form->selected_rate))
+                            ${{ priceFormat(Cart::getCost('shipping')) }}
+                        @else
+                            No calculado
+                        @endif
+
+                    @elseif($form->delivery_type === DeliveryType::Picking)
+                        No calculado
+                    @endif
                 </dd>
             </div>
+
+            @if ($form->delivery_type === DeliveryType::Shipping)
+                @if (isset($form->selected_rate))
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center text-sm">
+                            <h5 class="font-medium text-xs text-gray-600">
+                                {{ $form->selected_branch 
+                                        ? 'Retiro en ' . $form->selected_branch['name'] 
+                                        : $form->selected_rate['label'] 
+                                }}
+                            </h5>
+                        </div>
+                        <div class="text-xs text-gray-600 whitespace-nowrap">
+                            <span class="font-medium ml-4">
+                                Estimado {{ $form->selected_rate['estimate'] }} 
+                            </span>
+                        </div>
+                    </div>
+                @endif    
+            @endif
+
             <div class="flex items-center justify-between border-t border-gray-200 pt-6">
                 <dt class="text-base font-semibold">Total</dt>
                 <dd class="text-base font-semibold text-gray-900">

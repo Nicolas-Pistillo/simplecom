@@ -40,7 +40,7 @@
 
                     <h4 class="text-sm/6 font-semibold text-gray-900">Punto de retiro seleccionado</h4>
 
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-x-3 flex-wrap">
 
                         <button wire:click='changeDropoffPoint'
                             class="mt-2 py-2 px-4 w-max border bg-white rounded-full 
@@ -70,14 +70,14 @@
 
                             <a href="https://maps.google.com/?q={{ data_get($form->selected_branch, 'address.coordinates.lat') }},{{ data_get($form->selected_branch, 'address.coordinates.lng') }}" target="_blank">
                                 <x-icon code="moved_location" x-tooltip.raw.placement.top="Ver en mapa"
-                                class="p-2 border rounded-full transition 
-                                duration-300 hover:bg-gray-50 text-gray-700" />
+                                class="p-2 border rounded-full transition duration-300 
+                                hover:bg-gray-50 text-gray-700" style="font-size: 20px" />
                             </a>
                         </div>
 
                         <h4 class="text-sm sm:text-base text-gray-900 transition-all duration-500 mb-3">
                             <span class="font-semibold">
-                                Retiras en: {{ $form->selected_branch['name'] }}
+                                {{ $form->selected_branch['name'] }}
                             </span>
                         </h4>
 
@@ -85,6 +85,12 @@
                         duration-500 leading-5 text-xs mb-1 gap-x-3">
                             <span class="font-semibold">Servicio</span>
                             <span class="text-right">{{ $form->selected_rate['service_name'] }}</span>
+                        </p>
+
+                        <p class="flex justify-between font-normal text-gray-500 transition-all 
+                        duration-500 leading-5 text-xs mb-1 gap-x-3">
+                            <span class="font-semibold">Precio</span>
+                            <span class="text-right">${{ priceFormat($form->selected_rate['price']) }}</span>
                         </p>
 
                         <p class="flex justify-between font-normal text-gray-500 transition-all 
@@ -103,17 +109,21 @@
                             <span class="text-right">{{ $form->selected_rate['estimate'] }}</span>
                         </p>
 
-                        <p class="flex justify-between font-normal text-gray-500 transition-all 
-                        duration-500 leading-5 text-xs mb-1 gap-x-3">
-                            <span class="font-semibold">Telefono</span>
-                            <span class="text-right">(011) 42150-618455-3</span>
-                        </p>
+                        @if (!empty($form->selected_branch['phone']))
+                            <p class="flex justify-between font-normal text-gray-500 transition-all 
+                            duration-500 leading-5 text-xs mb-1 gap-x-3">
+                                <span class="font-semibold">Telefono</span>
+                                <span class="text-right">{{ $form->selected_branch['phone'] }}</span>
+                            </p>
+                        @endif
 
-                        <p class="flex justify-between font-normal text-gray-500 transition-all 
-                        duration-500 leading-5 text-xs mb-1 gap-x-3">
-                            <span class="font-semibold">Horarios</span>
-                            <span class="text-right">Lunes a viernes de 17:00 a 18:00 - Fines de semana CERRADO</span>
-                        </p>
+                        @if (!empty($form->selected_branch['schedule']))
+                            <p class="flex justify-between font-normal text-gray-500 transition-all 
+                            duration-500 leading-5 text-xs mb-1 gap-x-3">
+                                <span class="font-semibold">Horarios</span>
+                                <span class="text-right">{{ $form->selected_branch['schedule'] }}</span>
+                            </p>
+                        @endif
                     </div>
 
                     <div wire:loading.remove wire:target='selectAddress' class="flex items-center gap-3 mt-8">

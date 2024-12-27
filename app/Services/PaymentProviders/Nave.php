@@ -11,7 +11,9 @@ class Nave implements PaymentGateway
 {
     use Configurable, ManagesPaymentRedirections;
 
-    protected $configuration_keys = ['nave_client_id', 'nave_client_secret'];
+    protected $configuration_keys = [
+        'nave_client_id', 'nave_client_secret', 'nave_platform', 'nave_store_id'
+    ];
 
     private $token;
 
