@@ -1,5 +1,5 @@
 <div x-data x-init="window.scrollTo({ top: 0, behavior: 'smooth' })"
-    class="animate__animated animate__bounceInLeft grid grid-cols-12 gap-x-4 gap-y-3 items-end">
+class="animate__animated animate__bounceInLeft grid max-w-xl grid-cols-12 gap-x-4 gap-y-3 items-end">
 
     <div class="col-span-full no-select">
         <legend class="text-sm/6 font-semibold text-gray-900">Medios de pago</legend>

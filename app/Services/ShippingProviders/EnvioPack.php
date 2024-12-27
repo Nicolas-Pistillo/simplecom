@@ -6,6 +6,8 @@ use App\Enums\LogisticType;
 use App\Models\UserAddress;
 use App\Services\CartService;
 use App\Traits\Configurable;
+use App\Utils\Address;
+use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
 use Carbon\Carbon;
@@ -49,6 +51,8 @@ class EnvioPack
     {
         $rates = collect();
 
+        if (!$this->token) return $rates;
+
         $cartPackage = CartService::getPackageInfo('kg');
         $provinceId = $this->getProvinceIdByName($parameters->recipient_address->state);
 
@@ -69,60 +73,12 @@ class EnvioPack
             'paquetes'      => $packageHeight . 'x' . $packageWidth . 'x' . $packageLength
         ];
 
-        $toHomeRates = $this->getToHomeRates($rateBody);
+        $shippingRates = $this->getToHomeRates($rateBody);
         $dropoffRates = $this->getDropOffRates($rateBody);
 
-        dd($dropoffRates);
+        $rates->push($shippingRates, $dropoffRates);
 
-        /* $response = $this->getToHomeRates($rateBody);
-
-        if ($response->isEmpty()) return $rates;
-
-        dd($response); */
-
-        /* foreach($response as $result)
-        {
-            if ($result['servicio'] == 'R') continue;
-
-            $carrierName  = data_get($result, 'correo.nombre');
-
-            $dispatchType = data_get($result, 'despacho');
-
-            $modality     = data_get($result, 'modalidad');
-
-            $serviceCode  = data_get($result, 'servicio');
-
-            $serviceName  = data_get($this->service_name_parser, $serviceCode);
-
-            $logisticType = data_get($this->logistic_type_parser, "$dispatchType.$modality");
-
-            $deliveryDate = Carbon::createFromFormat('d/m/Y', data_get($result, 'fecha_estimada'));
-
-            $dayDifference = now()->diffInDays($deliveryDate);
-
-            $estimate = in_array($dayDifference, [0, 1])
-                        ? 'Entre hoy y mañana'
-                        : "$dayDifference días";
-
-            $destinationType = $modality == 'D' ? 'domicilio' : 'sucursal';
-
-            $rates->push(new ShippingRate([
-                'source'                => 'enviopack',
-                'source_name'           => 'EnvioPack',
-                'source_data'           => $result,
-                'label'                 => "$carrierName - $serviceName a $destinationType",
-                'service_id'            => $serviceCode,
-                'service_name'          => $serviceName,
-                'logistic_type'         => $logisticType,
-                'source_logistic_type'  => "$dispatchType - $modality",
-                'carrier_id'            => data_get($result, 'correo.id'),
-                'carrier_name'          => $carrierName,
-                'price'                 => data_get($result, 'valor'),
-                'estimate'              => $estimate
-            ]));
-        }
-
-        return $rates; */
+        return $rates->collapse();
     }
 
     public function getToHomeRates($rateBody): Collection
@@ -184,35 +140,60 @@ class EnvioPack
 
         if ($response->isEmpty()) return $rates;
 
-        $response = $response->where('servicio', '!=', 'R')
-                             ->sortBy('valor');
-
-        dd($response, $rateBody);
+        $response = $response->where('servicio', '!=', 'R');
 
         foreach($response as $result)
         {
-            /* $carrierName  = data_get($result, 'sucursal.correo.nombre');
+            $carrierName = data_get($result, 'sucursal.correo.nombre');
 
-            $serviceCode  = data_get($result, 'servicio');
-
-            $serviceName  = data_get($this->service_name_parser, $serviceCode);
-
-            $logisticType = data_get($this->logistic_type_parser, "D.S");
+            $serviceName = data_get($this->service_name_parser, data_get($result, 'servicio'));
 
             $shippingRate = new ShippingRate([
                 'source'                => 'enviopack',
                 'source_name'           => 'EnvioPack',
                 'source_data'           => $result,
                 'label'                 => "$carrierName - $serviceName a sucursal",
-                'service_id'            => $serviceCode,
+                'service_id'            => data_get($result, 'servicio'),
                 'service_name'          => $serviceName,
-                'logistic_type'         => $logisticType,
+                'logistic_type'         => LogisticType::OriginToDropoff,
                 'source_logistic_type'  => "D - S",
                 'carrier_id'            => data_get($result, 'sucursal.correo.id'),
                 'carrier_name'          => $carrierName,
                 'price'                 => data_get($result, 'valor'),
                 'estimate'              => data_get($result, 'horas_entrega') . ' horas hábiles'
-            ]); */
+            ]);
+
+            $branchAddress = new Address([
+                'street'   => data_get($result, 'sucursal.calle'),
+                'number'   => data_get($result, 'sucursal.numero'),
+                'zipcode'  => data_get($result, 'sucursal.codigo_postal'),
+                'locality' => data_get($result, 'sucursal.localidad.nombre'),
+                'state'    => data_get($result, 'sucursal.provincia.nombre'),
+                'coordinates' => [
+                    'lat' => data_get($result, 'sucursal.latitud'),
+                    'lng' => data_get($result, 'sucursal.longitud'),
+                ]
+            ]);
+
+            $branch = new ShippingBranch([
+                'source'        => 'enviopack',
+                'source_name'   => 'EnvioPack',
+                'name'          => data_get($result, 'sucursal.nombre'),
+                'price'         => $shippingRate->price,
+                'external_id'   => data_get($result, 'sucursal.id'),
+                'external_code' => data_get($result, 'sucursal.codigo'),
+                'phone'         => data_get($result, 'sucursal.telefono'),
+                'schedule'      => data_get($result, 'sucursal.horario'),
+                'address'       => $branchAddress,
+                'meta'          => [
+                    'id_locality' => data_get($result, 'sucursal.localidad.id'),
+                    'id_province' => data_get($result, 'sucursal.provincia.id')
+                ]
+            ]);
+
+            $shippingRate->branches->push($branch);
+
+            $rates->push($shippingRate);
         }
 
         return $rates;
