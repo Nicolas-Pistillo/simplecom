@@ -42,14 +42,11 @@ class EnvioPack
         ]
     ];
 
-    public function __construct()
-    {
-        $this->generateToken();
-    }
-
     public function getRates(ShippingRateParameters $parameters)
     {
         $rates = collect();
+        
+        $this->generateToken();
 
         if (!$this->token) return $rates;
 

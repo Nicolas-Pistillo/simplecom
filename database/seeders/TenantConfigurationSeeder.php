@@ -320,7 +320,7 @@ class TenantConfigurationSeeder extends Seeder
             'key'          => 'envia_token',
             'display_name' => 'Token',
             'topic'        => ConfigurationTopics::DeliveryMethods,
-            'description'  => 'Token de acceso a la API de envía',
+            'description'  => 'Tu token de acceso a la API de envía',
             'helper'       => 'Podras verlo o generarlo dentro de tu panel en la sección Desarrolladores > Acceso de API',
             'required'     => true
         ]);
@@ -356,8 +356,8 @@ class TenantConfigurationSeeder extends Seeder
             'key'          => 'zippin_origin_id',
             'display_name' => 'ID de tu origen',
             'topic'        => ConfigurationTopics::DeliveryMethods,
-            'description'  => 'ID del origen',
-            'helper'       => 'Es el origen que usaras para calcular las tarifas e indicar las recolecciones (si corresponde), copialo desde tu panel en la sección Configuración > Orígenes > ID del origen que quieras usar',
+            'description'  => 'ID del origen que usaras en simplecom',
+            'helper'       => 'Es el origen que usaras para calcular las tarifas e indicar las recolecciones (si corresponde), copialo desde tu panel en la sección Configuración > Orígenes > ID',
             'required'     => true
         ]);
 
