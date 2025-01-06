@@ -13,7 +13,6 @@ use App\Utils\ShippingRateParameters;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\URL;
 
 class EnvioPack
 {
@@ -41,6 +40,16 @@ class EnvioPack
             'S' => LogisticType::DropoffToDropoff
         ]
     ];
+
+    public function generateToken()
+    {
+        $response = Http::asForm()->acceptJson()->post("$this->base_url/auth", [
+            'api-key'    => $this->key('enviopack_api_key'),
+            'secret-key' => $this->key('enviopack_secret_key')
+        ])->json();
+
+        $this->token = $response['token'] ?? false;
+    }
 
     public function getRates(ShippingRateParameters $parameters)
     {
@@ -199,16 +208,6 @@ class EnvioPack
     public function getSellerRates($rateBody)
     {
         return Http::withQueryParameters($rateBody)->acceptJson()->get("$this->base_url/cotizar/costo")->collect();
-    }
-
-    public function generateToken()
-    {
-        $response = Http::asForm()->acceptJson()->post("$this->base_url/auth", [
-            'api-key'    => env('ENVIOPACK_API_KEY'),
-            'secret-key' => env('ENVIOPACK_SECRET_KEY')
-        ])->json();
-
-        $this->token = $response['token'] ?? false;
     }
 
     public function getProvinceIdByName($provinceName)

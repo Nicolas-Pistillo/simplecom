@@ -54,9 +54,9 @@ class Zippin
         })->toArray();
 
         $rateBody = [
-            'account_id'     => 16082,
-            'origin_id'      => 357313,
-            'declared_value' => 285000,
+            'account_id'     => $this->key('zippin_account_id'),
+            'origin_id'      => $this->key('zippin_origin_id'),
+            'declared_value' => Cart::subtotal(),
             'source'         => 'simplecom',
             'items'          => $items,
             'destination' => [
@@ -145,7 +145,7 @@ class Zippin
 
     public function getRate($rateBody)
     {
-        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
+        return Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
                     ->withBody(json_encode($rateBody))
                     ->post("$this->base_url/shipments/quote")
                     ->collect();
@@ -153,22 +153,24 @@ class Zippin
 
     public function getAccounts()
     {
-        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
+        return Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
                     ->get("$this->base_url/accounts")
                     ->collect();
     }
 
     public function getOrigins()
     {
-        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
+        return Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
                     ->get("$this->base_url/addresses")
                     ->collect();
     }
 
     public function getWebhooks()
     {
-        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
-                    ->get("$this->base_url/accounts/16082/webhooks")
+        $account = $this->key('zippin_account_id');
+
+        return Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
+                    ->get("$this->base_url/accounts/$account/webhooks")
                     ->collect();
     }
 }

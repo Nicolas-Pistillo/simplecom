@@ -15,7 +15,7 @@
             
                     <div class="mb-6">
                         <label class="block text-sm font-semibold leading-6 text-gray-500">
-                            Nombre
+                            Nombre <sup class="text-red-500">*</sup>
                         </label>
                         <div class="mt-2">
                           <input type="text" wire:model='name' name="name" autocomplete="off" class="block w-full 

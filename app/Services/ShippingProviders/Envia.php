@@ -27,17 +27,15 @@ class Envia
         0 => LogisticType::OriginToDoor,     // Puerta a Puerta
         1 => LogisticType::DropoffToDoor,    // Sucursal a Puerta
         2 => LogisticType::OriginToDropoff,  // Puerta a Sucursal
-        3 => LogisticType::DropoffToDropoff, // sucursal a Sucursal
+        3 => LogisticType::DropoffToDropoff, // Sucursal a Sucursal
     ];
 
     public function __construct()
     {
-        $this->token = env('ENVIA_TOKEN');
+        $this->token = $this->key('envia_token');
 
         if (env('ENVIA_TEST')) 
         {
-            $this->token = env('ENVIA_TEST_TOKEN');
-
             $this->api_base_url = 'https://api-test.envia.com';
             $this->queries_base_url = 'https://queries-test.envia.com';
         }

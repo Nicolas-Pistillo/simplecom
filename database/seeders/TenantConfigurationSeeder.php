@@ -317,6 +317,24 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         Configuration::create([
+            'key'           => 'openpay_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client ID generado en dashboard',
+            'helper'        => 'Podes generar estas claves en la sección Comercios > Credenciales de tu dashboard',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'openpay_client_secret',
+            'display_name'  => 'Client Secret',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client secret generado en dashboard',
+            'helper'        => 'Podes generar estas claves en la sección Comercios > Credenciales de tu dashboard',
+            'required'      => true
+        ]);
+
+        Configuration::create([
             'key'          => 'envia_token',
             'display_name' => 'Token',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -327,7 +345,7 @@ class TenantConfigurationSeeder extends Seeder
 
         Configuration::create([
             'key'          => 'zippin_account_id',
-            'display_name' => 'ID de tu cuenta',
+            'display_name' => 'ID de cuenta',
             'topic'        => ConfigurationTopics::DeliveryMethods,
             'description'  => 'ID de tu cuenta de Zippin',
             'helper'       => 'Lo encontraras dentro de tu panel en la sección Configuración > Integraciones > Gestionar Credenciales y Webhooks',
@@ -354,10 +372,10 @@ class TenantConfigurationSeeder extends Seeder
 
         Configuration::create([
             'key'          => 'zippin_origin_id',
-            'display_name' => 'ID de tu origen',
+            'display_name' => 'ID de origen',
             'topic'        => ConfigurationTopics::DeliveryMethods,
-            'description'  => 'ID del origen que usaras en simplecom',
-            'helper'       => 'Es el origen que usaras para calcular las tarifas e indicar las recolecciones (si corresponde), copialo desde tu panel en la sección Configuración > Orígenes > ID',
+            'description'  => 'ID de tu dirección de origen',
+            'helper'       => 'Es la dirección de origen que usaras para calcular las tarifas e indicar al servicio de correo dónde pasara a recolectar los paquetes, copialo desde tu panel en la sección Configuración > Orígenes > ID',
             'required'     => true
         ]);
 
