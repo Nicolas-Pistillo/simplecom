@@ -34,7 +34,9 @@
                 <fieldset wire:loading.remove wire:target='getShippingRates'
                     class="mt-1 rounded-lg overflow-hidden border shadow-sm">
 
-                    @if (!empty(session('rates_results.dropoff_rates')))
+                    @if (session('rates_results.dropoff_rates') && 
+                        session('rates_results.dropoff_rates')->isNotEmpty())
+
                         <div wire:click='showDropoffSelection'
                         class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
                             <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
@@ -69,6 +71,7 @@
                                 </span>
                             </label>
                         </div>
+
                     @endif
 
                     @foreach (session('rates_results.shipping_rates') as $rate)

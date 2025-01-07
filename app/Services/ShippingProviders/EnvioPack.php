@@ -3,6 +3,7 @@
 namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
+use App\Interfaces\ShippingProvider;
 use App\Models\UserAddress;
 use App\Services\CartService;
 use App\Traits\Configurable;
@@ -14,7 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class EnvioPack
+class EnvioPack implements ShippingProvider
 {
     use Configurable;
 
@@ -51,7 +52,7 @@ class EnvioPack
         $this->token = $response['token'] ?? false;
     }
 
-    public function getRates(ShippingRateParameters $parameters)
+    public function getRates(ShippingRateParameters $parameters): Collection
     {
         $rates = collect();
         
@@ -85,6 +86,11 @@ class EnvioPack
         $rates->push($shippingRates, $dropoffRates);
 
         return $rates->collapse();
+    }
+
+    public function createOrder()
+    {
+        
     }
 
     public function getToHomeRates($rateBody): Collection

@@ -3,6 +3,7 @@
 namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
+use App\Interfaces\ShippingProvider;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
@@ -12,7 +13,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class Zippin
+class Zippin implements ShippingProvider
 {
     use Configurable;
 
@@ -69,7 +70,7 @@ class Zippin
 
         $response = $this->getRate($rateBody);
 
-        if ($response->isEmpty()) return collect();
+        if ($response->isEmpty() || !$response->get('results')) return collect();
 
         $rates = collect();
 
@@ -141,6 +142,11 @@ class Zippin
         }
 
         return $rates;
+    }
+
+    public function createOrder()
+    {
+        
     }
 
     public function getRate($rateBody)

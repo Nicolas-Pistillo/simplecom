@@ -48,10 +48,10 @@
                                                 @if ($provider->service()->isConfigurated())
 
                                                     <x-switch 
-                                                    :checked="$provider->active" 
+                                                    :checked="$provider->active"
                                                     wireChange="toggleProviderActive({{ $provider->id }})" />
+
                                                 @else
-                                                    
                                                     <x-badge class="no-select">No configurado</x-badge>
                                                 @endif
                                             </div>
@@ -62,11 +62,23 @@
                                             </p>
 
                                             <small class="no-select block hover:underline text-blue-500 cursor-pointer mb-4"
-                                                x-text="expanded ? 'Ver menos' : 'Ver mas'"
-                                                @click="expanded = !expanded"></small>
+                                            x-text="expanded ? 'Ver menos' : 'Ver mas'"
+                                            @click="expanded = !expanded"></small>
 
-                                            <x-button wire:click='configProvider({{ $provider->id }})'
-                                                class="!rounded-full w-full">Configurar</x-button>
+                                            <div class="flex items-center gap-x-2">
+
+                                                @if ($provider->service()->isConfigurated())
+                                                    <x-button class="!rounded-full w-full">
+                                                        Promociones
+                                                    </x-button>
+                                                @endif
+
+                                                <x-button wire:click='configProvider({{ $provider->id }})'
+                                                :type="$provider->service()->isConfigurated() ? 'secondary' : 'primary'"
+                                                class="!rounded-full w-full">
+                                                    Configurar
+                                                </x-button>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -118,7 +130,7 @@
 
                                                 <div class="flex h-7 items-center gap-x-3">
 
-                                                    <img class="hidden sm:block h-12 w-28 sm:w-36 bg-white object-cover rounded-md"
+                                                    <img class="hidden sm:block h-14 w-28 sm:w-36 bg-white object-cover rounded-md"
                                                         src="{{ URL::to("img/providers/$configuring_provider->code.png") }}"
                                                         alt="provider img">
 

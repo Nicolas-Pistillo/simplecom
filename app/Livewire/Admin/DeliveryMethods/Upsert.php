@@ -40,7 +40,7 @@ class Upsert extends Component
         
         $this->notify([
             'type'  => 'success',
-            'title' => 'Configuración guardada con éxito'
+            'title' => 'Configuración actualizada'
         ]);
     }
 
@@ -48,9 +48,11 @@ class Upsert extends Component
     {
         $provider->update(['active' => !$provider->active]);
 
+        $action = $provider->active ? 'Activaste' : 'Desactivaste';
+
         $this->notify([
             'type'  => 'success',
-            'title' => 'Cambio de estado'
+            'title' => "$action $provider->name con éxito"
         ]);
     }
 

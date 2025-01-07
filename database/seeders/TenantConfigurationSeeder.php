@@ -375,7 +375,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name' => 'ID de origen',
             'topic'        => ConfigurationTopics::DeliveryMethods,
             'description'  => 'ID de tu dirección de origen',
-            'helper'       => 'Es la dirección de origen que usaras para calcular las tarifas e indicar al servicio de correo dónde pasara a recolectar los paquetes, copialo desde tu panel en la sección Configuración > Orígenes > ID',
+            'helper'       => 'Es la dirección de origen que usaras para calcular las tarifas e indicar al servicio de correo dónde pasara a recolectar los paquetes que envíes, copialo desde tu panel en la sección Configuración > Orígenes > ID',
             'required'     => true
         ]);
 
@@ -394,6 +394,67 @@ class TenantConfigurationSeeder extends Seeder
             'topic'        => ConfigurationTopics::DeliveryMethods,
             'description'  => 'SECRET KEY de tu cuenta',
             'helper'       => 'Lo encontraras en tu panel haciendo click en los 3 puntos debajo a la izquierda y luego Configuración > Integraciones > Ver claves',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'rapiboy_api_token',
+            'display_name' => 'API TOKEN',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Api Token asociado a tu cuenta',
+            'helper'       => 'Lo encontraras en la sección "Mi Perfil" en tu panel de rapiboy',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'epick_phone',
+            'display_name' => 'Celular',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Celular que usas para iniciar sesión en E-pick',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'epick_password',
+            'display_name' => 'Contraseña',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Tu contraseña de E-pick',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'mocis_api_client',
+            'display_name' => 'API Client',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Api Client de tu cuenta',
+            'helper'       => "Lo encontraras en la sección 'Integraciones' en tu panel de moci's",
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'mocis_api_secret',
+            'display_name' => 'API Secret',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Api Secret de tu cuenta',
+            'helper'       => "Lo encontraras en la sección 'Integraciones' en tu panel de moci's",
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'saires_client_id',
+            'display_name' => 'ID de cliente',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'ID de cliente asociado a cuenta',
+            'helper'       => 'Debes solicitar este dato por correo a saires indicando el email con el que te hayas registrado en su plataforma',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'saires_email',
+            'display_name' => 'Email',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Email de tu cuenta',
+            'helper'       => 'Email que usas para iniciar sesión en la plataforma de saires',
             'required'     => true
         ]);
     }
