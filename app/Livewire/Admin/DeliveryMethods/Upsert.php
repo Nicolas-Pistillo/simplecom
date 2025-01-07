@@ -11,7 +11,7 @@ class Upsert extends Component
 {
     use WithNotifications;
 
-    public $configuring_provider, $configuring_provider_keys;
+    public $providers, $configuring_provider, $configuring_provider_keys;
 
     public function configProvider(ShippingProvider $provider)
     {
@@ -23,8 +23,6 @@ class Upsert extends Component
 
     public function saveProviderConfig()
     {
-        // dd($this->configuring_provider_keys);
-
         foreach($this->configuring_provider_keys as $field)
         {
             if ($field['required'] && empty(trim($field['value'])))
@@ -46,10 +44,23 @@ class Upsert extends Component
         ]);
     }
 
+    public function toggleProviderActive(ShippingProvider $provider)
+    {
+        $provider->update(['active' => !$provider->active]);
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => 'Cambio de estado'
+        ]);
+    }
+
+    public function mount()
+    {
+        $this->providers = ShippingProvider::orderByDesc('active')->get();
+    }
+
     public function render()
     {
-        return view('livewire.admin.delivery-methods.upsert', [
-            'shipping_providers' => ShippingProvider::orderBy('name')->get()
-        ]);
+        return view('livewire.admin.delivery-methods.upsert');
     }
 }

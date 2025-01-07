@@ -128,7 +128,7 @@
                                 <label class="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-500"
                                 for="checkout_name">
                                     Nombre público <sup class="text-red-500 -ml-1">*</sup> 
-                                    <x-icon code="info" class="text-blue-600" 
+                                    <x-icon code="help" class="text-blue-600 cursor-help" 
                                     x-tooltip.raw.placement.bottom="Es el nombre que verá el comprador en el listado de métodos de pago del checkout" 
                                     style="font-size: 20px" />
                                 </label>

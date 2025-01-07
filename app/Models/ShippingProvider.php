@@ -20,4 +20,16 @@ class ShippingProvider extends Model
 
         return new $this->service_class();
     }
+
+    public static function configurated()
+    {
+        $providers = ShippingProvider::all();
+        return $providers->filter(fn($provider) => $provider->service()->isConfigurated());
+    }
+
+    public static function noConfigurated()
+    {
+        $providers = ShippingProvider::all();
+        return $providers->filter(fn($provider) => !$provider->service()->isConfigurated());
+    }
 }

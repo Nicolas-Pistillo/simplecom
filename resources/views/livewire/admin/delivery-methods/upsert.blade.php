@@ -27,30 +27,41 @@
                             </div>
 
                             <div class="w-full flex justify-center gap-4 flex-wrap">
-                                @foreach ($shipping_providers as $provider)
+                                @foreach ($providers as $provider)
                                     <div wire:key='{{ $provider->id }}' x-data="{ expanded: false }"
                                         class="relative max-w-2xs border border-solid border-gray-200 
-                                        rounded-2xl transition-all duration-500 h-max">
+                                            rounded-2xl transition-all duration-500 h-max">
                                         <div class="block overflow-hidden border-b">
                                             <img src="{{ URL::to("img/providers/$provider->code.png") }}"
                                                 class="w-full h-32 object-cover rounded-t-2xl" />
                                         </div>
                                         <div class="p-4">
 
-                                            <a href="{{ $provider->page_url }}" target="_blank"
-                                            class="text-base font-semibold text-gray-900 inline-block cursor-pointer
-                                              transition mb-1 hover:underline hover:text-blue-700"
-                                                x-tooltip.raw="Visitar página">
-                                                {{ $provider->name }}
-                                            </a>
+                                            <div class="flex items-center justify-between mb-1.5">
+                                                <a href="{{ $provider->page_url }}" target="_blank"
+                                                    class="text-base font-semibold text-gray-900 inline-block cursor-pointer
+                                                    transition hover:underline hover:text-blue-700"
+                                                    x-tooltip.raw="Visitar página">
+                                                    {{ $provider->name }}
+                                                </a>
+
+                                                @if ($provider->service()->isConfigurated())
+
+                                                    <x-switch 
+                                                    :checked="$provider->active" 
+                                                    wireChange="toggleProviderActive({{ $provider->id }})" />
+                                                @else
+                                                    
+                                                    <x-badge class="no-select">No configurado</x-badge>
+                                                @endif
+                                            </div>
 
                                             <p class="text-xs font-normal text-gray-600 transition-all duration-500 leading-5 mb-2"
                                                 :class="expanded ? 'line-clamp-none' : 'line-clamp-3'" x-transition>
                                                 {{ $provider->description }}
                                             </p>
 
-                                            <small
-                                                class="no-select block hover:underline text-blue-500 cursor-pointer mb-4"
+                                            <small class="no-select block hover:underline text-blue-500 cursor-pointer mb-4"
                                                 x-text="expanded ? 'Ver menos' : 'Ver mas'"
                                                 @click="expanded = !expanded"></small>
 
@@ -60,6 +71,7 @@
                                     </div>
                                 @endforeach
                             </div>
+
                         </div>
                     </div>
                 </section>
@@ -75,8 +87,7 @@
 
         </x-tabs>
 
-        <div x-show="openProviderConfig" x-cloak class="relative z-50">
-            <!-- Background backdrop, show/hide based on slide-over state. -->
+        <div x-show="openProviderConfig" x-cloak class="relative z-40">
             <div x-show="openProviderConfig" x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                 x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
@@ -126,14 +137,16 @@
 
                                             @foreach ($configuring_provider_keys as $key => $field)
                                                 @if ($field['input_type'] === 'text')
-                                                    <div wire:key='{{ $field['id'] }}' class="space-y-2 
+                                                    <div wire:key='{{ $field['id'] }}'
+                                                        class="space-y-2 
                                                     px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 
                                                     sm:px-6 sm:py-5">
 
                                                         <div>
                                                             <div class="flex items-center justify-between">
 
-                                                                <label for="{{ $field['key'] }}" class="block text-sm/6 font-medium text-gray-900">
+                                                                <label for="{{ $field['key'] }}"
+                                                                    class="block text-sm/6 font-medium text-gray-900">
 
                                                                     {{ $field['display_name'] }}
 
@@ -143,9 +156,10 @@
                                                                 </label>
 
                                                                 @if (!empty($field['helper']))
-                                                                    <x-icon code="help" class="text-blue-600 cursor-help" 
-                                                                    style="font-size: 18px"
-                                                                    x-tooltip.raw.placement.bottom="{{ $field['helper'] }}" />
+                                                                    <x-icon code="help"
+                                                                        class="text-blue-600 cursor-help"
+                                                                        style="font-size: 18px"
+                                                                        x-tooltip.raw.placement.bottom="{{ $field['helper'] }}" />
                                                                 @endif
                                                             </div>
 
@@ -159,10 +173,10 @@
 
                                                         <div class="sm:col-span-2">
                                                             <input type="text" id="{{ $field['key'] }}"
-                                                              value="{{ $field['value'] }}"
-                                                              wire:model.blur="configuring_provider_keys.{{ $key }}.value"
-                                                              autocomplete="off"
-                                                              class="block w-full rounded-md bg-white px-3 py-1.5 
+                                                                value="{{ $field['value'] }}"
+                                                                wire:model.blur="configuring_provider_keys.{{ $key }}.value"
+                                                                autocomplete="off"
+                                                                class="block w-full rounded-md bg-white px-3 py-1.5 
                                                               text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 
                                                               placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 
                                                               focus:outline-blue-600 text-sm/6">
@@ -171,27 +185,30 @@
                                                 @endif
 
                                                 @if ($field['input_type'] === 'textarea')
-                                                    <div wire:key='{{ $field['id'] }}' class="space-y-2 px-4 sm:grid 
+                                                    <div wire:key='{{ $field['id'] }}'
+                                                        class="space-y-2 px-4 sm:grid 
                                                     sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
 
                                                         <div>
-                                                          <div class="flex items-center justify-between">
+                                                            <div class="flex items-center justify-between">
 
-                                                            <label for="{{ $field['key'] }}" class="block text-sm/6 font-medium text-gray-900">
+                                                                <label for="{{ $field['key'] }}"
+                                                                    class="block text-sm/6 font-medium text-gray-900">
 
-                                                                {{ $field['display_name'] }}
+                                                                    {{ $field['display_name'] }}
 
-                                                                @if ($field['required'])
-                                                                    <sup class="text-red-500">*</sup>
+                                                                    @if ($field['required'])
+                                                                        <sup class="text-red-500">*</sup>
+                                                                    @endif
+                                                                </label>
+
+                                                                @if (!empty($field['helper']))
+                                                                    <x-icon code="help"
+                                                                        class="text-blue-600 cursor-help"
+                                                                        style="font-size: 18px"
+                                                                        x-tooltip.raw.placement.bottom="{{ $field['helper'] }}" />
                                                                 @endif
-                                                            </label>
-
-                                                            @if (!empty($field['helper']))
-                                                                <x-icon code="help" class="text-blue-600 cursor-help" 
-                                                                style="font-size: 18px"
-                                                                x-tooltip.raw.placement.bottom="{{ $field['helper'] }}" />
-                                                            @endif
-                                                        </div>
+                                                            </div>
 
                                                             @error($field['key'])
                                                                 <small class="text-red-500">{{ $message }}</small>
@@ -204,7 +221,7 @@
 
                                                         <div class="sm:col-span-2">
                                                             <textarea rows="3" id="{{ $field['key'] }}"
-                                                            class="block w-full rounded-md bg-white px-3 
+                                                                class="block w-full rounded-md bg-white px-3 
                                                             py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 
                                                             focus:outline focus:outline-2 focus:-outline-offset-2 
                                                             focus:outline-indigo-600 sm:text-sm/6">{{ $field['value'] }}</textarea>
