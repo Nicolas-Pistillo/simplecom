@@ -36,7 +36,7 @@
                             @if (!$method->needs_configuration || $method->service()->isConfigurated())
                                 <x-switch :checked="$method->active" wireChange="toggleActivated({{ $method->id }})" />
                             @else
-                                <x-badge class="w-max">No configurada</x-badge>
+                                <x-badge class="w-max !rounded-full">No configurado</x-badge>
                             @endif
 
                         </div>

@@ -14,6 +14,7 @@ class ShippingRate
     public $source_name;
     public $source_data;
     public $source_logistic_type;
+    public $source_observations;
 
     public $service_id;
     public $service_code;

@@ -121,9 +121,17 @@ class EnvioPack implements ShippingProvider
 
             $dayDifference = now()->diffInDays($deliveryDate);
 
-            $estimate = in_array($dayDifference, [0, 1])
-                        ? 'Entre hoy y mañana'
-                        : "$dayDifference días";
+            $estimate = "$dayDifference días";
+
+            if ($dayDifference === 0)
+            {
+                $estimate = 'Llega hoy';
+            }
+
+            if ($dayDifference === 1)
+            {
+                $estimate = 'Entre mañana y pasado';
+            }
 
             $rates->push(new ShippingRate([
                 'source'                => 'enviopack',

@@ -52,7 +52,8 @@
                                                     wireChange="toggleProviderActive({{ $provider->id }})" />
 
                                                 @else
-                                                    <x-badge class="no-select">No configurado</x-badge>
+                                                    <x-badge class="no-select !rounded-full" 
+                                                    style="font-size: 11px">No configurado</x-badge>
                                                 @endif
                                             </div>
 

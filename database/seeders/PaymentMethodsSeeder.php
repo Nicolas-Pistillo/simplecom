@@ -52,7 +52,7 @@ class PaymentMethodsSeeder extends Seeder
             'checkout_name' => 'MODO - Pagar con QR',
             'description'   => 'MODO es una plataforma de pagos que integra más de 35 bancos, ofreciendo una experiencia de pago ágil para el usuario final. Con MODO, tus clientes pueden pagar sus compras en línea de manera rápida y segura, utilizando las tarjetas asociadas a su billetera digital.',
             'page_url'      => 'https://www.modo.com.ar',
-            'support_url'   => 'https://merchants.modo.com.ar/docs/soporte',
+            'support_url'   => 'https://merchants.modo.com.ar/docs/baa5a96e-d207-464a-85cd-993615d71dc3',
             'support_email' => 'comercios@modo.com.ar'
         ]);
 
