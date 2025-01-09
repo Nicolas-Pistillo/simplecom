@@ -354,18 +354,18 @@ class TenantConfigurationSeeder extends Seeder
 
         Configuration::create([
             'key'          => 'zippin_key',
-            'display_name' => 'API KEY',
+            'display_name' => 'Api Key',
             'topic'        => ConfigurationTopics::DeliveryMethods,
-            'description'  => 'API KEY de tu cuenta',
+            'description'  => 'Api Key de tu cuenta',
             'helper'       => 'Lo encontraras dentro de tu panel en la sección Configuración > Integraciones > Gestionar Credenciales y Webhooks',
             'required'     => true
         ]);
 
         Configuration::create([
             'key'          => 'zippin_secret',
-            'display_name' => 'API SECRET',
+            'display_name' => 'Api Secret',
             'topic'        => ConfigurationTopics::DeliveryMethods,
-            'description'  => 'API SECRET de tu cuenta',
+            'description'  => 'Api Secret de tu cuenta',
             'helper'       => 'Lo encontraras dentro de tu panel en la sección Configuración > Integraciones > Gestionar Credenciales y Webhooks',
             'required'     => true
         ]);
@@ -381,25 +381,34 @@ class TenantConfigurationSeeder extends Seeder
 
         Configuration::create([
             'key'          => 'enviopack_api_key',
-            'display_name' => 'API KEY',
+            'display_name' => 'Api Key',
             'topic'        => ConfigurationTopics::DeliveryMethods,
-            'description'  => 'API KEY de tu cuenta',
+            'description'  => 'Api Key de tu cuenta',
             'helper'       => 'Lo encontraras en tu panel haciendo click en los 3 puntos debajo a la izquierda y luego Configuración > Integraciones > Ver claves',
             'required'     => true
         ]);
 
         Configuration::create([
             'key'          => 'enviopack_secret_key',
-            'display_name' => 'SECRET KEY',
+            'display_name' => 'Secret Key',
             'topic'        => ConfigurationTopics::DeliveryMethods,
-            'description'  => 'SECRET KEY de tu cuenta',
+            'description'  => 'Secret Key de tu cuenta',
             'helper'       => 'Lo encontraras en tu panel haciendo click en los 3 puntos debajo a la izquierda y luego Configuración > Integraciones > Ver claves',
             'required'     => true
         ]);
 
         Configuration::create([
+            'key'           => 'shipnow_api_token',
+            'display_name'  => 'Api Token',
+            'topic'         => ConfigurationTopics::DeliveryMethods,
+            'description'   => 'Api Token para utilizar la API de shipnow',
+            'helper'        => 'Deberas solicitar este token por email a developer@shipnow.com.ar indicando que deseas integrar shipnow a tu tienda online via API',
+            'required'      => true
+        ]);
+
+        Configuration::create([
             'key'          => 'rapiboy_api_token',
-            'display_name' => 'API TOKEN',
+            'display_name' => 'Api Token',
             'topic'        => ConfigurationTopics::DeliveryMethods,
             'description'  => 'Api Token asociado a tu cuenta',
             'helper'       => 'Lo encontraras en la sección "Mi Perfil" en tu panel de rapiboy',
