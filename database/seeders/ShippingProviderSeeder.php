@@ -10,6 +10,7 @@ use App\Services\ShippingProviders\Epick;
 use App\Services\ShippingProviders\Mocis;
 use App\Services\ShippingProviders\Rapiboy;
 use App\Services\ShippingProviders\Saires;
+use App\Services\ShippingProviders\Shipnow;
 use App\Services\ShippingProviders\Zippin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -52,6 +53,17 @@ class ShippingProviderSeeder extends Seeder
             'page_url'      => 'https://www.enviopack.com.ar',
             'support_url'   => 'https://ayuda.enviopack.com/hc/es-419/sections/30700205086228-Contact-center',
             'description'   => 'Con Envíopack podés usar diferentes empresas de logística, sin tener que integrar cada una por separado y mostrando la opción más conveniente de forma automática.',
+        ]);
+
+        // Shipnow
+        ShippingProvider::create([
+            'type'          => ShippingMethodType::MultiCarrier,
+            'code'          => 'shipnow',
+            'service_class' => Shipnow::class,
+            'name'          => 'Shipnow',
+            'page_url'      => 'https://shipnow.com.ar',
+            'support_url'   => 'https://shipnow.com.ar/ayuda',
+            'description'   => 'Shipnow es un ecosistema de soluciones logísticas que ayuda a impulsar el crecimiento de tu negocio y transofrmar la experiencia de compra de tus clientes con envíos a todo el país con una solución integral de logística y distribución. Ofrece múltiples soluciones según tus necesidades y fulfillment entre otros.'
         ]);
 
         // Rapiboy

@@ -9,6 +9,7 @@ class ShippingRate
 {
     public $key;
     public $label;
+    public $contract;
 
     public $source;
     public $source_name;
@@ -24,6 +25,7 @@ class ShippingRate
 
     public $carrier_id;
     public $carrier_name;
+    public $carrier_code;
     public $carrier_logo;
 
     public $price;
