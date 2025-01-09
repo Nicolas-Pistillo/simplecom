@@ -2,6 +2,7 @@
 @isset($tooltip) x-tooltip.raw.placement.{{ $tooltipPosition ?? 'left' }}="{{ $tooltip }}"  @endisset>
 
     <input type="checkbox" class="sr-only peer" @isset($value) value="{{ $value }}" @endisset
+    @if (isset($disabled) && $disabled == true) disabled @endif
     @if (isset($checked) && $checked == true) checked @endif
     @if (!empty($name)) name="{{ $name }}" @endif
     @isset($wireModel) wire:model.live='{{ $wireModel }}' @endisset

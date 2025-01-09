@@ -11,6 +11,7 @@ use App\Services\PaymentProviders\MercadoPago;
 use App\Services\PaymentProviders\Mobbex;
 use App\Services\PaymentProviders\Modo;
 use App\Services\PaymentProviders\Nave;
+use App\Services\PaymentProviders\Openpay;
 use App\Services\PaymentProviders\Sipago;
 use App\Services\PaymentProviders\Stripe;
 use App\Services\PaymentProviders\Ualabis;
@@ -51,7 +52,7 @@ class PaymentMethodsSeeder extends Seeder
             'checkout_name' => 'MODO - Pagar con QR',
             'description'   => 'MODO es una plataforma de pagos que integra más de 35 bancos, ofreciendo una experiencia de pago ágil para el usuario final. Con MODO, tus clientes pueden pagar sus compras en línea de manera rápida y segura, utilizando las tarjetas asociadas a su billetera digital.',
             'page_url'      => 'https://www.modo.com.ar',
-            'support_url'   => 'https://merchants.modo.com.ar/docs/soporte',
+            'support_url'   => 'https://merchants.modo.com.ar/docs/baa5a96e-d207-464a-85cd-993615d71dc3',
             'support_email' => 'comercios@modo.com.ar'
         ]);
 
@@ -142,6 +143,18 @@ class PaymentMethodsSeeder extends Seeder
             'description'   => 'Cajero24 opera con todas las tarjetas de crédito, débito, prepagas y QR para facilitarte soluciones de pago eficaces y adaptables para tu negocio con las comisiones más bajas del mercado.',
             'page_url'      => 'https://cajero24.co',
             'support_email' => 'hola@cajero24.co'
+        ]);
+
+        // OpenPay
+        PaymentMethod::create([
+            'code'          => 'openpay',
+            'service_class' => Openpay::class,
+            'display_name'  => 'Openpay',
+            'checkout_name' => 'Openpay - Tarjetas de crédito, débito y prepagas',
+            'description'   => 'El Checkout API de Openpay es una solución de pagos que te permite cobrar desde tu sitio e-commerce de desarrollo propio de manera simple, rápida y segura con las principales tarjetas de crédito, débito y prepagas.',
+            'page_url'      => 'https://www.openpayargentina.com.ar',
+            'support_email' => 'soporte@openpayargentina.com.ar',
+            'support_url'   => 'https://sdeskopenpay.service-now.com/ayuda_arg'
         ]);
     }
 }

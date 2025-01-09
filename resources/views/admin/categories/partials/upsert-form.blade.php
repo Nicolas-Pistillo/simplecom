@@ -15,7 +15,7 @@
             
                     <div class="mb-6">
                         <label class="block text-sm font-semibold leading-6 text-gray-500">
-                            Nombre
+                            Nombre <sup class="text-red-500">*</sup>
                         </label>
                         <div class="mt-2">
                           <input type="text" wire:model='name' name="name" autocomplete="off" class="block w-full 
@@ -123,7 +123,7 @@
             
                     <div class="mb-3">
         
-                        <img src="{{ $imagePreview ?: 'http://via.placeholder.com/200x200' }}" 
+                        <img src="{{ $imagePreview ?: 'http://via.placeholder.com/500x500' }}" 
                         alt="avatar-category" class="w-24 h-24 rounded-full object-cover">
         
                         <div class="mt-3 flex items-start justify-between">
@@ -134,7 +134,7 @@
                                     </span>Imagen miniatura
                                 </h2>
                                 <p class="text-xs font-medium text-gray-500">
-                                    Recomendado: 200 x 200px
+                                    Recomendado: 500 x 500px
                                 </p>
                             </div>
             

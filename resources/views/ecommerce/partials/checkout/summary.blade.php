@@ -12,7 +12,6 @@
 
     <div class="mt-2 rounded-lg border border-gray-200 overflow-hidden bg-white shadow-sm">
         <ul role="list" class="divide-y divide-gray-200 overflow-y-auto sm:max-h-[260px]" scrollbar-thin>
-
             @foreach (Cart::content() as $product)
                 <li wire:key='{{ $product->rowId }}'
                     class="flex px-4 py-6 sm:px-6 transition-colors duration-300 hover:bg-gray-50">
@@ -57,7 +56,14 @@
                         <div class="flex flex-1 items-end justify-between pt-2">
 
                             <p class="mt-1 text-sm font-medium text-gray-900">
+
                                 ${{ priceFormat($product->price) }}
+
+                                @if ($product->model->hasDiscount())
+                                    <x-badge color="green" class="font-semibold ml-1" style="font-size: 10px">
+                                        {{ $product->model->discount_percent }}% OFF
+                                    </x-badge>
+                                @endif
                             </p>
 
                             <div class="flex items-center gap-2">

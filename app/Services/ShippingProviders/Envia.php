@@ -3,6 +3,7 @@
 namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
+use App\Interfaces\ShippingProvider;
 use App\Services\CartService;
 use App\Traits\Configurable;
 use App\Utils\Address;
@@ -12,7 +13,7 @@ use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class Envia
+class Envia implements ShippingProvider
 {
     use Configurable;
 
@@ -27,17 +28,15 @@ class Envia
         0 => LogisticType::OriginToDoor,     // Puerta a Puerta
         1 => LogisticType::DropoffToDoor,    // Sucursal a Puerta
         2 => LogisticType::OriginToDropoff,  // Puerta a Sucursal
-        3 => LogisticType::DropoffToDropoff, // sucursal a Sucursal
+        3 => LogisticType::DropoffToDropoff, // Sucursal a Sucursal
     ];
 
     public function __construct()
     {
-        $this->token = env('ENVIA_TOKEN');
+        $this->token = $this->key('envia_token');
 
         if (env('ENVIA_TEST')) 
         {
-            $this->token = env('ENVIA_TEST_TOKEN');
-
             $this->api_base_url = 'https://api-test.envia.com';
             $this->queries_base_url = 'https://queries-test.envia.com';
         }
@@ -53,7 +52,7 @@ class Envia
 
         $package = $this->calculatePackage();
 
-        if (!$package) return $rates;
+        if (!$package || $services->isEmpty()) return $rates;
 
         foreach ($services as $service) 
         {
@@ -152,6 +151,11 @@ class Envia
     public function getRate($rateBody)
     {
         return Http::withToken($this->token)->withBody($rateBody)->post("$this->api_base_url/ship/rate")->collect('data');
+    }
+
+    public function createOrder()
+    {
+        
     }
 
     public function calculatePackage(): array|false

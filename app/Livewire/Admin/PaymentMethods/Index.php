@@ -52,7 +52,7 @@ class Index extends Component
 
         foreach($this->configurable_fields as $field)
         {
-            if ($field['required'] && $field['input_type'] === 'text' && empty(trim($field['value'])))
+            if ($field['required'] && empty(trim($field['value'])))
             {
                 return $this->addError($field['key'], "El campo {$field['display_name']} no puede estar vacío");
             }

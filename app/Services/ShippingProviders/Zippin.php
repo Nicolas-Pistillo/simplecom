@@ -3,6 +3,7 @@
 namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
+use App\Interfaces\ShippingProvider;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
@@ -12,7 +13,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class Zippin
+class Zippin implements ShippingProvider
 {
     use Configurable;
 
@@ -54,9 +55,9 @@ class Zippin
         })->toArray();
 
         $rateBody = [
-            'account_id'     => 16082,
-            'origin_id'      => 357313,
-            'declared_value' => 285000,
+            'account_id'     => $this->key('zippin_account_id'),
+            'origin_id'      => $this->key('zippin_origin_id'),
+            'declared_value' => Cart::subtotal(),
             'source'         => 'simplecom',
             'items'          => $items,
             'destination' => [
@@ -69,7 +70,7 @@ class Zippin
 
         $response = $this->getRate($rateBody);
 
-        if ($response->isEmpty()) return collect();
+        if ($response->isEmpty() || !$response->get('results')) return collect();
 
         $rates = collect();
 
@@ -143,9 +144,14 @@ class Zippin
         return $rates;
     }
 
+    public function createOrder()
+    {
+        
+    }
+
     public function getRate($rateBody)
     {
-        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
+        return Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
                     ->withBody(json_encode($rateBody))
                     ->post("$this->base_url/shipments/quote")
                     ->collect();
@@ -153,22 +159,24 @@ class Zippin
 
     public function getAccounts()
     {
-        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
+        return Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
                     ->get("$this->base_url/accounts")
                     ->collect();
     }
 
     public function getOrigins()
     {
-        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
+        return Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
                     ->get("$this->base_url/addresses")
                     ->collect();
     }
 
     public function getWebhooks()
     {
-        return Http::withBasicAuth(env('ZIPPIN_CLIENT_ID'), env('ZIPPIN_CLIENT_SEC'))
-                    ->get("$this->base_url/accounts/16082/webhooks")
+        $account = $this->key('zippin_account_id');
+
+        return Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
+                    ->get("$this->base_url/accounts/$account/webhooks")
                     ->collect();
     }
 }

@@ -148,7 +148,7 @@
                                         error="{{ $errors->first($configField->key) }}"
                                         placeholder="{{ $configField->description }}"
                                         withAsterisk="{{ $configField->required }}"
-                                        value="{{ $configField->key === 'contact_whatsapp' ? '549' : $this->{$configField->key} }}"
+                                        value="{{ $this->{$configField->key} }}"
                                         />
 
                                         @if ($configField->key === 'contact_whatsapp')
