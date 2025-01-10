@@ -137,11 +137,14 @@
                                 }}
                             </h5>
                         </div>
-                        <div class="text-xs text-gray-600 whitespace-nowrap">
-                            <span class="font-medium ml-4">
-                                Estimado {{ $form->selected_rate['estimate'] }} 
-                            </span>
-                        </div>
+
+                        @if (!empty($form->selected_rate['estimate']))
+                            <div class="text-xs text-gray-600 whitespace-nowrap">
+                                <span class="font-medium ml-4">
+                                    Estimado {{ $form->selected_rate['estimate'] }} 
+                                </span>
+                            </div>
+                        @endif
                     </div>
                 @endif    
             @endif

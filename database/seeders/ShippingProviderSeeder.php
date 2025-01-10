@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\ShippingMethodType;
 use App\Models\ShippingProvider;
 use App\Services\ShippingProviders\Envia;
+use App\Services\ShippingProviders\Enviamelo;
 use App\Services\ShippingProviders\EnvioPack;
 use App\Services\ShippingProviders\Epick;
 use App\Services\ShippingProviders\Mocis;
@@ -104,8 +105,18 @@ class ShippingProviderSeeder extends Seeder
             'code'          => 'saires',
             'service_class' => Saires::class,
             'name'          => 'Saires',
-            'page_url'      => 'https://www.sairesenvios.com.ar/lastmile',
+            'page_url'      => 'https://www.sairesenvios.com.ar/lastmile/',
             'description'   => 'Saires propone ser tu socio logístico ideal para las entregas de tus pedidos, combinando competitividad, eficiencia y tecnología para la efectividad de cada entrega. Sus servicios incluyen modalidades tales como next day, same day, logística inversa y cambios simultáneos entre otros.'
+        ]);
+
+        // Enviamelo
+        ShippingProvider::create([
+            'type'          => ShippingMethodType::Carrier,
+            'code'          => 'enviamelo',
+            'service_class' => Enviamelo::class,
+            'name'          => 'Enviamelo',
+            'page_url'      => 'https://enviamelo.com.ar',
+            'description'   => 'Con Envíamelo contás con entregas a todo el país gracias a su solución integral para envíos ecommerce, ofreciendo envíos a domicilio o a puntos de retiro a tus clientes sin importar en que parte del país estén.'
         ]);
     }
 }

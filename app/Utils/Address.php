@@ -9,6 +9,7 @@ class Address
     public $street;
     public $number;
     public $zipcode;
+    public $zipcode_number;
     public $locality;
     public $state;
     public $state_code;
@@ -27,6 +28,11 @@ class Address
             {
                 $this->{$property} = $value;
             }
+        }
+
+        if (!$this->zipcode_number)
+        {
+            $this->zipcode_number = preg_replace("/[^0-9]/", "", $this->zipcode);
         }
     }
 
