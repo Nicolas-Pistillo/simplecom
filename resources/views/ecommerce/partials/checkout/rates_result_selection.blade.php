@@ -104,9 +104,12 @@
                                             <h5 class="font-medium mb-0.5 text-xs sm:text-sm">
                                                 {{ $rate->label }}
                                             </h5>
-                                            <span class="block text-xs text-gray-700">
-                                                Estimado: {{ $rate->estimate }}
-                                            </span>
+                                            
+                                            @if (!empty($rate->estimate))
+                                                <span class="block text-xs text-gray-700">
+                                                    Estimado: {{ $rate->estimate }}
+                                                </span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div>

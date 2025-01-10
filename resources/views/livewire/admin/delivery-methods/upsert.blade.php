@@ -29,8 +29,8 @@
                             <div class="w-full flex justify-center gap-4 flex-wrap">
                                 @foreach ($providers as $provider)
                                     <div wire:key='{{ $provider->id }}' x-data="{ expanded: false }"
-                                        class="relative max-w-2xs border border-solid border-gray-200 
-                                            rounded-2xl transition-all duration-500 h-max">
+                                    class="relative max-w-2xs border border-solid border-gray-200 
+                                    rounded-2xl transition duration-300 h-max hover:shadow-lg">
                                         <div class="block overflow-hidden border-b">
                                             <img src="{{ URL::to("img/providers/$provider->code.png") }}"
                                                 class="w-full h-32 object-cover rounded-t-2xl" />

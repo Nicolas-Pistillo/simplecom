@@ -466,5 +466,14 @@ class TenantConfigurationSeeder extends Seeder
             'helper'       => 'Email que usas para iniciar sesión en la plataforma de saires',
             'required'     => true
         ]);
+
+        Configuration::create([
+            'key'          => 'enviamelo_token',
+            'display_name' => 'Token',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Tu token de acceso a la API de Envíamelo',
+            'helper'       => 'Podras encontrarlo o generarlo en tu panel de enviamelo yendo a tu perfil y luego en la solapa API',
+            'required'     => true
+        ]);
     }
 }

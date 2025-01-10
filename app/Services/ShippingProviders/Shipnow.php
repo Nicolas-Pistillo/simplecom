@@ -54,15 +54,9 @@ class Shipnow implements ShippingProvider
 
             $estimate = "$fromDays-$toDays días";
 
-            if ($fromDays === 0 && $toDays === 1)
-            {
-                $estimate = 'Entre hoy y mañana';
-            }
-
-            if (($fromDays === 1 && $toDays === 2))
-            {
-                $estimate = 'Entre mañana y pasado';
-            }
+            if ($fromDays === $toDays) $estimate = "$toDays días";
+            if ($fromDays === 0 && $toDays === 1) $estimate = 'Entre hoy y mañana';
+            if (($fromDays === 1 && $toDays === 2)) $estimate = 'Entre mañana y pasado';
 
             $rate = new ShippingRate([
                 'source'                => 'shipnow',
