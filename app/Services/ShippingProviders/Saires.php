@@ -10,6 +10,7 @@ use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class Saires implements ShippingProvider
@@ -79,7 +80,7 @@ class Saires implements ShippingProvider
                     'service_id'            => $serviceId,
                     'service_code'          => data_get($result, 'referencia'),
                     'service_name'          => data_get($result, 'nombre'),
-                    'carrier_logo'          => URL::to('img/providers/saires_icon.png'),
+                    'carrier_logo'          => Storage::url('providers/saires_icon.png'),
                     'price'                 => data_get($result, 'precio_entrega_comerciante'),
                     'estimate'              => $estimate
                 ]));

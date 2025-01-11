@@ -13,6 +13,7 @@ use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class Enviamelo implements ShippingProvider
@@ -51,7 +52,7 @@ class Enviamelo implements ShippingProvider
                 'label'                 => "Envíamelo $service",
                 'service_id'            => $service,
                 'service_name'          => $service,
-                'carrier_logo'          => URL::to('img/providers/enviamelo_icon.png'),
+                'carrier_logo'          => Storage::url('providers/enviamelo_icon.png'),
                 'price'                 => data_get($result, 'amount')
             ]);
 

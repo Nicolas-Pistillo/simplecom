@@ -10,6 +10,7 @@ use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class Epick implements ShippingProvider
@@ -51,7 +52,7 @@ class Epick implements ShippingProvider
             'source_name'         => "Epick",
             'source_data'         => $response,
             'label'               => "E-Pick - Envío a domicilio",
-            'carrier_logo'        => URL::to('img/providers/epick.png'),
+            'carrier_logo'        => Storage::url('providers/epick.png'),
             'service_id'          => 'ship',
             'logistic_type'       => LogisticType::OriginToDoor,
             'price'               => data_get($response, 'price'),

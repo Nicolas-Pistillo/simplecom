@@ -13,6 +13,7 @@ use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class Shipnow implements ShippingProvider
@@ -79,7 +80,7 @@ class Shipnow implements ShippingProvider
 
             if ($rate->carrier_code === 'shipnow')
             {
-                $rate->carrier_logo = URL::to('img/providers/shipnow_icon.png');
+                $rate->carrier_logo = Storage::url('providers/shipnow_icon.png');
             }
 
             if (data_get($result, 'ship_to_type') === 'PostOffice')

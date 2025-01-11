@@ -32,7 +32,7 @@
                                     class="relative max-w-2xs border border-solid border-gray-200 
                                     rounded-2xl transition duration-300 h-max hover:shadow-lg">
                                         <div class="block overflow-hidden border-b">
-                                            <img src="{{ URL::to("img/providers/$provider->code.png") }}"
+                                            <img src="{{ Storage::url("providers/$provider->code.png") }}"
                                                 class="w-full h-32 object-cover rounded-t-2xl" />
                                         </div>
                                         <div class="p-4">
@@ -132,7 +132,7 @@
                                                 <div class="flex h-7 items-center gap-x-3">
 
                                                     <img class="hidden sm:block h-14 w-28 sm:w-36 bg-white object-cover rounded-md"
-                                                        src="{{ URL::to("img/providers/$configuring_provider->code.png") }}"
+                                                        src="{{ Storage::url("providers/$configuring_provider->code.png") }}"
                                                         alt="provider img">
 
                                                     <x-icon code="close" style="font-size: 18px"

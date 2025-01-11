@@ -10,6 +10,7 @@ use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class Rapiboy implements ShippingProvider
@@ -48,7 +49,7 @@ class Rapiboy implements ShippingProvider
             'source_name'         => "Rapiboy",
             'source_data'         => $response,
             'label'               => "Rapiboy - Next Day",
-            'carrier_logo'        => URL::to('img/providers/rapiboy_icon.png'),
+            'carrier_logo'        => Storage::url('providers/rapiboy_icon.png'),
             'service_id'          => 'next_day_smart',
             'service_name'        => 'Next Day Smart',
             'logistic_type'       => LogisticType::OriginToDoor,
