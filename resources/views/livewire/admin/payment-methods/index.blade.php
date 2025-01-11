@@ -24,7 +24,7 @@
 
                     <div class="flex rounded-t-xl items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-4">
 
-                        <img src='{{ URL::to("img/providers/$method->code") }}.png' alt="{{ $method->display_name }}"
+                        <img src='{{ Storage::url("providers/$method->code") }}.png' alt="{{ $method->display_name }}"
                         class="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
 
                         <div class="flex flex-col">
@@ -122,7 +122,7 @@
                         <div class="mb-3">
 
                             <div class="mb-3 flex items-center gap-x-3">
-                                <img src="{{ URL::to("img/providers/$method_editing->code.png") }}" 
+                                <img src="{{ Storage::url("providers/$method_editing->code.png") }}" 
                                 class="w-10 h-10 rounded-lg object-cover" alt="Provider logo">
                                 <h3 class="text-lg text-gray-700 font-semibold">
                                     {{ $drawerTitle }}

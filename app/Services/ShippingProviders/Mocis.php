@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use App\Utils\ShippingBranch;
+use Illuminate\Support\Facades\Storage;
 
 class Mocis implements ShippingProvider
 {
@@ -95,7 +96,7 @@ class Mocis implements ShippingProvider
                 'source_data'         => $result,
                 'source_observations' => data_get($result, 'description'),
                 'label'               => "Mocis - $serviceName",
-                'carrier_logo'        => URL::to('img/providers/mocis_icon.png'),
+                'carrier_logo'        => Storage::url('providers/mocis_icon.png'),
                 'service_id'          => data_get($result, 'service.id'),
                 'service_name'        => $serviceName,
                 'logistic_type'       => LogisticType::OriginToDoor,
