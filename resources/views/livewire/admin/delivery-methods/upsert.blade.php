@@ -39,8 +39,8 @@
 
                                             <div class="flex items-center justify-between mb-1.5">
                                                 <a href="{{ $provider->page_url }}" target="_blank"
-                                                    class="text-base font-semibold text-gray-900 inline-block cursor-pointer
-                                                    transition hover:underline hover:text-blue-700"
+                                                    class="text-base font-semibold text-gray-900 inline-block
+                                                    cursor-pointer transition hover:text-blue-600"
                                                     x-tooltip.raw="Visitar página">
                                                     {{ $provider->name }}
                                                 </a>

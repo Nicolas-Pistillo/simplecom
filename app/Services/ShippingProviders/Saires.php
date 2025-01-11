@@ -60,7 +60,8 @@ class Saires implements ShippingProvider
         {
             $serviceId = data_get($result, 'sigla_modalidad');
 
-            if (in_array($serviceId, ['SAMEDY','NEXTDY','STDAMB', 'STDARD']))
+            if (in_array($serviceId, ['SAMEDY','NEXTDY','STDAMB', 'STDARD']) 
+            && !$rates->contains('service_id', $serviceId))
             {
                 $fromDays = now()->diffInDays(Carbon::parse(data_get($result, 'min_fecha_entrega')));
                 $toDays = now()->diffInDays(Carbon::parse(data_get($result, 'max_fecha_entrega')));

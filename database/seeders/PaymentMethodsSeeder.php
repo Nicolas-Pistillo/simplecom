@@ -97,7 +97,7 @@ class PaymentMethodsSeeder extends Seeder
             'display_name'  => 'Getnet',
             'checkout_name' => 'Getnet - Tarjetas de crédito, débito y prepagas',
             'description'   => 'Getnet es una solución de cobros y servicios que brinda a comerciantes, emprendedores y profesionales una alternativa más fácil, rápida y segura de cobrar. Con Getnet podés realizar el cobro de tus ventas de forma presencial y a distancia, a través de diferentes medios de pago como tarjetas de crédito, tarjetas de débito, tarjetas prepagas y links de pago, en un solo pago o en cuotas.',
-            'page_url'      => 'https://www.getnet.com.ar/cobra-online/get-checkout',
+            'page_url'      => 'https://www.getnet.com.ar/cobra-online',
             'support_url'   => 'https://www.getnet.com.ar/ventas'
         ]);
 
