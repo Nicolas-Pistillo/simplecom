@@ -30,7 +30,15 @@
                         <div class="flex flex-col">
 
                             <h6 class="text-sm mb-1 font-semibold leading-6 text-gray-900">
-                                {{ $method->display_name }}
+                                @if ($method->page_url)
+                                    <a href="{{ $method->page_url }}" target="_blank"
+                                    class="transition duration-300 hover:text-blue-600"
+                                    x-tooltip.raw.placement.top="Visitar página">
+                                        {{ $method->display_name }}
+                                    </a>
+                                @else
+                                    {{ $method->display_name }}
+                                @endif
                             </h6>
 
                             @if (!$method->needs_configuration || $method->service()->isConfigurated())
