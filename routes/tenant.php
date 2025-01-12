@@ -131,6 +131,10 @@ Route::middleware([
                     ->name('admin.products.create')
                     ->middleware('can:Editar productos');
 
+                Route::view('orders', 'admin.orders.index')
+                    ->name('admin.orders.index')
+                    ->middleware('can:Ver ventas');
+
                 Route::get('products/{product}/edit', function(Product $product) {
                     return view('admin.products.upsert', compact('product'));
                 })->name('admin.products.edit')->middleware('can:Editar productos'); 

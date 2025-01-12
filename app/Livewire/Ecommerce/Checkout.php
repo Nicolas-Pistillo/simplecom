@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Services\ProductService;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
+use App\Models\ShippingProvider;
 use App\Models\UserAddress;
 use App\Services\ShippingRateService;
 use App\Utils\ShippingRateParameters;
@@ -118,6 +119,9 @@ class Checkout extends Component
 
         $rate = collect($rate)->except('branches')->toArray();
 
+        $shippingProvider = ShippingProvider::where('code', data_get($rate, 'source'))->first();
+
+        $this->form->selected_shipping_provider = $shippingProvider->id;
         $this->form->selected_rate = $rate;
         session()->put('selected_rate', $rate);
     }
@@ -246,6 +250,8 @@ class Checkout extends Component
 
     public function confirmOrder()
     {
+        /* dd($this->form); */
+
         try 
         {
             $paymentMethod = PaymentMethod::find($this->form->selected_payment_method);
@@ -285,7 +291,7 @@ class Checkout extends Component
     {
         if ($key === 'delivery_type')
         {
-            session()->put('delivery_type', $value);       
+            session()->put('delivery_type', $value);
 
         } else 
         {

@@ -185,11 +185,6 @@
                                                                 {{ $address['description'] }}
                                                             </p>
                                                         </div>
-
-                                                        <div class="flex items-center gap-3.5">
-                                                            <input type="radio" name="location_option"
-                                                                id="location-{{ $address['place_id'] }}">
-                                                        </div>
                                                     </div>
                                                 </label>
                                             @endforeach

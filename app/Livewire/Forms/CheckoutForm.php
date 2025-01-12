@@ -31,7 +31,7 @@ class CheckoutForm extends Form
 
     public $show_rates_results, $show_dropoff_selection, $show_selected_branch;
 
-    public $selected_rate, $selected_branch;
+    public $selected_rate, $selected_branch, $selected_shipping_provider;
 
     public $payment_methods, $selected_payment_method;
 

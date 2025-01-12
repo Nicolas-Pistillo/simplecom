@@ -6,7 +6,6 @@
 @endsection
 
 @section('content')
-
     {{-- Main Slider --}}
     @if ($banners->isNotEmpty())
         @include('ecommerce.partials.banner-slider')
@@ -14,79 +13,99 @@
 
     {{-- Categories presentation --}}
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-        <div class="sm:flex sm:items-baseline sm:justify-between">
-            <h2 class="text-2xl font-bold tracking-tight text-gray-900" x-tooltip.raw.placement.top="DALE">Shop by Category
-            </h2>
-            <a href="#" class="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
-                Browse all categories
-                <span aria-hidden="true"> &rarr;</span>
-            </a>
-        </div>
+        <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 mb-14">
+            <div class="flex flex-col lg:flex-row items-center justify-between w-full  max-lg:gap-6 mb-14">
+                <h1 class="font-manrope max-lg:text-center font-medium text-4xl sm:text-5xl sm:leading-snug text-black">
+                    Sophistication Finds Its Pinnacle <br> in Simplicity.
+                </h1>
+                <div class="flex items-center justify-end lg:justify-end gap-5">
+                    <button type="button"
+                        class="py-3.5 pl-8 pr-6 text-lg max-h-max bg-gray-900 text-white rounded-full cursor-pointer font-semibold text-center flex items-center gap-2 shadow-xs transition-all duration-500 hover:bg-gray-700">
+                        Shop Now
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                            fill="none">
+                            <path d="M8.25324 5.49609L13.7535 10.9963L8.25 16.4998" stroke="currentColor" stroke-width="1.6"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg></button>
 
-        <div class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
-            <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2">
-                <img src="https://picsum.photos/1200/600"
-                    alt="Two models wearing women's black cotton crewneck tee and off-white cotton crewneck tee."
-                    class="object-cover object-center group-hover:opacity-75">
-                <div aria-hidden="true" class="bg-gradient-to-b from-transparent to-black opacity-50"></div>
-                <div class="flex items-end p-6">
-                    <div>
-                        <h3 class="font-semibold text-white">
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                New Arrivals
-                            </a>
-                        </h3>
-                        <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
-                    </div>
                 </div>
             </div>
-            <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
-                <img src="https://picsum.photos/1200/600"
-                    alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
-                    class="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full">
-                <div aria-hidden="true"
-                    class="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"></div>
-                <div class="flex items-end p-6 sm:absolute sm:inset-0">
-                    <div>
-                        <h3 class="font-semibold text-white">
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Accessories
-                            </a>
-                        </h3>
-                        <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
+                <div class="flex flex-col gap-8">
+                    <div class="rounded-2xl p-8 bg-emerald-100 ">
+                        <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
+                            Elevate your holiday joy with a festive 20% discount using code xzTnm
+                        </h6>
+                        <button type="button"
+                            class="ml-auto flex w-max py-2 border border-gray-500 px-6 text-sm max-h-max bg-emerald-100 text-gray-900 rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500 hover:bg-black hover:text-white">
+                            Special Offer
+                        </button>
                     </div>
+                    <a href="javascript:;" class="rounded-2xl relative group overflow-hidden cursor-pointer">
+                        <img src="https://pagedone.io/asset/uploads/1710392347.png" alt="men with t-shirt"
+                            class="relative z-0 w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
+                        <div class="absolute top-0 left-0 z-10 p-8 w-full h-full flex items-end">
+                            <div class="block">
+                                <h4 class="font-medium text-4xl leading-snug text-white mb-1.5">
+                                    Man’s Shirt
+                                </h4>
+                                <p class="text-lg font-normal text-white">
+                                    Elevate your look with our stylish men's shirts, perfect for any occasion
+                                </p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
-            <div class="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
-                <img src="https://picsum.photos/1200/600"
-                    alt="Walnut desk organizer set with white modular trays, next to porcelain mug on wooden desk."
-                    class="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full">
-                <div aria-hidden="true"
-                    class="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"></div>
-                <div class="flex items-end p-6 sm:absolute sm:inset-0">
-                    <div>
-                        <h3 class="font-semibold text-white">
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Workspace
-                            </a>
-                        </h3>
-                        <p aria-hidden="true" class="mt-1 text-sm text-white">Shop now</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div
+                    class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
+                    <a href="javascript:;" class="rounded-2xl relative group overflow-hidden">
+                        <img src="https://pagedone.io/asset/uploads/1710392359.png" alt="men with t-shirt"
+                            class="relative z-0 w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3  rounded-2xl object-cover">
+                        <div class="absolute top-0 left-0 z-10 p-8 w-full h-full flex items-end">
+                            <div class="block">
+                                <h4 class="font-medium text-4xl leading-snug text-white ">
+                                    Men <br>
+                                    Collection
+                                </h4>
 
-        <div class="mt-6 sm:hidden">
-            <a href="#" class="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
-                Browse all categories
-                <span aria-hidden="true"> &rarr;</span>
-            </a>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="javascript:;" class="rounded-2xl relative group overflow-hidden">
+                        <img src="https://pagedone.io/asset/uploads/1710392370.png" alt="men with t-shirt"
+                            class="relative z-0 w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
+                        <div class="absolute top-0 left-0 z-10 p-8 w-full h-full flex items-end">
+                            <div class="block">
+                                <h4 class="font-manrope font-medium text-4xl leading-snug text-white ">
+                                    Women <br>
+                                    Collection
+                                </h4>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="rounded-2xl relative overflow-hidden group">
+                    <img src="https://pagedone.io/asset/uploads/1710392382.png" alt="men with t-shirt"
+                        class="relative z-0 w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
+                    <div class="absolute top-0 left-0 z-10 p-8 w-full h-full flex items-end">
+                        <div class="block">
+                            <h4 class="font-manrope font-medium text-4xl leading-snug text-white mb-2">
+                                Girl’s Top
+                            </h4>
+                            <p class="text-lg font-normal text-white leading-relaxed mb-2">
+                                Everyday allure, wrapped in mystery
+                            </p>
+                            <button type="button"
+                                class="w-max py-2 bg-white hover:bg-gray-100 px-5 text-black text-sm leading-6 font-medium max-h-max rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
+      
     {{-- Featured products section --}}
     @if ($featuredProducts->isNotEmpty())
         @include('ecommerce.partials.featured-section')
