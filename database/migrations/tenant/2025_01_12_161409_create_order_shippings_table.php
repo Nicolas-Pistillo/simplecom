@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id');
             $table->foreignId('provider_id');
-            $table->string('logistic_type');
             $table->string('shipping_id')->nullable();
+            $table->string('provider_label')->nullable();
+            $table->string('provider_service')->nullable();
+            $table->string('provider_carrier')->nullable();
+            $table->string('logistic_type');
             $table->string('status')->nullable();
             $table->string('dropoff_point_id')->nullable();
             $table->decimal('price_without_tax')->nullable();

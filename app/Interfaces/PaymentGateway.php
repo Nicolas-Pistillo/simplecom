@@ -2,7 +2,9 @@
 
 namespace App\Interfaces;
 
+use App\Models\Order;
+
 interface PaymentGateway
 {
-    public function generateCheckout($order);
+    public function generateCheckout(Order $order);
 }

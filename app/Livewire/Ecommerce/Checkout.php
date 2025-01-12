@@ -12,6 +12,7 @@ use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
 use App\Models\ShippingProvider;
 use App\Models\UserAddress;
+use App\Services\OrderService;
 use App\Services\ShippingRateService;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Facades\Auth;
@@ -119,10 +120,8 @@ class Checkout extends Component
 
         $rate = collect($rate)->except('branches')->toArray();
 
-        $shippingProvider = ShippingProvider::where('code', data_get($rate, 'source'))->first();
-
-        $this->form->selected_shipping_provider = $shippingProvider->id;
         $this->form->selected_rate = $rate;
+
         session()->put('selected_rate', $rate);
     }
 
@@ -250,10 +249,12 @@ class Checkout extends Component
 
     public function confirmOrder()
     {
-        /* dd($this->form); */
-
         try 
         {
+            $order = OrderService::createFromCheckout($this->form);
+
+            dd($order);
+
             $paymentMethod = PaymentMethod::find($this->form->selected_payment_method);
 
             $service = $paymentMethod->service();
@@ -271,7 +272,7 @@ class Checkout extends Component
             if ($service->redirect_type === PaymentRedirectType::ProviderPlatform)
                 $this->redirect($service->provider_checkout_url);
 
-        } catch (\Throwable $th) 
+        } catch (\Throwable $th)
         {
             $this->notify([
                 'type'  => 'danger',
@@ -279,10 +280,10 @@ class Checkout extends Component
                 'body'  => 'Por favor, vuelva a intentarlo más tarde'
             ]);
 
-            Log::error("Error al generar un pedido", [
+            Log::error("Error al generar pedido", [
                 'tenant'            => tenant('name'),
-                'payment_method'    => $paymentMethod->code,
-                'exception_message' =>  $th->getMessage()
+                'exception_message' =>  $th->getMessage(),
+                'checkout_form'     => $this->form->all()
             ]);
         }
     }

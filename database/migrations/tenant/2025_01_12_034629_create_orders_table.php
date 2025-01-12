@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('delivery_type');
             $table->decimal('shipping_cost', 10)->default(0);
             $table->foreignId('order_shipping_id')->nullable();
+            $table->foreignId('shipping_provider_id')->nullable();
             $table->foreignId('payment_method_id');
             $table->decimal('subtotal', 10);
             $table->decimal('total', 10);
