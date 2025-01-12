@@ -22,18 +22,18 @@
                     active="{{ Route::is('admin.orders.*') }}"/>
                 @endcan
 
-                @can('Editar formas de pago')
-                    <x-navbar-item route="admin.payment-methods.index" icon="payments" title="Formas de pago" 
-                    active="{{ Route::is('admin.payment-methods.*') }}"/>
-                @endcan
-
                 @can('Editar formas de entrega')
                     <x-navbar-item route="admin.delivery-methods.index" icon="shopping_bag_speed" title="Formas de entrega" 
                     active="{{ Route::is('admin.delivery-methods.*') }}"/>
                 @endcan
 
+                @can('Editar formas de pago')
+                    <x-navbar-item route="admin.payment-methods.index" icon="credit_card" title="Formas de pago" 
+                    active="{{ Route::is('admin.payment-methods.*') }}"/>
+                @endcan
+
                 @can('Editar operadores')
-                    <x-navbar-item route="admin.operators.index" icon="contacts" title="Operadores" />
+                    <x-navbar-item route="admin.operators.index" icon="group" title="Operadores" />
                 @endcan
 
             </ul>

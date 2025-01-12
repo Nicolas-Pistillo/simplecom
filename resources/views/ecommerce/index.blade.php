@@ -43,8 +43,8 @@
                     </div>
                     <a href="javascript:;" class="rounded-2xl relative group overflow-hidden cursor-pointer">
                         <img src="https://pagedone.io/asset/uploads/1710392347.png" alt="men with t-shirt"
-                            class="relative z-0 w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
-                        <div class="absolute top-0 left-0 z-10 p-8 w-full h-full flex items-end">
+                            class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
+                        <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
                             <div class="block">
                                 <h4 class="font-medium text-4xl leading-snug text-white mb-1.5">
                                     Man’s Shirt
@@ -60,8 +60,8 @@
                     class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
                     <a href="javascript:;" class="rounded-2xl relative group overflow-hidden">
                         <img src="https://pagedone.io/asset/uploads/1710392359.png" alt="men with t-shirt"
-                            class="relative z-0 w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3  rounded-2xl object-cover">
-                        <div class="absolute top-0 left-0 z-10 p-8 w-full h-full flex items-end">
+                            class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3  rounded-2xl object-cover">
+                        <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
                             <div class="block">
                                 <h4 class="font-medium text-4xl leading-snug text-white ">
                                     Men <br>
@@ -73,8 +73,8 @@
                     </a>
                     <a href="javascript:;" class="rounded-2xl relative group overflow-hidden">
                         <img src="https://pagedone.io/asset/uploads/1710392370.png" alt="men with t-shirt"
-                            class="relative z-0 w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
-                        <div class="absolute top-0 left-0 z-10 p-8 w-full h-full flex items-end">
+                            class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
+                        <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
                             <div class="block">
                                 <h4 class="font-manrope font-medium text-4xl leading-snug text-white ">
                                     Women <br>
@@ -86,8 +86,8 @@
                 </div>
                 <div class="rounded-2xl relative overflow-hidden group">
                     <img src="https://pagedone.io/asset/uploads/1710392382.png" alt="men with t-shirt"
-                        class="relative z-0 w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
-                    <div class="absolute top-0 left-0 z-10 p-8 w-full h-full flex items-end">
+                        class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
+                    <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
                         <div class="block">
                             <h4 class="font-manrope font-medium text-4xl leading-snug text-white mb-2">
                                 Girl’s Top
