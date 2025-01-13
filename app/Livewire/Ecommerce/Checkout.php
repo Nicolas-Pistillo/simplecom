@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Enums\DeliveryType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -307,7 +308,7 @@ class Checkout extends Component
 
     public function render()
     {
-        if ($this->form->selected_rate)
+        if ($this->form->selected_rate && $this->form->delivery_type === DeliveryType::Shipping)
         {
             Cart::addCost('shipping', $this->form->selected_rate['price']);
         }

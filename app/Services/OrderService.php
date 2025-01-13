@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Enums\CustomerType;
 use App\Enums\DeliveryType;
-use App\Enums\OrderStatus;
+use App\Enums\OrderStatusCode;
 use App\Livewire\Forms\CheckoutForm;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -56,7 +56,7 @@ class OrderService
         $order = Order::create([
             'reference'            => Str::upper(Str::random(3) . '-' . rand(100,999)),
             'user_id'              => $userId,
-            'status'               => OrderStatus::Created,
+            'status_code'          => OrderStatusCode::Created,
             'delivery_type'        => $form->delivery_type,
             'shipping_cost'        => $shippingCost,
             'shipping_provider_id' => $shippingProvider?->id,

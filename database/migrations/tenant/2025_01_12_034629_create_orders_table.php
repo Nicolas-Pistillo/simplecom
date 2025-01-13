@@ -15,14 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('reference');
             $table->foreignId('user_id');
-            $table->string('status');
+            $table->string('status_code');
             $table->string('delivery_type');
             $table->decimal('shipping_cost', 10)->default(0);
-            $table->foreignId('order_shipping_id')->nullable();
-            $table->foreignId('shipping_provider_id')->nullable();
-            $table->foreignId('payment_method_id');
             $table->decimal('subtotal', 10);
             $table->decimal('total', 10);
+            $table->foreignId('payment_method_id');
+            $table->foreignId('shipping_provider_id')->nullable();
             $table->timestamps();
         });
     }

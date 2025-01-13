@@ -9,9 +9,9 @@
             <div class="sm:flex-auto">
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Formas de pago</h1>
                 <p class="mt-2 text-sm text-gray-700">
-                    En esta sección podras gestionar, configurar y activar las diferentes pasarelas
-                    de pago que Simplecom ofrece para tu comercio, recordá descargar y leer los instructivos
-                    de cada forma de pago para comenzar a operarla.
+                    En esta sección podras gestionar, configurar y activar las diferentes pasarelas y formas
+                    de pago que Simplecom ofrece para tu comercio. Recordá descargar y leer los instructivos
+                    de cada forma de pago para comenzar a operarla con tranquilidad.
                 </p>
             </div>
         </div>
