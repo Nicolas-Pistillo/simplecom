@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('order_shippings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id');
-            $table->foreignId('provider_id');
             $table->string('shipping_id')->nullable();
+            $table->foreignId('provider_id');
             $table->string('provider_label')->nullable();
             $table->string('provider_service')->nullable();
             $table->string('provider_carrier')->nullable();
             $table->string('logistic_type');
             $table->string('status')->nullable();
-            $table->string('dropoff_point_id')->nullable();
-            $table->decimal('price_without_tax')->nullable();
+            $table->decimal('price_without_tax', 10)->nullable();
             $table->decimal('price', 10);
             $table->string('delivery_estimate')->nullable();
+            $table->text('selected_branch')->nullable();
             $table->text('calculated_rate')->nullable();
             $table->text('meta')->nullable();
             $table->timestamps();

@@ -2,7 +2,7 @@
     <div>
         <h2 class="text-base font-semibold leading-7 text-gray-900">Venta</h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">
-            También podes cargar el descuento y configurar las unidades de compra.
+            Configurá todo lo relacionado con el coste, precio y condiciónes de venta
         </p>
     </div>
 
@@ -22,6 +22,29 @@
                         class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                 </div>
                 @error('form.price')
+                    <small class="text-red-500 text-xs">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+        {{-- Cost field --}}
+        <div class="sm:col-span-3">
+            <label for="unit_cost" class="flex items-center text-sm font-medium leading-6 text-gray-900">
+                Costo unitario 
+                <x-icon code="help" class="ml-1 text-blue-500 cursor-help" 
+                x-tooltip.raw.placement.top="Es el gasto que corre por tu cuenta por conseguir este producto para venderlo,
+                se podrán calcular las ganancias del producto con este dato"
+                />
+            </label>
+            <div class="mt-2">
+                <div
+                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                    <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">$</span>
+                    <input wire:model.blur='form.unit_cost' autocomplete="off" step="0.01" type="number"
+                        id="unit_cost" required
+                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                </div>
+                @error('form.unit_cost')
                     <small class="text-red-500 text-xs">{{ $message }}</small>
                 @enderror
             </div>

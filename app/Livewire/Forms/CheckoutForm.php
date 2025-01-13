@@ -65,8 +65,7 @@ class CheckoutForm extends Form
                 'delivery_type'     => session('delivery_type') ?? DeliveryType::Shipping,
                 'selected_address'  => session('selected_address'),
                 'selected_rate'     => session('selected_rate'),
-                'selected_branch'   => session('selected_branch'),
-                'selected_shipping_provider' => session('selected_shipping_provider')
+                'selected_branch'   => session('selected_branch')
             ]);
         }
 
@@ -80,8 +79,7 @@ class CheckoutForm extends Form
             'delivery_type'     => session('delivery_type') ?? DeliveryType::Shipping,
             'selected_address'  => session('selected_address'),
             'selected_rate'     => session('selected_rate'),
-            'selected_branch'   => session('selected_branch'),
-            'selected_shipping_provider' => session('selected_shipping_provider')
+            'selected_branch'   => session('selected_branch')
         ]);
     }
 

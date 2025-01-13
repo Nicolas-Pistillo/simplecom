@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Ecommerce;
 
-use App\Enums\LogisticType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -10,7 +9,6 @@ use Livewire\Component;
 use App\Services\ProductService;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
-use App\Models\ShippingProvider;
 use App\Models\UserAddress;
 use App\Services\OrderService;
 use App\Services\ShippingRateService;
@@ -253,8 +251,6 @@ class Checkout extends Component
         {
             $order = OrderService::createFromCheckout($this->form);
 
-            dd($order);
-
             $paymentMethod = PaymentMethod::find($this->form->selected_payment_method);
 
             $service = $paymentMethod->service();
@@ -267,7 +263,7 @@ class Checkout extends Component
             if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
                 $this->dispatch("$paymentMethod->code-checkout", $service->frontend_init_data);
 
-            $service->generateCheckout(['id' => 123]);
+            $service->generateCheckout($order);
 
             if ($service->redirect_type === PaymentRedirectType::ProviderPlatform)
                 $this->redirect($service->provider_checkout_url);
@@ -282,7 +278,7 @@ class Checkout extends Component
 
             Log::error("Error al generar pedido", [
                 'tenant'            => tenant('name'),
-                'exception_message' =>  $th->getMessage(),
+                'exception_message' => $th->getMessage(),
                 'checkout_form'     => $this->form->all()
             ]);
         }

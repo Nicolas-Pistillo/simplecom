@@ -28,11 +28,11 @@ class Upsert extends Component
     public $calculatedStock = false;
 
     public $tagSearch = '';
+    public $selectedBrand;
     public $images = [];
     public $variants = [];
     public $selectedTags = [];
     public $selectedAttributes = [];
-    public $selectedBrand;
 
     #[On('change-images-order')]
     public function changeImagesOrder($newOrder)

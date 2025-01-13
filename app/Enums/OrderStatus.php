@@ -4,6 +4,6 @@ namespace App\Enums;
 
 enum OrderStatus: string
 {
-    case Created = 'Creada';
+    case Created = 'Creado';
     case Pending = 'Pendiente';
 }
