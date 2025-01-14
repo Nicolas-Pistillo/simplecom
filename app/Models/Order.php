@@ -18,6 +18,11 @@ class Order extends Model
         'delivery_type' => DeliveryType::class
     ];
 
+    public function status()
+    {
+        return $this->hasOne(OrderStatus::class, 'code', 'status_code');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,5 +36,10 @@ class Order extends Model
     public function shipping()
     {
         return $this->hasOne(OrderShipping::class);
+    }
+
+    public function shippingProvider()
+    {
+        return $this->belongsTo(ShippingProvider::class);
     }
 }

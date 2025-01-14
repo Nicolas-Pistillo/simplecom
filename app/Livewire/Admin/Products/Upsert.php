@@ -313,6 +313,8 @@ class Upsert extends Component
             $this->form->fill($product);
             $this->form->published = $product->published == 1;
 
+            $product->load('images', 'category', 'brand', 'tags');
+
             $product->tags->each(fn($tag) => array_push($this->selectedTags, $tag->id));
             $product->images->sortBy('order')->each(fn($image) => array_push($this->images, $image));
 

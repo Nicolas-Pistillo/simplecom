@@ -8,6 +8,7 @@ use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
 use App\Http\Controllers\Tenant\SocialiteController;
+use App\Models\Order;
 use App\Models\Product;
 use App\Services\PaymentProviders\Modo;
 use Illuminate\Support\Facades\Auth;
@@ -131,13 +132,20 @@ Route::middleware([
                     ->name('admin.products.create')
                     ->middleware('can:Editar productos');
 
+                Route::get('products/{product}/edit', function(Product $product) 
+                {
+                    return view('admin.products.upsert', compact('product'));
+                })
+                ->name('admin.products.edit')
+                ->middleware('can:Editar productos'); 
+
                 Route::view('orders', 'admin.orders.index')
                     ->name('admin.orders.index')
                     ->middleware('can:Ver ventas');
 
-                Route::get('products/{product}/edit', function(Product $product) {
-                    return view('admin.products.upsert', compact('product'));
-                })->name('admin.products.edit')->middleware('can:Editar productos'); 
+                Route::view('orders/{order}', 'admin.orders.show')
+                    ->name('admin.orders.show')
+                    ->middleware('can:Ver ventas');
 
             });
 

@@ -24,20 +24,20 @@ class OrderStatusSeeder extends Seeder
         OrderStatus::create([
             'code'          => OrderStatusCode::PayPending,
             'name'          => 'Pendiente de pago',
-            'display_color' => 'gray',
+            'display_color' => 'orange',
             'helper'        => 'Se espera confirmación de pago por parte del comprador'
         ]);
 
         OrderStatus::create([
             'code'          => OrderStatusCode::TransferPending,
             'name'          => 'Transferencia pendiente',
-            'display_color' => 'gray',
+            'display_color' => 'orange',
             'helper'        => 'Se espera que el comprador envíe el comprobante de transferencia'
         ]);
 
         OrderStatus::create([
             'code'          => OrderStatusCode::Confirmed,
-            'name'          => 'Aceptado',
+            'name'          => 'Confirmado',
             'display_color' => 'green',
             'helper'        => 'El pedido fue confirmado correctamente pero aún no se ha procesado'
         ]);
@@ -46,7 +46,7 @@ class OrderStatusSeeder extends Seeder
             'code'          => OrderStatusCode::DispatchPending,
             'name'          => 'Listo para despachar',
             'display_color' => 'indigo',
-            'helper'        => 'Lleva el pedido al punto de despacho correspondiente'
+            'helper'        => 'Llevá el pedido al punto de despacho correspondiente'
         ]);
 
         OrderStatus::create([
