@@ -28,6 +28,11 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function feed()
+    {
+        return $this->hasMany(OrderFeedItem::class);
+    }
+
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class);

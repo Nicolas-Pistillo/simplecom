@@ -226,8 +226,8 @@
                                             border rounded-full p-0.5" />
                                         </div>
                                     @else
-                                        <img src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                        alt="" class="relative h-6 w-6 flex-none rounded-full bg-gray-50">
+                                        <img src="{{ initialsAvatar(['name' => 'Micaela Rivaz', 'bold' => true, 'background' => '#2563eb', 'color' => '#fff']) }}"
+                                        class="relative h-7 w-7 flex-none rounded-full bg-gray-50 -left-[1.5px]">
                                     @endif
 
                                     <div class="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
