@@ -17,9 +17,9 @@
             <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Operatoria</h5>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
-                @can('Editar formas de pago')
-                    <x-navbar-item route="admin.payment-methods.index" icon="credit_card" title="Formas de pago" 
-                    active="{{ Route::is('admin.payment-methods.*') }}"/>
+                @can('Ver ventas')
+                    <x-navbar-item route="admin.orders.index" icon="shopping_cart" title="Pedidos" 
+                    active="{{ Route::is('admin.orders.*') }}"/>
                 @endcan
 
                 @can('Editar formas de entrega')
@@ -27,8 +27,13 @@
                     active="{{ Route::is('admin.delivery-methods.*') }}"/>
                 @endcan
 
+                @can('Editar formas de pago')
+                    <x-navbar-item route="admin.payment-methods.index" icon="credit_card" title="Formas de pago" 
+                    active="{{ Route::is('admin.payment-methods.*') }}"/>
+                @endcan
+
                 @can('Editar operadores')
-                    <x-navbar-item route="admin.operators.index" icon="contacts" title="Operadores" />
+                    <x-navbar-item route="admin.operators.index" icon="group" title="Operadores" />
                 @endcan
 
             </ul>

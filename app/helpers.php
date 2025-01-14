@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -51,4 +52,3 @@ if (!function_exists('initialsAvatar'))
         return "https://ui-avatars.com/api/?$query";
     }
 }
-

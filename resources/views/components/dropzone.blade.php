@@ -18,10 +18,10 @@
         </div>
 
         <p class="text-xs leading-5 text-gray-600" :class="dragEntered ? 'opacity-0' : 'opacity-100'">
-            {{ $placeholder ?? 'Solo formatos PNG o JPG de hasta 4MB' }}
+            {{ $placeholder ?? 'Solo formatos de imagen de hasta 4MB' }}
         </p>
 
-        <input wire:model='{{ $model }}' accept="image/jpeg, image/png" id="file-upload-input" type="file" class="sr-only">
+        <input wire:model='{{ $model }}' accept="image/*" id="file-upload-input" type="file" class="sr-only">
     </div>
 
     {{-- Dropped files loader --}}
@@ -47,7 +47,7 @@
                 
                 if (!files.length) return;
 
-                const validImageTypes = ['image/jpeg', 'image/png'];
+                const validImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
                 Array.from(files).forEach(file => 
                 {

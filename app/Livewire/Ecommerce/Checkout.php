@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Ecommerce;
 
-use App\Enums\LogisticType;
+use App\Enums\DeliveryType;
 use App\Livewire\Forms\CheckoutForm;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -11,6 +11,7 @@ use App\Services\ProductService;
 use App\Enums\PaymentRedirectType;
 use App\Models\PaymentMethod;
 use App\Models\UserAddress;
+use App\Services\OrderService;
 use App\Services\ShippingRateService;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Facades\Auth;
@@ -119,6 +120,7 @@ class Checkout extends Component
         $rate = collect($rate)->except('branches')->toArray();
 
         $this->form->selected_rate = $rate;
+
         session()->put('selected_rate', $rate);
     }
 
@@ -248,6 +250,8 @@ class Checkout extends Component
     {
         try 
         {
+            $order = OrderService::createFromCheckout($this->form);
+
             $paymentMethod = PaymentMethod::find($this->form->selected_payment_method);
 
             $service = $paymentMethod->service();
@@ -260,12 +264,12 @@ class Checkout extends Component
             if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
                 $this->dispatch("$paymentMethod->code-checkout", $service->frontend_init_data);
 
-            $service->generateCheckout(['id' => 123]);
+            $service->generateCheckout($order);
 
             if ($service->redirect_type === PaymentRedirectType::ProviderPlatform)
                 $this->redirect($service->provider_checkout_url);
 
-        } catch (\Throwable $th) 
+        } catch (\Throwable $th)
         {
             $this->notify([
                 'type'  => 'danger',
@@ -273,10 +277,10 @@ class Checkout extends Component
                 'body'  => 'Por favor, vuelva a intentarlo más tarde'
             ]);
 
-            Log::error("Error al generar un pedido", [
+            Log::error("Error al generar pedido", [
                 'tenant'            => tenant('name'),
-                'payment_method'    => $paymentMethod->code,
-                'exception_message' =>  $th->getMessage()
+                'exception_message' => $th->getMessage(),
+                'checkout_form'     => $this->form->all()
             ]);
         }
     }
@@ -285,7 +289,7 @@ class Checkout extends Component
     {
         if ($key === 'delivery_type')
         {
-            session()->put('delivery_type', $value);       
+            session()->put('delivery_type', $value);
 
         } else 
         {
@@ -304,7 +308,7 @@ class Checkout extends Component
 
     public function render()
     {
-        if ($this->form->selected_rate)
+        if ($this->form->selected_rate && $this->form->delivery_type === DeliveryType::Shipping)
         {
             Cart::addCost('shipping', $this->form->selected_rate['price']);
         }

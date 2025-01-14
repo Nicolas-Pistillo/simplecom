@@ -86,7 +86,7 @@
         
                     <div class="mb-6">
         
-                        <img src="{{ $coverImagePreview ?: 'http://via.placeholder.com/1200x630' }}" 
+                        <img src="{{ $coverImagePreview ?: 'http://placehold.co/1200x630' }}" 
                         alt="avatar-category" class="w-full h-28 rounded-lg object-cover shadow">
             
                         <div class="mt-4 flex items-start justify-between">
@@ -123,7 +123,7 @@
             
                     <div class="mb-3">
         
-                        <img src="{{ $imagePreview ?: 'http://via.placeholder.com/500x500' }}" 
+                        <img src="{{ $imagePreview ?: 'http://placehold.co/500x500' }}" 
                         alt="avatar-category" class="w-24 h-24 rounded-full object-cover">
         
                         <div class="mt-3 flex items-start justify-between">

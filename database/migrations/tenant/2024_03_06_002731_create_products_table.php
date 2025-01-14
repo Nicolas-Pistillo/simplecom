@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable();
             $table->foreignId('brand_id')->nullable();
             $table->decimal('price', 10);
+            $table->decimal('unit_cost', 10)->nullable();
             $table->integer('discount_percent')->nullable();
             $table->integer('stock')->default(0);
             $table->integer('min_sale')->default(1);

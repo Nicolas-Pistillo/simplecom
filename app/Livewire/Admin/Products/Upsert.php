@@ -28,11 +28,11 @@ class Upsert extends Component
     public $calculatedStock = false;
 
     public $tagSearch = '';
+    public $selectedBrand;
     public $images = [];
     public $variants = [];
     public $selectedTags = [];
     public $selectedAttributes = [];
-    public $selectedBrand;
 
     #[On('change-images-order')]
     public function changeImagesOrder($newOrder)
@@ -312,6 +312,8 @@ class Upsert extends Component
             $this->product = $product;
             $this->form->fill($product);
             $this->form->published = $product->published == 1;
+
+            $product->load('images', 'category', 'brand', 'tags');
 
             $product->tags->each(fn($tag) => array_push($this->selectedTags, $tag->id));
             $product->images->sortBy('order')->each(fn($image) => array_push($this->images, $image));

@@ -9,6 +9,10 @@
         'blue'    => 'bg-blue-50 text-blue-700 ring-blue-700/10',
         'indigo'  => 'bg-indigo-50 text-indigo-700 ring-indigo-700/10',
         'purple'  => 'bg-purple-50 text-purple-700 ring-purple-700/10',
+        'violet'  => 'bg-violet-50 text-violet-700 ring-violet-700/10',
+        'emerald' => 'bg-emerald-50 text-emerald-700 ring-emerald-700/10',
+        'cyan'    => 'bg-cyan-50 text-cyan-700 ring-cyan-700/10',
+        'amber'   => 'bg-amber-50 text-amber-700 ring-amber-700/10',
         'orange'  => 'bg-orange-50 text-orange-700 ring-orange-700/10',
         'pink'    => 'bg-pink-50 text-pink-700 ring-pink-700/10'
     ];

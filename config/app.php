@@ -184,10 +184,13 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'DeliveryType'       => App\Enums\DeliveryType::class,
-        'CustomerType'       => App\Enums\CustomerType::class,
-        'ShippingMethodType' => App\Enums\ShippingMethodType::class,
-        'LogisticType'       => App\Enums\LogisticType::class
+        'DeliveryType'          => App\Enums\DeliveryType::class,
+        'CustomerType'          => App\Enums\CustomerType::class,
+        'ShippingMethodType'    => App\Enums\ShippingMethodType::class,
+        'LogisticType'          => App\Enums\LogisticType::class,
+        'OrderStatusCode'       => App\Enums\OrderStatusCode::class,
+        'OrderFeedEvent'        => App\Enums\OrderFeedEvent::class,
+        'OrderFeedPresentation' => App\Enums\OrderFeedPresentation::class
     ])->toArray(),
 
 ];

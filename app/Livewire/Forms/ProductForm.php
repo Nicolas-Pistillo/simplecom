@@ -26,6 +26,9 @@ class ProductForm extends Form
     #[Validate('required|numeric|max:99999999|not_in:0', as: 'precio')]
     public $price;
 
+    #[Validate('nullable|numeric|max:99999999', as: 'costo')]
+    public $unit_cost;
+
     #[Validate('nullable|numeric|integer|max:100|not_in:0', as: 'descuento')]
     public $discount_percent;
 

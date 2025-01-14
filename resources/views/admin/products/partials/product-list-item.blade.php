@@ -42,7 +42,7 @@
     {{-- Right place | Product actions --}}
     <div class="flex items-center">
 
-        <span class="flex h-8 mr-4 rounded-md shadow-sm">
+        <span class="hidden sm:flex h-8 mr-4 rounded-md shadow-sm">
 
             <x-button type="secondary" wire:click='togglePublishedProduct({{ $product->id }})'
             x-tooltip.raw.placement.top="{{ $product->published ? 'Publicado' : 'No publicado' }}"

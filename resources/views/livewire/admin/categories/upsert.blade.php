@@ -47,7 +47,7 @@
                 @if ($categories->isEmpty())
 
                     @if (!$hasCategories)
-                        <div class="text-center pt-8">
+                        <div class="text-center pt-8 pb-2 px-4">
 
                             <img src="{{ URL::to('img/illustrations/data_processing.svg') }}" class="h-64 mx-auto mb-4"
                                 alt="no-data-img">
