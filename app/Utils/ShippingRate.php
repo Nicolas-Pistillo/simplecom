@@ -28,6 +28,7 @@ class ShippingRate
     public $carrier_code;
     public $carrier_logo;
 
+    public $price_no_tax;
     public $price;
     public $estimate;
     public Collection $branches;

@@ -11,6 +11,7 @@ class Address
     public $zipcode;
     public $zipcode_number;
     public $locality;
+    public $region;
     public $state;
     public $state_code;
 

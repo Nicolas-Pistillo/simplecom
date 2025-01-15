@@ -475,5 +475,50 @@ class TenantConfigurationSeeder extends Seeder
             'helper'       => 'Podras encontrarlo o generarlo en tu panel de enviamelo yendo a tu perfil y luego en la solapa API',
             'required'     => true
         ]);
+
+        Configuration::create([
+            'key'          => 'andreani_user',
+            'display_name' => 'Usuario API',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Tu usuario para acceder a la API de Andreani',
+            'helper'       => 'Recibiras estas credenciales por parte de tu ejecutivo comercial',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'andreani_password',
+            'display_name' => 'Contraseña API',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Tu contraseña para acceder a la API de Andreani',
+            'helper'       => 'Recibiras estas credenciales por parte de tu ejecutivo comercial',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'andreani_nro_cliente',
+            'display_name' => 'Número de Cliente',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Tu número de cliente en Andreani',
+            'helper'       => 'Recibiras estas credenciales por parte de tu ejecutivo comercial',
+            'required'     => true
+        ]);
+
+        Configuration::create([
+            'key'          => 'andreani_contrato_domicilio',
+            'display_name' => 'Nro Contrato a Domicilio',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Número de contrato para entregas a domicilio',
+            'helper'       => 'Completá el número de contrato para esta modalidad sólo si corresponde según lo pactado con tu ejecutivo comercial',
+            'required'     => false
+        ]);
+
+        Configuration::create([
+            'key'          => 'andreani_contrato_sucursal',
+            'display_name' => 'Nro Contrato a Sucursal',
+            'topic'        => ConfigurationTopics::DeliveryMethods,
+            'description'  => 'Número de contrato para entregas a sucursal',
+            'helper'       => 'Completá el número de contrato para esta modalidad sólo si corresponde según lo pactado con tu ejecutivo comercial',
+            'required'     => false
+        ]);
     }
 }

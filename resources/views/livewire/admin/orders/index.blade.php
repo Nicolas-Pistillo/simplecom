@@ -113,7 +113,7 @@
                                             @endif
 
                                             @if ($order->delivery_type === DeliveryType::Picking)
-                                                Retíro en sucursal                                            
+                                                Retíro en local                                            
                                             @endif
                                         </td>
 

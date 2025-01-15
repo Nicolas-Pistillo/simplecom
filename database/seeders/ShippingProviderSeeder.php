@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\ShippingMethodType;
 use App\Models\ShippingProvider;
+use App\Services\ShippingProviders\Andreani;
 use App\Services\ShippingProviders\Envia;
 use App\Services\ShippingProviders\Enviamelo;
 use App\Services\ShippingProviders\EnvioPack;
@@ -23,6 +24,16 @@ class ShippingProviderSeeder extends Seeder
      */
     public function run(): void
     {
+        // Andreani
+        ShippingProvider::create([
+            'type'          => ShippingMethodType::Carrier,
+            'code'          => 'andreani',
+            'service_class' => Andreani::class,
+            'name'          => 'Andreani',
+            'page_url'      => 'https://developers.andreani.com',
+            'description'   => 'Conecta tu negocio con Andreani para ofrecer entregas rápidas y eficientes junto a una de las compañías logísticas más grandes del país.'
+        ]);
+
         // Envia.com
         ShippingProvider::create([
             'type'          => ShippingMethodType::MultiCarrier,
