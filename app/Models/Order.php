@@ -23,6 +23,11 @@ class Order extends Model
         return $this->hasOne(OrderStatus::class, 'code', 'status_code');
     }
 
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
