@@ -26,7 +26,7 @@ class="animate__animated animate__bounceInLeft grid max-w-xl grid-cols-12 gap-x-
                         <div class="flex items-center text-sm">
 
                             <img src='{{ Storage::url("providers/$method->code.png") }}' alt="Payment provider logo"
-                                class="w-10 h-10 rounded-xl shadow mr-2 object-cover">
+                                class="w-10 h-10 rounded-xl mr-2 object-cover">
 
                             <div>
                                 <h5 class="font-medium mb-0.5 text-xs sm:text-sm">{{ $method->checkout_name }}</h5>

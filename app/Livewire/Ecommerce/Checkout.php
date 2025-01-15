@@ -14,6 +14,7 @@ use App\Models\UserAddress;
 use App\Services\OrderService;
 use App\Services\ShippingRateService;
 use App\Utils\ShippingRateParameters;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -72,6 +73,8 @@ class Checkout extends Component
 
         } catch (\Throwable $err) 
         {
+            $this->form->reset('show_rates_results', 'selected_address');
+
             Log::channel('error')->error('Error al cotizar envío', [
                 'tenant'        => tenant('name'),
                 'message'       => $err->getMessage(),
@@ -250,6 +253,11 @@ class Checkout extends Component
     {
         try 
         {
+            if (empty(Cart::content()))
+            {
+                throw new Exception('Intento de compra con el carrito vacío');
+            }
+
             $order = OrderService::createFromCheckout($this->form);
 
             $paymentMethod = PaymentMethod::find($this->form->selected_payment_method);
