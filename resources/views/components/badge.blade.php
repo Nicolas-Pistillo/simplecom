@@ -1,5 +1,5 @@
 @php
-    $baseClasses = 'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset';
+    $baseClasses = 'inline-flex cursor-pointer items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset';
 
     $colors = [
         'green'   => 'bg-green-50 text-green-700 ring-green-600/20',

@@ -11,7 +11,7 @@
                 Lo sentimos, parece que la página o el recurso que intentas visitar no existe.
             </p>
             <div class="mt-10 flex justify-center">
-                <a href="/" class="text-sm font-semibold hover:shadow-lg p-2 rounded-full transition-colors duration-300 leading-7 hover:bg-gray-50 hover:text-black text-white flex items-center">
+                <a href="{{ auth('operator')->check() ? route('admin.dashboard.index') : '/' }}" class="text-sm font-semibold hover:shadow-lg p-2 rounded-full transition-colors duration-300 leading-7 hover:bg-gray-50 hover:text-black text-white flex items-center">
                     <x-icon code="keyboard_backspace" class="mr-2" />
                     Volver al inicio
                 </a>

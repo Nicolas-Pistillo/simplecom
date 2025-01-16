@@ -23,6 +23,11 @@ class Order extends Model
         return $this->hasOne(OrderStatus::class, 'code', 'status_code');
     }
 
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -46,5 +51,10 @@ class Order extends Model
     public function shippingProvider()
     {
         return $this->belongsTo(ShippingProvider::class);
+    }
+
+    public function detailPage()
+    {
+        return route('admin.orders.show', $this->id);
     }
 }

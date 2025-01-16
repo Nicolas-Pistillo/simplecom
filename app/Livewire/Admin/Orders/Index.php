@@ -11,7 +11,9 @@ class Index extends Component
 
     public function getOrders()
     {
-        return Order::orderBy('created_at', 'DESC')->paginate(10);
+        return Order::with('status', 'user', 'paymentMethod')
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(10);
     }
 
     public function render()
