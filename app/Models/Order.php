@@ -52,4 +52,9 @@ class Order extends Model
     {
         return $this->belongsTo(ShippingProvider::class);
     }
+
+    public function detailPage()
+    {
+        return route('admin.orders.show', $this->id);
+    }
 }

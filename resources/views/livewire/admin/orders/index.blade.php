@@ -56,9 +56,10 @@
                                             <label for="checkbox-all" class="sr-only">checkbox</label>
                                         </div>
                                     </th>
+                                    <th scope="col" class="px-4 py-3">ID</th>
                                     <th scope="col" class="px-4 py-3">Referencia</th>
                                     <th scope="col" class="px-4 py-3">Estado</th>
-                                    <th scope="col" class="px-4 py-3">Comprador</th>
+                                    <th scope="col" class="px-4 py-3">Cliente</th>
                                     <th scope="col" class="px-4 py-3">Entrega</th>
                                     <th scope="col" class="px-4 py-3">Total</th>
                                     <th scope="col" class="px-4 py-3">Medio de Pago</th>
@@ -67,9 +68,10 @@
                             </thead>
                             <tbody>
                                 @foreach ($orders as $order)
-                                    <tr wire:key='{{ $order->id }}' @click="alert('Tocaste aca!')"
+                                    <tr wire:key='{{ $order->id }}' 
                                     class="border-b text-center transition cursor-pointer 
-                                    duration-200 hover:bg-gray-50 text-xs">
+                                    duration-200 hover:bg-gray-50 text-xs"
+                                    @click="location.href='{{ $order->detailPage() }}'">
 
                                         <td class="w-4 px-4 py-3" onclick="event.stopPropagation()">
                                             <div class="flex items-center">
@@ -80,16 +82,16 @@
                                         </td>
 
                                         <td class="font-semibold text-gray-900">
-                                            <a onclick="event.stopPropagation()" target="_blank"
-                                            x-tooltip.raw.placement.top="Ver detalle completo"
-                                            class="transition duration-200 hover:text-blue-600" 
-                                            href="{{ route('admin.orders.show', $order) }}">{{ $order->reference }}</a>
+                                            {{ $order->id }}
+                                        </td>
+
+                                        <td class="font-semibold text-gray-900">
+                                            {{ $order->reference }}
                                         </td>
 
                                         <td class="px-4 py-2 whitespace-nowrap">
                                             <x-badge :color="$order->status->display_color"
-                                            x-tooltip.raw.placement.top="{{ $order->status->helper }}" 
-                                            onclick="event.stopPropagation()">
+                                            x-tooltip.raw.placement.top="{{ $order->status->helper }}">
                                                 {{ $order->status->name }}
                                             </x-badge>
                                         </td>
@@ -137,7 +139,7 @@
                         </table>
                     </div>
 
-                    @if ($orders->count() >= 10)
+                    @if($orders->total() >= 10)
                         <nav class="p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
                             {{ $orders->links() }}
                         </nav>

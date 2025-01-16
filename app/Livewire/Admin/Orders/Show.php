@@ -13,7 +13,10 @@ class Show extends Component
     {
         $order = Order::find($order) ?? abort(404);
 
-        $order->load('status', 'user', 'items', 'feed', 'shipping');
+        $order->load(
+            'status', 'user', 'items', 'feed', 'shipping', 
+            'shippingProvider', 'paymentMethod'
+        );
 
         $this->order = $order;
     }
