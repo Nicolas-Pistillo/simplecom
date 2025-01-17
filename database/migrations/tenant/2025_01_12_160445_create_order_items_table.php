@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id');
             $table->foreignId('product_id');
-            $table->foreignId('variant_id')->nullable();
             $table->foreignId('category_id')->nullable();
+            $table->foreignId('variant_id')->nullable();
             $table->string('name');
             $table->integer('quantity');
             $table->decimal('unit_cost', 10)->nullable();

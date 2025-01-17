@@ -263,6 +263,8 @@ class Checkout extends Component
             $paymentMethod = PaymentMethod::find($this->form->selected_payment_method);
 
             $service = $paymentMethod->service();
+
+            $service->generateCheckout($order);
     
             if ($service->redirect_type === PaymentRedirectType::None)
             {
@@ -271,8 +273,6 @@ class Checkout extends Component
 
             if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
                 $this->dispatch("$paymentMethod->code-checkout", $service->frontend_init_data);
-
-            $service->generateCheckout($order);
 
             if ($service->redirect_type === PaymentRedirectType::ProviderPlatform)
                 $this->redirect($service->provider_checkout_url);
