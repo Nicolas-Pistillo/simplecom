@@ -81,7 +81,7 @@ class="animate__animated animate__bounceInLeft grid max-w-xl grid-cols-12 gap-x-
                     })
                 });
 
-                const returnUrl = "{{ route('payment.return', 'modo') }}";
+                const returnUrl = "{{ route('payment.return', ['provider' => 'modo', 'order' => 2]) }}";
 
                 const jsonRes = await res.json();
 

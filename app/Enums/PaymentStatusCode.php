@@ -4,16 +4,17 @@ namespace App\Enums;
 
 enum PaymentStatusCode: string
 {
-    case CreationPending       = 'created';
+    case Created               = 'created';
+    case TransferPending       = 'transfer_pending';
     case PayPending            = 'pay_pending';
     case NeedsConfirmation     = 'needs_confirmation';
     case InProcess             = 'payment_processing';
-    case Processed             = 'processed';
-    case Confirmed             = 'confirmed';
-    case ProviderCancelled     = 'provider_cancelled';
-    case CancellationInProcess = 'cancel_process';
-    case Cancelled             = 'cancelled';
     case Unauthorized          = 'unauthorized';
     case InRevision            = 'in_revision';
+    case Processed             = 'processed';
+    case Confirmed             = 'confirmed';
+    case Rejected              = 'rejected';
+    case CancellationInProcess = 'cancel_process';
+    case Cancelled             = 'cancelled';
     case Refunded              = 'refunded';
 }

@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('name');
-            $table->string('helper')->nullable();
-            $table->string('customer_name');
-            $table->string('customer_helper');
             $table->string('display_color')->nullable();
+            $table->string('helper')->nullable();
             $table->timestamps();
         });
     }

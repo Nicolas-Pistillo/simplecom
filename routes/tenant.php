@@ -32,7 +32,7 @@ Route::middleware([
         Route::get('sso/{provider}/callback', [SocialiteController::class, 'callback']);
 
         // Payment providers urls
-        Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'handler'])
+        Route::get('payment-providers/{provider}/{order}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
 
         Route::post('payment-providers/{provider}/webhook', [PaymentWebhookController::class, 'handler'])

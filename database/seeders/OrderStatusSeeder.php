@@ -19,8 +19,8 @@ class OrderStatusSeeder extends Seeder
             'name'            => 'En proceso',
             'customer_name'   => 'En proceso',
             'display_color'   => 'gray',
-            'helper'          => 'El pedido fue creado correctamente y se está procesando internamente',
-            'customer_helper' => 'Estamos procesando tu pedido, pronto tendrás novedades'
+            'helper'          => 'El cliente esta procesando esta compra',
+            'customer_helper' => 'Tu pedido está en proceso y aún no se ha confirmado'
         ]);
 
         OrderStatus::create([
@@ -30,15 +30,6 @@ class OrderStatusSeeder extends Seeder
             'display_color'   => 'orange',
             'helper'          => 'Se espera confirmación de pago por parte del comprador',
             'customer_helper' => 'Finalizá tu pago para confirmar tu pedido'
-        ]);
-
-        OrderStatus::create([
-            'code'            => OrderStatusCode::TransferPending,
-            'name'            => 'Transferencia pendiente',
-            'customer_name'   => 'Transferencia pendiente',
-            'display_color'   => 'orange',
-            'helper'          => 'Se espera que el comprador envíe el comprobante de transferencia',
-            'customer_helper' => 'Recordá adjuntar el comprobante de transferencia una vez que '
         ]);
 
         OrderStatus::create([
@@ -98,7 +89,7 @@ class OrderStatusSeeder extends Seeder
         OrderStatus::create([
             'code'            => OrderStatusCode::RefundRequested,
             'name'            => 'Reembolso solicitado',
-            'customer_helper' => 'Reembolso solicitado',
+            'customer_name'   => 'Reembolso solicitado',
             'display_color'   => 'yellow',
             'helper'          => 'El comprador solicitó el reembolso de este pedido',
             'customer_helper' => 'Recibimos tu solicitud de reembolso y nos estaremos contactando a la brevedad'
@@ -107,7 +98,7 @@ class OrderStatusSeeder extends Seeder
         OrderStatus::create([
             'code'            => OrderStatusCode::Refunded,
             'name'            => 'Reembolsado',
-            'customer_helper' => 'Reembolsado',
+            'customer_name'   => 'Reembolsado',
             'display_color'   => 'orange',
             'helper'          => 'Se completó el reembolso del pedido',
             'customer_helper' => 'Recibirás el reembolso del pedido próximamente'
@@ -116,7 +107,7 @@ class OrderStatusSeeder extends Seeder
         OrderStatus::create([
             'code'            => OrderStatusCode::Cancelled,
             'name'            => 'Cancelado',
-            'customer_helper' => 'Cancelado',
+            'customer_name'   => 'Cancelado',
             'display_color'   => 'red',
             'helper'          => 'Cancelaste este pedido, se reasignará el stock de los productos',
             'customer_helper' => 'Tuvimos que cancelar este pedido, lamentamos las molestias ocacionadas'

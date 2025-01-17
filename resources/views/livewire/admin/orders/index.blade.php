@@ -57,7 +57,7 @@
                                         </div>
                                     </th>
                                     <th scope="col" class="px-4 py-3">ID</th>
-                                    <th scope="col" class="px-4 py-3">Referencia</th>
+                                    <th scope="col" class="px-4 py-3">Código</th>
                                     <th scope="col" class="px-4 py-3">Estado</th>
                                     <th scope="col" class="px-4 py-3">Cliente</th>
                                     <th scope="col" class="px-4 py-3">Entrega</th>
@@ -86,7 +86,7 @@
                                         </td>
 
                                         <td class="font-semibold text-gray-900">
-                                            {{ $order->reference }}
+                                            {{ $order->code }}
                                         </td>
 
                                         <td class="px-4 py-2 whitespace-nowrap">
@@ -139,7 +139,7 @@
                         </table>
                     </div>
 
-                    @if($orders->total() >= 10)
+                    @if($orders->total() > 10)
                         <nav class="p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
                             {{ $orders->links() }}
                         </nav>

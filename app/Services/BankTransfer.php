@@ -6,9 +6,11 @@ use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
 use App\Enums\OrderStatusCode;
 use App\Enums\PaymentRedirectType;
+use App\Enums\PaymentStatusCode;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
+use App\Models\OrderPayment;
 use App\Traits\Configurable;
 
 class BankTransfer implements PaymentGateway
@@ -23,7 +25,13 @@ class BankTransfer implements PaymentGateway
 
     public function generateCheckout(Order $order)
     {
-        $order->update(['status_code' => OrderStatusCode::TransferPending]);
+        $order->update(['status_code' => OrderStatusCode::PayPending]);
+
+        OrderPayment::create([
+            'order_id'    => $order->id,
+            'provider_id' => 1,
+            'status_code' => PaymentStatusCode::TransferPending
+        ]);
 
         $total = priceFormat($order->total);
 
