@@ -14,8 +14,9 @@ class Show extends Component
         $order = Order::find($order) ?? abort(404);
 
         $order->load(
-            'status', 'user', 'items', 'feed', 'shipping', 
-            'shippingProvider', 'paymentMethod'
+            'items.variant.options.attribute', 'items.variant.options.attributeValue',
+            'status', 'user', 'feed', 'shipping', 'shippingProvider', 'paymentMethod',
+            'payment', 'shipping'
         );
 
         $this->order = $order;

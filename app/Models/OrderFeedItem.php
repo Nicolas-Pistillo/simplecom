@@ -18,6 +18,6 @@ class OrderFeedItem extends Model
     protected $casts = [
         'event'        => OrderFeedEvent::class,
         'presentation' => OrderFeedPresentation::class,
-        'meta'         => 'object'
+        'meta'         => 'json'
     ];
 }

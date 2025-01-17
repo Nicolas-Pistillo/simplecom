@@ -64,7 +64,7 @@
                                                 <div class="flex-shrink-0">
 
                                                     <img class="{{ $tenant->logo_url ? 'h-11 w-28 object-contain' : 'h-11 w-11 rounded-full' }}"
-                                                    src="{{ $tenant->logo_url ? Storage::url($tenant->logo_url) : "https://ui-avatars.com/api/?color=fff&background=2563eb&name=$tenant->ecommerce_name" }}"
+                                                    src="{{ $tenant->logo_url ? Storage::url($tenant->logo_url) : "https://ui-avatars.com/api/?color=fff&background=2563eb&name=$tenant->ecommerce_name&bold=true" }}"
                                                     alt="Logo del comercio">
 
                                                 </div>

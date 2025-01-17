@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('order_shippings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id');
-            $table->string('shipping_id')->nullable();
             $table->foreignId('provider_id');
+            $table->string('external_shipping_id')->nullable();
             $table->string('provider_label')->nullable();
             $table->string('provider_service')->nullable();
             $table->string('provider_carrier')->nullable();
+            $table->string('provider_carrier_logo')->nullable();
             $table->string('logistic_type');
-            $table->string('status')->nullable();
+            $table->string('status_code');
+            $table->string('external_status')->nullable();
             $table->decimal('price_without_tax', 10)->nullable();
             $table->decimal('price', 10);
             $table->string('delivery_estimate')->nullable();

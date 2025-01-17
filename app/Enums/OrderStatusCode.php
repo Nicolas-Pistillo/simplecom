@@ -11,6 +11,7 @@ enum OrderStatusCode: string
     case Confirmed       = 'confirmed';
     case DispatchPending = 'dispatch_pending';
     case Dispatched      = 'dispatched';
+    case PickupReady     = 'pickup_ready';
     case InTransit       = 'in_transit';
     case Delivered       = 'delivered';
     case RefundRequested = 'refund_requested';

@@ -15,5 +15,7 @@ class TenantSeeder extends Seeder
         $this->call(PaymentMethodsSeeder::class);
         $this->call(ShippingProviderSeeder::class);
         $this->call(OrderStatusSeeder::class);
+        $this->call(ShippingStatusSeeder::class);
+        $this->call(PaymentStatusSeeder::class);
     }
 }

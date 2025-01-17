@@ -38,6 +38,11 @@ class Order extends Model
         return $this->hasMany(OrderFeedItem::class);
     }
 
+    public function payment()
+    {
+        return $this->hasOne(OrderPayment::class);
+    }
+
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class);

@@ -11,6 +11,7 @@
         'purple'  => 'bg-purple-50 text-purple-700 ring-purple-700/10',
         'violet'  => 'bg-violet-50 text-violet-700 ring-violet-700/10',
         'emerald' => 'bg-emerald-50 text-emerald-700 ring-emerald-700/10',
+        'lime'    => 'bg-lime-50 text-lime-700 ring-lime-700/10',
         'cyan'    => 'bg-cyan-50 text-cyan-700 ring-cyan-700/10',
         'amber'   => 'bg-amber-50 text-amber-700 ring-amber-700/10',
         'orange'  => 'bg-orange-50 text-orange-700 ring-orange-700/10',
