@@ -7,6 +7,8 @@ enum OrderStatusCode: string
     case Created         = 'created';
     case Pending         = 'pending';
     case PayPending      = 'pay_pending';
+    case PayRejected     = 'pay_rejected';
+    case InMediation     = 'in_mediation';
     case Confirmed       = 'confirmed';
     case DispatchPending = 'dispatch_pending';
     case Dispatched      = 'dispatched';

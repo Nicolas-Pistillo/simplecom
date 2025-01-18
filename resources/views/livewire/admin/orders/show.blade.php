@@ -187,7 +187,7 @@
                         <h5 class="mb-3 text-sm text-gray-700"> {{ $order->payment->status->helper }} </h5>
 
                         {{-- Principal Info --}}
-                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="flex flex-wrap gap-3">
 
                             <div class="flex flex-col gap-1 p-2">
                                 <small class="text-xs text-gray-500 font-semibold">
@@ -207,6 +207,25 @@
                                     </small>
                                     <span class="text-sm/6 text-gray-500">
                                         {{ $order->payment->external_id }}
+                                    </span>
+                                </div>   
+                            @endif
+
+                            @if (!empty($order->payment->total_paid))
+                                <div class="flex flex-col gap-1.5 p-2">
+                                    <small class="text-xs text-gray-500 font-semibold">
+                                        Total a pagar
+                                    </small>
+                                    <span class="text-sm/6 text-gray-500">
+                                        ${{ priceFormat($order->payment->total_paid) }}
+
+                                        @if (!empty($order->payment->installments))
+                                            @if ($order->payment->installments == 1)
+                                                en un pago
+                                            @else
+                                                en {{ $order->payment->installments }} cuotas
+                                            @endif
+                                        @endif
                                     </span>
                                 </div>   
                             @endif
@@ -236,17 +255,6 @@
                                 </div>    
                             @endif
 
-                            @if (!empty($order->payment->total_paid))
-                                <div class="flex flex-col gap-1.5 p-2">
-                                    <small class="text-xs text-gray-500 font-semibold">
-                                        Total pagado
-                                    </small>
-                                    <span class="text-sm/6 text-gray-500">
-                                        ${{ priceFormat($order->payment->total_paid) }}
-                                    </span>
-                                </div>   
-                            @endif
-
                         </div>
 
                         {{-- Additional info --}}
@@ -272,14 +280,24 @@
                                     <div class="flex flex-wrap gap-3">
         
                                         @foreach ($order->payment->meta as $metaItem)
-                                            <div class="flex flex-col p-2">
-                                                <small class="text-xs text-gray-500 font-semibold">
-                                                    {{ $metaItem['name'] }}
-                                                </small>
-                                                <span class="text-sm/6 text-gray-500">
-                                                    {{ $metaItem['value'] }}
-                                                </span>
-                                            </div>
+                                            @if (!empty($metaItem['value']))
+                                                <div class="flex flex-col p-2">
+                                                    <small class="text-xs text-gray-500 font-semibold">
+                                                        {{ $metaItem['name'] }}
+                                                    </small>
+                                                    <span class="text-sm/6 text-gray-500">
+
+                                                        @if (isset($metaItem['type']) && $metaItem['type'] === 'link')
+                                                            <x-button :href="$metaItem['value']" blank type="secondary"
+                                                            class="inline-block mt-1.5">
+                                                                Abrir enlace
+                                                            </x-button>
+                                                        @else
+                                                            {{ $metaItem['value'] }}
+                                                        @endif
+                                                    </span>
+                                                </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>

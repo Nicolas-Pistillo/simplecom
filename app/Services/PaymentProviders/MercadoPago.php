@@ -12,7 +12,9 @@ use App\Models\OrderPayment;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Carbon\Carbon;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\URL;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
 
@@ -33,15 +35,27 @@ class MercadoPago implements PaymentGateway
             'order'    => $order->id
         ]);
 
+        $items = [];
+
+        foreach(Cart::content() as $item)
+        {
+            array_push($items, [
+                'id'          => $item->id,
+                'title'       => $item->name,
+                'quantity'    => $item->qty,
+                'unit_price'  => $item->price,
+                'picture_url' => $item->options->image_url ?? URL::to('img/no-image.png'),
+                'description' => $item->model->description,
+                'category_id' => $item->model->category_id
+            ]);
+        }
+
         $preference = $client->create([
             'auto_return' => 'approved',
-            'items' => [
-                [
-                    'title'      => 'Producto pruebita',
-                    'quantity'   => 1,
-                    'unit_price' => 3500
-                ]
-            ],
+            'items' => $items,
+            'notification_url' => $order->paymentWebhook('mercadopago'),
+            'statement_descriptor' => tenant('ecommerce_name'),
+            'external_reference' => "Pedido #$order->code",
             'back_urls' => [
                 'success' => $returnRoute,
                 'failure' => $returnRoute,
