@@ -12,6 +12,7 @@ use App\Models\OrderPayment;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
 
@@ -23,9 +24,7 @@ class MercadoPago implements PaymentGateway
 
     public function generateCheckout(Order $order)
     {
-        $access_token = tenant()->configValue('mp_access_token');
-
-        MercadoPagoConfig::setAccessToken($access_token);
+        MercadoPagoConfig::setAccessToken($this->key('mp_access_token'));
 
         $client = new PreferenceClient();
 
@@ -65,10 +64,6 @@ class MercadoPago implements PaymentGateway
                     'value' => $preference->collector_id
                 ],
                 [
-                    'name'  => 'URL sandbox',
-                    'value' => $preference->sandbox_init_point
-                ],
-                [
                     'name'  => 'Fecha inicio',
                     'value' => Carbon::parse($preference->date_created)->format('d/m/Y H:i:s')
                 ],
@@ -91,5 +86,12 @@ class MercadoPago implements PaymentGateway
         ]);
 
         $this->provider_checkout_url = $preference->init_point;
+    }
+
+    public static function getPaymentInfo($payment_id)
+    {
+        return Http::withToken(tenant()->configValue('mp_access_token'))
+                    ->get("https://api.mercadopago.com/v1/payments/$payment_id")
+                    ->object();
     }
 }

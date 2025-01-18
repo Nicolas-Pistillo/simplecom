@@ -108,7 +108,7 @@
                                 @endforeach
                             </ul>
 
-                            <dl class="space-y-4 border-t border-gray-200 pt-6 text-sm font-medium text-gray-600">
+                            <dl class="space-y-4 border-t border-gray-200 pt-4 text-sm font-medium text-gray-600">
                                 <div class="flex justify-between">
                                     <dt>Subtotal</dt>
                                     <dd class="text-gray-900">
@@ -186,6 +186,7 @@
 
                         <h5 class="mb-3 text-sm text-gray-700"> {{ $order->payment->status->helper }} </h5>
 
+                        {{-- Principal Info --}}
                         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
 
                             <div class="flex flex-col gap-1 p-2">
@@ -198,6 +199,17 @@
                                     </x-badge>
                                 </span>
                             </div>
+
+                            @if (!empty($order->payment->external_id))
+                                <div class="flex flex-col gap-1.5 p-2">
+                                    <small class="text-xs text-gray-500 font-semibold">
+                                        ID externo
+                                    </small>
+                                    <span class="text-sm/6 text-gray-500">
+                                        {{ $order->payment->external_id }}
+                                    </span>
+                                </div>   
+                            @endif
 
                             @if (!empty($order->payment->checkout_url))
                                 <div class="flex flex-col gap-1.5 p-2">
@@ -224,27 +236,53 @@
                                 </div>    
                             @endif
 
+                            @if (!empty($order->payment->total_paid))
+                                <div class="flex flex-col gap-1.5 p-2">
+                                    <small class="text-xs text-gray-500 font-semibold">
+                                        Total pagado
+                                    </small>
+                                    <span class="text-sm/6 text-gray-500">
+                                        ${{ priceFormat($order->payment->total_paid) }}
+                                    </span>
+                                </div>   
+                            @endif
+
                         </div>
 
+                        {{-- Additional info --}}
                         @if (!empty($order->payment->meta) && count($order->payment->meta))
 
-                            <h4 class="my-3 text-sm/6 font-semibold text-gray-900">
-                                Información adicional
-                            </h4>
+                            <div x-data="{open: false}">
 
-                            <div class="flex flex-wrap gap-3">
+                                <button @click="open = !open"
+                                class="mt-2 py-1 px-3 w-max border bg-white rounded-full 
+                                    text-xs text-gray-700 flex items-center cursor-pointer
+                                    transition duration-300 hover:shadow-md hover:text-gray-900">
+                                    <span class="flex items-center">
+                                        <span x-text="open ? 'Ocultar información adicional' : 'Mostrar información adicional'"></span>
+                                        <i x-text="open ? 'arrow_drop_down' : 'arrow_right'" class="material-symbols-outlined"></i>
+                                    </span>
+                                </button>
 
-                                @foreach ($order->payment->meta as $metaItem)
-                                    <div class="flex flex-col p-2">
-                                        <small class="text-xs text-gray-500 font-semibold">
-                                            {{ $metaItem['name'] }}
-                                        </small>
-                                        <span class="text-sm/6 text-gray-500">
-                                            {{ $metaItem['value'] }}
-                                        </span>
+                                <div x-cloak x-show="open" x-collapse>
+                                    <h4 class="my-3 text-sm/6 font-semibold text-gray-900">
+                                        Información adicional
+                                    </h4>
+        
+                                    <div class="flex flex-wrap gap-3">
+        
+                                        @foreach ($order->payment->meta as $metaItem)
+                                            <div class="flex flex-col p-2">
+                                                <small class="text-xs text-gray-500 font-semibold">
+                                                    {{ $metaItem['name'] }}
+                                                </small>
+                                                <span class="text-sm/6 text-gray-500">
+                                                    {{ $metaItem['value'] }}
+                                                </span>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                @endforeach
-
+                                </div>
                             </div>
 
                         @endif
@@ -401,77 +439,78 @@
 
                     <!-- Activity Feed -->
                     <div>
-                        <h2 class="text-sm/6 font-semibold text-gray-900">Historial de actividad</h2>
+                        <h2 class="text-sm/6 font-semibold text-gray-900">Historial de pedido</h2>
                         <ul role="list" class="mt-6 space-y-6">
                             @forelse ($order->feed as $feedItem)
-                                <li wire:key='{{ $feedItem->id }}' class="relative flex gap-x-4">
-
-                                    @if (!$loop->last)
-                                        <div class="absolute -bottom-6 left-0 top-0 flex w-6 justify-center">
-                                            <div class="w-px bg-gray-200"></div>
-                                        </div>
-                                    @endif
-
-                                    @if ($feedItem->presentation === OrderFeedPresentation::Icon)
-                                        @php
-                                            $iconColor = data_get($feedItem, 'meta.icon_color', 'blue');
-                                        @endphp
-
-                                        <div class="flex items-center justify-center rounded-full h-6 w-6 flex-none">
-                                            <x-icon :code="data_get($feedItem, 'meta.icon_code', 'update')"
-                                                class="relative border rounded-full p-0.5
-                                            bg-{{ $iconColor }}-100 text-{{ $iconColor }}-600 border-{{ $iconColor }}-600" />
-                                        </div>
-                                    @endif
-
-                                    @if ($feedItem->presentation === OrderFeedPresentation::Image)
-                                        <img src="{{ data_get($feedItem, 'meta.img_src') }}"
-                                            class="relative h-7 w-7 flex-none rounded-full bg-gray-50 -left-[1.5px]">
-                                    @endif
-
-                                    @if ($feedItem->presentation === OrderFeedPResentation::InitialsImage)
-                                        <img src="{{ initialsAvatar([
-                                            'name' => $feedItem->initializator,
-                                            'background' => '#2563eb',
-                                            'color' => '#fff',
-                                            'bold' => false,
-                                        ]) }}"
-                                            class="relative h-7 w-7 flex-none rounded-full bg-gray-50 -left-[1.5px]">
-                                    @endif
-
-                                    @if (!empty($feedItem->comments))
-                                        <div class="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
-                                            <div class="flex justify-between gap-x-4">
-                                                <div class="py-0.5 text-xs/5 text-gray-500">
-
-                                                    <span class="font-medium text-gray-900">
-                                                        {{ $feedItem->initializator }}
-                                                    </span>
-
-                                                    <span>
-                                                        {{ $feedItem->action }}
-                                                    </span>
-                                                </div>
-                                                <time class="flex-none py-0.5 text-xs text-gray-500 ml-auto">
-                                                    3d ago
-                                                </time>
+                                <li wire:key='{{ $feedItem->id }}'>
+                                    <div class="relative flex gap-x-4">
+                                        @if (!$loop->last)
+                                            <div class="absolute -bottom-6 left-0 top-0 flex w-6 justify-center">
+                                                <div class="w-px bg-gray-200"></div>
                                             </div>
-                                            <p class="text-xs pt-1 text-gray-500">
-                                                {{ $feedItem->comments }}
-                                            </p>
-                                        </div>
-                                    @else
-                                        <p class="py-0.5 text-xs/5 text-gray-500">
-                                            <span class="font-medium text-gray-900">
-                                                {{ $feedItem->initializator }}
-                                            </span>
+                                        @endif
 
-                                            <span>
-                                                {{ $feedItem->action }}
-                                            </span>
-                                        </p>
-                                        <time class="flex-none py-0.5 text-xs text-gray-500 ml-auto">2d</time>
-                                    @endif
+                                        @if ($feedItem->presentation === OrderFeedPresentation::Icon)
+                                            @php
+                                                $iconColor = data_get($feedItem, 'meta.icon_color', 'blue');
+                                            @endphp
+
+                                            <div class="flex items-center justify-center rounded-full h-6 w-6 flex-none">
+                                                <x-icon :code="data_get($feedItem, 'meta.icon_code', 'update')"
+                                                    class="relative border rounded-full p-0.5
+                                                bg-{{ $iconColor }}-100 text-{{ $iconColor }}-600 border-{{ $iconColor }}-600" />
+                                            </div>
+                                        @endif
+
+                                        @if ($feedItem->presentation === OrderFeedPresentation::Image)
+                                            <img src="{{ data_get($feedItem, 'meta.img_src') }}"
+                                                class="relative h-7 w-7 flex-none rounded-full bg-gray-50 -left-[1.5px]">
+                                        @endif
+
+                                        @if ($feedItem->presentation === OrderFeedPResentation::InitialsImage)
+                                            <img src="{{ initialsAvatar([
+                                                'name' => $feedItem->initializator,
+                                                'background' => '#2563eb',
+                                                'color' => '#fff',
+                                                'bold' => false,
+                                            ]) }}"
+                                                class="relative h-7 w-7 flex-none rounded-full bg-gray-50 -left-[1.5px]">
+                                        @endif
+
+                                        @if (!empty($feedItem->comments))
+                                            <div class="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
+                                                <div class="flex justify-between gap-x-4">
+                                                    <div class="py-0.5 text-xs/5 text-gray-500">
+
+                                                        <span class="font-medium text-gray-900">
+                                                            {{ $feedItem->initializator }}
+                                                        </span>
+
+                                                        <span>
+                                                            {{ $feedItem->action }}
+                                                        </span>
+                                                    </div>
+                                                    <time class="flex-none py-0.5 text-xs text-gray-500 ml-auto">
+                                                        3d ago
+                                                    </time>
+                                                </div>
+                                                <p class="text-xs pt-1 text-gray-500">
+                                                    {{ $feedItem->comments }}
+                                                </p>
+                                            </div>
+                                        @else
+                                            <p class="py-0.5 text-xs/4 text-gray-500">
+                                                <span class="font-medium text-gray-900">
+                                                    {{ $feedItem->initializator }}
+                                                </span>
+
+                                                <span>
+                                                    {{ $feedItem->action }}
+                                                </span>
+                                            </p>
+                                            <time class="flex-none py-0.5 text-xs text-gray-500 ml-auto">2d</time>
+                                        @endif
+                                    </div>
                                 </li>
                             @empty
                                 <li class="text-sm text-gray-500">No hay registros</li>

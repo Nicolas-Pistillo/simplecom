@@ -51,7 +51,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public function configValue($key)
     {
-        return Configuration::where('key', $key)->first()->value;
+        return Configuration::where('key', $key)->first()?->value;
     }
 
     public function getSetupConfigs()

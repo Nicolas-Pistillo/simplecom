@@ -10,7 +10,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\PaymentMethod;
+use App\Services\PaymentProviders\MercadoPago;
 use Illuminate\Support\Facades\Log;
+use MercadoPago\MercadoPagoConfig;
+use MercadoPago\Net\MPRequest;
 
 class PaymentReturnController extends Controller
 {
@@ -33,7 +36,7 @@ class PaymentReturnController extends Controller
     {
         $order->load('payment', 'user', 'feed');
 
-        if (!isset($request->payment_id, $status))
+        if (!isset($request->payment_id, $request->status))
         {
             $order->payment->update(['status_code' => PaymentStatusCode::Rejected]);
             $order->update(['status_code' => OrderStatusCode::Cancelled]);
@@ -48,26 +51,57 @@ class PaymentReturnController extends Controller
                     'icon_color' => 'red'
                 ]
             ]);
-
-            dd("Fijarse ahi");
         }
 
-        dd($request->all());
-        dd($order->payment);
+        if (isset($request->payment_id))
+        {
+            $paymentData = MercadoPago::getPaymentInfo($request->payment_id);
+
+            dd($paymentData);
+
+            if (!isset($paymentData->id, $paymentData->status)) abort(404);
+
+            if ($paymentData->status === 'approved')
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'external_id'     => $paymentData->id,
+                    'installments'    => $paymentData->installments,
+                    'external_status' => $paymentData->status,
+                    'platform_tax'    => $paymentData->taxes_amount,
+                    'total_paid'      => $paymentData->transaction_details->total_paid_amount
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'MercadoPago',
+                    'action'        => 'aprobó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+        }
+
+        dd("Chequear");
     }
 
     public function mobbex(Request $request, Order $order)
     {
-        dd("llego al webhook de mobbex", $request->all());
+        dd("llego al return de mobbex", $request->all(), $order);
     }
 
     public function ualabis(Request $request, Order $order)
     {
-        
+        dd("llego al return de ualabis", $request->all(), $order);
     }
 
     public function stripe(Request $request, Order $order)
     {
-        dd("llego al webhook de stripe", $request->all());
+        dd("llego al return de stripe", $request->all(), $order);
     }
 }
