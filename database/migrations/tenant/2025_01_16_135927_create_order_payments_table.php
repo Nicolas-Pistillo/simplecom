@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('external_status')->nullable();
             $table->string('checkout_url')->nullable();
             $table->decimal('total_paid', 10)->nullable();
+            $table->string('instrument')->nullable();
             $table->string('installments')->nullable();
-            $table->string('platform_tax')->nullable();
             $table->string('comments')->nullable();
+            $table->text('payment_fees')->nullable();
+            $table->text('payment_taxes')->nullable();
             $table->text('meta')->nullable();
             $table->timestamps();
         });

@@ -77,7 +77,7 @@ class PaymentWebhookController extends Controller
 
             if ($payment->status === 'pending')
             {
-                $order->update(['status_code' => OrderStatusCode::PayPending]);
+                $order->update(['status_code' => OrderStatusCode::PaymentPending]);
 
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Pending,
@@ -105,7 +105,7 @@ class PaymentWebhookController extends Controller
                 $order->update(['status_code' => OrderStatusCode::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::InProcess,
+                    'status_code'     => PaymentStatusCode::Authorized,
                     'external_id'     => $payment->id,
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
@@ -152,7 +152,7 @@ class PaymentWebhookController extends Controller
 
             if ($payment->status === 'in_process')
             {
-                $order->update(['status_code' => OrderStatusCode::PayPending]);
+                $order->update(['status_code' => OrderStatusCode::ProviderPayPending]);
 
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::InRevision,
@@ -177,7 +177,7 @@ class PaymentWebhookController extends Controller
 
             if ($payment->status === 'cancelled')
             {
-                $order->update(['status_code' => OrderStatusCode::Cancelled]);
+                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
 
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Cancelled,
@@ -202,10 +202,10 @@ class PaymentWebhookController extends Controller
 
             if ($payment->status === 'in_mediation')
             {
-                $order->update(['status_code' => OrderStatusCode::InMediation]);
+                $order->update(['status_code' => OrderStatusCode::ProviderPayClaimed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::InMediation,
+                    'status_code'     => PaymentStatusCode::ProviderClaimed,
                     'external_id'     => $payment->id,
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,

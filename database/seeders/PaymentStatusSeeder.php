@@ -24,7 +24,7 @@ class PaymentStatusSeeder extends Seeder
         ]);
 
         PaymentStatus::create([
-            'code'            => PaymentStatusCode::PayPending,
+            'code'            => PaymentStatusCode::Pending,
             'name'            => 'Pendiente',
             'customer_name'   => 'Pendiente',
             'display_color'   => 'orange',
@@ -55,8 +55,53 @@ class PaymentStatusSeeder extends Seeder
             'name'            => 'Rechazado',
             'customer_name'   => 'Rechazado',
             'display_color'   => 'red',
-            'helper'          => 'El pago del pedido fue rechazado',
-            'customer_helper' => 'Tu pago ha sido rechazado'
+            'helper'          => 'El pago del pedido fue rechazado, el comprador puede volver a intentar el pago',
+            'customer_helper' => 'Tu pago ha sido rechazado, podes reintentarlo'
+        ]);
+
+        PaymentStatus::create([
+            'code'            => PaymentStatusCode::InRevision,
+            'name'            => 'En revisión',
+            'customer_name'   => 'En revisión',
+            'display_color'   => 'yellow',
+            'helper'          => 'El pago del pedido esta siendo revisando por el proveedor',
+            'customer_helper' => 'El proveedor esta revisando el pago de este pedido, te notificaremos apenas recibamos actualizaciones'
+        ]);
+
+        PaymentStatus::create([
+            'code'            => PaymentStatusCode::Authorized,
+            'name'            => 'Autorizado',
+            'customer_name'   => 'Autorizado',
+            'display_color'   => 'green',
+            'helper'          => 'El pago del pedido fue autorizado pero aún no se ha terminado de recaudar',
+            'customer_helper' => 'El pago de tu pedido fue autorizado correctamente'
+        ]);
+
+        PaymentStatus::create([
+            'code'            => PaymentStatusCode::Cancelled,
+            'name'            => 'Rechazado',
+            'customer_name'   => 'Rechazado',
+            'display_color'   => 'red',
+            'helper'          => 'El pago de este pedido fue rechazado',
+            'customer_helper' => 'El pago de tu pedido fue rechazado'
+        ]);
+
+        PaymentStatus::create([
+            'code'            => PaymentStatusCode::Refunded,
+            'name'            => 'Reembolsado',
+            'customer_name'   => 'Reembolsado',
+            'display_color'   => 'violet',
+            'helper'          => 'El pago ha sido reembolsado al comprador',
+            'customer_helper' => 'Se ha efectuado el reembolso de tu pago'
+        ]);
+
+        PaymentStatus::create([
+            'code'            => PaymentStatusCode::ProviderClaimed,
+            'name'            => 'Reclamado',
+            'customer_name'   => 'Reclamado',
+            'display_color'   => 'yellow',
+            'helper'          => 'El pago de este pedido fue reclamado desde la plataforma del proveedor',
+            'customer_helper' => 'Recibimos el reclamo por el pago de este pedido'
         ]);
     }
 }

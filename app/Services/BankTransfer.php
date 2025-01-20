@@ -25,7 +25,7 @@ class BankTransfer implements PaymentGateway
 
     public function generateCheckout(Order $order)
     {
-        $order->update(['status_code' => OrderStatusCode::PayPending]);
+        $order->update(['status_code' => OrderStatusCode::PaymentPending]);
 
         OrderPayment::create([
             'order_id'    => $order->id,
