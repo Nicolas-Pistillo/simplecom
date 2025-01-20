@@ -57,6 +57,7 @@ class PaymentWebhookController extends Controller
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Confirmed,
                     'external_id'     => $payment->id,
+                    'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
                     'platform_tax'    => $payment->taxes_amount,
@@ -82,6 +83,7 @@ class PaymentWebhookController extends Controller
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Pending,
                     'external_id'     => $payment->id,
+                    'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
                     'platform_tax'    => $payment->taxes_amount,
@@ -107,6 +109,7 @@ class PaymentWebhookController extends Controller
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Authorized,
                     'external_id'     => $payment->id,
+                    'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
                     'platform_tax'    => $payment->taxes_amount,
@@ -132,6 +135,7 @@ class PaymentWebhookController extends Controller
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Rejected,
                     'external_id'     => $payment->id,
+                    'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
                     'platform_tax'    => $payment->taxes_amount,
@@ -157,6 +161,7 @@ class PaymentWebhookController extends Controller
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::InRevision,
                     'external_id'     => $payment->id,
+                    'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
                     'platform_tax'    => $payment->taxes_amount,
@@ -182,6 +187,7 @@ class PaymentWebhookController extends Controller
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Cancelled,
                     'external_id'     => $payment->id,
+                    'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
                     'platform_tax'    => $payment->taxes_amount,
@@ -207,6 +213,7 @@ class PaymentWebhookController extends Controller
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::ProviderClaimed,
                     'external_id'     => $payment->id,
+                    'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
                     'platform_tax'    => $payment->taxes_amount,
@@ -232,6 +239,7 @@ class PaymentWebhookController extends Controller
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Refunded,
                     'external_id'     => $payment->id,
+                    'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
                     'external_status' => $payment->status,
                     'platform_tax'    => $payment->taxes_amount,

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id');
             $table->foreignId('provider_id');
-            $table->string('external_shipping_id')->nullable();
+            $table->string('external_id')->nullable();
             $table->string('provider_label')->nullable();
             $table->string('provider_service')->nullable();
             $table->string('provider_carrier')->nullable();

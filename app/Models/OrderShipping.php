@@ -19,4 +19,9 @@ class OrderShipping extends Model
         'calculated_rate' => 'json',
         'selected_branch' => 'json'
     ];
+
+    public function status()
+    {
+        return $this->hasOne(ShippingStatus::class, 'code', 'status_code');
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\PaymentMethod;
+use App\Services\PaymentProviders\MercadoPago;
 
 class PaymentReturnController extends Controller
 {
@@ -22,9 +23,7 @@ class PaymentReturnController extends Controller
 
     public function mercadopago(Request $request, Order $order)
     {
-        dd($order);
-
-        dd("Redireccion al comprador");
+        dd("Chequear estado de pedido y redireccionar al comprador");
     }
 
     public function mobbex(Request $request, Order $order)

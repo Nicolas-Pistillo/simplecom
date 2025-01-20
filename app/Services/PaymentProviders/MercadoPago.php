@@ -24,6 +24,18 @@ class MercadoPago implements PaymentGateway
 
     protected $configuration_keys = ['mp_access_token'];
 
+    const PAYMENT_TYPE_PARSER = [
+        'credit_card'      => 'Tarjeta de crédito',
+        'debit_card'       => 'Tarjeta de débito',
+        'prepaid_card'     => 'Tarjeta prepaga',
+        'bank_transfer'    => 'Pix - PSE',
+        'atm'              => 'Pago en ATM',
+        'ticket'           => 'Ticket de pago en efectivo',
+        'digital_currency' => 'Compra con pago sin tarjeta',
+        'digital_wallet'   => 'Paypal',
+        'crypto_transfer'  => 'Pago con criptos'
+    ];
+
     public function generateCheckout(Order $order)
     {
         MercadoPagoConfig::setAccessToken($this->key('mp_access_token'));
