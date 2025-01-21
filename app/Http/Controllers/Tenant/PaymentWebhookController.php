@@ -130,7 +130,7 @@ class PaymentWebhookController extends Controller
 
             if ($payment->status === 'rejected')
             {
-                $order->update(['status_code' => OrderStatusCode::PayRejected]);
+                $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
 
                 $order->payment->update([
                     'status_code'     => PaymentStatusCode::Rejected,

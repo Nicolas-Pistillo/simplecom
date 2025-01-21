@@ -30,7 +30,7 @@
                                 </h2>
                     
                                 <small class="text-xs text-gray-600 mt-1">
-                                    {{ $order->created_at->format('d/m/Y H:i:s') }}
+                                    {{ $order->created_at->format('d/m/Y H:i') }}
                                 </small>
                             </div>
                     

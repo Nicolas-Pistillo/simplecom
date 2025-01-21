@@ -11,7 +11,7 @@ enum OrderStatusCode: string
     case ProviderPayClaimed = 'provider_pay_claimed';
     case PaymentCancelled   = 'payment_cancelled';
     case PaymentClaimed     = 'payment_claimed';
-    case PayRejected        = 'payment_rejected';
+    case PaymentRejected        = 'payment_rejected';
     case InMediation        = 'in_mediation';
     case Confirmed          = 'confirmed';
     case DispatchPending    = 'dispatch_pending';

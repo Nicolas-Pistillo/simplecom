@@ -43,7 +43,7 @@ class OrderStatusSeeder extends Seeder
 
         OrderStatus::create([
             'code'            => OrderStatusCode::Confirmed,
-            'name'            => 'Preparar',
+            'name'            => 'Confirmado',
             'customer_name'   => 'En preparación',
             'display_color'   => 'blue',
             'helper'          => 'Prepará el pedido para su entrega',
@@ -51,7 +51,7 @@ class OrderStatusSeeder extends Seeder
         ]);
 
         OrderStatus::create([
-            'code'            => OrderStatusCode::PayRejected,
+            'code'            => OrderStatusCode::PaymentRejected,
             'name'            => 'Pago rechazado',
             'customer_name'   => 'Pago rechazado',
             'display_color'   => 'red',

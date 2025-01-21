@@ -40,9 +40,9 @@ class PaymentReturnController extends Controller
 
         $paymentInfo = $modo->getPaymentInfo($request->intention_id);
 
-        if (!$paymentInfo || !isset($paymentInfo['payment_id'])) abort(404);
+        if (!$paymentInfo || !isset($paymentInfo['id'])) abort(404);
 
-        if ($paymentInfo['status'] === 'ACCEPTED')
+        if ($paymentInfo['status'] === 'ACCEPTED' && $order->status_code != OrderStatusCode::Confirmed)
         {
             $bankName   = data_get($paymentInfo, 'payment_data.bank_name');
             $issuerName = data_get($paymentInfo, 'payment_data.issuer_name');
@@ -106,7 +106,7 @@ class PaymentReturnController extends Controller
                 'event'         => OrderFeedEvent::PaymentUpdate,
                 'presentation'  => OrderFeedPresentation::Icon,
                 'initializator' => 'MODO',
-                'action'        => "aceptó el pago correctamente",
+                'action'        => "aceptó el pago",
                 'meta'          => [
                     'icon_code'  => 'credit_score',
                     'icon_color' => 'green'
@@ -114,17 +114,62 @@ class PaymentReturnController extends Controller
             ]);
         }
 
-        if ($paymentInfo['status'] === 'PROCESSING')
+        if ($paymentInfo['status'] === 'REJECTED' && $order->status_code != OrderStatusCode::PaymentCancelled)
         {
+            $bankName   = data_get($paymentInfo, 'payment_data.bank_name');
+            $issuerName = data_get($paymentInfo, 'payment_data.issuer_name');
+            $cardType   = data_get($paymentInfo, 'payment_data.card_type');
 
+            $instrument = "$bankName $issuerName - $cardType";
+
+            $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+
+            $order->payment->update([
+                'status_code'     => PaymentStatusCode::Cancelled,
+                'external_id'     => data_get($paymentInfo, 'payment_data.payment_id'),
+                'external_status' => $paymentInfo['status'],
+                'total_paid'      => $paymentInfo['price'],
+                'instrument'      => $instrument,
+                'installments'    => data_get($paymentInfo, 'payment_data.additional_info.installments.quantity', 1),
+                'meta'            => [
+                    [
+                        'name'  => 'ID intención',
+                        'value' => data_get($paymentInfo, 'id')
+                    ],
+                    [
+                        'name'  => 'ID intención externo',
+                        'value' => data_get($paymentInfo, 'external_intention_id')
+                    ],
+                    [
+                        'name'  => 'Store ID',
+                        'value' => data_get($paymentInfo, 'store_id')
+                    ],
+                    [
+                        'name'  => 'Store name',
+                        'value' => data_get($paymentInfo, 'additional_info.store_name')
+                    ],
+                    [
+                        'name'  => 'Código de referencia',
+                        'value' => data_get($paymentInfo, 'payment_data.reference_code')
+                    ],
+                    [
+                        'name'  => 'Motivo rechazo',
+                        'value' => data_get($paymentInfo, 'payment_data.operation_error')
+                    ]
+                ]
+            ]);
+
+            $order->feed()->create([
+                'event'         => OrderFeedEvent::PaymentUpdate,
+                'presentation'  => OrderFeedPresentation::Icon,
+                'initializator' => 'MODO',
+                'action'        => "rechazó el pago",
+                'meta'          => [
+                    'icon_code'  => 'credit_card_off',
+                    'icon_color' => 'red'
+                ]
+            ]);
         }
-
-        if ($paymentInfo['status'] === 'REJECTED')
-        {
-
-        }
-
-        dd($paymentInfo, $order);
 
         dd("MODO | Chequear estado y redireccionar al comprador", $order, $request->all());
     }

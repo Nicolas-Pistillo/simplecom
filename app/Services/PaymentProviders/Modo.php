@@ -66,7 +66,7 @@ class Modo implements PaymentGateway
                         ->withBody(json_encode([
                             'productName'         => "Pedido $order->code",
                             //'price'               => $order->total,
-                            'price'               => 50,
+                            'price'               => 25.64,
                             'quantity'            => 1,
                             'currency'            => 'ARS',
                             'storeId'             => $this->key('modo_store_id'),
