@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Services\PaymentProviders\MercadoPago;
+use App\Services\PaymentProviders\Modo;
 
 class PaymentReturnController extends Controller
 {
@@ -23,7 +24,20 @@ class PaymentReturnController extends Controller
 
     public function mercadopago(Request $request, Order $order)
     {
-        dd("Chequear estado de pedido y redireccionar al comprador");
+        dd("MP | Chequear estado de pedido y redireccionar al comprador");
+    }
+
+    public function modo(Request $request, $order)
+    {
+        if (!isset($request->intention_id)) abort(404);
+
+        $modo = new Modo();
+
+        $paymentInfo = $modo->getPaymentInfo($request->intention_id);
+
+        dd($paymentInfo);
+
+        dd("MODO | Chequear estado y redireccionar al comprador", $order, $request->all());
     }
 
     public function mobbex(Request $request, Order $order)

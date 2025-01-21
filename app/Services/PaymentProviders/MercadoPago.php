@@ -9,6 +9,7 @@ use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
 use App\Models\OrderPayment;
+use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Carbon\Carbon;
@@ -35,6 +36,11 @@ class MercadoPago implements PaymentGateway
         'digital_wallet'   => 'Paypal',
         'crypto_transfer'  => 'Pago con criptos'
     ];
+
+    public function model(): PaymentMethod
+    {
+        return PaymentMethod::where('code', 'mercadopago')->first();
+    }
 
     public function generateCheckout(Order $order)
     {

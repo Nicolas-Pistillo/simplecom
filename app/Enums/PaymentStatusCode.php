@@ -19,5 +19,6 @@ enum PaymentStatusCode: string
     case Rejected              = 'rejected';
     case CancellationInProcess = 'cancel_process';
     case Cancelled             = 'cancelled';
+    case CustomerCancelled     = 'customer_cancelled';
     case Refunded              = 'refunded';
 }
