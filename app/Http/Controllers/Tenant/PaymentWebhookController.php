@@ -39,7 +39,7 @@ class PaymentWebhookController extends Controller
 
             if (!$payment || !isset($payment->id)) abort(401, 'payment does not exist');
 
-            $paymentOrderCode = str_replace('Pedido #', '', $payment->external_reference);
+            $paymentOrderCode = str_replace('Pedido ', '', $payment->external_reference);
 
             if ($order->code != $paymentOrderCode) abort(401, 'Target order does not match');
 

@@ -65,7 +65,8 @@ class Modo implements PaymentGateway
                         ->throw()
                         ->withBody(json_encode([
                             'productName'         => "Pedido $order->code",
-                            'price'               => $order->total,
+                            //'price'               => $order->total,
+                            'price'               => 50,
                             'quantity'            => 1,
                             'currency'            => 'ARS',
                             'storeId'             => $this->key('modo_store_id'),
@@ -86,10 +87,30 @@ class Modo implements PaymentGateway
 
         OrderPayment::updateOrCreate([
             'order_id'    => $order->id,
-            'provider_id' => $this->model()->id,   
+            'provider_id' => $this->model()->id,
         ], 
         [
-            'status_code' => PaymentStatusCode::Created
+            'status_code'     => PaymentStatusCode::Created,
+            'external_status' => $response['status'],
+            'meta'            => [
+                [
+                    'name'  => 'ID intención',
+                    'value' => $response['id']
+                ],
+                [
+                    'name'  => 'ID intención externo',
+                    'value' => $response['externalIntentionId'],
+                ],
+                [
+                    'name'  => 'Store ID',
+                    'value' => $response['storeId']
+                ],
+                [
+                    'name'     => 'QR',
+                    'value'    => $response['qr'],
+                    'internal' => true
+                ]
+            ]
         ]);
 
         OrderFeedItem::create([

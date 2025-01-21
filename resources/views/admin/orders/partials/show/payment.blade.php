@@ -113,11 +113,17 @@
 
                 <div class="flex flex-wrap gap-3 items-end">
                     @foreach ($order->payment->meta as $metaItem)
+
+                        @if (isset($metaItem['internal'])) @continue @endif
+
                         @if (!empty($metaItem['value']))
+
                             <div class="flex flex-col p-2">
+
                                 <small class="text-xs text-gray-500 font-semibold">
                                     {{ $metaItem['name'] }}
                                 </small>
+                                
                                 <span class="text-sm text-gray-500">
 
                                     @if (isset($metaItem['type']) && $metaItem['type'] === 'link')

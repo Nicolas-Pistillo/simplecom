@@ -4,6 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\PaymentRedirectType;
 use App\Interfaces\PaymentGateway;
+use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use Illuminate\Support\Facades\Http;
 
@@ -15,6 +16,11 @@ class Mobbex implements PaymentGateway
 
     public $redirect_type = PaymentRedirectType::ProviderPlatform;
     public $provider_checkout_url;
+
+    public function model(): PaymentMethod
+    {
+        return PaymentMethod::where('code', 'mobbex')->first();
+    }
 
     public function generateCheckout($order)
     {

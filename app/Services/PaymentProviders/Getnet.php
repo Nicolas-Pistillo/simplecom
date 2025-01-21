@@ -4,6 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
+use App\Models\PaymentMethod;
 use App\Traits\ManagesPaymentRedirections;
 use Illuminate\Support\Facades\Http;
 
@@ -14,6 +15,11 @@ class Getnet implements PaymentGateway
     protected $configuration_keys = ['getnet_client_id', 'getnet_client_secret'];
 
     private $token;
+
+    public function model(): PaymentMethod
+    {
+        return PaymentMethod::where('code', 'getnet')->first();
+    }
 
     public function generateToken()
     {

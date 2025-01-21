@@ -68,24 +68,34 @@ class MercadoPago implements PaymentGateway
             ]);
         }
 
-        $preference = $client->create([
+        $preferenceData = [
             'auto_return' => 'approved',
             'items' => $items,
             'notification_url' => $order->paymentWebhook('mercadopago'),
             'statement_descriptor' => tenant('ecommerce_name'),
-            'external_reference' => "Pedido #$order->code",
+            'external_reference' => "Pedido $order->code",
             'back_urls' => [
                 'success' => $returnRoute,
                 'failure' => $returnRoute,
                 'pending' => $returnRoute,
             ]
-        ]);
+        ];
+
+        if ($order->shipping_cost && $order->shipping_cost > 0)
+        {
+            $preferenceData['shipments'] = [
+                'cost' => $order->shipping_cost,
+                'mode' => 'not_specified'
+            ];
+        }
+
+        $preference = $client->create($preferenceData);
 
         OrderPayment::create([
             'order_id'     => $order->id,
             'checkout_url' => $preference->init_point,
             'status_code'  => PaymentStatusCode::Created,
-            'provider_id'  => 2,
+            'provider_id'  => $this->model()->id,
             'meta'         => [
                 [
                     'name'  => 'ID prefrencia',

@@ -3,7 +3,7 @@
     <ul role="list" class="mt-6 space-y-6">
         @forelse ($order->feed as $feedItem)
             <li wire:key='{{ $feedItem->id }}'>
-                <div class="relative flex gap-x-4">
+                <div class="relative flex items-center gap-x-4">
                     @if (!$loop->last)
                         <div class="absolute -bottom-6 left-0 top-0 flex w-6 justify-center">
                             <div class="w-px bg-gray-200"></div>
@@ -24,7 +24,7 @@
 
                     @if ($feedItem->presentation === OrderFeedPresentation::Image)
                         <img src="{{ data_get($feedItem, 'meta.img_src') }}"
-                            class="relative h-7 w-7 flex-none rounded-full bg-gray-50 -left-[1.5px]">
+                        class="relative h-7 w-7 flex-none rounded-full -left-[1.5px]">
                     @endif
 
                     @if ($feedItem->presentation === OrderFeedPResentation::InitialsImage)
@@ -40,7 +40,7 @@
                     @if (!empty($feedItem->comments))
                         <div class="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
                             <div class="flex justify-between gap-x-4">
-                                <div class="py-0.5 text-xs/5 text-gray-500">
+                                <div class="text-xs/5 text-gray-500">
 
                                     <span class="font-medium text-gray-900">
                                         {{ $feedItem->initializator }}
@@ -50,7 +50,7 @@
                                         {{ $feedItem->action }}
                                     </span>
                                 </div>
-                                <time class="flex-none py-0.5 text-xs text-gray-500 ml-auto">
+                                <time class="flex-none text-xs text-gray-500 ml-auto">
                                     3d ago
                                 </time>
                             </div>
@@ -59,7 +59,7 @@
                             </p>
                         </div>
                     @else
-                        <p class="py-0.5 text-xs/4 text-gray-500">
+                        <p class="text-xs/4 text-gray-500">
                             <span class="font-medium text-gray-900">
                                 {{ $feedItem->initializator }}
                             </span>
@@ -68,7 +68,7 @@
                                 {{ $feedItem->action }}
                             </span>
                         </p>
-                        <time class="flex-none py-0.5 text-xs text-gray-500 ml-auto">2d</time>
+                        <time class="flex-none text-xs text-gray-500 ml-auto">2d</time>
                     @endif
                 </div>
             </li>

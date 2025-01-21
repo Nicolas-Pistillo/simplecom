@@ -3,6 +3,7 @@
 namespace App\Services\PaymentProviders;
 
 use App\Interfaces\PaymentGateway;
+use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Uala\SDK as Uala;
@@ -12,6 +13,11 @@ class Ualabis implements PaymentGateway
     use Configurable, ManagesPaymentRedirections;
 
     protected $configuration_keys = ['ualabis_username', 'ualabis_client_id', 'ualabis_client_secret'];
+
+    public function model(): PaymentMethod
+    {
+        return PaymentMethod::where('code', 'ualabis')->first();
+    }
 
     public function generateCheckout($order)
     {

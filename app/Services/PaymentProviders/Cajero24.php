@@ -3,6 +3,7 @@
 namespace App\Services\PaymentProviders;
 
 use App\Interfaces\PaymentGateway;
+use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -13,6 +14,11 @@ class Cajero24 implements PaymentGateway
     use Configurable, ManagesPaymentRedirections;
 
     protected $configuration_keys = ['cajero24_token'];
+
+    public function model(): PaymentMethod
+    {
+        return PaymentMethod::where('code', 'cajero24')->first();
+    }
 
     public function generateCheckout($order)
     {
