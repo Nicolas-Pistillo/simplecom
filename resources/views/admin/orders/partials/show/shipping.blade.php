@@ -12,7 +12,7 @@
     </h5>
 
     {{-- Principal Info --}}
-    <div class="flex flex-wrap gap-3">
+    <div class="flex items-end flex-wrap gap-3">
 
         <div class="flex flex-col gap-1 p-2">
             <small class="text-xs text-gray-500 font-semibold">

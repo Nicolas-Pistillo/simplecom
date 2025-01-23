@@ -29,7 +29,8 @@ class PaymentReturnController extends Controller
 
     public function mercadopago(Request $request, Order $order)
     {
-        dd("MP | Chequear estado de pedido y redireccionar al comprador");
+        $order->load('status', 'user', 'items', 'payment', 'shipping');
+        return view('ecommerce.checkout-result', compact('order'));
     }
 
     public function modo(Request $request, Order $order)
@@ -106,7 +107,7 @@ class PaymentReturnController extends Controller
                 'event'         => OrderFeedEvent::PaymentUpdate,
                 'presentation'  => OrderFeedPresentation::Icon,
                 'initializator' => 'MODO',
-                'action'        => "aceptó el pago",
+                'action'        => "aprobó el pago",
                 'meta'          => [
                     'icon_code'  => 'credit_score',
                     'icon_color' => 'green'

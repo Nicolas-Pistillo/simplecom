@@ -18,7 +18,7 @@ return [
     'central_domains' => [
         '127.0.0.1',
         'localhost',
-        'd54a-179-38-126-216.ngrok-free.app'
+        '8af0-179-38-111-87.ngrok-free.app'
     ],
 
     /**

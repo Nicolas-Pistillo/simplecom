@@ -118,14 +118,14 @@
                                             @endif
                                         </td>
 
-                                        <td class="pl-4 pr-8 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                            <div class="flex items-center gap-x-1">
+                                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+                                            <div class="flex items-center justify-center gap-x-2">
 
                                                 ${{ priceFormat($order->total) }}
 
                                                 <img src="{{ Storage::url("providers/{$order->paymentMethod->code}.png") }}" 
                                                 x-tooltip.raw.placement.top="{{ $order->paymentMethod->display_name }}"
-                                                class="h-8 w-8 object-cover rounded-md mx-auto"
+                                                class="h-8 w-8 object-cover rounded-full"
                                                 alt="{{ $order->paymentMethod->display_name }}">
                                             </div>
                                         </td>
