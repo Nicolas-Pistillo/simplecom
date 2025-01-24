@@ -28,11 +28,6 @@
                         </div>
                         <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
 
-                            <x-button class="flex items-center font-thin">
-                                Cargar Pedido
-                                <x-icon code="add" class="ml-1 text-gray-100" />
-                            </x-button>
-
                             <x-button class="flex items-center font-thin" type="secondary">
                                 Sincronizar
                                 <x-icon code="sync" class="ml-1 text-gray-700" />

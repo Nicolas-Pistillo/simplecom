@@ -8,6 +8,7 @@ use App\Enums\OrderStatusCode;
 use App\Enums\PaymentStatusCode;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\PaymentMethod;
 use App\Models\Tenant;
 use App\Services\PaymentProviders\MercadoPago;
 use Carbon\Carbon;
@@ -28,10 +29,14 @@ class PaymentWebhookController extends Controller
 
         if (!$order || !$order instanceof Order) abort(401, 'order does not exist');
 
+        $providerModel = PaymentMethod::where('code', $provider)->first();
+
+        if (!$providerModel || !$order instanceof PaymentMethod) abort(401, 'provider does not exist');
+
         return $this->{$provider}($request, $order);
     }
 
-    public function mercadopago(Request $request, $order)
+    public function mercadopago(Request $request, Order $order)
     {
         if (isset($request->topic) && $request->topic === 'payment')
         {
@@ -50,7 +55,7 @@ class PaymentWebhookController extends Controller
                 'payload'   => $payment
             ]);
 
-            if ($payment->status === 'approved')
+            if ($payment->status === 'approved' && $order->payment->status_code != PaymentStatusCode::Confirmed)
             {
                 $order->update(['status_code' => OrderStatusCode::Confirmed]);
 
@@ -76,7 +81,7 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'pending')
+            if ($payment->status === 'pending' && $order->payment->status_code != PaymentStatusCode::Pending)
             {
                 $order->update(['status_code' => OrderStatusCode::PaymentPending]);
 
@@ -102,7 +107,7 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'authorized')
+            if ($payment->status === 'authorized' && $order->payment->status_code != PaymentStatusCode::Authorized)
             {
                 $order->update(['status_code' => OrderStatusCode::Confirmed]);
 
@@ -128,7 +133,7 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'rejected')
+            if ($payment->status === 'rejected' && $order->payment->status_code != PaymentStatusCode::Rejected)
             {
                 $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
 
@@ -154,7 +159,7 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'in_process')
+            if ($payment->status === 'in_process' && $order->payment->status_code != PaymentStatusCode::InRevision)
             {
                 $order->update(['status_code' => OrderStatusCode::ProviderPayPending]);
 
@@ -180,7 +185,7 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'cancelled')
+            if ($payment->status === 'cancelled' && $order->payment->status_code != PaymentStatusCode::Cancelled)
             {
                 $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
 
@@ -206,7 +211,7 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'in_mediation')
+            if ($payment->status === 'in_mediation' && $order->payment->status_code != PaymentStatusCode::ProviderClaimed)
             {
                 $order->update(['status_code' => OrderStatusCode::ProviderPayClaimed]);
 
@@ -232,7 +237,7 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'refunded')
+            if ($payment->status === 'refunded' && $order->payment->status_code != PaymentStatusCode::Refunded)
             {
                 $order->update(['status_code' => OrderStatusCode::Refunded]);
 
@@ -288,5 +293,14 @@ class PaymentWebhookController extends Controller
                 ]
             ]);
         }
+    }
+
+    public function mobbex(Request $request, Order $order)
+    {
+        Log::channel('webhooks')->info('Webhook de Mobbex recibido', [
+            'data' => $request->all()
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Llego al webhook de mobbex']);
     }
 }

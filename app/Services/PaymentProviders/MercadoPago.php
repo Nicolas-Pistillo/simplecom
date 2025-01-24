@@ -48,11 +48,6 @@ class MercadoPago implements PaymentGateway
 
         $client = new PreferenceClient();
 
-        $returnRoute = route('payment.return', [
-            'provider' => 'mercadopago',
-            'order'    => $order->id
-        ]);
-
         $items = [];
 
         foreach(Cart::content() as $item)
@@ -75,9 +70,9 @@ class MercadoPago implements PaymentGateway
             'statement_descriptor' => tenant('ecommerce_name'),
             'external_reference' => "Pedido $order->code",
             'back_urls' => [
-                'success' => $returnRoute,
-                'failure' => $returnRoute,
-                'pending' => $returnRoute,
+                'success' => $order->returnUrl('mercadopago'),
+                'failure' => $order->returnUrl('mercadopago'),
+                'pending' => $order->returnUrl('mercadopago'),
             ]
         ];
 

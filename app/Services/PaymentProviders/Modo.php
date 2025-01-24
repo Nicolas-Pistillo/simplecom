@@ -120,7 +120,7 @@ class Modo implements PaymentGateway
             'initializator' => $order->user->full_name,
             'action'        => 'inició el proceso de pago utilizando MODO',
             'meta'          => [
-                'icon_code' => 'qr_code_2_add'
+                'icon_code' => 'qr_code_2'
             ]
         ]);
 

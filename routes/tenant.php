@@ -33,7 +33,7 @@ Route::middleware([
         Route::get('payment-providers/{provider}/{order}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
 
-        /* Route::post('payment-providers/{provider}/webhook', [PaymentWebhookController::class, 'handler'])
+        /* Route::post('payment-providers/{provider}/{order}/webhook', [PaymentWebhookController::class, 'handler'])
             ->name('payment.webhook'); */
 
         Route::post('payment-providers/modo-payment-intention/{order}', function(Order $order) 
