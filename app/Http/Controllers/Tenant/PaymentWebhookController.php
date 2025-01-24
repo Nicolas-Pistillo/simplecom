@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Tenant;
 use App\Services\PaymentProviders\MercadoPago;
+use App\Services\PaymentProviders\Mobbex;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +22,7 @@ class PaymentWebhookController extends Controller
     {
         $tenantModel = Tenant::find($tenant);
 
-        if (!$tenantModel instanceof Tenant) abort(401, 'tenant does not exist');
+        if (!$tenantModel instanceof Tenant) return response('Tenant not found', 401);
 
         tenancy()->initialize($tenant);
 
@@ -31,7 +32,7 @@ class PaymentWebhookController extends Controller
 
         $providerModel = PaymentMethod::where('code', $provider)->first();
 
-        if (!$providerModel || !$order instanceof PaymentMethod) abort(401, 'provider does not exist');
+        if (!$providerModel || !$providerModel instanceof PaymentMethod) abort(401, 'Provider not found');
 
         return $this->{$provider}($request, $order);
     }
@@ -42,7 +43,7 @@ class PaymentWebhookController extends Controller
         {
             $payment = MercadoPago::getPaymentInfo($request->id);
 
-            if (!$payment || !isset($payment->id)) abort(401, 'payment does not exist');
+            if (!$payment || !isset($payment->id)) abort(401, 'Payment does not exist');
 
             $paymentOrderCode = str_replace('Pedido ', '', $payment->external_reference);
 
@@ -133,7 +134,7 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'rejected' && $order->payment->status_code != PaymentStatusCode::Rejected)
+            if ($payment->status === 'rejected')
             {
                 $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
 
@@ -297,10 +298,177 @@ class PaymentWebhookController extends Controller
 
     public function mobbex(Request $request, Order $order)
     {
-        Log::channel('webhooks')->info('Webhook de Mobbex recibido', [
-            'data' => $request->all()
-        ]);
+        $body = $request->all();
 
-        return response()->json(['success' => true, 'message' => 'Llego al webhook de mobbex']);
+        if (isset($body['data']) && isset($body['data']['payment']))
+        {
+            $paymentInfo = Mobbex::getPaymentInfo(data_get($body, 'data.payment.id'));
+
+            if (!empty($paymentInfo->get('transaction')))
+            {
+                Log::channel('webhooks')->info('Actualización de pago recibida', [
+                    'proveedor' => 'mobbex',
+                    'tenant'    => tenant('name'),
+                    'pedido'    => $order->code,
+                    'payload'   => $paymentInfo
+                ]);
+
+                $mbxOrderCode = str_replace('Pedido ', '', data_get($paymentInfo, 'transaction.payment.description'));
+
+                if ($mbxOrderCode != $order->code) abort(401, 'Target order does not match');
+
+                $transaction = $paymentInfo->get('transaction');
+                $transactionDetails = $paymentInfo->get('transaction_details');
+                $mbxStatusCode = data_get($transaction, 'payment.status.code');
+
+                // Approved
+                if (in_array($mbxStatusCode, ['200', '210', '300', '301', '302', '303', '800', '4'])
+                && $order->payment->status_code != PaymentStatusCode::Confirmed)
+                {
+                    $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                    $order->payment->update([
+                        'status_code'     => PaymentStatusCode::Confirmed,
+                        'external_id'     => data_get($transaction, 'payment.id'),
+                        'instrument'      => data_get($transaction, 'source.name'),
+                        'installments'    => data_get($transaction, 'payment.source.installment.count'),
+                        'external_status' => data_get($transaction, 'payment.status.text'),
+                        'total_paid'      => data_get($transaction, 'payment.total')
+                    ]);
+
+                    $order->feed()->create([
+                        'event'         => OrderFeedEvent::PaymentUpdate,
+                        'presentation'  => OrderFeedPresentation::Icon,
+                        'initializator' => 'Mobbex',
+                        'action'        => 'aprobó el pago',
+                        'meta'          => [
+                            'icon_code'  => 'credit_score',
+                            'icon_color' => 'green'
+                        ]
+                    ]);
+                }
+
+                // Pending
+                if (in_array($mbxStatusCode, ['2', '3', '100', '201']) 
+                && $order->payment->status_code != PaymentStatusCode::Pending)
+                {
+                    $order->update(['status_code' => OrderStatusCode::PaymentPending]);
+
+                    $order->payment->update([
+                        'status_code'     => PaymentStatusCode::Pending,
+                        'external_id'     => data_get($transaction, 'payment.id'),
+                        'instrument'      => data_get($transaction, 'source.name'),
+                        'installments'    => data_get($transaction, 'payment.source.installment.count'),
+                        'external_status' => data_get($transaction, 'payment.status.text'),
+                        'total_paid'      => data_get($transaction, 'payment.total')
+                    ]);
+
+                    $order->feed()->create([
+                        'event'         => OrderFeedEvent::PaymentUpdate,
+                        'presentation'  => OrderFeedPresentation::Icon,
+                        'initializator' => 'Mobbex',
+                        'action'        => 'está esperando el pago del comprador',
+                        'meta'          => [
+                            'icon_code'  => 'credit_card_clock',
+                            'icon_color' => 'orange'
+                        ]
+                    ]);
+                }
+
+                // Rejected & recuperable
+                if (in_array($mbxStatusCode, ['400', '403', '410', '411', '412', '413', '414', '415', '416', '417', '500']))
+                {
+                    $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+
+                    $order->payment->update([
+                        'status_code'     => PaymentStatusCode::Rejected,
+                        'external_id'     => data_get($transaction, 'payment.id'),
+                        'instrument'      => data_get($transaction, 'source.name'),
+                        'installments'    => data_get($transaction, 'payment.source.installment.count'),
+                        'external_status' => data_get($transaction, 'payment.status.text'),
+                        'total_paid'      => data_get($transaction, 'payment.total')
+                    ]);
+
+                    $order->feed()->create([
+                        'event'         => OrderFeedEvent::PaymentUpdate,
+                        'presentation'  => OrderFeedPresentation::Icon,
+                        'initializator' => 'Mobbex',
+                        'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
+                        'meta'          => [
+                            'icon_code'  => 'credit_card_off',
+                            'icon_color' => 'red'
+                        ]
+                    ]);
+                }
+
+                // Rejected & NO recuperable
+                if (in_array($mbxStatusCode, ['401', '402', '600', '601', '602', '603', '610', '604'])
+                && $order->payment->status_code != PaymentStatusCode::Cancelled)
+                {
+                    $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+
+                    $order->payment->update([
+                        'status_code'     => PaymentStatusCode::Cancelled,
+                        'external_id'     => data_get($transaction, 'payment.id'),
+                        'instrument'      => data_get($transaction, 'source.name'),
+                        'installments'    => data_get($transaction, 'payment.source.installment.count'),
+                        'external_status' => data_get($transaction, 'payment.status.text'),
+                        'total_paid'      => data_get($transaction, 'payment.total')
+                    ]);
+
+                    $order->feed()->create([
+                        'event'         => OrderFeedEvent::PaymentUpdate,
+                        'presentation'  => OrderFeedPresentation::Icon,
+                        'initializator' => 'Mobbex',
+                        'action'        => 'canceló o caducó el pago del pedido, la compra queda rechazada',
+                        'meta'          => [
+                            'icon_code'  => 'cancel',
+                            'icon_color' => 'red'
+                        ]
+                    ]);
+                }
+
+                $meta = [
+                    [
+                        'name'  => 'Tipo operación',
+                        'value' => data_get($transaction, 'payment.operation.type')
+                    ],
+                    [
+                        'name'  => 'Mensaje de estado',
+                        'value' => data_get($transaction, 'payment.status.message')
+                    ],
+                    [
+                        'name'  => 'Valor de cuota',
+                        'value' => data_get($transaction, 'payment.source.installment.amount')
+                    ],
+                    [
+                        'name'  => 'Referencia',
+                        'value' => data_get($transaction, 'payment.reference')
+                    ],
+                    [
+                        'name'  => 'Referencia interna',
+                        'value' => data_get($transaction, 'payment.description')
+                    ],
+                    [
+                        'name'  => 'Recurso externo',
+                        'value' => data_get($transaction, 'payment.source.url'),
+                        'type'  => 'link'
+                    ]
+                ];
+
+                if (!empty($transactionDetails))
+                {
+                    foreach($transactionDetails as $detailItem)
+                    {
+                        array_push($meta, [
+                            'name'  => $detailItem['label'],
+                            'value' => $detailItem['value']
+                        ]);
+                    }
+                }
+
+                $order->payment->update(compact('meta'));
+            }
+        }
     }
 }

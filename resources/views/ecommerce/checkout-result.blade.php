@@ -2,7 +2,7 @@
 
 @section('content')
     
-    <section class="relative py-16">
+    <section class="relative py-10 md:py-16">
 
         <div class="w-full absolute bg-{{ $order->payment->status->display_color }}-600 top-0 left-0 h-[410px] object-cover"></div>
 
@@ -19,7 +19,7 @@
 
             <div class="w-full relative bg-white py-8 px-6 sm:py-12 sm:px-8 max-w-6xl mx-auto shadow-lg rounded-lg">
 
-                <div class="flex items-center flex-col gap-2 pb-6 lg:pb-10">
+                <div class="flex items-center flex-col text-center gap-2 pb-6 lg:pb-10">
 
                     {{-- <span class="font-semibold text-gray-600">Pedido {{ $order->code }}</span> --}}
 
@@ -38,7 +38,7 @@
                         <x-button type="secondary" class="w-full sm:w-auto">
                             Ver en mis pedidos
                         </x-button>
-                        <x-button type="secondary" :href="route('ecommerce.products')" class="w-full sm:w-auto">
+                        <x-button type="secondary" :href="route('ecommerce.products')" class="w-full sm:w-auto text-center">
                             Seguir comprando
                         </x-button>
                     </div>

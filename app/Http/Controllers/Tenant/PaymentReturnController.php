@@ -31,7 +31,7 @@ class PaymentReturnController extends Controller
 
     public function mercadopago(Request $request, Order $order)
     {
-        return view('ecommerce.checkout-result', compact('order'));
+        return to_route('ecommerce.checkout-result', compact('order'));
     }
 
     public function modo(Request $request, Order $order)
@@ -48,9 +48,8 @@ class PaymentReturnController extends Controller
         {
             $bankName   = data_get($paymentInfo, 'payment_data.bank_name');
             $issuerName = data_get($paymentInfo, 'payment_data.issuer_name');
-            $cardType   = data_get($paymentInfo, 'payment_data.card_type');
 
-            $instrument = "$bankName $issuerName - $cardType";
+            $instrument = "$bankName $issuerName";
 
             $order->update(['status_code' => OrderStatusCode::Confirmed]);
 
@@ -120,9 +119,8 @@ class PaymentReturnController extends Controller
         {
             $bankName   = data_get($paymentInfo, 'payment_data.bank_name');
             $issuerName = data_get($paymentInfo, 'payment_data.issuer_name');
-            $cardType   = data_get($paymentInfo, 'payment_data.card_type');
 
-            $instrument = "$bankName $issuerName - $cardType";
+            $instrument = "$bankName $issuerName";
 
             $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
 
@@ -173,7 +171,8 @@ class PaymentReturnController extends Controller
             ]);
         }
 
-        return view('ecommerce.checkout-result', compact('order'));
+        $order->refresh();
+        return response()->view('ecommerce.checkout-result', compact('order'));
     }
 
     public function mobbex(Request $request, Order $order)
@@ -251,8 +250,7 @@ class PaymentReturnController extends Controller
         }
 
         // Rejected & recuperable
-        if (in_array($mbxStatusCode, ['400', '403', '410', '411', '412', '413', '414', '415', '416', '417', '500'])
-        && $order->payment->status_code != PaymentStatusCode::Rejected)
+        if (in_array($mbxStatusCode, ['400', '403', '410', '411', '412', '413', '414', '415', '416', '417', '500']))
         {
             $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
 
@@ -339,6 +337,7 @@ class PaymentReturnController extends Controller
 
         $order->payment->update(['meta' => $meta]);
 
+        $order->refresh();
         return view('ecommerce.checkout-result', compact('order'));
     }
 
