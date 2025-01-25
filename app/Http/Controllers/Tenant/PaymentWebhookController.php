@@ -471,4 +471,11 @@ class PaymentWebhookController extends Controller
             }
         }
     }
+
+    public function ualabis(Request $request, Order $order)
+    {
+        Log::channel('webhooks')->info('Webhook de Ualabis recibido', [
+            'request' => $request->all()
+        ]);
+    }
 }

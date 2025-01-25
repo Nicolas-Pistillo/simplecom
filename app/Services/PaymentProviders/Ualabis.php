@@ -14,7 +14,6 @@ use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Exception;
 use Illuminate\Support\Facades\Http;
-use Uala\SDK as Uala;
 
 class Ualabis implements PaymentGateway
 {
@@ -99,45 +98,12 @@ class Ualabis implements PaymentGateway
             'event'         => OrderFeedEvent::PaymentUpdate,
             'presentation'  => OrderFeedPresentation::Icon,
             'initializator' => $order->user->full_name,
-            'action'        => 'inició el proceso de pago utilizando Ualabis',
+            'action'        => 'inició el pago del pedido con Ualabis',
             'meta'          => [
                 'icon_code' => 'credit_card'
             ]
         ]);
 
         $this->provider_checkout_url = data_get($response, 'links.checkout_link');
-
-        /* $user = $this->key('ualabis_username');
-        $clientId = $this->key('ualabis_client_id');
-        $clientSecret = $this->key('ualabis_client_secret');
-        
-        $uala = new Uala($user, $clientId, $clientSecret, true);
-
-        $ualaOrder = $uala->createOrder(
-            $order->total, 
-            "Pedido-$order->code", 
-            "https://google.com", 
-            "https://google.com", 
-           $order->paymentWebhook('ualabis')
-        );
-
-        $retries = 1;
-
-        while(!isset($ualaOrder->links) && $retries <= 5)
-        {
-            $ualaOrder = $uala->createOrder(
-                $order->total, 
-                "Pedido-$order->code", 
-                "https://google.com", 
-                "https://google.com", 
-               $order->paymentWebhook('ualabis')
-            );
-
-            $retries++;
-        }
-
-        dd($uala->getOrder($ualaOrder->uuid));
-
-        $this->provider_checkout_url = $ualaOrder->links->checkoutLink; */
     }
 }

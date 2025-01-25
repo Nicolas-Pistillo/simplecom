@@ -119,7 +119,7 @@ class Modo implements PaymentGateway
             'event'         => OrderFeedEvent::PaymentUpdate,
             'presentation'  => OrderFeedPresentation::Icon,
             'initializator' => $order->user->full_name,
-            'action'        => 'inició el proceso de pago utilizando MODO',
+            'action'        => 'inició el pago del pedido con MODO',
             'meta'          => [
                 'icon_code' => 'qr_code_2'
             ]
