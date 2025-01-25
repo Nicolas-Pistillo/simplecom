@@ -112,5 +112,14 @@ class PaymentStatusSeeder extends Seeder
             'helper'          => 'El pago de este pedido fue reclamado desde la plataforma del proveedor',
             'customer_helper' => 'Recibimos el reclamo por el pago de este pedido'
         ]);
+
+        PaymentStatus::create([
+            'code'            => PaymentStatusCode::InProcess,
+            'name'            => 'Procesando',
+            'customer_name'   => 'Procesando',
+            'display_color'   => 'yellow',
+            'helper'          => 'Esperando los resultados del pago por parte del proveedor',
+            'customer_helper' => 'Estamos procesando el pago de tu pedido, en breve actualizaremos la información'
+        ]);
     }
 }

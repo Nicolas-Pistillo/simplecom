@@ -322,7 +322,7 @@ class PaymentWebhookController extends Controller
                 $mbxStatusCode = data_get($transaction, 'payment.status.code');
 
                 // Approved
-                if (in_array($mbxStatusCode, ['200', '210', '300', '301', '302', '303', '800', '4'])
+                if (in_array($mbxStatusCode, ['200', '210', '201', '300', '301', '302', '303', '800', '4'])
                 && $order->payment->status_code != PaymentStatusCode::Confirmed)
                 {
                     $order->update(['status_code' => OrderStatusCode::Confirmed]);
@@ -349,7 +349,7 @@ class PaymentWebhookController extends Controller
                 }
 
                 // Pending
-                if (in_array($mbxStatusCode, ['2', '3', '100', '201']) 
+                if (in_array($mbxStatusCode, ['2', '3', '100']) 
                 && $order->payment->status_code != PaymentStatusCode::Pending)
                 {
                     $order->update(['status_code' => OrderStatusCode::PaymentPending]);

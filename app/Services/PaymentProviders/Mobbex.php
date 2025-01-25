@@ -40,7 +40,7 @@ class Mobbex implements PaymentGateway
             'reference'   => md5(uniqid() . time()),
             'currency'    => 'ARS',
             'test'        => true,
-            'return_url'  => $order->returnUrl('mobbex'),
+            'return_url'  => $order->paymentReturn('mobbex'),
             'webhook'     => $order->paymentWebhook('mobbex'),
             'customer'    => [
                 'email' => $order->user->email,

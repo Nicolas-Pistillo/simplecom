@@ -10,7 +10,7 @@ enum PaymentStatusCode: string
     case TransferPending       = 'transfer_pending';
     case Pending               = 'pending';
     case NeedsConfirmation     = 'needs_confirmation';
-    case InProcess             = 'processing';
+    case InProcess             = 'in_process';
     case Unauthorized          = 'unauthorized';
     case Authorized            = 'authorized';
     case ProviderClaimed       = 'provider_claimed';
@@ -28,23 +28,23 @@ enum PaymentStatusCode: string
     {
         return match($this)
         {
-            PaymentStatusCode::Created => 'more_horiz',
-            PaymentStatusCode::TransferPending => 'account_balance',
-            PaymentStatusCode::Pending => 'more_horiz',
-            PaymentStatusCode::NeedsConfirmation => 'lock',
-            PaymentStatusCode::InProcess => 'more_horiz',
-            PaymentStatusCode::Authorized => 'check',
-            PaymentStatusCode::Unauthorized => 'close',
-            PaymentStatusCode::ProviderClaimed => 'description',
-            PaymentStatusCode::InRevision => 'policy',
-            PaymentStatusCode::InMediation => 'quick_reference',
-            PaymentStatusCode::Processed => 'check',
-            PaymentStatusCode::Confirmed => 'check',
-            PaymentStatusCode::Rejected => 'close',
+            PaymentStatusCode::Created               => 'more_horiz',
+            PaymentStatusCode::TransferPending       => 'account_balance',
+            PaymentStatusCode::Pending               => 'more_horiz',
+            PaymentStatusCode::NeedsConfirmation     => 'lock',
+            PaymentStatusCode::InProcess             => 'overview',
+            PaymentStatusCode::Authorized            => 'check',
+            PaymentStatusCode::Unauthorized          => 'close',
+            PaymentStatusCode::ProviderClaimed       => 'description',
+            PaymentStatusCode::InRevision            => 'policy',
+            PaymentStatusCode::InMediation           => 'quick_reference',
+            PaymentStatusCode::Processed             => 'check',
+            PaymentStatusCode::Confirmed             => 'check',
+            PaymentStatusCode::Rejected              => 'close',
             PaymentStatusCode::CancellationInProcess => 'more_horiz',
-            PaymentStatusCode::Cancelled => 'close',
-            PaymentStatusCode::CustomerCancelled => 'close',
-            PaymentStatusCode::Refunded => 'cached',
+            PaymentStatusCode::Cancelled             => 'close',
+            PaymentStatusCode::CustomerCancelled     => 'close',
+            PaymentStatusCode::Refunded              => 'cached',
         };
     }
 }

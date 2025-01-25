@@ -4,6 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
+use App\Enums\OrderStatusCode;
 use App\Enums\PaymentStatusCode;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
@@ -70,9 +71,9 @@ class MercadoPago implements PaymentGateway
             'statement_descriptor' => tenant('ecommerce_name'),
             'external_reference' => "Pedido $order->code",
             'back_urls' => [
-                'success' => $order->returnUrl('mercadopago'),
-                'failure' => $order->returnUrl('mercadopago'),
-                'pending' => $order->returnUrl('mercadopago'),
+                'success' => $order->paymentReturn('mercadopago'),
+                'failure' => $order->paymentReturn('mercadopago'),
+                'pending' => $order->paymentReturn('mercadopago'),
             ]
         ];
 

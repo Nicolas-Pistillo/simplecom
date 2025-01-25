@@ -63,7 +63,7 @@ class Order extends Model
         return route('admin.orders.show', $this->id);
     }
 
-    public function returnUrl($provider)
+    public function paymentReturn($provider)
     {
         return route('payment.return', ['provider' => $provider, 'order' => $this->id]);
     }

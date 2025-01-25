@@ -48,9 +48,15 @@ class Modo implements PaymentGateway
 
         $response = Http::withUserAgent('Simplecom')
                         ->asJson()
+                        ->throw()
                         ->withBody(json_encode(['username' => $user, 'password' => $password])) 
                         ->post("$this->base_url/merchants/middleman/token")
                         ->json();
+
+        if (!isset($response['accessToken']))
+        {
+            throw new Exception('Credenciales de MODO incorrectas');
+        }
 
         $this->token = $response['accessToken'];
     }
@@ -66,7 +72,7 @@ class Modo implements PaymentGateway
                         ->withBody(json_encode([
                             'productName'         => "Pedido $order->code",
                             //'price'               => $order->total,
-                            'price'               => 30,
+                            'price'               => 25,
                             'quantity'            => 1,
                             'currency'            => 'ARS',
                             'storeId'             => $this->key('modo_store_id'),
@@ -78,11 +84,6 @@ class Modo implements PaymentGateway
         if (!isset($response['id']))
         {
             throw new Exception('Error al generar intención de pago con MODO');
-        }
-
-        if (!$order->status_code != OrderStatusCode::PaymentPending)
-        {
-            $order->update(['status_code' => OrderStatusCode::PaymentPending]);
         }
 
         OrderPayment::updateOrCreate([

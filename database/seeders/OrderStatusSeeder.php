@@ -42,6 +42,15 @@ class OrderStatusSeeder extends Seeder
         ]);
 
         OrderStatus::create([
+            'code'            => OrderStatusCode::ProviderPayProcessing,
+            'name'            => 'Procesando pago',
+            'customer_name'   => 'Procesando pago',
+            'display_color'   => 'yellow',
+            'helper'          => 'El pago del pedido esta siendo procesado por el proveedor',
+            'customer_helper' => 'Estamos esperando información del pago por parte del proveedor, en breve actualizaremos la información'
+        ]);
+
+        OrderStatus::create([
             'code'            => OrderStatusCode::Confirmed,
             'name'            => 'Confirmado',
             'customer_name'   => 'En preparación',
