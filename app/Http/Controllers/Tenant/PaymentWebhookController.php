@@ -12,6 +12,7 @@ use App\Models\PaymentMethod;
 use App\Models\Tenant;
 use App\Services\PaymentProviders\MercadoPago;
 use App\Services\PaymentProviders\Mobbex;
+use App\Services\PaymentProviders\Ualabis;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -474,8 +475,124 @@ class PaymentWebhookController extends Controller
 
     public function ualabis(Request $request, Order $order)
     {
-        Log::channel('webhooks')->info('Webhook de Ualabis recibido', [
-            'request' => $request->all()
-        ]);
+        if (isset($request->uuid, $request->status))
+        {
+            Log::channel('webhooks')->info('Actualización de pago recibida', [
+                'proveedor' => 'ualabis',
+                'tenant'    => tenant('name'),
+                'pedido'    => $order->code,
+                'payload'   => $request->all()
+            ]);
+
+            $ualabisOrder = str_replace('Pedido-', '', $request->external_reference);
+
+            if ($ualabisOrder != $order->code) abort(401, 'Target order does not match');
+
+            $service = new Ualabis();
+
+            $paymentInfo = $service->getPaymentInfo($request->uuid);
+
+            Log::channel('webhooks')->info('Trabajar con estos datos de ualabis', [
+                'payment' => $paymentInfo
+            ]);
+
+            $paymentStatus = data_get($paymentInfo, 'status');
+
+            if (!$paymentStatus) abort(401, 'Payment not found');
+
+            if ($paymentStatus === 'APPROVED')
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'external_id'     => data_get($paymentInfo, 'uuid'),
+                    'instrument'      => data_get($paymentInfo, 'customer.card.issuer'),
+                    'installments'    => data_get($paymentInfo, 'customer.card.installments.number'),
+                    'external_status' => $paymentStatus,
+                    'total_paid'      => data_get($paymentInfo, 'customer.card.installments.total'),
+                    'meta'            => [
+                        [
+                            'name'  => 'Referencia',
+                            'value' => data_get($paymentInfo, 'external_reference')
+                        ],
+                        [
+                            'name'  => 'Tarjeta',
+                            'value' => data_get($paymentInfo, 'customer.card.pan')
+                        ],
+                        [
+                            'name'  => 'Titular tarjeta',
+                            'value' => data_get($paymentInfo, 'customer.card.holder_name')
+                        ],
+                        [
+                            'name'  => 'Costo financiero',
+                            'value' => '%' . data_get($paymentInfo, 'customer.card.installments.financial_cost')
+                        ],
+                        [
+                            'name'  => 'Valor de cuota',
+                            'value' => data_get($paymentInfo, 'customer.card.installments.value_per_installment')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Ualabis',
+                    'action'        => 'aprobó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+
+            if ($paymentStatus === 'REJECTED')
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Rejected,
+                    'external_id'     => data_get($paymentInfo, 'uuid'),
+                    'instrument'      => data_get($paymentInfo, 'customer.card.issuer'),
+                    'installments'    => data_get($paymentInfo, 'customer.card.installments.number'),
+                    'external_status' => $paymentStatus,
+                    'total_paid'      => data_get($paymentInfo, 'customer.card.installments.total'),
+                    'meta'            => [
+                        [
+                            'name'  => 'Referencia',
+                            'value' => data_get($paymentInfo, 'external_reference')
+                        ],
+                        [
+                            'name'  => 'Tarjeta',
+                            'value' => data_get($paymentInfo, 'customer.card.pan')
+                        ],
+                        [
+                            'name'  => 'Titular tarjeta',
+                            'value' => data_get($paymentInfo, 'customer.card.holder_name')
+                        ],
+                        [
+                            'name'  => 'Costo financiero',
+                            'value' => '%' . data_get($paymentInfo, 'customer.card.installments.financial_cost')
+                        ],
+                        [
+                            'name'  => 'Valor de cuota',
+                            'value' => data_get($paymentInfo, 'customer.card.installments.value_per_installment')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Ualabis',
+                    'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
+                    'meta'          => [
+                        'icon_code'  => 'credit_card_off',
+                        'icon_color' => 'red'
+                    ]
+                ]);
+            }
+        }
     }
 }

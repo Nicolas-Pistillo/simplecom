@@ -61,10 +61,10 @@ class Ualabis implements PaymentGateway
 
         $response = Http::withToken($this->token)
                         ->withBody(json_encode([
-                            'amount'             => 48,
+                            'amount'             => 28,
                             'description'        => "Pedido-$order->code",
-                            'callback_fail'      => $order->paymentWebhook('ualabis'),
-                            'callback_success'   => $order->paymentWebhook('ualabis'),
+                            'callback_fail'      => 'https://google.com',
+                            'callback_success'   => 'https://google.com',
                             'notification_url'   => $order->paymentWebhook('ualabis'),
                             'external_reference' => "Pedido-$order->code"
                         ]))
@@ -105,5 +105,16 @@ class Ualabis implements PaymentGateway
         ]);
 
         $this->provider_checkout_url = data_get($response, 'links.checkout_link');
+    }
+
+    public function getPaymentInfo($uuid)
+    {
+        $this->generateToken();
+
+        $url = env('UALABIS_TEST')
+                ? "https://checkout.stage.developers.ar.ua.la/v2/api/orders/$uuid"
+                : "https://checkout.developers.ar.ua.la/v2/api/orders/$uuid";
+
+        return Http::withToken($this->token)->get($url)->json();
     }
 }
