@@ -4,6 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Interfaces\PaymentGateway;
 use App\Traits\Configurable;
+use App\Models\PaymentMethod;
 use App\Traits\ManagesPaymentRedirections;
 use Illuminate\Support\Facades\Http;
 
@@ -15,6 +16,11 @@ class GOcuotas implements PaymentGateway
 
     private $base_url = 'https://sandbox.gocuotas.com/api_redirect/v1';
     private $token;
+
+    public function model(): PaymentMethod
+    {
+        return PaymentMethod::where('code', 'gocuotas')->first();
+    }
 
     public function generateToken()
     {

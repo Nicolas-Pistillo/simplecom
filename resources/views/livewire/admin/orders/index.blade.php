@@ -28,11 +28,6 @@
                         </div>
                         <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
 
-                            <x-button class="flex items-center font-thin">
-                                Cargar Pedido
-                                <x-icon code="add" class="ml-1 text-gray-100" />
-                            </x-button>
-
                             <x-button class="flex items-center font-thin" type="secondary">
                                 Sincronizar
                                 <x-icon code="sync" class="ml-1 text-gray-700" />
@@ -57,12 +52,11 @@
                                         </div>
                                     </th>
                                     <th scope="col" class="px-4 py-3">ID</th>
-                                    <th scope="col" class="px-4 py-3">Referencia</th>
+                                    <th scope="col" class="px-4 py-3">Código</th>
                                     <th scope="col" class="px-4 py-3">Estado</th>
                                     <th scope="col" class="px-4 py-3">Cliente</th>
                                     <th scope="col" class="px-4 py-3">Entrega</th>
                                     <th scope="col" class="px-4 py-3">Total</th>
-                                    <th scope="col" class="px-4 py-3">Medio de Pago</th>
                                     <th scope="col" class="px-4 py-3">Fecha</th>
                                 </tr>
                             </thead>
@@ -86,7 +80,7 @@
                                         </td>
 
                                         <td class="font-semibold text-gray-900">
-                                            {{ $order->reference }}
+                                            {{ $order->code }}
                                         </td>
 
                                         <td class="px-4 py-2 whitespace-nowrap">
@@ -96,7 +90,7 @@
                                             </x-badge>
                                         </td>
 
-                                        <td class="px-4 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">
+                                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
                                             {{ $order->user->full_name }}
                                         </td>
 
@@ -120,18 +114,19 @@
                                         </td>
 
                                         <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                            ${{ priceFormat($order->total) }}
-                                        </td>
+                                            <div class="flex items-center justify-center gap-x-2">
 
-                                        <td class="px-4 py-2 font-medium text-gray-900 text-center whitespace-nowrap">
-                                            <img src="{{ Storage::url("providers/{$order->paymentMethod->code}.png") }}" 
-                                            x-tooltip.raw.placement.top="{{ $order->paymentMethod->display_name }}"
-                                            class="h-8 w-8 object-cover rounded-md mx-auto"
-                                            alt="{{ $order->paymentMethod->display_name }}">
+                                                ${{ priceFormat($order->total) }}
+
+                                                <img src="{{ Storage::url("providers/{$order->paymentMethod->code}.png") }}" 
+                                                x-tooltip.raw.placement.top="{{ $order->paymentMethod->display_name }}"
+                                                class="h-8 w-8 object-cover rounded-full"
+                                                alt="{{ $order->paymentMethod->display_name }}">
+                                            </div>
                                         </td>
 
                                         <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                            {{ $order->created_at->format('d/m/Y') }}
+                                            {{ $order->created_at->format('d/m/Y H:i') }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -139,7 +134,7 @@
                         </table>
                     </div>
 
-                    @if($orders->total() >= 10)
+                    @if($orders->total() > 10)
                         <nav class="p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
                             {{ $orders->links() }}
                         </nav>

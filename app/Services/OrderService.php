@@ -58,7 +58,7 @@ class OrderService
         }
 
         $order = Order::create([
-            'reference'            => Str::upper(Str::random(3) . '-' . rand(100,999)),
+            'code'                 => Str::upper(Str::random(3) . '-' . rand(100,999)),
             'user_id'              => $userId,
             'status_code'          => OrderStatusCode::Created,
             'delivery_type'        => $form->delivery_type,

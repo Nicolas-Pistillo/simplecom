@@ -77,6 +77,7 @@ export default {
     'bg-rose-600',
     'bg-gray-600',
     'bg-purple-600',
+    'bg-red-600',
     'bg-lime-600',
     'bg-emerald-600',
     'bg-cyan-600',

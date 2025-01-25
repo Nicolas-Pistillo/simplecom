@@ -149,6 +149,12 @@ return [
             'driver' => 'single',
             'path'   => storage_path('logs/payment-returns.log'),
             'level'  => 'debug'
+        ],
+
+        'webhooks' => [
+            'driver' => 'single',
+            'path'   => storage_path('logs/webhooks.log'),
+            'level'  => 'debug'
         ]
     ],
 

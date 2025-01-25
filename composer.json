@@ -20,8 +20,7 @@
         "pablorsk/argentina-data-validator": "^0.0.2",
         "spatie/laravel-permission": "^6.4",
         "stancl/tenancy": "^3.7",
-        "stripe/stripe-php": "^16.3",
-        "uala-bis/ualabis-php": "^1.0"
+        "stripe/stripe-php": "^16.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

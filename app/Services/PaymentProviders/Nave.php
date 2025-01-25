@@ -3,6 +3,7 @@
 namespace App\Services\PaymentProviders;
 
 use App\Interfaces\PaymentGateway;
+use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Illuminate\Support\Facades\Http;
@@ -16,6 +17,11 @@ class Nave implements PaymentGateway
     ];
 
     private $token;
+
+    public function model(): PaymentMethod
+    {
+        return PaymentMethod::where('code', 'nave')->first();
+    }
 
     public function generateToken()
     {

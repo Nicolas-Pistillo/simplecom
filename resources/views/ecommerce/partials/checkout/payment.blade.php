@@ -68,20 +68,18 @@ class="animate__animated animate__bounceInLeft grid max-w-xl grid-cols-12 gap-x-
     <script>
         Livewire.on('modo-checkout', (event) => 
         {
+            const intentionUrl = event[0].intention_url;
+            const order = event[0].order;
+
             async function createPaymentIntention() 
             {
-                const res = await fetch('{{ route('modo.payment-intention') }}', {
+                const res = await fetch(intentionUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-Token': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        price: 77
-                    })
+                    }
                 });
-
-                const returnUrl = "{{ route('payment.return', 'modo') }}";
 
                 const jsonRes = await res.json();
 
@@ -89,6 +87,7 @@ class="animate__animated animate__bounceInLeft grid max-w-xl grid-cols-12 gap-x-
                     checkoutId: jsonRes.id,
                     qrString: jsonRes.qr,
                     deeplink: jsonRes.deeplink,
+                    returnUrl: jsonRes.return_url
                 };
             }
 
@@ -101,22 +100,16 @@ class="animate__animated animate__bounceInLeft grid max-w-xl grid-cols-12 gap-x-
                     checkoutId: modalData.checkoutId,
                     deeplink: {
                         url: modalData.deeplink,
-                        callbackURL: returnUrl,
-                        callbackURLSuccess: returnUrl
+                        callbackURL: modalData.returnUrl,
+                        callbackURLSuccess: modalData.returnUrl
                     },
-                    callbackURL: returnUrl,
+                    callbackURL: modalData.returnUrl,
                     refreshData: createPaymentIntention,
-                    onSuccess: function() {
-                        console.log('onSuccess')
-                    },
-                    onFailure: function() {
-                        console.log('onFailure')
-                    },
                     onCancel: function() {
-                        console.log('onCancel')
+                        $wire.dispatch('cancel-frontend-checkout', {order: order.id});
                     },
                     onClose: function() {
-                        console.log('Cerro el modal')
+                        $wire.dispatch('cancel-frontend-checkout', {order: order.id});
                     },
                 }
 

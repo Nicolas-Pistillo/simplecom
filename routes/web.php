@@ -1,20 +1,17 @@
 <?php
 
+use App\Http\Controllers\Tenant\PaymentWebhookController;
 use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\AuthController;
 use App\Http\Controllers\Superadmin\TenantController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
-
 Route::view('/', 'landing')->name('simplecom.landing');
 
-Route::post('payment-providers/nave/webhook', function() {
-    Log::channel('resources')
-        ->info("Webhook de nave recibido en dominio principal", request()->all());
-
-    Log::info("Webhook de nave recibido en dominio principal", request()->all());
-});
+Route::post('webhooks/tenant-payments/{tenant}/{order}/{provider}', [PaymentWebhookController::class, 'handler'])
+    ->withoutMiddleware('web')
+    ->name('tenant.payment-webhook');
 
 /* SUPERADMIN ROUTES */
 Route::prefix('superadmin')->group(function() {

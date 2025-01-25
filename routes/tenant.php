@@ -22,8 +22,6 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
 
-    Route::view('test', 'ecommerce.thanks');
-
     /*****  TENANT ECOMMERCE ROUTES  *****/
     Route::middleware(['tenant_setuped', 'tenant_active'])->group(function() {
 
@@ -32,17 +30,16 @@ Route::middleware([
         Route::get('sso/{provider}/callback', [SocialiteController::class, 'callback']);
 
         // Payment providers urls
-        Route::get('payment-providers/{provider}/return', [PaymentReturnController::class, 'handler'])
+        Route::get('payment-providers/{provider}/{order}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
 
-        Route::post('payment-providers/{provider}/webhook', [PaymentWebhookController::class, 'handler'])
-            ->name('payment.webhook');
+        /* Route::post('payment-providers/{provider}/{order}/webhook', [PaymentWebhookController::class, 'handler'])
+            ->name('payment.webhook'); */
 
-        Route::post('payment-providers/modo-payment-intention', function() 
+        Route::post('payment-providers/modo-payment-intention/{order}', function(Order $order) 
         {
             $modo = new Modo();
-            $modo->generateCheckout([]);
-
+            $modo->generateCheckout($order);
             return response()->json($modo->frontend_payload);
         })->name('modo.payment-intention');
 

@@ -3,12 +3,17 @@
 namespace App\Livewire\Ecommerce;
 
 use App\Enums\DeliveryType;
+use App\Enums\OrderFeedEvent;
+use App\Enums\OrderFeedPresentation;
+use App\Enums\OrderStatusCode;
 use App\Livewire\Forms\CheckoutForm;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 use App\Services\ProductService;
 use App\Enums\PaymentRedirectType;
+use App\Enums\PaymentStatusCode;
+use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\UserAddress;
 use App\Services\OrderService;
@@ -23,8 +28,9 @@ class Checkout extends Component
     use WithNotifications;
 
     protected $listeners = [
-        'new-address-created'    => 'receiveNewAddress', 
-        'selected-dropoff-point' => 'confirmDropoffPoint'
+        'new-address-created'      => 'receiveNewAddress', 
+        'selected-dropoff-point'   => 'confirmDropoffPoint',
+        'cancel-frontend-checkout' => 'cancelFrontendCheckout'
     ];
 
     public CheckoutForm $form;
@@ -264,15 +270,20 @@ class Checkout extends Component
 
             $service = $paymentMethod->service();
 
+            if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
+            {
+                return $this->dispatch("$paymentMethod->code-checkout", [
+                    'order'         => $order,
+                    'intention_url' => route("$paymentMethod->code.payment-intention", $order->id)
+                ]);
+            }
+
             $service->generateCheckout($order);
     
             if ($service->redirect_type === PaymentRedirectType::None)
             {
                 dd("termina aca el checkout");
             }
-
-            if ($service->redirect_type === PaymentRedirectType::FrontendCheckout)
-                $this->dispatch("$paymentMethod->code-checkout", $service->frontend_init_data);
 
             if ($service->redirect_type === PaymentRedirectType::ProviderPlatform)
                 $this->redirect($service->provider_checkout_url);
@@ -285,12 +296,29 @@ class Checkout extends Component
                 'body'  => 'Por favor, vuelva a intentarlo más tarde'
             ]);
 
-            Log::error("Error al generar pedido", [
+            Log::channel('error')->error("Error al generar pedido", [
                 'tenant'            => tenant('name'),
                 'exception_message' => $th->getMessage(),
                 'checkout_form'     => $this->form->all()
             ]);
         }
+    }
+
+    public function cancelFrontendCheckout(Order $order)
+    {
+        $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+        $order->payment->update(['status_code' => PaymentStatusCode::CustomerCancelled]);
+
+        $order->feed()->create([
+            'event'         => OrderFeedEvent::PaymentUpdate,
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => $order->user->full_name,
+            'action'        => 'canceló el proceso de pago del pedido',
+            'meta'          => [
+                'icon_code'  => 'credit_card_off',
+                'icon_color' => 'red'
+            ]
+        ]);
     }
 
     public function updatedForm($value, $key)

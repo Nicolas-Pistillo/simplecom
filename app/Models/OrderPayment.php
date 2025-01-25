@@ -13,6 +13,12 @@ class OrderPayment extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $casts = [
-        'status_code' => PaymentStatusCode::class
+        'status_code' => PaymentStatusCode::class,
+        'meta'        => 'json'
     ];
+
+    public function status()
+    {
+        return $this->hasOne(PaymentStatus::class, 'code', 'status_code');
+    }
 }

@@ -30,7 +30,7 @@ class CartService
             $price  = $item->model->price  * $item->qty;
             $weight = $item->model->weight * $item->qty;
             $width  = $item->model->width  * $item->qty;
-            $height = $item->model->height * $item->qty;
+            $height = $item->model->height;
             $length = $item->model->length * $item->qty;
 
             if ($weightUnit === 'kg')
@@ -47,5 +47,10 @@ class CartService
         }
 
         return $package;
+    }
+
+    public static function clearCheckout()
+    {
+        
     }
 }
