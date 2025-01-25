@@ -61,7 +61,7 @@ class Ualabis implements PaymentGateway
 
         $response = Http::withToken($this->token)
                         ->withBody(json_encode([
-                            'amount'             => 28,
+                            'amount'             => 57,
                             'description'        => "Pedido-$order->code",
                             'callback_fail'      => 'https://google.com',
                             'callback_success'   => 'https://google.com',

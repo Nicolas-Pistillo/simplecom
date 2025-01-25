@@ -127,7 +127,7 @@ class PaymentWebhookController extends Controller
                     'event'         => OrderFeedEvent::PaymentUpdate,
                     'presentation'  => OrderFeedPresentation::Icon,
                     'initializator' => 'MercadoPago',
-                    'action'        => 'autorizó el pago pero aún no lo ha capturado',
+                    'action'        => 'autorizó el pago y se espera el desembolso',
                     'meta'          => [
                         'icon_code'  => 'credit_score',
                         'icon_color' => 'lime'
@@ -477,13 +477,6 @@ class PaymentWebhookController extends Controller
     {
         if (isset($request->uuid, $request->status))
         {
-            Log::channel('webhooks')->info('Actualización de pago recibida', [
-                'proveedor' => 'ualabis',
-                'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
-                'payload'   => $request->all()
-            ]);
-
             $ualabisOrder = str_replace('Pedido-', '', $request->external_reference);
 
             if ($ualabisOrder != $order->code) abort(401, 'Target order does not match');
@@ -492,8 +485,11 @@ class PaymentWebhookController extends Controller
 
             $paymentInfo = $service->getPaymentInfo($request->uuid);
 
-            Log::channel('webhooks')->info('Trabajar con estos datos de ualabis', [
-                'payment' => $paymentInfo
+            Log::channel('webhooks')->info('Actualización de pago recibida', [
+                'proveedor' => 'ualabis',
+                'tenant'    => tenant('name'),
+                'pedido'    => $order->code,
+                'payload'   => $paymentInfo
             ]);
 
             $paymentStatus = data_get($paymentInfo, 'status');
@@ -510,29 +506,7 @@ class PaymentWebhookController extends Controller
                     'instrument'      => data_get($paymentInfo, 'customer.card.issuer'),
                     'installments'    => data_get($paymentInfo, 'customer.card.installments.number'),
                     'external_status' => $paymentStatus,
-                    'total_paid'      => data_get($paymentInfo, 'customer.card.installments.total'),
-                    'meta'            => [
-                        [
-                            'name'  => 'Referencia',
-                            'value' => data_get($paymentInfo, 'external_reference')
-                        ],
-                        [
-                            'name'  => 'Tarjeta',
-                            'value' => data_get($paymentInfo, 'customer.card.pan')
-                        ],
-                        [
-                            'name'  => 'Titular tarjeta',
-                            'value' => data_get($paymentInfo, 'customer.card.holder_name')
-                        ],
-                        [
-                            'name'  => 'Costo financiero',
-                            'value' => '%' . data_get($paymentInfo, 'customer.card.installments.financial_cost')
-                        ],
-                        [
-                            'name'  => 'Valor de cuota',
-                            'value' => data_get($paymentInfo, 'customer.card.installments.value_per_installment')
-                        ]
-                    ]
+                    'total_paid'      => data_get($paymentInfo, 'customer.card.installments.total')
                 ]);
 
                 $order->feed()->create([
@@ -547,6 +521,31 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
+            if ($paymentStatus === 'PROCESSED')
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Authorized,
+                    'external_id'     => data_get($paymentInfo, 'uuid'),
+                    'instrument'      => data_get($paymentInfo, 'customer.card.issuer'),
+                    'installments'    => data_get($paymentInfo, 'customer.card.installments.number'),
+                    'external_status' => $paymentStatus,
+                    'total_paid'      => data_get($paymentInfo, 'customer.card.installments.total')
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Ualabis',
+                    'action'        => 'procesó correctamente el pago y se espera el desembolso',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'lime'
+                    ]
+                ]);
+            }
+
             if ($paymentStatus === 'REJECTED')
             {
                 $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
@@ -557,29 +556,7 @@ class PaymentWebhookController extends Controller
                     'instrument'      => data_get($paymentInfo, 'customer.card.issuer'),
                     'installments'    => data_get($paymentInfo, 'customer.card.installments.number'),
                     'external_status' => $paymentStatus,
-                    'total_paid'      => data_get($paymentInfo, 'customer.card.installments.total'),
-                    'meta'            => [
-                        [
-                            'name'  => 'Referencia',
-                            'value' => data_get($paymentInfo, 'external_reference')
-                        ],
-                        [
-                            'name'  => 'Tarjeta',
-                            'value' => data_get($paymentInfo, 'customer.card.pan')
-                        ],
-                        [
-                            'name'  => 'Titular tarjeta',
-                            'value' => data_get($paymentInfo, 'customer.card.holder_name')
-                        ],
-                        [
-                            'name'  => 'Costo financiero',
-                            'value' => '%' . data_get($paymentInfo, 'customer.card.installments.financial_cost')
-                        ],
-                        [
-                            'name'  => 'Valor de cuota',
-                            'value' => data_get($paymentInfo, 'customer.card.installments.value_per_installment')
-                        ]
-                    ]
+                    'total_paid'      => data_get($paymentInfo, 'customer.card.installments.total')
                 ]);
 
                 $order->feed()->create([
@@ -593,6 +570,31 @@ class PaymentWebhookController extends Controller
                     ]
                 ]);
             }
+
+            $order->payment->update([
+                'meta' => [
+                    [
+                        'name'  => 'Referencia',
+                        'value' => data_get($paymentInfo, 'external_reference')
+                    ],
+                    [
+                        'name'  => 'Tarjeta',
+                        'value' => data_get($paymentInfo, 'customer.card.pan')
+                    ],
+                    [
+                        'name'  => 'Titular tarjeta',
+                        'value' => data_get($paymentInfo, 'customer.card.holder_name')
+                    ],
+                    [
+                        'name'  => 'Costo financiero',
+                        'value' => '%' . data_get($paymentInfo, 'customer.card.installments.financial_cost')
+                    ],
+                    [
+                        'name'  => 'Valor de cuota',
+                        'value' => data_get($paymentInfo, 'customer.card.installments.value_per_installment')
+                    ]
+                ]
+            ]);
         }
     }
 }

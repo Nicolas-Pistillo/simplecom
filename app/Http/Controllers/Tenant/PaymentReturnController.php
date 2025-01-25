@@ -340,7 +340,7 @@ class PaymentReturnController extends Controller
 
     public function ualabis(Request $request, Order $order)
     {
-        dd("llego al return de ualabis", $request->all(), $order);
+        return view('ecommerce.checkout-result', compact('order'));
     }
 
     public function stripe(Request $request, Order $order)
