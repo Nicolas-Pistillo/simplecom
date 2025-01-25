@@ -129,7 +129,7 @@ class PaymentWebhookController extends Controller
                     'initializator' => 'MercadoPago',
                     'action'        => 'autorizó el pago y se espera el desembolso',
                     'meta'          => [
-                        'icon_code'  => 'credit_score',
+                        'icon_code'  => 'credit_card_clock',
                         'icon_color' => 'lime'
                     ]
                 ]);
@@ -540,7 +540,7 @@ class PaymentWebhookController extends Controller
                     'initializator' => 'Ualabis',
                     'action'        => 'procesó correctamente el pago y se espera el desembolso',
                     'meta'          => [
-                        'icon_code'  => 'credit_score',
+                        'icon_code'  => 'credit_card_clock',
                         'icon_color' => 'lime'
                     ]
                 ]);
@@ -587,11 +587,15 @@ class PaymentWebhookController extends Controller
                     ],
                     [
                         'name'  => 'Costo financiero',
-                        'value' => '%' . data_get($paymentInfo, 'customer.card.installments.financial_cost')
+                        'value' => data_get($paymentInfo, 'customer.card.installments.financial_cost') > 0
+                                    ? '%' . data_get($paymentInfo, 'customer.card.installments.financial_cost')
+                                    : null
                     ],
                     [
                         'name'  => 'Valor de cuota',
-                        'value' => data_get($paymentInfo, 'customer.card.installments.value_per_installment')
+                        'value' => $order->payment->installments > 1 
+                                    ? '$' . data_get($paymentInfo, 'customer.card.installments.value_per_installment') 
+                                    : null
                     ]
                 ]
             ]);

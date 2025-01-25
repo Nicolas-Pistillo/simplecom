@@ -35,7 +35,8 @@ class MercadoPago implements PaymentGateway
         'ticket'           => 'Ticket de pago en efectivo',
         'digital_currency' => 'Compra con pago sin tarjeta',
         'digital_wallet'   => 'Paypal',
-        'crypto_transfer'  => 'Pago con criptos'
+        'crypto_transfer'  => 'Pago con criptos',
+        'account_money'    => 'Dinero en cuenta'
     ];
 
     public function model(): PaymentMethod
