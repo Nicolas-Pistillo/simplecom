@@ -52,7 +52,7 @@
                     </div>
                     
                     
-                    <div class="flex flex-wrap gap-3 px-4 py-3">
+                    {{-- <div class="flex flex-wrap gap-3 px-4 py-3">
 
                         <h5 class="mr-4 font-semibold text-gray-800 text-sm">Entrega</h5>
 
@@ -70,7 +70,7 @@
                             <input checked id="inline-checked-radio" type="radio" value="" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="inline-checked-radio" class="ms-2 text-sm font-medium text-gray-900">Ambas</label>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="overflow-x-auto no-select" scrollbar-thin>
                         <table class="w-full text-sm text-left text-gray-500">

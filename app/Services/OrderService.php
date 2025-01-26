@@ -69,6 +69,22 @@ class OrderService
             'total'                => floatval(Cart::subtotal() + $shippingCost)
         ]);
 
+        foreach(Cart::content() as $item)
+        {
+            OrderItem::create([
+                'order_id'    => $order->id,
+                'product_id'  => $item->id,
+                'category_id' => $item->options->category_id,
+                'variant_id'  => $item->options->variant_id,
+                'name'        => $item->name,
+                'quantity'    => $item->qty,
+                'unit_cost'   => $item->model->unit_cost,
+                'unit_price'  => $item->model->price,
+                'sell_price'  => $item->price,
+                'total'       => $item->price * $item->qty
+            ]);
+        }
+
         OrderFeedItem::create([
             'order_id'      => $order->id,
             'event'         => OrderFeedEvent::PaymentUpdate,
@@ -76,21 +92,6 @@ class OrderService
             'initializator' => Auth::check() ? Auth::user()->full_name : $user->full_name,
             'action'        => 'realizó este pedido'
         ]);
-
-        foreach(Cart::content() as $item)
-        {
-            OrderItem::create([
-                'order_id'    => $order->id,
-                'product_id'  => $item->id,
-                'category_id' => $item->model->category_id,
-                'variant_id'  => $item->options->variant_id,
-                'name'        => $item->name,
-                'quantity'    => $item->qty,
-                'unit_cost'   => $item->model->unit_cost,
-                'unit_price'  => $item->price,
-                'total'       => $item->price * $item->qty
-            ]);
-        }
 
         if ($orderWithShipping)
         {
