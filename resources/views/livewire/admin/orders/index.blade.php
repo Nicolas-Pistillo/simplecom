@@ -15,28 +15,60 @@
         <section class="pb-3">
             <div class="mx-auto max-w-screen-2xl">
                 <div class="relative shadow-md rounded-lg">
-                    <div class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
-                        <div class="flex items-center flex-1 space-x-4 text-sm">
-                            <h5>
-                                <span class="text-gray-600">Pedidos hoy:</span>
-                                <span class="font-semibold">9</span>
-                            </h5>
-                            <h5>
-                                <span class="text-gray-600">Vendido hoy:</span>
-                                <span class="font-semibold">${{ priceFormat(1387799.69) }}</span>
-                            </h5>
+
+                    <div class="flex items-end justify-between flex-wrap gap-x-4 space-y-4 md:space-y-0 px-4 py-3 bg-white">
+                        <div class="relative w-full sm:w-96">
+                            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
+                                </svg>
+                            </div>
+                            <input type="text" class="block w-full pt-2 ps-10 text-sm text-gray-900 
+                            border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 
+                            focus:border-blue-500" placeholder="Buscar pedido...">
                         </div>
-                        <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
+                        <div class="flex items-center gap-3">
 
-                            <x-button class="flex items-center font-thin" type="secondary">
-                                Sincronizar
-                                <x-icon code="sync" class="ml-1 text-gray-700" />
-                            </x-button>
+                            <x-icon code="sell" 
+                            x-tooltip.raw.placement.top="Imprimir etiquetas" class="transition colors 
+                            cursor-pointer bg-gray-100 text-gray-500 p-1.5 rounded-full 
+                            hover:bg-gray-200 no-select focus:outline-none focus:ring duration-300" />
 
-                            <x-button class="flex items-center font-thin" type="secondary">
-                                Exportar
-                                <x-icon code="file_upload" class="ml-1 text-gray-700" />
-                            </x-button>
+                            <x-icon code="barcode" 
+                            x-tooltip.raw.placement.top="Código de barras" class="transition colors 
+                            cursor-pointer bg-gray-100 text-gray-500 p-1.5 rounded-full 
+                            hover:bg-gray-200 no-select focus:outline-none focus:ring duration-300" />
+
+                            <x-icon code="sync" 
+                            x-tooltip.raw.placement.top="Actualizar" class="transition colors 
+                            cursor-pointer bg-gray-100 text-gray-500 p-1.5 rounded-full 
+                            hover:bg-gray-200 no-select focus:outline-none focus:ring duration-300" />
+
+                            <x-icon code="upload" 
+                            x-tooltip.raw.placement.top="Exportar" class="transition colors 
+                            cursor-pointer bg-gray-100 text-gray-500 p-1.5 rounded-full 
+                            hover:bg-gray-200 no-select focus:outline-none focus:ring duration-300" />
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="flex flex-wrap gap-3 px-4 py-3">
+
+                        <h5 class="mr-4 font-semibold text-gray-800 text-sm">Entrega</h5>
+
+                        <div class="flex items-center me-4">
+                            <input id="inline-radio" type="radio" value="" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900">Retíro en local</label>
+                        </div>
+
+                        <div class="flex items-center me-4">
+                            <input id="inline-2-radio" type="radio" value="" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900">Envío</label>
+                        </div>
+
+                        <div class="flex items-center me-4">
+                            <input checked id="inline-checked-radio" type="radio" value="" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="inline-checked-radio" class="ms-2 text-sm font-medium text-gray-900">Ambas</label>
                         </div>
                     </div>
 
@@ -136,7 +168,7 @@
 
                     @if($orders->total() > 10)
                         <nav class="p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
-                            {{ $orders->links() }}
+                            {{ $orders->onEachSide(0)->links() }}
                         </nav>
                     @endif
                 </div>

@@ -52,7 +52,7 @@ class OrderStatusSeeder extends Seeder
 
         OrderStatus::create([
             'code'            => OrderStatusCode::Confirmed,
-            'name'            => 'Confirmado',
+            'name'            => 'Preparar',
             'customer_name'   => 'En preparación',
             'display_color'   => 'blue',
             'helper'          => 'Prepará el pedido para su entrega',
