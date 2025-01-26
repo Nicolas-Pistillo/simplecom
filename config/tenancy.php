@@ -18,7 +18,7 @@ return [
     'central_domains' => [
         '127.0.0.1',
         'localhost',
-        'beaf-179-38-104-95.ngrok-free.app'
+        env('NGROK_DOMAIN')
     ],
 
     /**

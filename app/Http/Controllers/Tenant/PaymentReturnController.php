@@ -343,6 +343,11 @@ class PaymentReturnController extends Controller
         return view('ecommerce.checkout-result', compact('order'));
     }
 
+    public function gocuotas(Request $request, Order $order)
+    {
+        return view('ecommerce.checkout-result', compact('order'));
+    }
+
     public function stripe(Request $request, Order $order)
     {
         dd("llego al return de stripe", $request->all(), $order);

@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Tenant;
+use App\Services\PaymentProviders\GOcuotas;
 use App\Services\PaymentProviders\MercadoPago;
 use App\Services\PaymentProviders\Mobbex;
 use App\Services\PaymentProviders\Ualabis;
@@ -599,6 +600,136 @@ class PaymentWebhookController extends Controller
                     ]
                 ]
             ]);
+        }
+    }
+
+    public function gocuotas(Request $request, Order $order)
+    {
+        if (isset($request->order_reference_id, $request->order_id))
+        {
+            $gocuotasOrder = str_replace('Pedido ', '', $request->order_reference_id);
+
+            if ($gocuotasOrder != $order->code) abort(401, 'Target order does not match');
+
+            $service = new GOcuotas();
+
+            $paymentInfo = $service->getPaymentInfo($request->order_id);
+
+            if (empty($paymentInfo) || !isset($paymentInfo['id'])) abort(401, 'Payment not found');
+
+            Log::channel('webhooks')->info('Actualización de pago recibida', [
+                'proveedor' => 'gocuotas',
+                'tenant'    => tenant('name'),
+                'pedido'    => $order->code,
+                'payload'   => $paymentInfo
+            ]);
+
+            $paymentStatus = data_get($paymentInfo, 'status');
+
+            if ($paymentStatus === 'approved')
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'external_id'     => data_get($paymentInfo, 'id'),
+                    'instrument'      => data_get($paymentInfo, 'payment.card.name'),
+                    'installments'    => data_get($paymentInfo, 'number_of_installments'),
+                    'external_status' => $paymentStatus,
+                    'total_paid'      => data_get($paymentInfo, 'amount_in_cents') / 100,
+                    'meta'            => [
+                        [
+                            'name'  => 'Referencia',
+                            'value' => data_get($paymentInfo, 'order_reference_id')
+                        ],
+                        [
+                            'name'  => 'Tarjeta',
+                            'value' => data_get($paymentInfo, 'payment.card.number')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'GOcuotas',
+                    'action'        => 'aprobó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+
+            if ($paymentStatus === 'undefined')
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentPending]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Pending,
+                    'external_id'     => data_get($paymentInfo, 'id'),
+                    'instrument'      => data_get($paymentInfo, 'payment.card.name'),
+                    'installments'    => data_get($paymentInfo, 'number_of_installments'),
+                    'external_status' => $paymentStatus,
+                    'total_paid'      => data_get($paymentInfo, 'amount_in_cents') / 100,
+                    'meta'            => [
+                        [
+                            'name'  => 'Referencia',
+                            'value' => data_get($paymentInfo, 'order_reference_id')
+                        ],
+                        [
+                            'name'  => 'Tarjeta',
+                            'value' => data_get($paymentInfo, 'payment.card.number')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'GOcuotas',
+                    'action'        => 'está esperando el pago del comprador',
+                    'meta'          => [
+                        'icon_code'  => 'credit_card_clock',
+                        'icon_color' => 'orange'
+                    ]
+                ]);
+            }
+
+            if ($paymentStatus === 'denied')
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'external_id'     => data_get($paymentInfo, 'id'),
+                    'instrument'      => data_get($paymentInfo, 'payment.card.name'),
+                    'installments'    => data_get($paymentInfo, 'number_of_installments'),
+                    'external_status' => $paymentStatus,
+                    'total_paid'      => data_get($paymentInfo, 'amount_in_cents') / 100,
+                    'meta'            => [
+                        [
+                            'name'  => 'Referencia',
+                            'value' => data_get($paymentInfo, 'order_reference_id')
+                        ],
+                        [
+                            'name'  => 'Tarjeta',
+                            'value' => data_get($paymentInfo, 'payment.card.number')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'GOcuotas',
+                    'action'        => 'rechazó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'cancel',
+                        'icon_color' => 'red'
+                    ]
+                ]);
+            }
         }
     }
 }
