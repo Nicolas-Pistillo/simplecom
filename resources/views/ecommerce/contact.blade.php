@@ -1,7 +1,8 @@
 @extends('layouts.ecommerce')
 
 @section('content')
-    {{-- <div class="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
+
+    <div class="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
         <svg class="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
             aria-hidden="true">
             <defs>
@@ -89,9 +90,9 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
-    <section class="py-24">
+    {{-- <section class="py-24">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid gap-4 mb-14">
                 <h2 class="text-gray-900 text-center text-4xl font-manrope font-bold leading-snug">Contact Us!</h2>
@@ -174,7 +175,5 @@
                 </div>
             </div>
         </div>
-    </section>
-                                                        
-                                                      
+    </section> --}}
 @endsection

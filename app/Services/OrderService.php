@@ -4,13 +4,11 @@ namespace App\Services;
 
 use App\Enums\CustomerType;
 use App\Enums\DeliveryType;
-use App\Enums\OrderFeedEvent;
 use App\Enums\OrderStatusCode;
 use App\Livewire\Forms\CheckoutForm;
-use App\Enums\OrderFeedPresentation;
 use App\Enums\ShippingStatusCode;
+use App\Events\OrderCreated;
 use App\Models\Order;
-use App\Models\OrderFeedItem;
 use App\Models\OrderItem;
 use App\Models\OrderShipping;
 use App\Models\ShippingProvider;
@@ -86,14 +84,6 @@ class OrderService
             ]);
         }
 
-        OrderFeedItem::create([
-            'order_id'      => $order->id,
-            'event'         => OrderFeedEvent::PaymentUpdate,
-            'presentation'  => OrderFeedPresentation::InitialsImage,
-            'initializator' => Auth::check() ? Auth::user()->full_name : $user->full_name,
-            'action'        => 'realizó este pedido'
-        ]);
-
         if ($orderWithShipping)
         {
             $branch = session('selected_branch');
@@ -112,6 +102,8 @@ class OrderService
                 'calculated_rate'   => $form->selected_rate
             ]);
         }
+
+        OrderCreated::dispatch($order);
 
         return $order;
     }
