@@ -61,9 +61,9 @@ class GOcuotas implements PaymentGateway
             'email'                 => 'prueba@gocuotas.com',
             'phone_number'          => '1140506070',
             'order_reference_id'    => "Pedido $order->code",
-            'url_success'           => $order->paymentReturn('gocuotas'),
-            'url_failure'           => $order->paymentReturn('gocuotas'),
-            'webhook_url'           => $order->paymentWebhook('gocuotas')
+            'url_success'           => $order->paymentReturn(),
+            'url_failure'           => $order->paymentReturn(),
+            'webhook_url'           => $order->paymentWebhook()
         ];
 
         $response = Http::withToken($this->token)

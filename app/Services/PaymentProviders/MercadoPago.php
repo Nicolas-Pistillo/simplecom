@@ -68,13 +68,13 @@ class MercadoPago implements PaymentGateway
         $preferenceData = [
             'auto_return' => 'approved',
             'items' => $items,
-            'notification_url' => $order->paymentWebhook('mercadopago'),
+            'notification_url' => $order->paymentWebhook(),
             'statement_descriptor' => tenant('ecommerce_name'),
             'external_reference' => "Pedido $order->code",
             'back_urls' => [
-                'success' => $order->paymentReturn('mercadopago'),
-                'failure' => $order->paymentReturn('mercadopago'),
-                'pending' => $order->paymentReturn('mercadopago'),
+                'success' => $order->paymentReturn(),
+                'failure' => $order->paymentReturn(),
+                'pending' => $order->paymentReturn(),
             ]
         ];
 

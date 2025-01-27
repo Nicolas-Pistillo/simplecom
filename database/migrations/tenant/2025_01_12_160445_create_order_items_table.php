@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('unit_cost', 10)->nullable();
             $table->decimal('unit_price', 10);
             $table->decimal('sell_price', 10);
+            $table->integer('discount')->nullable();
             $table->decimal('total', 10);
             $table->timestamps();
         });

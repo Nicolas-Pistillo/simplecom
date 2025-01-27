@@ -282,11 +282,13 @@ class Checkout extends Component
     
             if ($service->redirect_type === PaymentRedirectType::None)
             {
-                dd("termina aca el checkout");
+                $this->redirect($order->paymentReturn());
             }
 
             if ($service->redirect_type === PaymentRedirectType::ProviderPlatform)
+            {
                 $this->redirect($service->provider_checkout_url);
+            }
 
         } catch (\Throwable $th)
         {

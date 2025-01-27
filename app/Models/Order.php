@@ -63,17 +63,20 @@ class Order extends Model
         return route('admin.orders.show', $this->id);
     }
 
-    public function paymentReturn($provider)
+    public function paymentReturn()
     {
-        return route('payment.return', ['provider' => $provider, 'order' => $this->id]);
+        return route('payment.return', [
+            'provider' => $this->paymentMethod->code, 
+            'order'    => $this->id
+        ]);
     }
 
-    public function paymentWebhook($provider)
+    public function paymentWebhook()
     {
         $route = route('tenant.payment-webhook', [
             'tenant'   => tenant('id'),
             'order'    => $this->id,
-            'provider' => $provider
+            'provider' => $this->paymentMethod->code
         ]);
 
         return str_replace('http://', 'https://', $route);

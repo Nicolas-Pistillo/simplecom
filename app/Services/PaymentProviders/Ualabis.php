@@ -65,7 +65,7 @@ class Ualabis implements PaymentGateway
                             'description'        => "Pedido-$order->code",
                             'callback_fail'      => 'https://google.com',
                             'callback_success'   => 'https://google.com',
-                            'notification_url'   => $order->paymentWebhook('ualabis'),
+                            'notification_url'   => $order->paymentWebhook(),
                             'external_reference' => "Pedido-$order->code"
                         ]))
                         ->throw()

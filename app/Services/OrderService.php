@@ -72,16 +72,17 @@ class OrderService
         foreach(Cart::content() as $item)
         {
             OrderItem::create([
-                'order_id'    => $order->id,
-                'product_id'  => $item->id,
-                'category_id' => $item->options->category_id,
-                'variant_id'  => $item->options->variant_id,
-                'name'        => $item->name,
-                'quantity'    => $item->qty,
-                'unit_cost'   => $item->model->unit_cost,
-                'unit_price'  => $item->model->price,
-                'sell_price'  => $item->price,
-                'total'       => $item->price * $item->qty
+                'order_id'     => $order->id,
+                'product_id'   => $item->id,
+                'category_id'  => $item->options->category_id,
+                'variant_id'   => $item->options->variant_id,
+                'name'         => $item->name,
+                'quantity'     => $item->qty,
+                'unit_cost'    => $item->model->unit_cost,
+                'unit_price'   => $item->model->price,
+                'sell_price'   => $item->price,
+                'discount'     => $item->options->discount,
+                'total'        => $item->price * $item->qty
             ]);
         }
 

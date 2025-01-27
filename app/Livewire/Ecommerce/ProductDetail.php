@@ -105,6 +105,7 @@ class ProductDetail extends Component
             [
                 'image_url'      => $this->product->first_image,
                 'category_id'    => $this->product->category_id,
+                'discount'       => $this->product->discount_percent,
                 'variant_id'     => $validationsOutput['variantId'],
                 'variant_values' => $validationsOutput['variantValues']
             ]
