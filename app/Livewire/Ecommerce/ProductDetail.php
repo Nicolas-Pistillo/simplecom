@@ -36,18 +36,18 @@ class ProductDetail extends Component
     public function validateSelection()
     {
         $variantId = null;
-        $variantAttributeNames = [];
+        $variantValues = [];
 
         if (!empty($this->variants))
         {
             $variantValidationOutput = $this->validateSelectionWithVariants();
 
             $variantId = $variantValidationOutput['variantId'];
-            $variantAttributeNames = $variantValidationOutput['variantAttributeNames'];
+            $variantValues = $variantValidationOutput['variantValues'];
         } else
             $this->validateSelectionWithoutVariants();
            
-        return compact('variantId', 'variantAttributeNames');
+        return compact('variantId', 'variantValues');
     }
 
     public function validateSelectionWithVariants()
@@ -69,16 +69,16 @@ class ProductDetail extends Component
             'variant_id' => $variantId,
         ]);
 
-        $variantAttributeNames = [];
+        $variantValues = [];
 
         foreach ($this->selectedVariants as $attributeId => $valueId) {
             $attributeName = Attribute::find($attributeId)->name;
             $attributeValueName = AttributeValue::find($valueId)->name;
 
-            $variantAttributeNames[$attributeName] = $attributeValueName;
+            $variantValues[$attributeName] = $attributeValueName;
         }
 
-        return compact('variantId', 'variantAttributeNames');
+        return compact('variantId', 'variantValues');
     }
 
     public function validateSelectionWithoutVariants()
@@ -103,9 +103,11 @@ class ProductDetail extends Component
             $this->quantitySelected,
             $this->product->current_price,
             [
-                'image_url'  => $this->product->first_image,
-                'variant_id' => $validationsOutput['variantId'],
-                'variant_attribute_names' => $validationsOutput['variantAttributeNames']
+                'image_url'      => $this->product->first_image,
+                'category_id'    => $this->product->category_id,
+                'discount'       => $this->product->discount_percent,
+                'variant_id'     => $validationsOutput['variantId'],
+                'variant_values' => $validationsOutput['variantValues']
             ]
         )->associate(Product::class);
 
@@ -179,10 +181,12 @@ class ProductDetail extends Component
     {
         if (!$product->published) abort(404);
 
-        if ($product->hasVariants()) {
+        if ($product->hasVariants()) 
+        {
             $this->variants = ProductService::generateSelectableVariantOptions($product);
 
-            foreach ($this->variants as $variant) {
+            foreach ($this->variants as $variant) 
+            {
                 $this->selectedVariants[$variant['attribute_id']] = null;
             }
         }

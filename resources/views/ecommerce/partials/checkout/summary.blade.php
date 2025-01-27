@@ -31,9 +31,9 @@
                                         {{ $product->name }}
                                     </a>
                                 </h4>
-                                @if (count($product->options->variant_attribute_names))
+                                @if (count($product->options->variant_values))
                                     <div class="flex flex-col text-xs">
-                                        @foreach ($product->options->variant_attribute_names as $name => $value)
+                                        @foreach ($product->options->variant_values as $name => $value)
                                             <span class="mt-1 text-gray-500">
                                                 {{ $name }}: {{ $value }}
                                             </span>

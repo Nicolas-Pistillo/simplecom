@@ -35,7 +35,8 @@ class MercadoPago implements PaymentGateway
         'ticket'           => 'Ticket de pago en efectivo',
         'digital_currency' => 'Compra con pago sin tarjeta',
         'digital_wallet'   => 'Paypal',
-        'crypto_transfer'  => 'Pago con criptos'
+        'crypto_transfer'  => 'Pago con criptos',
+        'account_money'    => 'Dinero en cuenta'
     ];
 
     public function model(): PaymentMethod
@@ -67,13 +68,13 @@ class MercadoPago implements PaymentGateway
         $preferenceData = [
             'auto_return' => 'approved',
             'items' => $items,
-            'notification_url' => $order->paymentWebhook('mercadopago'),
+            'notification_url' => $order->paymentWebhook(),
             'statement_descriptor' => tenant('ecommerce_name'),
             'external_reference' => "Pedido $order->code",
             'back_urls' => [
-                'success' => $order->paymentReturn('mercadopago'),
-                'failure' => $order->paymentReturn('mercadopago'),
-                'pending' => $order->paymentReturn('mercadopago'),
+                'success' => $order->paymentReturn(),
+                'failure' => $order->paymentReturn(),
+                'pending' => $order->paymentReturn(),
             ]
         ];
 

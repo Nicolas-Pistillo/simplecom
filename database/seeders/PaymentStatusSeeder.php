@@ -43,7 +43,7 @@ class PaymentStatusSeeder extends Seeder
 
         PaymentStatus::create([
             'code'            => PaymentStatusCode::Confirmed,
-            'name'            => 'Preparar',
+            'name'            => 'Confirmado',
             'customer_name'   => 'Confirmado',
             'display_color'   => 'green',
             'helper'          => 'El pago se confirmó exitosamente',
@@ -91,7 +91,7 @@ class PaymentStatusSeeder extends Seeder
             'name'            => 'Rechazado',
             'customer_name'   => 'Cancelado',
             'display_color'   => 'red',
-            'helper'          => 'El pago de este pedido fue rechazado por el comprador',
+            'helper'          => 'El pago de este pedido fue cancelado por el comprador',
             'customer_helper' => 'Cancelaste el proceso de pago para este pedido'
         ]);
 

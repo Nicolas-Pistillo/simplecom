@@ -26,6 +26,11 @@ class PaymentReturnController extends Controller
         return $this->{$provider}($request, $order);
     }
 
+    public function transfer(Request $request, Order $order)
+    {
+        return view('ecommerce.checkout-result', compact('order'));
+    }
+
     public function mercadopago(Request $request, Order $order)
     {
         return view('ecommerce.checkout-result', compact('order'));
@@ -339,6 +344,11 @@ class PaymentReturnController extends Controller
     }
 
     public function ualabis(Request $request, Order $order)
+    {
+        return view('ecommerce.checkout-result', compact('order'));
+    }
+
+    public function gocuotas(Request $request, Order $order)
     {
         return view('ecommerce.checkout-result', compact('order'));
     }

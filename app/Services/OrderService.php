@@ -4,13 +4,11 @@ namespace App\Services;
 
 use App\Enums\CustomerType;
 use App\Enums\DeliveryType;
-use App\Enums\OrderFeedEvent;
 use App\Enums\OrderStatusCode;
 use App\Livewire\Forms\CheckoutForm;
-use App\Enums\OrderFeedPresentation;
 use App\Enums\ShippingStatusCode;
+use App\Events\OrderCreated;
 use App\Models\Order;
-use App\Models\OrderFeedItem;
 use App\Models\OrderItem;
 use App\Models\OrderShipping;
 use App\Models\ShippingProvider;
@@ -69,26 +67,20 @@ class OrderService
             'total'                => floatval(Cart::subtotal() + $shippingCost)
         ]);
 
-        OrderFeedItem::create([
-            'order_id'      => $order->id,
-            'event'         => OrderFeedEvent::PaymentUpdate,
-            'presentation'  => OrderFeedPresentation::InitialsImage,
-            'initializator' => Auth::check() ? Auth::user()->full_name : $user->full_name,
-            'action'        => 'realizó este pedido'
-        ]);
-
         foreach(Cart::content() as $item)
         {
             OrderItem::create([
-                'order_id'    => $order->id,
-                'product_id'  => $item->id,
-                'category_id' => $item->model->category_id,
-                'variant_id'  => $item->options->variant_id,
-                'name'        => $item->name,
-                'quantity'    => $item->qty,
-                'unit_cost'   => $item->model->unit_cost,
-                'unit_price'  => $item->price,
-                'total'       => $item->price * $item->qty
+                'order_id'     => $order->id,
+                'product_id'   => $item->id,
+                'category_id'  => $item->options->category_id,
+                'variant_id'   => $item->options->variant_id,
+                'name'         => $item->name,
+                'quantity'     => $item->qty,
+                'unit_cost'    => $item->model->unit_cost,
+                'unit_price'   => $item->model->price,
+                'sell_price'   => $item->price,
+                'discount'     => $item->options->discount,
+                'total'        => $item->price * $item->qty
             ]);
         }
 
@@ -110,6 +102,8 @@ class OrderService
                 'calculated_rate'   => $form->selected_rate
             ]);
         }
+
+        OrderCreated::dispatch($order);
 
         return $order;
     }

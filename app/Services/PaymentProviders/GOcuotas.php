@@ -2,10 +2,17 @@
 
 namespace App\Services\PaymentProviders;
 
+use App\Enums\OrderFeedEvent;
+use App\Enums\OrderFeedPresentation;
+use App\Enums\PaymentStatusCode;
 use App\Interfaces\PaymentGateway;
+use App\Models\Order;
+use App\Models\OrderFeedItem;
+use App\Models\OrderPayment;
 use App\Traits\Configurable;
 use App\Models\PaymentMethod;
 use App\Traits\ManagesPaymentRedirections;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class GOcuotas implements PaymentGateway
@@ -14,7 +21,7 @@ class GOcuotas implements PaymentGateway
 
     protected $configuration_keys = ['gocuotas_redirect_email', 'gocuotas_redirect_password'];
 
-    private $base_url = 'https://sandbox.gocuotas.com/api_redirect/v1';
+    private $base_url = 'https://www.gocuotas.com/api_redirect/v1';
     private $token;
 
     public function model(): PaymentMethod
@@ -22,28 +29,41 @@ class GOcuotas implements PaymentGateway
         return PaymentMethod::where('code', 'gocuotas')->first();
     }
 
+    public function __construct()
+    {
+        if (env('GOCUOTAS_TEST'))
+        {
+            $this->base_url = 'https://sandbox.gocuotas.com/api_redirect/v1';
+        }
+    }
+
     public function generateToken()
     {
-        $email = tenant()->configValue('gocuotas_redirect_email');
-        $password = tenant()->configValue('gocuotas_redirect_password');
+        $email = $this->key('gocuotas_redirect_email');
+        $password = $this->key('gocuotas_redirect_password');
 
         $response = Http::post("$this->base_url/authentication?email=$email&password=$password")->json();
+
+        if (!isset($response['token']))
+        {
+            throw new Exception('Crendenciales de GOcuotas incorrectas');
+        }
 
         $this->token = $response['token'];
     }
 
-    public function generateCheckout($order)
+    public function generateCheckout(Order $order)
     {
         $this->generateToken();
 
         $payload = [
-            'amount_in_cents'       => 150000,
+            'amount_in_cents'       => 180000,
             'email'                 => 'prueba@gocuotas.com',
-            'order_reference_id'    => 'U145P345',
             'phone_number'          => '1140506070',
-            'url_success'           => route('payment.return', 'gocuotas'),
-            'url_failure'           => route('payment.return', 'gocuotas'),
-            'webhook_url'           => route('payment.return', 'gocuotas')
+            'order_reference_id'    => "Pedido $order->code",
+            'url_success'           => $order->paymentReturn(),
+            'url_failure'           => $order->paymentReturn(),
+            'webhook_url'           => $order->paymentWebhook()
         ];
 
         $response = Http::withToken($this->token)
@@ -52,6 +72,37 @@ class GOcuotas implements PaymentGateway
                         ->post("$this->base_url/checkouts")
                         ->json();
 
-        $this->provider_checkout_url = $response['url_init'];
+        OrderPayment::create([
+            'order_id'     => $order->id,
+            'provider_id'  => $this->model()->id,
+            'checkout_url' => data_get($response, 'url_init'),
+            'total_paid'   => data_get($response, 'amount_in_cents') / 100,
+            'status_code'  => PaymentStatusCode::Created,
+            'meta'         => [
+                [
+                    'name'  => 'Referencia',
+                    'value' => data_get($response, 'order_reference_id')
+                ]
+            ]
+        ]);
+
+        OrderFeedItem::create([
+            'order_id'      => $order->id,
+            'event'         => OrderFeedEvent::PaymentUpdate,
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => $order->user->full_name,
+            'action'        => "inició el pago del pedido con GOcuotas",
+            'meta'          => [
+                'icon_code' => 'credit_card'
+            ]
+        ]);
+
+        $this->provider_checkout_url = data_get($response, 'url_init');
+    }
+
+    public function getPaymentInfo($id)
+    {
+        $this->generateToken();
+        return Http::withToken($this->token)->get("$this->base_url/orders/$id")->json();
     }
 }

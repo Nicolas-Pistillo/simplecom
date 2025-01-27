@@ -1,7 +1,16 @@
 <div class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
-    <div class="flex items-center justify-between">
-        <h4 class="text-sm/6 font-semibold text-gray-900">Detalle de pago</h4>
+    <div class="flex items-center justify-between mb-2 sm:mb-0">
+
+        <div class="flex items-center gap-1 flex-wrap">
+
+            <h4 class="text-sm/6 font-semibold text-gray-900">Detalle de pago</h4>
+
+            <x-badge :color="$order->payment->status->display_color">
+                {{ $order->payment->status->name }}
+            </x-badge>
+        </div>
+
         <img src="{{ Storage::URL("providers/{$order->paymentMethod->code}.png") }}"
             class="h-12 w-12 object-cover rounded-md"
             alt="Logo {{ $order->paymentMethod->display_name }}">
@@ -11,17 +20,6 @@
 
     {{-- Principal Info --}}
     <div class="flex flex-wrap gap-3">
-
-        <div class="flex flex-col gap-1 p-2">
-            <small class="text-xs text-gray-500 font-semibold">
-                Estado
-            </small>
-            <span class="text-sm/6 text-gray-500">
-                <x-badge :color="$order->payment->status->display_color">
-                    {{ $order->payment->status->name }}
-                </x-badge>
-            </span>
-        </div>
 
         @if (!empty($order->payment->external_id))
             <div class="flex flex-col p-2">
