@@ -4,12 +4,15 @@ namespace App\Livewire\Admin\DeliveryMethods;
 
 use App\Models\Configuration;
 use App\Models\ShippingProvider;
+use App\Models\StorePickup;
 use App\Traits\Livewire\WithNotifications;
 use Livewire\Component;
 
 class Upsert extends Component
 {
     use WithNotifications;
+
+    protected $listeners = ['new-store-pickup-created' => '$refresh'];
 
     public $providers, $configuring_provider, $configuring_provider_keys;
 
@@ -63,6 +66,8 @@ class Upsert extends Component
 
     public function render()
     {
-        return view('livewire.admin.delivery-methods.upsert');
+        return view('livewire.admin.delivery-methods.upsert', [
+            'store_pickups' => StorePickup::all()
+        ]);
     }
 }
