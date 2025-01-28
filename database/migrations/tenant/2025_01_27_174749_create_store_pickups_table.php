@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('floor')->nullable();
             $table->string('local')->nullable();
             $table->string('schedule')->nullable();
+            $table->string('observations')->nullable();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
             $table->string('map_url')->nullable();

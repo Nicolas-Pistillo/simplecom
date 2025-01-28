@@ -58,6 +58,7 @@
                     x-tooltip.raw.placement.bottom="Editar" />
 
                     <x-icon code="delete" style="font-size: 21px"
+                    wire:click='confirmDeleteStorePickup({{ $pickupPoint->id }})'
                     class="p-1.5 rounded-full border 
                     text-gray-800 cursor-pointer transition duration-300 hover:shadow 
                     hover:border-gray-300 hover:text-red-500"

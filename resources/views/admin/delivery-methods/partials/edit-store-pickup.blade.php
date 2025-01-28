@@ -101,6 +101,17 @@
 
                                             </div>
                                         </div>
+
+                                        <div class="col-span-full">
+                                            <div class="relative mt-1">
+
+                                                <textarea rows="2" placeholder="Aclaraciones (presentar DNI, otra documentación etc.)"
+                                                wire:model.blur='pickup_observations'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm"></textarea>
+                                
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="flex items-center justify-center pt-8 gap-4">

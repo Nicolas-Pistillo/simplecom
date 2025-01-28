@@ -18,7 +18,7 @@ class Upsert extends Component
     public $providers, $configuring_provider, $configuring_provider_keys;
 
     public $store_pickup;
-    public $pickup_name, $pickup_schedule, $pickup_floor, $pickup_local;
+    public $pickup_name, $pickup_schedule, $pickup_observations, $pickup_floor, $pickup_local;
 
     public function configProvider(ShippingProvider $provider)
     {
@@ -68,10 +68,11 @@ class Upsert extends Component
         $this->store_pickup = $storePickup;
 
         $this->fill([
-            'pickup_name'     => $storePickup->name,
-            'pickup_schedule' => $storePickup->schedule,
-            'pickup_floor'    => $storePickup->floor,
-            'pickup_local'    => $storePickup->local
+            'pickup_name'         => $storePickup->name,
+            'pickup_schedule'     => $storePickup->schedule,
+            'pickup_observations' => $storePickup->observations,
+            'pickup_floor'        => $storePickup->floor,
+            'pickup_local'        => $storePickup->local
         ]);
 
         $this->dispatch('open-edit-store-pickup');
@@ -88,10 +89,11 @@ class Upsert extends Component
         ]);
 
         $this->store_pickup->update([
-            'name'      => $this->pickup_name,
-            'schedule'  => $this->pickup_schedule,
-            'floor'     => $this->pickup_floor,
-            'local'     => $this->pickup_local,
+            'name'         => $this->pickup_name,
+            'schedule'     => $this->pickup_schedule,
+            'observations' => $this->pickup_observations,
+            'floor'        => $this->pickup_floor,
+            'local'        => $this->pickup_local,
         ]);
 
         $this->dispatch('close-edit-store-pickup');
@@ -102,6 +104,24 @@ class Upsert extends Component
         ]);
 
         $this->reset('store_pickup', 'pickup_name', 'pickup_schedule', 'pickup_floor', 'pickup_local');
+    }
+
+    public function confirmDeleteStorePickup(StorePickup $storePickup)
+    {
+        $this->store_pickup = $storePickup;
+        $this->dispatch('open-confirm-storepickup-deletion');
+    }
+
+    public function deleteStorePickup(StorePickup $storePickup)
+    {
+        $storePickup->delete();
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => 'Punto de retiro eliminado'
+        ]);
+
+        $this->dispatch('close-confirm-storepickup-deletion');
     }
 
     public function mount()

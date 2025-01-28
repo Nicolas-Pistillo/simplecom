@@ -14,7 +14,8 @@
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="pd-overlay w-full h-full fixed top-0 left-0 z-[30] overflow-x-hidden overflow-y-auto">
                     <div class="opacity-1 ease-out sm:max-w-md sm:w-full m-3 relative top-1/2 shadow-xl
-                    -translate-y-1/2 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-500">
+                    -translate-y-1/2 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-500
+                    max-h-[94vh] overflow-y-auto">
                         <div class="flex items-start bg-white p-6 rounded-lg">
                             <div class="block w-full">
 
@@ -100,6 +101,17 @@
                                                 class="block w-full rounded-md border-gray-300 shadow-sm 
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
 
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <div class="relative mt-1">
+
+                                                <textarea rows="2" placeholder="Aclaraciones (presentar DNI, otra documentación etc.)"
+                                                wire:model.blur='observations'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm"></textarea>
+                                
                                             </div>
                                         </div>
 

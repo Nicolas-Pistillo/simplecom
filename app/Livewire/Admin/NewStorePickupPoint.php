@@ -26,7 +26,7 @@ class NewStorePickupPoint extends Component
     #[Validate('required|string|max:80', as: 'horarios')]
     public $schedule;
 
-    public $floor, $local;
+    public $floor, $local, $observations;
 
     public function updatedSearch()
     {
@@ -73,6 +73,7 @@ class NewStorePickupPoint extends Component
                 'state_code'      => $this->selected_address['state_code'] ?? null,
                 'floor'           => $this->floor,
                 'local'           => $this->local,
+                'observations'    => $this->observations,
                 'lat'             => $this->selected_address['coordinates']['lat'],
                 'lng'             => $this->selected_address['coordinates']['lng'],
                 'map_url'         => $this->selected_address['google_map_url'],

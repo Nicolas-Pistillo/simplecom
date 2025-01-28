@@ -1,6 +1,9 @@
 <div>
-    <div x-data="{ openProviderConfig: false }" x-on:close-provider-config.window="openProviderConfig = false"
-        x-on:open-provider-config.window="openProviderConfig = true">
+    <div x-data="{ openProviderConfig: false, confirmStorePickupDeletion: false  }" 
+        x-on:close-provider-config.window="openProviderConfig = false"
+        x-on:open-provider-config.window="openProviderConfig = true"
+        x-on:open-confirm-storepickup-deletion.window="confirmStorePickupDeletion = true"
+        x-on:close-confirm-storepickup-deletion.window="confirmStorePickupDeletion = false">
 
         <x-tabs tabs="['Retiros', 'Proveedores', 'Envios propios']"
             current="{{ request('tab') ?? 'Retiros' }}">
@@ -71,5 +74,29 @@
         @include('admin.delivery-methods.partials.edit-store-pickup')
 
         @livewire('admin.new-store-pickup-point')
+
+        <x-modal ref="confirmStorePickupDeletion" type="danger" icon="warning">
+
+            <x-slot name="title">
+                Eliminar {{ $store_pickup?->name }}         
+            </x-slot>
+        
+            <x-slot name="body">
+                ¿Estás seguro que deseas eliminar este punto de retiro?   
+            </x-slot>
+        
+            <x-slot name="actions">
+        
+                <x-spinner wire:loading wire:target='deleteStorePickup' />
+        
+                <x-button type="secondary" wire:loading.remove wire:target='deleteStorePickup' 
+                @click="confirmStorePickupDeletion = false">Cancelar</x-button>
+        
+                <x-button wire:click='deleteStorePickup({{ $store_pickup?->id }})' wire:loading.remove wire:target='deleteStorePickup' 
+                class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
+                
+            </x-slot>
+        
+        </x-modal>
     </div>
 </div>
