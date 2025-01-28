@@ -6,6 +6,7 @@ use App\Models\Configuration;
 use App\Models\ShippingProvider;
 use App\Models\StorePickup;
 use App\Traits\Livewire\WithNotifications;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Upsert extends Component
@@ -15,6 +16,9 @@ class Upsert extends Component
     protected $listeners = ['new-store-pickup-created' => '$refresh'];
 
     public $providers, $configuring_provider, $configuring_provider_keys;
+
+    public $store_pickup;
+    public $pickup_name, $pickup_schedule, $pickup_floor, $pickup_local;
 
     public function configProvider(ShippingProvider $provider)
     {
@@ -57,6 +61,47 @@ class Upsert extends Component
             'type'  => 'success',
             'title' => "$action $provider->name con éxito"
         ]);
+    }
+
+    public function editStorePickup(StorePickup $storePickup)
+    {
+        $this->store_pickup = $storePickup;
+
+        $this->fill([
+            'pickup_name'     => $storePickup->name,
+            'pickup_schedule' => $storePickup->schedule,
+            'pickup_floor'    => $storePickup->floor,
+            'pickup_local'    => $storePickup->local
+        ]);
+
+        $this->dispatch('open-edit-store-pickup');
+    }
+
+    public function updateStorePickup()
+    {
+        $this->validate([
+            'pickup_name'     => 'required|string|max:50',
+            'pickup_schedule' => 'required|string|max:80'
+        ], [], [
+            'pickup_name'     => 'nombre',
+            'pickup_schedule' => 'horarios'
+        ]);
+
+        $this->store_pickup->update([
+            'name'      => $this->pickup_name,
+            'schedule'  => $this->pickup_schedule,
+            'floor'     => $this->pickup_floor,
+            'local'     => $this->pickup_local,
+        ]);
+
+        $this->dispatch('close-edit-store-pickup');
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => 'Punto de retiro actualizado'
+        ]);
+
+        $this->reset('store_pickup', 'pickup_name', 'pickup_schedule', 'pickup_floor', 'pickup_local');
     }
 
     public function mount()

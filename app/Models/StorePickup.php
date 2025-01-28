@@ -4,31 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class StorePickup extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    protected $appends = ['summary'];
+    protected $appends = ['address'];
 
-    public function getSummaryAttribute()
+    public function getAddressAttribute()
     {
-        $summary = "$this->street $this->number - $this->locality";
+        $address = "$this->street $this->number - $this->locality";
 
 
         if (!empty($this->floor))
         {
-            $summary .= " | Piso: $this->floor";
+            $address .= " | Piso $this->floor";
         }
 
         if (!empty($this->local))
         {
-            $summary .= " | Local: $this->floor";
+            $address .= " | Local $this->local";
         }
 
-        return $summary;
+        return $address;
     }
 
     public function mapUrl()

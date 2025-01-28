@@ -68,6 +68,8 @@
 
         @include('admin.delivery-methods.partials.provider-config')
 
+        @include('admin.delivery-methods.partials.edit-store-pickup')
+
         @livewire('admin.new-store-pickup-point')
     </div>
 </div>

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('map_url')->nullable();
             $table->string('google_place_id')->nullable();
             $table->foreignId('created_by');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -37,6 +38,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('store_pickups', fn(Blueprint $table) => $table->dropSoftDeletes());
         Schema::dropIfExists('store_pickups');
     }
 };
