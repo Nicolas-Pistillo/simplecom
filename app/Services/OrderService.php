@@ -24,6 +24,7 @@ class OrderService
         $userId = Auth::id();
 
         $orderWithShipping = $form->delivery_type === DeliveryType::Shipping && !empty($form->selected_rate);
+        $storePickupId = $form->delivery_type === DeliveryType::Picking ? $form->selected_store_pickup : null;
         $shippingProvider = null;
         $shippingCost = 0;
 
@@ -60,6 +61,7 @@ class OrderService
             'user_id'              => $userId,
             'status_code'          => OrderStatusCode::Created,
             'delivery_type'        => $form->delivery_type,
+            'store_pickup_id'      => $storePickupId,
             'shipping_cost'        => $shippingCost,
             'shipping_provider_id' => $shippingProvider?->id,
             'payment_method_id'    => $form->selected_payment_method,

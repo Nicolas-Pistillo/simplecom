@@ -11,9 +11,9 @@ class="relative flex justify-between  gap-x-6 p-3 sm:px-6 cursor-pointer transit
             <img src="{{ Storage::url($category->image_url) }}" alt="category-img"
                 class="w-12 h-12 rounded-full object-cover">
         @else
-            <x-icon code="sticky_note_2"
-                class="text-2xl text-gray-600 w-10 h-10 p-1 
-            rounded-full bg-gray-50 text-center shadow" />
+            <x-icon code="label"
+            class="text-2xl text-gray-600 w-12 h-12 p-1 rounded-full bg-gray-50 
+            text-center shadow flex items-center justify-center" />
         @endif
 
         <div class="min-w-0 flex-auto">

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('payment_method_id');
             $table->boolean('invoiced')->default(false);
             $table->string('delivery_type');
+            $table->foreignId('store_pickup_id')->nullable();
             $table->foreignId('shipping_provider_id')->nullable();
             $table->decimal('shipping_cost', 10)->default(0);
             $table->decimal('subtotal', 10);

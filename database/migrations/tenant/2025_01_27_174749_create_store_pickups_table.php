@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('store_pickups', function (Blueprint $table) {
             $table->id();
+            $table->boolean('active')->default(true);
             $table->string('name');
             $table->string('zipcode');
             $table->string('street');

@@ -337,8 +337,6 @@ class Checkout extends Component
 
     public function mount()
     {   
-        $this->form->payment_methods = PaymentMethod::where('active', true)->get();
-
         $this->form->autocomplete();
 
         if ($this->form->hasCustomerData()) $this->shippingStep();

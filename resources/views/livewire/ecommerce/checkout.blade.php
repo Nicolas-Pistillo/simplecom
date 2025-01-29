@@ -101,7 +101,7 @@
                         @endif
 
                         @if ($current_step === 2)
-                            @include('ecommerce.partials.checkout.shipping')
+                            @include('ecommerce.partials.checkout.delivery')
                         @endif
 
                         @if ($current_step === 3)

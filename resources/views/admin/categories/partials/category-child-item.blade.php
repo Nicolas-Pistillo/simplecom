@@ -13,9 +13,9 @@
             <img src="{{ Storage::url($childCategory->image_url) }}" alt="category-img"
                 class="w-12 h-12 rounded-full object-cover">
         @else
-            <x-icon code="library_books"
-                class="text-2xl text-gray-600 w-10 h-10 p-1
-                rounded-full bg-gray-50 text-center shadow" />
+            <x-icon code="label"
+            class="text-2xl text-gray-600 w-12 h-12 p-1 rounded-full bg-gray-50 
+            text-center shadow flex items-center justify-center" />
         @endif
 
         <div class="min-w-0 flex-auto">

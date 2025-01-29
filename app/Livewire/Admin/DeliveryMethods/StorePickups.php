@@ -15,6 +15,18 @@ class StorePickups extends Component
     public $store_pickup;
     public $pickup_name, $pickup_schedule, $pickup_observations, $pickup_floor, $pickup_local;
 
+    public function toggleStorePickupActive(StorePickup $storePickup)
+    {
+        $storePickup->update(['active' => !$storePickup->active]);
+
+        $action = $storePickup->active ? 'Activaste' : 'Desactivaste';
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => "$action $storePickup->name"
+        ]);
+    }
+
     public function editStorePickup(StorePickup $storePickup)
     {
         $this->store_pickup = $storePickup;

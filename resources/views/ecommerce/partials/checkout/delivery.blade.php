@@ -29,7 +29,7 @@
         </fieldset>
 
         @if ($form->delivery_type === DeliveryType::Picking)
-            @include('ecommerce.partials.checkout.ecommerce_pickup')
+            @include('ecommerce.partials.checkout.store_pickup_selection')
         @endif
 
         @if ($form->delivery_type === DeliveryType::Shipping)

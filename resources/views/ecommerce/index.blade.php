@@ -11,6 +11,41 @@
         @include('ecommerce.partials.banner-slider')
     @endif
 
+    {{-- Categories overview - model 1 --}}
+    {{-- <section class="mx-auto max-w-7xl py-16 lg:px-4">
+        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+            <div class="mb-4 flex items-center justify-between gap-4 md:mb-8">
+
+                <h4 class="text-2xl font-bold tracking-tight text-gray-900">
+                    Shop by category
+                </h4>
+
+                <a href="#" title=""
+                    class="flex items-center text-base font-medium text-primary-700 hover:underline dark:text-primary-500">
+                    See more categories
+                    <svg class="ms-1 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+                @for ($i = 0; $i < 15; $i++)
+                    <a href="#" class="flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50">
+                        <x-icon code="category" class="text-sm shrink-0 text-gray-900" />
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Collectibles &amp; Toys</span>
+                    </a>
+                @endfor
+            </div>
+        </div>
+    </section> --}}
+
+    {{-- Categories overview - model 2 --}}
+    
+
     {{-- Categories presentation --}}
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
         <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 mb-14">
@@ -24,8 +59,8 @@
                         Shop Now
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                             fill="none">
-                            <path d="M8.25324 5.49609L13.7535 10.9963L8.25 16.4998" stroke="currentColor" stroke-width="1.6"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M8.25324 5.49609L13.7535 10.9963L8.25 16.4998" stroke="currentColor"
+                                stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg></button>
 
                 </div>
@@ -105,7 +140,7 @@
             </div>
         </div>
     </div>
-      
+
     {{-- Featured products section --}}
     @if ($featuredProducts->isNotEmpty())
         @include('ecommerce.partials.featured-section')
@@ -140,8 +175,8 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg"
-                                alt="">
+                            <img class="h-24 w-28"
+                                src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg" alt="">
                         </div>
                     </div>
                     <div class="mt-3 sm:ml-3 sm:mt-0">
@@ -154,8 +189,8 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-warranty-light.svg"
-                                alt="">
+                            <img class="h-24 w-28"
+                                src="https://tailwindui.com/img/ecommerce/icons/icon-warranty-light.svg" alt="">
                         </div>
                     </div>
                     <div class="mt-3 sm:ml-3 sm:mt-0">
