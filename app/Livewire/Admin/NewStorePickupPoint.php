@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Livewire\Ecommerce;
+namespace App\Livewire\Admin;
 
-use App\Models\UserAddress;
+use App\Models\StorePickup;
 use App\Services\GoogleMaps;
 use App\Traits\Livewire\WithNotifications;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class NewAddressPanel extends Component
+class NewStorePickupPoint extends Component
 {
     use WithNotifications;
 
@@ -18,7 +20,13 @@ class NewAddressPanel extends Component
     public $addresses;
     public $selected_address;
 
-    public $tag, $apartment, $floor, $office, $details;
+    #[Validate('required|string|max:50', as: 'nombre')]
+    public $name;
+
+    #[Validate('required|string|max:80', as: 'horarios')]
+    public $schedule;
+
+    public $floor, $local, $observations;
 
     public function updatedSearch()
     {
@@ -50,11 +58,13 @@ class NewAddressPanel extends Component
 
     public function save()
     {
+        $this->validate();
+
         try 
         {
-            $newAddress = UserAddress::create([
-                'user_id'         => Auth::id(),
-                'tag'             => $this->tag,
+            $storePickup = StorePickup::create([
+                'name'            => $this->name,
+                'schedule'        => $this->schedule,
                 'zipcode'         => $this->selected_address['zipcode'],
                 'street'          => $this->selected_address['street'],
                 'number'          => $this->selected_address['number'],
@@ -62,42 +72,37 @@ class NewAddressPanel extends Component
                 'state'           => $this->selected_address['state'],
                 'state_code'      => $this->selected_address['state_code'] ?? null,
                 'floor'           => $this->floor,
-                'apartment'       => $this->apartment,
-                'office'          => $this->office,
-                'details'         => $this->details,
+                'local'           => $this->local,
+                'observations'    => $this->observations,
                 'lat'             => $this->selected_address['coordinates']['lat'],
                 'lng'             => $this->selected_address['coordinates']['lng'],
                 'map_url'         => $this->selected_address['google_map_url'],
-                'google_place_id' => $this->selected_address['google_place_id']
+                'google_place_id' => $this->selected_address['google_place_id'],
+                'created_by'      => Auth::id()
             ]);
-
-            if (Auth::guest())
-            {
-                session()->push('guest_customer.addresses', $newAddress);
-            }
 
             $this->reset();
 
-            $this->dispatch('new-address-created', $newAddress->id);
+            $this->dispatch('new-store-pickup-created', $storePickup->id);
 
-            $this->dispatch('close-new-address-panel');
+            $this->dispatch('close-new-store-pickup-panel');
 
             $this->notify([
                 'type'  => 'success',
-                'title' => 'Dirección creada con éxito'
+                'title' => 'Punto de retiro creado con éxito'
             ]);
 
-        } catch (\Throwable $err) 
+        } catch (Exception $err) 
         {
-            Log::channel('error')->error('Error al crear dirección', [
-                'message'   => $err->getMessage(),
-                'searched'  => $this->search,
+            Log::channel('error')->error('Error al crear punto de retiro', [
+                'message'          => $err->getMessage(),
+                'searched'         => $this->search,
                 'selected_address' => $this->selected_address
             ]);
 
             $this->notify([
                 'type'  => 'danger',
-                'title' => 'Error al crear la dirección',
+                'title' => 'Error al crear el punto de retiro',
                 'body'  => 'Por favor intentelo de nuevo más tarde'
             ]);
         }
@@ -105,6 +110,6 @@ class NewAddressPanel extends Component
 
     public function render()
     {
-        return view('livewire.ecommerce.new-address-panel');
+        return view('livewire.admin.new-store-pickup-point');
     }
 }

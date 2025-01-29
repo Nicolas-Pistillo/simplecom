@@ -1,7 +1,7 @@
 <div x-data="{ tabs: {{ $tabs }}, current: {{ isset($current) ? "'$current'" : 'false' }} }">
 
     <div class="mb-6">
-        <nav class="isolate flex divide-x divide-gray-200 rounded-lg overflow-hidden shadow" aria-label="Tabs">
+        <nav class="flex divide-x divide-gray-200 rounded-lg overflow-hidden shadow" aria-label="Tabs">
             
             <template x-for="tab in tabs">
                 <span @click="current = tab"

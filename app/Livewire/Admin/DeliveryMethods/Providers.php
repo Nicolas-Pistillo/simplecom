@@ -7,7 +7,7 @@ use App\Models\ShippingProvider;
 use App\Traits\Livewire\WithNotifications;
 use Livewire\Component;
 
-class Upsert extends Component
+class Providers extends Component
 {
     use WithNotifications;
 
@@ -52,7 +52,7 @@ class Upsert extends Component
 
         $this->notify([
             'type'  => 'success',
-            'title' => "$action $provider->name con éxito"
+            'title' => "$action $provider->name"
         ]);
     }
 
@@ -63,6 +63,6 @@ class Upsert extends Component
 
     public function render()
     {
-        return view('livewire.admin.delivery-methods.upsert');
+        return view('livewire.admin.delivery-methods.providers');
     }
 }

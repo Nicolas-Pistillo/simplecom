@@ -1,7 +1,7 @@
 <div>
     <section x-data="{ open: false }" class="relative"
-        x-on:open-new-address-panel.window="open = true; $nextTick(() => {document.getElementById('new-address-search').focus()})"
-        x-on:close-new-address-panel.window="open = false">
+        x-on:open-new-store-pickup-panel.window="open = true; $nextTick(() => {document.getElementById('new-address-search').focus()})"
+        x-on:close-new-store-pickup-panel.window="open = false">
         <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative z-40">
 
             <div x-cloak x-show="open" class="w-full relative flex justify-center">
@@ -14,14 +14,15 @@
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="pd-overlay w-full h-full fixed top-0 left-0 z-[30] overflow-x-hidden overflow-y-auto">
                     <div class="opacity-1 ease-out sm:max-w-md sm:w-full m-3 relative top-1/2 shadow-xl
-                    -translate-y-1/2 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-500">
+                    -translate-y-1/2 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-500
+                    max-h-[94vh] overflow-y-auto">
                         <div class="flex items-start bg-white p-6 rounded-lg">
                             <div class="block w-full">
 
                                 <div class="flex items-center justify-between mb-3">
 
                                     <h6 class="text-lg font-bold leading-8 text-gray-900">
-                                        {{ empty($selected_address) ? 'Nueva' : 'Confirmar' }} dirección
+                                        {{ empty($selected_address) ? 'Nuevo' : 'Confirmar' }} punto de retiro
                                     </h6>
 
                                     <x-icon code="close" @click="open = false"
@@ -45,34 +46,36 @@
                                             <div class="relative mt-1">
 
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
-                                                flex items-center ps-3 pointer-events-none">Etiqueta:</span>
+                                                flex items-center ps-3 pointer-events-none">Nombre:</span>
 
-                                                <input type="text" wire:model.blur='tag'
-                                                placeholder="Nombre propio para identificar esta dirección..."
+                                                <input type="text" wire:model.blur='name'
+                                                placeholder="Ej: Sucursal Avellaneda..."
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.5rem]">
                                 
-                                                @error('tag')
-                                                    <small class="text-red-500">{{ $message }}</small>
-                                                @enderror
                                             </div>
+
+                                            @error('name')
+                                                <small class="text-red-500">{{ $message }}</small>
+                                            @enderror
                                         </div>
 
                                         <div class="col-span-full">
                                             <div class="relative mt-1">
 
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
-                                                flex items-center ps-3 pointer-events-none">Indicaciones:</span>
+                                                flex items-center ps-3 pointer-events-none">Horarios:</span>
 
-                                                <input type="text" wire:model.blur='details'
-                                                placeholder="Datos adicionales para el repartidor..."
+                                                <input type="text" wire:model.blur='schedule'
+                                                placeholder="Ej: Lunes a viernes de 08:00 a 18:00..."
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
-                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[6.3rem]">
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.6rem]">
                                 
-                                                @error('details')
-                                                    <small class="text-red-500">{{ $message }}</small>
-                                                @enderror
                                             </div>
+
+                                            @error('schedule')
+                                                <small class="text-red-500">{{ $message }}</small>
+                                            @enderror
                                         </div>
                                 
                                         <div class="col-span-6 sm:col-span-4">
@@ -85,25 +88,6 @@
                                                 class="block w-full rounded-md border-gray-300 shadow-sm 
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
                                 
-                                                @error('floor')
-                                                    <small class="text-red-500">{{ $message }}</small>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="col-span-6 sm:col-span-4">
-                                            <div class="relative mt-1">
-
-                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
-                                                flex items-center ps-3 pointer-events-none">Depto:</span>
-
-                                                <input type="text" wire:model.blur='apartment'
-                                                class="block w-full rounded-md border-gray-300 shadow-sm 
-                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
-                                
-                                                @error('apartment')
-                                                    <small class="text-red-500">{{ $message }}</small>
-                                                @enderror
                                             </div>
                                         </div>
                                 
@@ -111,15 +95,23 @@
                                             <div class="relative mt-1">
 
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
-                                                flex items-center ps-3 pointer-events-none">Oficina:</span>
+                                                flex items-center ps-3 pointer-events-none">Local:</span>
 
-                                                <input type="text" wire:model.blur='office'
+                                                <input type="text" wire:model.blur='local'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm 
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <div class="relative mt-1">
+
+                                                <textarea rows="2" placeholder="Aclaraciones (presentar DNI, otra documentación etc.)"
+                                                wire:model.blur='observations'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm"></textarea>
                                 
-                                                @error('office')
-                                                    <small class="text-red-500">{{ $message }}</small>
-                                                @enderror
                                             </div>
                                         </div>
 
@@ -162,7 +154,7 @@
                                         <input type="search" wire:model.live.debounce.300='search' id="new-address-search"
                                             class="bg-white borderborder-gray-300 text-gray-900 text-sm 
                                             rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
-                                            autocomplete="no" placeholder="Buscá y seleccioná tu dirección" />
+                                            autocomplete="off" placeholder="Buscá y seleccioná la dirección" />
                                     </div>
 
                                     @if (isset($addresses) && $addresses->isNotEmpty())
