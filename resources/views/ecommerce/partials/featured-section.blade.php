@@ -35,7 +35,6 @@
     new Swiper(".featured-products-slider", {
         loop: true,
         speed: 500,
-        slidesPerView: 1,
         spaceBetween: 20,
         navigation: {
             nextEl: "#featured-next-btn",

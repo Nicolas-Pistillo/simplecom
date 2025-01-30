@@ -43,8 +43,8 @@
         </div>
     </section> --}}
 
-    {{-- Categories overview - model 2 --}}
-    
+    {{-- Principal Categories --}}
+    @include('ecommerce.partials.principal-categories-section')
 
     {{-- Categories presentation --}}
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">

@@ -48,10 +48,6 @@ border shadow-sm animate__animated animate__fadeIn" aria-label="Shipping Rates">
     @endforeach
 </fieldset>
 
-<div class="col-span-full">
-    @dump($form->selected_store_pickup)
-</div>
-
 <div class="flex items-center gap-3 mt-8">
 
     <x-button wire:click='setStep(1)' type="soft" :disabled="false" size="big" class="!shadow">
