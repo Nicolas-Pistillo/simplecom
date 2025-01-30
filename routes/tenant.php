@@ -46,7 +46,7 @@ Route::middleware([
         // Ecommerce navigation
         Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');
 
-        Route::get('productos', [EcommerceController::class, 'products'])->name('ecommerce.products');
+        Route::view('productos', 'ecommerce.products')->name('ecommerce.products');
 
         Route::get('productos/{productName}/{product}', [EcommerceController::class, 'productDetail'])
             ->name('ecommerce.product-detail');

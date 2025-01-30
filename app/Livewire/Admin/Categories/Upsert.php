@@ -251,7 +251,7 @@ class Upsert extends Component
                         ->with('childs');
 
         return view('livewire.admin.categories.upsert', [
-            'categories' => $categories->paginate(7),
+            'categories' => $categories->paginate(6),
             'emptyData'  => Category::count() === 0
         ]);
     }

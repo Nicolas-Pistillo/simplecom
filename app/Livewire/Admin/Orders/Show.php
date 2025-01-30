@@ -15,7 +15,7 @@ class Show extends Component
 
         $order->load(
             'items.variant.options.attribute', 'items.variant.options.attributeValue',
-            'status', 'shipping.status', 'payment.status', 'user', 'feed', 
+            'status', 'storePickup', 'shipping.status', 'payment.status', 'user', 'feed', 
             'shippingProvider', 'paymentMethod', 'shipping'
         );
 

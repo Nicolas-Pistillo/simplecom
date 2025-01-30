@@ -142,9 +142,9 @@
 
     @endif
 
-    {{-- Actions
     <div class="mt-4 flex flex-wrap gap-3">
-        <x-button>Imprimir etiqueta</x-button>
-        <x-button type="secondary">Ver seguimiento</x-button>
-    </div> --}}
+        @if ($order->payment->status_code === PaymentStatusCode::TransferPending)
+            <x-button>Ya recibí el pago</x-button>
+        @endif
+    </div>
 </div>

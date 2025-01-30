@@ -16,7 +16,7 @@
         x-transition:leave-start="transform opacity-100 scale-100"
         x-transition:leave-end="transform opacity-0 scale-95" 
         class=" absolute top-16 right-1 sm:right-8 mx-auto md:w-[400px]">
-            <div class="z-20 w-full bg-white divide-y divide-gray-100 rounded-lg shadow">
+            <div class="z-20 w-full bg-white divide-y divide-gray-100 rounded-lg shadow-lg">
                 <div class="block px-4 py-2 font-semibold text-center text-white rounded-t-lg bg-blue-600">
                     Notificaciones
                 </div>

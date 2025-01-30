@@ -54,7 +54,7 @@ border shadow-sm animate__animated animate__fadeIn" aria-label="Shipping Rates">
         Volver
     </x-button>
 
-    <x-button wire:click='setStep(3)' :disabled="false" size="big">
+    <x-button wire:click='setStep(3)' :disabled="!$form->selected_store_pickup" size="big">
         Continuar
     </x-button>
 </div>

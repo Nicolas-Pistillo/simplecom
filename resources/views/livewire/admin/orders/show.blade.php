@@ -81,6 +81,10 @@
                         @include('admin.orders.partials.show.shipping')
                     @endif
 
+                    @if($order->storePickup)
+                        @include('admin.orders.partials.show.store-pickup')
+                    @endif
+
                 </div>
 
                 <div class="w-full lg:w-[32%] flex flex-col gap-y-6">
