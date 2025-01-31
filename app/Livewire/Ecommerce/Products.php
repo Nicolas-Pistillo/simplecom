@@ -7,6 +7,11 @@ use Livewire\Component;
 
 class Products extends Component
 {
+    public function loadProducts()
+    {
+        return Product::available()->orderBy('featured', 'DESC')->paginate(6);
+    }
+
     public function mount()
     {
         
@@ -15,7 +20,7 @@ class Products extends Component
     public function render()
     {
         return view('livewire.ecommerce.products', [
-            'products' => Product::available()->orderBy('featured', 'DESC')->paginate(6)
+            'products' => $this->loadProducts()
         ]);
     }
 }

@@ -189,6 +189,7 @@ return [
         'ShippingMethodType'    => App\Enums\ShippingMethodType::class,
         'LogisticType'          => App\Enums\LogisticType::class,
         'PaymentStatusCode'     => App\Enums\PaymentStatusCode::class,
+        'ShippingStatusCode'    => App\Enums\ShippingStatusCode::class,
         'OrderStatusCode'       => App\Enums\OrderStatusCode::class,
         'OrderFeedEvent'        => App\Enums\OrderFeedEvent::class,
         'OrderFeedPresentation' => App\Enums\OrderFeedPresentation::class

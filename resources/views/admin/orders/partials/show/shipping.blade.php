@@ -1,7 +1,16 @@
-<div class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
+<div x-data="{confirmShippingCreate: false}" class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="flex items-center justify-between">
-        <h4 class="text-sm/6 font-semibold text-gray-900">Detalle de envío</h4>
+
+        <div class="flex items-center gap-1 flex-wrap">
+
+            <h4 class="text-sm/6 font-semibold text-gray-900">Detalle de envío</h4>
+
+            <x-badge :color="$order->shipping->status->display_color">
+                {{ $order->shipping->status->name }}
+            </x-badge>
+        </div>
+
         <img src="{{ Storage::URL("providers/{$order->shippingProvider->code}.png") }}"
             class="h-12 w-32 object-cover rounded-md"
             alt="Logo {{ $order->shippingProvider->display_name }}">
@@ -13,17 +22,6 @@
 
     {{-- Principal Info --}}
     <div class="flex items-end flex-wrap gap-3">
-
-        <div class="flex flex-col gap-1 p-2">
-            <small class="text-xs text-gray-500 font-semibold">
-                Estado
-            </small>
-            <span class="text-sm/6 text-gray-500">
-                <x-badge :color="$order->shipping->status->display_color">
-                    {{ $order->shipping->status->name }}
-                </x-badge>
-            </span>
-        </div>
 
         @if (!empty($order->shipping->provider_service))
             <div class="flex flex-col p-2">
@@ -102,7 +100,36 @@
     </div>
 
     <div class="mt-4 flex flex-wrap gap-3">
-        <x-button>Imprimir etiqueta</x-button>
-        <x-button type="secondary">Ver seguimiento</x-button>
+        @if ($order->shipping->status_code === ShippingStatusCode::CreationPending)
+            <x-button @click="confirmShippingCreate = true">Crear orden de envío</x-button>
+        @endif
     </div>
+
+    <x-modal ref="confirmShippingCreate" type="info" icon="local_shipping">
+
+        <x-slot name="title">
+            Nueva orden de envío
+        </x-slot>
+    
+        <x-slot name="body">
+            Se creará una nueva orden de envío con {{ $order->shippingProvider->name }} 
+            y se le notificará al comprador que el pedido está listo para despachar.
+            <div class="mt-2">
+                <x-switch label="No volver a preguntar" />
+            </div>
+        </x-slot>
+    
+        <x-slot name="actions">
+    
+            <x-spinner wire:loading wire:target='deleteCategory' />
+    
+            <x-button type="secondary" wire:loading.remove wire:target='deleteCategory' 
+            @click="confirmShippingCreate = false">Cancelar</x-button>
+    
+            <x-button wire:click='deleteCategory' wire:loading.remove wire:target='deleteCategory' 
+            class="mx-3">Confirmar</x-button>
+            
+        </x-slot>
+    
+    </x-modal>
 </div>
