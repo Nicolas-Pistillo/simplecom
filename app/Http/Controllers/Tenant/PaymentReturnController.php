@@ -12,6 +12,7 @@ use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Services\PaymentProviders\Mobbex;
 use App\Services\PaymentProviders\Modo;
+use App\Services\PaymentProviders\Nave;
 
 class PaymentReturnController extends Controller
 {
@@ -350,6 +351,142 @@ class PaymentReturnController extends Controller
 
     public function gocuotas(Request $request, Order $order)
     {
+        return view('ecommerce.checkout-result', compact('order'));
+    }
+
+    public function nave(Request $request, Order $order)
+    {
+        $service = new Nave();
+
+        $paymentInfo = $service->getPaymentInfo($order->payment->external_id);
+
+        if (isset($paymentInfo['id']))
+        {
+            $transaction = data_get($paymentInfo, 'transactions.0');
+
+            $status = data_get($transaction, 'auth_data.status');
+
+            /* dd($transaction, $paymentInfo); */
+
+            $paymentMethod = data_get($transaction, 'payment_method.name');
+
+            $pan = data_get($transaction, 'payment_method.pan');
+            $cardType = data_get($transaction, 'payment_method.card_type');
+
+            if (isset($cardType))
+            {
+                $paymentMethod .= " $cardType";
+            }
+
+            if (isset($pan))
+            {
+                $paymentMethod .= " $pan";
+            }
+
+            if ($status === 'APPROVED' && $order->status_code != OrderStatusCode::Confirmed)
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'instrument'      => $paymentMethod,
+                    'external_status' => $status,
+                    'total_paid'      => data_get($transaction, 'installment_plan.total_amount.value'),
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Nave',
+                    'action'        => 'aprobó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+
+            if ($status === 'REJECTED' && $order->status_code != OrderStatusCode::PaymentRejected)
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Rejected,
+                    'instrument'      => $paymentMethod,
+                    'external_status' => $status,
+                    'total_paid'      => data_get($transaction, 'installment_plan.total_amount.value'),
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Nave',
+                    'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
+                    'meta'          => [
+                        'icon_code'  => 'credit_card_off',
+                        'icon_color' => 'red'
+                    ]
+                ]);
+            }
+
+            if ($status === 'CANCELLED' && $order->status_code != OrderStatusCode::PaymentCancelled)
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'instrument'      => $paymentMethod,
+                    'external_status' => $status,
+                    'total_paid'      => data_get($transaction, 'installment_plan.total_amount.value'),
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Nave',
+                    'action'        => 'canceló o caducó el pago del pedido, la compra queda rechazada',
+                    'meta'          => [
+                        'icon_code'  => 'cancel',
+                        'icon_color' => 'red'
+                    ]
+                ]);
+            }
+
+            $meta = [
+                [
+                    'name'  => 'ID pago interno',
+                    'value' => data_get($paymentInfo, 'external_payment_id')
+                ],
+                [
+                    'name'  => 'ID pago externo',
+                    'value' => data_get($paymentInfo, 'payment_id')
+                ],
+                [
+                    'name'  => 'Intentos de pago',
+                    'value' => data_get($paymentInfo, 'payment_attemps')
+                ],
+                [
+                    'name'  => 'Costo financiero',
+                    'value' => '$' . data_get($transaction, 'installment_plan.total_financial_cost')
+                ],
+            ];
+
+            foreach(data_get($transaction, 'installment_plan.installment_amount.components', []) as $component)
+            {
+                array_push($meta, [
+                    'name'  => data_get($component, 'name'),
+                    'value' => data_get($component, 'amount.value')
+                ]);
+            }
+
+            $order->payment->update(compact('meta'));
+        }
+        else 
+        {
+            dd($paymentInfo);
+        }
+        
+        $order->refresh();
         return view('ecommerce.checkout-result', compact('order'));
     }
 

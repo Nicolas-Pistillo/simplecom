@@ -52,16 +52,16 @@ class MercadoPago implements PaymentGateway
 
         $items = [];
 
-        foreach(Cart::content() as $item)
+        foreach($order->items as $item)
         {
             array_push($items, [
                 'id'          => $item->id,
                 'title'       => $item->name,
-                'quantity'    => $item->qty,
-                'unit_price'  => $item->price,
-                'picture_url' => $item->options->image_url ?? URL::to('img/no-image.png'),
-                'description' => $item->model->description,
-                'category_id' => $item->model->category_id
+                'quantity'    => $item->quantity,
+                'unit_price'  => $item->sell_price,
+                'picture_url' => $item->product->first_image,
+                'description' => $item->product->description,
+                'category_id' => $item->category_id
             ]);
         }
 
