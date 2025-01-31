@@ -732,4 +732,18 @@ class PaymentWebhookController extends Controller
             }
         }
     }
+
+    public function sipago(Request $request, Order $order)
+    {
+        Log::channel('webhooks')->info('Webhook de Sipago recibido', [
+            'request' => $request->all()
+        ]);
+
+        if (isset($request->data, $request->data->order))
+        {
+            Log::channel('webhooks')->info('Trabajar con esta data de sipago', [
+                'order' => $request->data->order
+            ]);
+        }
+    }
 }
