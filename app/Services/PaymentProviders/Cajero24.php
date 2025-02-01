@@ -2,7 +2,13 @@
 
 namespace App\Services\PaymentProviders;
 
+use App\Enums\OrderFeedEvent;
+use App\Enums\OrderFeedPresentation;
+use App\Enums\PaymentStatusCode;
 use App\Interfaces\PaymentGateway;
+use App\Models\Order;
+use App\Models\OrderFeedItem;
+use App\Models\OrderPayment;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
@@ -20,27 +26,51 @@ class Cajero24 implements PaymentGateway
         return PaymentMethod::where('code', 'cajero24')->first();
     }
 
-    public function generateCheckout($order)
+    public function generateCheckout(Order $order)
     {
-        $items = Cart::content()->map(fn($product) => [
-            'name'               => $product->name, 
-            'external_reference' => $product->id,
-            'amount'             => $product->price * $product->qty
-        ])->toArray();
+        $items = [];
+
+        foreach($order->items as $item)
+        {
+            array_push($items, [
+                'name'               => $item->name,
+                'external_reference' => $item->id,
+                'amount'             => $item->total
+            ]);
+        }
 
         $response = Http::withBody(json_encode([
             'access_token'       => $this->key('cajero24_token'),
             'currency'           => 'ARS',
-            'external_reference' => 'PEDIDO XXX',
-            'url_success'        => route('payment.return', 'cajero24'),
-            'url_pending'        => route('payment.return', 'cajero24'),
-            'url_failure'        => route('payment.return', 'cajero24'),
-            'ipn'                => route('payment.webhook', 'cajero24'),
+            'external_reference' => "PEDIDO $order->code",
+            'url_success'        => $order->paymentReturn(),
+            'url_pending'        => $order->paymentReturn(),
+            'url_failure'        => $order->paymentReturn(),
+            'ipn'                => $order->paymentWebhook(),
             'items'              => $items
         ]))
+        ->throw()
         ->post('https://cajero24.co/api/pay/create')
         ->json();
 
-        $this->provider_checkout_url = $response['link'];
+        OrderPayment::create([
+            'order_id'     => $order->id,
+            'provider_id'  => $this->model()->id,
+            'checkout_url' => data_get($response, 'link'),
+            'status_code'  => PaymentStatusCode::Created
+        ]);
+
+        OrderFeedItem::create([
+            'order_id'      => $order->id,
+            'event'         => OrderFeedEvent::PaymentUpdate,
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => $order->user->full_name,
+            'action'        => "inició el pago del pedido con Cajero24",
+            'meta'          => [
+                'icon_code' => 'credit_card'
+            ]
+        ]);
+
+        $this->provider_checkout_url = data_get($response, 'link');
     }
 }

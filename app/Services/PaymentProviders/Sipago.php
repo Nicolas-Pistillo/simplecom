@@ -55,12 +55,19 @@ class Sipago implements PaymentGateway
                 ? 'https://api-cabal.preprod.geopagos.com'
                 : 'https://api.sipago.coop';
 
-        $items = [];
-        $shipping = null;
+        $attributes = [
+            'currency'      => "032",
+            'items'         => [],
+            'webhookUrl'    => $order->paymentWebhook(),
+            'redirect_urls' => [
+                'success' => $order->paymentReturn(),
+                'failed'  => $order->paymentReturn()
+            ]
+        ];
 
         foreach($order->items as $item)
         {
-            array_push($items, [
+            array_push($attributes['items'], [
                 'id' => $item->id,
                 'name' => $item->name,
                 'unitPrice' => [
@@ -74,7 +81,7 @@ class Sipago implements PaymentGateway
 
         if ($order->shipping_cost > 0)
         {
-            $shipping = [
+            $attributes['shipping'] = [
                 'name'  => 'Envío',
                 'price' => [
                     'currency' => '032',
@@ -86,18 +93,7 @@ class Sipago implements PaymentGateway
 
         $response = Http::withToken($this->token)
                         ->withBody(json_encode([
-                            'data' => [
-                                'attributes' => [
-                                    'currency'      => "032",
-                                    'shipping'      => $shipping,
-                                    'items'         => $items,
-                                    'webhookUrl'    => $order->paymentWebhook(),
-                                    'redirect_urls' => [
-                                        'success' => $order->paymentReturn(),
-                                        'failed'  => $order->paymentReturn()
-                                    ]
-                                ]
-                            ]
+                            'data' => ['attributes' => $attributes]
                         ]), 'application/vnd.api+json')
                         ->withHeaders([
                             'Content-Type' => 'application/vnd.api+json',
@@ -111,13 +107,16 @@ class Sipago implements PaymentGateway
             'order_id'        => $order->id,
             'checkout_url'    => data_get($response, 'data.links.0.checkout'),
             'status_code'     => PaymentStatusCode::Created,
-            'external_id'     => data_get($response, 'data.attributes.uuid'),
             'external_status' => data_get($response, 'data.attributes.status'),
             'provider_id'     => $this->model()->id,
             'meta'            => [
                 [
                     'name'  => 'Nro de orden',
                     'value' => data_get($response, 'data.attributes.orderNumber')
+                ],
+                [
+                    'name'  => 'ID intención',
+                    'value' => data_get($response, 'data.attributes.uuid')
                 ]
             ]
         ]);
@@ -134,5 +133,16 @@ class Sipago implements PaymentGateway
         ]);
 
         $this->provider_checkout_url = data_get($response, 'data.links.0.checkout');
+    }
+
+    public function getPaymentInfo($id)
+    {
+        $this->generateToken();
+
+        $url = env('SIPAGO_TEST')
+                ? 'https://api-cabal.preprod.geopagos.com'
+                : 'https://api.sipago.coop';
+                
+        return Http::withToken($this->token)->get("$url/api/v2/orders/$id")->json();
     }
 }

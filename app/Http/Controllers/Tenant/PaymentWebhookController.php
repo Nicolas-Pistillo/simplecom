@@ -13,6 +13,7 @@ use App\Models\Tenant;
 use App\Services\PaymentProviders\GOcuotas;
 use App\Services\PaymentProviders\MercadoPago;
 use App\Services\PaymentProviders\Mobbex;
+use App\Services\PaymentProviders\Sipago;
 use App\Services\PaymentProviders\Ualabis;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -735,15 +736,82 @@ class PaymentWebhookController extends Controller
 
     public function sipago(Request $request, Order $order)
     {
-        Log::channel('webhooks')->info('Webhook de Sipago recibido', [
-            'request' => $request->all()
-        ]);
+        $body = $request->all();
 
-        if (isset($request->data, $request->data->order))
+        if (isset($body['data'], $body['data']['type']) && $body['data']['type'] === 'Payment')
         {
-            Log::channel('webhooks')->info('Trabajar con esta data de sipago', [
-                'order' => $request->data->order
+            Log::channel('webhooks')->info('Actualización de pago recibida', [
+                'proveedor' => 'sipago',
+                'tenant'    => tenant('name'),
+                'pedido'    => $order->code,
+                'payload'   => $body
             ]);
+
+            $status = data_get($body, 'data.order.status');
+
+            if ($status === 'SUCCESS')
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'external_id'     => data_get($body, 'data.payment.id'),
+                    'external_status' => $status,
+                    'meta'            => [
+                        [
+                            'name'  => 'Id preferencia',
+                            'value' => data_get($body, 'data.order.uuid')
+                        ],
+                        [
+                            'name'  => 'Ref. de pago',
+                            'value' => data_get($body, 'data.payment.refNumber')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Sipago',
+                    'action'        => 'aprobó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+
+            if ($status === 'FAILED_CHECKOUT' || $status === 'EXPIRED')
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'external_id'     => data_get($body, 'data.payment.id'),
+                    'external_status' => $status,
+                    'meta'            => [
+                        [
+                            'name'  => 'Id preferencia',
+                            'value' => data_get($body, 'data.order.uuid')
+                        ],
+                        [
+                            'name'  => 'Ref. de pago',
+                            'value' => data_get($body, 'data.payment.refNumber')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Sipago',
+                    'action'        => 'rechazó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'cancel',
+                        'icon_color' => 'red'
+                    ]
+                ]);   
+            }
         }
     }
 }
