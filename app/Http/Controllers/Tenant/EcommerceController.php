@@ -14,8 +14,7 @@ class EcommerceController extends Controller
     {
         return view('ecommerce.index', [
             'banners'             => Banner::published()->get(),
-            'featuredProducts'    => Product::available()->featured()->with('category')->get(),
-            'principalCategories' => Category::principal()->published()->get()
+            'featuredProducts'    => Product::available()->featured()->with('category')->get()
         ]);
     }
 

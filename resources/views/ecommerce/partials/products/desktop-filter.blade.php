@@ -1,22 +1,21 @@
 <section class="hidden lg:block">
 
-    <ul role="list"
-        class="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-        <li>
-            <a href="#">Tote s</a>
-        </li>
-        <li>
-            <a href="#">Backpacks</a>
-        </li>
-        <li>
-            <a href="#">Travel Bags</a>
-        </li>
-        <li>
-            <a href="#">Hip Bags</a>
-        </li>
-        <li>
-            <a href="#">Laptop Sleeves</a>
-        </li>
+    {{-- Context-Categories Filter --}}
+    <ul role="list" class="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
+
+        @foreach ($principal_categories as $category)
+            <li wire:key='{{ $category->id }}'>
+                <a href="#" class="hover:text-blue-600 inline-flex items-center gap-x-1"
+                @if ($category->featured) x-tooltip.raw.placement.right="Destacado" @endif>
+
+                    {{ $category->name }}
+
+                    @if ($category->featured)
+                        <x-icon code="local_fire_department" class="text-red-500" />
+                    @endif
+                </a>
+            </li>
+        @endforeach
     </ul>
 
     <div x-data="{ open: true }" class="border-b border-gray-200 py-6">

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Models\Category;
 use App\Models\Product;
 use Livewire\Component;
 
@@ -9,7 +10,7 @@ class Products extends Component
 {
     public function loadProducts()
     {
-        return Product::available()->orderBy('featured', 'DESC')->paginate(6);
+        return Product::available()->orderBy('featured', 'DESC')->paginate(9);
     }
 
     public function mount()

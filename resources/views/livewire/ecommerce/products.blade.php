@@ -12,7 +12,7 @@
                 <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
 
                     @include('ecommerce.partials.products.desktop-filter')
-
+                    
                     <!-- Product grid -->
                     <div class="lg:col-span-3 flex items-end justify-center md:justify-start 
                     flex-wrap gap-x-4 gap-y-8 h-max">

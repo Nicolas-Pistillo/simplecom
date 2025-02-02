@@ -1,4 +1,4 @@
-@if ($principalCategories->isNotEmpty())
+@if ($principal_categories->isNotEmpty())
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
 
         <div class="flex items-center justify-between gap-x-4 mb-8">
@@ -22,8 +22,8 @@
 
         <div class="w-full relative">
             <div id="principal-categories-slider" class="swiper swiper-container relative">
-                <div class="swiper-wrapper flex relative w-full h-max pb-8">
-                    @foreach ($principalCategories as $category)
+                <div class="swiper-wrapper flex relative w-full h-max">
+                    @foreach ($principal_categories as $category)
                         <div class="swiper-slide cursor-pointer text-center">
         
                             <img class="rounded-full mb-1.5 object-cover mx-auto w-28 h-28 shadow" 
