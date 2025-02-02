@@ -61,7 +61,7 @@ class Ualabis implements PaymentGateway
 
         $response = Http::withToken($this->token)
                         ->withBody(json_encode([
-                            'amount'             => 57,
+                            'amount'             => 50,
                             'description'        => "Pedido-$order->code",
                             'callback_fail'      => 'https://google.com',
                             'callback_success'   => 'https://google.com',
@@ -82,9 +82,8 @@ class Ualabis implements PaymentGateway
             'provider_id'     => $this->model()->id,
             'status_code'     => PaymentStatusCode::Created,
             'checkout_url'    => data_get($response, 'links.checkout_link'),
-            'external_id'     => data_get($response, 'uuid'),
+            'intention_id'    => data_get($response, 'uuid'),
             'external_status' => data_get($response, 'status'),
-            'total_paid'      => data_get($response, 'amount'),
             'meta'            => [
                 [
                     'name'  => 'Referencia',

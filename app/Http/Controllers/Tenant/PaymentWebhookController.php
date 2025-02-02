@@ -13,7 +13,6 @@ use App\Models\Tenant;
 use App\Services\PaymentProviders\GOcuotas;
 use App\Services\PaymentProviders\MercadoPago;
 use App\Services\PaymentProviders\Mobbex;
-use App\Services\PaymentProviders\Sipago;
 use App\Services\PaymentProviders\Ualabis;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -163,12 +162,12 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'in_process' && $order->payment->status_code != PaymentStatusCode::InRevision)
+            if ($payment->status === 'in_process' && $order->payment->status_code != PaymentStatusCode::InProcess)
             {
-                $order->update(['status_code' => OrderStatusCode::ProviderPayPending]);
+                $order->update(['status_code' => OrderStatusCode::ProviderPayProcessing]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::InRevision,
+                    'status_code'     => PaymentStatusCode::InProcess,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -181,7 +180,7 @@ class PaymentWebhookController extends Controller
                     'event'         => OrderFeedEvent::PaymentUpdate,
                     'presentation'  => OrderFeedPresentation::Icon,
                     'initializator' => 'MercadoPago',
-                    'action'        => 'está revisando el pago, se esperan actualizaciónes de estado',
+                    'action'        => 'está procesando el pago, se esperan actualizaciónes de estado',
                     'meta'          => [
                         'icon_code'  => 'credit_card_clock',
                         'icon_color' => 'orange'

@@ -72,7 +72,7 @@ class Modo implements PaymentGateway
                         ->withBody(json_encode([
                             'productName'         => "Pedido $order->code",
                             //'price'               => $order->total,
-                            'price'               => 25,
+                            'price'               => 25.64,
                             'quantity'            => 1,
                             'currency'            => 'ARS',
                             'storeId'             => $this->key('modo_store_id'),
@@ -87,28 +87,25 @@ class Modo implements PaymentGateway
         }
 
         OrderPayment::updateOrCreate([
-            'order_id'    => $order->id,
-            'provider_id' => $this->model()->id,
+            'order_id'     => $order->id,
+            'provider_id'  => $this->model()->id,
+            'intention_id' => data_get($response, 'id')
         ], 
         [
             'status_code'     => PaymentStatusCode::Created,
-            'external_status' => $response['status'],
+            'external_status' => data_get($response, 'status'),
             'meta'            => [
                 [
-                    'name'  => 'ID intención',
-                    'value' => $response['id']
-                ],
-                [
                     'name'  => 'ID intención externo',
-                    'value' => $response['externalIntentionId'],
+                    'value' => data_get($response, 'externalIntentionId'),
                 ],
                 [
                     'name'  => 'Store ID',
-                    'value' => $response['storeId']
+                    'value' => data_get($response, 'storeId'),
                 ],
                 [
                     'name'     => 'QR',
-                    'value'    => $response['qr'],
+                    'value'    => data_get($response, 'qr'),
                     'internal' => true
                 ]
             ]
@@ -125,11 +122,7 @@ class Modo implements PaymentGateway
             ]
         ]);
 
-        $response['return_url'] = route('payment.return', [
-            'provider'     => 'modo',
-            'order'        => $order->id,
-            'intention_id' => $response['id']
-        ]);
+        $response['return_url'] = $order->paymentReturn();
 
         $this->frontend_payload = $response;
     }

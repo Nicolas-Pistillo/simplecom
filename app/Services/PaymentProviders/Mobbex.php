@@ -52,19 +52,12 @@ class Mobbex implements PaymentGateway
         ->post("https://api.mobbex.com/p/checkout")
         ->collect('data');
 
-        $this->provider_checkout_url = $checkout->get('url');
-
         OrderPayment::create([
             'order_id'     => $order->id,
             'checkout_url' => $checkout->get('url'),
             'status_code'  => PaymentStatusCode::Created,
-            'provider_id'  => $this->model()->id,
-            'meta'         => [
-                [
-                    'name'  => 'UID',
-                    'value' => $checkout->get('id')
-                ]
-            ]
+            'intention_id' => $checkout->get('id'),
+            'provider_id'  => $this->model()->id
         ]);
 
         OrderFeedItem::create([
@@ -77,6 +70,8 @@ class Mobbex implements PaymentGateway
                 'icon_code' => 'credit_card'
             ]
         ]);
+
+        $this->provider_checkout_url = $checkout->get('url');
     }
 
     public static function getPaymentInfo($payment_id)

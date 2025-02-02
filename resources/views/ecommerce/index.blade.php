@@ -162,7 +162,7 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/plus/img/ecommerce/icons/icon-delivery-light.svg"
                                 alt="">
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-warranty-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/plus/img/ecommerce/icons/icon-warranty-light.svg"
                                 alt="">
                         </div>
                     </div>
@@ -189,7 +189,7 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/plus/img/ecommerce/icons/icon-returns-light.svg"
                                 alt="">
                         </div>
                     </div>
@@ -202,7 +202,7 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/plus/img/ecommerce/icons/icon-planet-light.svg"
                                 alt="">
                         </div>
                     </div>
