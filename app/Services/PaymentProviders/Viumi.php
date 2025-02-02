@@ -14,22 +14,22 @@ use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Illuminate\Support\Facades\Http;
 
-class Openpay implements PaymentGateway
+class Viumi implements PaymentGateway
 {
     use Configurable, ManagesPaymentRedirections;
 
-    protected $configuration_keys = ['openpay_client_id', 'openpay_client_secret'];
+    protected $configuration_keys = ['viumi_client_id', 'viumi_client_secret'];
 
     private $token;
 
     public function model(): PaymentMethod
     {
-        return PaymentMethod::where('code', 'openpay')->first();
+        return PaymentMethod::where('code', 'viumi')->first();
     }
 
     public function generateToken()
     {
-        $url = env('OPENPAY_TEST')
+        $url = env('VIUMI_TEST')
             ? 'https://auth.preprod.geopagos.com'
             : 'https://auth.geopagos.com';
 
@@ -50,9 +50,9 @@ class Openpay implements PaymentGateway
     {
         $this->generateToken();
 
-        $url = env('OPENPAY_TEST')
-                ? 'https://api-openpay-ar.preprod.geopagos.com'
-                : 'https://api.openpayargentina.com.ar';
+        $url = env('VIUMI_TEST')
+                ? 'https://api-macro.preprod.geopagos.com'
+                : 'https://api.viumi.com.ar';
 
         $attributes = [
             'currency'      => "032",
@@ -123,7 +123,7 @@ class Openpay implements PaymentGateway
             'event'         => OrderFeedEvent::PaymentUpdate,
             'presentation'  => OrderFeedPresentation::Icon,
             'initializator' => $order->user->full_name,
-            'action'        => "inició el pago del pedido con Openpay",
+            'action'        => "inició el pago del pedido con viüMi",
             'meta'          => [
                 'icon_code' => 'credit_card'
             ]
@@ -136,9 +136,9 @@ class Openpay implements PaymentGateway
     {
         $this->generateToken();
 
-        $url = env('OPENPAY_TEST')
-                ? 'https://api-openpay-ar.preprod.geopagos.com'
-                : 'https://api.openpayargentina.com.ar';
+        $url = env('VIUMI_TEST')
+                ? 'https://api-macro.preprod.geopagos.com'
+                : 'https://api.viumi.com.ar';
                 
         return Http::withToken($this->token)->get("$url/api/v2/orders/$id")->json();
     }

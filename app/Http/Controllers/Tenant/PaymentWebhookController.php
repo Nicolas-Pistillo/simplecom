@@ -738,7 +738,9 @@ class PaymentWebhookController extends Controller
     {
         $body = $request->all();
 
-        if (isset($body['data'], $body['data']['type']) && $body['data']['type'] === 'Payment')
+        $webhookType = data_get($body, 'data.type');
+
+        if (isset($webhookType) && $webhookType === 'Payment')
         {
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'sipago',
@@ -805,6 +807,255 @@ class PaymentWebhookController extends Controller
                     'event'         => OrderFeedEvent::PaymentUpdate,
                     'presentation'  => OrderFeedPresentation::Icon,
                     'initializator' => 'Sipago',
+                    'action'        => 'rechazó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'cancel',
+                        'icon_color' => 'red'
+                    ]
+                ]);   
+            }
+        }
+    }
+
+    public function getnet(Request $request, Order $order)
+    {
+        $body = $request->all();
+
+        $webhookType = data_get($body, 'data.type');
+
+        if (isset($webhookType) && $webhookType === 'Payment')
+        {
+            Log::channel('webhooks')->info('Actualización de pago recibida', [
+                'proveedor' => 'getnet',
+                'tenant'    => tenant('name'),
+                'pedido'    => $order->code,
+                'payload'   => $body
+            ]);
+
+            $status = data_get($body, 'data.order.status');
+
+            if ($status === 'SUCCESS')
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'external_id'     => data_get($body, 'data.payment.id'),
+                    'external_status' => $status,
+                    'meta'            => [
+                        [
+                            'name'  => 'Id preferencia',
+                            'value' => data_get($body, 'data.order.uuid')
+                        ],
+                        [
+                            'name'  => 'Ref. de pago',
+                            'value' => data_get($body, 'data.payment.refNumber')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Getnet',
+                    'action'        => 'aprobó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+
+            if ($status === 'FAILED_CHECKOUT' || $status === 'EXPIRED')
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'external_id'     => data_get($body, 'data.payment.id'),
+                    'external_status' => $status,
+                    'meta'            => [
+                        [
+                            'name'  => 'Id preferencia',
+                            'value' => data_get($body, 'data.order.uuid')
+                        ],
+                        [
+                            'name'  => 'Ref. de pago',
+                            'value' => data_get($body, 'data.payment.refNumber')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Getnet',
+                    'action'        => 'rechazó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'cancel',
+                        'icon_color' => 'red'
+                    ]
+                ]);   
+            }
+        }
+    }
+
+    public function openpay(Request $request, Order $order)
+    {
+        $body = $request->all();
+
+        $webhookType = data_get($body, 'data.type');
+
+        if (isset($webhookType) && $webhookType === 'Payment')
+        {
+            Log::channel('webhooks')->info('Actualización de pago recibida', [
+                'proveedor' => 'openpay',
+                'tenant'    => tenant('name'),
+                'pedido'    => $order->code,
+                'payload'   => $body
+            ]);
+
+            $status = data_get($body, 'data.order.status');
+
+            if ($status === 'SUCCESS')
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'external_id'     => data_get($body, 'data.payment.id'),
+                    'external_status' => $status,
+                    'meta'            => [
+                        [
+                            'name'  => 'Id preferencia',
+                            'value' => data_get($body, 'data.order.uuid')
+                        ],
+                        [
+                            'name'  => 'Ref. de pago',
+                            'value' => data_get($body, 'data.payment.refNumber')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'OpenPay',
+                    'action'        => 'aprobó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+
+            if ($status === 'FAILED_CHECKOUT' || $status === 'EXPIRED')
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'external_id'     => data_get($body, 'data.payment.id'),
+                    'external_status' => $status,
+                    'meta'            => [
+                        [
+                            'name'  => 'Id preferencia',
+                            'value' => data_get($body, 'data.order.uuid')
+                        ],
+                        [
+                            'name'  => 'Ref. de pago',
+                            'value' => data_get($body, 'data.payment.refNumber')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'OpenPay',
+                    'action'        => 'rechazó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'cancel',
+                        'icon_color' => 'red'
+                    ]
+                ]);   
+            }
+        }
+    }
+
+    public function viumi(Request $request, Order $order)
+    {
+        $body = $request->all();
+
+        $webhookType = data_get($body, 'data.type');
+
+        if (isset($webhookType) && $webhookType === 'Payment')
+        {
+            Log::channel('webhooks')->info('Actualización de pago recibida', [
+                'proveedor' => 'viumi',
+                'tenant'    => tenant('name'),
+                'pedido'    => $order->code,
+                'payload'   => $body
+            ]);
+
+            $status = data_get($body, 'data.order.status');
+
+            if ($status === 'SUCCESS')
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'external_id'     => data_get($body, 'data.payment.id'),
+                    'external_status' => $status,
+                    'meta'            => [
+                        [
+                            'name'  => 'Id preferencia',
+                            'value' => data_get($body, 'data.order.uuid')
+                        ],
+                        [
+                            'name'  => 'Ref. de pago',
+                            'value' => data_get($body, 'data.payment.refNumber')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'viüMi',
+                    'action'        => 'aprobó el pago',
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+
+            if ($status === 'FAILED_CHECKOUT' || $status === 'EXPIRED')
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'external_id'     => data_get($body, 'data.payment.id'),
+                    'external_status' => $status,
+                    'meta'            => [
+                        [
+                            'name'  => 'Id preferencia',
+                            'value' => data_get($body, 'data.order.uuid')
+                        ],
+                        [
+                            'name'  => 'Ref. de pago',
+                            'value' => data_get($body, 'data.payment.refNumber')
+                        ]
+                    ]
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'viüMi',
                     'action'        => 'rechazó el pago',
                     'meta'          => [
                         'icon_code'  => 'cancel',

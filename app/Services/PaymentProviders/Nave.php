@@ -88,6 +88,7 @@ class Nave implements PaymentGateway
 
         $response = Http::withToken($this->token)
             ->withHeaders(['Content-Type' => 'application/json'])
+            ->retry(3)
             ->withBody(json_encode([
                 "platform"      => $this->key('nave_platform'),
                 "store_id"      => $this->key('nave_store_id'),

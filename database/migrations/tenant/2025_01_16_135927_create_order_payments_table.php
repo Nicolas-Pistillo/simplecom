@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('order_id');
             $table->foreignId('provider_id');
             $table->string('status_code');
+            $table->string('intention_id')->nullable();
             $table->string('external_id')->nullable();
             $table->string('external_status')->nullable();
             $table->string('checkout_url')->nullable();

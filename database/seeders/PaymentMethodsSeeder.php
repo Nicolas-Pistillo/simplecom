@@ -15,6 +15,7 @@ use App\Services\PaymentProviders\Openpay;
 use App\Services\PaymentProviders\Sipago;
 use App\Services\PaymentProviders\Stripe;
 use App\Services\PaymentProviders\Ualabis;
+use App\Services\PaymentProviders\Viumi;
 use Illuminate\Database\Seeder;
 
 class PaymentMethodsSeeder extends Seeder
@@ -155,6 +156,18 @@ class PaymentMethodsSeeder extends Seeder
             'page_url'      => 'https://www.openpayargentina.com.ar',
             'support_email' => 'soporte@openpayargentina.com.ar',
             'support_url'   => 'https://sdeskopenpay.service-now.com/ayuda_arg'
+        ]);
+
+        // viüMi
+        PaymentMethod::create([
+            'code'          => 'viumi',
+            'service_class' => Viumi::class,
+            'display_name'  => 'viüMi',
+            'checkout_name' => 'viüMi - Tarjetas de crédito, débito y prepagas',
+            'description'   => 'viüMi es una plataforma que te permite cobrar y manejar tu negocio de forma ágil, fácil y sin ataduras. Podrás recibir pagos con tarjetas de débito, crédito y prepagas ademas ofrecer pagos en cuotas y links de pago para tus clientes.',
+            'page_url'      => 'https://www.viumi.com.ar',
+            'support_email' => 'consultas@viumi.com.ar',
+            'support_url'   => 'https://www.viumi.com.ar/atencion-al-usuario-de-servicios-financieros'
         ]);
     }
 }
