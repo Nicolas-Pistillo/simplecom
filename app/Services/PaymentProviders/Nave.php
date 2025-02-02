@@ -106,20 +106,12 @@ class Nave implements PaymentGateway
                         ]
                     ],
                     'buyer' => [
-                        "user_id"    => "nacho@naranjax.com",
+                        "user_id"    => "{$order->user->id}",
                         "doc_type"   => "DNI",
-                        "doc_number" => "N/A",
-                        "user_email" => "nacho@naranjax.com",
-                        "name"       => "N/A",
-                        "phone"      => "N/A",
-                        "billing_address" => [
-                            "street_1"  => "Cliente",
-                            "street_2"  => "N/A",
-                            "city"      => "1",
-                            "region"    => "Buenos Aires",
-                            "country"   => "AR",
-                            "zipcode"   => "5000"
-                        ]
+                        "doc_number" => $order->user->document,
+                        "user_email" => $order->user->email,
+                        "name"       => $order->user->full_name,
+                        "phone"      => $order->user->phone
                     ]
                 ]
             ]))
@@ -132,7 +124,7 @@ class Nave implements PaymentGateway
             'provider_id'     => $this->model()->id,
             'status_code'     => PaymentStatusCode::Created,
             'checkout_url'    => data_get($response, 'data.checkout_url'),
-            'external_id'     => data_get($response, 'data.payment_request_id'),
+            'intention_id'    => data_get($response, 'data.payment_request_id'),
             'meta'            => [
                 [
                     'name'  => 'ID pago interno',

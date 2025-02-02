@@ -39,15 +39,30 @@ class Cajero24 implements PaymentGateway
             ]);
         }
 
+        if ($order->shipping_cost > 0)
+        {
+            array_push($items, [
+                'name'               => 'Envío',
+                'external_reference' => uniqid(),
+                'amount'             => $order->shipping_cost
+            ]);
+        }
+
         $response = Http::withBody(json_encode([
             'access_token'       => $this->key('cajero24_token'),
             'currency'           => 'ARS',
-            'external_reference' => "PEDIDO $order->code",
+            'external_reference' => "Pedido $order->code",
             'url_success'        => $order->paymentReturn(),
             'url_pending'        => $order->paymentReturn(),
             'url_failure'        => $order->paymentReturn(),
             'ipn'                => $order->paymentWebhook(),
-            'items'              => $items
+            'items'              => [ //$items
+                [
+                    'name'               => 'Prueba',
+                    'external_reference' => uniqid(),
+                    'amount'             => 10
+                ]
+            ]
         ]))
         ->throw()
         ->post('https://cajero24.co/api/pay/create')

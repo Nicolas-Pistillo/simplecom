@@ -733,6 +733,146 @@ class PaymentWebhookController extends Controller
         }
     }
 
+    public function cajero24(Request $request, Order $order)
+    {
+        if (isset($request->event, $request->transaction_id))
+        {            
+            if (str_replace('Pedido ', '', $request->external_reference) != $order->code)
+                abort(401, 'Target order does not match');
+
+            Log::channel('webhooks')->info('Actualización de pago recibida', [
+                'proveedor' => 'cajero24',
+                'tenant'    => tenant('name'),
+                'pedido'    => $order->code,
+                'payload'   => $request->all()
+            ]);
+
+            if ($request->event === 'payment_success')
+            {
+
+            }
+
+            if ($request->event === 'debin_accredited')
+            {
+
+            }
+
+            if ($request->event === 'payment_pending')
+            {
+                $transaction = $request->transaction_data;
+
+                $order->update(['status_code' => OrderStatusCode::PaymentPending]);
+
+                $order->payment->update([
+                    'status_code'     => PaymentStatusCode::Pending,
+                    'external_id'     => $request->transaction_id,
+                    'instrument'      => data_get($transaction, 'operation.payment_method.name'),
+                    'installments'    => data_get($transaction, 'installments'),
+                    'external_status' => data_get($transaction, 'status'),
+                    'total_paid'      => data_get($transaction, 'amount')
+                ]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Cajero24',
+                    'action'        => 'está esperando el pago del comprador',
+                    'meta'          => [
+                        'icon_code'  => 'credit_card_clock',
+                        'icon_color' => 'orange'
+                    ]
+                ]);
+            }
+
+            if ($request->event === 'payment_failure')
+            {
+                $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+
+                $order->payment->update(['status_code' => PaymentStatusCode::Rejected]);
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Cajero24',
+                    'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
+                    'meta'          => [
+                        'icon_code'  => 'credit_card_off',
+                        'icon_color' => 'red'
+                    ]
+                ]);
+            }
+
+            if ($request->event === 'debin_rejected')
+            {
+                
+            }
+
+            if ($request->event === 'payment_cancellation')
+            {
+                
+            }
+
+            if ($request->event === 'payment_partial_refund')
+            {
+                
+            }
+
+            if ($request->event === 'payment_refund')
+            {
+
+            }
+
+            $meta = [
+                [
+                    'name'  => 'Ref. Operación',
+                    'value' => data_get($transaction, 'reference')
+                ],
+                [
+                    'name'  => 'Cod. Operación',
+                    'value' => data_get($transaction, 'operation.uuid')
+                ],
+                [
+                    'name'  => 'Valor de cuota',
+                    'value' => data_get($transaction, 'installments_amount')
+                ],
+                [
+                    'name'  => 'Cargo aplicado',
+                    'value' => data_get($transaction, 'charge')
+                ],
+                [
+                    'name'  => 'Cargo por cuota',
+                    'value' => data_get($transaction, 'installments_fee')
+                ],
+                [
+                    'name'  => 'Punto de cobro',
+                    'value' => data_get($transaction, 'shop.name') . ' - ' . data_get($transaction, 'shop.point.name')
+                ],
+                [
+                    'name'  => 'Tarjeta',
+                    'value' => data_get($transaction, 'operation.payment_method.card.name') . ' - ' . data_get($transaction, 'operation.payment_method.card.number')
+                ],
+                [
+                    'name'  => 'Cod. Autorización',
+                    'value' => data_get($transaction, 'operation.payment_method.card.authorization')
+                ],
+                [
+                    'name'  => 'Estado debin',
+                    'value' => data_get($transaction, 'operation.payment_method.debin.debin_status')
+                ],
+                [
+                    'name'  => 'CBU/Alias debin',
+                    'value' => data_get($transaction, 'operation.payment_method.debin.cbu_alias')
+                ],
+                [
+                    'name'  => 'CUIT debin',
+                    'value' => data_get($transaction, 'operation.payment_method.debin.cuit')
+                ]
+            ];
+
+            $order->payment->update(compact('meta'));
+        }
+    }
+
     public function sipago(Request $request, Order $order)
     {
         $body = $request->all();
@@ -759,10 +899,6 @@ class PaymentWebhookController extends Controller
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
-                        [
-                            'name'  => 'Id preferencia',
-                            'value' => data_get($body, 'data.order.uuid')
-                        ],
                         [
                             'name'  => 'Ref. de pago',
                             'value' => data_get($body, 'data.payment.refNumber')
@@ -791,10 +927,6 @@ class PaymentWebhookController extends Controller
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
-                        [
-                            'name'  => 'Id preferencia',
-                            'value' => data_get($body, 'data.order.uuid')
-                        ],
                         [
                             'name'  => 'Ref. de pago',
                             'value' => data_get($body, 'data.payment.refNumber')
@@ -843,10 +975,6 @@ class PaymentWebhookController extends Controller
                     'external_status' => $status,
                     'meta'            => [
                         [
-                            'name'  => 'Id preferencia',
-                            'value' => data_get($body, 'data.order.uuid')
-                        ],
-                        [
                             'name'  => 'Ref. de pago',
                             'value' => data_get($body, 'data.payment.refNumber')
                         ]
@@ -874,10 +1002,6 @@ class PaymentWebhookController extends Controller
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
-                        [
-                            'name'  => 'Id preferencia',
-                            'value' => data_get($body, 'data.order.uuid')
-                        ],
                         [
                             'name'  => 'Ref. de pago',
                             'value' => data_get($body, 'data.payment.refNumber')
@@ -926,10 +1050,6 @@ class PaymentWebhookController extends Controller
                     'external_status' => $status,
                     'meta'            => [
                         [
-                            'name'  => 'Id preferencia',
-                            'value' => data_get($body, 'data.order.uuid')
-                        ],
-                        [
                             'name'  => 'Ref. de pago',
                             'value' => data_get($body, 'data.payment.refNumber')
                         ]
@@ -957,10 +1077,6 @@ class PaymentWebhookController extends Controller
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
-                        [
-                            'name'  => 'Id preferencia',
-                            'value' => data_get($body, 'data.order.uuid')
-                        ],
                         [
                             'name'  => 'Ref. de pago',
                             'value' => data_get($body, 'data.payment.refNumber')
@@ -1009,10 +1125,6 @@ class PaymentWebhookController extends Controller
                     'external_status' => $status,
                     'meta'            => [
                         [
-                            'name'  => 'Id preferencia',
-                            'value' => data_get($body, 'data.order.uuid')
-                        ],
-                        [
                             'name'  => 'Ref. de pago',
                             'value' => data_get($body, 'data.payment.refNumber')
                         ]
@@ -1040,10 +1152,6 @@ class PaymentWebhookController extends Controller
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
-                        [
-                            'name'  => 'Id preferencia',
-                            'value' => data_get($body, 'data.order.uuid')
-                        ],
                         [
                             'name'  => 'Ref. de pago',
                             'value' => data_get($body, 'data.payment.refNumber')

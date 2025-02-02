@@ -105,15 +105,12 @@ class Openpay implements PaymentGateway
             'checkout_url'    => data_get($response, 'data.links.0.checkout'),
             'status_code'     => PaymentStatusCode::Created,
             'external_status' => data_get($response, 'data.attributes.status'),
+            'intention_id'    => data_get($response, 'data.attributes.uuid'),
             'provider_id'     => $this->model()->id,
             'meta'            => [
                 [
                     'name'  => 'Nro de orden',
                     'value' => data_get($response, 'data.attributes.orderNumber')
-                ],
-                [
-                    'name'  => 'ID intención',
-                    'value' => data_get($response, 'data.attributes.uuid')
                 ]
             ]
         ]);

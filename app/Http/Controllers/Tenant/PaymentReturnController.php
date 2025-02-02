@@ -180,11 +180,16 @@ class PaymentReturnController extends Controller
         return view('ecommerce.checkout-result', compact('order'));
     }
 
+    public function cajero24(Request $request, Order $order)
+    {
+        return view('ecommerce.checkout-result', compact('order'));
+    }
+
     public function nave(Request $request, Order $order)
     {
         $service = new Nave();
 
-        $paymentInfo = $service->getPaymentInfo($order->payment->external_id);
+        $paymentInfo = $service->getPaymentInfo($order->payment->intention_id);
 
         if (isset($paymentInfo['id']))
         {
@@ -306,10 +311,6 @@ class PaymentReturnController extends Controller
             }
 
             $order->payment->update(compact('meta'));
-        }
-        else 
-        {
-            dd($paymentInfo);
         }
         
         $order->refresh();
