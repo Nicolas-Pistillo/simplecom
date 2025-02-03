@@ -2,15 +2,40 @@
 
 namespace App\Livewire\Ecommerce;
 
-use App\Models\Category;
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Products extends Component
 {
+    use WithPagination;
+
+    public $order = 'relevants';
+    public $category, $min_price = 2, $max_price = 7;
+
     public function loadProducts()
     {
-        return Product::available()->orderBy('featured', 'DESC')->paginate(9);
+        $products = Product::available();
+
+        switch ($this->order)
+        {
+            case 'relevants': $products->orderByRelevants();  
+            break;
+            case 'news':      $products->orderByNews();        
+            break;
+            case 'cheaps':     $products->orderByCheaps(); 
+            break;
+            case 'expensives': $products->orderByExpensives();
+            break;
+            default:          $products->orderByRelevants();
+        }
+
+        return $products->paginate(9);
+    }
+
+    public function updatedOrder()
+    {
+        $this->resetPage();
     }
 
     public function mount()

@@ -2,7 +2,7 @@
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
 
         <div class="flex items-center justify-between gap-x-4 mb-8">
-            <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
                 Nuestras categorías
             </h2>
 
@@ -26,7 +26,8 @@
                     @foreach ($principal_categories as $category)
                         <div class="swiper-slide cursor-pointer text-center">
         
-                            <img class="rounded-full mb-1.5 object-cover mx-auto w-28 h-28 shadow" 
+                            <img class="rounded-full mb-1.5 object-cover mx-auto 
+                            w-20 h-20 sm:w-28 sm:h-28 shadow" 
                             src="{{ $category->image }}" alt="">
         
                             <h6 class="line-clamp-2 text-sm text-gray-800 font-semibold">
@@ -50,7 +51,7 @@
                     delay: 2000,
                     pauseOnMouseEnter: true
                 },
-                slidesPerView: 2,
+                slidesPerView: 3,
                 breakpoints: {
                 550: {
                     slidesPerView: 4
