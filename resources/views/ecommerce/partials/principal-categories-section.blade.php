@@ -24,7 +24,8 @@
             <div id="principal-categories-slider" class="swiper swiper-container relative">
                 <div class="swiper-wrapper flex relative w-full h-max">
                     @foreach ($principal_categories as $category)
-                        <div class="swiper-slide cursor-pointer text-center">
+                        <a href="{{ $category->pageUrl() }}" 
+                        class="swiper-slide cursor-pointer text-center">
         
                             <img class="rounded-full mb-1.5 object-cover mx-auto 
                             w-20 h-20 sm:w-28 sm:h-28 shadow" 
@@ -33,7 +34,7 @@
                             <h6 class="line-clamp-2 text-sm text-gray-800 font-semibold">
                                 {{ $category->name }}
                             </h6>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </div>

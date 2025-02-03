@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -37,6 +38,13 @@ class Category extends Model
     public function hasChilds()
     {
         return $this->childs()->count() > 0;
+    }
+
+    public function pageUrl()
+    {
+        return route('ecommerce.products', [
+            'categoria' => Str::slug($this->id. '-' . $this->name)
+        ]);
     }
 
     public function scopePrincipal(Builder $query): void

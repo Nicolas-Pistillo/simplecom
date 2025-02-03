@@ -1,24 +1,54 @@
-<section class="hidden lg:block">
+<section class="hidden lg:flex flex-col gap-y-6">
 
     {{-- Context-Categories Filter --}}
-    <ul role="list" class="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
+    @if ((isset($form->category) && $form->category->childs->isNotEmpty()) || 
+    (!isset($form->category) && $principal_categories->isNotEmpty()))
+        <ul role="list" class="space-y-4 border-b border-gray-200 
+        text-sm font-medium text-gray-900 pb-6">
 
-        @foreach ($principal_categories as $category)
-            <li wire:key='{{ $category->id }}'>
-                <a href="#" class="hover:text-blue-600 inline-flex items-center gap-x-1"
-                @if ($category->featured) x-tooltip.raw.placement.right="Destacado" @endif>
+            <li>
+                <h6 class="text-base text-gray-700 font-semibold inline-flex 
+                items-center gap-x-1 cursor-default">
+                    Categorías
+                </h6>
+            </li>   
 
-                    {{ $category->name }}
+            @if (!$this->form->category)
+                @foreach ($principal_categories->sortByDesc('featured') as $category)
+                    <li wire:key='{{ $category->id }}'>
+                        <h6 wire:click='setCategory({{ $category->id }})' 
+                        class="hover:text-blue-600 inline-flex items-center gap-x-1 cursor-pointer"
+                            @if ($category->featured) x-tooltip.raw.placement.right="Destacado" @endif>
 
-                    @if ($category->featured)
-                        <x-icon code="local_fire_department" class="text-red-500" />
-                    @endif
-                </a>
-            </li>
-        @endforeach
-    </ul>
+                            {{ $category->name }}
 
-    <div x-data="{ open: true }" class="border-b border-gray-200 py-6">
+                            @if ($category->featured)
+                                <x-icon code="local_fire_department" class="text-red-500" />
+                            @endif
+                        </h6>
+                    </li>
+                @endforeach
+            @else
+                @foreach ($form->category->childs->sortByDesc('featured') as $category)
+                    <li wire:key='{{ $category->id }}'>
+                        <h6 wire:click='setCategory({{ $category->id }})' 
+                        class="hover:text-blue-600 inline-flex items-center gap-x-1 cursor-pointer"
+                            @if ($category->featured) x-tooltip.raw.placement.right="Destacado" @endif>
+
+                            {{ $category->name }}
+
+                            @if ($category->featured)
+                                <x-icon code="local_fire_department" class="text-red-500" />
+                            @endif
+                        </h6>
+                    </li>
+                @endforeach
+            @endif
+        </ul>
+    @endif
+    
+
+    <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
 
         <h3 class="-my-3 flow-root">
             <!-- Expand/collapse section button -->
@@ -39,7 +69,7 @@
         <!-- Filter section, show/hide based on section state. -->
         <div x-show="open" x-cloak x-collapse.duration.300 class="pt-4">
             
-            <div class="flex gap-x-3">
+            <div class="flex gap-x-3 mb-2">
 
                 <div>
                     <label for="filt_min_price" class="block text-xs font-medium 
@@ -72,10 +102,15 @@
                 </div>
             </div>
 
+            <x-button type="soft" size="tiny" class="flex items-center gap-x-0.5">
+                Aplicar
+                <x-icon code="arrow_forward" class="text-sm" />
+            </x-button>
+
         </div>
     </div>
 
-    <div x-data="{ open: true }" class="border-b border-gray-200 py-6">
+    <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
         <h3 class="-my-3 flow-root">
             <!-- Expand/collapse section button -->
             <button type="button" @click="open = !open"

@@ -114,6 +114,18 @@ class Product extends Model
         });
     }
 
+    public function scopeOrderByType(Builder $query, $orderType)
+    {
+        switch ($orderType)
+        {
+            case 'relevantes':   $query->orderByRelevants();  break;
+            case 'nuevos':       $query->orderByNews();       break;
+            case 'menor_precio': $query->orderByCheaps();     break;
+            case 'mayor_precio': $query->orderByExpensives(); break;
+            default:             $query->orderByRelevants();
+        }
+    }
+
     public function scopeOrderByRelevants(Builder $query): void
     {
         $query->orderBy('featured', 'DESC')
@@ -137,6 +149,6 @@ class Product extends Model
 
     public function scopeFeatured(Builder $query): void
     {
-        $query->where('featured', 1);
+        $query->where('featured', true);
     }
 }
