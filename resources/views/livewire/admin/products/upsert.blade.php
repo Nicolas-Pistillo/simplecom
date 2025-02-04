@@ -1,5 +1,20 @@
 <div>
 
+    <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-8 md:grid-cols-3">
+
+        <div>
+            <x-button href="{{ route('admin.products.index') }}" type="secondary" class="inline-flex items-center">
+                <x-icon code="arrow_back" class="mr-1" />
+                Volver al listado
+            </x-button>
+        </div>
+
+        <h2 class="text-2xl col-span-2 font-bold leading-7 text-gray-900 sm:text-3xl sm:tracking-tight">
+            {{ $product ? $product->name : 'Nuevo producto' }}
+        </h2>
+
+    </div>
+
     <form wire:submit='save' class="pb-6">
 
         <div class="space-y-12">
@@ -10,12 +25,6 @@
                 {{-- Published switch --}}
                 <x-switch wireModel='form.published' :label="$product ? 'Publicar' : 'Publicar al finalizar'" />
 
-                {{-- Edit alert --}}
-                @if ($product)
-                    <x-alert class="col-span-2">Estas editando el producto
-                        <span class="font-semibold">{{ "#$product->id - $product->name" }}</span>
-                    </x-alert>
-                @endif
             </div>
 
             {{-- Identification info block | Identificación --}}
@@ -37,6 +46,7 @@
             @include('admin.products.partials.upsert-form.measures-stock-block')
         </div>
 
+        {{-- Save/Update --}}
         <div class="mt-6 flex items-center justify-between flex-wrap gap-x-6">
 
             <span class="text-red-500 text-xs flex items-center my-1">

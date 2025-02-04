@@ -164,6 +164,7 @@ class Index extends Component
             $search = trim($this->search);
 
             $products->where('name', 'LIKE', "%$search%");
+            $products->orWhere('id', 'LIKE', "%$search%");
             $products->orWhere('code', 'LIKE', "%$search%");
 
             $products->orWhereHas('category', function($query) use ($search) {
