@@ -112,7 +112,7 @@
         </x-slot>
     
         <x-slot name="body">
-            Se creará una nueva orden de envío con {{ $order->shippingProvider->name }} 
+            Se creará una nueva orden de envío en {{ $order->shippingProvider->name }} 
             y se le notificará al comprador que el pedido está listo para despachar.
             <div class="mt-2">
                 <x-switch label="No volver a preguntar" />

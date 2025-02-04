@@ -21,7 +21,7 @@ class OrderService
 {
     public static function createFromCheckout(CheckoutForm $form)
     {
-        $userId = Auth::id();
+        $userId = Auth::id() ?? session('guest_customer.id');
 
         $orderWithShipping = $form->delivery_type === DeliveryType::Shipping && !empty($form->selected_rate);
         $storePickupId = $form->delivery_type === DeliveryType::Picking ? $form->selected_store_pickup : null;
@@ -36,7 +36,9 @@ class OrderService
 
         if (Auth::guest())
         {
-            $user = User::create([
+            $user = User::updateOrCreate(
+            ['id' => session('guest_customer.id')],
+            [
                 'type'      => CustomerType::Guest,
                 'name'      => session('guest_customer.name'),
                 'lastname'  => session('guest_customer.lastname'),
@@ -46,6 +48,8 @@ class OrderService
             ]);
 
             $userId = $user->id;
+
+            session()->put('guest_customer.id', $userId);
 
             if (!empty(session('guest_customer.addresses')))
             {

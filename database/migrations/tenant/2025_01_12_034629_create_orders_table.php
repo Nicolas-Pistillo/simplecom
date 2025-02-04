@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('status_code');
             $table->foreignId('payment_method_id');
             $table->boolean('invoiced')->default(false);
+            $table->boolean('stock_discounted')->default(false);
             $table->string('delivery_type');
             $table->foreignId('store_pickup_id')->nullable();
             $table->foreignId('shipping_provider_id')->nullable();

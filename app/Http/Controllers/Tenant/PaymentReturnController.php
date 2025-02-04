@@ -13,6 +13,7 @@ use App\Models\PaymentMethod;
 use App\Services\PaymentProviders\Mobbex;
 use App\Services\PaymentProviders\Modo;
 use App\Services\PaymentProviders\Nave;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class PaymentReturnController extends Controller
 {
@@ -23,6 +24,15 @@ class PaymentReturnController extends Controller
         if (!$providerModel instanceof PaymentMethod) abort(404);
 
         $order->load('status', 'user', 'items', 'shipping', 'payment');
+
+        if ($order->status_code != OrderStatusCode::Created)
+        {
+            Cart::destroy();
+
+            session()->forget([
+                'rates_results', 'selected_address', 'selected_rate', 'selected_branch'
+            ]);
+        }
 
         return $this->{$provider}($request, $order);
     }

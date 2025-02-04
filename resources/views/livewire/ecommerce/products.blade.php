@@ -49,11 +49,13 @@
                                                 No te preocupes, muy pronto estarán llegando nuevos artículos y novedades
                                             </p>
 
-                                            <x-button :href="route('ecommerce.products')" type="soft"
-                                            class="flex items-center gap-x-0.5">
-                                                Ver todos los productos
-                                                <x-icon code="arrow_forward" />
-                                            </x-button>
+                                            @if ($form->category)
+                                                <x-button :href="route('ecommerce.products')" type="soft"
+                                                class="flex items-center gap-x-0.5">
+                                                    Ver todos los productos
+                                                    <x-icon code="arrow_forward" />
+                                                </x-button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

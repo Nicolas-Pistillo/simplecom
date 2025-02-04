@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\OrderConfirmed;
 use App\Events\OrderCreated;
 use App\Listeners\DiscountOrderStock;
+use App\Listeners\SendOrderConfirmedNotification;
 use App\Listeners\SendOrderCreatedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,8 +29,11 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         OrderCreated::class => [
-            SendOrderCreatedNotification::class,
-            DiscountOrderStock::class
+            SendOrderCreatedNotification::class
+        ],
+        OrderConfirmed::class => [
+            DiscountOrderStock::class,
+            SendOrderConfirmedNotification::class
         ]
     ];
 
