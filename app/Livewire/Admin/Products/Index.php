@@ -157,7 +157,7 @@ class Index extends Component
 
     public function getProducts()
     {
-        $products = Product::with('category');
+        $products = Product::with('category', 'operator');
 
         if (!empty(trim($this->search)))
         {

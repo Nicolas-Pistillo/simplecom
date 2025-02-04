@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\PaymentMethod;
-use App\Services\PaymentProviders\Mobbex;
 use App\Services\PaymentProviders\Modo;
 use App\Services\PaymentProviders\Nave;
 use Gloudemans\Shoppingcart\Facades\Cart;
