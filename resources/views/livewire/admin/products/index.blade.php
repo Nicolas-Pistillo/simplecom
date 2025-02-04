@@ -18,9 +18,7 @@
     @else
         <div x-data="{ showBulkDeleteConfirm: false }" 
         x-on:close-bulk-delete-dialog.window="showBulkDeleteConfirm = false">
-
-            {{--   NEW PRODUCTS TABLE BEGIN HERE   --}}
-            <section class="py-3 sm:py-5">
+            <section>
                 <div class="mx-auto max-w-screen-2xl">
                     <div class="relative shadow-md rounded-lg">
 
@@ -273,7 +271,7 @@
                                                         <x-button :href="$product->detailPageUrl()" blank type="secondary" 
                                                         class="flex items-center rounded-l-none"
                                                         x-tooltip.raw.placement.top="Ver producto en la tienda">
-                                                            <x-icon code="open_in_new" style="font-size: 16px" />
+                                                            <x-icon code="storefront" style="font-size: 16px" />
                                                         </x-button>
 
                                                     </span>

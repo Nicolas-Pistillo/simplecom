@@ -35,7 +35,7 @@ class Products extends Component
 
         $products->orderByType($this->form->order);
 
-        return $products->paginate(9);
+        return $products->paginate(24);
     }
 
     public function setCategory(Category $category)
@@ -44,11 +44,13 @@ class Products extends Component
 
         $this->form->categoryQuery = Str::slug($category->id . '-' . $category->name);
         $this->form->category = $category;
+
+        $this->setPage(1);
     }
 
-    public function updateForm()
+    public function updatedForm()
     {
-        $this->resetPage();
+        $this->setPage(1);
     }
 
     public function mount()

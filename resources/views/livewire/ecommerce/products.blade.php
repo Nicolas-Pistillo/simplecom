@@ -41,7 +41,7 @@
                                     <div class="w-full flex-col justify-start items-center lg:gap-11 md:gap-8 gap-6 flex">
                                         <div class="w-full flex-col justify-start items-center gap-4 flex">
 
-                                            <h2 class="text-center text-blue-600 text-3xl font-bold font-manrope leading-tight">
+                                            <h2 class="text-center text-gray-600 text-3xl font-bold font-manrope leading-tight">
                                                 Sin resultados
                                             </h2>
 
