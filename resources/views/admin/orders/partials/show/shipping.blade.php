@@ -1,4 +1,5 @@
-<div x-data="{confirmShippingCreate: false}" class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
+<div x-data="{confirmShippingCreate: false}" 
+class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="flex items-center justify-between">
 
@@ -100,36 +101,37 @@
     </div>
 
     <div class="mt-4 flex flex-wrap gap-3">
+
         @if ($order->shipping->status_code === ShippingStatusCode::CreationPending)
+        
             <x-button @click="confirmShippingCreate = true">Crear orden de envío</x-button>
-        @endif
-    </div>
 
-    <x-modal ref="confirmShippingCreate" type="info" icon="local_shipping">
+            <x-modal ref="confirmShippingCreate" closeOnClickAway type="info" icon="local_shipping">
 
-        <x-slot name="title">
-            Nueva orden de envío
-        </x-slot>
-    
-        <x-slot name="body">
-            Se creará una nueva orden de envío en {{ $order->shippingProvider->name }} 
-            y se le notificará al comprador que el pedido está listo para despachar.
-            <div class="mt-2">
-                <x-switch label="No volver a preguntar" />
-            </div>
-        </x-slot>
-    
-        <x-slot name="actions">
-    
-            <x-spinner wire:loading wire:target='deleteCategory' />
-    
-            <x-button type="secondary" wire:loading.remove wire:target='deleteCategory' 
-            @click="confirmShippingCreate = false">Cancelar</x-button>
-    
-            <x-button wire:click='deleteCategory' wire:loading.remove wire:target='deleteCategory' 
-            class="mx-3">Confirmar</x-button>
+                <x-slot name="title">Nueva orden de envío</x-slot>
             
-        </x-slot>
-    
-    </x-modal>
+                <x-slot name="body">
+                    Se creará una nueva orden de envío en {{ $order->shippingProvider->name }} 
+                    y se le notificará al comprador que el pedido está listo para despachar.
+                    <div class="mt-3">
+                        <x-switch label="No volver a preguntar" />
+                    </div>
+                </x-slot>
+            
+                <x-slot name="actions">
+            
+                    <x-spinner wire:loading wire:target='createShippingOrder' />
+            
+                    <x-button type="secondary" wire:loading.remove wire:target='createShippingOrder' 
+                    @click="confirmShippingCreate = false">Cancelar</x-button>
+            
+                    <x-button wire:click='createShippingOrder' wire:loading.remove wire:target='createShippingOrder' 
+                    class="mx-3">Confirmar</x-button>
+                    
+                </x-slot>
+            
+            </x-modal>
+        @endif
+
+    </div>
 </div>

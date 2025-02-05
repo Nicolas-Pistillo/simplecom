@@ -93,7 +93,7 @@
                                     class="ml-3 inline-flex items-center bg-white pl-1 pr-3 shadow rounded-full
                                 transition duration-300 hover:shadow-lg cursor-pointer"
                                     x-tooltip.raw.placement.right="Ver más productos de esta marca">
-                                    <img src="{{ $product->brand->image_url }}" class="w-8 h-8 rounded-full"
+                                    <img src="{{ $product->brand->image_url ?? URL::to('img/no-image-alt.png') }}" class="w-8 h-8 rounded-full"
                                         alt="brand-logo">
                                     <small class="ml-1 text-gray-700 font-semibold">{{ $product->brand->name }}</small>
                                 </span>

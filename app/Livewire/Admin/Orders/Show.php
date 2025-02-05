@@ -2,11 +2,19 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Enums\OrderFeedEvent;
+use App\Enums\OrderFeedPresentation;
+use App\Enums\OrderStatusCode;
 use App\Models\Order;
+use App\Models\OrderFeedItem;
+use App\Traits\Livewire\WithNotifications;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Show extends Component
 {
+    use WithNotifications;
+
     public $order;
 
     public function mount($order)
@@ -20,6 +28,36 @@ class Show extends Component
         );
 
         $this->order = $order;
+    }
+
+    public function setReadyForPickup()
+    {
+        $this->order->update(['status_code' => OrderStatusCode::PickupReady]);
+
+        OrderFeedItem::create([
+            'order_id'      => $this->order->id,
+            'event'         => OrderFeedEvent::StatusUpdate,
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => "marcó el pedido como listo para retirar en {$this->order->storePickup->name}",
+            'meta'          => [
+                'icon_code'  => 'inventory',
+                'icon_color' => 'indigo'
+            ]
+        ]);
+
+        $this->dispatch('close-confirm-pickup-ready');
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => 'Pedido actualizado',
+            'body'  => "¡Todo listo! ya notificamos a {$this->order->user->name} para que pase retirar el pedido"
+        ]);
+    }
+
+    public function createShippingOrder()
+    {
+        dd($this->order->shipping->calculated_rate);
     }
 
     public function render()

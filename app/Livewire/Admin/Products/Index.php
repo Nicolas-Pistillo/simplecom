@@ -176,7 +176,7 @@ class Index extends Component
             });
         }
 
-        return $products->paginate(10);
+        return $products->paginate(15);
     }
 
     public function render()

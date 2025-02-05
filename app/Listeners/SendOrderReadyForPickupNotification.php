@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderCreated;
+use App\Events\OrderReadyForPickup;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class SendOrderCreatedNotification
+class SendOrderReadyForPickupNotification
 {
     /**
      * Create the event listener.
@@ -20,12 +20,12 @@ class SendOrderCreatedNotification
     /**
      * Handle the event.
      */
-    public function handle(OrderCreated $event): void
+    public function handle(OrderReadyForPickup $event): void
     {
-        Log::channel('resources')->info('Disparar emails y notificaciones de nuevo pedido', [
+        Log::channel('resources')->info('Disparar emails y notificaciones de pedido listo para retirar', [
             'tenant'  => tenant('name'),
             'pedido' => $event->order->code,
-            'items'  => $event->order->items
+            'local'  => $event->order->storePickup->name
         ]);
     }
 }

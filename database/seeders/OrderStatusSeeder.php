@@ -82,7 +82,7 @@ class OrderStatusSeeder extends Seeder
             'name'            => 'Listo para entregar',
             'customer_name'   => 'Listo para retirar',
             'display_color'   => 'emerald',
-            'helper'          => 'Ya notificamos al comprador para que pase a retirar el pedido',
+            'helper'          => 'El comprador ya puede pasar a retirar el pedido',
             'customer_helper' => '¡Todo Listo! acercate a buscar tu pedido al punto de entrega'
         ]);
 

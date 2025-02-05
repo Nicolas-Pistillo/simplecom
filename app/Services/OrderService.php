@@ -97,6 +97,7 @@ class OrderService
             OrderShipping::create([
                 'order_id'          => $order->id,
                 'provider_id'       => $shippingProvider->id,
+                'user_address_id'   => session('selected_address.id'),
                 'status_code'       => ShippingStatusCode::CreationPending,
                 'provider_label'    => data_get($form->selected_rate, 'label'),
                 'provider_service'  => data_get($form->selected_rate, 'service_name'),

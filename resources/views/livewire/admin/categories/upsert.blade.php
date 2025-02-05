@@ -2,7 +2,7 @@
 
     <div x-data="{ categoriesDrawerOpen: false, deleteDialogOpen: false }" 
         x-on:close-drawer.window="categoriesDrawerOpen = false"
-        x-on:open-drawer.window="categoriesDrawerOpen = true" 
+        x-on:open-drawer.window="categoriesDrawerOpen = true; $nextTick(() => {document.getElementById('category_name_input').focus()})" 
         x-on:close-delete-dialog.window="deleteDialogOpen = false"
         x-on:open-delete-dialog.window="deleteDialogOpen = true">
 
