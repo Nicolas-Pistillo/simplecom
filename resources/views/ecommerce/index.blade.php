@@ -11,104 +11,126 @@
         @include('ecommerce.partials.banner-slider')
     @endif
 
+    {{-- Categories overview - model 1 --}}
+    {{-- <section class="mx-auto max-w-7xl py-16 lg:px-4">
+        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+            <div class="mb-4 flex items-center justify-between gap-4 md:mb-8">
+
+                <h4 class="text-2xl font-bold tracking-tight text-gray-900">
+                    Shop by category
+                </h4>
+
+                <a href="#" title=""
+                    class="flex items-center text-base font-medium text-primary-700 hover:underline dark:text-primary-500">
+                    See more categories
+                    <svg class="ms-1 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+                @for ($i = 0; $i < 15; $i++)
+                    <a href="#" class="flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50">
+                        <x-icon code="deployed_code" class="text-sm shrink-0 text-gray-900" />
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Collectibles &amp; Toys</span>
+                    </a>
+                @endfor
+            </div>
+        </div>
+    </section> --}}
+
+    {{-- Principal Categories --}}
+    @include('ecommerce.partials.principal-categories-section')
+
     {{-- Categories presentation --}}
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-        <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 mb-14">
-            <div class="flex flex-col lg:flex-row items-center justify-between w-full  max-lg:gap-6 mb-14">
-                <h1 class="font-manrope max-lg:text-center font-medium text-4xl sm:text-5xl sm:leading-snug text-black">
-                    Sophistication Finds Its Pinnacle <br> in Simplicity.
-                </h1>
-                <div class="flex items-center justify-end lg:justify-end gap-5">
+
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-8">
+            Novedades
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
+            <div class="flex flex-col gap-8">
+                <div class="rounded-2xl p-8 bg-emerald-100 ">
+                    <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
+                        Elevate your holiday joy with a festive 20% discount using code xzTnm
+                    </h6>
                     <button type="button"
-                        class="py-3.5 pl-8 pr-6 text-lg max-h-max bg-gray-900 text-white rounded-full cursor-pointer font-semibold text-center flex items-center gap-2 shadow-xs transition-all duration-500 hover:bg-gray-700">
-                        Shop Now
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
-                            fill="none">
-                            <path d="M8.25324 5.49609L13.7535 10.9963L8.25 16.4998" stroke="currentColor" stroke-width="1.6"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg></button>
-
+                        class="ml-auto flex w-max py-2 border border-gray-500 px-6 text-sm max-h-max bg-emerald-100 text-gray-900 rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500 hover:bg-black hover:text-white">
+                        Special Offer
+                    </button>
                 </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
-                <div class="flex flex-col gap-8">
-                    <div class="rounded-2xl p-8 bg-emerald-100 ">
-                        <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
-                            Elevate your holiday joy with a festive 20% discount using code xzTnm
-                        </h6>
-                        <button type="button"
-                            class="ml-auto flex w-max py-2 border border-gray-500 px-6 text-sm max-h-max bg-emerald-100 text-gray-900 rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500 hover:bg-black hover:text-white">
-                            Special Offer
-                        </button>
-                    </div>
-                    <a href="javascript:;" class="rounded-2xl relative group overflow-hidden cursor-pointer">
-                        <img src="https://pagedone.io/asset/uploads/1710392347.png" alt="men with t-shirt"
-                            class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
-                        <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
-                            <div class="block">
-                                <h4 class="font-medium text-4xl leading-snug text-white mb-1.5">
-                                    Man’s Shirt
-                                </h4>
-                                <p class="text-lg font-normal text-white">
-                                    Elevate your look with our stylish men's shirts, perfect for any occasion
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div
-                    class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
-                    <a href="javascript:;" class="rounded-2xl relative group overflow-hidden">
-                        <img src="https://pagedone.io/asset/uploads/1710392359.png" alt="men with t-shirt"
-                            class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3  rounded-2xl object-cover">
-                        <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
-                            <div class="block">
-                                <h4 class="font-medium text-4xl leading-snug text-white ">
-                                    Men <br>
-                                    Collection
-                                </h4>
-
-                            </div>
-                        </div>
-                    </a>
-                    <a href="javascript:;" class="rounded-2xl relative group overflow-hidden">
-                        <img src="https://pagedone.io/asset/uploads/1710392370.png" alt="men with t-shirt"
-                            class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
-                        <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
-                            <div class="block">
-                                <h4 class="font-manrope font-medium text-4xl leading-snug text-white ">
-                                    Women <br>
-                                    Collection
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="rounded-2xl relative overflow-hidden group">
-                    <img src="https://pagedone.io/asset/uploads/1710392382.png" alt="men with t-shirt"
+                <a href="javascript:;" class="rounded-2xl relative group overflow-hidden cursor-pointer">
+                    <img src="https://pagedone.io/asset/uploads/1710392347.png" alt="men with t-shirt"
                         class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
                     <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
                         <div class="block">
-                            <h4 class="font-manrope font-medium text-4xl leading-snug text-white mb-2">
-                                Girl’s Top
+                            <h4 class="font-medium text-4xl leading-snug text-white mb-1.5">
+                                Man’s Shirt
                             </h4>
-                            <p class="text-lg font-normal text-white leading-relaxed mb-2">
-                                Everyday allure, wrapped in mystery
+                            <p class="text-lg font-normal text-white">
+                                Elevate your look with our stylish men's shirts, perfect for any occasion
                             </p>
-                            <button type="button"
-                                class="w-max py-2 bg-white hover:bg-gray-100 px-5 text-black text-sm leading-6 font-medium max-h-max rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500">
-                                Shop Now
-                            </button>
                         </div>
+                    </div>
+                </a>
+            </div>
+            <div
+                class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
+                <a href="javascript:;" class="rounded-2xl relative group overflow-hidden">
+                    <img src="https://pagedone.io/asset/uploads/1710392359.png" alt="men with t-shirt"
+                        class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3  rounded-2xl object-cover">
+                    <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
+                        <div class="block">
+                            <h4 class="font-medium text-4xl leading-snug text-white ">
+                                Men <br>
+                                Collection
+                            </h4>
+
+                        </div>
+                    </div>
+                </a>
+                <a href="javascript:;" class="rounded-2xl relative group overflow-hidden">
+                    <img src="https://pagedone.io/asset/uploads/1710392370.png" alt="men with t-shirt"
+                        class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
+                    <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
+                        <div class="block">
+                            <h4 class="font-manrope font-medium text-4xl leading-snug text-white ">
+                                Women <br>
+                                Collection
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="rounded-2xl relative overflow-hidden group">
+                <img src="https://pagedone.io/asset/uploads/1710392382.png" alt="men with t-shirt"
+                    class="relative w-full h-full transition-all duration-1000 group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">
+                <div class="absolute top-0 left-0 p-8 w-full h-full flex items-end">
+                    <div class="block">
+                        <h4 class="font-manrope font-medium text-4xl leading-snug text-white mb-2">
+                            Girl’s Top
+                        </h4>
+                        <p class="text-lg font-normal text-white leading-relaxed mb-2">
+                            Everyday allure, wrapped in mystery
+                        </p>
+                        <button type="button"
+                            class="w-max py-2 bg-white hover:bg-gray-100 px-5 text-black text-sm leading-6 font-medium max-h-max rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500">
+                            Shop Now
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-      
+
     {{-- Featured products section --}}
     @if ($featuredProducts->isNotEmpty())
-        @include('ecommerce.partials.featured-section')
+        @include('ecommerce.partials.featured-products-section')
     @endif
 
     <!-- Advicements/Features -->
@@ -140,7 +162,7 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/plus/img/ecommerce/icons/icon-delivery-light.svg"
                                 alt="">
                         </div>
                     </div>
@@ -154,7 +176,7 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-warranty-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/plus/img/ecommerce/icons/icon-warranty-light.svg"
                                 alt="">
                         </div>
                     </div>
@@ -167,7 +189,7 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/plus/img/ecommerce/icons/icon-returns-light.svg"
                                 alt="">
                         </div>
                     </div>
@@ -180,7 +202,7 @@
                 <div class="sm:flex">
                     <div class="sm:flex-shrink-0">
                         <div class="flow-root">
-                            <img class="h-24 w-28" src="https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg"
+                            <img class="h-24 w-28" src="https://tailwindui.com/plus/img/ecommerce/icons/icon-planet-light.svg"
                                 alt="">
                         </div>
                     </div>

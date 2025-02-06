@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\OrderConfirmed;
 use App\Events\OrderCreated;
+use App\Events\OrderReadyForPickup;
 use App\Listeners\DiscountOrderStock;
+use App\Listeners\SendOrderConfirmedNotification;
 use App\Listeners\SendOrderCreatedNotification;
+use App\Listeners\SendOrderReadyForPickupNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,8 +31,14 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         OrderCreated::class => [
-            SendOrderCreatedNotification::class,
-            DiscountOrderStock::class
+            SendOrderCreatedNotification::class
+        ],
+        OrderConfirmed::class => [
+            DiscountOrderStock::class,
+            SendOrderConfirmedNotification::class
+        ],
+        OrderReadyForPickup::class => [
+            SendOrderReadyForPickupNotification::class
         ]
     ];
 

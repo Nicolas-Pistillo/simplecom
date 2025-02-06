@@ -1,6 +1,6 @@
 <div>
     <section x-data="{ open: false }" class="relative"
-        x-on:open-new-store-pickup-panel.window="open = true; $nextTick(() => {document.getElementById('new-address-search').focus()})"
+        x-on:open-new-store-pickup-panel.window="open = true; $nextTick(() => {document.getElementById('new-store-pickup-search').focus()})"
         x-on:close-new-store-pickup-panel.window="open = false">
         <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative z-40">
 
@@ -22,7 +22,7 @@
                                 <div class="flex items-center justify-between mb-3">
 
                                     <h6 class="text-lg font-bold leading-8 text-gray-900">
-                                        {{ empty($selected_address) ? 'Nuevo' : 'Confirmar' }} punto de retiro
+                                        {{ empty($selected_address) ? 'Nuevo' : 'Confirmar' }} retiro en tienda
                                     </h6>
 
                                     <x-icon code="close" @click="open = false"
@@ -151,7 +151,7 @@
                                             <x-icon code="search" class="text-gray-500" />
                                         </div>
 
-                                        <input type="search" wire:model.live.debounce.300='search' id="new-address-search"
+                                        <input type="search" wire:model.live.debounce.300='search' id="new-store-pickup-search"
                                             class="bg-white borderborder-gray-300 text-gray-900 text-sm 
                                             rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                                             autocomplete="off" placeholder="Buscá y seleccioná la dirección" />

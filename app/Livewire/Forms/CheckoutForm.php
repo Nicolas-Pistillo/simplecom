@@ -3,6 +3,8 @@
 namespace App\Livewire\Forms;
 
 use App\Enums\DeliveryType;
+use App\Models\PaymentMethod;
+use App\Models\StorePickup;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -26,6 +28,8 @@ class CheckoutForm extends Form
 
     #[Validate('required', as: 'tipo de entrega')]
     public $delivery_type = DeliveryType::Shipping;
+
+    public $store_pickups, $selected_store_pickup;
 
     public $addresses, $selected_address;
 
@@ -62,6 +66,8 @@ class CheckoutForm extends Form
                 'phone'             => Auth::user()->phone,
                 'document'          => Auth::user()->document,
                 'addresses'         => Auth::user()->addresses,
+                'payment_methods'   => PaymentMethod::where('active', true)->get(),
+                'store_pickups'     => StorePickup::where('active', true)->get(),
                 'delivery_type'     => session('delivery_type') ?? DeliveryType::Shipping,
                 'selected_address'  => session('selected_address'),
                 'selected_rate'     => session('selected_rate'),
@@ -76,6 +82,8 @@ class CheckoutForm extends Form
             'phone'             => session('guest_customer.phone'),
             'document'          => session('guest_customer.document'),
             'addresses'         => collect(session('guest_customer.addresses')) ?? collect(),
+            'payment_methods'   => PaymentMethod::where('active', true)->get(),
+            'store_pickups'     => StorePickup::where('active', true)->get(),
             'delivery_type'     => session('delivery_type') ?? DeliveryType::Shipping,
             'selected_address'  => session('selected_address'),
             'selected_rate'     => session('selected_rate'),

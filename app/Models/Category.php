@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
     use HasFactory;
+
+    protected $appends = ['image'];
 
     protected $fillable = [
         'name', 
@@ -35,6 +40,13 @@ class Category extends Model
         return $this->childs()->count() > 0;
     }
 
+    public function pageUrl()
+    {
+        return route('ecommerce.products', [
+            'categoria' => Str::slug($this->id. '-' . $this->name)
+        ]);
+    }
+
     public function scopePrincipal(Builder $query): void
     {
         $query->whereNull('category_father');
@@ -43,5 +55,11 @@ class Category extends Model
     public function scopePublished(Builder $query): void
     {
         $query->where('published', true);
+    }
+
+    public function getImageAttribute()
+    {
+        return !empty($this->image_url) ? Storage::url($this->image_url)
+                                        : URL::to('img/no-image-alt.png');
     }
 }

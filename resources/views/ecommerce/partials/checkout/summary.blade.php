@@ -111,7 +111,7 @@
                 <dt class="text-sm">
                     {{ $form->delivery_type === DeliveryType::Shipping ? 'Envío' : 'Retiro' }}
                 </dt>
-                <dd class="text-sm font-medium text-gray-900">
+                <dd class="text-sm font-medium text-gray-900 truncate max-w-[70%]">
                     @if ($form->delivery_type === DeliveryType::Shipping)
                         
                         @if (isset($form->selected_rate))
@@ -121,7 +121,11 @@
                         @endif
 
                     @elseif($form->delivery_type === DeliveryType::Picking)
-                        No calculado
+                        @if (isset($form->selected_store_pickup))
+                            {{ App\Models\StorePickup::find($form->selected_store_pickup)->name }}
+                        @else
+                            No seleccionado
+                        @endif
                     @endif
                 </dd>
             </div>

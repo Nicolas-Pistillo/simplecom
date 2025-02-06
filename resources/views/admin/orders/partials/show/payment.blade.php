@@ -6,8 +6,8 @@
 
             <h4 class="text-sm/6 font-semibold text-gray-900">Detalle de pago</h4>
 
-            <x-badge :color="$order->payment->status->display_color">
-                {{ $order->payment->status->name }}
+            <x-badge :color="$order->payment?->status->display_color">
+                {{ $order->payment?->status->name }}
             </x-badge>
         </div>
 
@@ -16,12 +16,18 @@
             alt="Logo {{ $order->paymentMethod->display_name }}">
     </div>
 
-    <h5 class="mb-3 text-sm text-gray-700"> {{ $order->payment->status->helper }} </h5>
+    <h5 class="mb-3 text-sm text-gray-700"> {{ $order->payment?->status->helper }} </h5>
+
+    @if (!$order->payment)
+        <h5 class="mb-3 text-sm text-red-500"> 
+            Ocurrio un error al recuperar la información del pago
+        </h5>
+    @endif
 
     {{-- Principal Info --}}
     <div class="flex flex-wrap gap-3">
 
-        @if (!empty($order->payment->external_id))
+        @if (!empty($order->payment?->external_id))
             <div class="flex flex-col p-2">
                 <small class="text-xs text-gray-500 font-semibold">
                     ID externo
@@ -142,9 +148,9 @@
 
     @endif
 
-    {{-- Actions
     <div class="mt-4 flex flex-wrap gap-3">
-        <x-button>Imprimir etiqueta</x-button>
-        <x-button type="secondary">Ver seguimiento</x-button>
-    </div> --}}
+        @if ($order->payment?->status_code === PaymentStatusCode::TransferPending)
+            <x-button>Ya recibí el pago</x-button>
+        @endif
+    </div>
 </div>

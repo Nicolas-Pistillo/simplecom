@@ -312,7 +312,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name'  => 'Clave de acceso',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Clave de acceso',
-            'helper'        => 'La encontrarás en tu panel dentro de la sección integraciones > Punto de cobro > Ver clave de acceso',
+            'helper'        => 'La encontrarás en tu panel dentro de la sección Integraciones > Punto de cobro > Ver clave de acceso',
             'required'      => true
         ]);
 
@@ -331,6 +331,24 @@ class TenantConfigurationSeeder extends Seeder
             'topic'         =>  ConfigurationTopics::PaymentMethods,
             'description'   => 'Client secret generado en dashboard',
             'helper'        => 'Podes generar estas claves en la sección Comercios > Credenciales de tu dashboard',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'viumi_client_id',
+            'display_name'  => 'Client ID',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client ID generado por viüMi',
+            'helper'        => 'Debes solicitar estas claves a viüMi para activar el botón de pago web',
+            'required'      => true
+        ]);
+
+        Configuration::create([
+            'key'           => 'viumi_client_secret',
+            'display_name'  => 'Client Secret',
+            'topic'         =>  ConfigurationTopics::PaymentMethods,
+            'description'   => 'Client Secret generado por viüMi',
+            'helper'        => 'Debes solicitar estas claves a viüMi para activar el botón de pago web',
             'required'      => true
         ]);
 

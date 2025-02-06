@@ -23,7 +23,8 @@ class SendOrderCreatedNotification
     public function handle(OrderCreated $event): void
     {
         Log::channel('resources')->info('Disparar emails y notificaciones de nuevo pedido', [
-            'pedido' => $event->order,
+            'tenant'  => tenant('name'),
+            'pedido' => $event->order->code,
             'items'  => $event->order->items
         ]);
     }

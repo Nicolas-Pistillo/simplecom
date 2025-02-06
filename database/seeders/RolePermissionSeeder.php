@@ -14,33 +14,33 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         /******* PERMISSIONS *******/
-        $editCategories = Permission::create(['name' => 'Editar categorias', 'guard_name' => 'operator']);
+        $editCategories = Permission::firstOrCreate(['name' => 'Editar categorias', 'guard_name' => 'operator']);
 
-        $editBrands = Permission::create(['name' => 'Editar marcas', 'guard_name' => 'operator']);
+        $editBrands = Permission::firstOrCreate(['name' => 'Editar marcas', 'guard_name' => 'operator']);
 
-        $viewProducts = Permission::create((['name' => 'Ver productos', 'guard_name' => 'operator']));
+        $viewProducts = Permission::firstOrCreate((['name' => 'Ver productos', 'guard_name' => 'operator']));
 
-        $editProducts = Permission::create((['name' => 'Editar productos', 'guard_name' => 'operator']));
+        $editProducts = Permission::firstOrCreate((['name' => 'Editar productos', 'guard_name' => 'operator']));
 
-        $editBanners = Permission::create(['name' => 'Editar banners', 'guard_name' => 'operator']);
+        $editBanners = Permission::firstOrCreate(['name' => 'Editar banners', 'guard_name' => 'operator']);
 
-        $editOperators = Permission::create(['name' => 'Editar operadores', 'guard_name' => 'operator']);
+        $editOperators = Permission::firstOrCreate(['name' => 'Editar operadores', 'guard_name' => 'operator']);
 
-        $editAttributes = Permission::create(['name' => 'Editar atributos', 'guard_name' => 'operator']);
+        $editAttributes = Permission::firstOrCreate(['name' => 'Editar atributos', 'guard_name' => 'operator']);
 
-        $editPaymentMethods = Permission::create(['name' => 'Editar formas de pago', 'guard_name' => 'operator']);
+        $editPaymentMethods = Permission::firstOrCreate(['name' => 'Editar formas de pago', 'guard_name' => 'operator']);
 
-        $editDeliveryMethods = Permission::create(['name' => 'Editar formas de entrega', 'guard_name' => 'operator']);
+        $editDeliveryMethods = Permission::firstOrCreate(['name' => 'Editar formas de entrega', 'guard_name' => 'operator']);
 
-        $editConfigs = Permission::create(['name' => 'Editar configuraciones', 'guard_name' => 'operator']);
+        $editConfigs = Permission::firstOrCreate(['name' => 'Editar configuraciones', 'guard_name' => 'operator']);
 
-        $viewOrders = Permission::create(['name' => 'Ver ventas', 'guard_name' => 'operator']);
+        $viewOrders = Permission::firstOrCreate(['name' => 'Ver ventas', 'guard_name' => 'operator']);
 
-        $editOrders = Permission::create(['name' => 'Editar ventas', 'guard_name' => 'operator']);
+        $editOrders = Permission::firstOrCreate(['name' => 'Editar ventas', 'guard_name' => 'operator']);
 
         /******* ROLES *******/
-        $admin = Role::create(['name' => 'Administrador', 'guard_name' => 'operator']);
-        $contentManager = Role::create(['name' => 'Editor de contenido', 'guard_name' => 'operator']);
+        $admin = Role::firstOrCreate(['name' => 'Administrador', 'guard_name' => 'operator']);
+        $contentManager = Role::firstOrCreate(['name' => 'Editor de contenido', 'guard_name' => 'operator']);
 
         /******* ATTACH PERMISSIONS TO ROLES *******/
         $admin->syncPermissions([

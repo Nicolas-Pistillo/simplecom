@@ -33,9 +33,6 @@ Route::middleware([
         Route::get('payment-providers/{provider}/{order}/return', [PaymentReturnController::class, 'handler'])
             ->name('payment.return');
 
-        /* Route::post('payment-providers/{provider}/{order}/webhook', [PaymentWebhookController::class, 'handler'])
-            ->name('payment.webhook'); */
-
         Route::post('payment-providers/modo-payment-intention/{order}', function(Order $order) 
         {
             $modo = new Modo();
@@ -46,7 +43,7 @@ Route::middleware([
         // Ecommerce navigation
         Route::get('/', [EcommerceController::class, 'index'])->name('ecommerce.index');
 
-        Route::get('productos', [EcommerceController::class, 'products'])->name('ecommerce.products');
+        Route::view('productos', 'ecommerce.products')->name('ecommerce.products');
 
         Route::get('productos/{productName}/{product}', [EcommerceController::class, 'productDetail'])
             ->name('ecommerce.product-detail');

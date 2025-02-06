@@ -3,6 +3,7 @@
 namespace App\Services\PaymentProviders;
 
 use App\Interfaces\PaymentGateway;
+use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
@@ -19,31 +20,48 @@ class Stripe implements PaymentGateway
         return PaymentMethod::where('code', 'stripe')->first();
     }
 
-    public function generateCheckout($order)
+    public function generateCheckout(Order $order)
     {
-      $stripe_secret = tenant()->configValue('stripe_secret');
+      $client = new StripeClient($this->key('stripe_secret'));
 
-      $client = new StripeClient($stripe_secret);
+      $items = [];
 
-      $checkout = $client->checkout->sessions->create([
-        'line_items' => [
-          [
-            'quantity' => 2,
-            'price_data' => [
-              'currency' => 'ars',
-              'unit_amount' => 150000,
-              'product_data' => [
-                'images' => ['https://acdn.mitiendanube.com/stores/002/207/813/products/whatsapp-image-2023-05-30-at-17-32-121-0f48e0907a5c464d1516854788746781-480-0.jpeg'],
-                'name' => 'Zapatillas jordan BLue edition red black',
-                'description' => 'Las mejores zapatillas del mercadoa ctualmente y un poco mas de texto'
+      foreach($order->items as $item)
+      {
+        array_push($items, [
+          'quantity'          => $item->quantity,
+            'price_data'      => [
+              'currency'      => 'ars',
+              'unit_amount'   => floatval($item->sell_price) * 100,
+              'product_data'  => [
+                'images'      => [$item->product->first_image],
+                'name'        => $item->name,
+                'description' => $item->description ?? 'Sin descripción'
               ]
             ]
-          ],
-        ],
-        'mode' => 'payment',
-        'success_url' => route('payment.return', ['provider' => 'stripe']),
-        'cancel_url' => route('payment.return', ['provider' => 'stripe']),
+        ]);
+      }
+
+      if ($order->shipping_cost > 0)
+      {
+        array_push($items, [
+          'quantity'          => 1,
+            'price_data'      => [
+              'currency'      => 'ars',
+              'unit_amount'   => floatval($order->shipping_cost) * 100,
+              'product_data'  => ['name' => 'Envío']
+            ]
+        ]);
+      }
+
+      $checkout = $client->checkout->sessions->create([
+        'line_items'  => $items,
+        'mode'        => 'payment',
+        'success_url' => $order->paymentReturn(),
+        'cancel_url'  => $order->paymentReturn(),
       ]);
+
+      dd($checkout);
 
       $this->provider_checkout_url = $checkout->url;
     }

@@ -99,8 +99,8 @@ class Product extends Model
 
     public function scopeAvailable(Builder $query): void
     {
-        $query->where(function ($query) {
-
+        $query->where(function ($query) 
+        {
             $query->where('published', 1)
                 ->where('stock', '>', 0)
                 ->whereHas('category', function($q) {
@@ -114,8 +114,41 @@ class Product extends Model
         });
     }
 
+    public function scopeOrderByType(Builder $query, $orderType)
+    {
+        switch ($orderType)
+        {
+            case 'relevantes':   $query->orderByRelevants();  break;
+            case 'nuevos':       $query->orderByNews();       break;
+            case 'menor_precio': $query->orderByCheaps();     break;
+            case 'mayor_precio': $query->orderByExpensives(); break;
+            default:             $query->orderByRelevants();
+        }
+    }
+
+    public function scopeOrderByRelevants(Builder $query): void
+    {
+        $query->orderBy('featured', 'DESC')
+              ->orderBy('discount_percent', 'DESC');
+    }
+
+    public function scopeOrderByNews(Builder $query)
+    {
+        $query->orderBy('created_at', 'DESC');
+    }
+
+    public function scopeOrderByCheaps(Builder $query): void
+    {
+        $query->orderBy('price');
+    }
+
+    public function scopeOrderByExpensives(Builder $query): void
+    {
+        $query->orderBy('price', 'DESC');
+    }
+
     public function scopeFeatured(Builder $query): void
     {
-        $query->where('featured', 1);
+        $query->where('featured', true);
     }
 }

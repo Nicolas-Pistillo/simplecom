@@ -157,13 +157,14 @@ class Index extends Component
 
     public function getProducts()
     {
-        $products = Product::with('category');
+        $products = Product::with('category', 'operator');
 
         if (!empty(trim($this->search)))
         {
             $search = trim($this->search);
 
             $products->where('name', 'LIKE', "%$search%");
+            $products->orWhere('id', 'LIKE', "%$search%");
             $products->orWhere('code', 'LIKE', "%$search%");
 
             $products->orWhereHas('category', function($query) use ($search) {
@@ -175,7 +176,7 @@ class Index extends Component
             });
         }
 
-        return $products->paginate(10);
+        return $products->paginate(15);
     }
 
     public function render()

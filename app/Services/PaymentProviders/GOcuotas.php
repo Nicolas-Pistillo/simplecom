@@ -76,7 +76,6 @@ class GOcuotas implements PaymentGateway
             'order_id'     => $order->id,
             'provider_id'  => $this->model()->id,
             'checkout_url' => data_get($response, 'url_init'),
-            'total_paid'   => data_get($response, 'amount_in_cents') / 100,
             'status_code'  => PaymentStatusCode::Created,
             'meta'         => [
                 [

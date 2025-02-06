@@ -73,6 +73,11 @@ class NewAddressPanel extends Component
 
             if (Auth::guest())
             {
+                if (session('guest_customer.id'))
+                {
+                    $newAddress->update(['user_id' => session('guest_customer.id')]);
+                }
+
                 session()->push('guest_customer.addresses', $newAddress);
             }
 

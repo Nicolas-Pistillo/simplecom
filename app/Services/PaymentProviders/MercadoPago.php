@@ -18,6 +18,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use MercadoPago\Client\Preference\PreferenceClient;
+use MercadoPago\Exceptions\MPApiException;
 use MercadoPago\MercadoPagoConfig;
 
 class MercadoPago implements PaymentGateway
@@ -52,16 +53,16 @@ class MercadoPago implements PaymentGateway
 
         $items = [];
 
-        foreach(Cart::content() as $item)
+        foreach($order->items as $item)
         {
             array_push($items, [
                 'id'          => $item->id,
                 'title'       => $item->name,
-                'quantity'    => $item->qty,
-                'unit_price'  => $item->price,
-                'picture_url' => $item->options->image_url ?? URL::to('img/no-image.png'),
-                'description' => $item->model->description,
-                'category_id' => $item->model->category_id
+                'quantity'    => $item->quantity,
+                'unit_price'  => floatval($item->sell_price),
+                'picture_url' => $item->product->first_image,
+                'description' => $item->product->description,
+                'category_id' => $item->category_id
             ]);
         }
 
@@ -71,6 +72,15 @@ class MercadoPago implements PaymentGateway
             'notification_url' => $order->paymentWebhook(),
             'statement_descriptor' => tenant('ecommerce_name'),
             'external_reference' => "Pedido $order->code",
+            'payer'     => [
+                'name'    => $order->user->name,
+                'surname' => $order->user->lastname,
+                'email'   => $order->user->email,
+                'identification' => [
+                    'type'   => 'DNI',
+                    'number' => $order->user->document
+                ]
+            ],
             'back_urls' => [
                 'success' => $order->paymentReturn(),
                 'failure' => $order->paymentReturn(),
@@ -91,21 +101,10 @@ class MercadoPago implements PaymentGateway
         OrderPayment::create([
             'order_id'     => $order->id,
             'checkout_url' => $preference->init_point,
+            'intention_id' => $preference->id,
             'status_code'  => PaymentStatusCode::Created,
             'provider_id'  => $this->model()->id,
             'meta'         => [
-                [
-                    'name'  => 'ID prefrencia',
-                    'value' => $preference->id
-                ],
-                [
-                    'name'  => 'ID colector',
-                    'value' => $preference->collector_id
-                ],
-                [
-                    'name'  => 'Fecha inicio',
-                    'value' => Carbon::parse($preference->date_created)->format('d/m/Y H:i:s')
-                ],
                 [
                     'name'  => 'Tipo operacion',
                     'value' => $preference->operation_type

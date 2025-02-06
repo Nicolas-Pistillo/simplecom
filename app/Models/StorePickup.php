@@ -21,12 +21,12 @@ class StorePickup extends Model
 
         if (!empty($this->floor))
         {
-            $address .= " | Piso $this->floor";
+            $address .= " Piso $this->floor";
         }
 
         if (!empty($this->local))
         {
-            $address .= " | Local $this->local";
+            $address .= " Local $this->local";
         }
 
         return $address;

@@ -21,9 +21,10 @@ class OrderService
 {
     public static function createFromCheckout(CheckoutForm $form)
     {
-        $userId = Auth::id();
+        $userId = Auth::id() ?? session('guest_customer.id');
 
         $orderWithShipping = $form->delivery_type === DeliveryType::Shipping && !empty($form->selected_rate);
+        $storePickupId = $form->delivery_type === DeliveryType::Picking ? $form->selected_store_pickup : null;
         $shippingProvider = null;
         $shippingCost = 0;
 
@@ -35,7 +36,9 @@ class OrderService
 
         if (Auth::guest())
         {
-            $user = User::create([
+            $user = User::updateOrCreate(
+            ['id' => session('guest_customer.id')],
+            [
                 'type'      => CustomerType::Guest,
                 'name'      => session('guest_customer.name'),
                 'lastname'  => session('guest_customer.lastname'),
@@ -45,6 +48,8 @@ class OrderService
             ]);
 
             $userId = $user->id;
+
+            session()->put('guest_customer.id', $userId);
 
             if (!empty(session('guest_customer.addresses')))
             {
@@ -60,6 +65,7 @@ class OrderService
             'user_id'              => $userId,
             'status_code'          => OrderStatusCode::Created,
             'delivery_type'        => $form->delivery_type,
+            'store_pickup_id'      => $storePickupId,
             'shipping_cost'        => $shippingCost,
             'shipping_provider_id' => $shippingProvider?->id,
             'payment_method_id'    => $form->selected_payment_method,
@@ -91,6 +97,7 @@ class OrderService
             OrderShipping::create([
                 'order_id'          => $order->id,
                 'provider_id'       => $shippingProvider->id,
+                'user_address_id'   => session('selected_address.id'),
                 'status_code'       => ShippingStatusCode::CreationPending,
                 'provider_label'    => data_get($form->selected_rate, 'label'),
                 'provider_service'  => data_get($form->selected_rate, 'service_name'),
