@@ -1,7 +1,7 @@
 <div>
     <section x-data="{ open: false }" class="relative"
-        x-on:open-new-store-pickup-panel.window="open = true; $nextTick(() => {document.getElementById('new-store-pickup-search').focus()})"
-        x-on:close-new-store-pickup-panel.window="open = false">
+        x-on:open-new-collection-point.window="open = true; $nextTick(() => {document.getElementById('new-collection-point-search').focus()})"
+        x-on:close-new-collection-point.window="open = false">
         <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative z-40">
 
             <div x-cloak x-show="open" class="w-full relative flex justify-center">
@@ -22,7 +22,7 @@
                                 <div class="flex items-center justify-between mb-3">
 
                                     <h6 class="text-lg font-bold leading-8 text-gray-900">
-                                        {{ empty($selected_address) ? 'Nuevo' : 'Confirmar' }} retiro en tienda
+                                        {{ empty($selected_address) ? 'Nuevo' : 'Confirmar' }} punto de colecta
                                     </h6>
 
                                     <x-icon code="close" @click="open = false"
@@ -49,31 +49,13 @@
                                                 flex items-center ps-3 pointer-events-none">Nombre:</span>
 
                                                 <input type="text" wire:model.blur='name'
-                                                placeholder="Ej: Sucursal Avellaneda..."
+                                                placeholder="Ej: Depósito pricipal..."
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.5rem]">
                                 
                                             </div>
 
                                             @error('name')
-                                                <small class="text-red-500">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-span-full">
-                                            <div class="relative mt-1">
-
-                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
-                                                flex items-center ps-3 pointer-events-none">Horarios:</span>
-
-                                                <input type="text" wire:model.blur='schedule'
-                                                placeholder="Ej: Lunes a viernes de 08:00 a 18:00..."
-                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
-                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.6rem]">
-                                
-                                            </div>
-
-                                            @error('schedule')
                                                 <small class="text-red-500">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -107,7 +89,7 @@
                                         <div class="col-span-full">
                                             <div class="relative mt-1">
 
-                                                <textarea rows="2" placeholder="Aclaraciones (presentar DNI, otra documentación etc.)"
+                                                <textarea rows="2" placeholder="Aclaraciones/Detalles de la dirección"
                                                 wire:model.blur='observations'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm"></textarea>
@@ -115,10 +97,92 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-span-full mt-1 flex items-center">
+
+                                            <h5 class="text-xs text-gray-500">
+                                                Datos del encargado
+                                            </h5>
+
+                                            <x-icon code="help" 
+                                            class="ml-1 text-blue-600 cursor-help" 
+                                            x-tooltip.raw="Será el responsable de establecer la comunicación con el proveedor
+                                            logístico y atender la operatoria de las colectas y despachos"
+                                            style="font-size: 20px"
+                                            />
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">Nombre:</span>
+
+                                                <input type="text" wire:model.blur='staff_name'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.5rem]">
+                                
+                                            </div>
+
+                                            @error('staff_name')
+                                                <small class="text-red-500">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">Email:</span>
+
+                                                <input type="text" wire:model.blur='staff_email'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[3.4rem]">
+                                
+                                            </div>
+
+                                            @error('staff_email')
+                                                <small class="text-red-500">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-span-6">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">Teléfono:</span>
+
+                                                <input type="number" wire:model.blur='staff_phone'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.3rem]">
+                                
+                                            </div>
+
+                                            @error('staff_phone')
+                                                <small class="text-red-500">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-span-6">
+                                            <div class="relative mt-1">
+
+                                                <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
+                                                flex items-center ps-3 pointer-events-none">DNI:</span>
+
+                                                <input type="number" wire:model.blur='staff_document'
+                                                class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[2.4rem]">
+                                
+                                            </div>
+
+                                            @error('staff_document')
+                                                <small class="text-red-500">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+
                                     </div>
 
                                     <gmp-map wire:ignore center="{{ $selected_address['lat_lng'] }}" 
-                                    zoom="18" map-id="selected_address_map" class="mt-4 h-[130px] md:h-[250px] rounded-lg shadow-md">
+                                    zoom="18" map-id="selected_address_map" class="mt-4 h-[130px] md:h-[200px] rounded-lg shadow-md">
                                         <gmp-advanced-marker position="{{ $selected_address['lat_lng'] }}"></gmp-advanced-marker>
                                     </gmp-map>
 
@@ -151,7 +215,7 @@
                                             <x-icon code="search" class="text-gray-500" />
                                         </div>
 
-                                        <input type="search" wire:model.live.debounce.300='search' id="new-store-pickup-search"
+                                        <input type="search" wire:model.live.debounce.300='search' id="new-collection-point-search"
                                             class="bg-white borderborder-gray-300 text-gray-900 text-sm 
                                             rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                                             autocomplete="off" placeholder="Buscá y seleccioná la dirección" />

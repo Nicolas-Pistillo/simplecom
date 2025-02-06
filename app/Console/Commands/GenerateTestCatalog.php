@@ -18,7 +18,7 @@ class GenerateTestCatalog extends Command
      *
      * @var string
      */
-    protected $signature = 'simplecom:generate-catalog {--tenant=}';
+    protected $signature = 'simplecom:generate-catalog {--tenant=} {--extense}';
 
     /**
      * The console command description.
@@ -105,59 +105,62 @@ class GenerateTestCatalog extends Command
             if ($model->wasRecentlyCreated) $productCount++;
         }
 
-        $dummyJsonAvailable = Http::get('https://dummyjson.com/test')->json('status');
-
-        if ($dummyJsonAvailable != 'ok') return;
-
-        // Retrieved from DummyJSON Products API - https://dummyjson.com/docs/products
-        $products = Http::get('https://dummyjson.com/products')->collect('products');
-
-        if ($products->isEmpty()) return;
-
-        foreach($products as $product)
+        if($this->option('extense'))
         {
-            $categoryName = ucfirst(data_get($product, 'category'));
-            $brandName = ucfirst(data_get($product, 'brand'));
+            $dummyJsonAvailable = Http::get('https://dummyjson.com/test')->json('status');
 
-            $category = Category::firstOrCreate(['name' => $categoryName]);
+            if ($dummyJsonAvailable != 'ok') return;
 
-            $brand = !empty($brandName) ? Brand::firstOrCreate(['name' => $brandName])
-                                        : null;
-            
-            $model = Product::firstOrCreate(['code' => data_get($product, 'sku')], 
-            [
-                'name'              => data_get($product, 'title'),
-                'published'         => true,
-                'description'       => data_get($product, 'description'),
-                'price'             => data_get($product, 'price') * 100,
-                'discount_percent'  => intval(data_get($product, 'discountPercentage', 0)),
-                'category_id'       => $category->id,
-                'brand_id'          => $brand?->id,
-                'stock'             => 50,
-                'width'             => data_get($product, 'dimensions.width'),
-                'height'            => data_get($product, 'dimensions.height'),
-                'length'            => data_get($product, 'dimensions.depth'),
-                'weight'            => data_get($product, 'weight'),
-                'created_by'        => 1
-            ]);
+            // Retrieved from DummyJSON Products API - https://dummyjson.com/docs/products
+            $products = Http::get('https://dummyjson.com/products')->collect('products');
 
-            if (empty($model->images()->count()))
+            if ($products->isEmpty()) return;
+
+            foreach($products as $product)
             {
-                foreach(data_get($product, 'images', []) as $index => $imageUrl)
+                $categoryName = ucfirst(data_get($product, 'category'));
+                $brandName = ucfirst(data_get($product, 'brand'));
+
+                $category = Category::firstOrCreate(['name' => $categoryName]);
+
+                $brand = !empty($brandName) ? Brand::firstOrCreate(['name' => $brandName])
+                                            : null;
+                
+                $model = Product::firstOrCreate(['code' => data_get($product, 'sku')], 
+                [
+                    'name'              => data_get($product, 'title'),
+                    'published'         => true,
+                    'description'       => data_get($product, 'description'),
+                    'price'             => data_get($product, 'price') * 100,
+                    'discount_percent'  => intval(data_get($product, 'discountPercentage', 0)),
+                    'category_id'       => $category->id,
+                    'brand_id'          => $brand?->id,
+                    'stock'             => 50,
+                    'width'             => data_get($product, 'dimensions.width'),
+                    'height'            => data_get($product, 'dimensions.height'),
+                    'length'            => data_get($product, 'dimensions.depth'),
+                    'weight'            => data_get($product, 'weight'),
+                    'created_by'        => 1
+                ]);
+
+                if (empty($model->images()->count()))
                 {
-                    $uploadedFile = FileService::getUploadedFileFromUrl($imageUrl);
+                    foreach(data_get($product, 'images', []) as $index => $imageUrl)
+                    {
+                        $uploadedFile = FileService::getUploadedFileFromUrl($imageUrl);
 
-                    $path = $uploadedFile->store($model->images_dir);
+                        $path = $uploadedFile->store($model->images_dir);
 
-                    ProductImage::create([
-                        'product_id' => $model->id,
-                        'url'        => $path,
-                        'order'      => $index + 1
-                    ]);
+                        ProductImage::create([
+                            'product_id' => $model->id,
+                            'url'        => $path,
+                            'order'      => $index + 1
+                        ]);
+                    }
                 }
-            }
 
-            if ($model->wasRecentlyCreated) $productCount++;
+                if ($model->wasRecentlyCreated) $productCount++;
+            }
         }
 
         return $this->line("Se agregaron $productCount productos a $tenant->ecommerce_name");

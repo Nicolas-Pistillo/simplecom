@@ -39,7 +39,7 @@ class UserAddress extends Model
 
         if (!empty($this->apartment))
         {
-            $references->push("Depto $this->floor");
+            $references->push("Depto $this->apartment");
         }
 
         if (!empty($this->office))

@@ -89,8 +89,7 @@
                         <div class="flex items-center">
                             <p class="font-medium text-{{ tenant('color') }}-600"> {{ $product->category->name }} </p>
                             @if ($product->brand)
-                                <span
-                                    class="ml-3 inline-flex items-center bg-white pl-1 pr-3 shadow rounded-full
+                                <span class="ml-3 inline-flex items-center bg-white pr-3 shadow rounded-full
                                 transition duration-300 hover:shadow-lg cursor-pointer"
                                     x-tooltip.raw.placement.right="Ver más productos de esta marca">
                                     <img src="{{ $product->brand->image_url ?? URL::to('img/no-image-alt.png') }}" class="w-8 h-8 rounded-full"

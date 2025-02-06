@@ -1,13 +1,13 @@
 <div>
     @if ($orders->isEmpty())
-        <div class="text-center mt-6">
+        <div class="text-center h-[80vh] flex flex-col justify-center">
 
-            <img src="{{ URL::to('img/illustrations/logistics.svg') }}" class="h-64 mx-auto mb-4" alt="no-data-img">
+            <img src="{{ URL::to('img/illustrations/web_shopping.svg') }}" class="h-64 mx-auto mb-4" alt="no-data-img">
 
             <div class="mb-4">
                 <h3 class="mt-2 text-sm font-semibold text-gray-900">Aún no recibiste pedidos</h3>
                 <p class="mt-1 text-sm text-gray-500">
-                    Veras todos tus pedidos en esta sección una vez que ingresen
+                    Verás todos tus pedidos en esta sección una vez que comiencen a llegar
                 </p>
             </div>
         </div>
