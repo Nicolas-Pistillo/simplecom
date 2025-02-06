@@ -1,6 +1,6 @@
 <div>
     <section x-data="{ open: false }" class="relative"
-        x-on:open-edit-store-pickup.window="open = true; $nextTick(() => {document.getElementById('new-address-search').focus()})"
+        x-on:open-edit-store-pickup.window="open = true"
         x-on:close-edit-store-pickup.window="open = false">
         <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative z-40">
 

@@ -99,7 +99,7 @@
                 <x-button type="secondary" wire:loading.remove wire:target='deleteStorePickup'
                     @click="confirmStorePickupDeletion = false">Cancelar</x-button>
 
-                <x-button wire:click='deleteStorePickup({{ $store_pickup?->id }})' wire:loading.remove
+                <x-button wire:click='deleteStorePickup' wire:loading.remove
                     wire:target='deleteStorePickup' class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
 
             </x-slot>

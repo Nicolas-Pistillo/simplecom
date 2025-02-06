@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('collection_points', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('in_use')->default(false);
             $table->string('staff_name');
             $table->string('staff_email');
             $table->string('staff_phone');

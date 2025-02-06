@@ -1,4 +1,6 @@
-<div>
+<div x-data="{ confirmCollectionPointDeletion: false }" class="w-full"
+x-on:open-confirm-collection-point-deletion.window="confirmCollectionPointDeletion = true"
+x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDeletion = false">
 
     @if ($collection_points->isEmpty())
         <div x-data="{modalHelperOpen: false}" class="text-center">
@@ -65,6 +67,14 @@
                         {{ $collectionPoint->name }}
                     </h5>
 
+                    <x-switch :checked="$collectionPoint->in_use" class="mb-3"
+                    wireChange="toggleCollectionPointInUse({{ $collectionPoint->id }})"
+                    tooltipPosition="bottom"
+                    :checked="$collectionPoint->in_use"
+                    :label="$collectionPoint->in_use ? 'En uso' : ''"
+                    :tooltip="!$collectionPoint->in_use ? 'Activar' : ''"
+                    />
+
                     <p class="mb-1 text-xs sm:text-sm font-normal text-gray-500 flex gap-x-1">
                         <x-icon code="location_on" class="text-gray-500" style="font-size: 20px" />
                         {{ $collectionPoint->address }}
@@ -103,6 +113,35 @@
             @endforeach
 
         </div>
+
+        @include('admin.delivery-methods.partials.edit-collection-point')
+
+        <x-modal ref="confirmCollectionPointDeletion" type="danger" icon="warning">
+
+            <x-slot name="title">
+                Eliminar {{ $collection_point?->name }}
+            </x-slot>
+
+            <x-slot name="body">
+                ¿Estás seguro que deseas eliminar este punto de colecta?
+                En el caso de que esté en uso, deberás seleccionar o agregar
+                otro punto de colecta para continuar operando con tus envíos.
+            </x-slot>
+
+            <x-slot name="actions">
+
+                <x-spinner wire:loading wire:target='deleteCollectionPoint' />
+
+                <x-button type="secondary" wire:loading.remove wire:target='deleteCollectionPoint'
+                @click="confirmCollectionPointDeletion = false">Cancelar</x-button>
+
+                <x-button wire:click='deleteCollectionPoint' 
+                wire:loading.remove class="bg-red-600 hover:bg-red-500 mx-3"
+                wire:target='deleteCollectionPoint'>Eliminar</x-button>
+
+            </x-slot>
+
+        </x-modal>
     @endif
 
     @livewire('admin.new-collection-point')

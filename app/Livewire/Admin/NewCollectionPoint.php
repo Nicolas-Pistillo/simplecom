@@ -29,13 +29,21 @@ class NewCollectionPoint extends Component
     #[Validate('required|email', as: 'email')]
     public $staff_email;
 
-    #[Validate('required|numeric', as: 'telefono')]
+    #[Validate('required|size:10', as: 'telefono')]
     public $staff_phone;
 
     #[Validate('required|numeric|min:1000000|max:999999999', as: 'dni')]
     public $staff_document;
 
     public $floor, $local, $observations;
+
+    public function messages()
+    {
+        return [
+            'staff_document.min' => 'El dni debe tener al menos 7 digitos',
+            'staff_document.max' => 'El dni no puede tener más de 9 dígitos'
+        ];
+    }
 
     public function updatedSearch()
     {
@@ -73,6 +81,7 @@ class NewCollectionPoint extends Component
         {
             $collectionPoint = CollectionPoint::create([
                 'name'            => $this->name,
+                'in_use'          => empty(CollectionPoint::count()) ? true : false,
                 'staff_name'      => $this->staff_name,
                 'staff_email'     => $this->staff_email,
                 'staff_phone'     => $this->staff_phone,

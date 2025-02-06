@@ -76,14 +76,17 @@ class StorePickups extends Component
         $this->dispatch('open-confirm-storepickup-deletion');
     }
 
-    public function deleteStorePickup(StorePickup $storePickup)
+    public function deleteStorePickup()
     {
-        $storePickup->delete();
+        $this->store_pickup->delete();
 
         $this->notify([
             'type'  => 'success',
-            'title' => 'Punto de retiro eliminado'
+            'title' => 'Punto de retiro eliminado',
+            'body'  => "Eliminaste el punto {$this->store_pickup->name}"
         ]);
+
+        $this->reset('store_pickup');
 
         $this->dispatch('close-confirm-storepickup-deletion');
     }
