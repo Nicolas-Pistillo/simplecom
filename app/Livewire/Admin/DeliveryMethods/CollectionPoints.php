@@ -11,32 +11,23 @@ class CollectionPoints extends Component
 {
     use WithNotifications;
 
-    protected $listeners = ['new-collection-point-created' => '$refresh'];
+    protected $listeners = ['collection-point-created' => '$refresh'];
 
     public CollectionPoint $collection_point;
 
     public CollectionPointForm $form;
 
-    public function toggleCollectionPointInUse(CollectionPoint $collectionPoint)
+    public function activateCollectionPoint(CollectionPoint $collectionPoint)
     {
-        if ($collectionPoint->in_use)
-        {
-            $collectionPoint->update(['in_use' => false]);
-
-            return $this->notify([
-                'type'  => 'info',
-                'title' => 'Punto de colecta desactivado',
-                'body'  => 'Desactivaste este punto de colecta'
-            ]);
-        }
-
         CollectionPoint::where(['in_use' => true])->update(['in_use' => false]);
 
         $collectionPoint->update(['in_use' => true]);
 
+        $this->dispatch('collection-point-asigned')->to(Providers::class);
+
         return $this->notify([
-            'title' => 'Punto de colecta activado',
-            'body'  => "Los envíos y cotizaciónes se realizaran desde $collectionPoint->name"
+            'title' => 'Punto de colecta modificado',
+            'body'  => "Los envíos y cotizaciónes se realizarán desde $collectionPoint->name"
         ]);
     }
 
@@ -81,6 +72,7 @@ class CollectionPoints extends Component
 
         $this->reset('collection_point');
 
+        $this->dispatch('collection-point-deleted')->to(Providers::class);
         $this->dispatch('close-confirm-collection-point-deletion');
     }
 

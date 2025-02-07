@@ -14,4 +14,9 @@ class CollectionPoint extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $appends = ['address', 'zipcode_number'];
+
+    public static function inUse()
+    {
+        return CollectionPoint::where('in_use', true)->first();
+    }
 }

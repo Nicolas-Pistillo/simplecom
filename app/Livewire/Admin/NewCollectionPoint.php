@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Admin\DeliveryMethods\Providers;
 use App\Models\CollectionPoint;
 use App\Services\GoogleMaps;
 use App\Traits\Livewire\WithNotifications;
@@ -104,7 +105,7 @@ class NewCollectionPoint extends Component
 
             $this->reset();
 
-            $this->dispatch('new-collection-point-created', $collectionPoint->id);
+            $this->dispatch('collection-point-created', $collectionPoint->id);
 
             $this->dispatch('close-new-collection-point');
 

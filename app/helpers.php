@@ -52,3 +52,14 @@ if (!function_exists('initialsAvatar'))
         return "https://ui-avatars.com/api/?$query";
     }
 }
+
+if (!function_exists('collectionPointsRoute'))
+{
+    function collectionPointsRoute()
+    {
+        return route('admin.delivery-methods.index', [
+            'tab'           => 'Proveedores', 
+            'providers-tab' => 'Puntos de colecta'
+        ]);
+    }
+}

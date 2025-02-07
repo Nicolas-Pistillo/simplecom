@@ -20,8 +20,9 @@
             </div>
         </div>
     @else
-        <x-button @click="$dispatch('open-new-store-pickup-panel')" class="flex items-center mb-8">
-            <x-icon code="add" />
+        <x-button @click="$dispatch('open-new-store-pickup-panel')" 
+        class="flex items-center gap-1 mb-8">
+            <x-icon code="add_business" />
             Agregar retiro en tienda
         </x-button>
 

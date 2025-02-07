@@ -63,17 +63,22 @@ x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDelet
                     class="w-full p-4 transition duration-300 hover:shadow-md bg-white 
                     border border-gray-300 rounded-xl shadow-sm h-max">
 
-                    <h5 class="mb-2 text-sm sm:text-lg line-clamp-none md:line-clamp-1 font-semibold tracking-tight text-gray-900">
+                    <h5 class="mb-1.5 text-sm sm:text-lg line-clamp-none md:line-clamp-1 font-semibold tracking-tight text-gray-900">
                         {{ $collectionPoint->name }}
                     </h5>
 
-                    <x-switch :checked="$collectionPoint->in_use" class="mb-3"
-                    wireChange="toggleCollectionPointInUse({{ $collectionPoint->id }})"
-                    tooltipPosition="bottom"
-                    :checked="$collectionPoint->in_use"
-                    :label="$collectionPoint->in_use ? 'En uso' : ''"
-                    :tooltip="!$collectionPoint->in_use ? 'Activar' : ''"
-                    />
+                    @if ($collectionPoint->in_use)
+                        <x-badge x-tooltip.raw="Las tarifas de envío y las colectas de paquetes 
+                        se están calculando desde esta ubicación" class="mb-2"
+                        color="blue">
+                            En uso
+                        </x-badge>
+                    @else
+                        <x-button wire:click='activateCollectionPoint({{ $collectionPoint->id }})' 
+                        size="small" type="secondary" class="mb-2">
+                            Usar este punto
+                        </x-button>
+                    @endif
 
                     <p class="mb-1 text-xs sm:text-sm font-normal text-gray-500 flex gap-x-1">
                         <x-icon code="location_on" class="text-gray-500" style="font-size: 20px" />
