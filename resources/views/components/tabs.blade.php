@@ -11,7 +11,7 @@ class="{{ $class ?? '' }}">
                             <span @click="current = tab" x-text="tab"
                             class="whitespace-nowrap border-b-2 px-1 transition-colors duration-200
                             py-4 text-xs sm:text-sm font-medium cursor-pointer"
-                            :class="current === tab ? 'text-blue-600 border-blue-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700'">
+                            :class="current === tab ? 'text-blue-600 border-blue-600' : 'text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-700'">
                             </span>
                         </template>
 

@@ -139,18 +139,24 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <input id="search-field"
-                                class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-                                placeholder="Search..." type="search" name="search">
+                            class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 
+                            placeholder:text-gray-400 focus:ring-0 text-sm"
+                            placeholder="Buscar..." type="search" autocomplete="off" name="search">
                         </form>
 
                         <!-- Notifications & User menu -->
-                        <div class="flex items-center gap-x-4">
+                        <div class="no-select flex items-center justify-center gap-x-2 sm:gap-x-4">
 
                             <!-- Ecommerce site link -->
-                            <a href="/" target="_blank" x-tooltip.raw.placement.bottom="Ver mi tienda"
-                                class="relative mr-3 pt-2 text-gray-400 transition hover:text-gray-500">
+                            <a href="{{ route('ecommerce.index') }}" target="_blank" x-tooltip.raw.placement.bottom="Ver mi tienda"
+                                class="hidden sm:block relative pt-2 text-gray-400 transition hover:text-gray-500">
                                 <x-icon code="storefront" />
                             </a>
+
+                            <span href="/" target="_blank" x-tooltip.raw.placement.bottom="Punto de colecta"
+                                class="hidden sm:block relative pt-2 text-gray-400 cursor-pointer transition hover:text-gray-500">
+                                <x-icon code="warehouse" />
+                            </span>
 
                             <!-- Notifications -->
                             @livewire('admin.notifications')

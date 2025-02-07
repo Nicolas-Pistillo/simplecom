@@ -4,6 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Interfaces\ShippingProvider;
+use App\Models\Order;
 use App\Services\CartService;
 use App\Traits\Configurable;
 use App\Utils\Address;
@@ -27,7 +28,9 @@ class Andreani implements ShippingProvider
 
     public function __construct()
     {
-        $this->base_url = env('ANDREANI_TEST') ? 'https://apisqa.andreani.com' : 'https://apis.andreani.com';
+        $this->base_url = env('ANDREANI_TEST') 
+                        ? 'https://apisqa.andreani.com' 
+                        : 'https://apis.andreani.com';
     }
 
     public function generateToken()
@@ -56,9 +59,11 @@ class Andreani implements ShippingProvider
         return $toHomeRates->merge($branchRates);
     }
 
-    public function createOrder()
+    public function createShippingOrder(?Order $order)
     {
-        
+        $this->generateToken();
+
+        dd($this->token);
     }
 
     public function getToHomeRate(ShippingRateParameters $parameters): Collection
@@ -68,7 +73,7 @@ class Andreani implements ShippingProvider
         $response = Http::withQueryParameters([
             'cpDestino' => $parameters->recipient_address->zipcode_number,
             'contrato'  => $this->key('andreani_contrato_domicilio'),
-            'cliente'   => '0012006460',
+            'cliente'   => $this->key('andreani_nro_cliente'),
             'bultos'    => [
                 [
                     'valor' => data_get($cartPackage, 'declaredValue'),
@@ -103,7 +108,7 @@ class Andreani implements ShippingProvider
         $response = Http::withQueryParameters([
             'cpDestino' => $parameters->recipient_address->zipcode_number,
             'contrato'  => $this->key('andreani_contrato_sucursal'),
-            'cliente'   => '0012006460',
+            'cliente'   => $this->key('andreani_nro_cliente'),
             'bultos'    => [
                 [
                     'valor' => data_get($cartPackage, 'declaredValue'),

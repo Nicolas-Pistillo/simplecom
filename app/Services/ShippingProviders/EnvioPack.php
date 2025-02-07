@@ -4,6 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Interfaces\ShippingProvider;
+use App\Models\Order;
 use App\Models\UserAddress;
 use App\Services\CartService;
 use App\Traits\Configurable;
@@ -88,7 +89,7 @@ class EnvioPack implements ShippingProvider
         return $rates->collapse();
     }
 
-    public function createOrder()
+    public function createShippingOrder(?Order $order)
     {
         
     }

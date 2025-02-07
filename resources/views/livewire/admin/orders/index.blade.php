@@ -299,9 +299,9 @@
                             <tbody>
                                 @foreach ($orders as $order)
                                     <tr wire:key='{{ $order->id }}'
-                                        class="border-b text-center transition cursor-pointer 
+                                    class="border-b text-center transition cursor-pointer 
                                     duration-200 hover:bg-gray-50 text-xs"
-                                        @click="location.href='{{ $order->detailPage() }}'">
+                                    @click="location.href='{{ $order->detailPage() }}'">
 
                                         <td class="w-4 px-4 py-3" onclick="event.stopPropagation()">
                                             <div class="flex items-center">

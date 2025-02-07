@@ -4,6 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Interfaces\ShippingProvider;
+use App\Models\Order;
 use App\Services\CartService;
 use App\Traits\Configurable;
 use App\Utils\ShippingRate;
@@ -62,7 +63,7 @@ class Epick implements ShippingProvider
         return $rates;
     }
 
-    public function createOrder()
+    public function createShippingOrder(?Order $order)
     {
         
     }

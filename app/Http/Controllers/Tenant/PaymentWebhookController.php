@@ -22,11 +22,11 @@ class PaymentWebhookController extends Controller
 {
     public function handler($tenant, $order, $provider, Request $request)
     {
-        $tenantModel = Tenant::find($tenant);
+        $tenantModel = Tenant::where('name', $tenant)->first();
 
         if (!$tenantModel instanceof Tenant) return response('Tenant not found', 401);
 
-        tenancy()->initialize($tenant);
+        tenancy()->initialize($tenantModel);
 
         $order = Order::find($order);
 
@@ -736,9 +736,12 @@ class PaymentWebhookController extends Controller
     public function cajero24(Request $request, Order $order)
     {
         if (isset($request->event, $request->transaction_id))
-        {            
-            if (str_replace('Pedido ', '', $request->external_reference) != $order->code)
-                abort(401, 'Target order does not match');
+        {
+            $orderReference = ($request->event === 'payment_failure')
+                              ? str_replace('Pedido ', '', data_get($request, 'external_reference'))
+                              : str_replace('Pedido ', '', data_get($request, 'transaction_data.external_reference'));
+
+            if ($orderReference != $order->code) abort(401, 'Target order does not match');
 
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'cajero24',
@@ -747,20 +750,40 @@ class PaymentWebhookController extends Controller
                 'payload'   => $request->all()
             ]);
 
-            if ($request->event === 'payment_success')
-            {
+            $transaction = $request->transaction_data;
 
+            if (in_array($request->event, ['payment_success', 'debin_accredited']) &&
+            $order->payment->status_code != PaymentStatusCode::Confirmed)
+            {
+                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+
+                $order->payment->update([
+                    'status_code' => PaymentStatusCode::Confirmed,
+                    'external_id'     => $request->transaction_id,
+                    'instrument'      => data_get($transaction, 'operation.payment_method.name'),
+                    'installments'    => data_get($transaction, 'installments'),
+                    'external_status' => data_get($transaction, 'status'),
+                    'total_paid'      => data_get($transaction, 'amount')
+                ]);
+
+                $action = $request->event === 'debin_accredited' ? 'confirmó que se acreditó el debin'
+                                                                  : 'aprobó el pago';
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Cajero24',
+                    'action'        => $action,
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
             }
 
-            if ($request->event === 'debin_accredited')
+            if ($request->event === 'payment_pending' && 
+            $order->payment->status_code != PaymentStatusCode::Pending)
             {
-
-            }
-
-            if ($request->event === 'payment_pending')
-            {
-                $transaction = $request->transaction_data;
-
                 $order->update(['status_code' => OrderStatusCode::PaymentPending]);
 
                 $order->payment->update([
@@ -802,24 +825,36 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($request->event === 'debin_rejected')
+            if (in_array($request->event, ['debin_rejected', 'payment_cancellation']) &&
+            $order->payment->status_code != PaymentStatusCode::Cancelled)
             {
-                
-            }
+                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
 
-            if ($request->event === 'payment_cancellation')
-            {
-                
+                $order->payment->update(['status_code' => PaymentStatusCode::Cancelled]);
+
+                $action = $request->event === 'debin_rejected' ? 'informó que el comprador rechazó el debin'
+                                                                : 'rechazó el pago';
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Cajero24',
+                    'action'        => $action,
+                    'meta'          => [
+                        'icon_code'  => 'credit_card_off',
+                        'icon_color' => 'red'
+                    ]
+                ]);
             }
 
             if ($request->event === 'payment_partial_refund')
             {
-                
+                //
             }
 
             if ($request->event === 'payment_refund')
             {
-
+                //
             }
 
             $meta = [

@@ -79,7 +79,7 @@ class Order extends Model
     public function paymentWebhook()
     {
         $route = route('tenant.payment-webhook', [
-            'tenant'   => tenant('id'),
+            'tenant'   => tenant('name'),
             'order'    => $this->id,
             'provider' => $this->paymentMethod->code
         ]);

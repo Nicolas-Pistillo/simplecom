@@ -57,7 +57,9 @@ class Show extends Component
 
     public function createShippingOrder()
     {
-        dd($this->order->shipping->calculated_rate);
+        $service = $this->order->shippingProvider->service();
+
+        $service->createOrder($this->order);
     }
 
     public function render()

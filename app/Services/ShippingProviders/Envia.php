@@ -4,6 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Interfaces\ShippingProvider;
+use App\Models\Order;
 use App\Services\CartService;
 use App\Traits\Configurable;
 use App\Utils\Address;
@@ -40,6 +41,11 @@ class Envia implements ShippingProvider
             $this->api_base_url = 'https://api-test.envia.com';
             $this->queries_base_url = 'https://queries-test.envia.com';
         }
+    }
+
+    public function createShippingOrder(?Order $order)
+    {
+        
     }
 
     public function getRates(ShippingRateParameters $parameters): Collection
@@ -151,11 +157,6 @@ class Envia implements ShippingProvider
     public function getRate($rateBody)
     {
         return Http::withToken($this->token)->withBody($rateBody)->post("$this->api_base_url/ship/rate")->collect('data');
-    }
-
-    public function createOrder()
-    {
-        
     }
 
     public function calculatePackage(): array|false
