@@ -1,4 +1,6 @@
-<div x-data="{ confirmShippingCreate: false, showBranchDetails: false }" class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
+<div x-data="{ confirmShippingCreate: false, showBranchDetails: false }"
+x-on:close-confirm-shipping-create.window="confirmShippingCreate = false" 
+class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="flex items-center justify-between">
 
@@ -21,6 +23,28 @@
 
     {{-- Principal Info --}}
     <div class="flex items-end flex-wrap gap-3">
+
+        @if (!empty($order->shipping->external_id))
+            <div class="flex flex-col p-2">
+                <small class="text-xs text-gray-500 font-semibold">
+                    ID envío
+                </small>
+                <span class="text-sm/6 text-gray-500">
+                    {{ $order->shipping->external_id }}
+                </span>
+            </div>
+        @endif
+
+        @if (!empty($order->shipping->external_status))
+            <div class="flex flex-col p-2">
+                <small class="text-xs text-gray-500 font-semibold">
+                    Estado
+                </small>
+                <span class="text-sm/6 text-gray-500">
+                    {{ $order->shipping->external_status }}
+                </span>
+            </div>
+        @endif
 
         @if (!empty($order->shipping->provider_service))
             <div class="flex flex-col p-2">
@@ -98,6 +122,59 @@
 
     </div>
 
+    {{-- Additional info --}}
+    @if (!empty($order->shipping->meta) && count($order->shipping->meta))
+
+        <div x-data="{open: false}">
+
+            <button @click="open = !open"
+            class="mt-2 py-1 px-3 w-max border bg-white rounded-full 
+                text-xs text-gray-700 flex items-center cursor-pointer
+                transition duration-300 hover:shadow-md hover:text-gray-900">
+                <span class="flex items-center">
+                    <span x-text="open ? 'Ocultar información adicional' : 'Mostrar información adicional'"></span>
+                    <i x-text="open ? 'arrow_drop_down' : 'arrow_right'" class="material-symbols-outlined"></i>
+                </span>
+            </button>
+
+            <div x-cloak x-show="open" x-collapse>
+                <h4 class="my-3 text-sm/6 font-semibold text-gray-900">
+                    Información adicional
+                </h4>
+
+                <div class="flex flex-wrap gap-3 items-end">
+                    @foreach ($order->shipping->meta as $metaItem)
+
+                        @if (isset($metaItem['internal'])) @continue @endif
+
+                        @if (!empty($metaItem['value']))
+
+                            <div class="flex flex-col p-2">
+
+                                <small class="text-xs text-gray-500 font-semibold">
+                                    {{ $metaItem['name'] }}
+                                </small>
+                                
+                                <span class="text-sm text-gray-500">
+
+                                    @if (isset($metaItem['type']) && $metaItem['type'] === 'link')
+                                        <x-button :href="$metaItem['value']" blank type="secondary"
+                                        class="inline-block mt-1.5" size="tiny">
+                                            Abrir enlace
+                                        </x-button>
+                                    @else
+                                        {{ $metaItem['value'] }}
+                                    @endif
+                                </span>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+    @endif
+
     <div class="mt-4 flex flex-wrap gap-3">
 
         @if ($order->shipping->status_code === ShippingStatusCode::CreationPending)
@@ -108,7 +185,7 @@
                 <x-slot name="title">Nueva orden de envío</x-slot>
 
                 <x-slot name="body">
-                    Se creará una nueva orden de envío en {{ $order->shippingProvider->name }}
+                    Se creará una nueva orden de envío con {{ $order->shippingProvider->name }}
                     y se le notificará al comprador que el pedido está listo para despachar.
                     <div class="mt-3">
                         <x-switch label="No volver a preguntar" />
@@ -129,84 +206,11 @@
 
             </x-modal>
         @endif
+
+        @if (!empty($order->shipping->label_url))
+            <x-button :href="$order->shipping->label_url" blank>Imprimir etiqueta</x-button>
+        @endif
     </div>
 
-    <x-drawer ref="showBranchDetails">
-        <div class="space-y-6 pb-16">
-            <div>
-                @php
-                    $branch = $order->shipping->selected_branch;
-                @endphp
-
-                <gmp-map wire:ignore 
-                center="{{ data_get($branch, 'address.coordinates.lat') }},{{ data_get($branch, 'address.coordinates.lng') }}" 
-                zoom="15" map-id="shipping_branch_map" 
-                class="mt-4 h-[130px] md:h-[250px] rounded-lg shadow-md overflow-hidden">
-                    <gmp-advanced-marker position="{{ data_get($branch, 'address.coordinates.lat') }},{{ data_get($branch, 'address.coordinates.lng') }}"></gmp-advanced-marker>
-                </gmp-map>
-
-                <div class="mt-4 flex flex-col">
-                    <h2 class="text-base font-semibold text-gray-900">
-                        {{ data_get($branch, 'name') }}
-                    </h2>
-                    {{-- <small class="text-gray-600">
-                        ID {{ data_get($branch, 'external_id') }}
-                    </small> --}}
-                </div>
-            </div>
-            <div>
-                <h3 class="font-semibold text-gray-900">Información</h3>
-                <dl class="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
-                    <div class="flex justify-between py-3 text-sm font-medium">
-                        <dt class="text-gray-500">Calle</dt>
-                        <dd class="text-gray-900 max-w-[210px]">
-                            {{ data_get($branch, 'address.street') }}
-                        </dd>
-                    </div>
-                    <div class="flex justify-between py-3 text-sm font-medium">
-                        <dt class="text-gray-500">Altura</dt>
-                        <dd class="text-gray-900 max-w-[210px]">
-                            {{ data_get($branch, 'address.number') }}
-                        </dd>
-                    </div>
-                    <div class="flex justify-between py-3 text-sm font-medium">
-                        <dt class="text-gray-500">Código Postal</dt>
-                        <dd class="text-gray-900 max-w-[210px]">
-                            {{ data_get($branch, 'address.zipcode') }}
-                        </dd>
-                    </div>
-                    <div class="flex justify-between py-3 text-sm font-medium">
-                        <dt class="text-gray-500">Localidad</dt>
-                        <dd class="text-gray-900 max-w-[210px]">
-                            {{ data_get($branch, 'address.locality') }}
-                        </dd>
-                    </div>
-                    <div class="flex justify-between py-3 text-sm font-medium">
-                        <dt class="text-gray-500">Provincia</dt>
-                        <dd class="text-gray-900 max-w-[210px]">
-                            {{ data_get($branch, 'address.state') }}
-                        </dd>
-                    </div>
-                    <div class="flex justify-between py-3 text-sm font-medium">
-                        <dt class="text-gray-500">Región</dt>
-                        <dd class="text-gray-900 max-w-[210px]">
-                            {{ data_get($branch, 'address.region', '-') }}
-                        </dd>
-                    </div>
-                    <div class="flex justify-between py-3 text-sm font-medium">
-                        <dt class="text-gray-500">Teléfono</dt>
-                        <dd class="text-gray-900 max-w-[210px]">
-                            {{ data_get($branch, 'phone', '-') }}
-                        </dd>
-                    </div>
-                    <div class="flex justify-between py-3 text-sm font-medium">
-                        <dt class="text-gray-500">Horarios</dt>
-                        <dd class="text-gray-900 max-w-[210px]">
-                            {{ data_get($branch, 'schedule', '-') }}
-                        </dd>
-                    </div>
-                </dl>
-            </div>
-        </div>
-    </x-drawer>
+    @include('admin.orders.partials.show.destiny-branch-details')
 </div>

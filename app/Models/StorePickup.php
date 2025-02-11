@@ -13,5 +13,5 @@ class StorePickup extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    protected $appends = ['address', 'zipcode_number'];
+    protected $appends = ['address', 'zipcode_number', 'references'];
 }

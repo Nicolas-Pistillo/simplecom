@@ -89,7 +89,7 @@ class EnvioPack implements ShippingProvider
         return $rates->collapse();
     }
 
-    public function createShippingOrder(?Order $order)
+    public function createOrder(?Order $order)
     {
         
     }

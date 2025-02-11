@@ -13,7 +13,7 @@ class CollectionPoint extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    protected $appends = ['address', 'zipcode_number'];
+    protected $appends = ['address', 'zipcode_number', 'references'];
 
     public static function inUse()
     {

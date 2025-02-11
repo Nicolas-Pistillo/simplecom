@@ -9,7 +9,10 @@ use App\Models\Order;
 use App\Models\OrderFeedItem;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+
+use function PHPSTORM_META\map;
 
 class Show extends Component
 {
@@ -24,7 +27,7 @@ class Show extends Component
         $order->load(
             'items.variant.options.attribute', 'items.variant.options.attributeValue',
             'status', 'storePickup', 'shipping.status', 'payment.status', 'user', 'feed', 
-            'shippingProvider', 'paymentMethod', 'shipping'
+            'shippingProvider', 'paymentMethod', 'shipping.userAddress'
         );
 
         $this->order = $order;
@@ -57,9 +60,34 @@ class Show extends Component
 
     public function createShippingOrder()
     {
-        $service = $this->order->shippingProvider->service();
+        try 
+        {
+            $service = $this->order->shippingProvider->service();
 
-        $service->createOrder($this->order);
+            $service->createOrder($this->order);
+
+            $this->dispatch('close-confirm-shipping-create');
+
+            $this->notify([
+                'type'  => 'success',
+                'title' => 'Orden de envío generada',
+                'body'  => 'Generaste la orden de envío correctamente'
+            ]);
+
+        } catch (\Throwable $err) 
+        {
+            Log::channel('error')->error('Error al generar una orden de envío',
+            [
+                'pedido'  => $this->order->id,
+                'mensaje' => $err->getMessage()
+            ]);
+
+            return $this->notify([
+                'type'  => 'error',
+                'title' => 'Error al generar orden de envío',
+                'body'  => 'Por favor vuelva a intentarlo más tarde'
+            ]);
+        }
     }
 
     public function render()

@@ -139,7 +139,7 @@ class Mocis implements ShippingProvider
         return $rates;
     }
 
-    public function createShippingOrder(?Order $order)
+    public function createOrder(?Order $order)
     {
         
     }

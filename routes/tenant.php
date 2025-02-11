@@ -7,6 +7,7 @@ use App\Http\Controllers\Tenant\PaymentReturnController;
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
+use App\Http\Controllers\Tenant\ShippingLabelController;
 use App\Http\Controllers\Tenant\SocialiteController;
 use App\Models\Order;
 use App\Models\Product;
@@ -140,6 +141,9 @@ Route::middleware([
                 Route::view('orders/{order}', 'admin.orders.show')
                     ->name('admin.orders.show')
                     ->middleware('can:Ver ventas');
+
+                Route::get('andreani-label/{orderShipping}', [ShippingLabelController::class, 'andreaniLabel'])
+                    ->name('admin.shipping-label.andreani');
 
             });
 

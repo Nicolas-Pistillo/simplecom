@@ -43,7 +43,7 @@ class Envia implements ShippingProvider
         }
     }
 
-    public function createShippingOrder(?Order $order)
+    public function createOrder(?Order $order)
     {
         
     }
