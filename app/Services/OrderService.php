@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Enums\CustomerType;
 use App\Enums\DeliveryType;
-use App\Enums\OrderStatusCode;
+use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
-use App\Enums\ShippingStatusCode;
+use App\Enums\ShippingStatus;
 use App\Events\OrderCreated;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -61,9 +61,8 @@ class OrderService
         }
 
         $order = Order::create([
-            'code'                 => Str::upper(Str::random(3) . '-' . rand(100,999)),
             'user_id'              => $userId,
-            'status_code'          => OrderStatusCode::Created,
+            'status'               => OrderStatus::Created,
             'delivery_type'        => $form->delivery_type,
             'store_pickup_id'      => $storePickupId,
             'shipping_cost'        => $shippingCost,
@@ -98,7 +97,7 @@ class OrderService
                 'order_id'          => $order->id,
                 'provider_id'       => $shippingProvider->id,
                 'user_address_id'   => session('selected_address.id'),
-                'status_code'       => ShippingStatusCode::CreationPending,
+                'status'            => ShippingStatus::CreationPending,
                 'provider_label'    => data_get($form->selected_rate, 'label'),
                 'provider_service'  => data_get($form->selected_rate, 'service_name'),
                 'provider_carrier'  => data_get($form->selected_rate, 'carrier_name'),

@@ -4,7 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -12,7 +12,6 @@ use App\Models\OrderPayment;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Http;
 
 class Cajero24 implements PaymentGateway
@@ -51,7 +50,7 @@ class Cajero24 implements PaymentGateway
         $response = Http::withBody(json_encode([
             'access_token'       => $this->key('cajero24_token'),
             'currency'           => 'ARS',
-            'external_reference' => "Pedido $order->code",
+            'external_reference' => "Pedido $order->id",
             'url_success'        => $order->paymentReturn(),
             'url_pending'        => $order->paymentReturn(),
             'url_failure'        => $order->paymentReturn(),
@@ -72,7 +71,7 @@ class Cajero24 implements PaymentGateway
             'order_id'     => $order->id,
             'provider_id'  => $this->model()->id,
             'checkout_url' => data_get($response, 'link'),
-            'status_code'  => PaymentStatusCode::Created
+            'status'       => PaymentStatus::Created
         ]);
 
         OrderFeedItem::create([

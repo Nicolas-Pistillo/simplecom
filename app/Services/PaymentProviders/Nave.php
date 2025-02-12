@@ -4,7 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -122,7 +122,7 @@ class Nave implements PaymentGateway
         OrderPayment::create([
             'order_id'        => $order->id,
             'provider_id'     => $this->model()->id,
-            'status_code'     => PaymentStatusCode::Created,
+            'status'          => PaymentStatus::Created,
             'checkout_url'    => data_get($response, 'data.checkout_url'),
             'intention_id'    => data_get($response, 'data.payment_request_id'),
             'meta'            => [

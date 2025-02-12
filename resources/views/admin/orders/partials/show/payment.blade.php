@@ -2,12 +2,12 @@
 
     <div class="flex items-center justify-between mb-2 sm:mb-0">
 
-        <div class="flex items-center gap-1 flex-wrap">
+        <div class="flex items-center gap-1.5 flex-wrap">
 
             <h4 class="text-sm/6 font-semibold text-gray-900">Detalle de pago</h4>
 
-            <x-badge :color="$order->payment?->status->display_color">
-                {{ $order->payment?->status->name }}
+            <x-badge :color="$order->payment?->status->color()">
+                {{ $order->payment?->status->name() }}
             </x-badge>
         </div>
 
@@ -16,7 +16,7 @@
             alt="Logo {{ $order->paymentMethod->display_name }}">
     </div>
 
-    <h5 class="mb-3 text-sm text-gray-700"> {{ $order->payment?->status->helper }} </h5>
+    <h5 class="mb-3 text-sm text-gray-700"> {{ $order->payment?->status->helper() }} </h5>
 
     @if (!$order->payment)
         <h5 class="mb-3 text-sm text-red-500"> 
@@ -149,7 +149,7 @@
     @endif
 
     <div class="mt-4 flex flex-wrap gap-3">
-        @if ($order->payment?->status_code === PaymentStatusCode::TransferPending)
+        @if ($order->payment?->status === PaymentStatus::TransferPending)
             <x-button>Ya recibí el pago</x-button>
         @endif
     </div>

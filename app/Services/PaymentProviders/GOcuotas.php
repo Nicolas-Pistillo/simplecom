@@ -4,7 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -60,7 +60,7 @@ class GOcuotas implements PaymentGateway
             'amount_in_cents'       => 180000,
             'email'                 => 'prueba@gocuotas.com',
             'phone_number'          => '1140506070',
-            'order_reference_id'    => "Pedido $order->code",
+            'order_reference_id'    => "Pedido $order->id",
             'url_success'           => $order->paymentReturn(),
             'url_failure'           => $order->paymentReturn(),
             'webhook_url'           => $order->paymentWebhook()
@@ -76,7 +76,7 @@ class GOcuotas implements PaymentGateway
             'order_id'     => $order->id,
             'provider_id'  => $this->model()->id,
             'checkout_url' => data_get($response, 'url_init'),
-            'status_code'  => PaymentStatusCode::Created,
+            'status'       => PaymentStatus::Created,
             'meta'         => [
                 [
                     'name'  => 'Referencia',

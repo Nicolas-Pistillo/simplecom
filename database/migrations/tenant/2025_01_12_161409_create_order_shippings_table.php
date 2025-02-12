@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('collection_point_id')->nullable();
             $table->foreignId('user_address_id');
             $table->string('external_reference')->nullable();
-            $table->string('status_code');
+            $table->string('status');
             $table->string('external_status')->nullable();
             $table->string('external_status_description')->nullable();
             $table->string('logistic_type');

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\OrderStatusCode;
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\DeliveryType;
@@ -14,14 +14,9 @@ class Order extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $casts = [
-        'status_code'   => OrderStatusCode::class,
+        'status'        => OrderStatus::class,
         'delivery_type' => DeliveryType::class
     ];
-
-    public function status()
-    {
-        return $this->hasOne(OrderStatus::class, 'code', 'status_code');
-    }
 
     public function items()
     {

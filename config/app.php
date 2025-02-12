@@ -188,9 +188,9 @@ return [
         'CustomerType'          => App\Enums\CustomerType::class,
         'ShippingMethodType'    => App\Enums\ShippingMethodType::class,
         'LogisticType'          => App\Enums\LogisticType::class,
-        'PaymentStatusCode'     => App\Enums\PaymentStatusCode::class,
-        'ShippingStatusCode'    => App\Enums\ShippingStatusCode::class,
-        'OrderStatusCode'       => App\Enums\OrderStatusCode::class,
+        'PaymentStatus'         => App\Enums\PaymentStatus::class,
+        'ShippingStatus'        => App\Enums\ShippingStatus::class,
+        'OrderStatus'           => App\Enums\OrderStatus::class,
         'OrderFeedEvent'        => App\Enums\OrderFeedEvent::class,
         'OrderFeedPresentation' => App\Enums\OrderFeedPresentation::class
     ])->toArray(),

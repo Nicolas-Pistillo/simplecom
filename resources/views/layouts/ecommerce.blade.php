@@ -384,7 +384,7 @@
         <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 lg:px-8">
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <div class="space-y-4">
-                    <img class="h-20 w-64 object-contain object-left" src="{{ Storage::url(tenant('logo_url')) }}"
+                    <img class="h-20 w-64 object-contain object-center" src="{{ Storage::url(tenant('logo_url')) }}"
                         alt="{{ tenant('name') }} logo">
                     <p class="text-sm leading-6 text-gray-600">Making the world a better place through constructing
                         elegant hierarchies.</p>

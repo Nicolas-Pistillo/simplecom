@@ -4,15 +4,15 @@
     
     <section class="relative py-10 md:py-16">
 
-        <div class="w-full absolute bg-{{ $order->payment->status->display_color }}-600 top-0 left-0 h-[410px] object-cover"></div>
+        <div class="w-full absolute bg-{{ $order->payment->status->color() }}-600 top-0 left-0 h-[410px] object-cover"></div>
 
         <div class="w-full max-w-7xl mx-auto px-6 md:px-8">
 
             <div class="animate__animated animate__fadeInDown flex items-center justify-center relative mb-6 w-max mx-auto">
 
                 <div class="h-16 w-16 p-3 flex items-center justify-center 
-                rounded-full bg-white text-{{ $order->payment->status->display_color }}-600">
-                    <x-icon code="{{ $order->payment->status_code->icon() }}" />
+                rounded-full bg-white text-{{ $order->payment->status->color() }}-600">
+                    <x-icon code="{{ $order->payment->status->icon() }}" />
                 </div>
 
             </div>
@@ -21,19 +21,19 @@
 
                 <div class="flex items-center flex-col text-center gap-2 pb-6 lg:pb-10">
 
-                    {{-- <span class="font-semibold text-gray-600">Pedido {{ $order->code }}</span> --}}
+                    {{-- <span class="font-semibold text-gray-600">Pedido {{ $order->id }}</span> --}}
 
                     <h3 class="text-center font-bold text-2xl sm:text-3xl text-gray-900">
-                        {{ $order->status->customer_name }}
+                        {{ $order->status->customerName() }}
                     </h3>
 
-                    <p class="font-normal text-base leading-7 text-{{ $order->payment->status->display_color }}-600">
-                        {{ $order->payment->status->customer_helper }}
+                    <p class="font-normal text-base leading-7 text-{{ $order->payment->status->color() }}-600">
+                        {{ $order->payment->status->customerHelper() }}
                     </p>
                 </div> 
 
                 <div class="flex items-center justify-center sm:justify-between flex-wrap gap-3">
-                    <h2 class="text-lg sm:text-xl font-semibold text-gray-700">Pedido {{ $order->code }}</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-700">Pedido {{ $order->id }}</h2>
                     <div class="flex items-center flex-wrap gap-3">
                         <x-button type="secondary" class="w-full sm:w-auto">
                             Ver en mis pedidos

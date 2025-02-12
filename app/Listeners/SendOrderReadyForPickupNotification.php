@@ -24,7 +24,7 @@ class SendOrderReadyForPickupNotification
     {
         Log::channel('resources')->info('Disparar emails y notificaciones de pedido listo para retirar', [
             'tenant'  => tenant('name'),
-            'pedido' => $event->order->code,
+            'pedido' => $event->order->id,
             'local'  => $event->order->storePickup->name
         ]);
     }

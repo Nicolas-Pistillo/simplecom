@@ -4,12 +4,12 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="flex items-center justify-between">
 
-        <div class="flex items-center gap-1 flex-wrap">
+        <div class="flex items-center gap-1.5 flex-wrap">
 
             <h4 class="text-sm/6 font-semibold text-gray-900">Detalle de envío</h4>
 
-            <x-badge :color="$order->shipping->status->display_color">
-                {{ $order->shipping->status->name }}
+            <x-badge :color="$order->shipping->status->color()">
+                {{ $order->shipping->status->name() }}
             </x-badge>
         </div>
 
@@ -18,7 +18,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
     </div>
 
     <h5 class="mb-3 text-sm text-gray-700">
-        {{ $order->shipping->status->helper }}
+        {{ $order->shipping->status->helper() }}
     </h5>
 
     {{-- Principal Info --}}
@@ -38,7 +38,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
         @if (!empty($order->shipping->external_status))
             <div class="flex flex-col p-2">
                 <small class="text-xs text-gray-500 font-semibold">
-                    Estado
+                    Estado externo
                 </small>
                 <span class="text-sm/6 text-gray-500">
                     {{ $order->shipping->external_status }}
@@ -177,7 +177,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="mt-4 flex flex-wrap gap-3">
 
-        @if ($order->shipping->status_code === ShippingStatusCode::CreationPending)
+        @if ($order->shipping->status === ShippingStatus::CreationPending)
             <x-button @click="confirmShippingCreate = true">Crear orden de envío</x-button>
 
             <x-modal ref="confirmShippingCreate" closeOnClickAway type="info" icon="local_shipping">

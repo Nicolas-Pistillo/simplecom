@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\OrderStatusCode;
-use App\Enums\PaymentStatusCode;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -22,9 +22,9 @@ class PaymentReturnController extends Controller
 
         if (!$providerModel instanceof PaymentMethod) abort(404);
 
-        $order->load('status', 'user', 'items', 'shipping', 'payment');
+        $order->load('user', 'items', 'shipping', 'payment');
 
-        if ($order->status_code != OrderStatusCode::Created)
+        if ($order->status != OrderStatus::Created)
         {
             Cart::destroy();
 
@@ -59,12 +59,12 @@ class PaymentReturnController extends Controller
 
         $instrument = "$bankName $issuerName";
 
-        if ($paymentInfo['status'] === 'ACCEPTED' && $order->status_code != OrderStatusCode::Confirmed)
+        if ($paymentInfo['status'] === 'ACCEPTED' && $order->status != OrderStatus::Confirmed)
         {
-            $order->update(['status_code' => OrderStatusCode::Confirmed]);
+            $order->update(['status' => OrderStatus::Confirmed]);
 
             $order->payment->update([
-                'status_code'     => PaymentStatusCode::Confirmed,
+                'status'     => PaymentStatus::Confirmed,
                 'external_id'     => $paymentInfo['payment_id'],
                 'external_status' => $paymentInfo['status'],
                 'total_paid'      => $paymentInfo['price'],
@@ -84,12 +84,12 @@ class PaymentReturnController extends Controller
             ]);
         }
 
-        if ($paymentInfo['status'] === 'REJECTED' && $order->status_code != OrderStatusCode::PaymentCancelled)
+        if ($paymentInfo['status'] === 'REJECTED' && $order->status != OrderStatus::PaymentCancelled)
         {
-            $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+            $order->update(['status' => OrderStatus::PaymentCancelled]);
 
             $order->payment->update([
-                'status_code'     => PaymentStatusCode::Cancelled,
+                'status'          => PaymentStatus::Cancelled,
                 'external_id'     => data_get($paymentInfo, 'payment_data.payment_id'),
                 'external_status' => $paymentInfo['status'],
                 'total_paid'      => $paymentInfo['price'],
@@ -159,10 +159,10 @@ class PaymentReturnController extends Controller
 
     public function mobbex(Request $request, Order $order)
     {
-        if ($order->status_code === OrderStatusCode::Created)
+        if ($order->status === OrderStatus::Created)
         {
-            $order->update(['status_code' => OrderStatusCode::ProviderPayProcessing]);
-            $order->payment->update(['status_code' => PaymentStatusCode::InProcess]);
+            $order->update(['status' => OrderStatus::ProviderPayProcessing]);
+            $order->payment->update(['status' => PaymentStatus::InProcess]);
 
             $order->feed()->create([
                 'event'         => OrderFeedEvent::PaymentUpdate,
@@ -223,12 +223,12 @@ class PaymentReturnController extends Controller
                 $paymentMethod .= " $pan";
             }
 
-            if ($status === 'APPROVED' && $order->status_code != OrderStatusCode::Confirmed)
+            if ($status === 'APPROVED' && $order->status != OrderStatus::Confirmed)
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'status'          => PaymentStatus::Confirmed,
                     'instrument'      => $paymentMethod,
                     'external_status' => $status,
                     'total_paid'      => data_get($transaction, 'installment_plan.total_amount.value'),
@@ -246,12 +246,12 @@ class PaymentReturnController extends Controller
                 ]);
             }
 
-            if ($status === 'REJECTED' && $order->status_code != OrderStatusCode::PaymentRejected)
+            if ($status === 'REJECTED' && $order->status != OrderStatus::PaymentRejected)
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+                $order->update(['status' => OrderStatus::PaymentRejected]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Rejected,
+                    'status'          => PaymentStatus::Rejected,
                     'instrument'      => $paymentMethod,
                     'external_status' => $status,
                     'total_paid'      => data_get($transaction, 'installment_plan.total_amount.value'),
@@ -269,12 +269,12 @@ class PaymentReturnController extends Controller
                 ]);
             }
 
-            if ($status === 'CANCELLED' && $order->status_code != OrderStatusCode::PaymentCancelled)
+            if ($status === 'CANCELLED' && $order->status != OrderStatus::PaymentCancelled)
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+                $order->update(['status' => OrderStatus::PaymentCancelled]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'status'     => PaymentStatus::Cancelled,
                     'instrument'      => $paymentMethod,
                     'external_status' => $status,
                     'total_paid'      => data_get($transaction, 'installment_plan.total_amount.value'),

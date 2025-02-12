@@ -4,7 +4,7 @@ namespace App\Livewire\Admin\Orders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\OrderStatusCode;
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
 use App\Traits\Livewire\WithNotifications;
@@ -26,8 +26,8 @@ class Show extends Component
 
         $order->load(
             'items.variant.options.attribute', 'items.variant.options.attributeValue',
-            'status', 'storePickup', 'shipping.status', 'payment.status', 'user', 'feed', 
-            'shippingProvider', 'paymentMethod', 'shipping.userAddress'
+            'storePickup', 'shipping.userAddress', 'payment', 'user', 'feed', 
+            'shippingProvider', 'paymentMethod'
         );
 
         $this->order = $order;
@@ -35,7 +35,7 @@ class Show extends Component
 
     public function setReadyForPickup()
     {
-        $this->order->update(['status_code' => OrderStatusCode::PickupReady]);
+        $this->order->update(['status' => OrderStatus::PickupReady]);
 
         OrderFeedItem::create([
             'order_id'      => $this->order->id,

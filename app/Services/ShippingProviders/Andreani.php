@@ -5,7 +5,7 @@ namespace App\Services\ShippingProviders;
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\ShippingStatusCode;
+use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
 use App\Models\CollectionPoint;
 use App\Models\Order;
@@ -153,7 +153,7 @@ class Andreani implements ShippingProvider
             throw new Exception('Error al generar orden de envío con Andreani');
         
         $order->shipping->update([
-            'status_code'     => ShippingStatusCode::ProviderPending,
+            'status'          => ShippingStatus::Created,
             'external_id'     => data_get($response, 'bultos.0.numeroDeEnvio'),
             'external_status' => data_get($response, 'estado'),
             'label_code'      => data_get($response, 'agrupadorDeBultos'),

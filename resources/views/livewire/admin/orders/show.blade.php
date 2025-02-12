@@ -21,16 +21,20 @@
                     
                                 <h2 class="text-base font-semibold">
                     
-                                    <span>Pedido {{ $order->code }}</span>
+                                    <span class="mr-1.5">Pedido {{ $order->id }}</span>
                     
-                                    <x-badge :color="$order->status->display_color" class="w-max"
-                                    x-tooltip.raw.placement.top="{{ $order->status->helper }}">
-                                        {{ $order->status->name }}
+                                    <x-badge :color="$order->status->color()" class="w-max"
+                                    {{-- x-tooltip.raw.placement.top="{{ $order->status->helper() }}" --}}>
+                                        {{ $order->status->name() }}
                                     </x-badge>
                                 </h2>
                     
                                 <small class="text-xs text-gray-600 mt-1">
                                     {{ $order->created_at->format('d/m/Y H:i') }}
+                                </small>
+
+                                <small class="text-xs text-gray-600 mt-1">
+                                    {{ $order->status->helper() }}
                                 </small>
                             </div>
                     

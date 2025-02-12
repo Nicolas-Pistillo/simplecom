@@ -39,7 +39,7 @@ class DiscountOrderStock
         {
             Log::channel('error')->info('Error al descontar stock de pedido', [
                 'tenant'  => tenant('name'),
-                'pedido'  => $event->order->code,
+                'pedido'  => $event->order->id,
                 'message' => $err->getMessage()
             ]);
         }
