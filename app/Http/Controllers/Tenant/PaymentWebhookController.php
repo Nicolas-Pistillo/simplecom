@@ -30,11 +30,13 @@ class PaymentWebhookController extends Controller
 
         $order = Order::find($order);
 
-        if (!$order || !$order instanceof Order) abort(401, 'order does not exist');
+        if (!$order || !$order instanceof Order) 
+            return response('order does not exist', 401);
 
         $providerModel = PaymentMethod::where('code', $provider)->first();
 
-        if (!$providerModel || !$providerModel instanceof PaymentMethod) abort(401, 'Provider not found');
+        if (!$providerModel || !$providerModel instanceof PaymentMethod) 
+            return response('Provider not found', 401);
 
         return $this->{$provider}($request, $order);
     }
@@ -45,11 +47,11 @@ class PaymentWebhookController extends Controller
         {
             $payment = MercadoPago::getPaymentInfo($request->id);
 
-            if (!$payment || !isset($payment->id)) abort(401, 'Payment does not exist');
+            if (!$payment || !isset($payment->id)) return response('Payment does not exist', 401);
 
             $paymentOrderCode = str_replace('Pedido ', '', $payment->external_reference);
 
-            if ($order->id != $paymentOrderCode) abort(401, 'Target order does not match');
+            if ($order->id != $paymentOrderCode) return response('Target order does not match', 401);
 
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'mercadopago',
@@ -317,7 +319,7 @@ class PaymentWebhookController extends Controller
 
                 $mbxOrderCode = str_replace('Pedido ', '', data_get($paymentInfo, 'transaction.payment.description'));
 
-                if ($mbxOrderCode != $order->id) abort(401, 'Target order does not match');
+                if ($mbxOrderCode != $order->id) return response('Target order does not match', 401);
 
                 $transaction = $paymentInfo->get('transaction');
                 $transactionDetails = $paymentInfo->get('transaction_details');
@@ -480,7 +482,7 @@ class PaymentWebhookController extends Controller
         {
             $ualabisOrder = str_replace('Pedido-', '', $request->external_reference);
 
-            if ($ualabisOrder != $order->id) abort(401, 'Target order does not match');
+            if ($ualabisOrder != $order->id) return response('Target order does not match', 401);
 
             $service = new Ualabis();
 
@@ -495,7 +497,7 @@ class PaymentWebhookController extends Controller
 
             $paymentStatus = data_get($paymentInfo, 'status');
 
-            if (!$paymentStatus) abort(401, 'Payment not found');
+            if (!$paymentStatus) return response('Payment not found', 401);
 
             if ($paymentStatus === 'APPROVED')
             {
@@ -609,13 +611,14 @@ class PaymentWebhookController extends Controller
         {
             $gocuotasOrder = str_replace('Pedido ', '', $request->order_reference_id);
 
-            if ($gocuotasOrder != $order->id) abort(401, 'Target order does not match');
+            if ($gocuotasOrder != $order->id) return response('Target order does not match', 401);
 
             $service = new GOcuotas();
 
             $paymentInfo = $service->getPaymentInfo($request->order_id);
 
-            if (empty($paymentInfo) || !isset($paymentInfo['id'])) abort(401, 'Payment not found');
+            if (empty($paymentInfo) || !isset($paymentInfo['id'])) 
+                return response('Payment not found', 401);
 
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'gocuotas',
@@ -741,7 +744,7 @@ class PaymentWebhookController extends Controller
                               ? str_replace('Pedido ', '', data_get($request, 'external_reference'))
                               : str_replace('Pedido ', '', data_get($request, 'transaction_data.external_reference'));
 
-            if ($orderReference != $order->id) abort(401, 'Target order does not match');
+            if ($orderReference != $order->id) return response('Target order does not match', 401);
 
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'cajero24',

@@ -21,9 +21,10 @@ return new class extends Migration
             $table->string('status');
             $table->string('external_status')->nullable();
             $table->string('external_status_description')->nullable();
+            $table->string('checkout_url')->nullable();
             $table->string('logistic_type');
-            $table->decimal('price_without_tax', 10)->nullable();
-            $table->decimal('price', 10);
+            $table->decimal('quoted_price', 10)->nullable();
+            $table->decimal('final_price', 10)->nullable();
             $table->string('external_id')->nullable();
             $table->string('label_code')->nullable();
             $table->string('label_url')->nullable();
@@ -34,10 +35,10 @@ return new class extends Migration
             $table->string('provider_carrier')->nullable();
             $table->string('provider_carrier_logo')->nullable();
             $table->string('delivery_estimate')->nullable();
-            $table->text('selected_branch')->nullable();
             $table->text('calculated_rate')->nullable();
+            $table->text('selected_branch')->nullable();
+            $table->string('selected_branch_id')->nullable();
             $table->string('observations')->nullable();
-            $table->string('total_price')->nullable();
             $table->text('meta')->nullable();
             $table->timestamps();
         });

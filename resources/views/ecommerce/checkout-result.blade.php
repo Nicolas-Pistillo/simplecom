@@ -50,7 +50,8 @@
                         <li class="no-select flex space-x-6 py-6 items-center">
             
                             <img src="{{ $item->product->first_image }}" alt="Imagen producto"
-                            class="hidden sm:block h-10 w-10 flex-none rounded-md bg-gray-100 object-cover">
+                            class="hidden sm:block h-10 w-10 flex-none rounded-md 
+                            bg-gray-100 object-contain">
             
                             <div class="flex-auto space-y-1">
             

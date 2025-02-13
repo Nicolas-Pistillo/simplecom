@@ -63,6 +63,45 @@ class Order extends Model
         return route('admin.orders.show', $this->id);
     }
 
+    public function calculatePackage($weightUnit = 'kg')
+    {
+        $package = [
+            'items' => 0,
+            'weight' => 0,
+            'declaredValue' => 0,
+            'dimensions' => [
+                'width'  => 0,
+                'height' => 0,
+                'length' => 0,
+                'volume' => 0
+            ]
+        ];
+
+        foreach($this->items as $item)
+        {
+            $price  = $item->unit_price      * $item->quantity;
+            $weight = $item->product->weight * $item->quantity;
+            $width  = $item->product->width  * $item->quantity;
+            $height = $item->product->height;
+            $length = $item->product->length * $item->quantity;
+
+            if ($weightUnit === 'kg')
+            {
+                $weight = $weight / 1000;
+            }
+
+            $package['items']                += $item->quantity;
+            $package['declaredValue']        += $price;
+            $package['weight']               += $weight;
+            $package['dimensions']['width']  += $width;
+            $package['dimensions']['height'] += $height;
+            $package['dimensions']['length'] += $length;
+            $package['dimensions']['volume'] += ($width * $height * $length);
+        }
+
+        return $package;
+    }
+
     public function paymentReturn()
     {
         return route('payment.return', [
@@ -77,6 +116,17 @@ class Order extends Model
             'tenant'   => tenant('name'),
             'order'    => $this->id,
             'provider' => $this->paymentMethod->code
+        ]);
+
+        return str_replace('http://', 'https://', $route);
+    }
+
+    public function shippingWebhook()
+    {
+        $route = route('tenant.shipping-webhook', [
+            'tenant'        => tenant('name'),
+            'orderShipping' => $this->shipping->id,
+            'provider'      => $this->shippingProvider->code
         ]);
 
         return str_replace('http://', 'https://', $route);

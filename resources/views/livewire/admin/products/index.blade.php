@@ -21,8 +21,7 @@
                 <div class="mx-auto max-w-screen-2xl">
                     <div class="relative shadow-md rounded-lg">
 
-                        <div
-                            class="flex items-end justify-between flex-wrap gap-4 px-4 py-3 
+                        <div class="flex items-end justify-between flex-wrap gap-4 px-4 py-3 
                         bg-white rounded-t-lg border border-gray-100">
 
                             <div class="relative w-full order-2 sm:order-1 sm:w-72">

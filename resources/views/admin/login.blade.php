@@ -43,15 +43,8 @@
                     </form>
 
                     @error('login-failed')
-                        <x-alert type="error" class="mt-3">Credenciales incorrectas</x-alert>
+                        <x-alert color="red" icon="error" class="max-w-none mt-3">Credenciales incorrectas</x-alert>
                     @enderror
-                </div>
-
-                <div class="lg:hidden absolute bottom-0 left-0 mb-4 w-full text-center">
-                    <a href="{{ route('simplecom.landing') }}" target="_blank"
-                    class="text-blue-500 hover:underline text-sm">
-                        simplecom.com
-                    </a>
                 </div>
             </div>
         </div>

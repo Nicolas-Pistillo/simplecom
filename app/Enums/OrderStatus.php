@@ -107,7 +107,7 @@ enum OrderStatus: string
             OrderStatus::PaymentRejected        => 'El pago del pedido fue rechazado, el comprador tiene posibilidad de reintento',
             OrderStatus::InMediation            => 'Resolvé el reclamo iniciado para este pedido',
             OrderStatus::Confirmed              => 'Prepará el pedido para su entrega',
-            OrderStatus::DispatchReady          => 'Llevá el pedido al punto de despacho correspondiente o preparalo para su colecta',
+            OrderStatus::DispatchReady          => 'Prepará el pedido para su despacho o colecta',
             OrderStatus::Dispatched             => 'Despachaste este pedido correctamente, se esperan actualizaciones del envío',
             OrderStatus::PickupReady            => 'El comprador ya puede pasar a retirar el pedido',
             OrderStatus::InTransit              => 'El transportista ya comenzó el recorrido para la entrega del pedido',

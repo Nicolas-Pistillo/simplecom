@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Events\OrderConfirmed;
 use App\Events\OrderCreated;
+use App\Events\OrderReadyForDispatch;
 use App\Events\OrderReadyForPickup;
 use App\Listeners\DiscountOrderStock;
 use App\Listeners\SendOrderConfirmedNotification;
 use App\Listeners\SendOrderCreatedNotification;
+use App\Listeners\SendOrderReadyForDispatchNotification;
 use App\Listeners\SendOrderReadyForPickupNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -39,6 +41,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderReadyForPickup::class => [
             SendOrderReadyForPickupNotification::class
+        ],
+        OrderReadyForDispatch::class => [
+            SendOrderReadyForDispatchNotification::class
         ]
     ];
 

@@ -46,6 +46,28 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
             </div>
         @endif
 
+        @if (!empty($order->shipping->external_status_description))
+            <div class="flex flex-col p-2">
+                <small class="text-xs text-gray-500 font-semibold">
+                    Detalle de estado
+                </small>
+                <span class="text-sm/6 text-gray-500">
+                    {{ $order->shipping->external_status_description }}
+                </span>
+            </div>
+        @endif
+
+        @if (in_array($order->shipping->logistic_type, [LogisticType::OriginToDoor, LogisticType::DropoffToDoor]))
+            <div class="flex flex-col p-2">
+                <small class="text-xs text-gray-500 font-semibold">
+                    Destino
+                </small>
+                <span class="text-sm/6 text-gray-500">
+                    {{ $order->shipping->userAddress->summary }}
+                </span>
+            </div>
+        @endif
+
         @if (!empty($order->shipping->provider_service))
             <div class="flex flex-col p-2">
                 <small class="text-xs text-gray-500 font-semibold">
@@ -53,17 +75,6 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                 </small>
                 <span class="text-sm/6 text-gray-500">
                     {{ $order->shipping->provider_service }}
-                </span>
-            </div>
-        @endif
-
-        @if (!empty($order->shipping->logistic_type))
-            <div class="flex flex-col p-2">
-                <small class="text-xs text-gray-500 font-semibold">
-                    Tipo de logística
-                </small>
-                <span class="text-sm/6 text-gray-500">
-                    {{ $order->shipping->logistic_type->name() }}
                 </span>
             </div>
         @endif
@@ -98,17 +109,6 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
             @endif
         @endif
 
-        @if (!empty($order->shipping->price))
-            <div class="flex flex-col p-2">
-                <small class="text-xs text-gray-500 font-semibold">
-                    Precio tarifado
-                </small>
-                <span class="text-sm/6 text-gray-500">
-                    ${{ $order->shipping->price }}
-                </span>
-            </div>
-        @endif
-
         @if (!empty($order->shipping->delivery_estimate))
             <div class="flex flex-col p-2">
                 <small class="text-xs text-gray-500 font-semibold">
@@ -123,57 +123,93 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
     </div>
 
     {{-- Additional info --}}
-    @if (!empty($order->shipping->meta) && count($order->shipping->meta))
+    <div x-data="{open: false}">
 
-        <div x-data="{open: false}">
+        <button @click="open = !open"
+        class="mt-2 py-1 px-3 w-max border bg-white rounded-full 
+            text-xs text-gray-700 flex items-center cursor-pointer
+            transition duration-300 hover:shadow-md hover:text-gray-900">
+            <span class="flex items-center">
+                <span x-text="open ? 'Ocultar información adicional' : 'Mostrar información adicional'"></span>
+                <i x-text="open ? 'arrow_drop_down' : 'arrow_right'" class="material-symbols-outlined"></i>
+            </span>
+        </button>
 
-            <button @click="open = !open"
-            class="mt-2 py-1 px-3 w-max border bg-white rounded-full 
-                text-xs text-gray-700 flex items-center cursor-pointer
-                transition duration-300 hover:shadow-md hover:text-gray-900">
-                <span class="flex items-center">
-                    <span x-text="open ? 'Ocultar información adicional' : 'Mostrar información adicional'"></span>
-                    <i x-text="open ? 'arrow_drop_down' : 'arrow_right'" class="material-symbols-outlined"></i>
-                </span>
-            </button>
+        <div x-cloak x-show="open" x-collapse>
+            <h4 class="my-3 text-sm/6 font-semibold text-gray-900">
+                Información adicional
+            </h4>
 
-            <div x-cloak x-show="open" x-collapse>
-                <h4 class="my-3 text-sm/6 font-semibold text-gray-900">
-                    Información adicional
-                </h4>
+            <div class="flex flex-wrap gap-3 items-end">
 
-                <div class="flex flex-wrap gap-3 items-end">
-                    @foreach ($order->shipping->meta as $metaItem)
+                @if (!empty($order->shipping->quoted_price))
+                    <div class="flex flex-col p-2">
+                        <small class="text-xs text-gray-500 font-semibold">
+                            Precio tarifado
+                        </small>
+                        <span class="text-sm/6 text-gray-500">
+                            ${{ $order->shipping->quoted_price }}
+                        </span>
+                    </div>
+                @endif
 
-                        @if (isset($metaItem['internal'])) @continue @endif
+                @if (!empty($order->shipping->final_price))
+                    <div class="flex flex-col p-2">
+                        <small class="text-xs text-gray-500 font-semibold">
+                            Precio final
+                        </small>
+                        <span class="text-sm/6 text-gray-500">
+                            ${{ $order->shipping->final_price }}
+                        </span>
+                    </div>
+                @endif
 
-                        @if (!empty($metaItem['value']))
+                @if (!empty($order->shipping->logistic_type))
+                    <div class="flex flex-col p-2">
+                        <small class="text-xs text-gray-500 font-semibold">
+                            Tipo de logística
+                        </small>
+                        <span class="text-sm/6 text-gray-500">
+                            {{ $order->shipping->logistic_type->name() }}
+                        </span>
+                    </div>
+                @endif
 
-                            <div class="flex flex-col p-2">
+                @foreach ($order->shipping->meta ?? [] as $metaItem)
 
-                                <small class="text-xs text-gray-500 font-semibold">
-                                    {{ $metaItem['name'] }}
-                                </small>
-                                
-                                <span class="text-sm text-gray-500">
+                    @if (isset($metaItem['internal'])) @continue @endif
 
-                                    @if (isset($metaItem['type']) && $metaItem['type'] === 'link')
+                    @if (!empty($metaItem['value']))
+
+                        <div class="flex flex-col p-2">
+
+                            <small class="text-xs text-gray-500 font-semibold">
+                                {{ $metaItem['name'] }}
+                            </small>
+                            
+                            <span class="text-sm text-gray-500">
+
+                                @switch($metaItem['type'] ?? null)
+                                    @case('link')
                                         <x-button :href="$metaItem['value']" blank type="secondary"
                                         class="inline-block mt-1.5" size="tiny">
                                             Abrir enlace
-                                        </x-button>
-                                    @else
-                                        {{ $metaItem['value'] }}
-                                    @endif
-                                </span>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
+                                        </x-button>    
+                                    @break
+                                    @case('image')
+                                            <img src="{{ $metaItem['value'] }}" alt="{{ $metaItem['name'] }}"
+                                            class="w-24 h-24">
+                                    @break
+                                    @default 
+                                    {{ $metaItem['value'] }}
+                                @endswitch
+                            </span>
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </div>
-
-    @endif
+    </div>
 
     <div class="mt-4 flex flex-wrap gap-3">
 
@@ -205,6 +241,11 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                 </x-slot>
 
             </x-modal>
+        @endif
+
+        @if ($order->shipping->status === ShippingStatus::OrderPayPending 
+        && !empty($order->shipping->checkout_url))
+            <x-button :href="$order->shipping->checkout_url" blank>Pagar orden de envío</x-button>
         @endif
 
         @if (!empty($order->shipping->label_url))

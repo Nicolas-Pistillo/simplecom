@@ -75,7 +75,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::CreationPending  => 'La orden de envío no ha sido creada',
-            ShippingStatus::OrderPayPending  => 'Debes abonar el envío en la plataforma del proveedor para confirmarlo',
+            ShippingStatus::OrderPayPending  => 'Debes abonar la orden de envío para confirmarla',
             ShippingStatus::Created          => 'La orden de envío ha sido creada. Se espera que el proveedor la confirme',
             ShippingStatus::Confirmed        => 'La orden de envío se ha confirmado y será procesada a la brevedad',
             ShippingStatus::Ready            => 'El proveedor está listo para entregar el pedido',

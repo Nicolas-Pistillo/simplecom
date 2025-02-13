@@ -1,5 +1,5 @@
 <div class="pt-8">
-    <img src="https://simplecom-ecommerce.s3.sa-east-1.amazonaws.com/elpalaciodelaoportunidad/banners/q9UXk31cdEHEsfZaTRBSyF4UrRnfHQPbsFuNbsQc.png"
+    <img src="https://t4.ftcdn.net/jpg/02/49/50/15/360_F_249501541_XmWdfAfUbWAvGxBwAM0ba2aYT36ntlpH.jpg"
         class="w-full h-48 rounded-lg object-cover">
 </div>
 

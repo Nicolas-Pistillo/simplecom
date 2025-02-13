@@ -4,14 +4,20 @@ use App\Http\Controllers\Tenant\PaymentWebhookController;
 use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\AuthController;
 use App\Http\Controllers\Superadmin\TenantController;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Tenant\ShippingWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'landing')->name('simplecom.landing');
 
+// Tenant Payment Webhooks
 Route::post('webhooks/tenant-payments/{tenant}/{order}/{provider}', [PaymentWebhookController::class, 'handler'])
     ->withoutMiddleware('web')
     ->name('tenant.payment-webhook');
+
+// Tenant Shipping Webhooks
+Route::post('webhooks/tenant-shippings/{tenant}/{orderShipping}/{provider}', [ShippingWebhookController::class, 'handler'])
+    ->withoutMiddleware('web')
+    ->name('tenant.shipping-webhook');
 
 /* SUPERADMIN ROUTES */
 Route::prefix('superadmin')->group(function() {

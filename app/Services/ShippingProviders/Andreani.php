@@ -5,6 +5,7 @@ namespace App\Services\ShippingProviders;
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
+use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
 use App\Models\CollectionPoint;
@@ -66,7 +67,13 @@ class Andreani implements ShippingProvider
 
         $origin = CollectionPoint::inUse();
 
-        if (!$this->token || !$origin) return false;
+        if (!$this->token)
+            throw new Exception('Error al comunicarse con los servicios de Andreani');
+
+        if (!$origin)
+            throw new Exception('No hay un punto de colecta en uso');
+
+        $package = $order->calculatePackage();
 
         $body = [
             'remitente' => [
@@ -104,7 +111,13 @@ class Andreani implements ShippingProvider
                         'contenido' => $origin->references
                     ]
                 ]
-            ]      
+            ],
+            'bultos' => [
+                [
+                    'kilos'   => data_get($package, 'weight'),
+                    'volumen' => data_get($package, 'dimensions.volume')
+                ]
+            ]   
         ];
 
         if (in_array($order->shipping->logistic_type, [LogisticType::OriginToDropoff, LogisticType::DropoffToDropoff]))
@@ -127,20 +140,6 @@ class Andreani implements ShippingProvider
                 ]
             ];
         }
-
-        $package = ['volumen' => 0, 'kilos' => 0];
-
-        foreach($order->items as $item)
-        {
-            $width  = $item->product->width;
-            $height = $item->product->height;
-            $length = $item->product->length;
-
-            $package['volumen'] += (($width * $height * $length) * $item->quantity);
-            $package['kilos']   += (($item->product->weight / 1000) * $item->quantity);
-        }
-
-        $body['bultos'] = [$package];
 
         $response = Http::withHeader('x-authorization-token', $this->token)
                         ->withBody(json_encode($body))
@@ -180,6 +179,8 @@ class Andreani implements ShippingProvider
                 ],
             ]
         ]);
+
+        $order->update(['status' => OrderStatus::DispatchReady]);
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::ShippingUpdate,

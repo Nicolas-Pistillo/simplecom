@@ -83,7 +83,7 @@ class Show extends Component
             return $this->notify([
                 'type'  => 'danger',
                 'title' => 'Error al generar orden de envío',
-                'body'  => 'Respuesta recibida: ' . $err->getMessage()
+                'body'  => $err->getMessage()
             ]);
         }
     }

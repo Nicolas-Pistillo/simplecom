@@ -21,10 +21,9 @@
                     
                                 <h2 class="text-base font-semibold">
                     
-                                    <span class="mr-1.5">Pedido {{ $order->id }}</span>
+                                    <span class="mr-1">Pedido {{ $order->id }}</span>
                     
-                                    <x-badge :color="$order->status->color()" class="w-max"
-                                    {{-- x-tooltip.raw.placement.top="{{ $order->status->helper() }}" --}}>
+                                    <x-badge :color="$order->status->color()" class="w-max">
                                         {{ $order->status->name() }}
                                     </x-badge>
                                 </h2>

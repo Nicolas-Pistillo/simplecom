@@ -106,9 +106,10 @@ class OrderService
                 'provider_service'    => data_get($form->selected_rate, 'service_name'),
                 'provider_carrier'    => data_get($form->selected_rate, 'carrier_name'),
                 'logistic_type'       => data_get($form->selected_rate, 'logistic_type'),
-                'price'               => data_get($form->selected_rate, 'price'),
+                'quoted_price'        => data_get($form->selected_rate, 'price'),
                 'delivery_estimate'   => data_get($form->selected_rate, 'estimate'),
                 'selected_branch'     => !empty($branch) ? $branch : null,
+                'selected_branch_id'  => data_get($branch, 'external_id'),
                 'calculated_rate'     => $form->selected_rate
             ]);
         }
