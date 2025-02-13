@@ -5,6 +5,7 @@ namespace App\Services\ShippingProviders;
 use App\Enums\LogisticType;
 use App\Interfaces\ShippingProvider;
 use App\Models\Order;
+use App\Models\OrderShipping;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
@@ -146,6 +147,11 @@ class Zippin implements ShippingProvider
     }
 
     public function createOrder(?Order $order)
+    {
+        
+    }
+
+    public function getStatus(OrderShipping $shipping)
     {
         
     }

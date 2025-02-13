@@ -7,7 +7,6 @@ use App\Models\PaymentMethod;
 
 interface PaymentGateway
 {
-    public function generateCheckout(Order $order);
-
     public function model(): PaymentMethod;
+    public function generateCheckout(Order $order);
 }

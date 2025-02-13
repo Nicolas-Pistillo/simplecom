@@ -5,6 +5,7 @@ namespace App\Services\ShippingProviders;
 use App\Enums\LogisticType;
 use App\Interfaces\ShippingProvider;
 use App\Models\Order;
+use App\Models\OrderShipping;
 use App\Traits\Configurable;
 use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
@@ -92,6 +93,11 @@ class Saires implements ShippingProvider
     }
 
     public function createOrder(?Order $order)
+    {
+        
+    }
+
+    public function getStatus(OrderShipping $shipping)
     {
         
     }

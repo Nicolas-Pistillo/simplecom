@@ -4,7 +4,9 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Interfaces\ShippingProvider;
+use App\Models\CollectionPoint;
 use App\Models\Order;
+use App\Models\OrderShipping;
 use App\Services\CartService;
 use App\Traits\Configurable;
 use App\Utils\ShippingRate;
@@ -26,9 +28,13 @@ class Epick implements ShippingProvider
 
         $cartPackage = CartService::getPackageInfo('kg');
 
+        $collectionPoint = CollectionPoint::inUse();
+
+        if (!$collectionPoint) return $rates;
+
         $response = Http::withBody(json_encode([
             'sender' => [
-                'postal_code' => '1879'
+                'postal_code' => $collectionPoint->zipcode_number
             ],
             'addressee' => [
                 'postal_code' => $parameters->recipient_address->zipcode_number
@@ -54,7 +60,8 @@ class Epick implements ShippingProvider
             'source_data'         => $response,
             'label'               => "E-Pick - Envío a domicilio",
             'carrier_logo'        => Storage::url('providers/epick.png'),
-            'service_id'          => 'ship',
+            'service_id'          => 'epick_sipping',
+            'service_name'        => 'Servicio puerta a puerta',
             'logistic_type'       => LogisticType::OriginToDoor,
             'price'               => data_get($response, 'price'),
             'estimate'            => $estimate
@@ -63,7 +70,12 @@ class Epick implements ShippingProvider
         return $rates;
     }
 
-    public function createOrder(?Order $order)
+    public function createOrder(Order $order)
+    {
+        
+    }
+
+    public function getStatus(OrderShipping $shipping)
     {
         
     }

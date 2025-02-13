@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
-use function PHPSTORM_META\map;
-
 class Show extends Component
 {
     use WithNotifications;
@@ -66,8 +64,6 @@ class Show extends Component
 
             $service->createOrder($this->order);
 
-            $this->dispatch('close-confirm-shipping-create');
-
             $this->notify([
                 'type'  => 'success',
                 'title' => 'Orden de envío generada',
@@ -82,10 +78,12 @@ class Show extends Component
                 'mensaje' => $err->getMessage()
             ]);
 
+            $this->dispatch('close-confirm-shipping-create');
+
             return $this->notify([
-                'type'  => 'error',
+                'type'  => 'danger',
                 'title' => 'Error al generar orden de envío',
-                'body'  => 'Por favor vuelva a intentarlo más tarde'
+                'body'  => 'Respuesta recibida: ' . $err->getMessage()
             ]);
         }
     }

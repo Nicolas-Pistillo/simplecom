@@ -104,7 +104,7 @@ enum PaymentStatus: string
             PaymentStatus::ProviderClaimed       => 'El comprador inició un reclamo por el pago realizado',
             PaymentStatus::InRevision            => 'El pago esta siendo revisado por el proveedor',
             PaymentStatus::Processed             => 'Se ha procesado correctamente el pago y se espera recibir detalles del mismo',
-            PaymentStatus::Confirmed             => 'El pago se confirmó exitosamente',
+            PaymentStatus::Confirmed             => 'El pago se confirmó correctamente',
             PaymentStatus::Rejected              => 'El pago fue rechazado, el comprador puede reintenarlo',
             PaymentStatus::CancellationInProcess => 'La cancelación del pago está en proceso',
             PaymentStatus::Cancelled             => 'El pago fue cancelado',

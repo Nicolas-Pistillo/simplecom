@@ -8,6 +8,7 @@ use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
 use App\Enums\ShippingStatus;
 use App\Events\OrderCreated;
+use App\Models\CollectionPoint;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderShipping;
@@ -93,19 +94,22 @@ class OrderService
         {
             $branch = session('selected_branch');
 
+            $collectionPoint = CollectionPoint::inUse();
+
             OrderShipping::create([
-                'order_id'          => $order->id,
-                'provider_id'       => $shippingProvider->id,
-                'user_address_id'   => session('selected_address.id'),
-                'status'            => ShippingStatus::CreationPending,
-                'provider_label'    => data_get($form->selected_rate, 'label'),
-                'provider_service'  => data_get($form->selected_rate, 'service_name'),
-                'provider_carrier'  => data_get($form->selected_rate, 'carrier_name'),
-                'logistic_type'     => data_get($form->selected_rate, 'logistic_type'),
-                'price'             => data_get($form->selected_rate, 'price'),
-                'delivery_estimate' => data_get($form->selected_rate, 'estimate'),
-                'selected_branch'   => !empty($branch) ? $branch : null,
-                'calculated_rate'   => $form->selected_rate
+                'order_id'            => $order->id,
+                'provider_id'         => $shippingProvider->id,
+                'collection_point_id' => $collectionPoint->id,
+                'user_address_id'     => session('selected_address.id'),
+                'status'              => ShippingStatus::CreationPending,
+                'provider_label'      => data_get($form->selected_rate, 'label'),
+                'provider_service'    => data_get($form->selected_rate, 'service_name'),
+                'provider_carrier'    => data_get($form->selected_rate, 'carrier_name'),
+                'logistic_type'       => data_get($form->selected_rate, 'logistic_type'),
+                'price'               => data_get($form->selected_rate, 'price'),
+                'delivery_estimate'   => data_get($form->selected_rate, 'estimate'),
+                'selected_branch'     => !empty($branch) ? $branch : null,
+                'calculated_rate'     => $form->selected_rate
             ]);
         }
 

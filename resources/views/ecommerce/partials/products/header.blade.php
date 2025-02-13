@@ -1,7 +1,7 @@
-{{-- <div class="pt-8">
-    <img src="https://calzzapatodigital.s3.us-west-1.amazonaws.com/landings/calzzasport/fcc9d70f-6160-4e4d-9e81-69f02a0b63e6.webp"
+<div class="pt-8">
+    <img src="https://simplecom-ecommerce.s3.sa-east-1.amazonaws.com/elpalaciodelaoportunidad/banners/q9UXk31cdEHEsfZaTRBSyF4UrRnfHQPbsFuNbsQc.png"
         class="w-full h-48 rounded-lg object-cover">
-</div> --}}
+</div>
 
 <div class="flex items-end gap-6 flex-wrap justify-between border-b border-gray-200 pb-4 pt-8">
 

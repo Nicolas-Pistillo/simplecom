@@ -9,6 +9,7 @@ use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
 use App\Models\CollectionPoint;
 use App\Models\Order;
+use App\Models\OrderShipping;
 use App\Services\CartService;
 use App\Traits\Configurable;
 use App\Utils\Address;
@@ -53,15 +54,13 @@ class Andreani implements ShippingProvider
 
     public function getRates(ShippingRateParameters $parameters): Collection
     {
-        $rates = collect();
-
         $toHomeRates = $this->getToHomeRate($parameters);
         $branchRates = $this->getBranchRate($parameters);
 
         return $toHomeRates->merge($branchRates);
     }
 
-    public function createOrder(?Order $order)
+    public function createOrder(Order $order)
     {
         $this->generateToken();
 
@@ -108,10 +107,10 @@ class Andreani implements ShippingProvider
             ]      
         ];
 
-        if (in_array($order->logistic_type, [LogisticType::OriginToDropoff, LogisticType::DropoffToDropoff]))
+        if (in_array($order->shipping->logistic_type, [LogisticType::OriginToDropoff, LogisticType::DropoffToDropoff]))
         {
             $body['contrato'] = $this->key('andreani_contrato_sucursal');
-            $body['destino']['sucursal']['id'] = data_get($order->shipping, 'selected_branch.id');
+            $body['destino']['sucursal']['id'] = strval(data_get($order->shipping->selected_branch, 'external_id'));
         } else
         {
             $body['contrato'] = $this->key('andreani_contrato_domicilio');
@@ -193,6 +192,15 @@ class Andreani implements ShippingProvider
         ]);
     }
 
+    public function getStatus(OrderShipping $shipping)
+    {
+        $this->generateToken();
+
+        return Http::withHeader('x-authorization-token', $this->token)
+                        ->get("$this->base_url/v2/envios/$shipping->external_id")
+                        ->json();
+    }
+
     public function getLabelPdf($packageGrouper)
     {
         $this->generateToken();
@@ -268,7 +276,6 @@ class Andreani implements ShippingProvider
             'label'         => 'Andreani - Envío a sucursal',
             'service_name'  => 'Servicio a sucursal',
             'logistic_type' => LogisticType::OriginToDropoff,
-            'carrier_name'  => 'Andreani',
             'carrier_logo'  => Storage::url('providers/andreani_icon.png'),
             'price_no_tax'  => data_get($response, 'tarifaSinIva.total'),
             'price'         => data_get($response, 'tarifaConIva.total'),
