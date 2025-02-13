@@ -41,8 +41,10 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                 <x-button type="secondary" wire:loading.remove wire:target='setReadyForPickup' 
                 @click="confirmReadyForPickup = false">Cancelar</x-button>
         
-                <x-button wire:click='setReadyForPickup' wire:loading.remove wire:target='setReadyForPickup' 
-                class="mx-3">Confirmar</x-button>
+                <x-button wire:click='setReadyForPickup' wire:loading.remove 
+                wire:target='setReadyForPickup'>
+                    Confirmar
+                </x-button>
                 
             </x-slot>
         

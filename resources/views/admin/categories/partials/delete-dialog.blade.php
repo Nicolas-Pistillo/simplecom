@@ -16,7 +16,7 @@
         @click="deleteDialogOpen = false">Cancelar</x-button>
 
         <x-button wire:click='deleteCategory' wire:loading.remove wire:target='deleteCategory' 
-        class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
+        class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
         
     </x-slot>
 

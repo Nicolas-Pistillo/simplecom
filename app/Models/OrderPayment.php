@@ -16,4 +16,9 @@ class OrderPayment extends Model
         'status'  => PaymentStatus::class,
         'meta'    => 'json'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

@@ -101,7 +101,9 @@
                     @click="confirmStorePickupDeletion = false">Cancelar</x-button>
 
                 <x-button wire:click='deleteStorePickup' wire:loading.remove
-                    wire:target='deleteStorePickup' class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
+                wire:target='deleteStorePickup' class="bg-red-600 hover:bg-red-500">
+                    Eliminar
+                </x-button>
 
             </x-slot>
 

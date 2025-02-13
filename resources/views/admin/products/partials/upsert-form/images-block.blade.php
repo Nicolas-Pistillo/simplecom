@@ -69,7 +69,7 @@
 
                                             <x-button wire:click='deleteImage({{ $key }})'
                                                 wire:loading.remove wire:target='deleteImage'
-                                                class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
+                                                class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
 
                                         </x-slot>
 

@@ -141,7 +141,7 @@ x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDelet
                 @click="confirmCollectionPointDeletion = false">Cancelar</x-button>
 
                 <x-button wire:click='deleteCollectionPoint' 
-                wire:loading.remove class="bg-red-600 hover:bg-red-500 mx-3"
+                wire:loading.remove class="bg-red-600 hover:bg-red-500"
                 wire:target='deleteCollectionPoint'>Eliminar</x-button>
 
             </x-slot>

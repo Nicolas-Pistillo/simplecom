@@ -25,4 +25,9 @@ class OrderShipping extends Model
     {
         return $this->belongsTo(UserAddress::class);
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

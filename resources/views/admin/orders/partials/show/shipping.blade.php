@@ -216,9 +216,8 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
         @if ($order->shipping->status === ShippingStatus::CreationPending)
             <x-button @click="confirmShippingCreate = true">Crear orden de envío</x-button>
 
-            <x-modal ref="confirmShippingCreate" closeOnClickAway type="info" icon="local_shipping">
-
-                <x-slot name="title">Nueva orden de envío</x-slot>
+            <x-modal ref="confirmShippingCreate" closeOnClickAway 
+            title="Nueva orden de envío" type="info" icon="local_shipping">
 
                 <x-slot name="body">
                     Se creará una nueva orden de envío con {{ $order->shippingProvider->name }}
@@ -235,8 +234,10 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                     <x-button type="secondary" wire:loading.remove wire:target='createShippingOrder'
                         @click="confirmShippingCreate = false">Cancelar</x-button>
 
-                    <x-button wire:click='createShippingOrder' wire:loading.remove wire:target='createShippingOrder'
-                        class="mx-3">Confirmar</x-button>
+                    <x-button wire:click='createShippingOrder' wire:loading.remove 
+                    wire:target='createShippingOrder'>
+                        Confirmar
+                    </x-button>
 
                 </x-slot>
 

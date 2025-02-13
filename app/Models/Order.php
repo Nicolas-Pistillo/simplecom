@@ -102,6 +102,15 @@ class Order extends Model
         return $package;
     }
 
+    public function discountStock()
+    {
+        foreach($this->items as $item)
+        {
+            $item->variant ? $item->variant->update(['stock' => ($item->variant->stock - $item->quantity)])
+                           : $item->product->update(['stock' => ($item->product->stock - $item->quantity)]);
+        }
+    }
+
     public function paymentReturn()
     {
         return route('payment.return', [

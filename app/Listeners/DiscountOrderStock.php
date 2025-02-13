@@ -27,11 +27,7 @@ class DiscountOrderStock
         {
             if ($event->order->stock_discounted) return;
             
-            foreach($event->order->items as $item)
-            {
-                $item->variant ? $item->variant->update(['stock' => ($item->variant->stock - $item->quantity)])
-                               : $item->product->update(['stock' => ($item->product->stock - $item->quantity)]);
-            }
+            $event->order->discountStock();
 
             $event->order->update(['stock_discounted' => true]);
 

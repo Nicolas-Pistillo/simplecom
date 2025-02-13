@@ -20,7 +20,7 @@
 
         <x-button wire:click='deleteValue({{ $attribute->id }} ,{{ $value->id }})'
         wire:loading.remove wire:target='deleteValue'
-        class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
+        class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
 
     </x-slot>
 

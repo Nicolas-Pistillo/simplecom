@@ -148,9 +148,31 @@
 
     @endif
 
-    <div class="mt-4 flex flex-wrap gap-3">
+    <div x-data="{showTransferConfirm: false}" class="mt-4 flex flex-wrap gap-3"
+    x-on:close-show-transfer-confirm.window="showTransferConfirm = false">
         @if ($order->payment?->status === PaymentStatus::TransferPending)
-            <x-button>Ya recibí el pago</x-button>
+            <x-button @click="showTransferConfirm = true">Ya recibí el pago</x-button>
         @endif
+
+        <x-modal ref="showTransferConfirm" closeOnClickAway
+        title="Confirmar transferencia recibida" type="success" icon="list_alt_check">
+            <x-slot name="body">
+                Se notificará a {{ $order->user->name }} que el pago está confirmado
+                y se podrá proceder con la entrega del pedido
+            </x-slot>
+
+            <x-slot name="actions">
+
+                <x-spinner wire:loading wire:target='confirmTransferReceived' />
+
+                <x-button type="secondary" @click="showTransferConfirm = false"
+                wire:loading.remove wire:target='confirmTransferReceived'>
+                    Cancelar
+                </x-button>
+
+                <x-button wire:click='confirmTransferReceived' wire:loading.remove 
+                wire:target='confirmTransferReceived'>Confirmar</x-button>
+            </x-slot>
+        </x-modal>
     </div>
 </div>

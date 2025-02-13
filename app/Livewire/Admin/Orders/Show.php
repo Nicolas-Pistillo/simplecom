@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Orders;
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
 use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
 use App\Traits\Livewire\WithNotifications;
@@ -18,17 +19,34 @@ class Show extends Component
 
     public $order;
 
-    public function mount($order)
+    public function confirmTransferReceived()
     {
-        $order = Order::find($order) ?? abort(404);
+        if ($this->order->status === OrderStatus::PaymentPending)
+        {
+            $this->order->update(['status' => OrderStatus::Confirmed]);
+        }
 
-        $order->load(
-            'items.variant.options.attribute', 'items.variant.options.attributeValue',
-            'storePickup', 'shipping.userAddress', 'payment', 'user', 'feed', 
-            'shippingProvider', 'paymentMethod'
-        );
+        $this->order->payment->update(['status' => PaymentStatus::Confirmed]);
 
-        $this->order = $order;
+        OrderFeedItem::create([
+            'order_id'      => $this->order->id,
+            'event'         => OrderFeedEvent::StatusUpdate,
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => "confirmó el pago por transferencia del comprador",
+            'meta'          => [
+                'icon_code'  => 'list_alt_check',
+                'icon_color' => 'green'
+            ]
+        ]);
+
+        $this->dispatch('close-show-transfer-confirm');
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => 'Pedido actualizado',
+            'body'  => "Confirmaste la transferencia correctamente"
+        ]);
     }
 
     public function setReadyForPickup()
@@ -86,6 +104,19 @@ class Show extends Component
                 'body'  => $err->getMessage()
             ]);
         }
+    }
+
+    public function mount($order)
+    {
+        $order = Order::find($order) ?? abort(404);
+
+        $order->load(
+            'items.variant.options.attribute', 'items.variant.options.attributeValue',
+            'storePickup', 'shipping.userAddress', 'payment', 'user', 'feed', 
+            'shippingProvider', 'paymentMethod'
+        );
+
+        $this->order = $order;
     }
 
     public function render()
