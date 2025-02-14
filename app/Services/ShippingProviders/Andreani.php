@@ -3,13 +3,22 @@
 namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
+use App\Enums\OrderFeedEvent;
+use App\Enums\OrderFeedPresentation;
+use App\Enums\OrderStatus;
+use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
+use App\Models\CollectionPoint;
+use App\Models\Order;
+use App\Models\OrderShipping;
 use App\Services\CartService;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
+use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +36,9 @@ class Andreani implements ShippingProvider
 
     public function __construct()
     {
-        $this->base_url = env('ANDREANI_TEST') ? 'https://apisqa.andreani.com' : 'https://apis.andreani.com';
+        $this->base_url = env('ANDREANI_TEST') 
+                        ? 'https://apisqa.andreani.com' 
+                        : 'https://apis.andreani.com';
     }
 
     public function generateToken()
@@ -44,21 +55,161 @@ class Andreani implements ShippingProvider
 
     public function getRates(ShippingRateParameters $parameters): Collection
     {
-        $rates = collect();
-
-        $this->generateToken();
-
-        if (!$this->token) return $rates;
-
         $toHomeRates = $this->getToHomeRate($parameters);
         $branchRates = $this->getBranchRate($parameters);
 
         return $toHomeRates->merge($branchRates);
     }
 
-    public function createOrder()
+    public function createOrder(Order $order)
     {
+        $this->generateToken();
+
+        $origin = CollectionPoint::inUse();
+
+        if (!$this->token)
+            throw new Exception('Error al comunicarse con los servicios de Andreani');
+
+        if (!$origin)
+            throw new Exception('No hay un punto de colecta en uso');
+
+        $package = $order->calculatePackage();
+
+        $body = [
+            'remitente' => [
+                'nombreCompleto'  => $origin->staff_name,
+                'eMail'           => $origin->staff_email,
+                'documentoTipo'   => 'DNI',
+                'documentoNumero' => $origin->staff_document,
+                'telefono'       => [
+                    'tipo'   => 1,
+                    'numero' => $origin->staff_phone
+                ]
+            ],
+            'destinatario' => [
+                [
+                    'nombreCompleto'  => $order->user->full_name,
+                    'eMail'           => $order->user->email,
+                    'documentoTipo'   => 'DNI',
+                    'documentoNumero' => $order->user->document,
+                    'telefono'       => [
+                        'tipo'   => 1,
+                        'numero' => $order->user->phone
+                    ]
+                ]
+            ],
+            'origen' => [
+                'postal' => [
+                    'localidad'     => $origin->locality,
+                    'codigoPostal'  => $origin->zipcode_number,
+                    'calle'         => $origin->street,
+                    'numero'        => $origin->number
+                ],
+                'componentesDeDireccion' => [
+                    [
+                        'meta' => 'Referencias',
+                        'contenido' => $origin->references
+                    ]
+                ]
+            ],
+            'bultos' => [
+                [
+                    'kilos'   => data_get($package, 'weight'),
+                    'volumen' => data_get($package, 'dimensions.volume')
+                ]
+            ]   
+        ];
+
+        if (in_array($order->shipping->logistic_type, [LogisticType::OriginToDropoff, LogisticType::DropoffToDropoff]))
+        {
+            $body['contrato'] = $this->key('andreani_contrato_sucursal');
+            $body['destino']['sucursal']['id'] = strval(data_get($order->shipping->selected_branch, 'external_id'));
+        } else
+        {
+            $body['contrato'] = $this->key('andreani_contrato_domicilio');
+            $body['destino']['postal'] = [
+                'localidad'     => $order->shipping->userAddress->locality,
+                'codigoPostal'  => $order->shipping->userAddress->zipcode_number,
+                'calle'         => $order->shipping->userAddress->street,
+                'numero'        => $order->shipping->userAddress->number,
+                'componentesDeDireccion' => [
+                    [
+                        'meta'      => 'Referencias',
+                        'contenido' => $order->shipping->userAddress->references
+                    ]
+                ]
+            ];
+        }
+
+        $response = Http::withHeader('x-authorization-token', $this->token)
+                        ->withBody(json_encode($body))
+                        ->post("$this->base_url/v2/ordenes-de-envio")
+                        ->throw()
+                        ->json();
+
+        if (!isset($response['estado']) || !isset($response['fechaCreacion']))
+            throw new Exception('Error al generar orden de envío con Andreani');
         
+        $order->shipping->update([
+            'status'           => ShippingStatus::Created,
+            'external_id'      => data_get($response, 'bultos.0.numeroDeEnvio'),
+            'external_status'  => data_get($response, 'estado'),
+            'label_code'       => data_get($response, 'agrupadorDeBultos'),
+            'label_url'        => route('admin.shipping-label.andreani', $order->shipping->id),
+            'order_created_at' => Carbon::parse(data_get($response, 'fechaCreacion'))->format('Y-m-d H:i:s'),
+            'meta'            => [
+                [
+                    'name'  => 'Fecha de creación',
+                    'value' => Carbon::parse(data_get($response, 'fechaCreacion'))->format('d/m/Y H:i:s')
+                ],
+                [
+                    'name'  => 'Número de Permisionaria',
+                    'value' => data_get($response, 'numeroDePermisionaria')
+                ],
+                [
+                    'name'  => 'Descripción de servicio',
+                    'value' => data_get($response, 'descripcionServicio')
+                ],
+                [
+                    'name'  => 'Sucursal distribución',
+                    'value' => data_get($response, 'sucursalDeDistribucion.descripcion')
+                ],
+                [
+                    'name'  => 'Sucursal rendición',
+                    'value' => data_get($response, 'sucursalDeRendicion.descripcion')
+                ],
+            ]
+        ]);
+
+        $order->update(['status' => OrderStatus::DispatchReady]);
+
+        $order->feed()->create([
+            'event'         => OrderFeedEvent::ShippingUpdate,
+            'presentation'  => OrderFeedPresentation::Image,
+            'initializator' => 'Andreani',
+            'action'        => 'recibió la orden de envío para el pedido, se espera que se acepte y se procese a la brevedad',
+            'meta'          => [
+                'img_src'  => Storage::url('providers/andreani_icon.png')
+            ]
+        ]);
+    }
+
+    public function getStatus(OrderShipping $shipping)
+    {
+        $this->generateToken();
+
+        return Http::withHeader('x-authorization-token', $this->token)
+                        ->get("$this->base_url/v2/envios/$shipping->external_id")
+                        ->json();
+    }
+
+    public function getLabelPdf($packageGrouper)
+    {
+        $this->generateToken();
+
+        return Http::withHeader('x-authorization-token', $this->token)
+                    ->get("$this->base_url/v2/ordenes-de-envio/$packageGrouper/etiquetas")
+                    ->body();
     }
 
     public function getToHomeRate(ShippingRateParameters $parameters): Collection
@@ -68,7 +219,7 @@ class Andreani implements ShippingProvider
         $response = Http::withQueryParameters([
             'cpDestino' => $parameters->recipient_address->zipcode_number,
             'contrato'  => $this->key('andreani_contrato_domicilio'),
-            'cliente'   => '0012006460',
+            'cliente'   => $this->key('andreani_nro_cliente'),
             'bultos'    => [
                 [
                     'valor' => data_get($cartPackage, 'declaredValue'),
@@ -103,7 +254,7 @@ class Andreani implements ShippingProvider
         $response = Http::withQueryParameters([
             'cpDestino' => $parameters->recipient_address->zipcode_number,
             'contrato'  => $this->key('andreani_contrato_sucursal'),
-            'cliente'   => '0012006460',
+            'cliente'   => $this->key('andreani_nro_cliente'),
             'bultos'    => [
                 [
                     'valor' => data_get($cartPackage, 'declaredValue'),
@@ -127,7 +278,6 @@ class Andreani implements ShippingProvider
             'label'         => 'Andreani - Envío a sucursal',
             'service_name'  => 'Servicio a sucursal',
             'logistic_type' => LogisticType::OriginToDropoff,
-            'carrier_name'  => 'Andreani',
             'carrier_logo'  => Storage::url('providers/andreani_icon.png'),
             'price_no_tax'  => data_get($response, 'tarifaSinIva.total'),
             'price'         => data_get($response, 'tarifaConIva.total'),

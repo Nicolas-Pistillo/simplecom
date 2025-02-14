@@ -84,7 +84,7 @@
                         <div class="hidden lg:flex lg:items-center">
                             <a class="w-32" href="{{ route('ecommerce.index') }}">
                                 <span class="sr-only">{{ tenant('name') }}</span>
-                                <img class="h-12 w-32 object-contain object-left" title="Inicio" alt="logo"
+                                <img class="h-12 w-32 object-contain object-center" title="Inicio" alt="logo"
                                     src="{{ Storage::url(tenant()->logo_url) }}">
                             </a>
                         </div>

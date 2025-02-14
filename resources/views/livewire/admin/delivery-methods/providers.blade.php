@@ -3,6 +3,27 @@ class="w-full flex justify-center gap-4 flex-wrap"
 x-on:close-provider-config.window="openProviderConfig = false"
 x-on:open-provider-config.window="openProviderConfig = true">
 
+    <div class="w-full">
+
+        @if (!$collection_point)
+            <x-alert class="mb-3" color="yellow" icon="warning" title="Sin puntos de colecta activos">
+                Necesitas crear o asignar un 
+                <span @click="current = 'Puntos de colecta'" 
+                class="text-blue-600 hover:underline cursor-pointer">
+                    punto de colecta
+                </span> 
+                para indicarle al proveedor donde pasar a retirar tus pedidos
+            </x-alert>
+        @else
+            <x-alert class="mb-3" icon="location_on">
+                <x-slot name="title">
+                    Las cotizaciones y colectas se están realizando 
+                    desde <b>{{ $collection_point->name }}</b>
+                </x-slot>
+            </x-alert>
+        @endif
+    </div>
+
     @foreach ($providers as $provider)
         <div wire:key='{{ $provider->id }}' x-data="{ expanded: false }"
             class="relative max-w-2xs border border-solid border-gray-200 

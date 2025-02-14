@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,12 +13,12 @@ class OrderPayment extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $casts = [
-        'status_code' => PaymentStatusCode::class,
-        'meta'        => 'json'
+        'status'  => PaymentStatus::class,
+        'meta'    => 'json'
     ];
 
-    public function status()
+    public function order()
     {
-        return $this->hasOne(PaymentStatus::class, 'code', 'status_code');
+        return $this->belongsTo(Order::class);
     }
 }

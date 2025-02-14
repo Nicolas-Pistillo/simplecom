@@ -59,7 +59,7 @@
                 </div>
 
                 @isset($actions)
-                    <div class="mt-5 flex justify-end sm:mt-4">
+                    <div class="mt-5 flex justify-end sm:mt-4 gap-3">
                         {{ $actions }}
                     </div>
                 @endisset

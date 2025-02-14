@@ -20,8 +20,9 @@
             </div>
         </div>
     @else
-        <x-button @click="$dispatch('open-new-store-pickup-panel')" class="flex items-center mb-8">
-            <x-icon code="add" />
+        <x-button @click="$dispatch('open-new-store-pickup-panel')" 
+        class="flex items-center gap-1 mb-8">
+            <x-icon code="add_business" />
             Agregar retiro en tienda
         </x-button>
 
@@ -99,8 +100,10 @@
                 <x-button type="secondary" wire:loading.remove wire:target='deleteStorePickup'
                     @click="confirmStorePickupDeletion = false">Cancelar</x-button>
 
-                <x-button wire:click='deleteStorePickup({{ $store_pickup?->id }})' wire:loading.remove
-                    wire:target='deleteStorePickup' class="bg-red-600 hover:bg-red-500 mx-3">Eliminar</x-button>
+                <x-button wire:click='deleteStorePickup' wire:loading.remove
+                wire:target='deleteStorePickup' class="bg-red-600 hover:bg-red-500">
+                    Eliminar
+                </x-button>
 
             </x-slot>
 

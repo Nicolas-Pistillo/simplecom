@@ -4,9 +4,8 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\OrderStatusCode;
 use App\Enums\PaymentRedirectType;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -70,7 +69,7 @@ class Modo implements PaymentGateway
                         ->asJson()
                         ->throw()
                         ->withBody(json_encode([
-                            'productName'         => "Pedido $order->code",
+                            'productName'         => "Pedido $order->id",
                             //'price'               => $order->total,
                             'price'               => 25.64,
                             'quantity'            => 1,
@@ -92,7 +91,7 @@ class Modo implements PaymentGateway
             'intention_id' => data_get($response, 'id')
         ], 
         [
-            'status_code'     => PaymentStatusCode::Created,
+            'status'          => PaymentStatus::Created,
             'external_status' => data_get($response, 'status'),
             'meta'            => [
                 [

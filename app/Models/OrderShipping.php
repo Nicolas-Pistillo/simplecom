@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\LogisticType;
-use App\Enums\ShippingStatusCode;
+use App\Enums\ShippingStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,13 +15,19 @@ class OrderShipping extends Model
 
     protected $casts = [
         'logistic_type'   => LogisticType::class,
-        'status_code'     => ShippingStatusCode::class,
+        'status'          => ShippingStatus::class,
         'calculated_rate' => 'json',
-        'selected_branch' => 'json'
+        'selected_branch' => 'json',
+        'meta'            => 'json'
     ];
 
-    public function status()
+    public function userAddress()
     {
-        return $this->hasOne(ShippingStatus::class, 'code', 'status_code');
+        return $this->belongsTo(UserAddress::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }

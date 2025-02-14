@@ -99,7 +99,7 @@
 
                                         <div class="col-span-full mt-1 flex items-center">
 
-                                            <h5 class="text-xs text-gray-500">
+                                            <h5 class="text-xs text-gray-800">
                                                 Datos del encargado
                                             </h5>
 
@@ -119,7 +119,7 @@
 
                                                 <input type="text" wire:model.blur='staff_name'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
-                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.5rem]">
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.3rem]">
                                 
                                             </div>
 
@@ -136,7 +136,7 @@
 
                                                 <input type="text" wire:model.blur='staff_email'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
-                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[3.4rem]">
+                                                focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[3.2rem]">
                                 
                                             </div>
 

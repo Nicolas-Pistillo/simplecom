@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\InputType;
 use App\Models\Configuration;
 use Illuminate\Support\Collection;
 
@@ -25,7 +26,7 @@ trait Configurable
         {
             if ($field->required)
             {
-                if ($field->input_type === 'text' && empty($field->value))
+                if ($field->input_type === InputType::Text && empty($field->value))
                     $configurated = false;
             }
         }

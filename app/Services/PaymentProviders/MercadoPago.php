@@ -4,8 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\OrderStatusCode;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -13,12 +12,8 @@ use App\Models\OrderPayment;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
-use Carbon\Carbon;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\URL;
 use MercadoPago\Client\Preference\PreferenceClient;
-use MercadoPago\Exceptions\MPApiException;
 use MercadoPago\MercadoPagoConfig;
 
 class MercadoPago implements PaymentGateway
@@ -71,7 +66,7 @@ class MercadoPago implements PaymentGateway
             'items' => $items,
             'notification_url' => $order->paymentWebhook(),
             'statement_descriptor' => tenant('ecommerce_name'),
-            'external_reference' => "Pedido $order->code",
+            'external_reference' => "Pedido $order->id",
             'payer'     => [
                 'name'    => $order->user->name,
                 'surname' => $order->user->lastname,
@@ -102,7 +97,7 @@ class MercadoPago implements PaymentGateway
             'order_id'     => $order->id,
             'checkout_url' => $preference->init_point,
             'intention_id' => $preference->id,
-            'status_code'  => PaymentStatusCode::Created,
+            'status'       => PaymentStatus::Created,
             'provider_id'  => $this->model()->id,
             'meta'         => [
                 [

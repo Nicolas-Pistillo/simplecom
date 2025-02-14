@@ -4,8 +4,9 @@ namespace App\Observers;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\OrderStatusCode;
+use App\Enums\OrderStatus;
 use App\Events\OrderConfirmed;
+use App\Events\OrderReadyForDispatch;
 use App\Events\OrderReadyForPickup;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -31,14 +32,19 @@ class OrderObserver
      */
     public function updated(Order $order): void
     {
-        if ($order->status_code === OrderStatusCode::Confirmed)
+        if ($order->status === OrderStatus::Confirmed)
         {
             OrderConfirmed::dispatch($order);
         }
 
-        if ($order->status_code === OrderStatusCode::PickupReady)
+        if ($order->status === OrderStatus::PickupReady)
         {
             OrderReadyForPickup::dispatch($order);
+        }
+
+        if ($order->status === OrderStatus::DispatchReady)
+        {
+            OrderReadyForDispatch::dispatch($order);
         }
     }
 

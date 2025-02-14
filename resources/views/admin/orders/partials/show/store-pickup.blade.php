@@ -14,7 +14,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
         El comprador va a retirar este pedido en <b>{{ $order->storePickup->name }}</b>
     </h5>
 
-    @if ($order->status_code != OrderStatusCode::PickupReady)
+    @if ($order->status != OrderStatus::PickupReady)
         <div class="mt-4 flex flex-wrap gap-3">
             <x-button @click="confirmReadyForPickup = true">Marcar como listo para retirar</x-button>
         </div>
@@ -41,8 +41,10 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                 <x-button type="secondary" wire:loading.remove wire:target='setReadyForPickup' 
                 @click="confirmReadyForPickup = false">Cancelar</x-button>
         
-                <x-button wire:click='setReadyForPickup' wire:loading.remove wire:target='setReadyForPickup' 
-                class="mx-3">Confirmar</x-button>
+                <x-button wire:click='setReadyForPickup' wire:loading.remove 
+                wire:target='setReadyForPickup'>
+                    Confirmar
+                </x-button>
                 
             </x-slot>
         

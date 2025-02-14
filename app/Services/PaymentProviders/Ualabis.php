@@ -4,7 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -62,11 +62,11 @@ class Ualabis implements PaymentGateway
         $response = Http::withToken($this->token)
                         ->withBody(json_encode([
                             'amount'             => 50,
-                            'description'        => "Pedido-$order->code",
+                            'description'        => "Pedido-$order->id",
                             'callback_fail'      => 'https://google.com',
                             'callback_success'   => 'https://google.com',
                             'notification_url'   => $order->paymentWebhook(),
-                            'external_reference' => "Pedido-$order->code"
+                            'external_reference' => "Pedido-$order->id"
                         ]))
                         ->throw()
                         ->post($url)
@@ -80,7 +80,7 @@ class Ualabis implements PaymentGateway
         OrderPayment::create([
             'order_id'        => $order->id,
             'provider_id'     => $this->model()->id,
-            'status_code'     => PaymentStatusCode::Created,
+            'status'          => PaymentStatus::Created,
             'checkout_url'    => data_get($response, 'links.checkout_link'),
             'intention_id'    => data_get($response, 'uuid'),
             'external_status' => data_get($response, 'status'),

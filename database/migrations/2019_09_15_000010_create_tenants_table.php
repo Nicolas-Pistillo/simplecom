@@ -22,7 +22,6 @@ class CreateTenantsTable extends Migration
             $table->string('logo_url')->nullable();
             $table->string('color')->nullable();
             $table->foreignId('sector_id');
-            $table->foreignId('plan_id');
             $table->boolean('active')->default(true);
             $table->boolean('setup_completed')->default(false);
             $table->timestamps();

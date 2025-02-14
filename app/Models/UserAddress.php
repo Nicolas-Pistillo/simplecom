@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasAddress;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserAddress extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAddress;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
@@ -21,37 +22,5 @@ class UserAddress extends Model
     public function getSummaryAttribute()
     {
         return "$this->street $this->number - $this->locality";
-    }
-
-    public function getZipcodeNumberAttribute()
-    {
-        return preg_replace("/[^0-9]/", "", $this->zipcode);
-    }
-
-    public function getReferencesAttribute()
-    {
-        $references = collect();
-
-        if (!empty($this->floor))
-        {
-            $references->push("Piso $this->floor");
-        }
-
-        if (!empty($this->apartment))
-        {
-            $references->push("Depto $this->apartment");
-        }
-
-        if (!empty($this->office))
-        {
-            $references->push("Oficina $this->office");
-        }
-
-        if (!empty($this->details))
-        {
-            $references->push($this->details);
-        }
-
-        return $references->isNotEmpty() ? $references->implode(', ') : '';
     }
 }

@@ -35,7 +35,6 @@ class CreateTenantFromAdminForm implements ShouldQueue
             'name'              => $this->request['tenant_name'],
             'ecommerce_name'    => $this->request['ecommerce_name'],
             'sector_id'         => $this->request['sector_id'],
-            'plan_id'           => $this->request['plan_id'],
             'tenancy_db_name'   => config('tenancy.database.prefix') . $this->request['tenant_name']
         ]);
 

@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
             $table->foreignId('user_id');
-            $table->string('status_code');
+            $table->string('status');
             $table->foreignId('payment_method_id');
             $table->boolean('invoiced')->default(false);
             $table->boolean('stock_discounted')->default(false);

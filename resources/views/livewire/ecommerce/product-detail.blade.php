@@ -57,7 +57,8 @@
                         {{-- Main image preview --}}
                         <div class="w-full mx-auto relative mb-6" x-transition>
                             <img x-bind:src="currentImage" alt="product-image"
-                                class="w-[400px] h-[250px] sm:w-[500px] sm:h-[450px] rounded-lg shadow-md object-cover">
+                            class="w-[400px] h-[250px] sm:w-[500px] sm:h-[450px] 
+                            rounded-lg shadow-md object-contain">
                         </div>
 
                         {{-- All product images list --}}

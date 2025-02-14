@@ -4,7 +4,7 @@ namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -103,7 +103,7 @@ class Openpay implements PaymentGateway
         OrderPayment::create([
             'order_id'        => $order->id,
             'checkout_url'    => data_get($response, 'data.links.0.checkout'),
-            'status_code'     => PaymentStatusCode::Created,
+            'status'          => PaymentStatus::Created,
             'external_status' => data_get($response, 'data.attributes.status'),
             'intention_id'    => data_get($response, 'data.attributes.uuid'),
             'provider_id'     => $this->model()->id,

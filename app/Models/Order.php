@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\OrderStatusCode;
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\DeliveryType;
@@ -14,14 +14,9 @@ class Order extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $casts = [
-        'status_code'   => OrderStatusCode::class,
+        'status'        => OrderStatus::class,
         'delivery_type' => DeliveryType::class
     ];
-
-    public function status()
-    {
-        return $this->hasOne(OrderStatus::class, 'code', 'status_code');
-    }
 
     public function items()
     {
@@ -68,6 +63,56 @@ class Order extends Model
         return route('admin.orders.show', $this->id);
     }
 
+    public function calculatePackage($weightUnit = 'kg')
+    {
+        $package = [
+            'items' => 0,
+            'weight' => 0,
+            'declaredValue' => 0,
+            'dimensions' => [
+                'width'  => 0,
+                'height' => 0,
+                'length' => 0,
+                'volume' => 0
+            ]
+        ];
+
+        foreach($this->items as $item)
+        {
+            $price  = $item->unit_price      * $item->quantity;
+            $weight = $item->product->weight * $item->quantity;
+            $width  = $item->product->width  * $item->quantity;
+            $height = $item->product->height;
+            $length = $item->product->length * $item->quantity;
+
+            if ($weightUnit === 'kg')
+            {
+                $weight = $weight / 1000;
+            }
+
+            $package['items']                += $item->quantity;
+            $package['declaredValue']        += $price;
+            $package['weight']               += $weight;
+            $package['dimensions']['width']  += $width;
+            $package['dimensions']['height'] += $height;
+            $package['dimensions']['length'] += $length;
+            $package['dimensions']['volume'] += ($width * $height * $length);
+        }
+
+        return $package;
+    }
+
+    public function discountStock()
+    {
+        if ($this->stock_discounted) return;
+
+        foreach($this->items as $item)
+        {
+            $item->variant ? $item->variant->update(['stock' => ($item->variant->stock - $item->quantity)])
+                           : $item->product->update(['stock' => ($item->product->stock - $item->quantity)]);
+        }
+    }
+
     public function paymentReturn()
     {
         return route('payment.return', [
@@ -79,9 +124,20 @@ class Order extends Model
     public function paymentWebhook()
     {
         $route = route('tenant.payment-webhook', [
-            'tenant'   => tenant('id'),
+            'tenant'   => tenant('name'),
             'order'    => $this->id,
             'provider' => $this->paymentMethod->code
+        ]);
+
+        return str_replace('http://', 'https://', $route);
+    }
+
+    public function shippingWebhook()
+    {
+        $route = route('tenant.shipping-webhook', [
+            'tenant'        => tenant('name'),
+            'orderShipping' => $this->shipping->id,
+            'provider'      => $this->shippingProvider->code
         ]);
 
         return str_replace('http://', 'https://', $route);

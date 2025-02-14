@@ -24,7 +24,7 @@ class SendOrderConfirmedNotification
     {
         Log::channel('resources')->info('Enviar notificación de orden confirmada', [
             'tenant'  => tenant('name'),
-            'pedido'  => $event->order->code,
+            'pedido'  => $event->order->id,
         ]);
     }
 }

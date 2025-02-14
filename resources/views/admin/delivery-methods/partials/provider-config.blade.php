@@ -47,7 +47,7 @@
                                 <div class="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
 
                                     @foreach ($configuring_provider_keys as $key => $field)
-                                        @if ($field['input_type'] === 'text')
+                                        @if (in_array($field['input_type'], ['text', 'password']))
                                             <div wire:key='{{ $field['id'] }}'
                                                 class="space-y-2 
                                             px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 
@@ -83,7 +83,7 @@
                                                 </div>
 
                                                 <div class="sm:col-span-2">
-                                                    <input type="text" id="{{ $field['key'] }}"
+                                                    <input type="{{ $field['input_type'] }}" id="{{ $field['key'] }}"
                                                         value="{{ $field['value'] }}"
                                                         wire:model.blur="configuring_provider_keys.{{ $key }}.value"
                                                         autocomplete="off"

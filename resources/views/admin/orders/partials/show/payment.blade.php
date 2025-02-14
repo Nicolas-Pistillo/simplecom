@@ -2,12 +2,12 @@
 
     <div class="flex items-center justify-between mb-2 sm:mb-0">
 
-        <div class="flex items-center gap-1 flex-wrap">
+        <div class="flex items-center gap-1.5 flex-wrap">
 
             <h4 class="text-sm/6 font-semibold text-gray-900">Detalle de pago</h4>
 
-            <x-badge :color="$order->payment?->status->display_color">
-                {{ $order->payment?->status->name }}
+            <x-badge :color="$order->payment?->status->color()">
+                {{ $order->payment?->status->name() }}
             </x-badge>
         </div>
 
@@ -16,7 +16,7 @@
             alt="Logo {{ $order->paymentMethod->display_name }}">
     </div>
 
-    <h5 class="mb-3 text-sm text-gray-700"> {{ $order->payment?->status->helper }} </h5>
+    <h5 class="mb-3 text-sm text-gray-700"> {{ $order->payment?->status->helper() }} </h5>
 
     @if (!$order->payment)
         <h5 class="mb-3 text-sm text-red-500"> 
@@ -148,9 +148,31 @@
 
     @endif
 
-    <div class="mt-4 flex flex-wrap gap-3">
-        @if ($order->payment?->status_code === PaymentStatusCode::TransferPending)
-            <x-button>Ya recibí el pago</x-button>
+    <div x-data="{showTransferConfirm: false}" class="mt-4 flex flex-wrap gap-3"
+    x-on:close-show-transfer-confirm.window="showTransferConfirm = false">
+        @if ($order->payment?->status === PaymentStatus::TransferPending)
+            <x-button @click="showTransferConfirm = true">Ya recibí el pago</x-button>
         @endif
+
+        <x-modal ref="showTransferConfirm" closeOnClickAway
+        title="Confirmar transferencia recibida" type="success" icon="list_alt_check">
+            <x-slot name="body">
+                Se notificará a {{ $order->user->name }} que el pago está confirmado
+                y se podrá proceder con la entrega del pedido
+            </x-slot>
+
+            <x-slot name="actions">
+
+                <x-spinner wire:loading wire:target='confirmTransferReceived' />
+
+                <x-button type="secondary" @click="showTransferConfirm = false"
+                wire:loading.remove wire:target='confirmTransferReceived'>
+                    Cancelar
+                </x-button>
+
+                <x-button wire:click='confirmTransferReceived' wire:loading.remove 
+                wire:target='confirmTransferReceived'>Confirmar</x-button>
+            </x-slot>
+        </x-modal>
     </div>
 </div>

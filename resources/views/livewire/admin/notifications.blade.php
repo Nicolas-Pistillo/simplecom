@@ -1,7 +1,7 @@
 <div>
-    <div x-data="{menuOpen: false}" class="pt-2">
+    <div x-data="{menuOpen: false}">
         <!-- Notifications Button -->
-        <button @click="menuOpen = !menuOpen" type="button" class="relative -m-2.5 pt-2 pr-2 text-gray-400 transition hover:text-gray-500">
+        <button @click="menuOpen = !menuOpen" type="button" class="relative pt-2 pr-2 text-gray-400 transition hover:text-gray-500">
             <x-icon code="notifications" />
             <span
                 class="animate__animated animate__heartBeat animate__repeat-3 absolute top-1.5 right-2 block h-2 w-2 rounded-full bg-green-400 ring-2 ring-white"></span>

@@ -5,14 +5,14 @@ namespace App\Livewire\Ecommerce;
 use App\Enums\DeliveryType;
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\OrderStatusCode;
+use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 use App\Services\ProductService;
 use App\Enums\PaymentRedirectType;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\UserAddress;
@@ -308,8 +308,8 @@ class Checkout extends Component
 
     public function cancelFrontendCheckout(Order $order)
     {
-        $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
-        $order->payment->update(['status_code' => PaymentStatusCode::CustomerCancelled]);
+        $order->update(['status' => OrderStatus::PaymentCancelled]);
+        $order->payment->update(['status' => PaymentStatus::CustomerCancelled]);
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::PaymentUpdate,

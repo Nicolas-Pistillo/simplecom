@@ -5,7 +5,7 @@ namespace App\Services\PaymentProviders;
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
 use App\Enums\PaymentRedirectType;
-use App\Enums\PaymentStatusCode;
+use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -36,7 +36,7 @@ class Mobbex implements PaymentGateway
             'content-type'   => 'application/json'
         ])->withBody(json_encode([
             'total'       => $order->total,
-            'description' => "Pedido $order->code",
+            'description' => "Pedido $order->id",
             'reference'   => md5(uniqid() . time()),
             'currency'    => 'ARS',
             'test'        => true,
@@ -55,7 +55,7 @@ class Mobbex implements PaymentGateway
         OrderPayment::create([
             'order_id'     => $order->id,
             'checkout_url' => $checkout->get('url'),
-            'status_code'  => PaymentStatusCode::Created,
+            'status'       => PaymentStatus::Created,
             'intention_id' => $checkout->get('id'),
             'provider_id'  => $this->model()->id
         ]);

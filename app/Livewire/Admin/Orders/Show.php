@@ -4,11 +4,13 @@ namespace App\Livewire\Admin\Orders;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\OrderStatusCode;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Show extends Component
@@ -17,22 +19,39 @@ class Show extends Component
 
     public $order;
 
-    public function mount($order)
+    public function confirmTransferReceived()
     {
-        $order = Order::find($order) ?? abort(404);
+        if ($this->order->status === OrderStatus::PaymentPending)
+        {
+            $this->order->update(['status' => OrderStatus::Confirmed]);
+        }
 
-        $order->load(
-            'items.variant.options.attribute', 'items.variant.options.attributeValue',
-            'status', 'storePickup', 'shipping.status', 'payment.status', 'user', 'feed', 
-            'shippingProvider', 'paymentMethod', 'shipping'
-        );
+        $this->order->payment->update(['status' => PaymentStatus::Confirmed]);
 
-        $this->order = $order;
+        OrderFeedItem::create([
+            'order_id'      => $this->order->id,
+            'event'         => OrderFeedEvent::StatusUpdate,
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => "confirmó el pago por transferencia del comprador",
+            'meta'          => [
+                'icon_code'  => 'list_alt_check',
+                'icon_color' => 'green'
+            ]
+        ]);
+
+        $this->dispatch('close-show-transfer-confirm');
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => 'Pedido actualizado',
+            'body'  => "Confirmaste la transferencia correctamente"
+        ]);
     }
 
     public function setReadyForPickup()
     {
-        $this->order->update(['status_code' => OrderStatusCode::PickupReady]);
+        $this->order->update(['status' => OrderStatus::PickupReady]);
 
         OrderFeedItem::create([
             'order_id'      => $this->order->id,
@@ -57,7 +76,47 @@ class Show extends Component
 
     public function createShippingOrder()
     {
-        dd($this->order->shipping->calculated_rate);
+        try 
+        {
+            $service = $this->order->shippingProvider->service();
+
+            $service->createOrder($this->order);
+
+            $this->notify([
+                'type'  => 'success',
+                'title' => 'Orden de envío generada',
+                'body'  => 'Generaste la orden de envío correctamente'
+            ]);
+
+        } catch (\Throwable $err) 
+        {
+            Log::channel('error')->error('Error al generar una orden de envío',
+            [
+                'pedido'  => $this->order->id,
+                'mensaje' => $err->getMessage()
+            ]);
+
+            $this->dispatch('close-confirm-shipping-create');
+
+            return $this->notify([
+                'type'  => 'danger',
+                'title' => 'Error al generar orden de envío',
+                'body'  => $err->getMessage()
+            ]);
+        }
+    }
+
+    public function mount($order)
+    {
+        $order = Order::find($order) ?? abort(404);
+
+        $order->load(
+            'items.variant.options.attribute', 'items.variant.options.attributeValue',
+            'storePickup', 'shipping.userAddress', 'payment', 'user', 'feed', 
+            'shippingProvider', 'paymentMethod'
+        );
+
+        $this->order = $order;
     }
 
     public function render()

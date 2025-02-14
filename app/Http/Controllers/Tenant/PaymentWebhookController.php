@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
-use App\Enums\OrderStatusCode;
-use App\Enums\PaymentStatusCode;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\PaymentMethod;
@@ -22,19 +22,21 @@ class PaymentWebhookController extends Controller
 {
     public function handler($tenant, $order, $provider, Request $request)
     {
-        $tenantModel = Tenant::find($tenant);
+        $tenantModel = Tenant::where('name', $tenant)->first();
 
         if (!$tenantModel instanceof Tenant) return response('Tenant not found', 401);
 
-        tenancy()->initialize($tenant);
+        tenancy()->initialize($tenantModel);
 
         $order = Order::find($order);
 
-        if (!$order || !$order instanceof Order) abort(401, 'order does not exist');
+        if (!$order || !$order instanceof Order) 
+            return response('order does not exist', 401);
 
         $providerModel = PaymentMethod::where('code', $provider)->first();
 
-        if (!$providerModel || !$providerModel instanceof PaymentMethod) abort(401, 'Provider not found');
+        if (!$providerModel || !$providerModel instanceof PaymentMethod) 
+            return response('Provider not found', 401);
 
         return $this->{$provider}($request, $order);
     }
@@ -45,25 +47,25 @@ class PaymentWebhookController extends Controller
         {
             $payment = MercadoPago::getPaymentInfo($request->id);
 
-            if (!$payment || !isset($payment->id)) abort(401, 'Payment does not exist');
+            if (!$payment || !isset($payment->id)) return response('Payment does not exist', 401);
 
             $paymentOrderCode = str_replace('Pedido ', '', $payment->external_reference);
 
-            if ($order->code != $paymentOrderCode) abort(401, 'Target order does not match');
+            if ($order->id != $paymentOrderCode) return response('Target order does not match', 401);
 
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'mercadopago',
                 'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
+                'pedido'    => $order->id,
                 'payload'   => $payment
             ]);
 
-            if ($payment->status === 'approved' && $order->payment->status_code != PaymentStatusCode::Confirmed)
+            if ($payment->status === 'approved' && $order->payment->status != PaymentStatus::Confirmed)
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'status'          => PaymentStatus::Confirmed,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -84,12 +86,12 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'pending' && $order->payment->status_code != PaymentStatusCode::Pending)
+            if ($payment->status === 'pending' && $order->payment->status != PaymentStatus::Pending)
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentPending]);
+                $order->update(['status' => OrderStatus::PaymentPending]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Pending,
+                    'status'          => PaymentStatus::Pending,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -110,12 +112,12 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'authorized' && $order->payment->status_code != PaymentStatusCode::Authorized)
+            if ($payment->status === 'authorized' && $order->payment->status != PaymentStatus::Authorized)
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Authorized,
+                    'status'          => PaymentStatus::Authorized,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -138,10 +140,10 @@ class PaymentWebhookController extends Controller
 
             if ($payment->status === 'rejected')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+                $order->update(['status' => OrderStatus::PaymentRejected]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Rejected,
+                    'status'          => PaymentStatus::Rejected,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -162,12 +164,12 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'in_process' && $order->payment->status_code != PaymentStatusCode::InProcess)
+            if ($payment->status === 'in_process' && $order->payment->status != PaymentStatus::InProcess)
             {
-                $order->update(['status_code' => OrderStatusCode::ProviderPayProcessing]);
+                $order->update(['status' => OrderStatus::ProviderPayProcessing]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::InProcess,
+                    'status'          => PaymentStatus::InProcess,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -188,12 +190,12 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'cancelled' && $order->payment->status_code != PaymentStatusCode::Cancelled)
+            if ($payment->status === 'cancelled' && $order->payment->status != PaymentStatus::Cancelled)
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+                $order->update(['status' => OrderStatus::PaymentCancelled]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'status'          => PaymentStatus::Cancelled,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -214,12 +216,12 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'in_mediation' && $order->payment->status_code != PaymentStatusCode::ProviderClaimed)
+            if ($payment->status === 'in_mediation' && $order->payment->status != PaymentStatus::ProviderClaimed)
             {
-                $order->update(['status_code' => OrderStatusCode::ProviderPayClaimed]);
+                $order->update(['status' => OrderStatus::ProviderPayClaimed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::ProviderClaimed,
+                    'status'          => PaymentStatus::ProviderClaimed,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -240,12 +242,12 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($payment->status === 'refunded' && $order->payment->status_code != PaymentStatusCode::Refunded)
+            if ($payment->status === 'refunded' && $order->payment->status != PaymentStatus::Refunded)
             {
-                $order->update(['status_code' => OrderStatusCode::Refunded]);
+                $order->update(['status' => OrderStatus::Refunded]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Refunded,
+                    'status'          => PaymentStatus::Refunded,
                     'external_id'     => $payment->id,
                     'instrument'      => MercadoPago::PAYMENT_TYPE_PARSER[$payment->payment_type_id],
                     'installments'    => $payment->installments,
@@ -311,13 +313,13 @@ class PaymentWebhookController extends Controller
                 Log::channel('webhooks')->info('Actualización de pago recibida', [
                     'proveedor' => 'mobbex',
                     'tenant'    => tenant('name'),
-                    'pedido'    => $order->code,
+                    'pedido'    => $order->id,
                     'payload'   => $paymentInfo
                 ]);
 
                 $mbxOrderCode = str_replace('Pedido ', '', data_get($paymentInfo, 'transaction.payment.description'));
 
-                if ($mbxOrderCode != $order->code) abort(401, 'Target order does not match');
+                if ($mbxOrderCode != $order->id) return response('Target order does not match', 401);
 
                 $transaction = $paymentInfo->get('transaction');
                 $transactionDetails = $paymentInfo->get('transaction_details');
@@ -325,12 +327,12 @@ class PaymentWebhookController extends Controller
 
                 // Approved
                 if (in_array($mbxStatusCode, ['200', '210', '201', '300', '301', '302', '303', '800', '4'])
-                && $order->payment->status_code != PaymentStatusCode::Confirmed)
+                && $order->payment->status != PaymentStatus::Confirmed)
                 {
-                    $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                    $order->update(['status' => OrderStatus::Confirmed]);
 
                     $order->payment->update([
-                        'status_code'     => PaymentStatusCode::Confirmed,
+                        'status'          => PaymentStatus::Confirmed,
                         'external_id'     => data_get($transaction, 'payment.id'),
                         'instrument'      => data_get($transaction, 'source.name'),
                         'installments'    => data_get($transaction, 'payment.source.installment.count'),
@@ -352,12 +354,12 @@ class PaymentWebhookController extends Controller
 
                 // Pending
                 if (in_array($mbxStatusCode, ['2', '3', '100']) 
-                && $order->payment->status_code != PaymentStatusCode::Pending)
+                && $order->payment->status != PaymentStatus::Pending)
                 {
-                    $order->update(['status_code' => OrderStatusCode::PaymentPending]);
+                    $order->update(['status' => OrderStatus::PaymentPending]);
 
                     $order->payment->update([
-                        'status_code'     => PaymentStatusCode::Pending,
+                        'status'          => PaymentStatus::Pending,
                         'external_id'     => data_get($transaction, 'payment.id'),
                         'instrument'      => data_get($transaction, 'source.name'),
                         'installments'    => data_get($transaction, 'payment.source.installment.count'),
@@ -380,10 +382,10 @@ class PaymentWebhookController extends Controller
                 // Rejected & recuperable
                 if (in_array($mbxStatusCode, ['400', '403', '410', '411', '412', '413', '414', '415', '416', '417', '500']))
                 {
-                    $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+                    $order->update(['status' => OrderStatus::PaymentRejected]);
 
                     $order->payment->update([
-                        'status_code'     => PaymentStatusCode::Rejected,
+                        'status'          => PaymentStatus::Rejected,
                         'external_id'     => data_get($transaction, 'payment.id'),
                         'instrument'      => data_get($transaction, 'source.name'),
                         'installments'    => data_get($transaction, 'payment.source.installment.count'),
@@ -405,12 +407,12 @@ class PaymentWebhookController extends Controller
 
                 // Rejected & NO recuperable
                 if (in_array($mbxStatusCode, ['401', '402', '600', '601', '602', '603', '610', '604'])
-                && $order->payment->status_code != PaymentStatusCode::Cancelled)
+                && $order->payment->status != PaymentStatus::Cancelled)
                 {
-                    $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+                    $order->update(['status' => OrderStatus::PaymentCancelled]);
 
                     $order->payment->update([
-                        'status_code'     => PaymentStatusCode::Cancelled,
+                        'status'          => PaymentStatus::Cancelled,
                         'external_id'     => data_get($transaction, 'payment.id'),
                         'instrument'      => data_get($transaction, 'source.name'),
                         'installments'    => data_get($transaction, 'payment.source.installment.count'),
@@ -480,7 +482,7 @@ class PaymentWebhookController extends Controller
         {
             $ualabisOrder = str_replace('Pedido-', '', $request->external_reference);
 
-            if ($ualabisOrder != $order->code) abort(401, 'Target order does not match');
+            if ($ualabisOrder != $order->id) return response('Target order does not match', 401);
 
             $service = new Ualabis();
 
@@ -489,20 +491,20 @@ class PaymentWebhookController extends Controller
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'ualabis',
                 'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
+                'pedido'    => $order->id,
                 'payload'   => $paymentInfo
             ]);
 
             $paymentStatus = data_get($paymentInfo, 'status');
 
-            if (!$paymentStatus) abort(401, 'Payment not found');
+            if (!$paymentStatus) return response('Payment not found', 401);
 
             if ($paymentStatus === 'APPROVED')
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'status'          => PaymentStatus::Confirmed,
                     'external_id'     => data_get($paymentInfo, 'uuid'),
                     'instrument'      => data_get($paymentInfo, 'customer.card.issuer'),
                     'installments'    => data_get($paymentInfo, 'customer.card.installments.number'),
@@ -524,10 +526,10 @@ class PaymentWebhookController extends Controller
 
             if ($paymentStatus === 'PROCESSED')
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Authorized,
+                    'status'          => PaymentStatus::Authorized,
                     'external_id'     => data_get($paymentInfo, 'uuid'),
                     'instrument'      => data_get($paymentInfo, 'customer.card.issuer'),
                     'installments'    => data_get($paymentInfo, 'customer.card.installments.number'),
@@ -549,10 +551,10 @@ class PaymentWebhookController extends Controller
 
             if ($paymentStatus === 'REJECTED')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+                $order->update(['status' => OrderStatus::PaymentRejected]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Rejected,
+                    'status'          => PaymentStatus::Rejected,
                     'external_id'     => data_get($paymentInfo, 'uuid'),
                     'instrument'      => data_get($paymentInfo, 'customer.card.issuer'),
                     'installments'    => data_get($paymentInfo, 'customer.card.installments.number'),
@@ -609,18 +611,19 @@ class PaymentWebhookController extends Controller
         {
             $gocuotasOrder = str_replace('Pedido ', '', $request->order_reference_id);
 
-            if ($gocuotasOrder != $order->code) abort(401, 'Target order does not match');
+            if ($gocuotasOrder != $order->id) return response('Target order does not match', 401);
 
             $service = new GOcuotas();
 
             $paymentInfo = $service->getPaymentInfo($request->order_id);
 
-            if (empty($paymentInfo) || !isset($paymentInfo['id'])) abort(401, 'Payment not found');
+            if (empty($paymentInfo) || !isset($paymentInfo['id'])) 
+                return response('Payment not found', 401);
 
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'gocuotas',
                 'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
+                'pedido'    => $order->id,
                 'payload'   => $paymentInfo
             ]);
 
@@ -628,10 +631,10 @@ class PaymentWebhookController extends Controller
 
             if ($paymentStatus === 'approved')
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'status'          => PaymentStatus::Confirmed,
                     'external_id'     => data_get($paymentInfo, 'id'),
                     'instrument'      => data_get($paymentInfo, 'payment.card.name'),
                     'installments'    => data_get($paymentInfo, 'number_of_installments'),
@@ -663,10 +666,10 @@ class PaymentWebhookController extends Controller
 
             if ($paymentStatus === 'undefined')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentPending]);
+                $order->update(['status' => OrderStatus::PaymentPending]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Pending,
+                    'status'          => PaymentStatus::Pending,
                     'external_id'     => data_get($paymentInfo, 'id'),
                     'instrument'      => data_get($paymentInfo, 'payment.card.name'),
                     'installments'    => data_get($paymentInfo, 'number_of_installments'),
@@ -698,10 +701,10 @@ class PaymentWebhookController extends Controller
 
             if ($paymentStatus === 'denied')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+                $order->update(['status' => OrderStatus::PaymentCancelled]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'status'          => PaymentStatus::Cancelled,
                     'external_id'     => data_get($paymentInfo, 'id'),
                     'instrument'      => data_get($paymentInfo, 'payment.card.name'),
                     'installments'    => data_get($paymentInfo, 'number_of_installments'),
@@ -736,35 +739,58 @@ class PaymentWebhookController extends Controller
     public function cajero24(Request $request, Order $order)
     {
         if (isset($request->event, $request->transaction_id))
-        {            
-            if (str_replace('Pedido ', '', $request->external_reference) != $order->code)
-                abort(401, 'Target order does not match');
+        {
+            $orderReference = ($request->event === 'payment_failure')
+                              ? str_replace('Pedido ', '', data_get($request, 'external_reference'))
+                              : str_replace('Pedido ', '', data_get($request, 'transaction_data.external_reference'));
+
+            if ($orderReference != $order->id) return response('Target order does not match', 401);
 
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'cajero24',
                 'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
+                'pedido'    => $order->id,
                 'payload'   => $request->all()
             ]);
 
-            if ($request->event === 'payment_success')
+            $transaction = $request->transaction_data;
+
+            if (in_array($request->event, ['payment_success', 'debin_accredited']) &&
+            $order->payment->status != PaymentStatus::Confirmed)
             {
-
-            }
-
-            if ($request->event === 'debin_accredited')
-            {
-
-            }
-
-            if ($request->event === 'payment_pending')
-            {
-                $transaction = $request->transaction_data;
-
-                $order->update(['status_code' => OrderStatusCode::PaymentPending]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Pending,
+                    'status'          => PaymentStatus::Confirmed,
+                    'external_id'     => $request->transaction_id,
+                    'instrument'      => data_get($transaction, 'operation.payment_method.name'),
+                    'installments'    => data_get($transaction, 'installments'),
+                    'external_status' => data_get($transaction, 'status'),
+                    'total_paid'      => data_get($transaction, 'amount')
+                ]);
+
+                $action = $request->event === 'debin_accredited' ? 'confirmó que se acreditó el debin'
+                                                                  : 'aprobó el pago';
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Cajero24',
+                    'action'        => $action,
+                    'meta'          => [
+                        'icon_code'  => 'credit_score',
+                        'icon_color' => 'green'
+                    ]
+                ]);
+            }
+
+            if ($request->event === 'payment_pending' && 
+            $order->payment->status != PaymentStatus::Pending)
+            {
+                $order->update(['status' => OrderStatus::PaymentPending]);
+
+                $order->payment->update([
+                    'status'          => PaymentStatus::Pending,
                     'external_id'     => $request->transaction_id,
                     'instrument'      => data_get($transaction, 'operation.payment_method.name'),
                     'installments'    => data_get($transaction, 'installments'),
@@ -786,9 +812,9 @@ class PaymentWebhookController extends Controller
 
             if ($request->event === 'payment_failure')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentRejected]);
+                $order->update(['status' => OrderStatus::PaymentRejected]);
 
-                $order->payment->update(['status_code' => PaymentStatusCode::Rejected]);
+                $order->payment->update(['status' => PaymentStatus::Rejected]);
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
@@ -802,24 +828,36 @@ class PaymentWebhookController extends Controller
                 ]);
             }
 
-            if ($request->event === 'debin_rejected')
+            if (in_array($request->event, ['debin_rejected', 'payment_cancellation']) &&
+            $order->payment->status != PaymentStatus::Cancelled)
             {
-                
-            }
+                $order->update(['status' => OrderStatus::PaymentCancelled]);
 
-            if ($request->event === 'payment_cancellation')
-            {
-                
+                $order->payment->update(['status' => PaymentStatus::Cancelled]);
+
+                $action = $request->event === 'debin_rejected' ? 'informó que el comprador rechazó el debin'
+                                                                : 'rechazó el pago';
+
+                $order->feed()->create([
+                    'event'         => OrderFeedEvent::PaymentUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Cajero24',
+                    'action'        => $action,
+                    'meta'          => [
+                        'icon_code'  => 'credit_card_off',
+                        'icon_color' => 'red'
+                    ]
+                ]);
             }
 
             if ($request->event === 'payment_partial_refund')
             {
-                
+                //
             }
 
             if ($request->event === 'payment_refund')
             {
-
+                //
             }
 
             $meta = [
@@ -884,7 +922,7 @@ class PaymentWebhookController extends Controller
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'sipago',
                 'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
+                'pedido'    => $order->id,
                 'payload'   => $body
             ]);
 
@@ -892,10 +930,10 @@ class PaymentWebhookController extends Controller
 
             if ($status === 'SUCCESS')
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'status'          => PaymentStatus::Confirmed,
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
@@ -920,10 +958,10 @@ class PaymentWebhookController extends Controller
 
             if ($status === 'FAILED_CHECKOUT' || $status === 'EXPIRED')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+                $order->update(['status' => OrderStatus::PaymentCancelled]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'status'          => PaymentStatus::Cancelled,
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
@@ -959,7 +997,7 @@ class PaymentWebhookController extends Controller
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'getnet',
                 'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
+                'pedido'    => $order->id,
                 'payload'   => $body
             ]);
 
@@ -967,10 +1005,10 @@ class PaymentWebhookController extends Controller
 
             if ($status === 'SUCCESS')
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'status'          => PaymentStatus::Confirmed,
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
@@ -995,10 +1033,10 @@ class PaymentWebhookController extends Controller
 
             if ($status === 'FAILED_CHECKOUT' || $status === 'EXPIRED')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+                $order->update(['status' => OrderStatus::PaymentCancelled]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'status'          => PaymentStatus::Cancelled,
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
@@ -1034,7 +1072,7 @@ class PaymentWebhookController extends Controller
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'openpay',
                 'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
+                'pedido'    => $order->id,
                 'payload'   => $body
             ]);
 
@@ -1042,10 +1080,10 @@ class PaymentWebhookController extends Controller
 
             if ($status === 'SUCCESS')
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'status'          => PaymentStatus::Confirmed,
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
@@ -1070,10 +1108,10 @@ class PaymentWebhookController extends Controller
 
             if ($status === 'FAILED_CHECKOUT' || $status === 'EXPIRED')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+                $order->update(['status' => OrderStatus::PaymentCancelled]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'status'          => PaymentStatus::Cancelled,
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
@@ -1109,7 +1147,7 @@ class PaymentWebhookController extends Controller
             Log::channel('webhooks')->info('Actualización de pago recibida', [
                 'proveedor' => 'viumi',
                 'tenant'    => tenant('name'),
-                'pedido'    => $order->code,
+                'pedido'    => $order->id,
                 'payload'   => $body
             ]);
 
@@ -1117,10 +1155,10 @@ class PaymentWebhookController extends Controller
 
             if ($status === 'SUCCESS')
             {
-                $order->update(['status_code' => OrderStatusCode::Confirmed]);
+                $order->update(['status' => OrderStatus::Confirmed]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Confirmed,
+                    'status'          => PaymentStatus::Confirmed,
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [
@@ -1145,10 +1183,10 @@ class PaymentWebhookController extends Controller
 
             if ($status === 'FAILED_CHECKOUT' || $status === 'EXPIRED')
             {
-                $order->update(['status_code' => OrderStatusCode::PaymentCancelled]);
+                $order->update(['status' => OrderStatus::PaymentCancelled]);
 
                 $order->payment->update([
-                    'status_code'     => PaymentStatusCode::Cancelled,
+                    'status'          => PaymentStatus::Cancelled,
                     'external_id'     => data_get($body, 'data.payment.id'),
                     'external_status' => $status,
                     'meta'            => [

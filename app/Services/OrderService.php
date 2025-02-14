@@ -4,10 +4,11 @@ namespace App\Services;
 
 use App\Enums\CustomerType;
 use App\Enums\DeliveryType;
-use App\Enums\OrderStatusCode;
+use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
-use App\Enums\ShippingStatusCode;
+use App\Enums\ShippingStatus;
 use App\Events\OrderCreated;
+use App\Models\CollectionPoint;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderShipping;
@@ -61,9 +62,8 @@ class OrderService
         }
 
         $order = Order::create([
-            'code'                 => Str::upper(Str::random(3) . '-' . rand(100,999)),
             'user_id'              => $userId,
-            'status_code'          => OrderStatusCode::Created,
+            'status'               => OrderStatus::Created,
             'delivery_type'        => $form->delivery_type,
             'store_pickup_id'      => $storePickupId,
             'shipping_cost'        => $shippingCost,
@@ -94,19 +94,23 @@ class OrderService
         {
             $branch = session('selected_branch');
 
+            $collectionPoint = CollectionPoint::inUse();
+
             OrderShipping::create([
-                'order_id'          => $order->id,
-                'provider_id'       => $shippingProvider->id,
-                'user_address_id'   => session('selected_address.id'),
-                'status_code'       => ShippingStatusCode::CreationPending,
-                'provider_label'    => data_get($form->selected_rate, 'label'),
-                'provider_service'  => data_get($form->selected_rate, 'service_name'),
-                'provider_carrier'  => data_get($form->selected_rate, 'carrier_name'),
-                'logistic_type'     => data_get($form->selected_rate, 'logistic_type'),
-                'price'             => data_get($form->selected_rate, 'price'),
-                'delivery_estimate' => data_get($form->selected_rate, 'estimate'),
-                'selected_branch'   => !empty($branch) ? $branch : null,
-                'calculated_rate'   => $form->selected_rate
+                'order_id'            => $order->id,
+                'provider_id'         => $shippingProvider->id,
+                'collection_point_id' => $collectionPoint->id,
+                'user_address_id'     => session('selected_address.id'),
+                'status'              => ShippingStatus::CreationPending,
+                'provider_label'      => data_get($form->selected_rate, 'label'),
+                'provider_service'    => data_get($form->selected_rate, 'service_name'),
+                'provider_carrier'    => data_get($form->selected_rate, 'carrier_name'),
+                'logistic_type'       => data_get($form->selected_rate, 'logistic_type'),
+                'quoted_price'        => data_get($form->selected_rate, 'price'),
+                'delivery_estimate'   => data_get($form->selected_rate, 'estimate'),
+                'selected_branch'     => !empty($branch) ? $branch : null,
+                'selected_branch_id'  => data_get($branch, 'external_id'),
+                'calculated_rate'     => $form->selected_rate
             ]);
         }
 

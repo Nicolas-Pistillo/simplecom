@@ -288,7 +288,6 @@
                                         </div>
                                     </th>
                                     <th scope="col" class="px-4 py-3">ID</th>
-                                    <th scope="col" class="px-4 py-3">Código</th>
                                     <th scope="col" class="px-4 py-3">Estado</th>
                                     <th scope="col" class="px-4 py-3">Cliente</th>
                                     <th scope="col" class="px-4 py-3">Entrega</th>
@@ -299,9 +298,9 @@
                             <tbody>
                                 @foreach ($orders as $order)
                                     <tr wire:key='{{ $order->id }}'
-                                        class="border-b text-center transition cursor-pointer 
+                                    class="border-b text-center transition cursor-pointer 
                                     duration-200 hover:bg-gray-50 text-xs"
-                                        @click="location.href='{{ $order->detailPage() }}'">
+                                    @click="location.href='{{ $order->detailPage() }}'">
 
                                         <td class="w-4 px-4 py-3" onclick="event.stopPropagation()">
                                             <div class="flex items-center">
@@ -315,14 +314,10 @@
                                             {{ $order->id }}
                                         </td>
 
-                                        <td class="font-semibold text-gray-900">
-                                            {{ $order->code }}
-                                        </td>
-
                                         <td class="px-4 py-2 whitespace-nowrap">
-                                            <x-badge :color="$order->status->display_color"
-                                                x-tooltip.raw.placement.top="{{ $order->status->helper }}">
-                                                {{ $order->status->name }}
+                                            <x-badge :color="$order->status->color()"
+                                                x-tooltip.raw.placement.top="{{ $order->status->helper() }}">
+                                                {{ $order->status->name() }}
                                             </x-badge>
                                         </td>
 

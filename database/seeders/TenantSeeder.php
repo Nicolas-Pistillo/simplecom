@@ -9,13 +9,10 @@ class TenantSeeder extends Seeder
     public function run(): void
     {
         $this->call(TenantConfigurationSeeder::class);
-        $this->call(TaxConditionSeeder::class);
         $this->call(RolePermissionSeeder::class);
         $this->call(DefaultAttributesSeeder::class);
+        $this->call(TaxConditionSeeder::class);
         $this->call(PaymentMethodsSeeder::class);
         $this->call(ShippingProviderSeeder::class);
-        $this->call(OrderStatusSeeder::class);
-        $this->call(ShippingStatusSeeder::class);
-        $this->call(PaymentStatusSeeder::class);
     }
 }

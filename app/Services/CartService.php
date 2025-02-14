@@ -15,7 +15,7 @@ class CartService
 
         $package = [
             'declaredValue' => 0,
-            'items' => Cart::count(),
+            'items' => 0,
             'dimensions' => [
                 'width'  => 0,
                 'height' => 0,
@@ -38,6 +38,7 @@ class CartService
                 $weight = $weight / 1000;
             }
 
+            $package['items']                += $item->qty;
             $package['declaredValue']        += $price;
             $package['dimensions']['weight'] += $weight;
             $package['dimensions']['width']  += $width;

@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         [x-cloak] {
@@ -25,132 +28,168 @@
         {{-- Global notifications --}}
         @livewire('notification')
 
-        <nav x-data="{ mobileMenuOpen: false }" class="bg-blue-600">
-            <!-- Desktop menu -->
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 items-center justify-between">
-
-                    <div class="flex items-center">
-
-                        <div class="flex-shrink-0">
-                            <img class="h-12" src="{{ asset('img/simplecom/png/logo-simple-white.png') }}"
+        <nav x-data="{ open: false }" class="fixed w-full z-20 bg-white shadow-sm border-b">
+            <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
+                <div class="flex h-16 justify-between">
+                    <div class="flex px-2 lg:px-0">
+                        <div class="flex shrink-0 items-center">
+                            <img class="h-12" src="{{ asset('img/simplecom/png/logo-simple-black.png') }}"
                                 alt="Logo" title="Simplecom">
                         </div>
+                        <div class="hidden md:ml-6 md:flex md:space-x-8">
 
-                        <div class="hidden md:block">
-                            <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="{{ route('superadmin.dashboard.index') }}" 
+                            class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium transition duration-300
+                            {{ Route::is('superadmin.dashboard.index') 
+                            ? 'border-blue-600 text-gray-900' 
+                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' }}">
+                                Dashboard
+                            </a>
 
-                                <a href="{{ route('superadmin.dashboard.index') }}"
-                                    class="{{ Route::is('superadmin.dashboard.index')
-                                        ? 'bg-white rounded-md px-3 py-2 text-sm font-medium'
-                                        : 'hover:underline text-white rounded-md px-3 py-2 text-sm font-medium' }}">
-                                    Dashboard
-                                </a>
-
-                                <a href="{{ route('superadmin.tenants.index') }}"
-                                    class="{{ Route::is('superadmin.tenants*')
-                                        ? 'bg-white rounded-md px-3 py-2 text-sm font-medium'
-                                        : 'hover:underline text-white rounded-md px-3 py-2 text-sm font-medium' }}">
-                                    Comercios
-                                </a>
-                            </div>
+                            <a href="{{ route('superadmin.tenants.index') }}" 
+                            class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium transition duration-300
+                            {{ Route::is('superadmin.tenants.*') 
+                            ? 'border-blue-600 text-gray-900' 
+                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' }}">
+                                Comercios
+                            </a>
                         </div>
-
                     </div>
+                    <div class="flex flex-1 items-center justify-center px-2 md:ml-6 md:justify-end">
+                        <div class="grid w-full max-w-lg grid-cols-1 md:max-w-xs">
+                            <input type="search" name="search"
+                            class="col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pr-3 outline-none pl-10 text-gray-900 border-gray-300 placeholder:text-gray-400 text-sm/6"
+                            placeholder="Buscar...">
+                            <svg class="pointer-events-none col-start-1 row-start-1 ml-3 h-5 self-center text-gray-400"
+                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd"
+                                    d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex items-center md:hidden">
+                        <!-- Mobile menu button -->
+                        <button type="button"
+                            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-hidden focus:ring-inset"
+                            aria-controls="mobile-menu" @click="open = !open" aria-expanded="false"
+                            x-bind:aria-expanded="open.toString()">
+                            <span class="absolute -inset-0.5"></span>
+                            <span class="sr-only">Open main menu</span>
+                            <svg x-description="Icon when menu is closed." x-state:on="Menu open"
+                                x-state:off="Menu closed" class="block h-5"
+                                :class="{ 'hidden': open, 'block': !(open) }" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                            <svg x-description="Icon when menu is open." x-state:on="Menu open"
+                                x-state:off="Menu closed" class="hidden h-5"
+                                :class="{ 'block': open, 'hidden': !(open) }" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="hidden md:ml-4 md:flex md:items-center">
+                        <button type="button"
+                            class="relative shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">View notifications</span>
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0">
+                                </path>
+                            </svg>
+                        </button>
 
-                    <div class="hidden md:block">
-                        <div class="ml-4 flex items-center md:ml-6">
-                            <!-- Profile dropdown -->
-                            <div x-data="{ userMenuOpen: false }" class="relative ml-3">
-                                <div @click="userMenuOpen = !userMenuOpen">
-                                    <button type="button"
-                                        class="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white"
-                                        id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                                        <span class="absolute -inset-1.5"></span>
-                                        <span class="sr-only">Open user menu</span>
-                                        <img class="h-9 w-9 rounded-full"
-                                            src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}&bold=true&background=fff&color=2563eb"
-                                            alt="avatar">
-                                    </button>
-                                </div>
+                        <!-- Profile dropdown -->
+                        <div x-data="{open: false}" class="relative ml-4 shrink-0">
+                            <div>
+                                <button type="button" @click="open = !open"
+                                class="relative flex rounded-full bg-white text-sm">
+                                    <img class="w-8 h-8 rounded-full"
+                                    src="{{ initialsAvatar(['name' => Auth::user()->name, 'background' => '#2563eb', 'color' => '#fff']) }}"
+                                    alt="User avatar">
+                                </button>
+                            </div>
 
-                                <div x-cloak x-show="userMenuOpen" @click.away="userMenuOpen = false"
+                            <div x-cloak x-show="open" @click.away="open = false"
                                     x-transition:enter.duration.300ms x-transition:leave.duration.300ms
-                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                    role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
-                                    tabindex="-1">
+                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md 
+                                    bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div class="px-4 py-3 border-b" role="none">
                                         <p class="text-sm font-semibold" role="none"> {{ Auth::user()->name }} </p>
                                         <p class="truncate text-xs font-medium text-gray-900" role="none">
                                             {{ Auth::user()->email }} </p>
                                     </div>
-                                    <!-- Active: "bg-gray-100", Not Active: "" -->
                                     <form action="{{ route('superadmin.logout') }}" method="post">
                                         @csrf
-                                        <button type="submit"
-                                            class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
-                                            role="menuitem" tabindex="-1" id="user-desktop-logout">
+                                        <button type="submit" class="block w-full text-left 
+                                        px-4 py-2 text-sm text-red-500
+                                        transition duration-300 hover:bg-gray-50">
                                             Cerrar sesión
                                         </button>
                                     </form>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="-mr-2 flex md:hidden">
-                        <!-- Mobile menu button -->
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" type="button"
-                            class="relative inline-flex items-center justify-center rounded-md p-2 
-                            text-gray-400 focus:outline-none">
-                            <span class="absolute -inset-0.5"></span>
-                            <span class="sr-only">Open main menu</span>
-                            <!-- Menu open: "hidden", Menu closed: "block" -->
-                            <x-icon code="menu" class="text-black bg-white border rounded-full p-1.5" />
-                            <!-- Menu open: "block", Menu closed: "hidden" -->
-                            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Mobile menu, show/hide based on menu state. -->
-            <div x-show="mobileMenuOpen" x-transition.duration.400 class="md:hidden" id="mobile-menu">
-                <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+            <div x-cloak x-show="open" @click.away="open = false" x-collapse.duration.300
+            class="md:hidden">
+                <div class="space-y-1 pt-2 pb-3">
+                    
+                    <a href="{{ route('superadmin.dashboard.index') }}" 
+                    class="block border-l-4 py-2 pr-4 pl-3 text-base font-medium
+                    {{ Route::is('superadmin.dashboard.index') 
+                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700' 
+                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800' }}">
+                        Dashboard
+                    </a>
 
-                    <a href="{{ route('superadmin.dashboard.index') }}"
-                        class="{{ Route::is('superadmin.dashboard.index')
-                            ? 'bg-white block rounded-md px-3 py-2 text-base font-medium'
-                            : 'text-gray-300 block rounded-md px-3 py-2 text-base font-medium' }}">Dashboard</a>
-
-                    <a href="{{ route('superadmin.tenants.index') }}"
-                        class="{{ Route::is('superadmin.tenants.index')
-                            ? 'bg-white block rounded-md px-3 py-2 text-base font-medium'
-                            : 'text-gray-300 block rounded-md px-3 py-2 text-base font-medium' }}">Comercios</a>
-
+                    <a href="{{ route('superadmin.tenants.index') }}" 
+                    class="block border-l-4 py-2 pr-4 pl-3 text-base font-medium
+                    {{ Route::is('superadmin.tenants.*') 
+                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700' 
+                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800' }}">
+                        Comercios
+                    </a>
                 </div>
-                <div class="border-t border-gray-700 pb-3 pt-4">
-                    <div class="flex items-center px-5">
-                        <div class="flex-shrink-0">
-                            <img class="h-10 w-10 rounded-full"
-                                src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar-img">
+                <div class="border-t border-gray-200 pt-4 pb-3">
+                    <div class="flex items-center px-4">
+                        <div class="shrink-0">
+                            <img class="w-10 h-10 rounded-full"
+                            src="{{ initialsAvatar(['name' => Auth::user()->name, 'background' => '#2563eb', 'color' => '#fff']) }}"
+                            alt="User Avatar">
                         </div>
                         <div class="ml-3">
-                            <div class="text-base font-medium leading-none text-white"> {{ Auth::user()->name }}
-                            </div>
-                            <div class="text-sm font-medium leading-none text-gray-300"> {{ Auth::user()->email }}
-                            </div>
+                            <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
+                            <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
                         </div>
+                        <button type="button"
+                            class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">View notifications</span>
+                            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0">
+                                </path>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="mt-3 space-y-1 px-2">
+                    <div class="mt-3 space-y-1">
+                        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">Settings</a>
                         <form action="{{ route('superadmin.logout') }}" method="post">
                             @csrf
-                            <button type="submit"
-                                class="block rounded-md px-3 py-2 text-base font-medium text-gray-300" role="menuitem"
-                                tabindex="-1" id="user-mobile-logout">
+                            <button type="submit" class="block w-full text-left 
+                            px-4 py-2 text-base text-red-500
+                            transition duration-300 hover:bg-gray-50">
                                 Cerrar sesión
                             </button>
                         </form>
@@ -159,13 +198,7 @@
             </div>
         </nav>
 
-        <header class="bg-white shadow">
-            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900">@yield('title', 'Dashboard')</h1>
-            </div>
-        </header>
-
-        <main>
+        <main class="pt-20">
             <div class="mx-auto max-w-7xl py-6 px-3 sm:px-6 lg:px-8">
                 @yield('content')
             </div>

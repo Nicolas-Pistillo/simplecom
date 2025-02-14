@@ -6,7 +6,7 @@
             transition duration-200 cursor-pointer" @click="detailItemOpen = !detailItemOpen">
 
                 <img src="{{ $item->product->first_image }}" alt="Imagen producto"
-                class="h-10 w-10 flex-none rounded-md bg-gray-100 object-cover">
+                class="h-10 w-10 flex-none rounded-md bg-gray-100 object-contain">
 
                 <div class="flex-auto space-y-1">
 
@@ -31,8 +31,9 @@
                 <p class="text-right font-medium text-gray-900">
                     ${{ priceFormat($item->total) }} <br>
                 </p>
-
-                {{-- <section x-show="detailItemOpen" x-cloak class="relative py-8 sm:p-8 cursor-default">
+            </li>
+        @endforeach
+        {{-- <section x-show="detailItemOpen" x-cloak class="relative py-8 sm:p-8 cursor-default">
                     <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative">
                         <div class="w-full relative flex justify-center">
                             <div class="w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto">
@@ -114,8 +115,6 @@
                         </div>
                     </div>
                 </section> --}}
-            </li>
-        @endforeach
     </ul>
 
     <dl class="space-y-4 border-t border-gray-200 pt-4 text-sm font-medium text-gray-600">

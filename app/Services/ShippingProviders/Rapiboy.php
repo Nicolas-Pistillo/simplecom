@@ -4,6 +4,8 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Interfaces\ShippingProvider;
+use App\Models\Order;
+use App\Models\OrderShipping;
 use App\Services\CartService;
 use App\Traits\Configurable;
 use App\Utils\ShippingRate;
@@ -60,7 +62,12 @@ class Rapiboy implements ShippingProvider
         return $rates;
     }
 
-    public function createOrder()
+    public function createOrder(?Order $order)
+    {
+        
+    }
+
+    public function getStatus(OrderShipping $shipping)
     {
         
     }

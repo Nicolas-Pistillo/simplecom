@@ -2,7 +2,7 @@
     <div x-data="{ open: false }" class="relative z-20" aria-labelledby="modal-title" role="dialog" aria-modal="true"
         x-on:open-login-panel.window="open = true" x-on:close-login-panel.window="open = false">
 
-        <div x-cloak x-show="open" class="fixed inset-0 bg-gray-800/80 transition-opacity" aria-hidden="true"
+        <div x-cloak x-show="open" class="fixed inset-0 bg-black/50 transition-opacity" aria-hidden="true"
             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
             x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
