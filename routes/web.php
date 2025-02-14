@@ -4,6 +4,7 @@ use App\Http\Controllers\Tenant\PaymentWebhookController;
 use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\AuthController;
 use App\Http\Controllers\Superadmin\TenantController;
+use App\Http\Controllers\Tenant\InvoicesController;
 use App\Http\Controllers\Tenant\ShippingWebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,10 @@ Route::post('webhooks/tenant-payments/{tenant}/{order}/{provider}', [PaymentWebh
 Route::post('webhooks/tenant-shippings/{tenant}/{orderShipping}/{provider}', [ShippingWebhookController::class, 'handler'])
     ->withoutMiddleware('web')
     ->name('tenant.shipping-webhook');
+
+Route::post('webhooks/tenant-invoices', [InvoicesController::class, 'handler'])
+    ->withoutMiddleware('web')
+    ->name('tenant.invoice-webhook');
 
 /* SUPERADMIN ROUTES */
 Route::prefix('superadmin')->group(function() {

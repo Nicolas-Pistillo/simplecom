@@ -106,6 +106,11 @@ class Show extends Component
         }
     }
 
+    public function createInvoice()
+    {
+        dd(json_encode(['tenant' => tenant('id'), 'order' => $this->order->id]));
+    }
+
     public function mount($order)
     {
         $order = Order::find($order) ?? abort(404);

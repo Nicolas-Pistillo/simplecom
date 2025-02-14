@@ -74,6 +74,13 @@
                         </div>
                     
                         @include('admin.orders.partials.show.items')
+
+                        {{-- <div class="mt-3">
+                            <x-button wire:click='createInvoice' type="secondary" class="flex items-center gap-1">
+                                Enviar a facturar
+                                <x-icon code="post_add" />
+                            </x-button>
+                        </div> --}}
                     </div>
 
                     {{-- Payment Details --}}
@@ -94,6 +101,8 @@
 
                     <!-- Customer -->
                     @include('admin.orders.partials.show.customer')
+
+                    @include('admin.orders.partials.show.invoice')
 
                     <!-- Activity Feed -->
                     @include('admin.orders.partials.show.feed')

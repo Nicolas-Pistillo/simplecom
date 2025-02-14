@@ -52,12 +52,10 @@
 
                         <h4 class="sm:col-span-6 flex items-start text-sm text-gray-700">
                             Cuenta del administrador principal
-                            <x-icon data-tooltip-target="admin-account-help" 
-                            code="help" class="ml-1 text-blue-600" style="font-size: 20px" />
-                            <x-tooltip id="admin-account-help">
-                                Será el encargado de iniciar sesión por primera vez como administrador del comercio, <br> 
-                                también controlara los roles y accesos de los demás tipos de administradores
-                            </x-tooltip>
+                            <x-icon code="help" class="ml-1 text-blue-600 cursor-help" style="font-size: 20px" 
+                            x-tooltip.raw="Será el encargado de iniciar sesión por primera vez como administrador del comercio, 
+                            también controlara los roles y accesos de los demás tipos de administradores"
+                            />
                         </h4>
 
                         <x-input class="sm:col-span-3 border-none p-0"

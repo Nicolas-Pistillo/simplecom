@@ -18,7 +18,7 @@ class Index extends Component
 
         $this->notify([
             'type'  => 'success',
-            'title' => "Comercio $actionTitle con éxito"
+            'title' => "Comercio $actionTitle"
         ]);
     }
 
