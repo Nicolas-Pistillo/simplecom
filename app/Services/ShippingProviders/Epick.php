@@ -17,6 +17,7 @@ use App\Traits\Configurable;
 use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -164,6 +165,7 @@ class Epick implements ShippingProvider
             'final_price'                 => data_get($response, 'total'),
             'external_status'             => data_get($response, 'status'),
             'external_status_description' => data_get($response, 'status_name'),
+            'order_created_at'            => Carbon::parse(data_get($response, 'created_at'))->format('Y-m-d H:i:s'),
             'meta'                        => [
                 [
                     'name'      => 'Código QR',

@@ -26,7 +26,6 @@ class CreateTenantRequest extends FormRequest
             'tenant_name'    => ['required', 'string', 'unique:tenants,name', 'regex:/^\S*$/u'],
             'ecommerce_name' => ['required', 'string'],
             'sector_id'      => ['required', 'exists:sectors,id'],
-            'plan_id'        => ['required', 'exists:plans,id'],
             'admin_name'     => ['required', 'string'],
             'admin_email'    => ['required', 'email'],
             'admin_password' => ['required', 'min:8', 'alpha_num']

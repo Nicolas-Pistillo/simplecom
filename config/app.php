@@ -186,6 +186,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'DeliveryType'          => App\Enums\DeliveryType::class,
         'CustomerType'          => App\Enums\CustomerType::class,
+        'InputType'             => App\Enums\InputType::class,
         'ShippingMethodType'    => App\Enums\ShippingMethodType::class,
         'LogisticType'          => App\Enums\LogisticType::class,
         'PaymentStatus'         => App\Enums\PaymentStatus::class,

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Configuration;
 use Illuminate\Database\Seeder;
 use App\Enums\ConfigurationTopics;
+use App\Enums\InputType;
 
 class TenantConfigurationSeeder extends Seeder
 {
@@ -33,8 +34,8 @@ class TenantConfigurationSeeder extends Seeder
             'key'           => 'contact_email',
             'display_name'  => 'Email de contacto',
             'description'   => 'Correo de consultas para clientes',
-            'topic'         =>  ConfigurationTopics::EcommerceData,
-            'input_type'    => 'email',
+            'topic'         => ConfigurationTopics::EcommerceData,
+            'input_type'    => InputType::Email,
             'show_in_setup' => true,
             'required'      => true
         ]);
@@ -43,7 +44,7 @@ class TenantConfigurationSeeder extends Seeder
             'key'           => 'contact_whatsapp',
             'display_name'  => 'Número de whatsapp',
             'description'   => 'Whatsapp para consultas directas de clientes',
-            'topic'         =>  ConfigurationTopics::EcommerceData,
+            'topic'         => ConfigurationTopics::EcommerceData,
             'show_in_setup' => true
         ]);
 
@@ -51,23 +52,23 @@ class TenantConfigurationSeeder extends Seeder
             'key'           => 'ecommerce_instagram',
             'display_name'  => 'Instagram',
             'description'   => 'Link al instagram del comercio',
-            'input_type'    => 'url',
-            'topic'         =>  ConfigurationTopics::EcommerceData
+            'input_type'    => InputType::Url,
+            'topic'         => ConfigurationTopics::EcommerceData
         ]);
 
         Configuration::create([
-            'key'           =>  'ecommerce_youtube',
-            'display_name'  =>  'Canal de youtube',
-            'description'   =>  'Link al canal de youtube del comercio',
-            'input_type'    =>  'url',
-            'topic'         =>  ConfigurationTopics::EcommerceData
+            'key'           => 'ecommerce_youtube',
+            'display_name'  => 'Canal de youtube',
+            'description'   => 'Link al canal de youtube del comercio',
+            'input_type'    => InputType::Url,
+            'topic'         => ConfigurationTopics::EcommerceData
         ]);
 
         Configuration::create([
             'key'           => 'mod_product_reviews',
             'display_name'  => 'Módulo de reseñas',
             'topic'         => ConfigurationTopics::Modules,
-            'input_type'    => 'boolean',
+            'input_type'    => InputType::Boolean,
             'value'         => true,
             'description'   => 'Tus productos podrán ser puntuados y reseñados por compradores',
         ]);
@@ -76,7 +77,7 @@ class TenantConfigurationSeeder extends Seeder
             'key'           => 'mod_newsletter',
             'display_name'  => 'Módulo de newsletter',
             'topic'         => ConfigurationTopics::Modules,
-            'input_type'    => 'boolean',
+            'input_type'    => InputType::Boolean,
             'value'         => false,
             'description'   => 'Envía novedades y nuevos lanzamientos a tus clientes suscritos'
         ]);
@@ -446,6 +447,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name' => 'Contraseña',
             'topic'        => ConfigurationTopics::DeliveryMethods,
             'description'  => 'Tu contraseña de E-pick',
+            'input_type'   => InputType::Password,
             'required'     => true
         ]);
 

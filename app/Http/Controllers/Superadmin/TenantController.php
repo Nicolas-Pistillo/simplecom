@@ -21,8 +21,7 @@ class TenantController extends Controller
     public function create(Request $request)
     {
         return view('superadmin.tenants.create', [
-            'sectors' => Sector::orderBy('name')->get(),
-            'plans' => Plan::all()
+            'sectors' => Sector::orderBy('name')->get()
         ]);
     }
 
@@ -50,8 +49,7 @@ class TenantController extends Controller
     {
         return view('superadmin.tenants.edit', [
             'tenant'  => $tenant,
-            'sectors' => Sector::all(),
-            'plans'   => Plan::all()
+            'sectors' => Sector::all()
         ]);
     }
 

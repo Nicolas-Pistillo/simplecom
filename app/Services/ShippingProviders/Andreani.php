@@ -151,11 +151,12 @@ class Andreani implements ShippingProvider
             throw new Exception('Error al generar orden de envío con Andreani');
         
         $order->shipping->update([
-            'status'          => ShippingStatus::Created,
-            'external_id'     => data_get($response, 'bultos.0.numeroDeEnvio'),
-            'external_status' => data_get($response, 'estado'),
-            'label_code'      => data_get($response, 'agrupadorDeBultos'),
-            'label_url'       => route('admin.shipping-label.andreani', $order->shipping->id),
+            'status'           => ShippingStatus::Created,
+            'external_id'      => data_get($response, 'bultos.0.numeroDeEnvio'),
+            'external_status'  => data_get($response, 'estado'),
+            'label_code'       => data_get($response, 'agrupadorDeBultos'),
+            'label_url'        => route('admin.shipping-label.andreani', $order->shipping->id),
+            'order_created_at' => Carbon::parse(data_get($response, 'fechaCreacion'))->format('Y-m-d H:i:s'),
             'meta'            => [
                 [
                     'name'  => 'Fecha de creación',

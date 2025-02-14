@@ -104,6 +104,8 @@ class Order extends Model
 
     public function discountStock()
     {
+        if ($this->stock_discounted) return;
+
         foreach($this->items as $item)
         {
             $item->variant ? $item->variant->update(['stock' => ($item->variant->stock - $item->quantity)])

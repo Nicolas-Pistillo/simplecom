@@ -24,8 +24,7 @@ class TenantService
 
         $fields = $request->validate([
             'ecommerce_name' => ['required', 'string'],
-            'sector_id'      => ['required', 'exists:sectors,id'],
-            'plan_id'        => ['required', 'exists:plans,id'],
+            'sector_id'      => ['required', 'exists:sectors,id']
         ]);
 
         $tenant->update($fields);

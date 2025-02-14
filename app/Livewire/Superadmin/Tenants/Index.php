@@ -35,7 +35,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.superadmin.tenants.index', [
-            'tenants' => Tenant::with(['domains', 'plan', 'sector'])->get()
+            'tenants' => Tenant::with(['domains', 'sector'])->get()
         ]);
     }
 }

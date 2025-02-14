@@ -22,8 +22,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             'ecommerce_name',
             'logo_url',
             'color',
-            'sector_id', 
-            'plan_id', 
+            'sector_id',
             'active',
             'setup_completed'
         ];
@@ -32,11 +31,6 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     public function domain()
     {
         return $this->domains?->first()?->domain;
-    }
-
-    public function plan()
-    {
-        return $this->belongsTo(Plan::class);
     }
 
     public function sector()

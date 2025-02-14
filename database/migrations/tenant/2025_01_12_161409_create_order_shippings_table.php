@@ -40,6 +40,7 @@ return new class extends Migration
             $table->string('selected_branch_id')->nullable();
             $table->string('observations')->nullable();
             $table->text('meta')->nullable();
+            $table->string('order_created_at')->nullable();
             $table->timestamps();
         });
     }

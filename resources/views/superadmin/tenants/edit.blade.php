@@ -25,8 +25,8 @@
                 <div class="px-4 py-6 sm:p-8">
                     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         
-                        <x-input class="sm:col-span-3" placeholder="Sólo minusculas y sin espacios" 
-                        error="{{ $errors->first('tenant_name') }}" name="tenant_name" label="Subdominio" 
+                        <x-input class="sm:col-span-3" placeholder="En minuscula y sin espacios" 
+                        error="{{ $errors->first('tenant_name') }}" name="tenant_name" label="Nombre" 
                         value="{{ old('tenant_name') ?? $tenant->name }}" />
 
                         <x-input class="sm:col-span-3" placeholder="Por ejemplo: Distribuidora Martinez" 
@@ -44,22 +44,6 @@
                                     @endforeach
                                 </select>
                                 @error('sector_id')
-                                    <small class="text-xs text-red-500">{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3">
-                            <label for="plan" class="text-sm text-gray-500 sm:pt-1.5">Plan</label>
-                            <div class="mt-1">
-                                <select id="plan" name="plan_id" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6">
-                                    <option>Seleccionar un plan...</option>
-                                    @foreach ($plans as $plan)
-                                        <option @if(old('plan_id') == $plan->id || $tenant->plan_id == $plan->id) selected @endif
-                                        value="{{ $plan->id }}">{{ $plan->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('plan_id')
                                     <small class="text-xs text-red-500">{{ $message }}</small>
                                 @enderror
                             </div>
