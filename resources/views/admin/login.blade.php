@@ -29,7 +29,7 @@
                         <x-input type="password" name="password" error="{{ $errors->first('password') }}" 
                         required label="Contraseña" class="border-none px-0" />
 
-                        <x-button submit class="w-full" size="big">Ingresar</x-button>
+                        <x-button submit class="w-full" size="large">Ingresar</x-button>
 
                         <div class="flex items-center justify-center">
                             <div class="flex items-center">
@@ -43,7 +43,10 @@
                     </form>
 
                     @error('login-failed')
-                        <x-alert color="red" icon="error" class="max-w-none mt-3">Credenciales incorrectas</x-alert>
+                        <x-alert color="red" icon="error" class="max-w-none mt-3" 
+                        title="Credenciales Incorrectas">
+                            Correo o contraseña inválidos
+                        </x-alert>
                     @enderror
                 </div>
             </div>

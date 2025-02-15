@@ -7,7 +7,7 @@
         'class' => "animate__animated max-w-max border-l-4 rounded-md 
         border-$color-400 bg-$color-50 p-2.5 shadow"
     ])}}>
-    <div class="flex items-center">
+    <div class="flex">
 
         <div class="flex-shrink-0">
             <x-icon code="{{ $icon ?? 'info' }}" 
@@ -16,7 +16,7 @@
 
         <div class="ml-3">
             @if (isset($title))
-                <h3 class="text-xs sm:text-sm font-semibold text-{{ $color }}-800">{{ $title }}</h3>
+                <h3 class="text-xs sm:text-sm font-semibold text-{{ $color }}-700">{{ $title }}</h3>
             @endif
             <p class="font-medium text-xs sm:text-sm text-{{ $color }}-600">
                 {{ $slot }}

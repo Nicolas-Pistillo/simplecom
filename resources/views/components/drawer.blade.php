@@ -13,7 +13,7 @@
                     x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
                     x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
                     x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
-                    class="pointer-events-auto relative w-96">
+                    class="pointer-events-auto relative w-96 {{ $panelClass ?? '' }}">
 
                     @if (!isset($withoutClose))
                         <div x-show="{{ $ref }}" x-transition:enter="ease-in-out duration-500"

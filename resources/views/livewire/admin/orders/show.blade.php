@@ -75,13 +75,7 @@
                     
                         @include('admin.orders.partials.show.items')
 
-                        {{-- <div class="mt-3">
-                            <x-button wire:click='createInvoice' type="secondary" class="flex items-center gap-1">
-                                Enviar a facturar
-                                <x-icon code="post_add" />
-                            </x-button>
-                        </div> --}}
-                    </div>
+                    </div>        
 
                     {{-- Payment Details --}}
                     @include('admin.orders.partials.show.payment')
