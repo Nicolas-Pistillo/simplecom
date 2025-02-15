@@ -8,7 +8,7 @@ use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class InvoicesController extends Controller
+class InvoiceController extends Controller
 {
     public function handler(Request $request)
     {
