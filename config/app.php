@@ -189,6 +189,7 @@ return [
         'InputType'             => App\Enums\InputType::class,
         'ShippingMethodType'    => App\Enums\ShippingMethodType::class,
         'LogisticType'          => App\Enums\LogisticType::class,
+        'TaxCondition'          => App\Enums\TaxCondition::class,
         'PaymentStatus'         => App\Enums\PaymentStatus::class,
         'ShippingStatus'        => App\Enums\ShippingStatus::class,
         'OrderStatus'           => App\Enums\OrderStatus::class,

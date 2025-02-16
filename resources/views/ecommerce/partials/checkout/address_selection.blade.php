@@ -1,5 +1,5 @@
 <fieldset wire:loading.remove wire:target='selectAddress' class="col-span-full animate__animated animate__fadeIn">
-    <legend class="text-sm/6 font-semibold text-gray-900">Seleccionar dirección</legend>
+    <legend class="text-sm/6 font-semibold text-gray-900">Seleccionar dirección de entrega</legend>
     <p class="mt-1 text-sm/6 text-gray-600">Elige o agrega una dirección para calcular el envío</p>
 
     <div class="mt-3 flex items-end gap-3 flex-wrap">
@@ -26,8 +26,8 @@
 
         <label @click="$dispatch('open-new-address-panel')"
             class="no-select w-max relative flex items-center justify-center cursor-pointer 
-                            rounded-lg border-2 border-dashed bg-white hover:bg-gray-50 transition-colors duration-300 
-                            p-4 focus:outline-hidden">
+            rounded-lg border-2 border-dashed bg-white hover:bg-gray-50 transition-colors 
+            duration-300 p-4 focus:outline-hidden">
             <div class="text-center text-blue-500 text-xs">
                 <x-icon code="add_circle" />
                 <h4>Agregar dirección</h4>

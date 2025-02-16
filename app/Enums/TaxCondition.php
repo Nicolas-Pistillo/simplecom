@@ -7,8 +7,15 @@ enum TaxCondition: string
     case ConsumidorFinal = 'consumidor_final';
     case Inscripto       = 'responsable_inscripto';
     case Monotributista  = 'monotributista';
-    case Exento          = 'exento';
-    case NoAlcanzado     = 'iva_no_alcanzado';
+
+    public static function toArray(): array
+    {
+        return [
+            self::ConsumidorFinal->value,
+            self::Inscripto->value,
+            self::Monotributista->value
+        ];
+    }
 
     public function name(): string
     {
@@ -16,9 +23,7 @@ enum TaxCondition: string
         {
             TaxCondition::ConsumidorFinal => 'Consumidor Final',
             TaxCondition::Inscripto       => 'Responsable Inscripto',
-            TaxCondition::Monotributista  => 'Monotributista',
-            TaxCondition::Exento          => 'Exento',
-            TaxCondition::NoAlcanzado     => 'IVA No alcanzado'
+            TaxCondition::Monotributista  => 'Monotributista'
         };
     }
 
@@ -28,9 +33,7 @@ enum TaxCondition: string
         {
             TaxCondition::ConsumidorFinal => 'CF',
             TaxCondition::Inscripto       => 'RI',
-            TaxCondition::Monotributista  => 'M',
-            TaxCondition::Exento          => 'E',
-            TaxCondition::NoAlcanzado     => 'IVNA'
+            TaxCondition::Monotributista  => 'M'
         };
     }
 }

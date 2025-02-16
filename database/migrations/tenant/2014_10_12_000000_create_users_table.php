@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('invoice_social_reason')->nullable();
             $table->string('invoice_document')->nullable();
             $table->string('invoice_address')->nullable();
-            $table->string('invoice_phone')->nullable();
             $table->string('google_id')->nullable();
             $table->string('facebook_id')->nullable();
             $table->boolean('newsletter_subscribed')->default(false);

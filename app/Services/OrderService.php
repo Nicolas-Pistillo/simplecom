@@ -39,12 +39,16 @@ class OrderService
             $user = User::updateOrCreate(
             ['id' => session('guest_customer.id')],
             [
-                'type'      => CustomerType::Guest,
-                'name'      => session('guest_customer.name'),
-                'lastname'  => session('guest_customer.lastname'),
-                'email'     => session('guest_customer.email'),
-                'phone'     => session('guest_customer.phone'),
-                'document'  => session('guest_customer.document')
+                'type'                  => CustomerType::Guest,
+                'name'                  => session('guest_customer.name'),
+                'lastname'              => session('guest_customer.lastname'),
+                'email'                 => session('guest_customer.email'),
+                'phone'                 => session('guest_customer.phone'),
+                'document'              => session('guest_customer.document'),
+                'tax_condition'         => session('guest_customer.tax_condition'),
+                'invoice_address'       => session('guest_customer.invoice_address'),
+                'invoice_social_reason' => session('guest_customer.invoice_social_reason'),
+                'invoice_document'      => session('guest_customer.invoice_document')
             ]);
 
             $userId = $user->id;

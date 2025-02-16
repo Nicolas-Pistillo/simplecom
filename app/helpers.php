@@ -63,3 +63,49 @@ if (!function_exists('collectionPointsRoute'))
         ]);
     }
 }
+
+if (!function_exists('validateCuit'))
+{
+    function validateCuit($cuit)
+	{
+		$len = strlen((string) $cuit);
+
+        if ( $len == 13 ) {
+            $nro = (string) $cuit;
+
+            if ($nro[2] != '-' || $nro[11] != '-') 
+            {
+                return false;
+            } else {
+                $nro = str_replace( '-', '', $nro );
+            }
+        } elseif ($len == 11) {
+            $nro = (string)$cuit;
+        } else {
+            return false;
+        }
+
+        $base = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
+
+        $aux = 0;
+
+        for ($i = 0; $i < 10; $i++) 
+        {
+            $aux += $base[$i] * (int)$nro[$i];
+        }
+
+        $verif = 11 - ($aux % 11);
+
+        if ($verif == 11) 
+        {
+            $verif = 0;
+        } elseif ($verif == 10) {
+            // nunca debería dar 10 porque, en ese caso, se tiene que recalcular
+            // cambiando el prefijo (si es un CUIT bien formado, no debería dar
+            // 10, aunque tengo dudas en como se recalculan los CUIT repetidos,
+            // los cuales pueden tener prefijos 24, 25, 26, 27 y 34)
+            return false;
+        }
+        return $nro[10] == (string) $verif;
+	}
+}

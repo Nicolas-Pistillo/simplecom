@@ -13,6 +13,7 @@ use Livewire\Component;
 use App\Services\ProductService;
 use App\Enums\PaymentRedirectType;
 use App\Enums\PaymentStatus;
+use App\Enums\TaxCondition;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\UserAddress;
@@ -219,6 +220,20 @@ class Checkout extends Component
     {
         $data = $this->form->validateCustomerData();
 
+        if (Auth::check())
+        {
+            Auth::user()->update([
+                'name'                  => $data['name'],
+                'lastname'              => $data['lastname'],
+                'phone'                 => $data['phone'],
+                'document'              => $data['document'],
+                'tax_condition'         => $data['tax_condition'],
+                'invoice_address'       => $data['invoice_address'] ?? Auth::user()->invoice_address,
+                'invoice_social_reason' => $data['invoice_social_reason'] ?? Auth::user()->invoice_social_reason,
+                'invoice_document'      => $data['invoice_document'] ?? Auth::user()->invoice_document
+            ]);
+        }
+
         if (!empty(session('rates_results')) && !empty(session('selected_branch')))
         {
             $this->form->selected_rate = session('selected_rate');
@@ -226,16 +241,6 @@ class Checkout extends Component
             
             $this->form->show_selected_branch = true;
             return $this->current_step = 2;
-        }
-
-        if (Auth::check())
-        {
-            Auth::user()->update([
-                'name'     => $data['name'],
-                'lastname' => $data['lastname'],
-                'phone'    => $data['phone'],
-                'document' => $data['document']
-            ]);
         }
 
         $lastAddress = session('selected_address');
