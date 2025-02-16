@@ -36,4 +36,9 @@ enum TaxCondition: string
             TaxCondition::Monotributista  => 'M'
         };
     }
+
+    public static function needsInvoiceA($tax_condition)
+    {
+        return in_array($tax_condition, [self::Inscripto->value, self::Monotributista->value]);
+    }
 }

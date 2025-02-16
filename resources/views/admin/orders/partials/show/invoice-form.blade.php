@@ -37,6 +37,8 @@
             </ul>
         </x-alert> --}}
 
+        {{-- @dump($invoiceForm->all()) --}}
+
         <div class="px-4 py-6 sm:px-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
 
             {{-- Invoice Data --}}
@@ -51,19 +53,29 @@
                         font-medium text-gray-900">
                             Razón Social
                         </label>
-                        <input type="text" id="invoice_social_reason" 
+                        <input type="text" id="invoice_social_reason"
+                        wire:model.blur='invoiceForm.social_reason' 
                         class="bg-gray-50 border border-gray-300 
                         text-gray-900 text-sm rounded-lg focus:ring-primary-600 
                         focus:border-primary-600 block w-full p-2.5" placeholder="Ej. Fulanito Díaz">
+
+                        @error('invoiceForm.social_reason')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="w-full">
                         <label for="invoice_document" class="block mb-2 text-sm font-medium text-gray-900">
                             DNI/CUIT
                         </label>
-                        <input type="text" id="invoice_document" class="bg-gray-50 border 
-                        border-gray-300 text-gray-900 text-sm rounded-lg 
+                        <input type="text" id="invoice_document" 
+                        wire:model.blur='invoiceForm.document'
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                         focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+
+                        @error('invoiceForm.document')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div>
@@ -71,55 +83,83 @@
                         font-medium text-gray-900">
                             Condición Fiscal
                         </label>
-                        <select id="invoice_tax_condition" class="bg-gray-50 border 
-                        border-gray-300 text-gray-900 text-sm rounded-lg 
-                        focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <option selected="">Consumidor Final</option>
-                            <option value="TV">Resposable Inscripto</option>
-                            <option value="PC">Monotributista</option>
-                            <option value="GA">Exento</option>
-                            <option value="PH">IVA No alcanzado</option>
+
+                        <select id="invoice_tax_condition" 
+                        wire:model.blur='invoiceForm.tax_condition'
+                        class="block w-full p-2.5 bg-gray-50 border border-gray-300 
+                        text-gray-900 text-sm rounded-lg focus:ring-primary-500 
+                        focus:border-primary-500">
+                            @foreach (TaxCondition::cases() as $taxCondition)
+                                <option value="{{ $taxCondition }}">{{ $taxCondition->name() }}</option>
+                            @endforeach
                         </select>
+
+                        @error('invoiceForm.tax_condition')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div>
                         <label for="invoice_address" class="block mb-2 text-sm font-medium text-gray-900">
                             Domicilio Fiscal
                         </label>
-                        <input id="invoice_address" type="text" class="bg-gray-50 border 
+
+                        <input id="invoice_address" type="text" 
+                        wire:model.blur='invoiceForm.address'
+                        class="bg-gray-50 border 
                         border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 
                         focus:border-primary-600 block w-full p-2.5" placeholder="Ej. Cabildo 300">
+
+                        @error('invoiceForm.address')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="w-full">
                         <label for="invoice_phone" class="block mb-2 text-sm font-medium text-gray-900">
                             Teléfono
                         </label>
-                        <input id="invoice_phone" type="text" class="bg-gray-50 border border-gray-300 
+
+                        <input id="invoice_phone" type="text" 
+                        wire:model.blur='invoiceForm.phone'
+                        class="bg-gray-50 border border-gray-300 
                         text-gray-900 text-sm rounded-lg focus:ring-primary-600 
                         focus:border-primary-600 block w-full p-2.5" placeholder="112345678">
+
+                        @error('invoiceForm.phone')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="w-full">
                         <label for="invoice_email" class="block mb-2 text-sm font-medium text-gray-900">
                             Email
                         </label>
-                        <input id="invoice_email" type="text" class="bg-gray-50 border border-gray-300 
+
+                        <input id="invoice_email" type="text" 
+                        wire:model.blur='invoiceForm.email'
+                        class="bg-gray-50 border border-gray-300 
                         text-gray-900 text-sm rounded-lg focus:ring-primary-600 
                         focus:border-primary-600 block w-full p-2.5" placeholder="Ej. fulanito@gmail.com">
+
+                        @error('invoiceForm.email')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="col-span-full">
+
                         <label class="flex items-center mb-2 text-sm 
                         font-medium text-gray-900 gap-1">
                             Enviar comprobante al cliente
                             <x-icon code="help" class="text-blue-600 cursor-help" 
-                            x-tooltip.raw="Se enviara el comprobante de factura al mail 
+                            x-tooltip.raw="Se enviara el comprobante de factura al email 
                             del cliente una vez que se procese y se emita" 
                             style="font-size: 20px"
                             />
                         </label>
-                        <x-switch checked />
+
+                        <x-switch wireModel="invoiceForm.send_to_client" />
                     </div>
                 </div>
 
@@ -189,60 +229,83 @@
                     <label for="invoice_internal_code"
                     class="block mb-2 text-sm font-medium text-gray-900">
                         Código interno
-                        <sup class="text-red-500">*</sup>
                     </label>
 
                     <input type="text" id="invoice_internal_code"
+                    wire:model.blur='invoiceForm.internal_code'
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                     focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                     placeholder="Ej. 789">
+
+                    @error('invoiceForm.internal_code')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="invoice_type" class="block mb-2 text-sm font-medium text-gray-900 
                     dark:text-white">Tipo de factura</label>
-                    <select id="invoice_type" class="bg-gray-50 border border-gray-300 
+
+                    <select id="invoice_type" 
+                    wire:model.blur='invoiceForm.invoice_type'
+                    class="bg-gray-50 border border-gray-300 
                     text-gray-900 text-sm rounded-lg focus:ring-primary-500 
                     focus:border-primary-500 block w-full p-2.5">
                         <option>Factura A</option>
-                        <option selected>Factura B</option>
+                        <option>Factura B</option>
                         <option>Factura C</option>
                     </select>
+
+                    @error('invoiceForm.invoice_type')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="invoice_pay_condition" class="block mb-2 text-sm font-medium text-gray-900">
                         Condición de pago
                     </label>
-                    <select id="invoice_pay_condition" class="bg-gray-50 border border-gray-300 
+
+                    <select id="invoice_pay_condition" 
+                    wire:model.blur='invoiceForm.pay_condition'
+                    class="bg-gray-50 border border-gray-300 
                     text-gray-900 text-sm rounded-lg focus:ring-primary-500 
                     focus:border-primary-500 block w-full p-2.5">
-                        <option selected value="201">Contado</option>
-                        <option value="205">Cuenta corriente</option>
-                        <option value="210">Transferencia Bancaria</option>
-                        <option value="211">Tarjeta de crédito</option>
-                        <option value="212">Tarjeta de débito</option>
-                        <option value="214">Otros</option>
+                        <option>Contado</option>
+                        <option>Cuenta corriente</option>
+                        <option>Transferencia Bancaria</option>
+                        <option>Tarjeta de crédito</option>
+                        <option>Tarjeta de débito</option>
+                        <option>Otros</option>
                     </select>
+
+                    @error('invoiceForm.pay_condition')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="invoice_sector" class="block mb-2 text-sm font-medium text-gray-900">
                         Rubro
-                        <sup class="text-red-500">*</sup>
                     </label>
 
-                    <input id="invoice_sector" type="text" class="bg-gray-50 border border-gray-300 
+                    <input id="invoice_sector" type="text" 
+                    wire:model.blur='invoiceForm.sector'
+                    class="bg-gray-50 border border-gray-300 
                     text-gray-900 text-sm rounded-lg focus:ring-primary-500 
                     focus:border-primary-500 block w-full p-2.5"
-                    value="{{ tenant()->sector->name }}">
+                    placeholder="Ej. Indumentaria y Calzado">
+
+                    @error('invoiceForm.sector')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
                 </div>
             </div>
         </div>
 
         <div class="flex border-t justify-end gap-4 px-4 py-4">
             <x-button size="large" @click="showConfirmInvoice = false" type="secondary">Cancelar</x-button>
-            <x-button size="large">Confirmar y facturar</x-button>
+            <x-button wire:click='createInvoice' size="large">Confirmar y facturar</x-button>
         </div>
     </div>
 </x-drawer>

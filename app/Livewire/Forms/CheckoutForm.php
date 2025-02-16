@@ -33,7 +33,9 @@ class CheckoutForm extends Form
     #[Validate('required|min:6', as: 'dirección fiscal')]
     public $invoice_address;
 
+    #[Validate(as: 'razón social')]
     public $invoice_social_reason;
+
     public $invoice_document;
 
     #[Validate('required|numeric|min:1000000|max:999999999', as: 'dni')]
@@ -69,10 +71,10 @@ class CheckoutForm extends Form
             'document'        => 'required|numeric|min:1000000|max:999999999',
         ];
 
-        if ((in_array($this->tax_condition, ['monotributista', 'responsable_inscripto'])))
+        if (TaxCondition::needsInvoiceA($this->tax_condition))
         {
-            $validationData['invoice_document'] = 'required|cuit';
-            $validationData['invoice_social_reason'] = 'required';
+            $validationData['invoice_document']      = 'required|cuit';
+            $validationData['invoice_social_reason'] = 'required|min:3';
         }
 
         return $this->validate($validationData);
@@ -122,15 +124,21 @@ class CheckoutForm extends Form
         ]);
     }
 
+    public function attributes()
+    {
+        return [
+            'invoice_document'      => 'CUIT',
+            'tax_condition'         => 'condición fiscal',
+            'invoice_social_reason' => 'razón social',
+        ];
+    }
+
     public function messages()
     {
         return [
-            'document.min'                   => 'El dni debe tener al menos 7 digitos',
-            'document.max'                   => 'El dni no puede tener más de 9 dígitos',
-            'tax_condition.required'         => 'El campo condición fiscal es obligatorio',
-            'tax_condition.in'               => 'Por favor seleccione una opción válida',
-            'invoice_document.required'      => 'Por favor ingrese su CUIT',
-            'invoice_social_reason.required' => 'El campo razón social es obligatorio',
+            'document.min'     => 'El dni debe tener al menos 7 digitos',
+            'document.max'     => 'El dni no puede tener más de 9 dígitos',
+            'tax_condition.in' => 'Por favor seleccione una opción válida',
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Livewire\Forms\OrderInvoiceForm;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
 use App\Traits\Livewire\WithNotifications;
@@ -18,6 +19,8 @@ class Show extends Component
     use WithNotifications;
 
     public $order;
+
+    public OrderInvoiceForm $invoiceForm;
 
     public function confirmTransferReceived()
     {
@@ -169,6 +172,8 @@ class Show extends Component
         );
 
         $this->order = $order;
+
+        $this->invoiceForm->autocomplete($order);
     }
 
     public function render()

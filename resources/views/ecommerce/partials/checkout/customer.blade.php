@@ -140,22 +140,19 @@
             </div>
         </div>
 
-        @if (in_array($form->tax_condition, ['monotributista', 'responsable_inscripto']))
+        @if (TaxCondition::needsInvoiceA($form->tax_condition))
 
             <div class="col-span-full sm:col-span-6">
                 <label for="invoice_document" class="block text-sm font-medium text-gray-700">
                     CUIT
                 </label>
+
                 <div class="mt-1">
                     <input type="text" wire:model.blur='form.invoice_document' 
                     id="invoice_document" class="block w-full rounded-md border-gray-300 
                     shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
 
                     @error('form.invoice_document')
-                        <small class="text-red-500">{{ $message }}</small>
-                    @enderror
-
-                    @error('invalid_cuit')
                         <small class="text-red-500">{{ $message }}</small>
                     @enderror
                 </div>
