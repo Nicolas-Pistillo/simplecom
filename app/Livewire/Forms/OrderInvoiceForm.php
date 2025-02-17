@@ -37,6 +37,9 @@ class OrderInvoiceForm extends Form
     #[Validate(as: 'domicilio fiscal')]
     public $address;
 
+    #[Validate(as: 'bonificación general')]
+    public $bonification;
+
     #[Validate(as: 'teléfono')]
     public $phone;
 
@@ -62,12 +65,14 @@ class OrderInvoiceForm extends Form
             'phone'          => 'required|size:10',
             'email'          => 'required|email',
             'send_to_client' => 'required|boolean',
+            'bonification'   => 'required|numeric|integer|min:0',
             'items'          => 'required|array|min:1',
             'items.*.code'        => 'required',
             'items.*.description' => 'required',
             'items.*.quantity'    => 'required|numeric|integer',
             'items.*.aliquot'     => ['required', new Enum(InvoiceItemAliquot::class)],
-            'items.*.unit_price'  => 'required'
+            'items.*.unit_price'  => 'required',
+            'items.*.discount'    => 'required|numeric|integer|min:0|max:100'
         ];
 
         if (TaxCondition::needsInvoiceA($this->tax_condition))
@@ -78,20 +83,25 @@ class OrderInvoiceForm extends Form
         return $rules;
     }
 
-    public function attributes()
-    {
-        return [
-            'items' => 'dale'
-        ];
-    }
-
     public function messages()
     {
         return [
             'tax_condition.Illuminate\Validation\Rules\Enum' => 'Seleccione una condición fiscal válida',
             'invoice_type.Illuminate\Validation\Rules\Enum'  => 'Seleccione un tipo de factura válida',
             'pay_condition.Illuminate\Validation\Rules\Enum' => 'Seleccione una condición de pago válida',
-            'items.*.aliquot.Illuminate\Validation\Rules\Enum' => 'Seleccione una alicuota válida'
+            'items.*.aliquot.Illuminate\Validation\Rules\Enum' => 'Seleccione una alicuota válida',
+            'items.required'                => 'Debes agregar al menos un concepto a facturar',
+            'items.*.code.required'         => 'El código es obligatorio',
+            'items.*.description.required'  => 'La descripción es obligatoria',
+            'items.*.quantity.required'     => 'La cantidad es obligatoria',
+            'items.*.quantity.numeric'      => 'La cantidad debe ser un número',
+            'items.*.quantity.integer'      => 'La cantidad debe ser un número entero',
+            'items.*.unit_price'            => 'El precio unitario es obligatorio',
+            'items.*.discount.required'     => 'El descuento mínimo debe ser 0',
+            'items.*.discount.min'          => 'El descuento mínimo debe ser 0',
+            'items.*.discount.max'          => 'El descuento máximo es 100%',
+            'items.*.discount.numeric'      => 'El descuento debe ser un número',
+            'items.*.discount.integer'      => 'El descuento debe ser un número entero',
         ];
     }
 
@@ -101,6 +111,7 @@ class OrderInvoiceForm extends Form
             'invoice_type'  => InvoiceType::InvoiceB->value,
             'pay_condition' => InvoicePayCondition::Cash->value,
             'sector'        => tenant()->sector->name,
+            'bonification'  => 0,
             'social_reason' => $order->user->full_name,
             'document'      => $order->user->document,
             'tax_condition' => $order->user->tax_condition->value,
@@ -128,7 +139,8 @@ class OrderInvoiceForm extends Form
                 'description'  => $item->name,
                 'quantity'     => $item->quantity,
                 'aliquot'      => $aliquot,
-                'unit_price'   => $item->unit_price
+                'unit_price'   => $item->unit_price,
+                'discount'     => $item->discount ?? 0
             ]);
         }
     }

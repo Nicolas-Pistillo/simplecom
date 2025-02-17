@@ -246,6 +246,10 @@
 
                 <h4 class="font-semibold">Detalle</h4>
 
+                @error('form.items')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+
                 <ul role="list" class="font-medium text-gray-500">
                     
                     @foreach ($form->items as $key => $item)
@@ -260,12 +264,12 @@
                             <div class="flex gap-4 py-2 text-xs flex-wrap">
 
                                 <div class="w-full sm:w-auto">
-                                    <label
+                                    <label for="invoice_item.{{ $key }}.code"
                                     class="block mb-2 text-xs font-medium text-gray-900">
                                         Código
                                     </label>
                 
-                                    <input type="text"
+                                    <input type="text" id="invoice_item.{{ $key }}.code"
                                     wire:model.blur='form.items.{{ $key }}.code'
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg 
                                     focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[80px] p-2.5">
@@ -276,15 +280,15 @@
                                 </div>
 
                                 <div class="w-full sm:w-auto">
-                                    <label
+                                    <label for="invoice_item.{{ $key }}.description"
                                     class="block mb-2 text-xs font-medium text-gray-900">
                                         Descripción
                                     </label>
                 
-                                    <input type="text"
+                                    <input type="text" id="invoice_item.{{ $key }}.description"
                                     wire:model.blur='form.items.{{ $key }}.description'
                                     class="bg-gray-50 border border-gray-300 text-gray-900  text-xs rounded-lg 
-                                    focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[330px] p-2.5">
+                                    focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[340px] p-2.5">
                 
                                     @error("form.items.$key.description")
                                         <small class="text-red-500">{{ $message }}</small>
@@ -292,12 +296,12 @@
                                 </div>
 
                                 <div class="w-full sm:w-auto">
-                                    <label
+                                    <label for="invoice_item.{{ $key }}.quantity"
                                     class="block mb-2 text-xs font-medium text-gray-900">
                                         Cantidad
                                     </label>
                 
-                                    <input type="number"
+                                    <input type="number" id="invoice_item.{{ $key }}.quantity"
                                     wire:model.blur='form.items.{{ $key }}.quantity'
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg 
                                     focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[80px] p-2.5">
@@ -308,15 +312,23 @@
                                 </div>
 
                                 <div class="w-full sm:w-auto">
-                                    <label
+                                    <label for="invoice_item.{{ $key }}.unit_price"
                                     class="block mb-2  text-xs font-medium text-gray-900">
                                         Precio unitario
                                     </label>
                 
-                                    <input type="number"
-                                    wire:model.blur='form.items.{{ $key }}.unit_price'
-                                    class="bg-gray-50 border border-gray-300 text-gray-900  text-xs rounded-lg 
-                                    focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 
+                                        pointer-events-none text-gray-800">
+                                            $
+                                        </div>
+
+                                        <input type="number" id="invoice_item.{{ $key }}.unit_price"
+                                        wire:model.blur='form.items.{{ $key }}.unit_price'
+                                        class="bg-gray-50 border border-gray-300 text-gray-900  text-xs rounded-lg 
+                                        focus:ring-primary-500 focus:border-primary-500 block w-full ps-6 p-2.5">
+                                    </div>
+                                
                 
                                     @error("form.items.$key.unit_price")
                                         <small class="text-red-500">{{ $message }}</small>
@@ -324,11 +336,13 @@
                                 </div>
 
                                 <div class="w-full sm:w-auto">
-                                    <label class="block mb-2 text-xs font-medium text-gray-900">
+                                    <label class="block mb-2 text-xs font-medium text-gray-900"
+                                    for="invoice_item.{{ $key }}.aliquot">
                                         IVA
                                     </label>
                 
                                     <select wire:model.blur='form.items.{{ $key }}.aliquot'
+                                    id="invoice_item.{{ $key }}.aliquot"
                                     class="bg-gray-50 border border-gray-300 
                                     text-gray-900 rounded-lg text-xs focus:ring-primary-500 
                                     focus:border-primary-500 block w-full p-2.5">
@@ -342,7 +356,24 @@
                                     @enderror
                                 </div>
 
-                                <x-icon code="delete" class="text-red-500 mt-auto cursor-pointer" 
+                                <div class="w-full sm:w-auto">
+                                    <label for="invoice_item.{{ $key }}.discount"
+                                    class="block mb-2  text-xs font-medium text-gray-900">
+                                        % Descuento
+                                    </label>
+                
+                                    <input type="number" id="invoice_item.{{ $key }}.discount"
+                                    wire:model.blur='form.items.{{ $key }}.discount'
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg 
+                                    focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[80px] p-2.5">
+                
+                                    @error("form.items.$key.discount")
+                                        <small class="text-red-500">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <x-icon code="delete" wire:click='removeItem({{ $key }})' 
+                                class="text-red-500 mt-auto cursor-pointer" 
                                 x-tooltip.raw="Eliminar item"
                                 />
 
@@ -351,7 +382,7 @@
                     @endforeach
                 </ul>
 
-                <div class="flex items-end mt-3">
+                <div class="flex items-end mt-3 mb-6">
                     <div wire:click='addItem' class="flex items-center text-blue-500 text-sm 
                     cursor-pointer transition duration-300 hover:shadow py-1 px-2 rounded-full border">
                         <x-icon code="add_circle" class="mr-1" />
@@ -361,9 +392,92 @@
             </div>
         </div>
 
-        <div class="flex border-t justify-end gap-4 px-4 py-4">
-            <x-button size="large" @click="showNewInvoice = false" type="secondary">Cancelar</x-button>
-            <x-button wire:click='save' size="large">Confirmar y facturar</x-button>
+        <div class="px-4 pb-6 sm:px-6 flex flex-wrap sm:flex-nowrap gap-6">
+
+            <div class="w-full sm:w-auto space-y-4 sm:space-y-6">
+
+                <div class="w-full sm:w-auto">
+
+                    <label for="bonification"
+                    class="block mb-2  text-xs font-medium text-gray-900">
+                        Bonificación general
+                    </label>
+    
+                    <div class="relative">
+    
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                            $
+                        </div>
+    
+                        <input type="number" id="bonification" 
+                        wire:model.blur='form.bonification'
+                        class="bg-gray-50 border 
+                        border-gray-300 text-gray-900 text-sm rounded-lg ps-8 p-2.5
+                        focus:ring-blue-500 focus:border-blue-500 block w-full sm:w-[200px]">
+                    </div>
+    
+                    @error("form.items.$key.bonification")
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
+                </div>
+
+            </div>
+
+            <div class="w-full space-y-4 sm:space-y-6">
+                <div class="w-full p-6 border border-gray-200 flex-col justify-start 
+                items-start gap-4 flex rounded-lg">
+
+                    <div class="w-full pb-6 border-b border-gray-200 flex-col 
+                    justify-start items-start gap-3 flex">
+                        <div class="w-full justify-between items-start gap-6 inline-flex">
+                            <h5 class="text-gray-600 leading-8">Subtotal</h5>
+                            <h4 class="text-right text-gray-900 font-semibold leading-loose">
+                                ${{ $this->subtotal }}
+                            </h4>
+                        </div>
+                        <div class="w-full justify-between items-start gap-6 inline-flex">
+                            <h5 class="text-gray-600 leading-8">IVA</h5>
+                            <h4 class="text-right text-gray-900 font-semibold leading-loose">
+                                ${{ $this->totalIva }}
+                            </h4>
+                        </div>
+                        <div class="w-full justify-between items-start gap-6 inline-flex">
+                            <h5 class="text-gray-600 leading-8">Descuentos</h5>
+                            <h4 class="text-right text-gray-900 font-semibold leading-loose">
+                                -$500.75
+                            </h4>
+                        </div>
+                        <div class="w-full justify-between items-start gap-6 inline-flex">
+                            <h5 class="text-gray-600 leading-8">Bon. General</h5>
+                            <h4 class="text-right text-gray-900 font-semibold leading-loose">
+                                -$80.00
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="w-full justify-between items-start gap-6 inline-flex">
+                        <h4 class="text-gray-900 text-lg font-semibold leading-loose">Total</h4>
+                        <h4 class="text-right text-gray-900 text-lg font-semibold leading-loose">
+                            ${{ $this->total }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex border-t justify-between gap-4 px-4 py-4 flex-wrap">
+            <div>
+                <span class="text-red-500 text-xs flex items-center">
+                    @if ($errors->any())
+                        <x-icon code="error" class="mr-1" /> Por favor revise los errores
+                    @endif
+                </span>
+            </div>
+            <div class="flex gap-4">
+                <x-button size="large" @click="showNewInvoice = false" type="secondary">Cancelar</x-button>
+                <x-button wire:click='save' size="large">Confirmar y facturar</x-button>
+            </div>
         </div>
     </div>
 </div>

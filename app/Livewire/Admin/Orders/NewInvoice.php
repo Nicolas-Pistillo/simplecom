@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Enums\InvoiceItemAliquot;
+use App\Enums\TaxCondition;
 use App\Livewire\Forms\OrderInvoiceForm;
 use App\Models\Order;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class NewInvoice extends Component
@@ -17,20 +20,77 @@ class NewInvoice extends Component
         $this->form->autocomplete($order);
     }
 
+    #[Computed]
+    public function subtotal()
+    {
+        return collect($this->form->items)->sum(function($item) 
+        {
+            $itemPrice = $item['unit_price'] * $item['quantity'];
+
+            if ($item['discount'] > 0) 
+            {
+                $itemPrice -= $itemPrice * ($item['discount'] / 100);
+            }
+            
+            return $itemPrice;
+        });
+    }
+
+    #[Computed]
+    public function totalIva()
+    {
+        $this->form->validateOnly('items');
+
+        return collect($this->form->items)->sum(function($item) 
+        {
+            $itemPrice = $item['unit_price'] * $item['quantity'];
+
+            if ($item['discount'] > 0) 
+            {
+                $itemPrice -= $itemPrice * ($item['discount'] / 100);
+            }
+
+            $aliquot = InvoiceItemAliquot::tryFrom($item['aliquot'])->numberValue();
+
+            if ($aliquot <= 0) return 0;
+
+            return $aliquot * $itemPrice / 100;
+        });
+    }
+
+    #[Computed]
+    public function total()
+    {
+        return $this->subtotal + $this->totalIva;
+    }
+
     public function addItem()
     {
+        $aliquot = TaxCondition::needsInvoiceA($this->form->tax_condition)
+                    ? InvoiceItemAliquot::IVA21->value
+                    : InvoiceItemAliquot::IVA0->value;
+
         array_push($this->form->items, [
             'code'         => null,
             'description'  => null,
             'quantity'     => null,
-            'aliquot'      => null,
-            'unit_price'   => null
+            'aliquot'      => $aliquot,
+            'unit_price'   => null,
+            'discount'     => 0
         ]);
+    }
+
+    public function removeItem($index)
+    {
+        unset($this->form->items[$index]);
+        $this->form->items = array_values($this->form->items);
     }
 
     public function save()
     {
         $this->form->validate();
+
+        dd($this->subtotal);
 
         dd("PASO TODO", $this->form->all());
 

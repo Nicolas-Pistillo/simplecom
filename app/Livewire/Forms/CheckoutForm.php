@@ -104,23 +104,28 @@ class CheckoutForm extends Form
             ]);
         }
 
+        if (!session('guest_customer.tax_condition'))
+        {
+            session()->put('guest_customer.tax_condition', TaxCondition::ConsumidorFinal->value);
+        }
+
         $this->fill([
-            'name'              => session('guest_customer.name'),
-            'lastname'          => session('guest_customer.lastname'),
-            'email'             => session('guest_customer.email'),
-            'phone'             => session('guest_customer.phone'),
-            'document'          => session('guest_customer.document'),
-            'tax_condition'     => session('guest_customer.tax_condition') ?? TaxCondition::ConsumidorFinal->value,
-            'invoice_address'   => session('guest_customer.invoice_address'),
+            'name'                  => session('guest_customer.name'),
+            'lastname'              => session('guest_customer.lastname'),
+            'email'                 => session('guest_customer.email'),
+            'phone'                 => session('guest_customer.phone'),
+            'document'              => session('guest_customer.document'),
+            'tax_condition'         => session('guest_customer.tax_condition'),
+            'invoice_address'       => session('guest_customer.invoice_address'),
             'invoice_social_reason' => session('guest_customer.invoice_social_reason'),
-            'invoice_document'  => session('guest_customer.invoice_document'),
-            'addresses'         => collect(session('guest_customer.addresses')) ?? collect(),
-            'payment_methods'   => PaymentMethod::where('active', true)->get(),
-            'store_pickups'     => StorePickup::where('active', true)->get(),
-            'delivery_type'     => session('delivery_type') ?? DeliveryType::Shipping,
-            'selected_address'  => session('selected_address'),
-            'selected_rate'     => session('selected_rate'),
-            'selected_branch'   => session('selected_branch')
+            'invoice_document'      => session('guest_customer.invoice_document'),
+            'addresses'             => collect(session('guest_customer.addresses')) ?? collect(),
+            'payment_methods'       => PaymentMethod::where('active', true)->get(),
+            'store_pickups'         => StorePickup::where('active', true)->get(),
+            'delivery_type'         => session('delivery_type') ?? DeliveryType::Shipping,
+            'selected_address'      => session('selected_address'),
+            'selected_rate'         => session('selected_rate'),
+            'selected_branch'       => session('selected_branch')
         ]);
     }
 
