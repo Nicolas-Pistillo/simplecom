@@ -73,7 +73,7 @@ class CheckoutForm extends Form
 
         if (TaxCondition::needsInvoiceA($this->tax_condition))
         {
-            $validationData['invoice_document']      = 'required|cuit';
+            $validationData['invoice_document']      = 'required|numeric|cuit';
             $validationData['invoice_social_reason'] = 'required|min:3';
         }
 

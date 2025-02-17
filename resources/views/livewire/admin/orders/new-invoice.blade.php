@@ -1,12 +1,11 @@
-<x-drawer ref="showConfirmInvoice" withoutClose panelClass="w-[50rem]" containerClasses="!p-0">
-
+<div>
     <div class="bg-blue-600 px-4 py-6 sm:px-6">
         <div class="flex items-center justify-between">
             <h2 class="text-base font-semibold text-white" id="slide-over-title">
                 Nueva factura
             </h2>
             <div class="ml-3 flex h-7 items-center">
-                <x-icon @click="showConfirmInvoice = false" code="close" class="text-white cursor-pointer"
+                <x-icon @click="showNewInvoice = false" code="close" class="text-white cursor-pointer"
                     x-tooltip.raw="Cerrar" />
             </div>
         </div>
@@ -37,8 +36,6 @@
             </ul>
         </x-alert> --}}
 
-        {{-- @dump($invoiceForm->all()) --}}
-
         <div class="px-4 py-6 sm:px-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
 
             {{-- Invoice Data --}}
@@ -54,12 +51,12 @@
                             Razón Social
                         </label>
                         <input type="text" id="invoice_social_reason"
-                        wire:model.blur='invoiceForm.social_reason' 
+                        wire:model.blur='form.social_reason' 
                         class="bg-gray-50 border border-gray-300 
                         text-gray-900 text-sm rounded-lg focus:ring-primary-600 
                         focus:border-primary-600 block w-full p-2.5" placeholder="Ej. Fulanito Díaz">
 
-                        @error('invoiceForm.social_reason')
+                        @error('form.social_reason')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
@@ -68,12 +65,12 @@
                         <label for="invoice_document" class="block mb-2 text-sm font-medium text-gray-900">
                             DNI/CUIT
                         </label>
-                        <input type="text" id="invoice_document" 
-                        wire:model.blur='invoiceForm.document'
+                        <input type="number" id="invoice_document" 
+                        wire:model.blur='form.document'
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                         focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
 
-                        @error('invoiceForm.document')
+                        @error('form.document')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
@@ -85,7 +82,7 @@
                         </label>
 
                         <select id="invoice_tax_condition" 
-                        wire:model.blur='invoiceForm.tax_condition'
+                        wire:model.blur='form.tax_condition'
                         class="block w-full p-2.5 bg-gray-50 border border-gray-300 
                         text-gray-900 text-sm rounded-lg focus:ring-primary-500 
                         focus:border-primary-500">
@@ -94,7 +91,7 @@
                             @endforeach
                         </select>
 
-                        @error('invoiceForm.tax_condition')
+                        @error('form.tax_condition')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
@@ -105,12 +102,12 @@
                         </label>
 
                         <input id="invoice_address" type="text" 
-                        wire:model.blur='invoiceForm.address'
+                        wire:model.blur='form.address'
                         class="bg-gray-50 border 
                         border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 
                         focus:border-primary-600 block w-full p-2.5" placeholder="Ej. Cabildo 300">
 
-                        @error('invoiceForm.address')
+                        @error('form.address')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
@@ -121,12 +118,12 @@
                         </label>
 
                         <input id="invoice_phone" type="text" 
-                        wire:model.blur='invoiceForm.phone'
+                        wire:model.blur='form.phone'
                         class="bg-gray-50 border border-gray-300 
                         text-gray-900 text-sm rounded-lg focus:ring-primary-600 
                         focus:border-primary-600 block w-full p-2.5" placeholder="112345678">
 
-                        @error('invoiceForm.phone')
+                        @error('form.phone')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
@@ -137,12 +134,12 @@
                         </label>
 
                         <input id="invoice_email" type="text" 
-                        wire:model.blur='invoiceForm.email'
+                        wire:model.blur='form.email'
                         class="bg-gray-50 border border-gray-300 
                         text-gray-900 text-sm rounded-lg focus:ring-primary-600 
                         focus:border-primary-600 block w-full p-2.5" placeholder="Ej. fulanito@gmail.com">
 
-                        @error('invoiceForm.email')
+                        @error('form.email')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
@@ -159,65 +156,9 @@
                             />
                         </label>
 
-                        <x-switch wireModel="invoiceForm.send_to_client" />
+                        <x-switch wireModel="form.send_to_client" />
                     </div>
                 </div>
-
-                <h4 class="font-semibold">Detalle</h4>
-
-                <ul role="list" class="divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-500">
-                    @foreach ($order->items as $item)
-                        <li wire:key='{{ $item->id }}' class="flex space-x-3 py-6 
-                        items-center text-xs">
-            
-                            <img src="{{ $item->product->first_image }}" alt="Imagen producto"
-                            class="hidden md:block h-10 w-10 flex-none rounded-md bg-gray-100 object-contain">
-            
-                            <div class="flex-auto space-y-1">
-            
-                                <h3 class="text-gray-900 line-clamp-2">
-                                    {{ $item->product->name }} 
-                                </h3>
-
-                                @if ($item->variant && isset($item->variant->options))
-                                    @foreach ($item->variant->options as $variantOption)
-                                        <p class="text-gray-700">
-                                            {{ $variantOption->attribute->name }}:
-                                            {{ $variantOption->attributeValue->name }}
-                                        </p>
-                                    @endforeach
-                                @endif
-            
-                                <p class="text-gray-700">
-                                    Cantidad: {{ $item->quantity }}
-                                </p>
-
-                                <p class="text-gray-700">
-                                    Unitario sin IVA: $491563.79
-                                </p>
-
-                                <p class="text-gray-700">
-                                    Total: $798456.36
-                                </p>
-                            </div>
-
-                            <div>
-                                <label class="block mb-2 font-medium text-gray-900">
-                                    Alicuota
-                                </label>
-                                <select class="bg-gray-50 border border-gray-300 
-                                text-gray-900 rounded-lg focus:ring-primary-500 
-                                focus:border-primary-500 block w-max text-xs p-2.5">
-                                    <option value="27">27%</option>
-                                    <option value="21" selected>21%</option>
-                                    <option value="10.5">10.5%</option>
-                                    <option value="0">0%</option>
-                                    <option value="-1">Exento</option>
-                                </select>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
             </div>
 
             {{-- Invoice Parameters --}}
@@ -228,35 +169,36 @@
                 <div>
                     <label for="invoice_internal_code"
                     class="block mb-2 text-sm font-medium text-gray-900">
-                        Código interno
+                        Cod. de factura interno
                     </label>
 
                     <input type="text" id="invoice_internal_code"
-                    wire:model.blur='invoiceForm.internal_code'
+                    wire:model.blur='form.internal_code'
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                     focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                     placeholder="Ej. 789">
 
-                    @error('invoiceForm.internal_code')
+                    @error('form.internal_code')
                         <small class="text-red-500">{{ $message }}</small>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="invoice_type" class="block mb-2 text-sm font-medium text-gray-900 
-                    dark:text-white">Tipo de factura</label>
+                    <label for="invoice_type" class="block mb-2 text-sm font-medium text-gray-900">
+                        Tipo de factura
+                    </label>
 
                     <select id="invoice_type" 
-                    wire:model.blur='invoiceForm.invoice_type'
+                    wire:model.blur='form.invoice_type'
                     class="bg-gray-50 border border-gray-300 
                     text-gray-900 text-sm rounded-lg focus:ring-primary-500 
                     focus:border-primary-500 block w-full p-2.5">
-                        <option>Factura A</option>
-                        <option>Factura B</option>
-                        <option>Factura C</option>
+                        @foreach (InvoiceType::cases() as $invoiceType)
+                            <option value="{{ $invoiceType }}">{{ $invoiceType->name() }}</option>
+                        @endforeach
                     </select>
 
-                    @error('invoiceForm.invoice_type')
+                    @error('form.invoice_type')
                         <small class="text-red-500">{{ $message }}</small>
                     @enderror
                 </div>
@@ -267,19 +209,16 @@
                     </label>
 
                     <select id="invoice_pay_condition" 
-                    wire:model.blur='invoiceForm.pay_condition'
+                    wire:model.blur='form.pay_condition'
                     class="bg-gray-50 border border-gray-300 
                     text-gray-900 text-sm rounded-lg focus:ring-primary-500 
                     focus:border-primary-500 block w-full p-2.5">
-                        <option>Contado</option>
-                        <option>Cuenta corriente</option>
-                        <option>Transferencia Bancaria</option>
-                        <option>Tarjeta de crédito</option>
-                        <option>Tarjeta de débito</option>
-                        <option>Otros</option>
+                        @foreach (InvoicePayCondition::cases() as $payCondition)
+                            <option value="{{ $payCondition->value }}">{{ $payCondition->name() }}</option>    
+                        @endforeach
                     </select>
 
-                    @error('invoiceForm.pay_condition')
+                    @error('form.pay_condition')
                         <small class="text-red-500">{{ $message }}</small>
                     @enderror
                 </div>
@@ -290,22 +229,141 @@
                     </label>
 
                     <input id="invoice_sector" type="text" 
-                    wire:model.blur='invoiceForm.sector'
+                    wire:model.blur='form.sector'
                     class="bg-gray-50 border border-gray-300 
                     text-gray-900 text-sm rounded-lg focus:ring-primary-500 
                     focus:border-primary-500 block w-full p-2.5"
                     placeholder="Ej. Indumentaria y Calzado">
 
-                    @error('invoiceForm.sector')
+                    @error('form.sector')
                         <small class="text-red-500">{{ $message }}</small>
                     @enderror
+                </div>
+            </div>
+
+            {{-- Invoice Items --}}
+            <div class="col-span-full">
+
+                <h4 class="font-semibold">Detalle</h4>
+
+                <ul role="list" class="font-medium text-gray-500">
+                    
+                    @foreach ($form->items as $key => $item)
+                        <li wire:key='items.{{ $key }}'>
+
+                            <div class="col-span-full relative my-2 py-3">
+                                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                                    <div class="w-full mx-auto border-t border-gray-200"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4 py-2 text-xs flex-wrap">
+
+                                <div class="w-full sm:w-auto">
+                                    <label
+                                    class="block mb-2 text-xs font-medium text-gray-900">
+                                        Código
+                                    </label>
+                
+                                    <input type="text"
+                                    wire:model.blur='form.items.{{ $key }}.code'
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg 
+                                    focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[80px] p-2.5">
+                
+                                    @error("form.items.$key.code")
+                                        <small class="text-red-500">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="w-full sm:w-auto">
+                                    <label
+                                    class="block mb-2 text-xs font-medium text-gray-900">
+                                        Descripción
+                                    </label>
+                
+                                    <input type="text"
+                                    wire:model.blur='form.items.{{ $key }}.description'
+                                    class="bg-gray-50 border border-gray-300 text-gray-900  text-xs rounded-lg 
+                                    focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[330px] p-2.5">
+                
+                                    @error("form.items.$key.description")
+                                        <small class="text-red-500">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="w-full sm:w-auto">
+                                    <label
+                                    class="block mb-2 text-xs font-medium text-gray-900">
+                                        Cantidad
+                                    </label>
+                
+                                    <input type="number"
+                                    wire:model.blur='form.items.{{ $key }}.quantity'
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg 
+                                    focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[80px] p-2.5">
+                
+                                    @error("form.items.$key.quantity")
+                                        <small class="text-red-500">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="w-full sm:w-auto">
+                                    <label
+                                    class="block mb-2  text-xs font-medium text-gray-900">
+                                        Precio unitario
+                                    </label>
+                
+                                    <input type="number"
+                                    wire:model.blur='form.items.{{ $key }}.unit_price'
+                                    class="bg-gray-50 border border-gray-300 text-gray-900  text-xs rounded-lg 
+                                    focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                
+                                    @error("form.items.$key.unit_price")
+                                        <small class="text-red-500">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="w-full sm:w-auto">
+                                    <label class="block mb-2 text-xs font-medium text-gray-900">
+                                        IVA
+                                    </label>
+                
+                                    <select wire:model.blur='form.items.{{ $key }}.aliquot'
+                                    class="bg-gray-50 border border-gray-300 
+                                    text-gray-900 rounded-lg text-xs focus:ring-primary-500 
+                                    focus:border-primary-500 block w-full p-2.5">
+                                        @foreach (InvoiceItemAliquot::cases() as $aliquot)
+                                            <option value="{{ $aliquot->value }}">{{ $aliquot->name() }}</option>
+                                        @endforeach
+                                    </select>
+                
+                                    @error("form.items.$key.aliquot")
+                                        <small class="text-red-500">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <x-icon code="delete" class="text-red-500 mt-auto cursor-pointer" 
+                                x-tooltip.raw="Eliminar item"
+                                />
+
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+
+                <div class="flex items-end mt-3">
+                    <div wire:click='addItem' class="flex items-center text-blue-500 text-sm 
+                    cursor-pointer transition duration-300 hover:shadow py-1 px-2 rounded-full border">
+                        <x-icon code="add_circle" class="mr-1" />
+                        Agregar item
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="flex border-t justify-end gap-4 px-4 py-4">
-            <x-button size="large" @click="showConfirmInvoice = false" type="secondary">Cancelar</x-button>
-            <x-button wire:click='createInvoice' size="large">Confirmar y facturar</x-button>
+            <x-button size="large" @click="showNewInvoice = false" type="secondary">Cancelar</x-button>
+            <x-button wire:click='save' size="large">Confirmar y facturar</x-button>
         </div>
     </div>
-</x-drawer>
+</div>

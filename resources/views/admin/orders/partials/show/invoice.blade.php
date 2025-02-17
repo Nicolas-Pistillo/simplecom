@@ -1,4 +1,6 @@
-<div x-data="{ showConfirmInvoice: false }" class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 py-6 px-4">
+<div x-data="{ showNewInvoice: false }"
+x-on:close-order-invoice-form.window="showNewInvoice = false"
+class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 py-6 px-4">
     <div class="pb-3 border-b">
 
         <div class="flex justify-between items-center text-sm/6 
@@ -69,9 +71,11 @@
     </div> --}}
 
     <div class="pt-3">
-        <x-button @click="showConfirmInvoice = true" type="secondary">Emitir factura</x-button>
+        <x-button @click="showNewInvoice = true" type="secondary">Emitir factura</x-button>
     </div>
     
-    @include('admin.orders.partials.show.invoice-form')
-
+    <x-drawer ref="showNewInvoice" withoutClose panelClass="w-[50rem]" containerClasses="!p-0">
+        @livewire('admin.orders.new-invoice', compact('order'))
+    </x-drawer>
+    
 </div>

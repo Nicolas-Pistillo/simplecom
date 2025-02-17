@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\CustomerType;
+use App\Enums\TaxCondition;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -37,8 +38,9 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'password' => 'hashed',
-        'type'     => CustomerType::class
+        'password'      => 'hashed',
+        'type'          => CustomerType::class,
+        'tax_condition' => TaxCondition::class
     ];
 
     public function getFullNameAttribute()

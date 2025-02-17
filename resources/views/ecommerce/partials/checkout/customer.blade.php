@@ -148,7 +148,7 @@
                 </label>
 
                 <div class="mt-1">
-                    <input type="text" wire:model.blur='form.invoice_document' 
+                    <input type="number" wire:model.blur='form.invoice_document' 
                     id="invoice_document" class="block w-full rounded-md border-gray-300 
                     shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
 
@@ -176,7 +176,7 @@
 
         <div class="col-span-full sm:col-span-6">
             <label for="invoice_address" class="block text-sm font-medium text-gray-700">
-                Dirección fiscal
+                Domicilio fiscal
             </label>
             <div class="mt-1">
                 <input type="text" wire:model.blur='form.invoice_address' autocomplete="no" 
@@ -186,7 +186,7 @@
                 @error('form.invoice_address')
                     <small class="text-red-500">{{ $message }}</small>
                 @else
-                    <small class="text-gray-500">Sólo usada para facturar</small>
+                    <small class="text-gray-500">Sólo usado para facturar</small>
                 @enderror
             </div>
         </div>

@@ -4,7 +4,6 @@ namespace App\Enums;
 
 enum InvoiceStatus: string
 {
-    case NotCreated  = 'not_created';
     case Pending     = 'pending';
     case Queued      = 'queued';
     case Issued      = 'issued';
@@ -13,7 +12,6 @@ enum InvoiceStatus: string
     {
         return match($this)
         {
-            InvoiceStatus::NotCreated => 'No creada',
             InvoiceStatus::Pending    => 'Pendiente',
             InvoiceStatus::Queued     => 'En proceso',
             InvoiceStatus::Issued     => 'Emitida'
@@ -24,7 +22,6 @@ enum InvoiceStatus: string
     {
         return match($this)
         {
-            InvoiceStatus::NotCreated => 'gray',
             InvoiceStatus::Pending    => 'yellow',
             InvoiceStatus::Queued     => 'blue',
             InvoiceStatus::Issued     => 'green'
