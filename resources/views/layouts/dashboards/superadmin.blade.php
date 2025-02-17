@@ -17,7 +17,7 @@
             display: none !important;
         }
     </style>
-    <title>@yield('page-title', 'Simplecom - Superadmin')</title>
+    <title>@yield('title', 'Simplecom - Superadmin')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     @yield('head')
 </head>
@@ -70,8 +70,9 @@
                     </div>
                     <div class="flex items-center md:hidden">
                         <!-- Mobile menu button -->
-                        <button type="button"
-                            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-hidden focus:ring-inset"
+                        <button type="button" class="relative inline-flex items-center 
+                        justify-center rounded-md p-2 bg-gray-100 text-gray-500
+                        transition duration-300 hover:bg-gray-200"
                             aria-controls="mobile-menu" @click="open = !open" aria-expanded="false"
                             x-bind:aria-expanded="open.toString()">
                             <span class="absolute -inset-0.5"></span>
@@ -92,16 +93,12 @@
                         </button>
                     </div>
                     <div class="hidden md:ml-4 md:flex md:items-center">
-                        <button type="button"
-                            class="relative shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">View notifications</span>
-                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0">
-                                </path>
-                            </svg>
+
+                        <!-- Notifications -->
+                        <button type="button" class="relative ml-auto shrink-0 rounded-full 
+                        bg-white text-gray-400 hover:text-gray-500">
+                            <x-icon code="notifications" class="transition colors cursor-pointer 
+                            bg-gray-100 text-gray-600 p-1.5 rounded-full hover:bg-gray-200 duration-300" />
                         </button>
 
                         <!-- Profile dropdown -->
@@ -109,7 +106,7 @@
                             <div>
                                 <button type="button" @click="open = !open"
                                 class="relative flex rounded-full bg-white text-sm">
-                                    <img class="w-8 h-8 rounded-full"
+                                    <img class="w-9 h-9 rounded-full"
                                     src="{{ initialsAvatar(['name' => Auth::user()->name, 'background' => '#2563eb', 'color' => '#fff']) }}"
                                     alt="User avatar">
                                 </button>
@@ -146,7 +143,7 @@
                     <a href="{{ route('superadmin.dashboard.index') }}" 
                     class="block border-l-4 py-2 pr-4 pl-3 text-base font-medium
                     {{ Route::is('superadmin.dashboard.index') 
-                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700' 
+                    ? 'bg-blue-50 border-blue-500 text-blue-700' 
                     : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800' }}">
                         Dashboard
                     </a>
@@ -154,7 +151,7 @@
                     <a href="{{ route('superadmin.tenants.index') }}" 
                     class="block border-l-4 py-2 pr-4 pl-3 text-base font-medium
                     {{ Route::is('superadmin.tenants.*') 
-                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700' 
+                    ? 'bg-blue-50 border-blue-500 text-blue-700' 
                     : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800' }}">
                         Comercios
                     </a>
@@ -170,16 +167,10 @@
                             <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
                             <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
                         </div>
-                        <button type="button"
-                            class="relative ml-auto shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">View notifications</span>
-                            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0">
-                                </path>
-                            </svg>
+                        <button type="button" class="relative ml-auto shrink-0 rounded-full 
+                        bg-white p-1 text-gray-400 hover:text-gray-500">
+                            <x-icon code="notifications" class="transition colors cursor-pointer bg-gray-100
+                            text-gray-600 p-2 rounded-full hover:bg-gray-200 duration-300" />
                         </button>
                     </div>
                     <div class="mt-3 space-y-1">
@@ -205,8 +196,6 @@
         </main>
 
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.js"></script>
 </body>
 
 </html>

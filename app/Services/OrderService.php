@@ -16,7 +16,6 @@ use App\Models\ShippingProvider;
 use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class OrderService
 {
@@ -40,12 +39,16 @@ class OrderService
             $user = User::updateOrCreate(
             ['id' => session('guest_customer.id')],
             [
-                'type'      => CustomerType::Guest,
-                'name'      => session('guest_customer.name'),
-                'lastname'  => session('guest_customer.lastname'),
-                'email'     => session('guest_customer.email'),
-                'phone'     => session('guest_customer.phone'),
-                'document'  => session('guest_customer.document')
+                'type'                  => CustomerType::Guest,
+                'name'                  => session('guest_customer.name'),
+                'lastname'              => session('guest_customer.lastname'),
+                'email'                 => session('guest_customer.email'),
+                'phone'                 => session('guest_customer.phone'),
+                'document'              => session('guest_customer.document'),
+                'tax_condition'         => session('guest_customer.tax_condition'),
+                'invoice_address'       => session('guest_customer.invoice_address'),
+                'invoice_social_reason' => session('guest_customer.invoice_social_reason'),
+                'invoice_document'      => session('guest_customer.invoice_document')
             ]);
 
             $userId = $user->id;
@@ -117,5 +120,46 @@ class OrderService
         OrderCreated::dispatch($order);
 
         return $order;
+    }
+
+    public static function calculatePackage(Order $order, $weightUnit = 'kg')
+    {
+        $order->load('items');
+
+        $package = [
+            'items' => 0,
+            'weight' => 0,
+            'declaredValue' => 0,
+            'dimensions' => [
+                'width'  => 0,
+                'height' => 0,
+                'length' => 0,
+                'volume' => 0
+            ]
+        ];
+
+        foreach($order->items as $item)
+        {
+            $price  = $item->unit_price      * $item->quantity;
+            $weight = $item->product->weight * $item->quantity;
+            $width  = $item->product->width  * $item->quantity;
+            $height = $item->product->height;
+            $length = $item->product->length * $item->quantity;
+
+            if ($weightUnit === 'kg')
+            {
+                $weight = $weight / 1000;
+            }
+
+            $package['items']                += $item->quantity;
+            $package['declaredValue']        += $price;
+            $package['weight']               += $weight;
+            $package['dimensions']['width']  += $width;
+            $package['dimensions']['height'] += $height;
+            $package['dimensions']['length'] += $length;
+            $package['dimensions']['volume'] += ($width * $height * $length);
+        }
+
+        return $package;
     }
 }

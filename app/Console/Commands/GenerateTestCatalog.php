@@ -44,7 +44,7 @@ class GenerateTestCatalog extends Command
 
         $productCount = 0;
 
-        $products = Http::get('https://fakestoreapi.com/products')->collect();
+        /* $products = Http::get('https://fakestoreapi.com/products')->collect();
 
         if ($products->isEmpty()) return;
 
@@ -88,9 +88,9 @@ class GenerateTestCatalog extends Command
             }
 
             if ($model->wasRecentlyCreated) $productCount++;
-        }
+        } */
 
-        /* $products = Http::get('https://api.escuelajs.co/api/v1/products')->collect();
+        $products = Http::get('https://api.escuelajs.co/api/v1/products')->collect();
 
         if ($products->isEmpty()) return;
 
@@ -153,7 +153,7 @@ class GenerateTestCatalog extends Command
             }
 
             if ($model->wasRecentlyCreated) $productCount++;
-        } */
+        }
 
         if($this->option('extense'))
         {

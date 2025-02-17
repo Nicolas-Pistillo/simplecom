@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('status');
             $table->foreignId('payment_method_id');
+            $table->foreignId('invoice_id')->nullable();
             $table->boolean('invoiced')->default(false);
             $table->boolean('stock_discounted')->default(false);
             $table->string('delivery_type');

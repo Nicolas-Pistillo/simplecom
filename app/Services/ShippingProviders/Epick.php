@@ -13,6 +13,7 @@ use App\Models\Order;
 use App\Models\OrderShipping;
 use App\Models\UserAddress;
 use App\Services\CartService;
+use App\Services\OrderService;
 use App\Traits\Configurable;
 use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
@@ -111,7 +112,7 @@ class Epick implements ShippingProvider
         if (!$destination || !$destination instanceof UserAddress)
             throw new Exception('Error al recuperar los datos del destino de envío');
 
-        $package = $order->calculatePackage();
+        $package = OrderService::calculatePackage($order);
 
         $body = [
             'info' => [

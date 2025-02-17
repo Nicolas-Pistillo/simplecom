@@ -12,6 +12,7 @@ use App\Models\CollectionPoint;
 use App\Models\Order;
 use App\Models\OrderShipping;
 use App\Services\CartService;
+use App\Services\OrderService;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingBranch;
@@ -73,7 +74,7 @@ class Andreani implements ShippingProvider
         if (!$origin)
             throw new Exception('No hay un punto de colecta en uso');
 
-        $package = $order->calculatePackage();
+        $package = OrderService::calculatePackage($order);
 
         $body = [
             'remitente' => [

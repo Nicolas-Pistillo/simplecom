@@ -5,7 +5,7 @@
         {{-- <div class="col-span-full flex items-center justify-center gap-4 flex-wrap">
 
             <button type="button" class="flex text-sm items-center w-full justify-center sm:w-auto py-2.5 px-4 shadow rounded-lg text-gray-600 bg-white hover:shadow-md
-                transition-colors duration-300 hover:bg-gray-50 hover:text-gray-800 focus:outline-none">
+                transition duration-300 hover:bg-gray-50 hover:text-gray-800 focus:outline-none">
                 <svg class="mr-2" width="18" height="18" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_924_23028)">
                         <path d="M20.7816 11.2282C20.7824 10.5466 20.7234 9.8662 20.6053 9.19446H10.957V13.0466H16.4832C16.3701 13.6619 16.1307 14.2484 15.7796 14.7708C15.4284 15.2931 14.9726 15.7406 14.4398 16.0861V18.5866H17.7379C19.669 16.846 20.7816 14.2719 20.7816 11.2282Z" fill="#4285F4"></path>
@@ -23,7 +23,7 @@
             </button>
 
             <button type="button" class=" flex text-sm items-center w-full justify-center sm:w-auto py-2.5 px-4 shadow rounded-lg text-gray-600 bg-white hover:shadow-md
-                transition-colors duration-300 hover:bg-gray-50 hover:text-gray-800 focus:outline-none">
+                transition duration-300 hover:bg-gray-50 hover:text-gray-800 focus:outline-none">
                 <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="20px" fill="#007bff" viewBox="0 0 167.657 167.657">
                     <path
                         d="M83.829.349C37.532.349 0 37.881 0 84.178c0 41.523 30.222 75.911 69.848 82.57v-65.081H49.626v-23.42h20.222V60.978c0-20.037 12.238-30.956 30.115-30.956 8.562 0 15.92.638 18.056.919v20.944l-12.399.006c-9.72 0-11.594 4.618-11.594 11.397v14.947h23.193l-3.025 23.42H94.026v65.653c41.476-5.048 73.631-40.312 73.631-83.154 0-46.273-37.532-83.805-83.828-83.805z"
@@ -111,12 +111,82 @@
                 DNI
             </label>
             <div class="mt-1">
-                <input type="text" id="document" wire:model.blur='form.document'
-                    class="block w-full rounded-md border-gray-300 shadow-sm 
+                <input type="number" id="document" wire:model.blur='form.document'
+                class="block w-full rounded-md border-gray-300 shadow-sm 
                 focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
 
                 @error('form.document')
                     <small class="text-red-500">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-span-full sm:col-span-6">
+            <label for="tax_condition" class="block text-sm font-medium text-gray-700">
+                Condición fiscal
+            </label>
+            <div class="mt-1">
+                <select type="number" wire:model.live='form.tax_condition' id="tax_condition"
+                class="block w-full rounded-md border-gray-300 shadow-sm
+                focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                    @foreach (TaxCondition::cases() as $taxCondition)
+                        <option value="{{ $taxCondition }}">{{ $taxCondition->name() }}</option>
+                    @endforeach
+                </select>
+
+                @error('form.tax_condition')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+        @if (TaxCondition::needsInvoiceA($form->tax_condition))
+
+            <div class="col-span-full sm:col-span-6">
+                <label for="invoice_document" class="block text-sm font-medium text-gray-700">
+                    CUIT
+                </label>
+
+                <div class="mt-1">
+                    <input type="number" wire:model.blur='form.invoice_document' 
+                    id="invoice_document" class="block w-full rounded-md border-gray-300 
+                    shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                    @error('form.invoice_document')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="col-span-full sm:col-span-6">
+                <label for="invoice_social_reason" class="block text-sm font-medium text-gray-700">
+                    Razón social
+                </label>
+                <div class="mt-1">
+                    <input type="text" wire:model.blur='form.invoice_social_reason' 
+                    id="invoice_social_reason" class="block w-full rounded-md border-gray-300 
+                    shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                    @error('form.invoice_social_reason')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+        @endif       
+
+        <div class="col-span-full sm:col-span-6">
+            <label for="invoice_address" class="block text-sm font-medium text-gray-700">
+                Domicilio fiscal
+            </label>
+            <div class="mt-1">
+                <input type="text" wire:model.blur='form.invoice_address' autocomplete="no" 
+                id="invoice_address" class="block w-full rounded-md border-gray-300 
+                shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+
+                @error('form.invoice_address')
+                    <small class="text-red-500">{{ $message }}</small>
+                @else
+                    <small class="text-gray-500">Sólo usado para facturar</small>
                 @enderror
             </div>
         </div>

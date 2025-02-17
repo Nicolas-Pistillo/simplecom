@@ -74,7 +74,8 @@
                         </div>
                     
                         @include('admin.orders.partials.show.items')
-                    </div>
+
+                    </div>        
 
                     {{-- Payment Details --}}
                     @include('admin.orders.partials.show.payment')
@@ -94,6 +95,8 @@
 
                     <!-- Customer -->
                     @include('admin.orders.partials.show.customer')
+
+                    @include('admin.orders.partials.show.invoice')
 
                     <!-- Activity Feed -->
                     @include('admin.orders.partials.show.feed')
