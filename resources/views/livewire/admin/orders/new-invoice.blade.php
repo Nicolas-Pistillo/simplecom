@@ -302,7 +302,7 @@
                                     </label>
                 
                                     <input type="number" id="invoice_item.{{ $key }}.quantity"
-                                    wire:model.blur='form.items.{{ $key }}.quantity'
+                                    wire:model.live='form.items.{{ $key }}.quantity'
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg 
                                     focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[80px] p-2.5">
                 
@@ -324,7 +324,7 @@
                                         </div>
 
                                         <input type="number" id="invoice_item.{{ $key }}.unit_price"
-                                        wire:model.blur='form.items.{{ $key }}.unit_price'
+                                        wire:model.live='form.items.{{ $key }}.unit_price'
                                         class="bg-gray-50 border border-gray-300 text-gray-900  text-xs rounded-lg 
                                         focus:ring-primary-500 focus:border-primary-500 block w-full ps-6 p-2.5">
                                     </div>
@@ -341,7 +341,7 @@
                                         IVA
                                     </label>
                 
-                                    <select wire:model.blur='form.items.{{ $key }}.aliquot'
+                                    <select wire:model.live='form.items.{{ $key }}.aliquot'
                                     id="invoice_item.{{ $key }}.aliquot"
                                     class="bg-gray-50 border border-gray-300 
                                     text-gray-900 rounded-lg text-xs focus:ring-primary-500 
@@ -363,7 +363,7 @@
                                     </label>
                 
                                     <input type="number" id="invoice_item.{{ $key }}.discount"
-                                    wire:model.blur='form.items.{{ $key }}.discount'
+                                    wire:model.live='form.items.{{ $key }}.discount'
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg 
                                     focus:ring-primary-500 focus:border-primary-500 block w-full sm:w-[80px] p-2.5">
                 
@@ -410,14 +410,14 @@
                         </div>
     
                         <input type="number" id="bonification" 
-                        wire:model.blur='form.bonification'
-                        class="bg-gray-50 border 
-                        border-gray-300 text-gray-900 text-sm rounded-lg ps-8 p-2.5
-                        focus:ring-blue-500 focus:border-blue-500 block w-full sm:w-[200px]">
+                        wire:model.live='form.bonification'
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+                        rounded-lg ps-8 p-2.5 focus:ring-blue-500 focus:border-blue-500 
+                        block w-full sm:w-[200px]">
                     </div>
     
-                    @error("form.items.$key.bonification")
-                        <small class="text-red-500">{{ $message }}</small>
+                    @error("form.bonification")
+                        <small class="text-red-500 text-xs">{{ $message }}</small>
                     @enderror
                 </div>
 
@@ -438,19 +438,27 @@
                         <div class="w-full justify-between items-start gap-6 inline-flex">
                             <h5 class="text-gray-600 leading-8">IVA</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
-                                ${{ $this->totalIva }}
+                                ${{ $this->total_iva }}
                             </h4>
                         </div>
                         <div class="w-full justify-between items-start gap-6 inline-flex">
                             <h5 class="text-gray-600 leading-8">Descuentos</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
-                                -$500.75
+                                @if ($this->discounts > 0)
+                                    -$ {{ $this->discounts }}
+                                @else
+                                    -
+                                @endif
                             </h4>
                         </div>
                         <div class="w-full justify-between items-start gap-6 inline-flex">
-                            <h5 class="text-gray-600 leading-8">Bon. General</h5>
+                            <h5 class="text-gray-600 leading-8">Bonif. General</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
-                                -$80.00
+                                @if ($form->bonification > 0)
+                                    -$ {{ $form->bonification }}
+                                @else
+                                    -
+                                @endif
                             </h4>
                         </div>
                     </div>

@@ -13,6 +13,8 @@ use Livewire\Form;
 
 class OrderInvoiceForm extends Form
 {
+    public $order_id;
+
     #[Validate(as: 'cod. interno')]
     public $internal_code;
 
@@ -50,6 +52,11 @@ class OrderInvoiceForm extends Form
     public $items;
 
     public $send_to_client = true;
+
+    public $subtotal;
+    public $total_iva;
+    public $discounts;
+    public $total;
 
     public function rules()
     {
@@ -90,6 +97,7 @@ class OrderInvoiceForm extends Form
             'invoice_type.Illuminate\Validation\Rules\Enum'  => 'Seleccione un tipo de factura válida',
             'pay_condition.Illuminate\Validation\Rules\Enum' => 'Seleccione una condición de pago válida',
             'items.*.aliquot.Illuminate\Validation\Rules\Enum' => 'Seleccione una alicuota válida',
+            'bonification.required'         => 'La bonificación mínima debe ser 0',
             'items.required'                => 'Debes agregar al menos un concepto a facturar',
             'items.*.code.required'         => 'El código es obligatorio',
             'items.*.description.required'  => 'La descripción es obligatoria',
@@ -108,6 +116,7 @@ class OrderInvoiceForm extends Form
     public function autocomplete(Order $order)
     {
         $this->fill([
+            'order_id'      => $order->id,
             'invoice_type'  => InvoiceType::InvoiceB->value,
             'pay_condition' => InvoicePayCondition::Cash->value,
             'sector'        => tenant()->sector->name,
