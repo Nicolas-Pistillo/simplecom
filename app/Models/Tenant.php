@@ -63,6 +63,11 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         return Storage::url($this->name . "/$url");
     }
 
+    public function getInvoicesUrlAttribute()
+    {
+        return $this->name . "/invoices";
+    }
+
     public function getProductsUrlAttribute()
     {
         return $this->name . "/products";

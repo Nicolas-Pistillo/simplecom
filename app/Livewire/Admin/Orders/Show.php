@@ -12,6 +12,7 @@ use App\Services\InvoiceProviders\TusFacturas;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class Show extends Component
@@ -109,9 +110,20 @@ class Show extends Component
         }
     }
 
-    public function downloadOrderInvoice()
+    public function downloadOrderInvoice($ticket = false)
     {
-        $this->redirect($this->order->invoice->pdf_url);
+        if ($ticket)
+        {
+            return Storage::download(
+                $this->order->invoice->ticket_url, 
+                "Ticket Pedido {$this->order->id}.pdf"
+            );    
+        }
+
+        return Storage::download(
+            $this->order->invoice->pdf_url, 
+            "Factura Pedido {$this->order->id}.pdf"
+        );
     }
 
     public function mount($order)

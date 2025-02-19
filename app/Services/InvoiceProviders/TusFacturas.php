@@ -14,6 +14,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class TusFacturas
 {
@@ -107,8 +108,7 @@ class TusFacturas
             'cae'            => data_get($response, 'cae'),
             'cae_due_date'   => data_get($response, 'vencimiento_cae'),
             'sell_point'     => 678,
-            'pdf_url'        => data_get($response, 'comprobante_pdf_url'),
-            'ticket_url'     => data_get($response, 'comprobante_ticket_url'),
+            'emited_at'      => date('Y-m-d H:i:s')
         ]);
 
         $order->update([
@@ -127,6 +127,22 @@ class TusFacturas
                 'icon_color'  => 'green'
             ]
         ]);
+
+        $pdf = file_get_contents(data_get($response, 'comprobante_pdf_url'), false);
+        $ticket = file_get_contents(data_get($response, 'comprobante_ticket_url'), false);
+
+        $pdfFile = tenant('invoices_url') . '/' . uniqid('ivc-') . '.pdf';
+        $ticketFile = tenant('invoices_url') . '/' . uniqid('tkt-') . '.pdf';
+
+        if (Storage::put($pdfFile, $pdf))
+        {
+            $invoice->update(['pdf_url' => $pdfFile]);
+        }
+
+        if (Storage::put($ticketFile, $ticket))
+        {
+            $invoice->update(['ticket_url' => $ticketFile]);
+        }
 
         return ['success' => true];
     }
@@ -157,6 +173,7 @@ class TusFacturas
         $invoice = Invoice::create([
             'status'         => InvoiceStatus::Pending,
             'type'           => $form->invoice_type,
+            'receipt_number' => data_get($response, 'comprobante_nro'),
             'reference'      => data_get($invoiceParameters, 'reference'),
             'operation'      => 'V',
             'sell_point'     => 678,
@@ -169,9 +186,9 @@ class TusFacturas
             'presentation'  => OrderFeedPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => "envió a facturar el pedido con TusFacturasAPP",
+            'comments'      => "Respuesta del servicio: " . data_get($response, 'rta'),
             'meta'          => [
-                'icon_code'  => 'post_add',
-                'service_message' => data_get($response, 'rta')
+                'icon_code'  => 'upload_file'
             ]
         ]);
 

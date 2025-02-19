@@ -43,7 +43,7 @@
                     @if (!empty($feedItem->comments))
                         <div class="flex-auto">
                             <div class="flex justify-between gap-x-4">
-                                <div class="text-xs/5 text-gray-500">
+                                <div class="text-xs text-gray-500">
 
                                     <span class="font-medium text-gray-900">
                                         {{ $feedItem->initializator }}
@@ -62,7 +62,7 @@
                             </p>
                         </div>
                     @else
-                        <p class="text-xs/4 text-gray-500">
+                        <p class="text-xs text-gray-500">
                             <span class="font-medium text-gray-900">
                                 {{ $feedItem->initializator }}
                             </span>

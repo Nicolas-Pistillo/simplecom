@@ -90,9 +90,9 @@ class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 p-4">
                     <dd class="text-sm/6 font-medium text-gray-700">
                         12/02/2025 16:30
                     </dd>
-                </div>
+                </div> --}}
 
-                <div class="flex flex-wrap gap-6">
+                {{-- <div class="flex flex-wrap gap-6">
                     <div class="flex flex-col">
                         <dt class="text-xs text-gray-500">
                             Teléfono
@@ -115,8 +115,24 @@ class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 p-4">
             </div>
 
             @if (!empty($order->invoice->pdf_url))
-                <div class="mt-3 pt-3 border-t border-gray-900/5">
-                    <x-button wire:click='downloadOrderInvoice' type="secondary">Descargar</x-button>
+                <div class="mt-3 pt-3 border-t flex items-center gap-2 border-gray-900/5">
+
+                    <x-button wire:loading.remove wire:target='downloadOrderInvoice'
+                    x-tooltip.raw="Descargar factura"
+                    wire:click='downloadOrderInvoice' type="secondary">Descargar</x-button>
+
+                    <button type="button" wire:loading.remove wire:target='downloadOrderInvoice'
+                    wire:click='downloadOrderInvoice(true)'
+                    x-tooltip.raw="Descargar ticket"
+                    class="relative shrink-0 rounded-full 
+                    bg-white text-gray-400 hover:text-gray-500">
+                        <x-icon code="receipt_long" 
+                        class="transition colors cursor-pointer bg-gray-100 text-gray-600 
+                        p-1.5 rounded-full hover:bg-gray-200 duration-300"
+                        />
+                    </button>
+
+                    <x-spinner wire:loading wire:target='downloadOrderInvoice' />
                 </div>
             @endif
         @endif

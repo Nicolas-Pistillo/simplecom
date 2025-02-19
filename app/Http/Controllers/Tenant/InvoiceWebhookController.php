@@ -43,7 +43,7 @@ class InvoiceWebhookController extends Controller
             if (!$order instanceof Order || !$order->invoice)
                 return response(401, 'Order or invoice not found');
 
-            if ($request->evento === 'encolado')
+            if ($request->evento === 'encolado' && $order->invoice->status != InvoiceStatus::Queued)
             {
                 $order->invoice->update([
                     'status' => InvoiceStatus::Queued
@@ -61,27 +61,45 @@ class InvoiceWebhookController extends Controller
                 ]);
             }
 
-            if ($request->evento === 'emitido')
+            if ($request->evento === 'emitido' && $order->invoice->status != InvoiceStatus::Issued)
             {
                 $receipt = TusFacturas::searchByReference($request->external_reference);
 
-                $pdfUrl = data_get($receipt, 'comprobante.comprobante_pdf_url');
+                $internalNumber = data_get($receipt, 'comprobante.numero');
 
-                $url = str_replace('.pdf', '', $pdfUrl);
+                $blankReceipt = explode('-', $order->invoice->receipt_number);
 
-                $exploded = array_reverse(explode('-', $url));
+                $left_zeros = str_repeat('0', strlen($blankReceipt[1]) - strlen($internalNumber));
 
-                $receipt_number = $exploded[1] . '-' . $exploded[0];
+                $receiptNumber = $blankReceipt[0] . '-' . $left_zeros . $internalNumber;
 
-                $order->invoice->update([
-                    'status'         => InvoiceStatus::Issued,
-                    'number'         => data_get($receipt, 'comprobante.numero'),
-                    'cae'            => data_get($receipt, 'comprobante.cae'),
-                    'receipt_number' => $receipt_number,
-                    'cae_due_date'   => data_get($receipt, 'comprobante.vencimiento_cae'),
-                    'pdf_url'        => $pdfUrl,
-                    'ticket_url'     => data_get($receipt, 'comprobante.comprobante_ticket_url')
-                ]);
+                $order->invoice->status = InvoiceStatus::Issued;
+                $order->invoice->number = $internalNumber;
+                $order->invoice->receipt_number = $receiptNumber;
+                $order->invoice->cae = data_get($receipt, 'comprobante.cae');
+                $order->invoice->cae_due_date = data_get($receipt, 'comprobante.vencimiento_cae');
+                $order->invoice->emited_at = date('Y-m-d H:i:s');
+
+                $pdfUrl    = data_get($receipt, 'comprobante.comprobante_pdf_url');
+                $ticketUrl = data_get($receipt, 'comprobante.comprobante_ticket_url');
+
+                $pdf = file_get_contents($pdfUrl, false);
+                $ticket = file_get_contents($ticketUrl, false);
+
+                $pdfFile = tenant('invoices_url') . '/' . uniqid('ivc-') . '.pdf';
+                $ticketFile = tenant('invoices_url') . '/' . uniqid('tkt-') . '.pdf';
+
+                if (Storage::put($pdfFile, $pdf))
+                {
+                    $order->invoice->pdf_url = $pdfFile;
+                }
+
+                if (Storage::put($ticketFile, $ticket))
+                {
+                    $order->invoice->ticket_url = $ticketFile;
+                }
+
+                $order->invoice->save();
 
                 $order->update(['invoiced' => true]);
 
