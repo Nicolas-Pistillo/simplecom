@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('status');
             $table->string('type');
-            $table->string('internal_code');
+            $table->string('number')->nullable();
             $table->string('reference')->nullable();
             $table->string('receipt_number')->nullable();
             $table->string('sell_point')->nullable();
-            $table->string('operation')->nullable();
-            $table->boolean('send_to_client')->default(true);
             $table->string('pdf_url')->nullable();
             $table->string('ticket_url')->nullable();
             $table->string('emited_at')->nullable();

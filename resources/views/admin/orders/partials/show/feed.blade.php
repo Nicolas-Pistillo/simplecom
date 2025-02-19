@@ -41,7 +41,7 @@
                     @endif
 
                     @if (!empty($feedItem->comments))
-                        <div class="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
+                        <div class="flex-auto">
                             <div class="flex justify-between gap-x-4">
                                 <div class="text-xs/5 text-gray-500">
 
@@ -57,7 +57,7 @@
                                     3d ago
                                 </time>
                             </div>
-                            <p class="text-xs pt-1 text-gray-500">
+                            <p class="text-xs rounded-md mt-1 p-3 ring-1 ring-inset ring-gray-200 text-gray-500">
                                 {{ $feedItem->comments }}
                             </p>
                         </div>

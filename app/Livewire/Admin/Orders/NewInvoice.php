@@ -7,11 +7,15 @@ use App\Enums\TaxCondition;
 use App\Livewire\Forms\OrderInvoiceForm;
 use App\Models\Order;
 use App\Services\InvoiceProviders\TusFacturas;
+use App\Traits\Livewire\WithNotifications;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class NewInvoice extends Component
 {
+    use WithNotifications;
+
     public Order $order;
     public OrderInvoiceForm $form;
 
@@ -23,11 +27,6 @@ class NewInvoice extends Component
             return collect($this->form->items)->sum(function($item) 
             {
                 $itemPrice = $item['unit_price'] * $item['quantity'];
-
-                if ($item['discount'] > 0) 
-                {
-                    $itemPrice -= $itemPrice * ($item['discount'] / 100);
-                }
                 
                 return $itemPrice;
             });
@@ -80,7 +79,7 @@ class NewInvoice extends Component
     public function total()
     {
         try {
-            return ($this->subtotal + $this->totalIva) - $this->form->bonification;
+            return $this->subtotal - $this->discounts + $this->totalIva - $this->form->bonification;
         } catch (\Throwable $th) {}
     }
 
@@ -93,7 +92,7 @@ class NewInvoice extends Component
         array_push($this->form->items, [
             'code'         => null,
             'description'  => null,
-            'quantity'     => null,
+            'quantity'     => 1,
             'aliquot'      => $aliquot,
             'unit_price'   => null,
             'discount'     => 0
@@ -104,6 +103,21 @@ class NewInvoice extends Component
     {
         unset($this->form->items[$index]);
         $this->form->items = array_values($this->form->items);
+    }
+
+    public function loadInvoiceNumber()
+    {
+        $invoice_number = TusFacturas::getCurrentInvoiceNumber($this->form->invoice_type);
+
+        if ($invoice_number) 
+        {
+            $this->form->invoice_number = $invoice_number;
+        }
+    }
+
+    public function updatedFormInvoiceType()
+    {
+        $this->loadInvoiceNumber();
     }
 
     public function save()
@@ -121,11 +135,43 @@ class NewInvoice extends Component
 
             $provider = new TusFacturas();
 
-            $provider->createOrderInvoice($this->form);
+            $serviceResponse = $provider->createOrderInvoice($this->form);
+
+            if (isset($serviceResponse['errors']))
+            {
+                foreach($serviceResponse['errors'] as $error)
+                {
+                    $this->addError('service_errors', $error);
+                }
+
+                $this->dispatch('service-errors-received');
+
+                return;
+            }
+
+            $this->dispatch('order-invoice-created');
+
+            $this->dispatch('close-order-invoice-form');
+
+            $this->notify([
+                'type'  => 'success',
+                'title' => 'Factura Generada',
+                'body'  => "Generaste correctamente la factura y se procesará pronto"
+            ]);
 
         } catch (\Throwable $th) 
         {
-            dd($th->getMessage());
+            $this->notify([
+                'type'  => 'danger',
+                'title' => 'Ocurrió un error inesperado al facturar',
+                'body'  => 'Por favor vuelva a intentarlo más tarde o contáctese con soporte'
+            ]);
+
+            Log::channel('error')->error('Error al facturar pedido', [
+                'tenant'  => tenant('name'),
+                'pedido'  => $this->order->id,
+                'message' => $th->getMessage()
+            ]);
         }
     }
 
@@ -133,6 +179,8 @@ class NewInvoice extends Component
     {
         $this->order = $order;
         $this->form->autocomplete($order);
+
+        $this->loadInvoiceNumber();
     }
 
     public function render()

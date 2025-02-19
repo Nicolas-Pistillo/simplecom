@@ -1,12 +1,12 @@
 <div>
-    <div class="bg-blue-600 px-4 py-6 sm:px-6">
+    <div id="invoice-header" class="bg-blue-600 px-4 py-6 sm:px-6">
         <div class="flex items-center justify-between">
             <h2 class="text-base font-semibold text-white" id="slide-over-title">
                 Nueva factura
             </h2>
             <div class="ml-3 flex h-7 items-center">
                 <x-icon @click="showNewInvoice = false" code="close" class="text-white cursor-pointer"
-                    x-tooltip.raw="Cerrar" />
+                x-tooltip.raw="Cerrar" />
             </div>
         </div>
         <div class="mt-1">
@@ -16,30 +16,114 @@
         </div>
     </div>
 
-    <div class="flex flex-col justify-between h-[89vh]">
+    <div id="invoice-form-panel" class="flex flex-col justify-between h-[89vh]"
+    x-on:service-errors-received.window="document.getElementById('invoice-header').scrollIntoView({ behavior: 'smooth' })">
 
-        {{-- <x-alert color="red" icon="error" class="max-w-none rounded-none sm:rounded-md sm:m-6" 
-        title="Error al generar la factura">
-            <ul class="mt-3 text-xs text-red-500">
-                <li>
-                    <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span> 
-                    <span>Ejemplo de un item de error</span>
-                </li>
-                <li>
-                    <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span> 
-                    <span>Ejemplo de un item de error</span>
-                </li>
-                <li>
-                    <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span> 
-                    <span>Ejemplo de un item de error</span>
-                </li>
-            </ul>
-        </x-alert> --}}
+        @error('service_errors')
+            <x-alert color="red" icon="error" title="Error al generar la factura"
+            class="max-w-none rounded-none sm:rounded-md sm:m-6" dismissible>
+
+                <span class="text-xs">El servicio respondió lo siguiente:</span>
+
+                <ul class="mt-3 text-xs text-red-500">
+                    @foreach($errors->get('service_errors') as $error)
+                        <li>
+                            <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span> 
+                            <span>{{ $error }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            </x-alert>
+        @enderror
 
         <div class="px-4 py-6 sm:px-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
 
+            {{-- Invoice Parameters --}}
+            <div class="sm:col-span-3 space-y-4 sm:space-y-6">
+
+                <h4 class="font-semibold">Parámetros</h4>
+
+                <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                    <div>
+                        <label for="invoice_number"
+                        class="flex items-center gap-x-2 mb-2 text-sm font-medium text-gray-900">
+                            Número de factura
+                            <x-spinner wire:loading wire:target='form.invoice_type' 
+                            class="inline-block" spinnerclass="!h-5 !w-5" />
+                        </label>
+    
+                        <input type="number" id="invoice_number"
+                        wire:model.blur='form.invoice_number'
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                        focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                        placeholder="Ej. 789">
+    
+                        @error('form.invoice_number')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
+                    </div>
+    
+                    <div>
+                        <label for="invoice_type" class="block mb-2 text-sm font-medium text-gray-900">
+                            Tipo de factura
+                        </label>
+    
+                        <select id="invoice_type" 
+                        wire:model.live='form.invoice_type'
+                        class="bg-gray-50 border border-gray-300 
+                        text-gray-900 text-sm rounded-lg focus:ring-primary-500 
+                        focus:border-primary-500 block w-full p-2.5">
+                            @foreach (InvoiceType::cases() as $invoiceType)
+                                <option value="{{ $invoiceType }}">{{ $invoiceType->name() }}</option>
+                            @endforeach
+                        </select>
+    
+                        @error('form.invoice_type')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
+                    </div>
+    
+                    <div>
+                        <label for="invoice_pay_condition" class="block mb-2 text-sm font-medium text-gray-900">
+                            Condición de pago
+                        </label>
+    
+                        <select id="invoice_pay_condition" 
+                        wire:model.blur='form.pay_condition'
+                        class="bg-gray-50 border border-gray-300 
+                        text-gray-900 text-sm rounded-lg focus:ring-primary-500 
+                        focus:border-primary-500 block w-full p-2.5">
+                            @foreach (InvoicePayCondition::cases() as $payCondition)
+                                <option value="{{ $payCondition->value }}">{{ $payCondition->name() }}</option>    
+                            @endforeach
+                        </select>
+    
+                        @error('form.pay_condition')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
+                    </div>
+    
+                    <div>
+                        <label for="invoice_sector" class="block mb-2 text-sm font-medium text-gray-900">
+                            Rubro
+                        </label>
+    
+                        <input id="invoice_sector" type="text" 
+                        wire:model.blur='form.sector'
+                        class="bg-gray-50 border border-gray-300 
+                        text-gray-900 text-sm rounded-lg focus:ring-primary-500 
+                        focus:border-primary-500 block w-full p-2.5"
+                        placeholder="Ej. Indumentaria y Calzado">
+    
+                        @error('form.sector')
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
             {{-- Invoice Data --}}
-            <div class="space-y-4 sm:col-span-2 sm:space-y-6">
+            <div class="space-y-4 sm:col-span-3 sm:space-y-6">
 
                 <h4 class="font-semibold">Facturar a</h4>
 
@@ -158,86 +242,6 @@
 
                         <x-switch wireModel="form.send_to_client" />
                     </div>
-                </div>
-            </div>
-
-            {{-- Invoice Parameters --}}
-            <div class="row-start-1 sm:row-start-auto space-y-4 sm:space-y-6">
-
-                <h4 class="font-semibold">Parámetros</h4>
-
-                <div>
-                    <label for="invoice_internal_code"
-                    class="block mb-2 text-sm font-medium text-gray-900">
-                        Cod. de factura interno
-                    </label>
-
-                    <input type="text" id="invoice_internal_code"
-                    wire:model.blur='form.internal_code'
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                    focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                    placeholder="Ej. 789">
-
-                    @error('form.internal_code')
-                        <small class="text-red-500">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="invoice_type" class="block mb-2 text-sm font-medium text-gray-900">
-                        Tipo de factura
-                    </label>
-
-                    <select id="invoice_type" 
-                    wire:model.blur='form.invoice_type'
-                    class="bg-gray-50 border border-gray-300 
-                    text-gray-900 text-sm rounded-lg focus:ring-primary-500 
-                    focus:border-primary-500 block w-full p-2.5">
-                        @foreach (InvoiceType::cases() as $invoiceType)
-                            <option value="{{ $invoiceType }}">{{ $invoiceType->name() }}</option>
-                        @endforeach
-                    </select>
-
-                    @error('form.invoice_type')
-                        <small class="text-red-500">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="invoice_pay_condition" class="block mb-2 text-sm font-medium text-gray-900">
-                        Condición de pago
-                    </label>
-
-                    <select id="invoice_pay_condition" 
-                    wire:model.blur='form.pay_condition'
-                    class="bg-gray-50 border border-gray-300 
-                    text-gray-900 text-sm rounded-lg focus:ring-primary-500 
-                    focus:border-primary-500 block w-full p-2.5">
-                        @foreach (InvoicePayCondition::cases() as $payCondition)
-                            <option value="{{ $payCondition->value }}">{{ $payCondition->name() }}</option>    
-                        @endforeach
-                    </select>
-
-                    @error('form.pay_condition')
-                        <small class="text-red-500">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="invoice_sector" class="block mb-2 text-sm font-medium text-gray-900">
-                        Rubro
-                    </label>
-
-                    <input id="invoice_sector" type="text" 
-                    wire:model.blur='form.sector'
-                    class="bg-gray-50 border border-gray-300 
-                    text-gray-900 text-sm rounded-lg focus:ring-primary-500 
-                    focus:border-primary-500 block w-full p-2.5"
-                    placeholder="Ej. Indumentaria y Calzado">
-
-                    @error('form.sector')
-                        <small class="text-red-500">{{ $message }}</small>
-                    @enderror
                 </div>
             </div>
 
@@ -432,20 +436,24 @@
                         <div class="w-full justify-between items-start gap-6 inline-flex">
                             <h5 class="text-gray-600 leading-8">Subtotal</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
-                                ${{ $this->subtotal }}
-                            </h4>
-                        </div>
-                        <div class="w-full justify-between items-start gap-6 inline-flex">
-                            <h5 class="text-gray-600 leading-8">IVA</h5>
-                            <h4 class="text-right text-gray-900 font-semibold leading-loose">
-                                ${{ $this->total_iva }}
+                                ${{ priceFormat($this->subtotal, 2) }}
                             </h4>
                         </div>
                         <div class="w-full justify-between items-start gap-6 inline-flex">
                             <h5 class="text-gray-600 leading-8">Descuentos</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
                                 @if ($this->discounts > 0)
-                                    -$ {{ $this->discounts }}
+                                    -$ {{ priceFormat($this->discounts, 2) }}
+                                @else
+                                    -
+                                @endif
+                            </h4>
+                        </div>
+                        <div class="w-full justify-between items-start gap-6 inline-flex">
+                            <h5 class="text-gray-600 leading-8">IVA</h5>
+                            <h4 class="text-right text-gray-900 font-semibold leading-loose">
+                                @if ($this->total_iva > 0)
+                                    ${{ priceFormat($this->total_iva, 2) }}
                                 @else
                                     -
                                 @endif
@@ -455,7 +463,7 @@
                             <h5 class="text-gray-600 leading-8">Bonif. General</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
                                 @if ($form->bonification > 0)
-                                    -$ {{ $form->bonification }}
+                                    -$ {{ priceFormat($form->bonification, 2) }}
                                 @else
                                     -
                                 @endif
@@ -466,7 +474,7 @@
                     <div class="w-full justify-between items-start gap-6 inline-flex">
                         <h4 class="text-gray-900 text-lg font-semibold leading-loose">Total</h4>
                         <h4 class="text-right text-gray-900 text-lg font-semibold leading-loose">
-                            ${{ $this->total }}
+                            ${{ priceFormat($this->total, 2) }}
                         </h4>
                     </div>
                 </div>
@@ -483,8 +491,20 @@
                 </span>
             </div>
             <div class="flex gap-4">
-                <x-button size="large" @click="showNewInvoice = false" type="secondary">Cancelar</x-button>
-                <x-button wire:click='save' size="large">Confirmar y facturar</x-button>
+                <x-button size="large" @click="showNewInvoice = false" 
+                wire:loading.remove wire:target='save' type="secondary">Cancelar</x-button>
+
+                <x-button wire:click='save' size="large"
+                wire:loading.remove wire:target='save'>
+                    Confirmar y facturar
+                </x-button>
+
+                <div wire:loading wire:target='save'>
+                    <div class="flex items-center gap-3 mr-2 sm:mr-4">
+                        <span class="font-semibold">Procesando</span>
+                        <x-spinner />
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -15,8 +15,8 @@ class OrderInvoiceForm extends Form
 {
     public $order_id;
 
-    #[Validate(as: 'cod. interno')]
-    public $internal_code;
+    #[Validate(as: 'número')]
+    public $invoice_number;
 
     #[Validate(as: 'tipo de factura')]
     public $invoice_type;
@@ -61,7 +61,7 @@ class OrderInvoiceForm extends Form
     public function rules()
     {
         $rules = [
-            'internal_code'  => 'required',
+            'invoice_number' => 'required|numeric',
             'invoice_type'   => ['required', new Enum(InvoiceType::class)],
             'pay_condition'  => ['required', new Enum(InvoicePayCondition::class)],
             'sector'         => 'required',

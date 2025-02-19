@@ -53,6 +53,11 @@ class Order extends Model
         return $this->belongsTo(ShippingProvider::class);
     }
 
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
     public function storePickup()
     {
         return $this->belongsTo(StorePickup::class);
