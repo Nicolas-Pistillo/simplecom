@@ -44,24 +44,6 @@
                 <h4 class="font-semibold">Parámetros</h4>
 
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                    <div>
-                        <label for="invoice_number"
-                        class="flex items-center gap-x-2 mb-2 text-sm font-medium text-gray-900">
-                            Número de factura
-                            <x-spinner wire:loading wire:target='form.invoice_type' 
-                            class="inline-block" spinnerclass="!h-5 !w-5" />
-                        </label>
-    
-                        <input type="number" id="invoice_number"
-                        wire:model.blur='form.invoice_number'
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                        focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                        placeholder="Ej. 789">
-    
-                        @error('form.invoice_number')
-                            <small class="text-red-500">{{ $message }}</small>
-                        @enderror
-                    </div>
     
                     <div>
                         <label for="invoice_type" class="block mb-2 text-sm font-medium text-gray-900">
@@ -118,6 +100,23 @@
                         @error('form.sector')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
+                    </div>
+
+                    <div>
+
+                        <label class="flex items-center mb-2 text-sm 
+                        font-medium text-gray-900 gap-1">
+
+                            Facturar en segundo plano
+
+                            <x-icon code="help" class="text-blue-600 cursor-help" 
+                            x-tooltip.raw="Se enviará la factura a la cola de facturación del proveedor
+                            y serás notificado cuando se haya procesado y emitido" 
+                            style="font-size: 20px"
+                            />
+                        </label>
+
+                        <x-switch wireModel="form.invoice_queued" />
                     </div>
                 </div>
             </div>
@@ -234,8 +233,8 @@
                         font-medium text-gray-900 gap-1">
                             Enviar comprobante al cliente
                             <x-icon code="help" class="text-blue-600 cursor-help" 
-                            x-tooltip.raw="Se enviara el comprobante de factura al email 
-                            del cliente una vez que se procese y se emita" 
+                            x-tooltip.raw="Marcá esta casilla si querés que el cliente reciba
+                            la factura por email una vez que se emita" 
                             style="font-size: 20px"
                             />
                         </label>

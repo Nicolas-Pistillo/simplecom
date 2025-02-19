@@ -45,7 +45,7 @@
                             @if ($tenant->logo_url)
                                 <img src="{{ Storage::url($tenant->logo_url) }}" 
                                 alt="Logo comercio" class="h-12 w-24 flex-none bg-white 
-                                object-contain rounded-md ring-1 ring-gray-900/10">
+                                object-contain rounded-md ring-1 ring-gray-900/10 p-1.5">
                             @else
                                 <img src="{{initialsAvatar(['name' => $tenant->ecommerce_name, 'background' => '#2563eb', 'color' => 'fff']) }}" 
                                 alt="Logo comercio" class="h-12 w-12 flex-none rounded-md

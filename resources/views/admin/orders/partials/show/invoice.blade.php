@@ -38,7 +38,7 @@ class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 p-4">
 
             <small class="inline-block pb-2">{{ $order->invoice->status->helper() }}</small>
 
-            <div class="w-full pt-2 border-t ">
+            <div class="w-full pt-2 border-t">
 
                 <div class="flex flex-wrap gap-6 mb-3">
                     <div class="flex flex-col">
@@ -60,25 +60,28 @@ class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 p-4">
                     </div>
                 </div>
 
-                <div class="flex flex-wrap gap-6 mb-3">
-                    <div class="flex flex-col">
-                        <dt class="text-xs text-gray-500">
-                            Nro de comprobante
-                        </dt>
-                        <dd class="text-sm font-medium text-gray-700">
-                            {{ $order->invoice->receipt_number }}
-                        </dd>
+                @if (!empty($order->invoice->receipt_number))
+                    <div class="flex flex-wrap gap-6 mb-3">
+                        <div class="flex flex-col">
+                            <dt class="text-xs text-gray-500">
+                                Nro de comprobante
+                            </dt>
+                            <dd class="text-sm font-medium text-gray-700">
+                                {{ $order->invoice->receipt_number }}
+                            </dd>
+                        </div>
+                        @if (!empty($order->invoice->number))
+                        <div class="flex flex-col">
+                            <dt class="text-xs text-gray-500">
+                                Nro interno
+                            </dt>
+                            <dd class="text-sm font-medium text-gray-700">
+                                {{ $order->invoice->number }}
+                            </dd>
+                        </div>
+                    @endif
                     </div>
-
-                    <div class="flex flex-col">
-                        <dt class="text-xs text-gray-500">
-                            Nro interno
-                        </dt>
-                        <dd class="text-sm font-medium text-gray-700">
-                            {{ $order->invoice->number }}
-                        </dd>
-                    </div>
-                </div>
+                @endif
 
                 {{-- <div class="mb-3">
                     <dt class="text-xs text-gray-500">

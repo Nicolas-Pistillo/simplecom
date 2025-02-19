@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('reference')->nullable();
             $table->string('receipt_number')->nullable();
             $table->string('sell_point')->nullable();
+            $table->string('cae')->nullable();
+            $table->string('cae_due_date')->nullable();
             $table->string('pdf_url')->nullable();
             $table->string('ticket_url')->nullable();
             $table->string('emited_at')->nullable();

@@ -69,12 +69,76 @@ class TusFacturas
             "punto_venta"          => 678,
         ];
 
+        $parameters = compact('form', 'reference', 'client', 'receipt');
+
+        return $form->invoice_queued ? $this->invoiceOrderQueued($parameters) 
+                                     : $this->invoiceOrderNow($parameters);
+    }
+
+    public function invoiceOrderNow($invoiceParameters)
+    {
         $response = Http::asJson()->withBody(json_encode([
             'apitoken'    => env('TUSFACTURAS_API_TOKEN'),
             'apikey'      => env('TUSFACTURAS_API_KEY'),
             'usertoken'   => env('TUSFACTURAS_USER_TOKEN'),
-            'cliente'     => $client,
-            'comprobante' => $receipt
+            'cliente'     => data_get($invoiceParameters, 'client'),
+            'comprobante' => data_get($invoiceParameters, 'receipt')
+        ]))
+        ->post("$this->base_url/v2/facturacion/nuevo")
+        ->json();
+
+        if (!$response) return ['errors' => ['No se pudo conectar con el servicio de facturación']];
+
+        if (isset($response['error']) && $response['error'] === 'S')
+        {
+            return ['errors' => data_get($response, 'errores')];
+        }
+
+        $form = data_get($invoiceParameters, 'form');
+
+        $order = Order::find(data_get($invoiceParameters, 'form.order_id'));
+
+        $invoice = Invoice::create([
+            'status'         => InvoiceStatus::Issued,
+            'type'           => $form->invoice_type,
+            'receipt_number' => data_get($response, 'comprobante_nro'),
+            'reference'      => data_get($response, 'external_reference'),
+            'operation'      => 'V',
+            'cae'            => data_get($response, 'cae'),
+            'cae_due_date'   => data_get($response, 'vencimiento_cae'),
+            'sell_point'     => 678,
+            'pdf_url'        => data_get($response, 'comprobante_pdf_url'),
+            'ticket_url'     => data_get($response, 'comprobante_ticket_url'),
+        ]);
+
+        $order->update([
+            'invoice_id' => $invoice->id,
+            'invoiced'   => true
+        ]);
+
+        $order->feed()->create([
+            'event'         => OrderFeedEvent::InvoiceUpdate,
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => "facturó el pedido",
+            'comments'      => "Respuesta del servicio: " . data_get($response, 'rta'),
+            'meta'          => [
+                'icon_code'   => 'task',
+                'icon_color'  => 'green'
+            ]
+        ]);
+
+        return ['success' => true];
+    }
+
+    public function invoiceOrderQueued($invoiceParameters)
+    {
+        $response = Http::asJson()->withBody(json_encode([
+            'apitoken'    => env('TUSFACTURAS_API_TOKEN'),
+            'apikey'      => env('TUSFACTURAS_API_KEY'),
+            'usertoken'   => env('TUSFACTURAS_USER_TOKEN'),
+            'cliente'     => data_get($invoiceParameters, 'client'),
+            'comprobante' => data_get($invoiceParameters, 'receipt')
         ]))
         ->post("$this->base_url/v2/facturacion/nuevo_encola")
         ->json();
@@ -86,17 +150,16 @@ class TusFacturas
             return ['errors' => data_get($response, 'errores')];
         }
 
-        $order = Order::find($form->order_id);
+        $form = data_get($invoiceParameters, 'form');
+
+        $order = Order::find(data_get($invoiceParameters, 'form.order_id'));
 
         $invoice = Invoice::create([
             'status'         => InvoiceStatus::Pending,
             'type'           => $form->invoice_type,
-            'number'         => $form->invoice_number,
-            'reference'      => $reference,
-            'receipt_number' => data_get($response, 'comprobante_nro'),
-            'sell_point'     => 678,
+            'reference'      => data_get($invoiceParameters, 'reference'),
             'operation'      => 'V',
-            'send_to_client' => $form->send_to_client
+            'sell_point'     => 678,
         ]);
 
         $order->update(['invoice_id' => $invoice->id]);
@@ -105,11 +168,10 @@ class TusFacturas
             'event'         => OrderFeedEvent::InvoiceUpdate,
             'presentation'  => OrderFeedPresentation::Icon,
             'initializator' => Auth::user()->name,
-            'action'        => "generó la factura del pedido y se procesará a la brevedad",
-            'comments'      => "Comprobante Nro: $invoice->receipt_number",
+            'action'        => "envió a facturar el pedido con TusFacturasAPP",
             'meta'          => [
                 'icon_code'  => 'post_add',
-                'icon_color' => 'emerald'
+                'service_message' => data_get($response, 'rta')
             ]
         ]);
 

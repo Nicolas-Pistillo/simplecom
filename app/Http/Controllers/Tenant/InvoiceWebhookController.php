@@ -52,8 +52,8 @@ class InvoiceWebhookController extends Controller
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::InvoiceUpdate,
                     'presentation'  => OrderFeedPresentation::Image,
-                    'initializator' => 'TusFacturas',
-                    'action'        => 'ya está procesando tu factura',
+                    'initializator' => 'TusFacturasAPP',
+                    'action'        => 'ya está procesando la factura',
                     'meta'          => [
                         'img_src'   => Storage::url('providers/tusfacturas.png'),
                         'hook_id'   => $request->hook_id
@@ -65,13 +65,22 @@ class InvoiceWebhookController extends Controller
             {
                 $receipt = TusFacturas::searchByReference($request->external_reference);
 
+                $pdfUrl = data_get($receipt, 'comprobante.comprobante_pdf_url');
+
+                $url = str_replace('.pdf', '', $pdfUrl);
+
+                $exploded = array_reverse(explode('-', $url));
+
+                $receipt_number = $exploded[1] . '-' . $exploded[0];
+
                 $order->invoice->update([
-                    'status'       => InvoiceStatus::Issued,
-                    'number'       => data_get($receipt, 'comprobante.numero'),
-                    'cae'          => data_get($receipt, 'comprobante.cae'),
-                    'cae_due_date' => data_get($receipt, 'comprobante.vencimiento_cae'),
-                    'pdf_url'      => data_get($receipt, 'comprobante.comprobante_pdf_url'),
-                    'ticket_url'   => data_get($receipt, 'comprobante.comprobante_ticket_url')
+                    'status'         => InvoiceStatus::Issued,
+                    'number'         => data_get($receipt, 'comprobante.numero'),
+                    'cae'            => data_get($receipt, 'comprobante.cae'),
+                    'receipt_number' => $receipt_number,
+                    'cae_due_date'   => data_get($receipt, 'comprobante.vencimiento_cae'),
+                    'pdf_url'        => $pdfUrl,
+                    'ticket_url'     => data_get($receipt, 'comprobante.comprobante_ticket_url')
                 ]);
 
                 $order->update(['invoiced' => true]);

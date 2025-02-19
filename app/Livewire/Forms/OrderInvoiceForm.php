@@ -15,11 +15,11 @@ class OrderInvoiceForm extends Form
 {
     public $order_id;
 
-    #[Validate(as: 'número')]
-    public $invoice_number;
-
     #[Validate(as: 'tipo de factura')]
     public $invoice_type;
+
+    #[Validate(as: 'tipo de proceso')]
+    public $invoice_queued = false;
 
     #[Validate(as: 'condición de pago')]
     public $pay_condition;
@@ -61,8 +61,8 @@ class OrderInvoiceForm extends Form
     public function rules()
     {
         $rules = [
-            'invoice_number' => 'required|numeric',
             'invoice_type'   => ['required', new Enum(InvoiceType::class)],
+            'invoice_queued' => 'required|boolean',
             'pay_condition'  => ['required', new Enum(InvoicePayCondition::class)],
             'sector'         => 'required',
             'social_reason'  => 'required',

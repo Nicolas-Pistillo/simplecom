@@ -111,8 +111,7 @@ class Show extends Component
 
     public function downloadOrderInvoice()
     {
-        $data = TusFacturas::searchByReference($this->order->invoice->reference);
-        dd($data);
+        $this->redirect($this->order->invoice->pdf_url);
     }
 
     public function mount($order)

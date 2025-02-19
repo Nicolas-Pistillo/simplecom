@@ -105,21 +105,6 @@ class NewInvoice extends Component
         $this->form->items = array_values($this->form->items);
     }
 
-    public function loadInvoiceNumber()
-    {
-        $invoice_number = TusFacturas::getCurrentInvoiceNumber($this->form->invoice_type);
-
-        if ($invoice_number) 
-        {
-            $this->form->invoice_number = $invoice_number;
-        }
-    }
-
-    public function updatedFormInvoiceType()
-    {
-        $this->loadInvoiceNumber();
-    }
-
     public function save()
     {
         $this->form->validate();
@@ -156,7 +141,7 @@ class NewInvoice extends Component
             $this->notify([
                 'type'  => 'success',
                 'title' => 'Factura Generada',
-                'body'  => "Generaste correctamente la factura y se procesará pronto"
+                'body'  => "Generaste correctamente la factura"
             ]);
 
         } catch (\Throwable $th) 
@@ -179,8 +164,6 @@ class NewInvoice extends Component
     {
         $this->order = $order;
         $this->form->autocomplete($order);
-
-        $this->loadInvoiceNumber();
     }
 
     public function render()
