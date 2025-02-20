@@ -117,6 +117,8 @@
 
                 @error('form.document')
                     <small class="text-red-500">{{ $message }}</small>
+                @else 
+                    <small class="text-gray-500">Sin espacios ni guiones</small>
                 @enderror
             </div>
         </div>
@@ -130,7 +132,7 @@
                 class="block w-full rounded-md border-gray-300 shadow-sm
                 focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                     @foreach (TaxCondition::cases() as $taxCondition)
-                        <option value="{{ $taxCondition }}">{{ $taxCondition->name() }}</option>
+                        <option value="{{ $taxCondition->value }}">{{ $taxCondition->name() }}</option>
                     @endforeach
                 </select>
 
@@ -154,6 +156,8 @@
 
                     @error('form.invoice_document')
                         <small class="text-red-500">{{ $message }}</small>
+                    @else
+                        <small class="text-gray-500">Sin espacios ni guiones</small>
                     @enderror
                 </div>
             </div>

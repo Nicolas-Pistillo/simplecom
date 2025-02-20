@@ -1,4 +1,4 @@
-<div class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 py-6 px-4">
+<div class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 p-4">
     <div class="pb-3 border-b">
         <dt
             class="flex justify-between items-center text-sm/6 
@@ -48,9 +48,9 @@
         </div>
 
     </div>
-    <div class="mt-3 pt-3 border-t border-gray-900/5">
+    {{-- <div class="mt-3 pt-3 border-t border-gray-900/5">
         <a href="#" class="text-sm/6 font-semibold text-gray-900">
             Download receipt <span aria-hidden="true">&rarr;</span>
         </a>
-    </div>
+    </div> --}}
 </div>

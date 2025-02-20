@@ -48,7 +48,8 @@ class BankTransfer implements PaymentGateway
             'initializator' => $order->user->full_name,
             'action'        => "tiene que transferir $$total a tu cuenta de " . $this->key('transfer_bank'),
             'meta'          => [
-                'icon_code' => 'overview'
+                'icon_code'  => 'local_atm',
+                'icon_color' => 'yellow'
             ]
         ]);
     }

@@ -13,11 +13,13 @@ use Livewire\Form;
 
 class OrderInvoiceForm extends Form
 {
-    #[Validate(as: 'cod. interno')]
-    public $internal_code;
+    public $order_id;
 
     #[Validate(as: 'tipo de factura')]
     public $invoice_type;
+
+    #[Validate(as: 'tipo de proceso')]
+    public $invoice_queued = false;
 
     #[Validate(as: 'condición de pago')]
     public $pay_condition;
@@ -37,6 +39,9 @@ class OrderInvoiceForm extends Form
     #[Validate(as: 'domicilio fiscal')]
     public $address;
 
+    #[Validate(as: 'bonificación general')]
+    public $bonification;
+
     #[Validate(as: 'teléfono')]
     public $phone;
 
@@ -48,11 +53,16 @@ class OrderInvoiceForm extends Form
 
     public $send_to_client = true;
 
+    public $subtotal;
+    public $total_iva;
+    public $discounts;
+    public $total;
+
     public function rules()
     {
         $rules = [
-            'internal_code'  => 'required',
             'invoice_type'   => ['required', new Enum(InvoiceType::class)],
+            'invoice_queued' => 'required|boolean',
             'pay_condition'  => ['required', new Enum(InvoicePayCondition::class)],
             'sector'         => 'required',
             'social_reason'  => 'required',
@@ -62,12 +72,14 @@ class OrderInvoiceForm extends Form
             'phone'          => 'required|size:10',
             'email'          => 'required|email',
             'send_to_client' => 'required|boolean',
+            'bonification'   => 'required|numeric|integer|min:0',
             'items'          => 'required|array|min:1',
             'items.*.code'        => 'required',
             'items.*.description' => 'required',
             'items.*.quantity'    => 'required|numeric|integer',
             'items.*.aliquot'     => ['required', new Enum(InvoiceItemAliquot::class)],
-            'items.*.unit_price'  => 'required'
+            'items.*.unit_price'  => 'required',
+            'items.*.discount'    => 'required|numeric|integer|min:0|max:100'
         ];
 
         if (TaxCondition::needsInvoiceA($this->tax_condition))
@@ -78,29 +90,37 @@ class OrderInvoiceForm extends Form
         return $rules;
     }
 
-    public function attributes()
-    {
-        return [
-            'items' => 'dale'
-        ];
-    }
-
     public function messages()
     {
         return [
             'tax_condition.Illuminate\Validation\Rules\Enum' => 'Seleccione una condición fiscal válida',
             'invoice_type.Illuminate\Validation\Rules\Enum'  => 'Seleccione un tipo de factura válida',
             'pay_condition.Illuminate\Validation\Rules\Enum' => 'Seleccione una condición de pago válida',
-            'items.*.aliquot.Illuminate\Validation\Rules\Enum' => 'Seleccione una alicuota válida'
+            'items.*.aliquot.Illuminate\Validation\Rules\Enum' => 'Seleccione una alicuota válida',
+            'bonification.required'         => 'La bonificación mínima debe ser 0',
+            'items.required'                => 'Debes agregar al menos un concepto a facturar',
+            'items.*.code.required'         => 'El código es obligatorio',
+            'items.*.description.required'  => 'La descripción es obligatoria',
+            'items.*.quantity.required'     => 'La cantidad es obligatoria',
+            'items.*.quantity.numeric'      => 'La cantidad debe ser un número',
+            'items.*.quantity.integer'      => 'La cantidad debe ser un número entero',
+            'items.*.unit_price'            => 'El precio unitario es obligatorio',
+            'items.*.discount.required'     => 'El descuento mínimo debe ser 0',
+            'items.*.discount.min'          => 'El descuento mínimo debe ser 0',
+            'items.*.discount.max'          => 'El descuento máximo es 100%',
+            'items.*.discount.numeric'      => 'El descuento debe ser un número',
+            'items.*.discount.integer'      => 'El descuento debe ser un número entero',
         ];
     }
 
     public function autocomplete(Order $order)
     {
         $this->fill([
+            'order_id'      => $order->id,
             'invoice_type'  => InvoiceType::InvoiceB->value,
             'pay_condition' => InvoicePayCondition::Cash->value,
             'sector'        => tenant()->sector->name,
+            'bonification'  => 0,
             'social_reason' => $order->user->full_name,
             'document'      => $order->user->document,
             'tax_condition' => $order->user->tax_condition->value,
@@ -120,16 +140,63 @@ class OrderInvoiceForm extends Form
         foreach($order->items as $item)
         {
             $aliquot = TaxCondition::needsInvoiceA($this->tax_condition)
-                        ? InvoiceItemAliquot::IVA21->value
-                        : InvoiceItemAliquot::IVA0->value;
+                        ? InvoiceItemAliquot::IVA21
+                        : InvoiceItemAliquot::IVA0;
+
+            $unit_price = $aliquot === InvoiceItemAliquot::IVA21
+                                       ? round($item->unit_price / 1.21, 2)
+                                       : floatval($item->unit_price);
 
             array_push($this->items, [
-                'code'         => $item->product_id,
-                'description'  => $item->name,
-                'quantity'     => $item->quantity,
-                'aliquot'      => $aliquot,
-                'unit_price'   => $item->unit_price
+                'code'          => $item->product_id,
+                'description'   => $item->name,
+                'quantity'      => $item->quantity,
+                'aliquot'       => $aliquot->value,
+                'initial_price' => floatval($item->unit_price),
+                'unit_price'    => $unit_price,
+                'discount'      => $item->discount ?? 0
             ]);
+        }
+
+        if ($order->shipping_cost > 0)
+        {
+            $aliquot = TaxCondition::needsInvoiceA($this->tax_condition)
+                        ? InvoiceItemAliquot::IVA21
+                        : InvoiceItemAliquot::IVA0;
+
+            $unit_price = $aliquot === InvoiceItemAliquot::IVA21
+                                       ? round($order->shipping_cost / 1.21, 2)
+                                       : floatval($order->shipping_cost);
+
+            array_push($this->items, [
+                'code'          => "envio",
+                'description'   => $order->shipping->provider_label,
+                'quantity'      => 1,
+                'aliquot'       => $aliquot->value,
+                'initial_price' => floatval($order->shipping_cost),
+                'unit_price'    => $unit_price,
+                'discount'      => 0
+            ]);
+        }
+    }
+
+    public function recalculatePricing()
+    {
+        foreach($this->items as $index => $item)
+        {
+            $aliquotValue = InvoiceItemAliquot::tryFrom($item['aliquot'])->numberValue();
+
+            if (!$item['initial_price']) $item['initial_price'] = $item['unit_price'];
+
+            if ($aliquotValue == 0)
+            {
+                $this->items[$index]['unit_price'] = $item['initial_price'];
+            }
+
+            if ($aliquotValue > 0)
+            {
+                $this->items[$index]['unit_price'] = round($item['initial_price'] / $aliquotValue, 2);
+            }
         }
     }
 }

@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('status');
-            $table->foreignId('payment_method_id');
             $table->foreignId('invoice_id')->nullable();
             $table->boolean('invoiced')->default(false);
             $table->boolean('stock_discounted')->default(false);
+            $table->foreignId('payment_method_id');
             $table->string('delivery_type');
             $table->foreignId('store_pickup_id')->nullable();
             $table->foreignId('shipping_provider_id')->nullable();

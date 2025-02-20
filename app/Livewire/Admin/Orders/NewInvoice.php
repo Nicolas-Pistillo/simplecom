@@ -2,86 +2,206 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Enums\InvoiceItemAliquot;
+use App\Enums\InvoiceType;
+use App\Enums\TaxCondition;
 use App\Livewire\Forms\OrderInvoiceForm;
 use App\Models\Order;
+use App\Services\InvoiceProviders\TusFacturas;
+use App\Traits\Livewire\WithNotifications;
+use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class NewInvoice extends Component
 {
+    use WithNotifications;
+
     public Order $order;
     public OrderInvoiceForm $form;
 
-    public function mount(Order $order)
+    #[Computed]
+    public function subtotal()
     {
-        $this->order = $order;
-        $this->form->autocomplete($order);
+        try 
+        {
+            return collect($this->form->items)->sum(function($item) 
+            {
+                $itemPrice = $item['unit_price'] * $item['quantity'];
+                
+                return $itemPrice;
+            });
+        } catch (\Throwable $th) {}
+    }
+
+    #[Computed]
+    public function total_iva()
+    {
+        try 
+        {
+            return collect($this->form->items)->sum(function($item) 
+            {
+                if (!$item['initial_price']) $item['initial_price'] = $item['unit_price'];
+
+                $totalUnitary = $item['unit_price'] * $item['quantity'];
+                $totalInitial = $item['initial_price'] * $item['quantity'];
+
+                if ($item['discount'] > 0) 
+                {
+                    $totalUnitary -= $totalUnitary * ($item['discount'] / 100);
+                    $totalInitial -= $totalInitial * ($item['discount'] / 100);
+                }
+
+                return $totalInitial - $totalUnitary;
+            });
+        } catch (\Throwable $th) {}
+    }
+
+    #[Computed]
+    public function discounts()
+    {
+        try 
+        {
+            return collect($this->form->items)->sum(function($item) 
+            {
+                $itemPrice = $item['unit_price'] * $item['quantity'];
+
+                if ($item['discount'] > 0) 
+                {
+                    return $itemPrice * ($item['discount'] / 100);
+                }
+
+                return 0;
+            });
+        } catch (\Throwable $th) {};
+    }
+
+    #[Computed]
+    public function total()
+    {
+        try {
+            return $this->subtotal - $this->discounts + $this->totalIva - $this->form->bonification;
+        } catch (\Throwable $th) {}
+    }
+
+    public function updatedForm($value, $property)
+    {
+        if ($property === 'invoice_type')
+        {
+            $newAliquot = InvoiceType::tryFrom($value)->determinesIVA()
+                            ? InvoiceItemAliquot::IVA21
+                            : InvoiceItemAliquot::IVA0;
+
+            foreach($this->form->items as $index => $item)
+            {
+                $this->form->items[$index]['aliquot'] = $newAliquot->value;
+            }
+
+            $this->form->recalculatePricing();
+        }
+
+        if ($property === 'tax_condition')
+        {
+            $newAliquot = TaxCondition::needsInvoiceA($value)
+                            ? InvoiceItemAliquot::IVA21
+                            : InvoiceItemAliquot::IVA0;
+
+            foreach($this->form->items as $index => $item)
+            {
+                $this->form->items[$index]['aliquot'] = $newAliquot->value;
+            }
+
+            $this->form->recalculatePricing();
+        }
+
+        if (str_ends_with($property, '.aliquot'))
+        {
+            $this->form->recalculatePricing();
+        }
     }
 
     public function addItem()
     {
+        $aliquot = TaxCondition::needsInvoiceA($this->form->tax_condition)
+                    ? InvoiceItemAliquot::IVA21->value
+                    : InvoiceItemAliquot::IVA0->value;
+
         array_push($this->form->items, [
-            'code'         => null,
-            'description'  => null,
-            'quantity'     => null,
-            'aliquot'      => null,
-            'unit_price'   => null
+            'code'          => null,
+            'description'   => null,
+            'quantity'      => 1,
+            'aliquot'       => $aliquot,
+            'initial_price' => null,
+            'unit_price'    => null,
+            'discount'      => 0
         ]);
+    }
+
+    public function removeItem($index)
+    {
+        unset($this->form->items[$index]);
+        $this->form->items = array_values($this->form->items);
     }
 
     public function save()
     {
         $this->form->validate();
 
-        dd("PASO TODO", $this->form->all());
+        try 
+        {
+            $this->form->fill([
+                'subtotal'  => $this->subtotal,
+                'total_iva' => $this->total_iva,
+                'discounts' => $this->discounts,
+                'total'     => $this->total,
+            ]);
 
-        $reference = tenant('id') . '|' . $this->order->id;
+            $provider = new TusFacturas();
 
-        $client = [
-            "documento_tipo" => "CUIT",
-            "condicion_iva"  => "RI",
-            "domicilio"      => "Av Sta Fe 23132",
-            "condicion_pago" => "201",
-            "documento_nro"  => "20423950316",
-            "razon_social"   => "Juan Pedro KJL",
-            "provincia"      => "2",
-            "email"          => "email@dominio.com",
-            "envia_por_mail" => "N"
-        ];
+            $serviceResponse = $provider->createOrderInvoice($this->form);
 
-        $receipt = [
-            "rubro"                => "Sevicios web", 
-            "tipo"                 => "FACTURA A", 
-            "operacion"            => "V",
-            "external_reference"   => $reference,
-            "detalle"              => [
-                [
-                    "cantidad" => 2,
-                    "producto" => [
-                        "descripcion"  => "Hosting pagina web",
-                        "codigo"       => 37,
-                        "leyenda"      => "Leyenda de ejemplo",
-                        "unidad_bulto" => 1,
-                        "alicuota"     => 21,
-                        "precio_unitario_sin_iva" => 114.88
-                    ]
-                ]
-            ],
-            "fecha"                => date('d/m/Y'),
-            "vencimiento"          => date('d/m/Y'),
-            "rubro_grupo_contable" => "Sevicios",
-            "total"                => 139.0,
-            "cotizacion"           => 1,
-            "moneda"               => "PES",
-            "punto_venta"          => 678,
-        ];
+            if (isset($serviceResponse['errors']))
+            {
+                foreach($serviceResponse['errors'] as $error)
+                {
+                    $this->addError('service_errors', $error);
+                }
 
-        dd([
-            'apitoken'    => 'asd123',
-            'apikey'      => '123asd',
-            'usertoken'   => 'dsa321',
-            'cliente'     => $client,
-            'comprobante' => $receipt
-        ]);
+                $this->dispatch('service-errors-received');
+
+                return;
+            }
+
+            $this->dispatch('order-invoice-created');
+
+            $this->dispatch('close-order-invoice-form');
+
+            $this->notify([
+                'type'  => 'success',
+                'title' => 'Factura Generada',
+                'body'  => "Generaste correctamente la factura"
+            ]);
+
+        } catch (\Throwable $th) 
+        {
+            $this->notify([
+                'type'  => 'danger',
+                'title' => 'Ocurrió un error inesperado al facturar',
+                'body'  => 'Por favor vuelva a intentarlo más tarde o contáctese con soporte'
+            ]);
+
+            Log::channel('error')->error('Error al facturar pedido', [
+                'tenant'  => tenant('name'),
+                'pedido'  => $this->order->id,
+                'message' => $th->getMessage()
+            ]);
+        }
+    }
+
+    public function mount(Order $order)
+    {
+        $this->order = $order;
+        $this->form->autocomplete($order);
     }
 
     public function render()

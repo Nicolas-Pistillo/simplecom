@@ -7,11 +7,9 @@ use App\Enums\TaxCondition;
 use App\Models\PaymentMethod;
 use App\Models\StorePickup;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
-use ValueError;
 
 class CheckoutForm extends Form
 {
@@ -36,6 +34,7 @@ class CheckoutForm extends Form
     #[Validate(as: 'razón social')]
     public $invoice_social_reason;
 
+    #[Validate(as: 'CUIT')]
     public $invoice_document;
 
     #[Validate('required|numeric|min:1000000|max:999999999', as: 'dni')]
@@ -67,7 +66,7 @@ class CheckoutForm extends Form
             'email'           => 'required|email',
             'phone'           => 'required|size:10',
             'invoice_address' => 'required|min:6',
-            'tax_condition'   => ['required', Rule::in(TaxCondition::toArray())],
+            'tax_condition'   => ['required', new Enum(TaxCondition::class)],
             'document'        => 'required|numeric|min:1000000|max:999999999',
         ];
 
@@ -90,7 +89,7 @@ class CheckoutForm extends Form
                 'email'             => Auth::user()->email,
                 'phone'             => Auth::user()->phone,
                 'document'          => Auth::user()->document,
-                'tax_condition'     => Auth::user()->tax_condition ?? TaxCondition::ConsumidorFinal->value,
+                'tax_condition'     => Auth::user()->tax_condition?->value ?? TaxCondition::ConsumidorFinal->value,
                 'invoice_address'   => Auth::user()->invoice_address,
                 'invoice_social_reason' => Auth::user()->invoice_social_reason,
                 'invoice_document'      => Auth::user()->invoice_document,
@@ -104,23 +103,28 @@ class CheckoutForm extends Form
             ]);
         }
 
+        if (!session('guest_customer.tax_condition'))
+        {
+            session()->put('guest_customer.tax_condition', TaxCondition::ConsumidorFinal->value);
+        }
+
         $this->fill([
-            'name'              => session('guest_customer.name'),
-            'lastname'          => session('guest_customer.lastname'),
-            'email'             => session('guest_customer.email'),
-            'phone'             => session('guest_customer.phone'),
-            'document'          => session('guest_customer.document'),
-            'tax_condition'     => session('guest_customer.tax_condition') ?? TaxCondition::ConsumidorFinal->value,
-            'invoice_address'   => session('guest_customer.invoice_address'),
+            'name'                  => session('guest_customer.name'),
+            'lastname'              => session('guest_customer.lastname'),
+            'email'                 => session('guest_customer.email'),
+            'phone'                 => session('guest_customer.phone'),
+            'document'              => session('guest_customer.document'),
+            'tax_condition'         => session('guest_customer.tax_condition'),
+            'invoice_address'       => session('guest_customer.invoice_address'),
             'invoice_social_reason' => session('guest_customer.invoice_social_reason'),
-            'invoice_document'  => session('guest_customer.invoice_document'),
-            'addresses'         => collect(session('guest_customer.addresses')) ?? collect(),
-            'payment_methods'   => PaymentMethod::where('active', true)->get(),
-            'store_pickups'     => StorePickup::where('active', true)->get(),
-            'delivery_type'     => session('delivery_type') ?? DeliveryType::Shipping,
-            'selected_address'  => session('selected_address'),
-            'selected_rate'     => session('selected_rate'),
-            'selected_branch'   => session('selected_branch')
+            'invoice_document'      => session('guest_customer.invoice_document'),
+            'addresses'             => collect(session('guest_customer.addresses')) ?? collect(),
+            'payment_methods'       => PaymentMethod::where('active', true)->get(),
+            'store_pickups'         => StorePickup::where('active', true)->get(),
+            'delivery_type'         => session('delivery_type') ?? DeliveryType::Shipping,
+            'selected_address'      => session('selected_address'),
+            'selected_rate'         => session('selected_rate'),
+            'selected_branch'       => session('selected_branch')
         ]);
     }
 

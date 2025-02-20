@@ -16,9 +16,9 @@ if (!function_exists('formatBytes'))
 
 if(!function_exists('priceFormat'))
 {
-    function priceFormat($price)
+    function priceFormat($price, $decimals = 0)
     {
-        return number_format($price, 0, ',', '.');
+        return number_format($price, $decimals, '.', '.');
     }
 }
 

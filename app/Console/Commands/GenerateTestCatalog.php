@@ -18,14 +18,14 @@ class GenerateTestCatalog extends Command
      *
      * @var string
      */
-    protected $signature = 'simplecom:generate-catalog {--tenant=} {--extense}';
+    protected $signature = 'tenants:generate-catalog {--tenant=} {--extense}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Poblate the tenant catalog with test resources';
+    protected $description = 'Poblate the tenant catalog with test products and categories';
 
     /**
      * Execute the console command.

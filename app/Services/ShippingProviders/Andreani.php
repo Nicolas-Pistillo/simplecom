@@ -188,7 +188,7 @@ class Andreani implements ShippingProvider
             'event'         => OrderFeedEvent::ShippingUpdate,
             'presentation'  => OrderFeedPresentation::Image,
             'initializator' => 'Andreani',
-            'action'        => 'recibió la orden de envío para el pedido, se espera que se acepte y se procese a la brevedad',
+            'action'        => 'recibió la orden de envío para el pedido, se espera la confirme a la brevedad',
             'meta'          => [
                 'img_src'  => Storage::url('providers/andreani_icon.png')
             ]
@@ -240,7 +240,6 @@ class Andreani implements ShippingProvider
             'label'         => 'Andreani - Envío a domicilio',
             'service_name'  => 'Servicio a domicilio',
             'logistic_type' => LogisticType::OriginToDoor,
-            'carrier_name'  => 'Andreani',
             'carrier_logo'  => Storage::url('providers/andreani_icon.png'),
             'price_no_tax'  => data_get($response, 'tarifaSinIva.total'),
             'price'         => data_get($response, 'tarifaConIva.total'),
@@ -279,7 +278,6 @@ class Andreani implements ShippingProvider
             'label'         => 'Andreani - Envío a sucursal',
             'service_name'  => 'Servicio a sucursal',
             'logistic_type' => LogisticType::OriginToDropoff,
-            'carrier_logo'  => Storage::url('providers/andreani_icon.png'),
             'price_no_tax'  => data_get($response, 'tarifaSinIva.total'),
             'price'         => data_get($response, 'tarifaConIva.total'),
             'estimate'      => '72hs hábiles'

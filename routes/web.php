@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Tenant\PaymentWebhookController;
 use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\AuthController;
 use App\Http\Controllers\Superadmin\TenantController;
-use App\Http\Controllers\Tenant\InvoiceController;
+use App\Http\Controllers\Tenant\PaymentWebhookController;
+use App\Http\Controllers\Tenant\InvoiceWebhookController;
 use App\Http\Controllers\Tenant\ShippingWebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +21,7 @@ Route::post('webhooks/tenant-shippings/{tenant}/{orderShipping}/{provider}', [Sh
     ->name('tenant.shipping-webhook');
 
 // Tenant Invoices Webhooks
-Route::post('webhooks/tenant-invoices', [InvoiceController::class, 'handler'])
+Route::post('webhooks/tenant-invoices', [InvoiceWebhookController::class, 'handler'])
     ->withoutMiddleware('web')
     ->name('tenant.invoice-webhook');
 

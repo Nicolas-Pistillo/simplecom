@@ -17,4 +17,24 @@ enum InvoiceType: string
             InvoiceType::InvoiceC  => 'Factura C',
         };
     }
+
+    public function tusfacturasValue(): string
+    {
+        return match($this)
+        {
+            InvoiceType::InvoiceA  => 'FACTURA A',
+            InvoiceType::InvoiceB  => 'FACTURA B',
+            InvoiceType::InvoiceC  => 'FACTURA C',
+        };
+    }
+
+    public function determinesIVA(): bool
+    {
+        return match($this)
+        {
+            InvoiceType::InvoiceA  => true,
+            InvoiceType::InvoiceB  => false,
+            InvoiceType::InvoiceC  => false
+        };
+    }
 }

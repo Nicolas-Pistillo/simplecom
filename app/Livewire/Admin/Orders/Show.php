@@ -6,17 +6,20 @@ use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
-use App\Livewire\Forms\OrderInvoiceForm;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
+use App\Services\InvoiceProviders\TusFacturas;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class Show extends Component
 {
     use WithNotifications;
+
+    protected $listeners = ['order-invoice-created' => '$refresh'];
 
     public $order;
 
@@ -34,9 +37,9 @@ class Show extends Component
             'event'         => OrderFeedEvent::StatusUpdate,
             'presentation'  => OrderFeedPresentation::Icon,
             'initializator' => Auth::user()->name,
-            'action'        => "confirmó el pago por transferencia del comprador",
+            'action'        => "confirmó que recibio la transferencia por el pago del pedido",
             'meta'          => [
-                'icon_code'  => 'list_alt_check',
+                'icon_code'  => 'price_check',
                 'icon_color' => 'green'
             ]
         ]);
@@ -107,14 +110,30 @@ class Show extends Component
         }
     }
 
+    public function downloadOrderInvoice($ticket = false)
+    {
+        if ($ticket)
+        {
+            return Storage::download(
+                $this->order->invoice->ticket_url, 
+                "Ticket Pedido {$this->order->id}.pdf"
+            );    
+        }
+
+        return Storage::download(
+            $this->order->invoice->pdf_url, 
+            "Factura Pedido {$this->order->id}.pdf"
+        );
+    }
+
     public function mount($order)
     {
         $order = Order::find($order) ?? abort(404);
 
         $order->load(
             'items.variant.options.attribute', 'items.variant.options.attributeValue',
-            'storePickup', 'shipping.userAddress', 'payment', 'user', 'feed', 
-            'shippingProvider', 'paymentMethod'
+            'storePickup', 'shipping.userAddress', 'payment', 'invoice', 
+            'user', 'feed', 'shippingProvider', 'paymentMethod'
         );
 
         $this->order = $order;

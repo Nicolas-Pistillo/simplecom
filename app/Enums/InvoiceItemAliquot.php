@@ -24,6 +24,19 @@ enum InvoiceItemAliquot: string
         };
     }
 
+    public function numberValue(): float
+    {
+        return match($this)
+        {
+            InvoiceItemAliquot::IVA27       => 1.27,
+            InvoiceItemAliquot::IVA21       => 1.21,
+            InvoiceItemAliquot::IVA10_5     => 1.105,
+            InvoiceItemAliquot::IVA0        => 0,
+            InvoiceItemAliquot::IVAExempt   => 0,
+            InvoiceItemAliquot::IVANotTaxed => 0
+        };
+    }
+
     public function tusfacturasValue(): string
     {
         return match($this)

@@ -3,7 +3,7 @@
     <div x-show="{{ $ref }}" x-transition:enter="ease-in-out duration-500" x-transition:enter-start="opacity-0"
     x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-500"
     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-    class="fixed inset-0 bg-gray-700 bg-opacity-60 transition-opacity"></div>
+    class="fixed inset-0 bg-black/50 bg-opacity-80 transition-opacity"></div>
 
     <div class="fixed inset-0 cursor-default overflow-hidden">
         <div class="absolute inset-0 overflow-hidden z-50">

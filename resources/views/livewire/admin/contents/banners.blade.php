@@ -46,8 +46,9 @@
                             class="w-80 rounded-lg overflow-hidden transition 
                         duration-300 shadow hover:shadow-lg">
 
-                            <img class="w-full h-40 object-cover border-b" src="{{ Storage::url($banner->image_url) }}"
-                                alt="{{ $banner->name }}-img">
+                            <img class="w-full object-cover border-b" 
+                            src="{{ Storage::url($banner->image_url) }}"
+                            alt="{{ $banner->name }}-img">
 
                             <div class="p-4">
                                 <div class="flex items-center justify-between font-bold text">
@@ -78,7 +79,7 @@
                                 </div>
                             </div>
 
-                            <x-modal ref="deleteDialogOpen" type="danger" icon="warning">
+                            <x-modal ref="deleteDialogOpen" closeOnClickAway type="danger" icon="warning">
 
                                 <x-slot name="title">
                                     Eliminar banner <span class="text-blue-600">{{ $banner->name }}</span>
