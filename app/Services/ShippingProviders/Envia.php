@@ -44,16 +44,6 @@ class Envia implements ShippingProvider
         }
     }
 
-    public function createOrder(Order $order)
-    {
-        
-    }
-
-    public function getStatus(OrderShipping $shipping)
-    {
-        
-    }
-
     public function getRates(ShippingRateParameters $parameters): Collection
     {
         $origins = $this->getOrigins();
@@ -163,6 +153,16 @@ class Envia implements ShippingProvider
     public function getRate($rateBody)
     {
         return Http::withToken($this->token)->withBody($rateBody)->post("$this->api_base_url/ship/rate")->collect('data');
+    }
+
+    public function createOrder(Order $order)
+    {
+        
+    }
+
+    public function getStatus(OrderShipping $shipping)
+    {
+        
     }
 
     public function calculatePackage(): array|false

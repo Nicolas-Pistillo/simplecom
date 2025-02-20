@@ -103,7 +103,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                         Correo encargado
                     </small>
                     <span class="text-sm text-gray-500">
-                        {{ $order->shipping->provider_carrier }}
+                        {{ ucfirst($order->shipping->provider_carrier) }}
                     </span>
                 </div>
             @endif
@@ -116,6 +116,28 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                 </small>
                 <span class="text-sm/6 text-gray-500">
                     {{ $order->shipping->delivery_estimate }}
+                </span>
+            </div>
+        @endif
+
+        @if (!empty($order->shipping->quoted_price))
+            <div class="flex flex-col p-2">
+                <small class="text-xs text-gray-500 font-semibold">
+                    Precio tarifado
+                </small>
+                <span class="text-sm/6 text-gray-500">
+                    ${{ $order->shipping->quoted_price }}
+                </span>
+            </div>
+        @endif
+
+        @if (!empty($order->shipping->final_price))
+            <div class="flex flex-col p-2">
+                <small class="text-xs text-gray-500 font-semibold">
+                    Precio final
+                </small>
+                <span class="text-sm/6 text-gray-500">
+                    ${{ $order->shipping->final_price }}
                 </span>
             </div>
         @endif
@@ -141,28 +163,6 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
             </h4>
 
             <div class="flex flex-wrap gap-3 items-end">
-
-                @if (!empty($order->shipping->quoted_price))
-                    <div class="flex flex-col p-2">
-                        <small class="text-xs text-gray-500 font-semibold">
-                            Precio tarifado
-                        </small>
-                        <span class="text-sm/6 text-gray-500">
-                            ${{ $order->shipping->quoted_price }}
-                        </span>
-                    </div>
-                @endif
-
-                @if (!empty($order->shipping->final_price))
-                    <div class="flex flex-col p-2">
-                        <small class="text-xs text-gray-500 font-semibold">
-                            Precio final
-                        </small>
-                        <span class="text-sm/6 text-gray-500">
-                            ${{ $order->shipping->final_price }}
-                        </span>
-                    </div>
-                @endif
 
                 @if (!empty($order->shipping->logistic_type))
                     <div class="flex flex-col p-2">
@@ -232,7 +232,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                     <x-spinner wire:loading wire:target='createShippingOrder' />
 
                     <x-button type="secondary" wire:loading.remove wire:target='createShippingOrder'
-                        @click="confirmShippingCreate = false">Cancelar</x-button>
+                    @click="confirmShippingCreate = false">Cancelar</x-button>
 
                     <x-button wire:click='createShippingOrder' wire:loading.remove 
                     wire:target='createShippingOrder'>

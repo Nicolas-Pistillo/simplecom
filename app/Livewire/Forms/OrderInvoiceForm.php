@@ -145,7 +145,7 @@ class OrderInvoiceForm extends Form
 
             $unit_price = $aliquot === InvoiceItemAliquot::IVA21
                                        ? round($item->unit_price / 1.21, 2)
-                                       : $item->unit_price;
+                                       : floatval($item->unit_price);
 
             array_push($this->items, [
                 'code'          => $item->product_id,
@@ -155,6 +155,27 @@ class OrderInvoiceForm extends Form
                 'initial_price' => floatval($item->unit_price),
                 'unit_price'    => $unit_price,
                 'discount'      => $item->discount ?? 0
+            ]);
+        }
+
+        if ($order->shipping_cost > 0)
+        {
+            $aliquot = TaxCondition::needsInvoiceA($this->tax_condition)
+                        ? InvoiceItemAliquot::IVA21
+                        : InvoiceItemAliquot::IVA0;
+
+            $unit_price = $aliquot === InvoiceItemAliquot::IVA21
+                                       ? round($order->shipping_cost / 1.21, 2)
+                                       : floatval($order->shipping_cost);
+
+            array_push($this->items, [
+                'code'          => "envio",
+                'description'   => $order->shipping->provider_label,
+                'quantity'      => 1,
+                'aliquot'       => $aliquot->value,
+                'initial_price' => floatval($order->shipping_cost),
+                'unit_price'    => $unit_price,
+                'discount'      => 0
             ]);
         }
     }
@@ -174,7 +195,6 @@ class OrderInvoiceForm extends Form
 
             if ($aliquotValue > 0)
             {
-                /* $this->items[$index]['unit_price'] = $item['initial_price'] - ($aliquotValue * $item['initial_price']  / 100); */
                 $this->items[$index]['unit_price'] = round($item['initial_price'] / $aliquotValue, 2);
             }
         }

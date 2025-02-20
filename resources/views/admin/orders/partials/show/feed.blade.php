@@ -28,7 +28,7 @@
 
                     @if ($feedItem->presentation === OrderFeedPresentation::Image)
                         <img src="{{ data_get($feedItem, 'meta.img_src') }}"
-                        class="relative h-8 w-8 flex-none shadow-md rounded-full -left-[3.5px] self-start">
+                        class="relative h-8 w-8 flex-none rounded-full -left-[3.5px] self-start">
                     @endif
 
                     @if ($feedItem->presentation === OrderFeedPResentation::InitialsImage)
@@ -37,7 +37,7 @@
                             'background' => '#2563eb',
                             'color' => '#fff',
                             'bold' => false,
-                        ]) }}" class="relative h-8 w-8 shadow-md flex-none rounded-full bg-gray-50 -left-[3.5px] self-start">
+                        ]) }}" class="relative h-8 w-8 flex-none rounded-full bg-gray-50 -left-[3.5px] self-start">
                     @endif
 
                     @if (!empty($feedItem->comments))
