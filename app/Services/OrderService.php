@@ -100,20 +100,21 @@ class OrderService
             $collectionPoint = CollectionPoint::inUse();
 
             OrderShipping::create([
-                'order_id'            => $order->id,
-                'provider_id'         => $shippingProvider->id,
-                'collection_point_id' => $collectionPoint->id,
-                'user_address_id'     => session('selected_address.id'),
-                'status'              => ShippingStatus::CreationPending,
-                'provider_label'      => data_get($form->selected_rate, 'label'),
-                'provider_service'    => data_get($form->selected_rate, 'service_name'),
-                'provider_carrier'    => data_get($form->selected_rate, 'carrier_name'),
-                'logistic_type'       => data_get($form->selected_rate, 'logistic_type'),
-                'quoted_price'        => data_get($form->selected_rate, 'price'),
-                'delivery_estimate'   => data_get($form->selected_rate, 'estimate'),
-                'selected_branch'     => !empty($branch) ? $branch : null,
-                'selected_branch_id'  => data_get($branch, 'external_id'),
-                'calculated_rate'     => $form->selected_rate
+                'order_id'              => $order->id,
+                'provider_id'           => $shippingProvider->id,
+                'collection_point_id'   => $collectionPoint->id,
+                'user_address_id'       => session('selected_address.id'),
+                'status'                => ShippingStatus::CreationPending,
+                'provider_label'        => data_get($form->selected_rate, 'label'),
+                'provider_service'      => data_get($form->selected_rate, 'service_name'),
+                'provider_carrier'      => data_get($form->selected_rate, 'carrier_name'),
+                'provider_carrier_logo' => data_get($form->selected_rate, 'carrier_logo'),
+                'logistic_type'         => data_get($form->selected_rate, 'logistic_type'),
+                'quoted_price'          => data_get($form->selected_rate, 'price'),
+                'delivery_estimate'     => data_get($form->selected_rate, 'estimate'),
+                'selected_branch'       => !empty($branch) ? $branch : null,
+                'selected_branch_id'    => data_get($branch, 'external_id'),
+                'calculated_rate'       => $form->selected_rate
             ]);
         }
 

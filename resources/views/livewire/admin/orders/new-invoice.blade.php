@@ -88,14 +88,14 @@
                         <div class="w-full justify-between items-start gap-6 inline-flex">
                             <h5 class="text-gray-600 leading-8">Subtotal</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
-                                ${{ priceFormat($this->subtotal, 2) }}
+                                ${{ priceFormat($this->subtotal) }}
                             </h4>
                         </div>
                         <div class="w-full justify-between items-start gap-6 inline-flex">
                             <h5 class="text-gray-600 leading-8">Descuentos</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
                                 @if ($this->discounts > 0)
-                                    -$ {{ priceFormat($this->discounts, 2) }}
+                                    -$ {{ priceFormat($this->discounts) }}
                                 @else
                                     -
                                 @endif
@@ -105,7 +105,7 @@
                             <h5 class="text-gray-600 leading-8">IVA</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
                                 @if ($this->total_iva > 0)
-                                    ${{ priceFormat($this->total_iva, 2) }}
+                                    ${{ priceFormat($this->total_iva) }}
                                 @else
                                     -
                                 @endif
@@ -115,7 +115,7 @@
                             <h5 class="text-gray-600 leading-8">Bonif. General</h5>
                             <h4 class="text-right text-gray-900 font-semibold leading-loose">
                                 @if ($form->bonification > 0)
-                                    -$ {{ priceFormat($form->bonification, 2) }}
+                                    -$ {{ priceFormat($form->bonification) }}
                                 @else
                                     -
                                 @endif
@@ -126,7 +126,7 @@
                     <div class="w-full justify-between items-start gap-6 inline-flex">
                         <h4 class="text-gray-900 text-lg font-semibold leading-loose">Total</h4>
                         <h4 class="text-right text-gray-900 text-lg font-semibold leading-loose">
-                            ${{ priceFormat($this->total, 2) }}
+                            ${{ priceFormat($this->total) }}
                         </h4>
                     </div>
                 </div>
