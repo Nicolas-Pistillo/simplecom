@@ -28,9 +28,9 @@ enum InvoiceItemAliquot: string
     {
         return match($this)
         {
-            InvoiceItemAliquot::IVA27       => 27,
-            InvoiceItemAliquot::IVA21       => 21,
-            InvoiceItemAliquot::IVA10_5     => 10.5,
+            InvoiceItemAliquot::IVA27       => 1.27,
+            InvoiceItemAliquot::IVA21       => 1.21,
+            InvoiceItemAliquot::IVA10_5     => 1.105,
             InvoiceItemAliquot::IVA0        => 0,
             InvoiceItemAliquot::IVAExempt   => 0,
             InvoiceItemAliquot::IVANotTaxed => 0

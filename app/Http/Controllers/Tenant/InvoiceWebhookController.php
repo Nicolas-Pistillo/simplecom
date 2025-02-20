@@ -110,7 +110,7 @@ class InvoiceWebhookController extends Controller
                     'action'        => 'del pedido ha sido emitida correctamente',
                     'meta'          => [
                         'icon_code'   => 'task',
-                        'icon_color'  => 'green',
+                        'icon_color'  => 'emerald',
                         'hook_id'     => $request->hook_id
                     ]
                 ]);

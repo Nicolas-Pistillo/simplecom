@@ -124,7 +124,7 @@ class TusFacturas
             'comments'      => "Respuesta del servicio: " . data_get($response, 'rta'),
             'meta'          => [
                 'icon_code'   => 'task',
-                'icon_color'  => 'green'
+                'icon_color'  => 'emerald'
             ]
         ]);
 
@@ -136,13 +136,15 @@ class TusFacturas
 
         if (Storage::put($pdfFile, $pdf))
         {
-            $invoice->update(['pdf_url' => $pdfFile]);
+            $invoice->pdf_url = $pdfFile;
         }
 
         if (Storage::put($ticketFile, $ticket))
         {
-            $invoice->update(['ticket_url' => $ticketFile]);
+            $invoice->ticket_url = $ticketFile;
         }
+
+        $invoice->save();
 
         return ['success' => true];
     }

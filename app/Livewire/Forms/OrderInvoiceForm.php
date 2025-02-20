@@ -140,17 +140,43 @@ class OrderInvoiceForm extends Form
         foreach($order->items as $item)
         {
             $aliquot = TaxCondition::needsInvoiceA($this->tax_condition)
-                        ? InvoiceItemAliquot::IVA21->value
-                        : InvoiceItemAliquot::IVA0->value;
+                        ? InvoiceItemAliquot::IVA21
+                        : InvoiceItemAliquot::IVA0;
+
+            $unit_price = $aliquot === InvoiceItemAliquot::IVA21
+                                       ? round($item->unit_price / 1.21, 2)
+                                       : $item->unit_price;
 
             array_push($this->items, [
-                'code'         => $item->product_id,
-                'description'  => $item->name,
-                'quantity'     => $item->quantity,
-                'aliquot'      => $aliquot,
-                'unit_price'   => $item->unit_price,
-                'discount'     => $item->discount ?? 0
+                'code'          => $item->product_id,
+                'description'   => $item->name,
+                'quantity'      => $item->quantity,
+                'aliquot'       => $aliquot->value,
+                'initial_price' => floatval($item->unit_price),
+                'unit_price'    => $unit_price,
+                'discount'      => $item->discount ?? 0
             ]);
+        }
+    }
+
+    public function recalculatePricing()
+    {
+        foreach($this->items as $index => $item)
+        {
+            $aliquotValue = InvoiceItemAliquot::tryFrom($item['aliquot'])->numberValue();
+
+            if (!$item['initial_price']) $item['initial_price'] = $item['unit_price'];
+
+            if ($aliquotValue == 0)
+            {
+                $this->items[$index]['unit_price'] = $item['initial_price'];
+            }
+
+            if ($aliquotValue > 0)
+            {
+                /* $this->items[$index]['unit_price'] = $item['initial_price'] - ($aliquotValue * $item['initial_price']  / 100); */
+                $this->items[$index]['unit_price'] = round($item['initial_price'] / $aliquotValue, 2);
+            }
         }
     }
 }

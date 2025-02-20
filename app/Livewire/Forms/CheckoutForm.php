@@ -7,11 +7,9 @@ use App\Enums\TaxCondition;
 use App\Models\PaymentMethod;
 use App\Models\StorePickup;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
-use ValueError;
 
 class CheckoutForm extends Form
 {
@@ -36,6 +34,7 @@ class CheckoutForm extends Form
     #[Validate(as: 'razón social')]
     public $invoice_social_reason;
 
+    #[Validate(as: 'CUIT')]
     public $invoice_document;
 
     #[Validate('required|numeric|min:1000000|max:999999999', as: 'dni')]
@@ -67,7 +66,7 @@ class CheckoutForm extends Form
             'email'           => 'required|email',
             'phone'           => 'required|size:10',
             'invoice_address' => 'required|min:6',
-            'tax_condition'   => ['required', Rule::in(TaxCondition::toArray())],
+            'tax_condition'   => ['required', new Enum(TaxCondition::class)],
             'document'        => 'required|numeric|min:1000000|max:999999999',
         ];
 
@@ -90,7 +89,7 @@ class CheckoutForm extends Form
                 'email'             => Auth::user()->email,
                 'phone'             => Auth::user()->phone,
                 'document'          => Auth::user()->document,
-                'tax_condition'     => Auth::user()->tax_condition ?? TaxCondition::ConsumidorFinal->value,
+                'tax_condition'     => Auth::user()->tax_condition?->value ?? TaxCondition::ConsumidorFinal->value,
                 'invoice_address'   => Auth::user()->invoice_address,
                 'invoice_social_reason' => Auth::user()->invoice_social_reason,
                 'invoice_document'      => Auth::user()->invoice_document,

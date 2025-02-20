@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Orders;
 
 use App\Enums\InvoiceItemAliquot;
+use App\Enums\InvoiceType;
 use App\Enums\TaxCondition;
 use App\Livewire\Forms\OrderInvoiceForm;
 use App\Models\Order;
@@ -40,18 +41,18 @@ class NewInvoice extends Component
         {
             return collect($this->form->items)->sum(function($item) 
             {
-                $itemPrice = $item['unit_price'] * $item['quantity'];
+                if (!$item['initial_price']) $item['initial_price'] = $item['unit_price'];
+
+                $totalUnitary = $item['unit_price'] * $item['quantity'];
+                $totalInitial = $item['initial_price'] * $item['quantity'];
 
                 if ($item['discount'] > 0) 
                 {
-                    $itemPrice -= $itemPrice * ($item['discount'] / 100);
+                    $totalUnitary -= $totalUnitary * ($item['discount'] / 100);
+                    $totalInitial -= $totalInitial * ($item['discount'] / 100);
                 }
 
-                $aliquot = InvoiceItemAliquot::tryFrom($item['aliquot'])->numberValue();
-
-                if ($aliquot <= 0) return 0;
-
-                return $aliquot * $itemPrice / 100;
+                return $totalInitial - $totalUnitary;
             });
         } catch (\Throwable $th) {}
     }
@@ -83,6 +84,42 @@ class NewInvoice extends Component
         } catch (\Throwable $th) {}
     }
 
+    public function updatedForm($value, $property)
+    {
+        if ($property === 'invoice_type')
+        {
+            $newAliquot = InvoiceType::tryFrom($value)->determinesIVA()
+                            ? InvoiceItemAliquot::IVA21
+                            : InvoiceItemAliquot::IVA0;
+
+            foreach($this->form->items as $index => $item)
+            {
+                $this->form->items[$index]['aliquot'] = $newAliquot->value;
+            }
+
+            $this->form->recalculatePricing();
+        }
+
+        if ($property === 'tax_condition')
+        {
+            $newAliquot = TaxCondition::needsInvoiceA($value)
+                            ? InvoiceItemAliquot::IVA21
+                            : InvoiceItemAliquot::IVA0;
+
+            foreach($this->form->items as $index => $item)
+            {
+                $this->form->items[$index]['aliquot'] = $newAliquot->value;
+            }
+
+            $this->form->recalculatePricing();
+        }
+
+        if (str_ends_with($property, '.aliquot'))
+        {
+            $this->form->recalculatePricing();
+        }
+    }
+
     public function addItem()
     {
         $aliquot = TaxCondition::needsInvoiceA($this->form->tax_condition)
@@ -90,12 +127,13 @@ class NewInvoice extends Component
                     : InvoiceItemAliquot::IVA0->value;
 
         array_push($this->form->items, [
-            'code'         => null,
-            'description'  => null,
-            'quantity'     => 1,
-            'aliquot'      => $aliquot,
-            'unit_price'   => null,
-            'discount'     => 0
+            'code'          => null,
+            'description'   => null,
+            'quantity'      => 1,
+            'aliquot'       => $aliquot,
+            'initial_price' => null,
+            'unit_price'    => null,
+            'discount'      => 0
         ]);
     }
 
