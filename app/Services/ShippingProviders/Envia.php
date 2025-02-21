@@ -117,6 +117,8 @@ class Envia implements ShippingProvider
 
             foreach($serviceRates as $serviceRate)
             {
+                $carrierName = data_get($serviceRate, 'carrierDescription');
+
                 $shippingRate = new ShippingRate([
                     'source'        => 'envia',
                     'source_name'   => 'Envia.com',
@@ -129,7 +131,7 @@ class Envia implements ShippingProvider
                     'logistic_type' => data_get($this->logistic_type_parser, data_get($service, 'drop_off')),
                     'carrier_id'    => data_get($serviceRate, 'carrierId'),
                     'carrier_code'  => data_get($serviceRate, 'carrier'),
-                    'carrier_name'  => data_get($serviceRate, 'carrierDescription'),
+                    'carrier_name'  => $carrierName ? ucfirst($carrierName) : null,
                     'carrier_logo'  => data_get($service, 'logo'),
                     'price'         => data_get($serviceRate, 'totalPrice'),
                     'estimate'      => data_get($serviceRate, 'deliveryEstimate')
@@ -142,7 +144,6 @@ class Envia implements ShippingProvider
                         'number'      => data_get($branch, 'address.number'),
                         'zipcode'     => data_get($branch, 'address.postalCode'),
                         'locality'    => data_get($branch, 'address.locality'),
-                        'state'       => data_get($branch, 'address.'),
                         'state_code'  => data_get($branch, 'address.province'),
                         'coordinates' => [
                             'lat' => data_get($branch, 'address.latitude'),
@@ -179,14 +180,13 @@ class Envia implements ShippingProvider
 
         $package = OrderService::calculatePackage($order);
 
-        $sourceRate = data_get($order->shipping->calculated_rate, 'source_data');
-
         $body = [
             'origin' => [
                 'name'       => $origin->staff_name,
                 'company'    => tenant('ecommerce_name'),
                 'email'      => $origin->staff_email,
                 'phone'      => $origin->staff_phone,
+                'branchCode' => 'AR119',
                 'street'     => $origin->street,
                 'number'     => $origin->number,
                 'postalCode' => $origin->zipcode_number,
@@ -213,9 +213,9 @@ class Envia implements ShippingProvider
                     "amount" => 1,
                     "type" => "box",
                     "dimensions" => [
-                        "length" => 30,
-                        "width"  => 30,
-                        "height" => 45
+                        "length" => data_get($package, 'dimensions.length'),
+                        "width"  => data_get($package, 'dimensions.width'),
+                        "height" => data_get($package, 'dimensions.height')
                     ],
                     "weight" => data_get($package, 'weight'),
                     "insurance" => 0,
@@ -225,8 +225,8 @@ class Envia implements ShippingProvider
                 ]
             ],
             'shipment' => [
-                'carrier' => data_get($sourceRate, 'carrier'),
-                'service' => data_get($sourceRate, 'service')
+                'carrier' => $order->shipping->provider_carrier_code,
+                'service' => $order->shipping->provider_service_code
             ],
             'settings' => [
                 'printFormat' => "PDF",
@@ -263,7 +263,7 @@ class Envia implements ShippingProvider
                     ],
                     [
                         'name'  => 'Saldo a la fecha',
-                        'value' => '$' . data_get($responseData, 'currentBalance')
+                        'value' => '$' . priceFormat(data_get($responseData, 'currentBalance'), 2)
                     ]
                 ]
             ]);
@@ -274,18 +274,30 @@ class Envia implements ShippingProvider
                 'event'         => OrderFeedEvent::ShippingUpdate,
                 'presentation'  => OrderFeedPresentation::Image,
                 'initializator' => 'Envia.com',
-                'action'        => 'confirmó la orden de envío',
-                'comments'      => 'ID de envío generado: ' . data_get($responseData, 'shipmentId'),
+                'action'        => 'confirmó la orden de envío a entregar con ' . $order->shipping->provider_carrier,
+                'comments'      => 'Cod. de de envío generado: ' . data_get($responseData, 'trackingNumber'),
                 'meta'          => [
                     'img_src'  => Storage::url('providers/envia_icon.png')
                 ]
             ]);
+
+            $trackingInfo = $this->getStatus($order->shipping);
+
+            if (isset($trackingInfo, $trackingInfo['id']))
+            {
+                $order->shipping->update([
+                    'external_status'    => data_get($trackingInfo, 'status'),
+                    'external_status_id' => data_get($trackingInfo, 'status_id')
+                ]);
+            }
         }
     }
 
     public function getStatus(OrderShipping $shipping)
     {
-        
+        return Http::withToken($this->token)
+                    ->get("$this->queries_base_url/guide/$shipping->tracking_code")
+                    ->json('data.0');
     }
 
     public function calculatePackage(): array|false

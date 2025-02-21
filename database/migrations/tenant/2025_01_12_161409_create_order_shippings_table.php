@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('external_reference')->nullable();
             $table->string('status');
             $table->string('external_status')->nullable();
+            $table->string('external_status_id')->nullable();
             $table->string('external_status_description')->nullable();
             $table->string('checkout_url')->nullable();
             $table->string('logistic_type');
@@ -32,12 +33,16 @@ return new class extends Migration
             $table->string('tracking_url')->nullable();
             $table->string('provider_label')->nullable();
             $table->string('provider_service')->nullable();
+            $table->string('provider_service_code')->nullable();
             $table->string('provider_carrier')->nullable();
+            $table->string('provider_carrier_code')->nullable();
             $table->string('provider_carrier_logo')->nullable();
             $table->string('delivery_estimate')->nullable();
             $table->text('calculated_rate')->nullable();
             $table->text('selected_branch')->nullable();
             $table->string('selected_branch_id')->nullable();
+            $table->text('origin_branch')->nullable();
+            $table->string('origin_branch_id')->nullable();
             $table->string('observations')->nullable();
             $table->text('meta')->nullable();
             $table->string('order_created_at')->nullable();

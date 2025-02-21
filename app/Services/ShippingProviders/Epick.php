@@ -85,7 +85,7 @@ class Epick implements ShippingProvider
             'source_data'         => $response,
             'label'               => "E-Pick - Envío a domicilio",
             'carrier_logo'        => Storage::url('providers/epick.png'),
-            'service_id'          => 'epick_sipping',
+            'service_id'          => 'epick_shipping',
             'service_name'        => 'Servicio puerta a puerta',
             'logistic_type'       => LogisticType::OriginToDoor,
             'price'               => data_get($response, 'price'),

@@ -108,4 +108,9 @@ class Order extends Model
 
         return str_replace('http://', 'https://', $route);
     }
+
+    public function getShippingGuide()
+    {
+        return $this->shippingProvider->service()->getStatus($this->shipping);
+    }
 }
