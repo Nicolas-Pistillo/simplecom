@@ -215,7 +215,7 @@ class Andreani implements ShippingProvider
 
     public function getToHomeRate(ShippingRateParameters $parameters): Collection
     {
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
         $response = Http::withQueryParameters([
             'cpDestino' => $parameters->recipient_address->zipcode_number,
@@ -249,7 +249,7 @@ class Andreani implements ShippingProvider
 
     public function getBranchRate(ShippingRateParameters $parameters): Collection
     {
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
         $response = Http::withQueryParameters([
             'cpDestino' => $parameters->recipient_address->zipcode_number,

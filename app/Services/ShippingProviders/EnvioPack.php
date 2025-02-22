@@ -62,7 +62,7 @@ class EnvioPack implements ShippingProvider
 
         if (!$this->token) return $rates;
 
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
         $provinceId = $this->getProvinceIdByName($parameters->recipient_address->state);
 
         if (!$cartPackage || !$provinceId) return $rates;

@@ -9,6 +9,7 @@ use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
 use App\Services\InvoiceProviders\TusFacturas;
+use App\Services\OrderService;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -76,6 +77,12 @@ class Show extends Component
             'title' => 'Pedido actualizado',
             'body'  => "¡Todo listo! ya notificamos a {$this->order->user->name} para que pase retirar el pedido"
         ]);
+    }
+
+    public function evalShippingOrderConfirmation()
+    {
+        dd($this->order->items->load('product')->toArray(), OrderService::calculatePackage($this->order));
+        $this->dispatch('open-confirm-shipping-create');
     }
 
     public function createShippingOrder()

@@ -82,15 +82,6 @@
                                 </button>
                             </div> --}}
 
-                            @session('account_created')
-                                <div class="flex items-center gap-2">
-                                    <x-icon code="check_circle" class="text-green-600" />
-                                    <span class="text-green-800 text-xs">
-                                        ¡Listo! Ya podes iniciar sesión con el email y contraseña que registraste
-                                    </span>
-                                </div>
-                            @endsession
-
                             <div class="mt-4">
                                 <div class="col-span-full sm:col-span-8">
 

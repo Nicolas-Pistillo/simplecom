@@ -9,49 +9,42 @@ class CartService
     /**
      * Calculates the current cart package dimensions and the declared value
      */
-    public static function getPackageInfo($weightUnit = 'gr'): array|false
+    public static function getPackageInfo(): array|false
     {
         if (empty(Cart::content())) return false;
 
+        $content = Cart::content();
+
+        $declaredValue = floatval($content->sum(fn($item) => $item->model->price * $item->qty));
+        $height = floatval($content->sum(fn($item) => $item->model->height * $item->qty));
+        $weight = floatval($content->sum(fn($item) => ($item->model->weight / 1000) * $item->qty));
+        $width  = 0;
+        $length = 0;
+
+        foreach($content as $item)
+        {
+            $width = floatval($item->model->width) > $width 
+                        ? floatval($item->model->width) 
+                        : $width;
+
+            $length = floatval($item->model->length) > $length 
+                        ? floatval($item->model->length) 
+                        : $length;
+        }
+
         $package = [
-            'declaredValue' => 0,
-            'items' => 0,
+            'items' => $content->sum('qty'),
+            'weight' => $weight,
+            'declaredValue' => $declaredValue,
             'dimensions' => [
-                'width'  => 0,
-                'height' => 0,
-                'length' => 0,
-                'volume' => 0,
-                'weight' => 0
+                'width'  => $width,
+                'height' => $height,
+                'length' => $length,
+                'weight' => $weight,
+                'volume' => $width * $height * $length
             ]
         ];
 
-        foreach(Cart::content() as $item)
-        {
-            $price  = $item->model->price  * $item->qty;
-            $weight = $item->model->weight * $item->qty;
-            $width  = $item->model->width  * $item->qty;
-            $height = $item->model->height;
-            $length = $item->model->length * $item->qty;
-
-            if ($weightUnit === 'kg')
-            {
-                $weight = $weight / 1000;
-            }
-
-            $package['items']                += $item->qty;
-            $package['declaredValue']        += $price;
-            $package['dimensions']['weight'] += $weight;
-            $package['dimensions']['width']  += $width;
-            $package['dimensions']['height'] += $height;
-            $package['dimensions']['length'] += $length;
-            $package['dimensions']['volume'] += ($width * $height * $length);
-        }
-
         return $package;
-    }
-
-    public static function clearCheckout()
-    {
-        
     }
 }

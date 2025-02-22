@@ -51,7 +51,7 @@ class Mocis implements ShippingProvider
 
         if (!$this->token) return $rates;
 
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
         $weight = data_get($cartPackage, 'dimensions.weight');
         $height = data_get($cartPackage, 'dimensions.height');

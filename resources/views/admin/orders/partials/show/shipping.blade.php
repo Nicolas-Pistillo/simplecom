@@ -1,4 +1,6 @@
-<div x-data="{ confirmShippingCreate: false, showBranchDetails: false }" x-on:close-confirm-shipping-create.window="confirmShippingCreate = false"
+<div x-data="{ confirmShippingCreate: false, showBranchDetails: false }"
+x-on:open-confirm-shipping-create.window="confirmShippingCreate = true" 
+x-on:close-confirm-shipping-create.window="confirmShippingCreate = false"
     class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="flex items-center justify-between flex-wrap">
@@ -233,7 +235,7 @@
     <div class="mt-4 flex flex-wrap gap-3">
 
         @if ($order->shipping->status === ShippingStatus::CreationPending)
-            <x-button @click="confirmShippingCreate = true">Crear orden de envío</x-button>
+            <x-button wire:click='evalShippingOrderConfirmation'>Crear orden de envío</x-button>
 
             <x-modal ref="confirmShippingCreate" closeOnClickAway title="Nueva orden de envío" type="info"
                 icon="local_shipping">

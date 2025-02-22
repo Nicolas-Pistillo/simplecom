@@ -35,7 +35,7 @@ class Shipnow implements ShippingProvider
     {
         $rates = collect();
 
-        $packageInfo = CartService::getPackageInfo('kg');
+        $packageInfo = CartService::getPackageInfo();
 
         $results = Http::withToken($this->key('shipnow_api_token'))
                         ->withQueryParameters([

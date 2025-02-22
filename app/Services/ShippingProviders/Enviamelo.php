@@ -26,7 +26,7 @@ class Enviamelo implements ShippingProvider
 
     public function getRates(ShippingRateParameters $parameters): Collection
     {
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
         $rates = collect();
 

@@ -25,7 +25,7 @@ class Rapiboy implements ShippingProvider
     {
         $rates = collect();
 
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
         $response = Http::withHeader('Token', $this->key('rapiboy_api_token'))
                         ->withBody(json_encode([

@@ -302,7 +302,7 @@ class Envia implements ShippingProvider
 
     public function calculatePackage(): array|false
     {
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
         if (!$cartPackage || empty($cartPackage)) return false;
 

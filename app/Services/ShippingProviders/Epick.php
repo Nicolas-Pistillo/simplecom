@@ -51,7 +51,7 @@ class Epick implements ShippingProvider
     {
         $rates = collect();
 
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
         $collectionPoint = CollectionPoint::inUse();
 

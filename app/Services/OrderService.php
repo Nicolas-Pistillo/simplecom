@@ -125,43 +125,27 @@ class OrderService
         return $order;
     }
 
-    public static function calculatePackage(Order $order, $weightUnit = 'kg')
+    public static function calculatePackage(Order $order)
     {
         $order->load('items');
 
+        $declaredValue = floatval($order->items->sum(fn($item) => $item->unit_price * $item->quantity));
+        $width  = floatval($order->items->max('product.width'));
+        $height = floatval($order->items->sum(fn($item) => $item->product->height * $item->quantity));
+        $length = floatval($order->items->max('product.length'));
+        $weight = floatval($order->items->sum(fn($item) => ($item->product->weight / 1000) * $item->quantity));
+
         $package = [
-            'items' => 0,
-            'weight' => 0,
-            'declaredValue' => 0,
+            'items' => $order->items->sum('quantity'),
+            'weight' => $weight,
+            'declaredValue' => $declaredValue,
             'dimensions' => [
-                'width'  => 0,
-                'height' => 0,
-                'length' => 0,
-                'volume' => 0
+                'width'  => $width,
+                'height' => $height,
+                'length' => $length,
+                'volume' => $width * $height * $length
             ]
         ];
-
-        foreach($order->items as $item)
-        {
-            $price  = $item->unit_price      * $item->quantity;
-            $weight = $item->product->weight * $item->quantity;
-            $width  = $item->product->width  * $item->quantity;
-            $height = $item->product->height;
-            $length = $item->product->length * $item->quantity;
-
-            if ($weightUnit === 'kg')
-            {
-                $weight = $weight / 1000;
-            }
-
-            $package['items']                += $item->quantity;
-            $package['declaredValue']        += $price;
-            $package['weight']               += $weight;
-            $package['dimensions']['width']  += $width;
-            $package['dimensions']['height'] += $height;
-            $package['dimensions']['length'] += $length;
-            $package['dimensions']['volume'] += ($width * $height * $length);
-        }
 
         return $package;
     }
