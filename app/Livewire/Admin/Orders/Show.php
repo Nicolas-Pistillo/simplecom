@@ -81,7 +81,11 @@ class Show extends Component
 
     public function evalShippingOrderConfirmation()
     {
-        dd($this->order->items->load('product')->toArray(), OrderService::calculatePackage($this->order));
+        if ($this->order->shipping->logistic_type->isFromDropoff())
+        {
+            return $this->dispatch('open-select-origin-branch');
+        }
+
         $this->dispatch('open-confirm-shipping-create');
     }
 

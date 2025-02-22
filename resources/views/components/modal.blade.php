@@ -27,14 +27,19 @@
             x-transition:leave="ease-in duration-200"
             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+            {{ 
+                $attributes->merge(['class' => '
+                    relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 
+                    pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6
+                ']) 
+            }}>
                 
                 @if (isset($withCloseBtn))
                     <x-icon code="close"
                     @click="{{ $ref }} = false" 
                     class="transition colors cursor-pointer bg-gray-100
                     text-gray-600 p-2 rounded-full hover:bg-gray-200 absolute top-2 right-4 
-                    focus:outline-none focus:ring duration-300"
+                    focus:outline-none focus:ring duration-300 text-[18px]"
                     />
                 @endif
 
@@ -44,7 +49,7 @@
                             <x-icon class="text-{{ $color }}-600" code="{{ $icon ?? 'info' }}" />
                         </div>
                     @endif
-                    <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left {{ $bodyClass ?? '' }}">
                         @if (isset($title))
                             <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
                                 {{ $title }}

@@ -19,4 +19,26 @@ enum LogisticType: string
             LogisticType::DropoffToDropoff  => 'Sucursal a sucursal'
         };
     }
+
+    public function isFromDropoff(): bool
+    {
+        return match($this)
+        {
+            LogisticType::OriginToDoor      => false,
+            LogisticType::OriginToDropoff   => false,
+            LogisticType::DropoffToDoor     => true,
+            LogisticType::DropoffToDropoff  => true
+        };
+    }
+
+    public function isFromDoor(): bool
+    {
+        return match($this)
+        {
+            LogisticType::OriginToDoor      => true,
+            LogisticType::OriginToDropoff   => true,
+            LogisticType::DropoffToDoor     => false,
+            LogisticType::DropoffToDropoff  => false
+        };
+    }
 }

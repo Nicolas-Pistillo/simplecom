@@ -1,7 +1,9 @@
-<div x-data="{ confirmShippingCreate: false, showBranchDetails: false }"
+<div x-data="{ confirmShippingCreate: false, selectOriginBranch: false, showBranchDetails: false }"
 x-on:open-confirm-shipping-create.window="confirmShippingCreate = true" 
 x-on:close-confirm-shipping-create.window="confirmShippingCreate = false"
-    class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
+x-on:open-select-origin-branch.window="selectOriginBranch = true"
+x-on:close-select-origin-branch.window="selectOriginBranch = false"
+class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="flex items-center justify-between flex-wrap">
 
@@ -237,15 +239,13 @@ x-on:close-confirm-shipping-create.window="confirmShippingCreate = false"
         @if ($order->shipping->status === ShippingStatus::CreationPending)
             <x-button wire:click='evalShippingOrderConfirmation'>Crear orden de envío</x-button>
 
-            <x-modal ref="confirmShippingCreate" closeOnClickAway title="Nueva orden de envío" type="info"
-                icon="local_shipping">
+            {{-- Droor-Origin shipping creation --}}
+            <x-modal ref="confirmShippingCreate" closeOnClickAway title="Nueva orden de envío" 
+            type="info" icon="local_shipping">
 
                 <x-slot name="body">
                     Se creará una nueva orden de envío con {{ $order->shippingProvider->name }}
                     y se le notificará al comprador que el pedido está listo para despachar.
-                    {{-- <div class="mt-3">
-                        <x-switch label="No volver a preguntar" />
-                    </div> --}}
                 </x-slot>
 
                 <x-slot name="actions">
@@ -261,6 +261,29 @@ x-on:close-confirm-shipping-create.window="confirmShippingCreate = false"
 
                 </x-slot>
 
+            </x-modal>
+
+            {{-- From-Dropoff shipping creation --}}
+            <x-modal ref="selectOriginBranch" title="Seleccionar sucursal de despacho"
+            type="info" icon="location_on" class="!max-w-3xl" bodyClass="!w-full"
+            withCloseBtn>
+
+                <x-slot name="body">
+                    @livewire('admin.orders.select-origin-dropoff', compact('order'))
+                </x-slot>
+
+                <x-slot name="actions">
+
+                    <x-spinner wire:loading wire:target='createShippingOrder' />
+
+                    <x-button type="secondary" wire:loading.remove wire:target='createShippingOrder'
+                    @click="selectOriginBranch = false">Cancelar</x-button>
+
+                    <x-button wire:click='createShippingOrder' wire:loading.remove wire:target='createShippingOrder'>
+                        Confirmar
+                    </x-button>
+
+                </x-slot>
             </x-modal>
         @endif
 

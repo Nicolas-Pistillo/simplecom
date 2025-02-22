@@ -1,4 +1,4 @@
-<div>
+<div class="mt-3">
     <style>
         .selected {
             border-left: 2px solid blue;
@@ -9,15 +9,15 @@
         }
     </style>
     
-    <div x-init="window.scrollTo({ top: 0, behavior: 'smooth'})">
+    <div>
 
-        <h4 class="text-sm/6 font-semibold text-gray-900 mb-2">Seleccionar sucursal de retiro</h4>
+        <p class="text-sm mb-3">Elegí la sucursal {{ $order->shipping->provider_carrier }} desde donde vas a despachar el pedido</p>
 
         <div x-data="{panelOpen: true}"
-        class="relative w-full overflow-hidden shadow-lg rounded-lg">
+        class="relative w-full overflow-hidden shadow rounded-lg">
 
             {{-- GMAP --}}
-            <div id="dropoff_points_map" class="ml-auto h-[360px]" 
+            <div id="dropoff_points_map" class="ml-auto h-[400px]" 
             :class="panelOpen ? 'w-5/12 sm:w-1/2' : 'w-full'"></div>
 
             {{-- Search Panel --}}
@@ -35,13 +35,7 @@
                 </div>
                 {{-- Search Box & Results --}}
                 <div>
-                    <div class="p-3">
-                        <input type="search" placeholder="Buscar por nombre o dirección..."
-                        class="block w-full rounded-md border-gray-300 
-                        shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                    </div>
-
-                    <ul id="dropoff-options" class="no-select max-h-[300px] flow-root overflow-y-auto" scrollbar-thin>
+                    <ul id="dropoff-options" class="no-select max-h-[400px] flow-root overflow-y-auto" scrollbar-thin>
                         @foreach (session('rates_results.dropoff_rates') as $rate)
                             @foreach ($rate->branches as $branch)
                                 <li wire:key='{{ $rate->key . $branch->external_id }}' 
@@ -97,12 +91,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-
-        <div class="flex items-center gap-3 mt-8">
-            <x-button wire:click='$parent.hideDropoffSelection' type="soft" size="big" class="!shadow">
-                Volver
-            </x-button>
         </div>
     </div>
 
