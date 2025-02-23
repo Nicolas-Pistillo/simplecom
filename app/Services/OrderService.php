@@ -104,7 +104,7 @@ class OrderService
                 'provider_id'           => $shippingProvider->id,
                 'origin_point_id'       => $originPoint->id,
                 'user_address_id'       => session('selected_address.id'),
-                'status'                => ShippingStatus::CreationPending,
+                'status'                => ShippingStatus::NotCreated,
                 'provider_label'        => data_get($form->selected_rate, 'label'),
                 'provider_carrier'      => data_get($form->selected_rate, 'carrier_name'),
                 'provider_carrier_code' => data_get($form->selected_rate, 'carrier_code'),

@@ -204,6 +204,138 @@ class Andreani implements ShippingProvider
                         ->json();
     }
 
+    public function syncStatus(OrderShipping $shipping)
+    {
+        $statusResponse = $this->getStatus($shipping);
+
+        if (!isset($statusResponse['numeroDeTracking'])) return false;
+
+        $currentStatus = data_get($statusResponse, 'estado');
+
+        if ($currentStatus === 'Pendiente de ingreso' && $shipping->status != ShippingStatus::Confirmed)
+        {
+            $shipping->update([
+                'status'             => ShippingStatus::Confirmed,
+                'external_status'    => $currentStatus,
+                'external_status_id' => data_get($statusResponse, 'estadoId')
+            ]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => OrderFeedPresentation::Image,
+                'initializator' => 'Andreani',
+                'action'        => "confirmó la orden de envío y se encuentra actualmente pendiente de ingreso al circuito operativo",
+                'meta'          => [
+                    'img_src'   => Storage::url('providers/andreani_icon.png'),
+                ]
+            ]);
+        }
+
+        if ($currentStatus === 'Ingreso al circuito operativo' && $shipping->status != ShippingStatus::Ready)
+        {
+            $shipping->update([
+                'status'             => ShippingStatus::Ready,
+                'external_status'    => $currentStatus,
+                'external_status_id' => data_get($statusResponse, 'estadoId')
+            ]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => OrderFeedPresentation::Image,
+                'initializator' => 'Andreani',
+                'action'        => "ingresó la orden de envío al circuito operativo y se encuentra listo para comenzar la entrega",
+                'meta'          => [
+                    'img_src'   => Storage::url('providers/andreani_icon.png'),
+                ]
+            ]);
+        }
+
+        if ($currentStatus === 'En viaje' && $shipping->status != ShippingStatus::InTransit)
+        {
+            $shipping->update([
+                'status'             => ShippingStatus::InTransit,
+                'external_status'    => $currentStatus,
+                'external_status_id' => data_get($statusResponse, 'estadoId')
+            ]);
+
+            $shipping->order->update(['status' => OrderStatus::InTransit]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => OrderFeedPresentation::Icon,
+                'initializator' => 'Andreani',
+                'action'        => "ya está en camino para entregar el pedido",
+                'meta'          => [
+                    'icon_code'   => 'delivery_truck_speed',
+                ]
+            ]);
+        }
+
+        if (in_array($currentStatus, ['Siniestrado', 'Destruido']) && $shipping->status != ShippingStatus::Sinister)
+        {
+            $shipping->update([
+                'status'             => ShippingStatus::Sinister,
+                'external_status'    => $currentStatus,
+                'external_status_id' => data_get($statusResponse, 'estadoId')
+            ]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => OrderFeedPresentation::Icon,
+                'initializator' => 'Andreani',
+                'action'        => "informó un siniestro con el envío del pedido, sugerimos que te contactes de manera urgente",
+                'meta'          => [
+                    'icon_code'   => 'error',
+                    'icon_color'  => 'red'
+                ]
+            ]);
+        }
+
+        if ($currentStatus === 'En sucursal de destino' && $shipping->status != ShippingStatus::InBranch)
+        {
+            $shipping->update([
+                'status'             => ShippingStatus::InBranch,
+                'external_status'    => $currentStatus,
+                'external_status_id' => data_get($statusResponse, 'estadoId')
+            ]);
+
+            $shipping->order->update(['status' => OrderStatus::InBranch]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => OrderFeedPresentation::Icon,
+                'initializator' => 'Andreani',
+                'action'        => "entregó el pedido en la sucursal de destino, el comprador debe pasar a retirarlo",
+                'meta'          => [
+                    'icon_code'   => 'store',
+                    'icon_color'  => 'lime'
+                ]
+            ]);
+        }
+
+        if ($currentStatus === 'Entregado' && $shipping->status != ShippingStatus::Delivered)
+        {
+            $shipping->update([
+                'status'             => ShippingStatus::Delivered,
+                'external_status'    => $currentStatus,
+                'external_status_id' => data_get($statusResponse, 'estadoId')
+            ]);
+
+            $shipping->order->update(['status' => OrderStatus::Delivered]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => OrderFeedPresentation::Icon,
+                'initializator' => 'Andreani',
+                'action'        => "entregó el pedido correctamente",
+                'meta'          => [
+                    'icon_code'   => 'done',
+                    'icon_color'  => 'green'
+                ]
+            ]);
+        }
+    }
+
     public function getLabelPdf($packageGrouper)
     {
         $this->generateToken();

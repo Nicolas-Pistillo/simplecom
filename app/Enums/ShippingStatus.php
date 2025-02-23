@@ -4,13 +4,14 @@ namespace App\Enums;
 
 enum ShippingStatus: string
 {
-    case CreationPending     = 'creation_pending';
+    case NotCreated          = 'not_created';
     case OrderPayPending     = 'order_pay_pending';
     case DispatchReady       = 'dispatch_ready';
     case ProviderPending     = 'provider_pending';
     case Confirmed           = 'confirmed';
     case Ready               = 'ready';
     case InTransit           = 'in_transit';
+    case InBranch            = 'in_branch';
     case Delivered           = 'delivered';
     case CarrierCancelled    = 'carrier_cancelled';
     case Cancelled           = 'cancelled';
@@ -21,13 +22,14 @@ enum ShippingStatus: string
     {
         return match($this)
         {
-            ShippingStatus::CreationPending  => 'gray',
+            ShippingStatus::NotCreated       => 'gray',
             ShippingStatus::OrderPayPending  => 'indigo',
             ShippingStatus::DispatchReady    => 'blue',
             ShippingStatus::ProviderPending  => 'yellow',
             ShippingStatus::Confirmed        => 'emerald',
             ShippingStatus::Ready            => 'blue',
             ShippingStatus::InTransit        => 'blue',
+            ShippingStatus::InBranch         => 'lime',
             ShippingStatus::Delivered        => 'green',
             ShippingStatus::CarrierCancelled => 'red',
             ShippingStatus::Cancelled        => 'red',
@@ -40,13 +42,14 @@ enum ShippingStatus: string
     {
         return match($this)
         {
-            ShippingStatus::CreationPending  => 'No creado',
+            ShippingStatus::NotCreated       => 'No creado',
             ShippingStatus::OrderPayPending  => 'Pago pendiente',
             ShippingStatus::DispatchReady    => 'Listo para despachar',
             ShippingStatus::ProviderPending  => 'Esperando confirmación',
             ShippingStatus::Confirmed        => 'Confirmado',
             ShippingStatus::Ready            => 'Preparado',
             ShippingStatus::InTransit        => 'En camino',
+            ShippingStatus::InBranch         => 'En sucursal destino',
             ShippingStatus::Delivered        => 'Entregado',
             ShippingStatus::CarrierCancelled => 'Cancelado',
             ShippingStatus::Cancelled        => 'Cancelado',
@@ -59,7 +62,7 @@ enum ShippingStatus: string
     {
         return match($this)
         {
-            ShippingStatus::CreationPending  => 'Pendiente',
+            ShippingStatus::NotCreated       => 'Pendiente',
             ShippingStatus::OrderPayPending  => 'Pendiente',
             ShippingStatus::ProviderPending  => 'Pendiente',
             ShippingStatus::DispatchReady    => 'Preparado',
@@ -78,7 +81,7 @@ enum ShippingStatus: string
     {
         return match($this)
         {
-            ShippingStatus::CreationPending  => 'La orden de envío no ha sido creada',
+            ShippingStatus::NotCreated       => 'La orden de envío no ha sido creada',
             ShippingStatus::OrderPayPending  => 'Debes abonar la orden de envío para confirmarla',
             ShippingStatus::ProviderPending  => 'La orden de envío ha sido creada. Se espera que el proveedor la confirme',
             ShippingStatus::DispatchReady    => 'El pedido está listo para ser despachado',
@@ -97,7 +100,7 @@ enum ShippingStatus: string
     {
         return match($this)
         {
-            ShippingStatus::CreationPending  => 'Estamos preparando todo para el envío, pronto tendrás novedades',
+            ShippingStatus::NotCreated       => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::OrderPayPending  => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::ProviderPending  => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::DispatchReady    => 'El pedido está listo para ser despachado y pronto estará en viaje',

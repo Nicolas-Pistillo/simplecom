@@ -245,7 +245,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="mt-4 flex flex-wrap gap-3">
 
-        @if ($order->shipping->status === ShippingStatus::CreationPending)
+        @if ($order->shipping->status === ShippingStatus::NotCreated)
             <x-button wire:click='evalShippingOrderConfirmation'>Crear orden de envío</x-button>
 
             {{-- Droor-Origin shipping creation --}}

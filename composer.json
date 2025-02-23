@@ -12,7 +12,7 @@
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.8",
         "league/flysystem-aws-s3-v3": "^3.0",
-        "livewire/livewire": "3.4.6",
+        "livewire/livewire": "3.4.9",
         "maatwebsite/excel": "^3.1",
         "mercadopago/dx-php": "^3.0",
         "mindscms/laravelshoppingcart": "^2.1",
