@@ -8,7 +8,7 @@ use App\Enums\OrderFeedPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
-use App\Models\CollectionPoint;
+use App\Models\OriginPoint;
 use App\Models\Order;
 use App\Models\OrderShipping;
 use App\Services\CartService;
@@ -56,9 +56,9 @@ class Envia implements ShippingProvider
     {
         $rates = collect();
 
-        $collectionPoint = CollectionPoint::inUse();
+        $originPoint = OriginPoint::inUse();
 
-        if (!$collectionPoint) return $rates;
+        if (!$originPoint) return $rates;
 
         $services = $this->getServices();
         $package = $this->calculatePackage();
@@ -71,16 +71,16 @@ class Envia implements ShippingProvider
 
             $rateBody = [
                 'origin' => [
-                    'name'       => $collectionPoint->staff_name,
+                    'name'       => $originPoint->staff_name,
                     'company'    => tenant('ecommerce_name'),
-                    'email'      => $collectionPoint->staff_email,
-                    'phone'      => $collectionPoint->staff_phone,
-                    'street'     => $collectionPoint->street,
-                    'number'     => $collectionPoint->number,
-                    'postalCode' => $collectionPoint->zipcode_number,
-                    'city'       => $collectionPoint->locality,
-                    'state'      => $collectionPoint->state_code,
-                    'reference'  => $collectionPoint->references,
+                    'email'      => $originPoint->staff_email,
+                    'phone'      => $originPoint->staff_phone,
+                    'street'     => $originPoint->street,
+                    'number'     => $originPoint->number,
+                    'postalCode' => $originPoint->zipcode_number,
+                    'city'       => $originPoint->locality,
+                    'state'      => $originPoint->state_code,
+                    'reference'  => $originPoint->references,
                     'country'    => 'AR'
                 ],
                 'destination' => [
@@ -173,10 +173,10 @@ class Envia implements ShippingProvider
 
     public function createOrder(Order $order)
     {
-        $origin = CollectionPoint::inUse();
+        $origin = OriginPoint::inUse();
 
         if (!$origin)
-            throw new Exception('No hay un punto de colecta en uso');
+            throw new Exception('No hay un punto de orígen en uso');
 
         $package = OrderService::calculatePackage($order);
 
@@ -186,7 +186,6 @@ class Envia implements ShippingProvider
                 'company'    => tenant('ecommerce_name'),
                 'email'      => $origin->staff_email,
                 'phone'      => $origin->staff_phone,
-                'branchCode' => 'AR119',
                 'street'     => $origin->street,
                 'number'     => $origin->number,
                 'postalCode' => $origin->zipcode_number,
@@ -241,6 +240,9 @@ class Envia implements ShippingProvider
                         ->post("$this->api_base_url/ship/generate")
                         ->throw()
                         ->json();
+
+        if (isset($response['code']) && $response['code'] === 500)
+            throw new Exception(data_get($response, 'message'));
 
         if (isset($response['meta']) && $response['meta'] === 'error')
             throw new Exception(data_get($response, 'error.message'));
@@ -311,7 +313,7 @@ class Envia implements ShippingProvider
             'amount'        => 1,
             'type'          => 'box',
             'declaredValue' => $cartPackage['declaredValue'],
-            'weight'        => data_get($cartPackage, 'dimensions.weight'),
+            'weight'        => data_get($cartPackage, 'weight'),
             'weightUnit'    => 'KG',
             'lengthUnit'    => 'CM',
             'dimensions' => [
@@ -322,6 +324,96 @@ class Envia implements ShippingProvider
         ];
 
         return $package;
+    }
+
+    public function getOriginPointBranches(OrderShipping $shipping, OriginPoint|null $originPoint = null)
+    {
+        $origin = $originPoint ?? $shipping->originPoint;
+
+        $package = OrderService::calculatePackage($shipping->order);
+
+        $address = [
+            'name'       => $origin->staff_name,
+            'company'    => tenant('ecommerce_name'),
+            'email'      => $origin->staff_email,
+            'phone'      => $origin->staff_phone,
+            'street'     => $origin->street,
+            'number'     => $origin->number,
+            'postalCode' => $origin->zipcode_number,
+            'city'       => $origin->locality,
+            'state'      => $origin->state_code,
+            'reference'  => $origin->references,
+            'country'    => 'AR'
+        ];
+
+        $rateBody = [
+            'origin' => $address,
+            'destination' => $address,
+            'packages' => [
+                [
+                    'content'       => 'Productos',
+                    'amount'        => 1,
+                    'type'          => 'box',
+                    'declaredValue' => data_get($package, 'declaredValue'),
+                    'weight'        => data_get($package, 'weight'),
+                    'weightUnit'    => 'KG',
+                    'lengthUnit'    => 'CM',
+                    'dimensions' => [
+                        'width'  => data_get($package, 'dimensions.width'),
+                        'height' => data_get($package, 'dimensions.height'),
+                        'length' => data_get($package, 'dimensions.length')
+                    ]
+                ]
+            ],
+            'shipment' => [
+                'carrier' => $shipping->provider_carrier_code,
+                'service' => $shipping->provider_service_code
+            ],
+            'settings' => [
+                'printFormat' => "PDF",
+                'printSize'   => "PAPER_7X4.75",
+                'currency'    => 'ARS'
+            ]
+        ];
+
+        $response = Http::withToken($this->token)
+                        ->withBody(json_encode($rateBody))
+                        ->post("$this->api_base_url/ship/rate")
+                        ->collect('data.0.branches');
+
+        if (!$response || $response->isEmpty()) return false;
+
+        $branches = collect();
+
+        foreach($response as $branch)
+        {
+            $street = data_get($branch, 'address.street');
+            $number = data_get($branch, 'address.number');
+            $locality = data_get($branch, 'address.locality');
+
+            $branches->push([
+                'key'           => uniqid(),
+                'source'        => 'envia',
+                'source_name'   => 'Envia.com',
+                'external_id'   => data_get($branch, 'branch_id'),
+                'external_code' => data_get($branch, 'branch_code'),
+                'name'          => data_get($branch, 'reference'),
+                'address'       => [
+                    'street'      => $street,
+                    'number'      => $number,
+                    'zipcode'     => data_get($branch, 'address.zipcode'),
+                    'locality'    => $locality,
+                    'state_code'  => data_get($branch, 'address.state'),
+                    'summary'     => "$street $number - $locality",
+                    'coordinates' => [
+                        'lat' => data_get($branch, 'address.latitude'),
+                        'lng' => data_get($branch, 'address.longitude')
+                    ]
+                ]
+            ]);
+        }
+
+        return $branches;
     }
 
     public function getCarriers()

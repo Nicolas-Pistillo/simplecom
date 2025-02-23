@@ -7,7 +7,7 @@ enum ShippingStatus: string
     case CreationPending     = 'creation_pending';
     case OrderPayPending     = 'order_pay_pending';
     case DispatchReady       = 'dispatch_ready';
-    case Created             = 'created';
+    case ProviderPending     = 'provider_pending';
     case Confirmed           = 'confirmed';
     case Ready               = 'ready';
     case InTransit           = 'in_transit';
@@ -24,7 +24,7 @@ enum ShippingStatus: string
             ShippingStatus::CreationPending  => 'gray',
             ShippingStatus::OrderPayPending  => 'indigo',
             ShippingStatus::DispatchReady    => 'blue',
-            ShippingStatus::Created          => 'blue',
+            ShippingStatus::ProviderPending  => 'yellow',
             ShippingStatus::Confirmed        => 'emerald',
             ShippingStatus::Ready            => 'blue',
             ShippingStatus::InTransit        => 'blue',
@@ -43,7 +43,7 @@ enum ShippingStatus: string
             ShippingStatus::CreationPending  => 'No creado',
             ShippingStatus::OrderPayPending  => 'Pago pendiente',
             ShippingStatus::DispatchReady    => 'Listo para despachar',
-            ShippingStatus::Created          => 'Creado',
+            ShippingStatus::ProviderPending  => 'Esperando confirmación',
             ShippingStatus::Confirmed        => 'Confirmado',
             ShippingStatus::Ready            => 'Preparado',
             ShippingStatus::InTransit        => 'En camino',
@@ -61,7 +61,7 @@ enum ShippingStatus: string
         {
             ShippingStatus::CreationPending  => 'Pendiente',
             ShippingStatus::OrderPayPending  => 'Pendiente',
-            ShippingStatus::Created          => 'Pendiente',
+            ShippingStatus::ProviderPending  => 'Pendiente',
             ShippingStatus::DispatchReady    => 'Preparado',
             ShippingStatus::Confirmed        => 'Preparado',
             ShippingStatus::Ready            => 'Preparado',
@@ -80,7 +80,7 @@ enum ShippingStatus: string
         {
             ShippingStatus::CreationPending  => 'La orden de envío no ha sido creada',
             ShippingStatus::OrderPayPending  => 'Debes abonar la orden de envío para confirmarla',
-            ShippingStatus::Created          => 'La orden de envío ha sido creada. Se espera que el proveedor la confirme',
+            ShippingStatus::ProviderPending  => 'La orden de envío ha sido creada. Se espera que el proveedor la confirme',
             ShippingStatus::DispatchReady    => 'El pedido está listo para ser despachado',
             ShippingStatus::Confirmed        => 'La orden de envío se ha confirmado y será procesada a la brevedad',
             ShippingStatus::Ready            => 'El proveedor está listo para entregar el pedido',
@@ -99,8 +99,8 @@ enum ShippingStatus: string
         {
             ShippingStatus::CreationPending  => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::OrderPayPending  => 'Estamos preparando todo para el envío, pronto tendrás novedades',
+            ShippingStatus::ProviderPending  => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::DispatchReady    => 'El pedido está listo para ser despachado y pronto estará en viaje',
-            ShippingStatus::Created          => 'Tu pedido estará pronto en viaje',
             ShippingStatus::Confirmed        => 'Tu pedido estará pronto en viaje',
             ShippingStatus::Ready            => 'Tu pedido estará pronto en viaje',
             ShippingStatus::InTransit        => 'Tu pedido está en camino',

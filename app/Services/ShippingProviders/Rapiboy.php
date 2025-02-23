@@ -36,7 +36,7 @@ class Rapiboy implements ShippingProvider
                                     'Largo'     => data_get($cartPackage, 'dimensions.length'),
                                     'Ancho'     => data_get($cartPackage, 'dimensions.width'),
                                     'Alto'      => data_get($cartPackage, 'dimensions.height'),
-                                    'Peso'      => data_get($cartPackage, 'dimensions.weight'),
+                                    'Peso'      => data_get($cartPackage, 'weight'),
                                     'Cantidad'  => 1
                                 ]
                             ]

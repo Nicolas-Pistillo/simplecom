@@ -30,4 +30,9 @@ class OrderShipping extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function originPoint()
+    {
+        return $this->belongsTo(OriginPoint::class);
+    }
 }

@@ -5,20 +5,20 @@ x-on:open-provider-config.window="openProviderConfig = true">
 
     <div class="w-full">
 
-        @if (!$collection_point)
-            <x-alert class="mb-3" color="yellow" icon="warning" title="Sin puntos de colecta activos">
+        @if (!$origin_point)
+            <x-alert class="mb-3" color="yellow" icon="warning" title="Sin puntos de orígen activos">
                 Necesitas crear o asignar un 
-                <span @click="current = 'Puntos de colecta'" 
+                <span @click="current = 'Puntos de origen'" 
                 class="text-blue-600 hover:underline cursor-pointer">
-                    punto de colecta
+                    punto de orígen
                 </span> 
-                para indicarle al proveedor donde pasar a retirar tus pedidos
+                para indicarle al proveedor desde donde cotizar o retirar tus pedidos
             </x-alert>
         @else
-            <x-alert class="mb-3" icon="location_on">
+            <x-alert class="mb-3" color="blue" icon="where_to_vote">
                 <x-slot name="title">
                     Las cotizaciones y colectas se están realizando 
-                    desde <b>{{ $collection_point->name }}</b>
+                    desde <b>{{ $origin_point->name }}</b>
                 </x-slot>
             </x-alert>
         @endif

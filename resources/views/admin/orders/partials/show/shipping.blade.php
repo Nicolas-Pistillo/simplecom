@@ -78,7 +78,16 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                     </div>
                 @endif
 
-                @if (in_array($order->shipping->logistic_type, [LogisticType::OriginToDoor, LogisticType::DropoffToDoor]))
+                @if ($order->shipping->logistic_type->isFromDoor())
+                    <div class="w-full justify-between items-center gap-6 sm:inline-flex">
+                        <h5 class="text-gray-600 leading-4 sm:leading-8">Orígen</h5>
+                        <h4 class="sm:text-right text-gray-900 font-semibold">
+                            {{ $order->shipping->originPoint->name }}
+                        </h4>
+                    </div>
+                @endif
+
+                @if ($order->shipping->logistic_type->isToDoor())
                     <div class="w-full justify-between items-center gap-6 sm:inline-flex">
                         <h5 class="text-gray-600 leading-4 sm:leading-8">Destino</h5>
                         <h4 class="sm:text-right text-gray-900 font-semibold flex items-center gap-1.5">
@@ -262,29 +271,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                 </x-slot>
 
             </x-modal>
-
-            {{-- From-Dropoff shipping creation --}}
-            <x-modal ref="selectOriginBranch" title="Seleccionar sucursal de despacho"
-            type="info" icon="location_on" class="!max-w-3xl" bodyClass="!w-full"
-            withCloseBtn>
-
-                <x-slot name="body">
-                    @livewire('admin.orders.select-origin-dropoff', compact('order'))
-                </x-slot>
-
-                <x-slot name="actions">
-
-                    <x-spinner wire:loading wire:target='createShippingOrder' />
-
-                    <x-button type="secondary" wire:loading.remove wire:target='createShippingOrder'
-                    @click="selectOriginBranch = false">Cancelar</x-button>
-
-                    <x-button wire:click='createShippingOrder' wire:loading.remove wire:target='createShippingOrder'>
-                        Confirmar
-                    </x-button>
-
-                </x-slot>
-            </x-modal>
+            
         @endif
 
         @if ($order->shipping->status === ShippingStatus::OrderPayPending && !empty($order->shipping->checkout_url))

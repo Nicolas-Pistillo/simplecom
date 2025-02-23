@@ -8,7 +8,7 @@ use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
 use App\Enums\ShippingStatus;
 use App\Events\OrderCreated;
-use App\Models\CollectionPoint;
+use App\Models\OriginPoint;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderShipping;
@@ -97,12 +97,12 @@ class OrderService
         {
             $branch = session('selected_branch');
 
-            $collectionPoint = CollectionPoint::inUse();
+            $originPoint = OriginPoint::inUse();
 
             OrderShipping::create([
                 'order_id'              => $order->id,
                 'provider_id'           => $shippingProvider->id,
-                'collection_point_id'   => $collectionPoint->id,
+                'origin_point_id'       => $originPoint->id,
                 'user_address_id'       => session('selected_address.id'),
                 'status'                => ShippingStatus::CreationPending,
                 'provider_label'        => data_get($form->selected_rate, 'label'),

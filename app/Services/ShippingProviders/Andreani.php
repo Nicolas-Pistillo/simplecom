@@ -8,7 +8,7 @@ use App\Enums\OrderFeedPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
-use App\Models\CollectionPoint;
+use App\Models\OriginPoint;
 use App\Models\Order;
 use App\Models\OrderShipping;
 use App\Services\CartService;
@@ -21,6 +21,7 @@ use App\Utils\ShippingRateParameters;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
@@ -66,13 +67,13 @@ class Andreani implements ShippingProvider
     {
         $this->generateToken();
 
-        $origin = CollectionPoint::inUse();
+        $origin = OriginPoint::inUse();
 
         if (!$this->token)
             throw new Exception('Error al comunicarse con los servicios de Andreani');
 
         if (!$origin)
-            throw new Exception('No hay un punto de colecta en uso');
+            throw new Exception('No hay un punto de orígen en uso');
 
         $package = OrderService::calculatePackage($order);
 
@@ -152,7 +153,7 @@ class Andreani implements ShippingProvider
             throw new Exception('Error al generar orden de envío con Andreani');
         
         $order->shipping->update([
-            'status'           => ShippingStatus::Created,
+            'status'           => ShippingStatus::ProviderPending,
             'external_id'      => data_get($response, 'bultos.0.numeroDeEnvio'),
             'external_status'  => data_get($response, 'estado'),
             'label_code'       => data_get($response, 'agrupadorDeBultos'),
@@ -182,15 +183,14 @@ class Andreani implements ShippingProvider
             ]
         ]);
 
-        $order->update(['status' => OrderStatus::DispatchReady]);
-
         $order->feed()->create([
             'event'         => OrderFeedEvent::ShippingUpdate,
-            'presentation'  => OrderFeedPresentation::Image,
-            'initializator' => 'Andreani',
-            'action'        => 'recibió la orden de envío para el pedido, se espera la confirme a la brevedad',
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => 'generó la orden de envío con Andreani',
             'meta'          => [
-                'img_src'  => Storage::url('providers/andreani_icon.png')
+                'icon_code' => 'local_shipping',
+                'andreani_response'  => $response
             ]
         ]);
     }
@@ -224,7 +224,7 @@ class Andreani implements ShippingProvider
             'bultos'    => [
                 [
                     'valor' => data_get($cartPackage, 'declaredValue'),
-                    'kilos' => data_get($cartPackage, 'dimensions.weight')
+                    'kilos' => data_get($cartPackage, 'weight')
                 ]
             ]
         ])
@@ -258,7 +258,7 @@ class Andreani implements ShippingProvider
             'bultos'    => [
                 [
                     'valor' => data_get($cartPackage, 'declaredValue'),
-                    'kilos' => data_get($cartPackage, 'dimensions.weight')
+                    'kilos' => data_get($cartPackage, 'weight')
                 ]
             ]
         ])

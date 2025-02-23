@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id');
             $table->foreignId('provider_id');
-            $table->foreignId('collection_point_id')->nullable();
+            $table->foreignId('origin_point_id')->nullable();
             $table->foreignId('user_address_id');
             $table->string('external_reference')->nullable();
             $table->string('status');

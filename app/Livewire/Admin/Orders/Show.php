@@ -38,7 +38,7 @@ class Show extends Component
             'event'         => OrderFeedEvent::StatusUpdate,
             'presentation'  => OrderFeedPresentation::Icon,
             'initializator' => Auth::user()->name,
-            'action'        => "confirmó que recibio la transferencia por el pago del pedido",
+            'action'        => "confirmó que recibió la transferencia por el pago del pedido",
             'meta'          => [
                 'icon_code'  => 'price_check',
                 'icon_color' => 'green'
@@ -81,10 +81,13 @@ class Show extends Component
 
     public function evalShippingOrderConfirmation()
     {
-        if ($this->order->shipping->logistic_type->isFromDropoff())
+        /* if ($this->order->shipping->logistic_type->isFromDropoff())
         {
-            return $this->dispatch('open-select-origin-branch');
-        }
+            $service = $this->order->shippingProvider->service();
+            $branches = $service->getOriginPointBranches($this->order->shipping);
+
+            dd($branches);
+        } */
 
         $this->dispatch('open-confirm-shipping-create');
     }
@@ -102,6 +105,8 @@ class Show extends Component
                 'title' => 'Orden de envío generada',
                 'body'  => 'Generaste la orden de envío correctamente'
             ]);
+
+            $this->dispatch('close-confirm-shipping-create');
 
         } catch (\Throwable $err) 
         {

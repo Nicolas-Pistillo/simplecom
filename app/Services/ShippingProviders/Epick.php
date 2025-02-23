@@ -8,7 +8,7 @@ use App\Enums\OrderFeedPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
-use App\Models\CollectionPoint;
+use App\Models\OriginPoint;
 use App\Models\Order;
 use App\Models\OrderShipping;
 use App\Models\UserAddress;
@@ -53,13 +53,13 @@ class Epick implements ShippingProvider
 
         $cartPackage = CartService::getPackageInfo();
 
-        $collectionPoint = CollectionPoint::inUse();
+        $OriginPoint = OriginPoint::inUse();
 
-        if (!$collectionPoint) return $rates;
+        if (!$OriginPoint) return $rates;
 
         $response = Http::withBody(json_encode([
             'sender' => [
-                'postal_code' => $collectionPoint->zipcode_number
+                'postal_code' => $OriginPoint->zipcode_number
             ],
             'addressee' => [
                 'postal_code' => $parameters->recipient_address->zipcode_number
@@ -68,7 +68,7 @@ class Epick implements ShippingProvider
                 "long"   => data_get($cartPackage, 'dimensions.length'),
                 "width"  => data_get($cartPackage, 'dimensions.width'),
                 "height" => data_get($cartPackage, 'dimensions.height'),
-                "weight" => data_get($cartPackage, 'dimensions.weight'),
+                "weight" => data_get($cartPackage, 'weight'),
                 "value"  => data_get($cartPackage, 'declaredValue')
             ]
         ]))
@@ -99,13 +99,13 @@ class Epick implements ShippingProvider
     {
         $this->generateToken();
 
-        $origin = CollectionPoint::inUse();
+        $origin = OriginPoint::inUse();
 
         if (!$this->token)
             throw new Exception('Error al comunicarse con los servicios de E-pick');
 
         if (!$origin)
-            throw new Exception('No hay un punto de colecta en uso');
+            throw new Exception('No hay un punto de orígen en uso');
 
         $destination = $order->shipping?->userAddress;
 

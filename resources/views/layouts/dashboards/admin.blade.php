@@ -153,7 +153,7 @@
                                 <x-icon code="storefront" />
                             </a>
 
-                            <span href="/" target="_blank" x-tooltip.raw.placement.bottom="Punto de colecta"
+                            <span href="/" target="_blank" x-tooltip.raw.placement.bottom="Punto de orígen"
                                 class="hidden sm:block relative pt-2 text-gray-400 cursor-pointer transition hover:text-gray-500">
                                 <x-icon code="warehouse" />
                             </span>

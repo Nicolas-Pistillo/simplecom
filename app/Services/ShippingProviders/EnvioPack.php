@@ -78,7 +78,7 @@ class EnvioPack implements ShippingProvider
             'provincia'     => $provinceId,
             'localidad'     => $localityId,
             'codigo_postal' => $parameters->recipient_address->zipcode_number,
-            'peso'          => data_get($cartPackage, 'dimensions.weight'),
+            'peso'          => data_get($cartPackage, 'weight'),
             'paquetes'      => $packageHeight . 'x' . $packageWidth . 'x' . $packageLength
         ];
 

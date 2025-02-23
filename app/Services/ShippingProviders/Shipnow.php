@@ -39,7 +39,7 @@ class Shipnow implements ShippingProvider
 
         $results = Http::withToken($this->key('shipnow_api_token'))
                         ->withQueryParameters([
-                            'weight' => data_get($packageInfo, 'dimensions.weight'),
+                            'weight' => data_get($packageInfo, 'weight'),
                             'to_zip_code' => $parameters->recipient_address->zipcode_number,
                             'types'       => 'ship_pap,ship_pas,ship_sap,ship_sas'
                         ])

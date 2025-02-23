@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('collection_points', function (Blueprint $table) {
+        Schema::create('origin_points', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->boolean('in_use')->default(false);
@@ -44,6 +44,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('collection_points');
+        Schema::dropIfExists('origin_points');
     }
 };

@@ -40,7 +40,6 @@ class CartService
                 'width'  => $width,
                 'height' => $height,
                 'length' => $length,
-                'weight' => $weight,
                 'volume' => $width * $height * $length
             ]
         ];

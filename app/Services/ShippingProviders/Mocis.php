@@ -53,7 +53,7 @@ class Mocis implements ShippingProvider
 
         $cartPackage = CartService::getPackageInfo();
 
-        $weight = data_get($cartPackage, 'dimensions.weight');
+        $weight = data_get($cartPackage, 'weight');
         $height = data_get($cartPackage, 'dimensions.height');
         $length = data_get($cartPackage, 'dimensions.length');
         $width = data_get($cartPackage, 'dimensions.width');

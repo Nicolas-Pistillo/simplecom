@@ -34,7 +34,7 @@
 
     {{-- Welcome message | Login --}}
     @session('login_message')
-        <x-toast type="success" position="bottom-center" title="¡Bienvenido {{ auth()->user()->name }}!" />
+        <x-toast type="success" position="bottom-center" title="¡Bienvenid@ {{ auth()->user()->name }}!" />
     @endsession
 
     {{-- Goodbye message | Logout --}}

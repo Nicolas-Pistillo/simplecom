@@ -53,13 +53,13 @@ if (!function_exists('initialsAvatar'))
     }
 }
 
-if (!function_exists('collectionPointsRoute'))
+if (!function_exists('originPointsRoute'))
 {
-    function collectionPointsRoute()
+    function originPointsRoute()
     {
         return route('admin.delivery-methods.index', [
             'tab'           => 'Proveedores', 
-            'providers-tab' => 'Puntos de colecta'
+            'providers-tab' => 'Puntos de origen'
         ]);
     }
 }

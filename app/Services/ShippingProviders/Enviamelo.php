@@ -32,7 +32,7 @@ class Enviamelo implements ShippingProvider
 
         $results = Http::withToken($this->key('enviamelo_token'))
                         ->withBody(json_encode([
-                            'weight'      => data_get($cartPackage, 'dimensions.weight'),
+                            'weight'      => data_get($cartPackage, 'weight'),
                             'postal_code' => $parameters->recipient_address->zipcode_number
                         ]))
                         ->post('https://api.enviamelo.com.ar/api/v1/price')

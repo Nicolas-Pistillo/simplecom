@@ -31,6 +31,17 @@ enum LogisticType: string
         };
     }
 
+    public function isToDropoff(): bool
+    {
+        return match($this)
+        {
+            LogisticType::OriginToDoor      => false,
+            LogisticType::OriginToDropoff   => true,
+            LogisticType::DropoffToDoor     => false,
+            LogisticType::DropoffToDropoff  => true
+        };
+    }
+
     public function isFromDoor(): bool
     {
         return match($this)
@@ -40,5 +51,16 @@ enum LogisticType: string
             LogisticType::DropoffToDoor     => false,
             LogisticType::DropoffToDropoff  => false
         };
+    }
+
+    public function isToDoor(): bool
+    {
+        return match($this)
+        {
+            LogisticType::OriginToDoor      => true,
+            LogisticType::OriginToDropoff   => false,
+            LogisticType::DropoffToDoor     => true,
+            LogisticType::DropoffToDropoff  => false
+        }; 
     }
 }

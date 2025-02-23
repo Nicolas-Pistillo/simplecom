@@ -1,23 +1,23 @@
-<div x-data="{ confirmCollectionPointDeletion: false }" class="w-full"
-x-on:open-confirm-collection-point-deletion.window="confirmCollectionPointDeletion = true"
-x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDeletion = false">
+<div x-data="{ confirmOriginPointDeletion: false }" class="w-full"
+x-on:open-confirm-origin-point-deletion.window="confirmOriginPointDeletion = true"
+x-on:close-confirm-origin-point-deletion.window="confirmOriginPointDeletion = false">
 
-    @if ($collection_points->isEmpty())
+    @if ($origin_points->isEmpty())
         <div x-data="{modalHelperOpen: false}" class="text-center">
 
             <img src="{{ URL::to('img/illustrations/deliveries.svg') }}" class="h-48 mx-auto" alt="Sin puntos de retiro">
 
             <div class="my-4 flex flex-col">
                 <h3 class="text-sm font-semibold text-gray-900">
-                    Todavía no añadiste puntos de colecta
+                    Todavía no añadiste puntos de orígen
                 </h3>
 
                 <p class="mt-1 mb-4 text-sm text-gray-500">
-                    Agregá un punto de colecta para empezar a operar con proveedores de envíos
+                    Agregá un punto de orígen para empezar a operar con proveedores de envíos
                 </p>
 
-                <x-button @click="$dispatch('open-new-collection-point')" type="soft" class="w-max mx-auto">
-                    Agregar punto de colecta
+                <x-button @click="$dispatch('open-new-origin-point')" type="soft" class="w-max mx-auto">
+                    Agregar punto de orígen
                 </x-button>
 
                 <small @click="modalHelperOpen = true" 
@@ -35,13 +35,13 @@ x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDelet
     
                     <div class="flex items-center justify-center flex-col gap-2 mb-5">
                         <h5 class="text-xl font-bold leading-8 text-gray-900 text-center">
-                            Puntos de colecta
+                            Puntos de orígen
                         </h5>
                         <p class="text-xs sm:text-sm font-normal text-gray-600 text-center">
-                            Los puntos de colecta son las direcciones donde irán los proveedores de envío 
+                            Los puntos de orígen son las direcciones donde irán los proveedores de envío 
                             que integres para recoger los paquetes de tus pedidos y entregarlos a tus clientes. 
                             <br> <br>
-                            Además, la ubicación del punto de colecta que elijas se tomará como referencia 
+                            Además, la ubicación del punto de orígen que elijas se tomará como referencia 
                             para cotizar el valor de cada envío, y este valor se añadirá al checkout para ser
                             abonado por el comprador junto al pedido.
                         </p>
@@ -50,31 +50,31 @@ x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDelet
             </x-modal>
         </div>
     @else
-        {{-- @dump($collection_points) --}}
-        <x-button @click="$dispatch('open-new-collection-point')" class="flex items-center mb-8">
+        {{-- @dump($origin_points) --}}
+        <x-button @click="$dispatch('open-new-origin-point')" class="flex items-center mb-8">
             <x-icon code="add" />
-            Agregar punto de colecta
+            Agregar punto de orígen
         </x-button>
 
         <div class="w-full grid grid-cols-1 gap-4 md:grid-cols-2">
 
-            @foreach ($collection_points as $collectionPoint)
-                <div wire:key='{{ $collectionPoint->id }}'
+            @foreach ($origin_points as $originPoint)
+                <div wire:key='{{ $originPoint->id }}'
                     class="w-full p-4 transition duration-300 hover:shadow-md bg-white 
                     border border-gray-300 rounded-xl shadow-sm h-max">
 
                     <h5 class="mb-1.5 text-sm sm:text-lg line-clamp-none md:line-clamp-1 font-semibold tracking-tight text-gray-900">
-                        {{ $collectionPoint->name }}
+                        {{ $originPoint->name }}
                     </h5>
 
-                    @if ($collectionPoint->in_use)
-                        <x-badge x-tooltip.raw="Las tarifas de envío y las colectas de paquetes 
+                    @if ($originPoint->in_use)
+                        <x-badge x-tooltip.raw="Las tarifas de envío y las orígens de paquetes 
                         se están calculando desde esta ubicación" class="mb-2"
                         color="blue">
                             En uso
                         </x-badge>
                     @else
-                        <x-button wire:click='activateCollectionPoint({{ $collectionPoint->id }})' 
+                        <x-button wire:click='activateOriginPoint({{ $originPoint->id }})' 
                         size="small" type="secondary" class="mb-2">
                             Usar este punto
                         </x-button>
@@ -82,17 +82,17 @@ x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDelet
 
                     <p class="mb-1 text-xs sm:text-sm font-normal text-gray-500 flex gap-x-1">
                         <x-icon code="location_on" class="text-gray-500" style="font-size: 20px" />
-                        {{ $collectionPoint->address }}
+                        {{ $originPoint->address }}
                     </p>
 
                     <p class="mb-3 text-xs sm:text-sm font-normal text-gray-500 flex gap-x-1">
                         <x-icon code="person" class="text-gray-500" style="font-size: 20px" />
-                        Encargado: {{ $collectionPoint->staff_name }}
+                        Encargado: {{ $originPoint->staff_name }}
                     </p>
 
                     <div class="flex items-center gap-3">
 
-                        <a href="{{ $collectionPoint->mapUrl() }}" target="_blank">
+                        <a href="{{ $originPoint->mapUrl() }}" target="_blank">
                             <x-icon code="moved_location" style="font-size: 21px"
                             class="p-1.5 rounded-full border 
                             text-gray-800 cursor-pointer transition duration-300 hover:shadow 
@@ -101,14 +101,14 @@ x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDelet
                         </a>
 
                         <x-icon code="edit" style="font-size: 21px"
-                        wire:click='editCollectionPoint({{ $collectionPoint->id }})'
+                        wire:click='editOriginPoint({{ $originPoint->id }})'
                         class="p-1.5 rounded-full border 
                         text-gray-800 cursor-pointer transition duration-300 hover:shadow 
                         hover:border-gray-300 hover:text-blue-600"
                         x-tooltip.raw.placement.bottom="Editar" />
 
                         <x-icon code="delete" style="font-size: 21px"
-                        wire:click='confirmDeleteCollectionPoint({{ $collectionPoint->id }})'
+                        wire:click='confirmDeleteOriginPoint({{ $originPoint->id }})'
                         class="p-1.5 rounded-full border 
                         text-gray-800 cursor-pointer transition duration-300 hover:shadow 
                         hover:border-gray-300 hover:text-red-500"
@@ -119,36 +119,36 @@ x-on:close-confirm-collection-point-deletion.window="confirmCollectionPointDelet
 
         </div>
 
-        @include('admin.delivery-methods.partials.edit-collection-point')
+        @include('admin.delivery-methods.partials.edit-origin-point')
 
-        <x-modal ref="confirmCollectionPointDeletion" type="danger" icon="warning">
+        <x-modal ref="confirmOriginPointDeletion" type="danger" icon="warning">
 
             <x-slot name="title">
-                Eliminar {{ $collection_point?->name }}
+                Eliminar {{ $origin_point?->name }}
             </x-slot>
 
             <x-slot name="body">
-                ¿Estás seguro que deseas eliminar este punto de colecta?
+                ¿Estás seguro que deseas eliminar este punto de orígen?
                 En el caso de que esté en uso, deberás seleccionar o agregar
-                otro punto de colecta para continuar operando con tus envíos.
+                otro punto de orígen para continuar operando con tus envíos.
             </x-slot>
 
             <x-slot name="actions">
 
-                <x-spinner wire:loading wire:target='deleteCollectionPoint' />
+                <x-spinner wire:loading wire:target='deleteOriginPoint' />
 
-                <x-button type="secondary" wire:loading.remove wire:target='deleteCollectionPoint'
-                @click="confirmCollectionPointDeletion = false">Cancelar</x-button>
+                <x-button type="secondary" wire:loading.remove wire:target='deleteOriginPoint'
+                @click="confirmOriginPointDeletion = false">Cancelar</x-button>
 
-                <x-button wire:click='deleteCollectionPoint' 
+                <x-button wire:click='deleteOriginPoint' 
                 wire:loading.remove class="bg-red-600 hover:bg-red-500"
-                wire:target='deleteCollectionPoint'>Eliminar</x-button>
+                wire:target='deleteOriginPoint'>Eliminar</x-button>
 
             </x-slot>
 
         </x-modal>
     @endif
 
-    @livewire('admin.new-collection-point')
+    @livewire('admin.new-origin-point')
 
 </div>
