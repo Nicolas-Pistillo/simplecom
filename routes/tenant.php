@@ -142,9 +142,11 @@ Route::middleware([
                     ->name('admin.orders.show')
                     ->middleware('can:Ver ventas');
 
-                Route::get('andreani-label/{orderShipping}', [ShippingLabelController::class, 'andreaniLabel'])
+                Route::get('andreani-label/{orderShipping}', [ShippingLabelController::class, 'andreani'])
                     ->name('admin.shipping-label.andreani');
 
+                Route::get('zippin-label/{orderShipping}', [ShippingLabelController::class, 'zippin'])
+                    ->name('admin.shipping-label.zippin');
             });
 
         });

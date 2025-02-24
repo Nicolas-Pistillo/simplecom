@@ -1,4 +1,9 @@
-<div x-data="{ confirmShippingCreate: false, selectOriginBranch: false, showBranchDetails: false }"
+<div x-data="{ 
+    confirmShippingCreate: false, 
+    selectOriginBranch: false, 
+    showBranchDetails: false,
+    showDestinyAddressDetails: false
+}"
 x-on:open-confirm-shipping-create.window="confirmShippingCreate = true" 
 x-on:close-confirm-shipping-create.window="confirmShippingCreate = false"
 x-on:open-select-origin-branch.window="selectOriginBranch = true"
@@ -93,6 +98,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                         <h4 class="sm:text-right text-gray-900 font-semibold flex items-center gap-1.5">
                             {{ $order->shipping->userAddress->summary }}
                             <x-icon code="visibility" x-tooltip.raw="Ver detalles"
+                            @click="showDestinyAddressDetails = true"
                             class="transition colors duration-300 text-[16px]
                             cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
                             hover:bg-gray-200 focus:outline-none focus:ring" />
@@ -130,7 +136,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                             {{ $order->shipping->provider_carrier }}
                             @if (!empty($order->shipping->provider_carrier_logo))
                                 <img src="{{ $order->shipping->provider_carrier_logo }}"
-                                class="hidden sm:inline-flex w-16 h-8 object-cover rounded-lg ml-1"
+                                class="hidden sm:inline-flex w-16 h-8 object-contain rounded-lg ml-1"
                                 alt="logo correo encargado">
                             @endif
                         </h4>
@@ -161,7 +167,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                     <div class="w-full justify-between items-center gap-6 sm:inline-flex">
                         <h5 class="text-gray-600 leading-4 sm:leading-8">Precio tarifado</h5>
                         <h4 class="sm:text-right text-gray-900 font-semibold">
-                            ${{ $order->shipping->quoted_price }}
+                            ${{ priceFormat($order->shipping->quoted_price) }}
                         </h4>
                     </div>
                 @endif
@@ -170,7 +176,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                     <div class="w-full justify-between items-center gap-6 sm:inline-flex">
                         <h5 class="text-gray-600 leading-4 sm:leading-8">Precio final</h5>
                         <h4 class="sm:text-right text-gray-900 font-semibold">
-                            ${{ $order->shipping->final_price }}
+                            ${{ priceFormat($order->shipping->final_price) }}
                         </h4>
                     </div>
                 @endif
@@ -243,6 +249,8 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     @include('admin.orders.partials.show.destiny-branch-details')
 
+    @include('admin.orders.partials.show.destiny-address-details')
+
     <div class="mt-4 flex flex-wrap gap-3">
 
         @if ($order->shipping->status === ShippingStatus::NotCreated)
@@ -280,6 +288,10 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
         @if (!empty($order->shipping->label_url))
             <x-button :href="$order->shipping->label_url" blank>Imprimir etiqueta</x-button>
+        @endif
+
+        @if (!empty($order->shipping->tracking_url))
+            <x-button :href="$order->shipping->tracking_url" blank>Ver seguimiento</x-button>
         @endif
     </div>
 </div>

@@ -39,7 +39,14 @@ class CheckShippingStatus implements ShouldQueue
 
             foreach($orderShippings as $orderShipping)
             {
-                $orderShipping->syncStatus();
+                try 
+                {
+                    $orderShipping->syncStatus();
+
+                } catch (\Throwable $err) 
+                {
+                    dd("Excepción generada: " . $err->getMessage());
+                }
             }
         }
     }

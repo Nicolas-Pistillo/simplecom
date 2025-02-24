@@ -4,19 +4,21 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
 use App\Models\OrderShipping;
-use App\Services\ShippingProviders\Andreani;
 use Illuminate\Http\Request;
 
 class ShippingLabelController extends Controller
 {
-    public function andreaniLabel(OrderShipping $orderShipping)
+    public function andreani(OrderShipping $orderShipping)
     {
         if (empty($orderShipping->label_code)) abort(404);
 
-        $andreani = new Andreani();
+        return $orderShipping->downloadLabel();
+    }
 
-        $pdf = $andreani->getLabelPdf($orderShipping->label_code);
+    public function zippin(OrderShipping $orderShipping)
+    {
+        if (empty($orderShipping->external_id)) abort(404);
 
-        return response($pdf, 200, ['Content-Type' => 'application/pdf']);
+        return $orderShipping->downloadLabel();
     }
 }

@@ -41,8 +41,18 @@ class OrderShipping extends Model
         return $this->belongsTo(OriginPoint::class);
     }
 
+    public function getStatus()
+    {
+        return $this->provider->service()->getStatus($this);
+    }
+
     public function syncStatus()
     {
         return $this->provider->service()->syncStatus($this);
+    }
+
+    public function downloadLabel()
+    {
+        return $this->provider->service()->downloadLabel($this);
     }
 }
