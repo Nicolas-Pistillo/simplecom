@@ -250,7 +250,7 @@ class Andreani implements ShippingProvider
             ]);
         }
 
-        if ($currentStatus === 'En viaje' && $shipping->status != ShippingStatus::InTransit)
+        if (in_array($currentStatus, ['En viaje', 'En distribución']) && $shipping->status != ShippingStatus::InTransit)
         {
             $shipping->update([
                 'status'             => ShippingStatus::InTransit,
@@ -291,26 +291,47 @@ class Andreani implements ShippingProvider
             ]);
         }
 
-        if ($currentStatus === 'En sucursal de destino' && $shipping->status != ShippingStatus::InBranch)
+        if ($currentStatus === 'En sucursal de destino')
         {
-            $shipping->update([
-                'status'             => ShippingStatus::InBranch,
-                'external_status'    => $currentStatus,
-                'external_status_id' => data_get($statusResponse, 'estadoId')
-            ]);
+            if ($shipping->logistic_type->isToDropoff() && $shipping->status != ShippingStatus::InBranch)
+            {
+                $shipping->update([
+                    'status'             => ShippingStatus::InBranch,
+                    'external_status'    => $currentStatus,
+                    'external_status_id' => data_get($statusResponse, 'estadoId')
+                ]);
 
-            $shipping->order->update(['status' => OrderStatus::InBranch]);
+                $shipping->order->update(['status' => OrderStatus::InBranch]);
+    
+                $shipping->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Andreani',
+                    'action'        => "entregó el pedido en la sucursal de destino, el comprador puede pasar a retirarlo",
+                    'meta'          => [
+                        'icon_code'  => 'store',
+                        'icon_color' => 'lime'
+                    ]
+                ]);
 
-            $shipping->order->feed()->create([
-                'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
-                'initializator' => 'Andreani',
-                'action'        => "entregó el pedido en la sucursal de destino, el comprador debe pasar a retirarlo",
-                'meta'          => [
-                    'icon_code'   => 'store',
-                    'icon_color'  => 'lime'
-                ]
-            ]);
+            } elseif ($shipping->status != ShippingStatus::LastTrace)
+            {
+                $shipping->update([
+                    'status'             => ShippingStatus::LastTrace,
+                    'external_status'    => $currentStatus,
+                    'external_status_id' => data_get($statusResponse, 'estadoId')
+                ]);
+    
+                $shipping->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => OrderFeedPresentation::Image,
+                    'initializator' => 'Andreani',
+                    'action'        => "está en el último tramo del viaje",
+                    'meta'          => [
+                        'img_src'   => Storage::url('providers/andreani_icon.png')
+                    ]
+                ]);
+            }
         }
 
         if ($currentStatus === 'Entregado' && $shipping->status != ShippingStatus::Delivered)

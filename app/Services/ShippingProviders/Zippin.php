@@ -325,10 +325,10 @@ class Zippin implements ShippingProvider
             ]);
         }
 
-        if ($currentStatusId === 'rejected' && $shipping->status != ShippingStatus::CarrierCancelled)
+        if ($currentStatusId === 'rejected' && $shipping->status != ShippingStatus::CarrierRejected)
         {
             $shipping->update([
-                'status'             => ShippingStatus::CarrierCancelled,
+                'status'             => ShippingStatus::CarrierRejected,
                 'external_status'    => $currentStatusName,
                 'external_status_id' => $currentStatusId
             ]);
