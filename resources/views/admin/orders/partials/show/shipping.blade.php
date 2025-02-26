@@ -45,6 +45,15 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
                     </div>
                 @endif
 
+                @if (!empty($order->shipping->external_reference))
+                    <div class="w-full justify-between items-center gap-6 sm:inline-flex">
+                        <h5 class="text-gray-600 leading-4 sm:leading-8">Referencia</h5>
+                        <h4 class="sm:text-right text-gray-900 font-semibold">
+                            {{ $order->shipping->external_reference }}
+                        </h4>
+                    </div>
+                @endif
+
                 @if (!empty($order->shipping->tracking_code))
                     <div class="w-full justify-between items-center gap-6 sm:inline-flex">
                         <h5 class="text-gray-600 leading-4 sm:leading-8">Cod. Seguimiento</h5>

@@ -42,7 +42,7 @@ enum ShippingStatus: string
             ShippingStatus::CarrierRejected    => 'red',
             ShippingStatus::Cancelled          => 'red',
             ShippingStatus::Returned           => 'indigo',
-            ShippingStatus::Sinister           => 'orange'
+            ShippingStatus::Sinister           => 'red'
         };
     }
 
@@ -113,7 +113,7 @@ enum ShippingStatus: string
             ShippingStatus::Delivered          => 'El pedido fue entregado correctamente',
             ShippingStatus::CarrierRejected    => 'El envío fue cancelado por el transportista',
             ShippingStatus::Cancelled          => 'Cancelaste el envío del pedido',
-            ShippingStatus::Returned           => 'El envío ha sido retornado correctamente',
+            ShippingStatus::Returned           => 'El envío ha sido devuelto por el proveedor',
             ShippingStatus::Sinister           => 'Ocurrió un siniestro en el viaje del pedido'
         };
     }

@@ -8,17 +8,24 @@ use Illuminate\Http\Request;
 
 class ShippingLabelController extends Controller
 {
-    public function andreani(OrderShipping $orderShipping)
+    public function andreani(OrderShipping $shipping)
     {
-        if (empty($orderShipping->label_code)) abort(404);
+        if (empty($shipping->label_code)) abort(404);
 
-        return $orderShipping->downloadLabel();
+        return $shipping->downloadLabel();
     }
 
-    public function zippin(OrderShipping $orderShipping)
+    public function zippin(OrderShipping $shipping)
     {
-        if (empty($orderShipping->external_id)) abort(404);
+        if (empty($shipping->external_id)) abort(404);
 
-        return $orderShipping->downloadLabel();
+        return $shipping->downloadLabel();
+    }
+
+    public function mocis(OrderShipping $shipping)
+    {
+        if (empty($shipping->external_id)) abort(404);
+
+        return $shipping->downloadLabel($shipping);
     }
 }

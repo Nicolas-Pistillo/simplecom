@@ -3,10 +3,14 @@
 namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
+use App\Enums\OrderFeedEvent;
+use App\Enums\OrderFeedPresentation;
+use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
 use App\Models\Order;
 use App\Models\OrderShipping;
 use App\Services\CartService;
+use App\Services\OrderService;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingRate;
@@ -16,6 +20,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use App\Utils\ShippingBranch;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class Mocis implements ShippingProvider
@@ -100,6 +106,7 @@ class Mocis implements ShippingProvider
                 'label'               => "Mocis - $serviceName",
                 'carrier_logo'        => Storage::url('providers/mocis_icon.png'),
                 'service_id'          => data_get($result, 'service.id'),
+                'service_code'        => data_get($result, 'service.id'),
                 'service_name'        => $serviceName,
                 'logistic_type'       => LogisticType::OriginToDoor,
                 'price'               => data_get($result, 'price_iva'),
@@ -142,11 +149,89 @@ class Mocis implements ShippingProvider
 
     public function createOrder(Order $order)
     {
-        
+        $this->generateToken();
+
+        $destiny = $order->shipping->userAddress;
+
+        $package = OrderService::calculatePackage($order);
+
+        $weight = data_get($package, 'weight');
+        $height = data_get($package, 'dimensions.height');
+        $length = data_get($package, 'dimensions.length');
+        $width = data_get($package, 'dimensions.width');
+
+        $reference = tenant('name') . '|' . $order->shipping->id;
+
+        $body = [
+            'service'            => $order->shipping->provider_service_code,
+            'delivery_pickup_id' => $order->shipping->selected_branch_id,
+            'receives'           => $order->user->full_name,
+            'address'            => "$destiny->street $destiny->number",
+            'location'           => $destiny->locality,
+            'reference'          => $destiny->references,
+            'postal_code'        => $destiny->zipcode,
+            'items'              => "[\"$weight,$height,$length,$width\"]",
+            'lat'                => $destiny->lat,
+            'lng'                => $destiny->lng,
+            'telephone'          => $order->user->phone,
+            'email'              => $order->user->email,
+            'valor_declarado'    => data_get($package, 'declared_value'),
+            'external_reference' => $reference,
+            'bultos'             => 1
+        ];
+
+        $response = Http::withToken($this->token)
+                        ->withBody(json_encode($body))
+                        ->post("$this->base_url/shipping/new")
+                        ->json();
+
+        if (!$response || !isset($response['result'])) 
+            throw new Exception('Error al crear envío con Mocis, intente de nuevo más tarde');
+
+        if ($response && isset($response['status']) && !$response['status'])
+            throw new Exception(data_get($response, 'msg'));
+
+        $order->shipping->update([
+            'status'             => ShippingStatus::ProviderProcessing,
+            'external_status'    => 'En espera',
+            'external_id'        => data_get($response, 'result.0'),
+            'external_reference' => $reference, 
+            'label_url'          => route('admin.shipping-label.mocis', $order->shipping->id)
+        ]);
+
+        $order->feed()->create([
+            'event'         => OrderFeedEvent::ShippingUpdate,
+            'presentation'  => OrderFeedPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => "generó la orden de envío con Moci's",
+            'meta'          => [
+                'icon_code' => 'local_shipping'
+            ]
+        ]);
     }
 
     public function getStatus(OrderShipping $shipping)
     {
-        
+        $this->generateToken();
+
+        return Http::withToken($this->token)
+                    ->get("$this->base_url/shipping/state/$shipping->external_id")
+                    ->json();
+    }
+
+    public function syncStatus(OrderShipping $shipping)
+    {
+
+    }
+
+    public function downloadLabel(OrderShipping $shipping)
+    {
+        $this->generateToken();
+
+        $response = Http::withToken($this->token)
+                        ->get("$this->base_url/shipping/print/label/$shipping->external_id")
+                        ->json();
+
+        dd($response);
     }
 }

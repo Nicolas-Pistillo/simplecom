@@ -169,4 +169,147 @@ class Rapiboy implements ShippingProvider
                         ->get("$this->base_url/NextDaySmart/Get")
                         ->json();
     }
+
+    public function syncStatus(OrderShipping $shipping)
+    {
+        $statusResponse = $this->getStatus($shipping);
+
+        if (isset($statusResponse['Resultado'], $statusResponse['Unico']))
+        {
+            $currentStatus = data_get($statusResponse, 'Unico.Estado');
+
+            $currentStatus = 13;
+
+            if (in_array($currentStatus, [14,20]) && $shipping->status != ShippingStatus::Cancelled)
+            {
+                $shipping->update([
+                    'status'             => ShippingStatus::Cancelled,
+                    'external_status_id' => $currentStatus,
+                    'external_status'    => data_get($statusResponse, 'Unico.EstadoNombre')
+                ]);
+
+                $shipping->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Rapiboy',
+                    'action'        => "confirmó la cancelación del envío",
+                    'meta'          => [
+                        'icon_code'  => 'local_shipping',
+                        'icon_color' => 'red'
+                    ]
+                ]);
+            }
+
+            if ($currentStatus === 30 && $shipping->status != ShippingStatus::Sinister)
+            {
+                $shipping->update([
+                    'status'             => ShippingStatus::Sinister,
+                    'external_status_id' => $currentStatus,
+                    'external_status'    => data_get($statusResponse, 'Unico.EstadoNombre')
+                ]);
+
+                $shipping->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Rapiboy',
+                    'action'        => "reportó un siniestro durante el viaje, contactate urgentemente",
+                    'meta'          => [
+                        'icon_code'  => 'error',
+                        'icon_color' => 'red'
+                    ]
+                ]);
+            }
+
+            if ($currentStatus === 32 && $shipping->status != ShippingStatus::Returned)
+            {
+                $shipping->update([
+                    'status'             => ShippingStatus::Returned,
+                    'external_status_id' => $currentStatus,
+                    'external_status'    => data_get($statusResponse, 'Unico.EstadoNombre')
+                ]);
+
+                $shipping->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => OrderFeedPresentation::Image,
+                    'initializator' => 'Rapiboy',
+                    'action'        => "devolvió el pedido",
+                    'meta'          => [
+                        'img_src' => Storage::url('providers/rapiboy_icon.png'),
+                    ]
+                ]);
+            }
+
+            if (in_array($currentStatus, [24,28,25,17]) && $shipping->status != ShippingStatus::InTransit)
+            {
+                $shipping->update([
+                    'status'             => ShippingStatus::InTransit,
+                    'external_status_id' => $currentStatus,
+                    'external_status'    => data_get($statusResponse, 'Unico.EstadoNombre')
+                ]);
+
+                $shipping->order->update(['status' => OrderStatus::InTransit]);
+
+                $shipping->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => OrderFeedPresentation::Image,
+                    'initializator' => 'Rapiboy',
+                    'action'        => "colectó el pedido y ya está en viaje",
+                    'meta'          => [
+                        'img_src'   => Storage::url('providers/rapiboy_icon.png'),
+                    ]
+                ]);
+            }
+
+            if ($currentStatus === 29 && $shipping->status != ShippingStatus::DeliveryNear)
+            {
+                $shipping->update([
+                    'status'             => ShippingStatus::DeliveryNear,
+                    'external_status_id' => $currentStatus,
+                    'external_status'    => data_get($statusResponse, 'Unico.EstadoNombre')
+                ]);
+
+                $shipping->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => OrderFeedPresentation::Image,
+                    'initializator' => 'Rapiboy',
+                    'action'        => "está cerca del domicilio del cliente",
+                    'meta'          => [
+                        'img_src'   => Storage::url('providers/rapiboy_icon.png'),
+                    ]
+                ]);
+            }
+
+            if ($currentStatus === 13 && $shipping->status != ShippingStatus::Delivered)
+            {
+                $shipping->update([
+                    'status'             => ShippingStatus::Delivered,
+                    'external_status_id' => $currentStatus,
+                    'external_status'    => data_get($statusResponse, 'Unico.EstadoNombre')
+                ]);
+
+                $shipping->order->update(['status' => OrderStatus::Delivered]);
+
+                $shipping->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => OrderFeedPresentation::Icon,
+                    'initializator' => 'Rapiboy',
+                    'action'        => "entregó el pedido correctamente",
+                    'meta'          => [
+                        'icon_code'  => 'done',
+                        'icon_color' => 'green',
+                    ]
+                ]);
+            }
+
+            $shipping->refresh();
+
+            if ($currentStatus != $shipping->external_status_id)
+            {
+                $shipping->update([
+                    'external_status_id' => $currentStatus,
+                    'external_status'    => data_get($statusResponse, 'Unico.EstadoNombre')
+                ]);
+            }
+        }
+    }
 }
