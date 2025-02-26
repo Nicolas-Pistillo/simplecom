@@ -92,7 +92,31 @@ class EnvioPack implements ShippingProvider
 
     public function createOrder(Order $order)
     {
-        
+        $this->generateToken();
+
+        $body = [
+            "id_externo" => $order->id,
+            "nombre"     => $order->user->name,
+            "apellido"   => $order->user->lastname,
+            "email"      => $order->user->email,
+            "telefono"   => $order->user->phone,
+            "celular"    => $order->user->phone,
+            "monto"      => $order->total,
+            "fecha_alta" => $order->created_at->format('Y-m-d H:i:s'),
+            "productos" => $order->items->map(fn($item) => [
+                "tipo_identificador" => "ID",
+                "identificador"      => $item->product_id,
+                "cantidad"           => $item->quantity
+            ])->toArray(),
+            "pagado"    =>  true
+        ];
+
+        $response = Http::withToken($this->token)
+                        ->withBody(json_encode($body))
+                        ->post("$this->base_url/pedidos")
+                        ->json();
+
+        dd($response);
     }
 
     public function getStatus(OrderShipping $shipping)

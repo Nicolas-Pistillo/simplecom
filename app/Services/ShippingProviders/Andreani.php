@@ -189,8 +189,7 @@ class Andreani implements ShippingProvider
             'initializator' => Auth::user()->name,
             'action'        => 'generó la orden de envío con Andreani',
             'meta'          => [
-                'icon_code' => 'local_shipping',
-                'andreani_response'  => $response
+                'icon_code' => 'local_shipping'
             ]
         ]);
     }
