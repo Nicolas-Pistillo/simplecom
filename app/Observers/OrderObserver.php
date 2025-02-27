@@ -6,6 +6,7 @@ use App\Enums\OrderFeedEvent;
 use App\Enums\OrderFeedPresentation;
 use App\Enums\OrderStatus;
 use App\Events\OrderConfirmed;
+use App\Events\OrderDelivered;
 use App\Events\OrderReadyForDispatch;
 use App\Events\OrderReadyForPickup;
 use App\Models\Order;
@@ -45,6 +46,11 @@ class OrderObserver
         if ($order->status === OrderStatus::DispatchReady)
         {
             OrderReadyForDispatch::dispatch($order);
+        }
+
+        if ($order->status === OrderStatus::Delivered)
+        {
+            OrderDelivered::dispatch($order);
         }
     }
 
