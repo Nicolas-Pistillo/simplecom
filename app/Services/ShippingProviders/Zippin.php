@@ -237,17 +237,21 @@ class Zippin implements ShippingProvider
         ]);
     }
 
-    public function downloadLabel(OrderShipping $shipping)
+    public function getLabelPdf(OrderShipping $shipping)
     {
         $response = Http::withBasicAuth($this->key('zippin_key'), $this->key('zippin_secret'))
                     ->withQueryParameters([
                         'what'   => 'label',
                         'format' => 'pdf'
                     ])
+                    ->throw()
                     ->get("$this->base_url/shipments/$shipping->external_id/documentation")
                     ->json();
 
-        return response(base64_decode($response['body']), 200, ['Content-Type' => 'application/pdf']);
+        if (!isset($response['body']))
+            throw new Exception('La respuesta del servicio no incluyó la etiqueta');
+
+        return base64_decode($response['body']);
     }
 
     public function getStatus(OrderShipping $shipping)

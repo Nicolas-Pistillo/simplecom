@@ -356,15 +356,14 @@ class Andreani implements ShippingProvider
         }
     }
 
-    public function downloadLabel(OrderShipping $shipping)
+    public function getLabelPdf(OrderShipping $shipping)
     {
         $this->generateToken();
 
-        $pdf = Http::withHeader('x-authorization-token', $this->token)
+        return Http::withHeader('x-authorization-token', $this->token)
                     ->get("$this->base_url/v2/ordenes-de-envio/$shipping->label_code/etiquetas")
+                    ->throw()
                     ->body();
-
-        return response($pdf, 200, ['Content-Type' => 'application/pdf']);
     }
 
     public function getToHomeRate(ShippingRateParameters $parameters): Collection

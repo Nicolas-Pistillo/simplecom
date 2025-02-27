@@ -221,17 +221,23 @@ class Mocis implements ShippingProvider
 
     public function syncStatus(OrderShipping $shipping)
     {
+        $statusResponse = $this->getStatus($shipping);
 
+        dd($statusResponse);
     }
 
-    public function downloadLabel(OrderShipping $shipping)
+    public function getLabelUrl(OrderShipping $shipping)
     {
         $this->generateToken();
 
         $response = Http::withToken($this->token)
+                        ->throw()
                         ->get("$this->base_url/shipping/print/label/$shipping->external_id")
                         ->json();
 
-        dd($response);
+        if (!isset($response['status']) || (isset($response['status']) && !$response['status']))
+            throw new Exception('La respuesta del servicio no incluyó la etiqueta para descargar');
+
+        return 'https://mocis.akeron.net/api' . data_get($response, 'result.0.pdf');
     }
 }
