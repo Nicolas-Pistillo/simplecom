@@ -150,9 +150,9 @@ class Index extends Component
         return Excel::download(new ProductsExport($products), 'productos.xlsx');
     }
 
-    public function mount()
+    public function quickUpdate(Product $product)
     {
-        $this->hasProducts = Product::count() > 0;
+        $this->dispatch('quick-update-product', $product->id);
     }
 
     public function getProducts()
@@ -177,6 +177,11 @@ class Index extends Component
         }
 
         return $products->paginate(15);
+    }
+
+    public function mount()
+    {
+        $this->hasProducts = Product::count() > 0;
     }
 
     public function render()

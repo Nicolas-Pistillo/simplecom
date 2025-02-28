@@ -5,6 +5,7 @@ namespace App\Enums;
 enum ShippingStatus: string
 {
     case NotCreated          = 'not_created';
+    case Created             = 'created';
     case OrderPayPending     = 'order_pay_pending';
     case DispatchReady       = 'dispatch_ready';
     case Dispatched          = 'dispatched';
@@ -27,6 +28,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'gray',
+            ShippingStatus::Created            => 'blue',
             ShippingStatus::OrderPayPending    => 'indigo',
             ShippingStatus::DispatchReady      => 'blue',
             ShippingStatus::ProviderPending    => 'yellow',
@@ -51,6 +53,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'No creado',
+            ShippingStatus::Created            => 'Creado',
             ShippingStatus::OrderPayPending    => 'Pago pendiente',
             ShippingStatus::DispatchReady      => 'Listo para despachar',
             ShippingStatus::Dispatched         => 'Despachado',
@@ -75,6 +78,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'Pendiente',
+            ShippingStatus::Created            => 'Pendiente',
             ShippingStatus::OrderPayPending    => 'Pendiente',
             ShippingStatus::ProviderPending    => 'Pendiente',
             ShippingStatus::DispatchReady      => 'Preparado',
@@ -99,6 +103,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'La orden de envío no ha sido creada',
+            ShippingStatus::Created            => 'La orden de envío está creada, se esperan actualizaciones',
             ShippingStatus::OrderPayPending    => 'Debes abonar la orden de envío para confirmarla',
             ShippingStatus::ProviderPending    => 'La orden de envío ha sido creada. Se espera que el proveedor la confirme',
             ShippingStatus::ProviderProcessing => 'La orden de envío está siendo procesada por el proveedor',
@@ -123,6 +128,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'Estamos preparando todo para el envío, pronto tendrás novedades',
+            ShippingStatus::Created            => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::OrderPayPending    => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::ProviderPending    => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::ProviderProcessing => 'Estamos preparando todo para el envío, pronto tendrás novedades',

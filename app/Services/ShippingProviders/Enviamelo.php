@@ -24,6 +24,8 @@ class Enviamelo implements ShippingProvider
 
     protected $configuration_keys = ['enviamelo_token'];
 
+    private $base_url = 'https://api.enviamelo.com.ar/api/v1';
+
     public function getRates(ShippingRateParameters $parameters): Collection
     {
         $cartPackage = CartService::getPackageInfo();
@@ -35,7 +37,7 @@ class Enviamelo implements ShippingProvider
                             'weight'      => data_get($cartPackage, 'weight'),
                             'postal_code' => $parameters->recipient_address->zipcode_number
                         ]))
-                        ->post('https://api.enviamelo.com.ar/api/v1/price')
+                        ->post("$this->base_url/price")
                         ->collect('data');
 
         if (!$results || $results->isEmpty()) return $rates;
@@ -91,7 +93,7 @@ class Enviamelo implements ShippingProvider
                     ->withBody(json_encode([
                         'postal_code' => $destination->zipcode_number
                     ]))
-                    ->post('https://api.enviamelo.com.ar/api/v1/points')
+                    ->post("$this->base_url/points")
                     ->collect('data');
 
         if (!$response || $response->isEmpty()) return collect();
