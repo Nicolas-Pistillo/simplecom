@@ -4,7 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
 use App\Models\Order;
@@ -23,6 +23,7 @@ use App\Utils\ShippingBranch;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Mocis implements ShippingProvider
 {
@@ -201,7 +202,7 @@ class Mocis implements ShippingProvider
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::ShippingUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => "generó la orden de envío con Moci's",
             'meta'          => [
@@ -221,9 +222,98 @@ class Mocis implements ShippingProvider
 
     public function syncStatus(OrderShipping $shipping)
     {
+        /* "result" => array:1 [
+            0 => array:13 [
+            0 => array:2 [
+                "id" => 0
+                "name" => "En Espera"
+            ]
+            1 => array:2 [
+                "id" => 9
+                "name" => "Colectado"
+            ]
+            2 => array:2 [
+                "id" => 4
+                "name" => "En Deposito"
+            ]
+            3 => array:2 [
+                "id" => 6
+                "name" => "En Transito"
+            ]
+            4 => array:2 [
+                "id" => 1
+                "name" => "En Camino"
+            ]
+            5 => array:2 [
+                "id" => 2
+                "name" => "Entregado"
+            ]
+            6 => array:2 [
+                "id" => -1
+                "name" => "No Entregado"
+            ]
+            7 => array:2 [
+                "id" => 5
+                "name" => "Cancelado"
+            ]
+            8 => array:2 [
+                "id" => 14
+                "name" => "En proceso devolucion"
+            ]
+            9 => array:2 [
+                "id" => 13
+                "name" => "Devuelto"
+            ]
+            10 => array:2 [
+                "id" => 10
+                "name" => "Pendiente de retiro"
+            ]
+            11 => array:2 [
+                "id" => 11
+                "name" => "Retirado"
+            ]
+            12 => array:2 [
+                "id" => 12
+                "name" => "Retiro Fallido"
+            ]
+            ] */
+
         $statusResponse = $this->getStatus($shipping);
 
-        dd($statusResponse);
+        if (!$statusResponse || !isset($statusResponse['status']) || !$statusResponse['status'])
+            return false; // Or exception
+
+        $currentStatus = strtolower(data_get($statusResponse, 'result.0.state'));
+
+        if ($currentStatus === 'en espera')
+        {
+            //
+        }
+
+        if ($currentStatus === 'colectado' && $shipping->status != ShippingStatus::Dispatched)
+        {
+            //
+        }
+
+        if (in_array($currentStatus, ['en transito', 'en camino']) && $shipping->status != ShippingStatus::InTransit)
+        {
+            //
+        }
+
+        if ($currentStatus === 'cancelado' && $shipping->status != ShippingStatus::Cancelled)
+        {
+            //
+        }
+
+        if ($currentStatus === 'entregado' && $shipping->status != ShippingStatus::Delivered)
+        {
+            //
+        }
+
+        if ($currentStatus === 'devuelto' && $shipping->status != ShippingStatus::Returned)
+        {
+            //
+        }
     }
 
     public function getLabelUrl(OrderShipping $shipping)

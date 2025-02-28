@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Events\OrderConfirmed;
 use App\Events\OrderDelivered;
@@ -22,7 +22,7 @@ class OrderObserver
         OrderFeedItem::create([
             'order_id'      => $order->id,
             'event'         => OrderFeedEvent::StatusUpdate,
-            'presentation'  => OrderFeedPresentation::InitialsImage,
+            'presentation'  => NotificationPresentation::InitialsImage,
             'initializator' => $order->user->full_name,
             'action'        => 'realizó este pedido'
         ]);

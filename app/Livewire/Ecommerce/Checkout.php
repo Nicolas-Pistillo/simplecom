@@ -4,7 +4,7 @@ namespace App\Livewire\Ecommerce;
 
 use App\Enums\DeliveryType;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
 use App\Traits\Livewire\WithNotifications;
@@ -318,7 +318,7 @@ class Checkout extends Component
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::PaymentUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => $order->user->full_name,
             'action'        => 'canceló el proceso de pago del pedido',
             'meta'          => [

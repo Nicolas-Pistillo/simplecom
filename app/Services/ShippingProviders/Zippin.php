@@ -4,7 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
@@ -227,7 +227,7 @@ class Zippin implements ShippingProvider
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::ShippingUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'comments'      => "ID de envío generado: " . data_get($response, 'id'),
             'action'        => 'generó la orden de envío con Zippin, el correo encargado será ' . $order->shipping->provider_carrier,
@@ -279,7 +279,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'Zippin',
                 'action'        => "confirmó el ingreso de la orden de envío y ya se encuentra disponible su documentación",
                 'meta'          => [
@@ -301,7 +301,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'Zippin',
                 'action'        => "procesó correctamente la orden de envío y ya está lista para ser despachada",
                 'meta'          => [
@@ -320,7 +320,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'Zippin',
                 'action'        => "confirmó la cancelación del envío",
                 'meta'          => [
@@ -339,7 +339,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'Zippin',
                 'action'        => "informó que el transportista rechazó el envío, el mismo será devuelto",
                 'meta'          => [
@@ -361,7 +361,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'El pedido',
                 'action'        => "fue despachado correctamente y ya está en manos de Zippin",
                 'meta'          => [
@@ -384,7 +384,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'El pedido',
                 'action'        => "ya está en camino",
                 'meta'          => [
@@ -403,7 +403,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'Zippin',
                 'action'        => "informa que el transportista está cerca del destino",
                 'meta'          => [
@@ -424,7 +424,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => $shipping->order->user->full_name,
                 'action'        => "ya puede pasar a retirar el pedido en la sucursal elegida",
                 'meta'          => [
@@ -447,7 +447,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => "Zippin",
                 'action'        => "informó que el pedido se entrego correctamente",
                 'meta'          => [
@@ -468,7 +468,7 @@ class Zippin implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => "Zippin",
                 'action'        => "reportó un siniestro en el envío, contactate urgentemente",
                 'meta'          => [

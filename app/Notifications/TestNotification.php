@@ -2,10 +2,12 @@
 
 namespace App\Notifications;
 
+use App\Enums\NotificationPresentation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class TestNotification extends Notification
 {
@@ -37,9 +39,12 @@ class TestNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'title' => 'Factura emitida',
-            'body'  => 'Este es el cuerpo de la notificación, aca van a ir todos los detalles que la misma necesite',
-            'url'   => route('ecommerce.index')
+            'presentation'   => NotificationPresentation::Image,
+            'icon_code'      => 'error',
+            'icon_color'     => 'red',
+            'initials_name'  => 'Juan Carlos',
+            'body'  => 'Este es un ejemplo de una notificación sin href',
+            'url'   => null
         ];
     }
 }

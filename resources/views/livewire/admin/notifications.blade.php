@@ -29,20 +29,45 @@
                 rounded-t-none sm:rounded-t-lg bg-blue-600">
                     Notificaciones
                 </div>
-                <div class="divide-y divide-gray-100">
+                <div class="divide-y divide-gray-100 max-h-[350px] overflow-y-auto">
 
                     @forelse (Auth::user()->notifications as $notification)
 
-                        <a href="#" class="flex px-4 py-3 hover:bg-gray-100">
+                        <a wire:key='{{ $notification->id }}' href="{{ data_get($notification->data, 'url', '#') }}"
+                        {{ !data_get($notification->data, 'url') ? 'onclick=event.preventDefault()' : '' }}
+                        class="flex px-4 py-3 hover:bg-gray-100">
                             <div class="flex-shrink-0">
-                                <img class="rounded-full w-11 h-11" src="{{ URL::to('img/avatar-default.png') }}">
+
+                                @if (data_get($notification->data, 'presentation') === NotificationPresentation::Icon->value)
+                                    <x-icon code="{{ data_get($notification->data, 'icon_code', 'info') }}" 
+                                    class="text-{{ data_get($notification->data, 'icon_color', 'blue') }}-600" />
+                                @endif
+
+                                @if (data_get($notification->data, 'presentation') === NotificationPresentation::InitialsImage->value)
+                                    <img src="{{ initialsAvatar([
+                                        'name'       => data_get($notification->data, 'initials_name'),
+                                        'background' => '#2563eb',
+                                        'color'      => '#fff',
+                                        'bold'       => false,
+                                    ]) }}" class="relative h-11 w-11 flex-none rounded-full 
+                                    bg-gray-50 -left-[3.5px] self-start">
+                                @endif
+
+                                @if (data_get($notification->data, 'presentation') === NotificationPresentation::Image->value)
+                                    <img src="{{ data_get($notification->data, 'img_src', URL::to('img/no-image.png')) }}"
+                                    class="rounded-full w-11 h-11">
+                                @endif
                             </div>
                             <div class="w-full ps-3">
                                 <p class="text-gray-700 text-sm mb-1.5">
                                     {{ data_get($notification->data, 'body') }}
                                 </p>
-                                <div class="text-xs text-blue-600">
-                                    {{ $notification->created_at->format('d/m/Y H:i') }}
+                                <div class="mt-3 text-xs text-gray-600 flex justify-between items-center">
+                                    <span>{{ $notification->created_at->format('d/m/Y H:i') }}</span>
+                                    <span wire:click="deleteNotification('{{ $notification->id }}')"
+                                    onclick="event.preventDefault()" class="text-red-600 hover:underline">
+                                        Eliminar
+                                    </span>
                                 </div>
                             </div>
                         </a>
@@ -60,65 +85,6 @@
                             </div>
                         </div>
                     @endforelse
-
-                    {{-- <a href="#" class="flex px-4 py-3 hover:bg-gray-100">
-                        <div class="flex-shrink-0">
-                            <img class="rounded-full w-11 h-11" src="{{ URL::to('img/avatar-default.png') }}">
-                        </div>
-                        <div class="w-full ps-3">
-                            <div class="text-gray-500 text-sm mb-1.5"><span class="font-semibold text-gray-900">5
-                                    others</span> started following you.
-                            </div>
-                            <div class="text-xs text-blue-600">10 minutes ago</div>
-                        </div>
-                    </a>
-                    <a href="#" class="flex px-4 py-3 hover:bg-gray-100">
-                        <div class="flex-shrink-0">
-                            <img class="rounded-full w-11 h-11" src="{{ URL::to('img/avatar-default.png') }}">
-                        </div>
-                        <div class="w-full ps-3">
-                            <div class="text-gray-500 text-sm mb-1.5"><span class="font-semibold text-gray-900">Joseph
-                                    Mcfall</span> and <span class="font-medium text-gray-900">5 others</span> started
-                                following you.
-                            </div>
-                            <div class="text-xs text-blue-600">10 minutes ago</div>
-                        </div>
-                    </a>
-                    <a href="#" class="flex px-4 py-3 hover:bg-gray-100">
-                        <div class="flex-shrink-0">
-                            <img class="rounded-full w-11 h-11" src="{{ URL::to('img/avatar-default.png') }}">
-                        </div>
-                        <div class="w-full ps-3">
-                            <div class="text-gray-500 text-sm mb-1.5"><span class="font-semibold text-gray-900">Joseph
-                                    Mcfall</span> and <span class="font-medium text-gray-900">5 others</span> started
-                                following you.
-                            </div>
-                            <div class="text-xs text-blue-600">10 minutes ago</div>
-                        </div>
-                    </a>
-                    <a href="#" class="flex px-4 py-3 hover:bg-gray-100">
-                        <div class="flex-shrink-0">
-                            <img class="rounded-full w-11 h-11" src="{{ URL::to('img/avatar-default.png') }}">
-                        </div>
-                        <div class="w-full ps-3">
-                            <div class="text-gray-500 text-sm mb-1.5"><span class="font-semibold text-gray-900">Joseph
-                                    Mcfall</span> and <span class="font-medium text-gray-900">5 others</span> started
-                                following you.
-                            </div>
-                            <div class="text-xs text-blue-600">10 minutes ago</div>
-                        </div>
-                    </a>
-                    <a href="#" class="flex px-4 py-3 hover:bg-gray-100">
-                        <div class="flex-shrink-0">
-                            <img class="rounded-full w-11 h-11" src="{{ URL::to('img/avatar-default.png') }}">
-                        </div>
-                        <div class="w-full ps-3">
-                            <div class="text-gray-500 text-sm mb-1.5"><span class="font-semibold text-gray-900">5
-                                    others</span> started following you.
-                            </div>
-                            <div class="text-xs text-blue-600">10 minutes ago</div>
-                        </div>
-                    </a> --}}
                 </div>
 
                 @if (Auth::user()->notifications->isNotEmpty())

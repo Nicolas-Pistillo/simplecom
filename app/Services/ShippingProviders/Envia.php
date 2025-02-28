@@ -4,7 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
@@ -274,7 +274,7 @@ class Envia implements ShippingProvider
 
             $order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'Envia.com',
                 'action'        => 'confirmó la orden de envío a entregar con ' . $order->shipping->provider_carrier,
                 'comments'      => 'Cod. de de envío generado: ' . data_get($responseData, 'trackingNumber'),

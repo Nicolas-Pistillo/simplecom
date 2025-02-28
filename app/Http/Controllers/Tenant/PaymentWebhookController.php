@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
@@ -76,7 +76,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'MercadoPago',
                     'action'        => 'aprobó el pago',
                     'meta'          => [
@@ -102,7 +102,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'MercadoPago',
                     'action'        => 'está esperando el pago del comprador',
                     'meta'          => [
@@ -128,7 +128,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'MercadoPago',
                     'action'        => 'autorizó el pago y se espera el desembolso',
                     'meta'          => [
@@ -154,7 +154,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'MercadoPago',
                     'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
                     'meta'          => [
@@ -180,7 +180,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'MercadoPago',
                     'action'        => 'está procesando el pago, se esperan actualizaciónes de estado',
                     'meta'          => [
@@ -206,7 +206,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'MercadoPago',
                     'action'        => 'canceló o caducó el pago del pedido, la compra queda rechazada',
                     'meta'          => [
@@ -232,7 +232,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'MercadoPago',
                     'action'        => 'informó que el comprador inició una disputa por este pago',
                     'meta'          => [
@@ -258,7 +258,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'MercadoPago',
                     'action'        => 'confirmó el reembolso de este pago',
                     'meta'          => [
@@ -342,7 +342,7 @@ class PaymentWebhookController extends Controller
 
                     $order->feed()->create([
                         'event'         => OrderFeedEvent::PaymentUpdate,
-                        'presentation'  => OrderFeedPresentation::Icon,
+                        'presentation'  => NotificationPresentation::Icon,
                         'initializator' => 'Mobbex',
                         'action'        => 'aprobó el pago',
                         'meta'          => [
@@ -369,7 +369,7 @@ class PaymentWebhookController extends Controller
 
                     $order->feed()->create([
                         'event'         => OrderFeedEvent::PaymentUpdate,
-                        'presentation'  => OrderFeedPresentation::Icon,
+                        'presentation'  => NotificationPresentation::Icon,
                         'initializator' => 'Mobbex',
                         'action'        => 'está esperando el pago del comprador',
                         'meta'          => [
@@ -395,7 +395,7 @@ class PaymentWebhookController extends Controller
 
                     $order->feed()->create([
                         'event'         => OrderFeedEvent::PaymentUpdate,
-                        'presentation'  => OrderFeedPresentation::Icon,
+                        'presentation'  => NotificationPresentation::Icon,
                         'initializator' => 'Mobbex',
                         'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
                         'meta'          => [
@@ -422,7 +422,7 @@ class PaymentWebhookController extends Controller
 
                     $order->feed()->create([
                         'event'         => OrderFeedEvent::PaymentUpdate,
-                        'presentation'  => OrderFeedPresentation::Icon,
+                        'presentation'  => NotificationPresentation::Icon,
                         'initializator' => 'Mobbex',
                         'action'        => 'canceló o caducó el pago del pedido, la compra queda rechazada',
                         'meta'          => [
@@ -514,7 +514,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Ualabis',
                     'action'        => 'aprobó el pago',
                     'meta'          => [
@@ -539,7 +539,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Ualabis',
                     'action'        => 'procesó correctamente el pago y se espera el desembolso',
                     'meta'          => [
@@ -564,7 +564,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Ualabis',
                     'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
                     'meta'          => [
@@ -654,7 +654,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'GOcuotas',
                     'action'        => 'aprobó el pago',
                     'meta'          => [
@@ -689,7 +689,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'GOcuotas',
                     'action'        => 'está esperando el pago del comprador',
                     'meta'          => [
@@ -724,7 +724,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'GOcuotas',
                     'action'        => 'rechazó el pago',
                     'meta'          => [
@@ -774,7 +774,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Cajero24',
                     'action'        => $action,
                     'meta'          => [
@@ -800,7 +800,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Cajero24',
                     'action'        => 'está esperando el pago del comprador',
                     'meta'          => [
@@ -818,7 +818,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Cajero24',
                     'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
                     'meta'          => [
@@ -840,7 +840,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Cajero24',
                     'action'        => $action,
                     'meta'          => [
@@ -946,7 +946,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Sipago',
                     'action'        => 'aprobó el pago',
                     'meta'          => [
@@ -974,7 +974,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Sipago',
                     'action'        => 'rechazó el pago',
                     'meta'          => [
@@ -1021,7 +1021,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Getnet',
                     'action'        => 'aprobó el pago',
                     'meta'          => [
@@ -1049,7 +1049,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Getnet',
                     'action'        => 'rechazó el pago',
                     'meta'          => [
@@ -1096,7 +1096,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'OpenPay',
                     'action'        => 'aprobó el pago',
                     'meta'          => [
@@ -1124,7 +1124,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'OpenPay',
                     'action'        => 'rechazó el pago',
                     'meta'          => [
@@ -1171,7 +1171,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'viüMi',
                     'action'        => 'aprobó el pago',
                     'meta'          => [
@@ -1199,7 +1199,7 @@ class PaymentWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'viüMi',
                     'action'        => 'rechazó el pago',
                     'meta'          => [

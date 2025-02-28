@@ -4,7 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
@@ -181,7 +181,7 @@ class Epick implements ShippingProvider
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::ShippingUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => 'E-pick',
             'action'        => 'recibió la orden de envío, debés abonarla para confirmarla',
             'meta'          => [

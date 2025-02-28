@@ -4,7 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
@@ -185,7 +185,7 @@ class Andreani implements ShippingProvider
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::ShippingUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => 'generó la orden de envío con Andreani',
             'meta'          => [
@@ -221,7 +221,7 @@ class Andreani implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'Andreani',
                 'action'        => "confirmó la orden de envío y se encuentra actualmente pendiente de ingreso al circuito operativo",
                 'meta'          => [
@@ -230,17 +230,19 @@ class Andreani implements ShippingProvider
             ]);
         }
 
-        if ($currentStatus === 'Ingreso al circuito operativo' && $shipping->status != ShippingStatus::Ready)
+        if ($currentStatus === 'Ingreso al circuito operativo' && $shipping->status != ShippingStatus::Dispatched)
         {
             $shipping->update([
-                'status'             => ShippingStatus::Ready,
+                'status'             => ShippingStatus::Dispatched,
                 'external_status'    => $currentStatus,
                 'external_status_id' => data_get($statusResponse, 'estadoId')
             ]);
 
+            $shipping->order->update(['status' => OrderStatus::Dispatched]);
+
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Image,
+                'presentation'  => NotificationPresentation::Image,
                 'initializator' => 'Andreani',
                 'action'        => "ingresó la orden de envío al circuito operativo y se encuentra listo para comenzar la entrega",
                 'meta'          => [
@@ -261,7 +263,7 @@ class Andreani implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => 'Andreani',
                 'action'        => "ya está en camino para entregar el pedido",
                 'meta'          => [
@@ -280,7 +282,7 @@ class Andreani implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => 'Andreani',
                 'action'        => "informó un siniestro con el envío del pedido, sugerimos que te contactes de manera urgente",
                 'meta'          => [
@@ -304,7 +306,7 @@ class Andreani implements ShippingProvider
     
                 $shipping->order->feed()->create([
                     'event'         => OrderFeedEvent::ShippingUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Andreani',
                     'action'        => "entregó el pedido en la sucursal de destino, el comprador puede pasar a retirarlo",
                     'meta'          => [
@@ -323,7 +325,7 @@ class Andreani implements ShippingProvider
     
                 $shipping->order->feed()->create([
                     'event'         => OrderFeedEvent::ShippingUpdate,
-                    'presentation'  => OrderFeedPresentation::Image,
+                    'presentation'  => NotificationPresentation::Image,
                     'initializator' => 'Andreani',
                     'action'        => "está en el último tramo del viaje",
                     'meta'          => [
@@ -345,7 +347,7 @@ class Andreani implements ShippingProvider
 
             $shipping->order->feed()->create([
                 'event'         => OrderFeedEvent::ShippingUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => 'Andreani',
                 'action'        => "entregó el pedido correctamente",
                 'meta'          => [

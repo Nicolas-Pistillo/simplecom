@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin\Orders;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
@@ -35,7 +35,7 @@ class Show extends Component
         OrderFeedItem::create([
             'order_id'      => $this->order->id,
             'event'         => OrderFeedEvent::StatusUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => "confirmó que recibió la transferencia por el pago del pedido",
             'meta'          => [
@@ -60,7 +60,7 @@ class Show extends Component
         OrderFeedItem::create([
             'order_id'      => $this->order->id,
             'event'         => OrderFeedEvent::StatusUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => "marcó el pedido como listo para retirar en {$this->order->storePickup->name}",
             'meta'          => [

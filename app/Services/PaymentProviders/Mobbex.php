@@ -3,7 +3,7 @@
 namespace App\Services\PaymentProviders;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\PaymentRedirectType;
 use App\Enums\PaymentStatus;
 use App\Interfaces\PaymentGateway;
@@ -63,7 +63,7 @@ class Mobbex implements PaymentGateway
         OrderFeedItem::create([
             'order_id'      => $order->id,
             'event'         => OrderFeedEvent::PaymentUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => $order->user->full_name,
             'action'        => "inició el pago del pedido con Mobbex",
             'meta'          => [

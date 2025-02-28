@@ -184,20 +184,20 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'DeliveryType'          => App\Enums\DeliveryType::class,
-        'CustomerType'          => App\Enums\CustomerType::class,
-        'InputType'             => App\Enums\InputType::class,
-        'ShippingMethodType'    => App\Enums\ShippingMethodType::class,
-        'LogisticType'          => App\Enums\LogisticType::class,
-        'TaxCondition'          => App\Enums\TaxCondition::class,
-        'InvoicePayCondition'   => App\Enums\InvoicePayCondition::class,
-        'InvoiceItemAliquot'    => App\Enums\InvoiceItemAliquot::class,
-        'InvoiceType'           => App\Enums\InvoiceType::class,
-        'PaymentStatus'         => App\Enums\PaymentStatus::class,
-        'ShippingStatus'        => App\Enums\ShippingStatus::class,
-        'OrderStatus'           => App\Enums\OrderStatus::class,
-        'OrderFeedEvent'        => App\Enums\OrderFeedEvent::class,
-        'OrderFeedPresentation' => App\Enums\OrderFeedPresentation::class
+        'DeliveryType'             => App\Enums\DeliveryType::class,
+        'CustomerType'             => App\Enums\CustomerType::class,
+        'InputType'                => App\Enums\InputType::class,
+        'ShippingMethodType'       => App\Enums\ShippingMethodType::class,
+        'LogisticType'             => App\Enums\LogisticType::class,
+        'TaxCondition'             => App\Enums\TaxCondition::class,
+        'InvoicePayCondition'      => App\Enums\InvoicePayCondition::class,
+        'InvoiceItemAliquot'       => App\Enums\InvoiceItemAliquot::class,
+        'InvoiceType'              => App\Enums\InvoiceType::class,
+        'PaymentStatus'            => App\Enums\PaymentStatus::class,
+        'ShippingStatus'           => App\Enums\ShippingStatus::class,
+        'OrderStatus'              => App\Enums\OrderStatus::class,
+        'OrderFeedEvent'           => App\Enums\OrderFeedEvent::class,
+        'NotificationPresentation' => App\Enums\NotificationPresentation::class
     ])->toArray(),
 
 ];

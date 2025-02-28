@@ -4,7 +4,7 @@ namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
@@ -153,7 +153,7 @@ class Rapiboy implements ShippingProvider
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::ShippingUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => 'generó la orden de envío con Rapiboy',
             'meta'          => [
@@ -190,7 +190,7 @@ class Rapiboy implements ShippingProvider
 
                 $shipping->order->feed()->create([
                     'event'         => OrderFeedEvent::ShippingUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Rapiboy',
                     'action'        => "confirmó la cancelación del envío",
                     'meta'          => [
@@ -210,7 +210,7 @@ class Rapiboy implements ShippingProvider
 
                 $shipping->order->feed()->create([
                     'event'         => OrderFeedEvent::ShippingUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Rapiboy',
                     'action'        => "reportó un siniestro durante el viaje, contactate urgentemente",
                     'meta'          => [
@@ -230,7 +230,7 @@ class Rapiboy implements ShippingProvider
 
                 $shipping->order->feed()->create([
                     'event'         => OrderFeedEvent::ShippingUpdate,
-                    'presentation'  => OrderFeedPresentation::Image,
+                    'presentation'  => NotificationPresentation::Image,
                     'initializator' => 'Rapiboy',
                     'action'        => "devolvió el pedido",
                     'meta'          => [
@@ -251,7 +251,7 @@ class Rapiboy implements ShippingProvider
 
                 $shipping->order->feed()->create([
                     'event'         => OrderFeedEvent::ShippingUpdate,
-                    'presentation'  => OrderFeedPresentation::Image,
+                    'presentation'  => NotificationPresentation::Image,
                     'initializator' => 'Rapiboy',
                     'action'        => "colectó el pedido y ya está en viaje",
                     'meta'          => [
@@ -270,7 +270,7 @@ class Rapiboy implements ShippingProvider
 
                 $shipping->order->feed()->create([
                     'event'         => OrderFeedEvent::ShippingUpdate,
-                    'presentation'  => OrderFeedPresentation::Image,
+                    'presentation'  => NotificationPresentation::Image,
                     'initializator' => 'Rapiboy',
                     'action'        => "está cerca del domicilio del cliente",
                     'meta'          => [
@@ -291,7 +291,7 @@ class Rapiboy implements ShippingProvider
 
                 $shipping->order->feed()->create([
                     'event'         => OrderFeedEvent::ShippingUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Rapiboy',
                     'action'        => "entregó el pedido correctamente",
                     'meta'          => [

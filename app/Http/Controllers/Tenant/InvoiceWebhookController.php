@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Enums\InvoiceStatus;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Tenant;
@@ -51,7 +51,7 @@ class InvoiceWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::InvoiceUpdate,
-                    'presentation'  => OrderFeedPresentation::Image,
+                    'presentation'  => NotificationPresentation::Image,
                     'initializator' => 'TusFacturasAPP',
                     'action'        => 'ya está procesando la factura',
                     'meta'          => [
@@ -105,7 +105,7 @@ class InvoiceWebhookController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::InvoiceUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'La factura',
                     'action'        => 'del pedido ha sido emitida correctamente',
                     'meta'          => [

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentRedirectType;
 use App\Enums\PaymentStatus;
@@ -44,7 +44,7 @@ class BankTransfer implements PaymentGateway
         OrderFeedItem::create([
             'order_id'      => $order->id,
             'event'         => OrderFeedEvent::PaymentUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => $order->user->full_name,
             'action'        => "tiene que transferir $$total a tu cuenta de " . $this->key('transfer_bank'),
             'meta'          => [
