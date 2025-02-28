@@ -52,15 +52,15 @@
                             </p>
                         </div>
 
-                        <x-tabs simple tabs="['Integraciones', 'Puntos de colecta']"
+                        <x-tabs simple tabs="['Integraciones', 'Puntos de origen']"
                         current="{{ request('providers-tab') ?? 'Integraciones' }}" class="w-full">
 
                             <section x-cloak x-show="current === 'Integraciones'" x-transition>
                                 @livewire('admin.delivery-methods.providers')
                             </section>
 
-                            <section x-cloak x-show="current === 'Puntos de colecta'" x-transition>
-                                @livewire('admin.delivery-methods.collection-points')
+                            <section x-cloak x-show="current === 'Puntos de origen'" x-transition>
+                                @livewire('admin.delivery-methods.origin-points')
                             </section>
 
                         </x-tabs>

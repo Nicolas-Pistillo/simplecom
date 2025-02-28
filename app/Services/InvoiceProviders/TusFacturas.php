@@ -7,7 +7,7 @@ use App\Enums\InvoicePayCondition;
 use App\Enums\InvoiceStatus;
 use App\Enums\InvoiceType;
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\TaxCondition;
 use App\Livewire\Forms\OrderInvoiceForm;
 use App\Models\Invoice;
@@ -118,7 +118,7 @@ class TusFacturas
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::InvoiceUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => "facturó el pedido",
             'comments'      => "Respuesta del servicio: " . data_get($response, 'rta'),
@@ -185,7 +185,7 @@ class TusFacturas
 
         $order->feed()->create([
             'event'         => OrderFeedEvent::InvoiceUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => "envió a facturar el pedido con TusFacturasAPP",
             'comments'      => "Respuesta del servicio: " . data_get($response, 'rta'),

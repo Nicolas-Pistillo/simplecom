@@ -1,7 +1,7 @@
 <div>
     <section x-data="{ open: false }" class="relative"
-        x-on:open-edit-collection-point.window="open = true"
-        x-on:close-edit-collection-point.window="open = false">
+        x-on:open-new-origin-point.window="open = true; $nextTick(() => {document.getElementById('new-origin-point-search').focus()})"
+        x-on:close-new-origin-point.window="open = false">
         <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative z-40">
 
             <div x-cloak x-show="open" class="w-full relative flex justify-center">
@@ -14,27 +14,29 @@
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     class="pd-overlay w-full h-full fixed top-0 left-0 z-[30] overflow-x-hidden overflow-y-auto">
                     <div class="opacity-1 ease-out sm:max-w-md sm:w-full m-3 relative top-1/2 shadow-xl
-                    -translate-y-1/2 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-500">
-                        @if (isset($collection_point))
-                            <div class="flex items-start bg-white p-6 rounded-lg">
-                                <div class="block w-full">
+                    -translate-y-1/2 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-500
+                    max-h-[94vh] overflow-y-auto">
+                        <div class="flex items-start bg-white p-6 rounded-lg">
+                            <div class="block w-full">
 
-                                    <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center justify-between mb-3">
 
-                                        <h6 class="text-lg font-bold truncate leading-8 text-gray-900">
-                                            {{ $collection_point->name }}
-                                        </h6>
+                                    <h6 class="text-lg font-bold leading-8 text-gray-900">
+                                        {{ empty($selected_address) ? 'Nuevo' : 'Confirmar' }} punto de orígen
+                                    </h6>
 
-                                        <x-icon code="close" @click="open = false"
-                                        class="transition colors duration-300 text-[18px]
-                                        cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
-                                      hover:bg-gray-200 focus:outline-none focus:ring" />
-                                    </div>
+                                    <x-icon code="close" @click="open = false"
+                                    class="transition colors duration-300 text-[18px]
+                                    cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
+                                  hover:bg-gray-200 focus:outline-none focus:ring" />
+                                </div>
 
+                                @if (!empty($selected_address))
+                                    
                                     <div class="flex items-center mb-3">
                                         <x-icon code="location_on" class="text-gray-700 mr-1" />
-                                        <p class="text-sm truncate font-medium text-gray-900">
-                                            {{ $collection_point->address }}
+                                        <p class="text-sm font-medium text-gray-900">
+                                            {{ $selected_address['summary'] }}
                                         </p>
                                     </div>
 
@@ -46,14 +48,14 @@
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
                                                 flex items-center ps-3 pointer-events-none">Nombre:</span>
 
-                                                <input type="text" wire:model.blur='form.name'
+                                                <input type="text" wire:model.blur='name'
                                                 placeholder="Ej: Depósito pricipal..."
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.5rem]">
                                 
                                             </div>
 
-                                            @error('form.name')
+                                            @error('name')
                                                 <small class="text-red-500">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -64,7 +66,7 @@
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
                                                 flex items-center ps-3 pointer-events-none">Piso:</span>
 
-                                                <input type="text" wire:model.blur='form.floor'
+                                                <input type="text" wire:model.blur='floor'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm 
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
                                 
@@ -77,7 +79,7 @@
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
                                                 flex items-center ps-3 pointer-events-none">Local:</span>
 
-                                                <input type="text" wire:model.blur='form.local'
+                                                <input type="text" wire:model.blur='local'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm 
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm text-right">
 
@@ -88,7 +90,7 @@
                                             <div class="relative mt-1">
 
                                                 <textarea rows="2" placeholder="Aclaraciones/Detalles de la dirección"
-                                                wire:model.blur='form.observations'
+                                                wire:model.blur='observations'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm"></textarea>
                                 
@@ -115,13 +117,13 @@
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
                                                 flex items-center ps-3 pointer-events-none">Nombre:</span>
 
-                                                <input type="text" wire:model.blur='form.staff_name'
+                                                <input type="text" wire:model.blur='staff_name'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.3rem]">
                                 
                                             </div>
 
-                                            @error('form.staff_name')
+                                            @error('staff_name')
                                                 <small class="text-red-500">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -132,13 +134,13 @@
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
                                                 flex items-center ps-3 pointer-events-none">Email:</span>
 
-                                                <input type="text" wire:model.blur='form.staff_email'
+                                                <input type="text" wire:model.blur='staff_email'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[3.2rem]">
                                 
                                             </div>
 
-                                            @error('form.staff_email')
+                                            @error('staff_email')
                                                 <small class="text-red-500">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -149,13 +151,13 @@
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
                                                 flex items-center ps-3 pointer-events-none">Teléfono:</span>
 
-                                                <input type="number" wire:model.blur='form.staff_phone'
+                                                <input type="number" wire:model.blur='staff_phone'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[4.3rem]">
                                 
                                             </div>
 
-                                            @error('form.staff_phone')
+                                            @error('staff_phone')
                                                 <small class="text-red-500">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -166,42 +168,93 @@
                                                 <span class="absolute text-xs text-gray-500 inset-y-0 start-0 
                                                 flex items-center ps-3 pointer-events-none">DNI:</span>
 
-                                                <input type="number" wire:model.blur='form.staff_document'
+                                                <input type="number" wire:model.blur='staff_document'
                                                 class="block w-full rounded-md border-gray-300 shadow-sm placeholder:text-xs
                                                 focus:border-blue-500 focus:ring-blue-500 text-xs sm:text-sm pl-[2.4rem]">
                                 
                                             </div>
 
-                                            @error('form.staff_document')
+                                            @error('staff_document')
                                                 <small class="text-red-500">{{ $message }}</small>
                                             @enderror
                                         </div>
+
                                     </div>
+
+                                    <gmp-map wire:ignore center="{{ $selected_address['lat_lng'] }}" 
+                                    zoom="18" map-id="selected_address_map" class="mt-4 h-[130px] md:h-[200px] rounded-lg shadow-md">
+                                        <gmp-advanced-marker position="{{ $selected_address['lat_lng'] }}"></gmp-advanced-marker>
+                                    </gmp-map>
 
                                     <div class="flex items-center justify-center pt-8 gap-4">
 
-                                        <div wire:loading wire:target='updateCollectionPoint'>
+                                        <div wire:loading wire:target='save'>
                                             <div class="flex items-center gap-x-2">
                                                 <span class="text-xs text-gray-700 font-semibold">
-                                                    Actualizando
+                                                    Guardando dirección
                                                 </span>
                                                 <x-spinner />
                                             </div>
                                         </div>
 
-                                        <x-button @click="open = false" size="large" type="secondary" 
-                                        wire:loading.remove wire:target='updateCollectionPoint'
-                                        class="w-full flex items-center justify-center">
-                                            Cancelar
+                                        <x-button wire:click='removeSelectedAddress' 
+                                        wire:loading.remove wire:target='save'
+                                        size="large" type="soft" class="w-full flex items-center justify-center">
+                                            <x-icon code="arrow_back" class="mr-2" />
+                                            Volver
                                         </x-button>
 
-                                        <x-button wire:click='updateCollectionPoint' 
-                                        wire:loading.remove wire:target='updateCollectionPoint'
-                                        size="large" class="w-full">Guardar</x-button>
+                                        <x-button wire:click='save' 
+                                        wire:loading.remove wire:target='save'
+                                        size="large" class="w-full">Confirmar</x-button>
                                     </div>
-                                </div>
+                                @else
+                                    <div class="w-full relative">
+
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                            <x-icon code="search" class="text-gray-500" />
+                                        </div>
+
+                                        <input type="search" wire:model.live.debounce.300='search' id="new-origin-point-search"
+                                            class="bg-white borderborder-gray-300 text-gray-900 text-sm 
+                                            rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+                                            autocomplete="off" placeholder="Buscá y seleccioná la dirección" />
+                                    </div>
+
+                                    @if (isset($addresses) && $addresses->isNotEmpty())
+                                        <div wire:loading.remove wire:target='selectedAddress' class="flex flex-col gap-3 pr-2 my-5 max-h-[250px] overflow-y-auto pb-2" scrollbar-thin>
+                                            @foreach ($addresses as $address)
+                                                <label wire:key='{{ $address['place_id'] }}'
+                                                    for="location-{{ $address['place_id'] }}"
+                                                    wire:click="selectedAddress('{{ $address['place_id'] }}')"
+                                                    class="flex items-center gap-x-3 py-2 px-3 hover:shadow cursor-pointer
+                                                    transition duration-300 rounded-md hover:bg-gray-50">
+
+                                                    <x-icon code="location_on" class="text-gray-700" />
+
+                                                    <div class="flex items-center w-full gap-x-3">
+
+                                                        <div class="block w-full">
+                                                            <p class="text-xs sm:text-sm font-medium text-gray-900">
+                                                                {{ $address['description'] }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                        <div wire:loading wire:target='selectedAddress' class="w-full">
+                                            <div class="mt-8 flex justify-center items-center gap-x-2">
+                                                <span class="text-xs text-gray-700 font-semibold">
+                                                    Cargando información
+                                                </span>
+                                                <x-spinner />
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endif
                             </div>
-                        @endif
+                        </div>
                     </div>
                 </div>
 

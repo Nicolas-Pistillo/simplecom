@@ -62,7 +62,7 @@ class EnvioPack implements ShippingProvider
 
         if (!$this->token) return $rates;
 
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
         $provinceId = $this->getProvinceIdByName($parameters->recipient_address->state);
 
         if (!$cartPackage || !$provinceId) return $rates;
@@ -78,7 +78,7 @@ class EnvioPack implements ShippingProvider
             'provincia'     => $provinceId,
             'localidad'     => $localityId,
             'codigo_postal' => $parameters->recipient_address->zipcode_number,
-            'peso'          => data_get($cartPackage, 'dimensions.weight'),
+            'peso'          => data_get($cartPackage, 'weight'),
             'paquetes'      => $packageHeight . 'x' . $packageWidth . 'x' . $packageLength
         ];
 
@@ -92,7 +92,31 @@ class EnvioPack implements ShippingProvider
 
     public function createOrder(Order $order)
     {
-        
+        $this->generateToken();
+
+        $body = [
+            "id_externo" => $order->id,
+            "nombre"     => $order->user->name,
+            "apellido"   => $order->user->lastname,
+            "email"      => $order->user->email,
+            "telefono"   => $order->user->phone,
+            "celular"    => $order->user->phone,
+            "monto"      => $order->total,
+            "fecha_alta" => $order->created_at->format('Y-m-d H:i:s'),
+            "productos" => $order->items->map(fn($item) => [
+                "tipo_identificador" => "ID",
+                "identificador"      => $item->product_id,
+                "cantidad"           => $item->quantity
+            ])->toArray(),
+            "pagado"    =>  true
+        ];
+
+        $response = Http::withToken($this->token)
+                        ->withBody(json_encode($body))
+                        ->post("$this->base_url/pedidos")
+                        ->json();
+
+        dd($response);
     }
 
     public function getStatus(OrderShipping $shipping)

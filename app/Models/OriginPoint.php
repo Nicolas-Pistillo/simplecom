@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CollectionPoint extends Model
+class OriginPoint extends Model
 {
     use HasFactory, HasAddress, SoftDeletes;
 
@@ -17,6 +17,6 @@ class CollectionPoint extends Model
 
     public static function inUse()
     {
-        return CollectionPoint::where('in_use', true)->first();
+        return OriginPoint::where('in_use', true)->first();
     }
 }

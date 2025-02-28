@@ -17,6 +17,7 @@ enum OrderStatus: string
     case Dispatched             = 'dispatched';
     case PickupReady            = 'pickup_ready';
     case InTransit              = 'in_transit';
+    case InBranch               = 'in_branch';
     case Delivered              = 'delivered';
     case RefundRequested        = 'refund_requested';
     case Refunded               = 'refunded';
@@ -38,6 +39,7 @@ enum OrderStatus: string
             OrderStatus::DispatchReady          => 'blue',
             OrderStatus::Dispatched             => 'blue',
             OrderStatus::PickupReady            => 'emerald',
+            OrderStatus::InBranch               => 'emerald',
             OrderStatus::InTransit              => 'blue',
             OrderStatus::Delivered              => 'green',
             OrderStatus::RefundRequested        => 'yellow',
@@ -59,6 +61,7 @@ enum OrderStatus: string
             OrderStatus::PaymentRejected        => 'Pago rechazado',
             OrderStatus::InMediation            => 'Reclamo abierto',
             OrderStatus::Confirmed              => 'Preparar',
+            OrderStatus::InBranch               => 'En sucursal destino',
             OrderStatus::DispatchReady          => 'Listo para despachar',
             OrderStatus::Dispatched             => 'Despachado',
             OrderStatus::PickupReady            => 'Listo para entregar',
@@ -83,6 +86,7 @@ enum OrderStatus: string
             OrderStatus::PaymentRejected        => 'Pago rechazado',
             OrderStatus::InMediation            => 'En reclamo',
             OrderStatus::Confirmed              => 'En preparación',
+            OrderStatus::InBranch               => 'En sucursal',
             OrderStatus::DispatchReady          => 'En preparación',
             OrderStatus::Dispatched             => 'Despachado',
             OrderStatus::PickupReady            => 'Listo para retirar',
@@ -107,6 +111,7 @@ enum OrderStatus: string
             OrderStatus::PaymentRejected        => 'El pago del pedido fue rechazado, el comprador tiene posibilidad de reintento',
             OrderStatus::InMediation            => 'Resolvé el reclamo iniciado para este pedido',
             OrderStatus::Confirmed              => 'Prepará el pedido para su entrega',
+            OrderStatus::InBranch               => 'El comprador puede pasar a retirar el pedido a la sucursal',
             OrderStatus::DispatchReady          => 'Prepará el pedido para su despacho o colecta',
             OrderStatus::Dispatched             => 'Despachaste este pedido correctamente, se esperan actualizaciones del envío',
             OrderStatus::PickupReady            => 'El comprador ya puede pasar a retirar el pedido',
@@ -131,6 +136,7 @@ enum OrderStatus: string
             OrderStatus::PaymentRejected        => 'El pago de tu pedido fue rechazado, podes volver a intentarlo si lo deseas',
             OrderStatus::InMediation            => 'Iniciaste un reclamo por este pedido',
             OrderStatus::Confirmed              => 'Tu pedido se encuentra en preparación',
+            OrderStatus::InBranch               => 'Tu pedido ya llego a la sucursal elegida, podes pasar a retirarlo',
             OrderStatus::DispatchReady          => 'Tu pedido está listo para ser despachado, pronto recibiras novedades sobre el envío',
             OrderStatus::Dispatched             => 'Tu pedido ya está en manos del transportista y estará en camino próximamente',
             OrderStatus::PickupReady            => '¡Todo Listo! acercate a buscar tu pedido al punto de entrega',

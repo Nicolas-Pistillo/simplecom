@@ -3,9 +3,10 @@
 namespace App\Observers;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Events\OrderConfirmed;
+use App\Events\OrderDelivered;
 use App\Events\OrderReadyForDispatch;
 use App\Events\OrderReadyForPickup;
 use App\Models\Order;
@@ -21,7 +22,7 @@ class OrderObserver
         OrderFeedItem::create([
             'order_id'      => $order->id,
             'event'         => OrderFeedEvent::StatusUpdate,
-            'presentation'  => OrderFeedPresentation::InitialsImage,
+            'presentation'  => NotificationPresentation::InitialsImage,
             'initializator' => $order->user->full_name,
             'action'        => 'realizó este pedido'
         ]);
@@ -45,6 +46,11 @@ class OrderObserver
         if ($order->status === OrderStatus::DispatchReady)
         {
             OrderReadyForDispatch::dispatch($order);
+        }
+
+        if ($order->status === OrderStatus::Delivered)
+        {
+            OrderDelivered::dispatch($order);
         }
     }
 

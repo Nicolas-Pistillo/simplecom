@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +17,7 @@ class OrderFeedItem extends Model
 
     protected $casts = [
         'event'        => OrderFeedEvent::class,
-        'presentation' => OrderFeedPresentation::class,
+        'presentation' => NotificationPresentation::class,
         'meta'         => 'json'
     ];
 }

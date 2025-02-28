@@ -3,10 +3,14 @@
 namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
+use App\Enums\OrderFeedEvent;
+use App\Enums\NotificationPresentation;
+use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
 use App\Models\Order;
 use App\Models\OrderShipping;
 use App\Services\CartService;
+use App\Services\OrderService;
 use App\Traits\Configurable;
 use App\Utils\Address;
 use App\Utils\ShippingRate;
@@ -16,7 +20,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use App\Utils\ShippingBranch;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Mocis implements ShippingProvider
 {
@@ -51,9 +58,9 @@ class Mocis implements ShippingProvider
 
         if (!$this->token) return $rates;
 
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
-        $weight = data_get($cartPackage, 'dimensions.weight');
+        $weight = data_get($cartPackage, 'weight');
         $height = data_get($cartPackage, 'dimensions.height');
         $length = data_get($cartPackage, 'dimensions.length');
         $width = data_get($cartPackage, 'dimensions.width');
@@ -100,6 +107,7 @@ class Mocis implements ShippingProvider
                 'label'               => "Mocis - $serviceName",
                 'carrier_logo'        => Storage::url('providers/mocis_icon.png'),
                 'service_id'          => data_get($result, 'service.id'),
+                'service_code'        => data_get($result, 'service.id'),
                 'service_name'        => $serviceName,
                 'logistic_type'       => LogisticType::OriginToDoor,
                 'price'               => data_get($result, 'price_iva'),
@@ -142,11 +150,184 @@ class Mocis implements ShippingProvider
 
     public function createOrder(Order $order)
     {
-        
+        $this->generateToken();
+
+        $destiny = $order->shipping->userAddress;
+
+        $package = OrderService::calculatePackage($order);
+
+        $weight = data_get($package, 'weight');
+        $height = data_get($package, 'dimensions.height');
+        $length = data_get($package, 'dimensions.length');
+        $width = data_get($package, 'dimensions.width');
+
+        $reference = tenant('name') . '|' . $order->shipping->id;
+
+        $body = [
+            'service'            => $order->shipping->provider_service_code,
+            'delivery_pickup_id' => $order->shipping->selected_branch_id,
+            'receives'           => $order->user->full_name,
+            'address'            => "$destiny->street $destiny->number",
+            'location'           => $destiny->locality,
+            'reference'          => $destiny->references,
+            'postal_code'        => $destiny->zipcode,
+            'items'              => "[\"$weight,$height,$length,$width\"]",
+            'lat'                => $destiny->lat,
+            'lng'                => $destiny->lng,
+            'telephone'          => $order->user->phone,
+            'email'              => $order->user->email,
+            'valor_declarado'    => data_get($package, 'declared_value'),
+            'external_reference' => $reference,
+            'bultos'             => 1
+        ];
+
+        $response = Http::withToken($this->token)
+                        ->withBody(json_encode($body))
+                        ->post("$this->base_url/shipping/new")
+                        ->json();
+
+        if (!$response || !isset($response['result'])) 
+            throw new Exception('Error al crear envío con Mocis, intente de nuevo más tarde');
+
+        if ($response && isset($response['status']) && !$response['status'])
+            throw new Exception(data_get($response, 'msg'));
+
+        $order->shipping->update([
+            'status'             => ShippingStatus::ProviderProcessing,
+            'external_status'    => 'En espera',
+            'external_id'        => data_get($response, 'result.0'),
+            'external_reference' => $reference, 
+            'label_url'          => route('admin.shipping-label.mocis', $order->shipping->id)
+        ]);
+
+        $order->feed()->create([
+            'event'         => OrderFeedEvent::ShippingUpdate,
+            'presentation'  => NotificationPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => "generó la orden de envío con Moci's",
+            'meta'          => [
+                'icon_code' => 'local_shipping'
+            ]
+        ]);
     }
 
     public function getStatus(OrderShipping $shipping)
     {
-        
+        $this->generateToken();
+
+        return Http::withToken($this->token)
+                    ->get("$this->base_url/shipping/state/$shipping->external_id")
+                    ->json();
+    }
+
+    public function syncStatus(OrderShipping $shipping)
+    {
+        /* "result" => array:1 [
+            0 => array:13 [
+            0 => array:2 [
+                "id" => 0
+                "name" => "En Espera"
+            ]
+            1 => array:2 [
+                "id" => 9
+                "name" => "Colectado"
+            ]
+            2 => array:2 [
+                "id" => 4
+                "name" => "En Deposito"
+            ]
+            3 => array:2 [
+                "id" => 6
+                "name" => "En Transito"
+            ]
+            4 => array:2 [
+                "id" => 1
+                "name" => "En Camino"
+            ]
+            5 => array:2 [
+                "id" => 2
+                "name" => "Entregado"
+            ]
+            6 => array:2 [
+                "id" => -1
+                "name" => "No Entregado"
+            ]
+            7 => array:2 [
+                "id" => 5
+                "name" => "Cancelado"
+            ]
+            8 => array:2 [
+                "id" => 14
+                "name" => "En proceso devolucion"
+            ]
+            9 => array:2 [
+                "id" => 13
+                "name" => "Devuelto"
+            ]
+            10 => array:2 [
+                "id" => 10
+                "name" => "Pendiente de retiro"
+            ]
+            11 => array:2 [
+                "id" => 11
+                "name" => "Retirado"
+            ]
+            12 => array:2 [
+                "id" => 12
+                "name" => "Retiro Fallido"
+            ]
+            ] */
+
+        $statusResponse = $this->getStatus($shipping);
+
+        if (!$statusResponse || !isset($statusResponse['status']) || !$statusResponse['status'])
+            return false; // Or exception
+
+        $currentStatus = strtolower(data_get($statusResponse, 'result.0.state'));
+
+        if ($currentStatus === 'en espera')
+        {
+            //
+        }
+
+        if ($currentStatus === 'colectado' && $shipping->status != ShippingStatus::Dispatched)
+        {
+            //
+        }
+
+        if (in_array($currentStatus, ['en transito', 'en camino']) && $shipping->status != ShippingStatus::InTransit)
+        {
+            //
+        }
+
+        if ($currentStatus === 'cancelado' && $shipping->status != ShippingStatus::Cancelled)
+        {
+            //
+        }
+
+        if ($currentStatus === 'entregado' && $shipping->status != ShippingStatus::Delivered)
+        {
+            //
+        }
+
+        if ($currentStatus === 'devuelto' && $shipping->status != ShippingStatus::Returned)
+        {
+            //
+        }
+    }
+
+    public function getLabelUrl(OrderShipping $shipping)
+    {
+        $this->generateToken();
+
+        $response = Http::withToken($this->token)
+                        ->throw()
+                        ->get("$this->base_url/shipping/print/label/$shipping->external_id")
+                        ->json();
+
+        if (!isset($response['status']) || (isset($response['status']) && !$response['status']))
+            throw new Exception('La respuesta del servicio no incluyó la etiqueta para descargar');
+
+        return 'https://mocis.akeron.net/api' . data_get($response, 'result.0.pdf');
     }
 }

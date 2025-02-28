@@ -21,6 +21,11 @@ class OrderShipping extends Model
         'meta'            => 'json'
     ];
 
+    public function provider()
+    {
+        return $this->belongsTo(ShippingProvider::class);
+    }
+
     public function userAddress()
     {
         return $this->belongsTo(UserAddress::class);
@@ -29,5 +34,25 @@ class OrderShipping extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function originPoint()
+    {
+        return $this->belongsTo(OriginPoint::class);
+    }
+
+    public function getStatus()
+    {
+        return $this->provider->service()->getStatus($this);
+    }
+
+    public function syncStatus()
+    {
+        return $this->provider->service()->syncStatus($this);
+    }
+
+    public function downloadLabel()
+    {
+        return $this->provider->service()->downloadLabel($this);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Livewire\Admin\DeliveryMethods\Providers;
-use App\Models\CollectionPoint;
+use App\Models\OriginPoint;
 use App\Services\GoogleMaps;
 use App\Traits\Livewire\WithNotifications;
 use Exception;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class NewCollectionPoint extends Component
+class NewOriginPoint extends Component
 {
     use WithNotifications;
 
@@ -80,9 +80,9 @@ class NewCollectionPoint extends Component
 
         try 
         {
-            $collectionPoint = CollectionPoint::create([
+            $OriginPoint = OriginPoint::create([
                 'name'            => $this->name,
-                'in_use'          => empty(CollectionPoint::count()) ? true : false,
+                'in_use'          => empty(OriginPoint::count()) ? true : false,
                 'staff_name'      => $this->staff_name,
                 'staff_email'     => $this->staff_email,
                 'staff_phone'     => $this->staff_phone,
@@ -105,18 +105,18 @@ class NewCollectionPoint extends Component
 
             $this->reset();
 
-            $this->dispatch('collection-point-created', $collectionPoint->id);
+            $this->dispatch('origin-point-created', $OriginPoint->id);
 
-            $this->dispatch('close-new-collection-point');
+            $this->dispatch('close-new-origin-point');
 
             $this->notify([
                 'type'  => 'success',
-                'title' => 'Punto de colecta creado con éxito'
+                'title' => 'Punto de orígen creado con éxito'
             ]);
 
         } catch (Exception $err) 
         {
-            Log::channel('error')->error('Error al crear punto de colecta', [
+            Log::channel('error')->error('Error al crear punto de orígen', [
                 'message'          => $err->getMessage(),
                 'searched'         => $this->search,
                 'selected_address' => $this->selected_address
@@ -124,7 +124,7 @@ class NewCollectionPoint extends Component
 
             $this->notify([
                 'type'  => 'danger',
-                'title' => 'Error al crear el punto de colecta',
+                'title' => 'Error al crear el punto de orígen',
                 'body'  => 'Por favor intentelo de nuevo más tarde'
             ]);
         }
@@ -132,6 +132,6 @@ class NewCollectionPoint extends Component
 
     public function render()
     {
-        return view('livewire.admin.new-collection-point');
+        return view('livewire.admin.new-origin-point');
     }
 }

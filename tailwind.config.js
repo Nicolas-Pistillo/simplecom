@@ -42,6 +42,7 @@ export default {
     'text-amber-600',
     'text-rose-600',
     'text-gray-600',
+    'text-yellow-600',
     'text-green-600',
     'text-lime-600',
     'text-purple-600',

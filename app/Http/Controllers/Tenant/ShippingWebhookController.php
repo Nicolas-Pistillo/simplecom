@@ -40,4 +40,12 @@ class ShippingWebhookController extends Controller
             'payload'  => $request->all()
         ]);
     }
+
+    public function envia(Request $request, $tenant)
+    {
+        Log::channel('webhooks')->info('Webhook de Envia.com recibido', [
+            'tenant'   => $tenant,
+            'payload'  => $request->all()
+        ]);
+    }
 }

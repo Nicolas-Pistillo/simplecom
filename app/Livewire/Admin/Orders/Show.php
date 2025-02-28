@@ -3,12 +3,12 @@
 namespace App\Livewire\Admin\Orders;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
-use App\Services\InvoiceProviders\TusFacturas;
+use App\Services\ShippingProviders\Rapiboy;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -35,9 +35,9 @@ class Show extends Component
         OrderFeedItem::create([
             'order_id'      => $this->order->id,
             'event'         => OrderFeedEvent::StatusUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
-            'action'        => "confirmó que recibio la transferencia por el pago del pedido",
+            'action'        => "confirmó que recibió la transferencia por el pago del pedido",
             'meta'          => [
                 'icon_code'  => 'price_check',
                 'icon_color' => 'green'
@@ -60,7 +60,7 @@ class Show extends Component
         OrderFeedItem::create([
             'order_id'      => $this->order->id,
             'event'         => OrderFeedEvent::StatusUpdate,
-            'presentation'  => OrderFeedPresentation::Icon,
+            'presentation'  => NotificationPresentation::Icon,
             'initializator' => Auth::user()->name,
             'action'        => "marcó el pedido como listo para retirar en {$this->order->storePickup->name}",
             'meta'          => [
@@ -78,6 +78,19 @@ class Show extends Component
         ]);
     }
 
+    public function evalShippingOrderConfirmation()
+    {
+        /* if ($this->order->shipping->logistic_type->isFromDropoff())
+        {
+            $service = $this->order->shippingProvider->service();
+            $branches = $service->getOriginPointBranches($this->order->shipping);
+
+            dd($branches);
+        } */
+
+        $this->dispatch('open-confirm-shipping-create');
+    }
+
     public function createShippingOrder()
     {
         try 
@@ -91,6 +104,8 @@ class Show extends Component
                 'title' => 'Orden de envío generada',
                 'body'  => 'Generaste la orden de envío correctamente'
             ]);
+
+            $this->dispatch('close-confirm-shipping-create');
 
         } catch (\Throwable $err) 
         {

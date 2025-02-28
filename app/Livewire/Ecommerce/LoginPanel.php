@@ -81,12 +81,10 @@ class LoginPanel extends Component
                 $this->waiting_register_code = false;
                 $this->register_form->reset();
 
-                session()->flash('account_created');
-
                 $this->notify([
                     'type'  => 'success',
                     'title' => 'Registro de cuenta',
-                    'body'  => 'Te registraste exitosamente, ¡Bienvenido a '.tenant('ecommerce_name').'!'
+                    'body'  => '¡Listo! Ya podes iniciar sesión con el email y contraseña que registraste'
                 ]);
             }
 

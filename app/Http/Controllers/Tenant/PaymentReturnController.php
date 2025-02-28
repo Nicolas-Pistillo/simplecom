@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Enums\OrderFeedEvent;
-use App\Enums\OrderFeedPresentation;
+use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use Illuminate\Http\Request;
@@ -74,7 +74,7 @@ class PaymentReturnController extends Controller
 
             $order->feed()->create([
                 'event'         => OrderFeedEvent::PaymentUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => 'MODO',
                 'action'        => "aprobó el pago",
                 'meta'          => [
@@ -99,7 +99,7 @@ class PaymentReturnController extends Controller
 
             $order->feed()->create([
                 'event'         => OrderFeedEvent::PaymentUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => 'MODO',
                 'action'        => "rechazó el pago",
                 'meta'          => [
@@ -166,7 +166,7 @@ class PaymentReturnController extends Controller
 
             $order->feed()->create([
                 'event'         => OrderFeedEvent::PaymentUpdate,
-                'presentation'  => OrderFeedPresentation::Icon,
+                'presentation'  => NotificationPresentation::Icon,
                 'initializator' => 'Mobbex',
                 'action'        => 'está procesando el pago, se esperan actualizaciónes de estado',
                 'meta'          => [
@@ -236,7 +236,7 @@ class PaymentReturnController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Nave',
                     'action'        => 'aprobó el pago',
                     'meta'          => [
@@ -259,7 +259,7 @@ class PaymentReturnController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Nave',
                     'action'        => 'rechazó un intento de pago, el comprador puede reintentar la compra',
                     'meta'          => [
@@ -282,7 +282,7 @@ class PaymentReturnController extends Controller
 
                 $order->feed()->create([
                     'event'         => OrderFeedEvent::PaymentUpdate,
-                    'presentation'  => OrderFeedPresentation::Icon,
+                    'presentation'  => NotificationPresentation::Icon,
                     'initializator' => 'Nave',
                     'action'        => 'canceló o caducó el pago del pedido, la compra queda rechazada',
                     'meta'          => [

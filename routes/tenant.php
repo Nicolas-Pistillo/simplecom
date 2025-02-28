@@ -87,6 +87,16 @@ Route::middleware([
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
+                // Shipping providrers labels generation
+                Route::get('andreani-label/{shipping}', [ShippingLabelController::class, 'andreani'])
+                    ->name('admin.shipping-label.andreani');
+
+                Route::get('zippin-label/{shipping}', [ShippingLabelController::class, 'zippin'])
+                    ->name('admin.shipping-label.zippin');
+
+                Route::get('mocis-label/{shipping}', [ShippingLabelController::class, 'mocis'])
+                    ->name('admin.shipping-label.mocis');
+
                 Route::view('configurations', 'admin.configurations.index')
                     ->name('admin.configurations.index')
                     ->middleware('can:Editar configuraciones');
@@ -141,10 +151,6 @@ Route::middleware([
                 Route::view('orders/{order}', 'admin.orders.show')
                     ->name('admin.orders.show')
                     ->middleware('can:Ver ventas');
-
-                Route::get('andreani-label/{orderShipping}', [ShippingLabelController::class, 'andreaniLabel'])
-                    ->name('admin.shipping-label.andreani');
-
             });
 
         });

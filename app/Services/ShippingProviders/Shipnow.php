@@ -24,6 +24,8 @@ class Shipnow implements ShippingProvider
 
     protected $configuration_keys = ['shipnow_api_token'];
 
+    private $base_url = 'https://api.shipnow.com.ar';
+
     private $logistic_type_parser = [
         'ship_pas' => LogisticType::OriginToDropoff,
         'ship_sap' => LogisticType::DropoffToDoor,
@@ -35,15 +37,15 @@ class Shipnow implements ShippingProvider
     {
         $rates = collect();
 
-        $packageInfo = CartService::getPackageInfo('kg');
+        $packageInfo = CartService::getPackageInfo();
 
         $results = Http::withToken($this->key('shipnow_api_token'))
                         ->withQueryParameters([
-                            'weight' => data_get($packageInfo, 'dimensions.weight'),
+                            'weight'      => data_get($packageInfo, 'weight'),
                             'to_zip_code' => $parameters->recipient_address->zipcode_number,
                             'types'       => 'ship_pap,ship_pas,ship_sap,ship_sas'
                         ])
-                        ->get('https://api.shipnow.com.ar/shipping_options')
+                        ->get("$this->base_url/shipping_options")
                         ->collect('results');
 
         if (!$results || $results->isEmpty()) return $rates;
@@ -120,9 +122,51 @@ class Shipnow implements ShippingProvider
         return $rates;
     }
 
-    public function createOrder(?Order $order)
+    public function createOrder(Order $order)
     {
-        
+        $body = [
+            'external_reference' => $order->id,
+            'external_reference_user' => 'simplecom-' . tenant('name'),
+            'shipping_option' => [
+                'service_code' => $order->shipping->provider_service_code,
+                'carrier_code' => $order->shipping->provider_carrier_code
+            ],
+            'status' => 'new',
+            'items'  => $order->items->map(fn($item) => [
+                'id'                 => $item->product_id,
+                'quantity'           => $item->quantity,
+                'unit_price'         => $item->unit_price,
+                'title'              => $item->name,
+                'external_reference' => $item->variant_id,
+                'image_url'          => $item->product->first_image            
+            ])->toArray(),
+            'ship_to' => [
+                'name'          => $order->user->name,
+                'last_name'     => $order->user->last_name,
+                'phone'         => $order->user->phone,
+                'email'         => $order->user->email,
+                'zip_code'      => $order->shipping->userAddress->zipcode_number,
+                'address_line'  => $order->shipping->userAddress->summary,
+                'street_name'   => $order->shipping->userAddress->street,
+                'street_number' => $order->shipping->userAddress->number,
+                'city'          => $order->shipping->userAddress->locality,
+                'state'         => $order->shipping->userAddress->state,
+                'floor'         => $order->shipping->userAddress->floor,
+                'unit'          => $order->shipping->userAddress->apartment,
+            ]
+        ];
+
+        if ($order->shipping->logistic_type->isToDropoff())
+        {
+            $body['post_office_id'] = $order->shipping->selected_branch_id;
+        }
+
+        $response = Http::withToken($this->key('shipnow_api_token'))
+                        ->withBody(json_encode($body))
+                        ->post("$this->base_url/orders")
+                        ->json();
+
+        dd($response);
     }
 
     public function getStatus(OrderShipping $shipping)

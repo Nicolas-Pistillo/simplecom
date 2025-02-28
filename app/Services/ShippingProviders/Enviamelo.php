@@ -26,13 +26,13 @@ class Enviamelo implements ShippingProvider
 
     public function getRates(ShippingRateParameters $parameters): Collection
     {
-        $cartPackage = CartService::getPackageInfo('kg');
+        $cartPackage = CartService::getPackageInfo();
 
         $rates = collect();
 
         $results = Http::withToken($this->key('enviamelo_token'))
                         ->withBody(json_encode([
-                            'weight'      => data_get($cartPackage, 'dimensions.weight'),
+                            'weight'      => data_get($cartPackage, 'weight'),
                             'postal_code' => $parameters->recipient_address->zipcode_number
                         ]))
                         ->post('https://api.enviamelo.com.ar/api/v1/price')

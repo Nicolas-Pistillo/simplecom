@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum OrderFeedPresentation: string
+enum NotificationPresentation: string
 {
     case Icon           = 'icon';
     case Image          = 'image';

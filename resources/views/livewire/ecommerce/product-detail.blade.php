@@ -58,7 +58,7 @@
                         <div class="w-full mx-auto relative mb-6" x-transition>
                             <img x-bind:src="currentImage" alt="product-image"
                             class="w-full sm:w-[500px] h-[350px] sm:h-[450px] 
-                            rounded-lg shadow-md object-cover">
+                            object-cover rounded-lg">
                         </div>
 
                         {{-- All product images list --}}

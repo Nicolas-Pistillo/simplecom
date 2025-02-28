@@ -10,25 +10,28 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'landing')->name('simplecom.landing');
 
-// Tenant Payment Webhooks
-Route::post('webhooks/tenant-payments/{tenant}/{order}/{provider}', [PaymentWebhookController::class, 'handler'])
-    ->withoutMiddleware('web')
+// Webhooks
+Route::withoutMiddleware('web')->group(function()
+{
+    // Tenant Payment Webhooks
+    Route::post('webhooks/tenant-payments/{tenant}/{order}/{provider}', [PaymentWebhookController::class, 'handler'])
     ->name('tenant.payment-webhook');
 
-// Tenant Shipping Webhooks
-Route::post('webhooks/tenant-shippings/{tenant}/{orderShipping}/{provider}', [ShippingWebhookController::class, 'handler'])
-    ->withoutMiddleware('web')
-    ->name('tenant.shipping-webhook');
-
-// Tenant Invoices Webhooks
-Route::post('webhooks/tenant-invoices', [InvoiceWebhookController::class, 'handler'])
-    ->withoutMiddleware('web')
+    // Tenant Invoices Webhooks
+    Route::post('webhooks/tenant-invoices', [InvoiceWebhookController::class, 'handler'])
     ->name('tenant.invoice-webhook');
 
-/* SUPERADMIN ROUTES */
-Route::prefix('superadmin')->group(function() {
+    // Tenant Shipping Webhooks
+    Route::post('webhooks/tenant-shippings/{tenant}/{orderShipping}/{provider}', [ShippingWebhookController::class, 'handler'])
+    ->name('tenant.shipping-webhook');
 
-    // Superadmin unauthenticated routes
+    Route::post('webhooks/tenant-shippings/{tenant}/envia', [ShippingWebhookController::class, 'envia'])
+    ->name('tenant.shipping-webhook.envia');
+});
+
+// SUPERADMIN ROUTES
+Route::prefix('superadmin')->group(function() 
+{
     Route::middleware('guest:superadmin')->group(function() {
 
         Route::view('/', 'superadmin.login')->name('superadmin.login-view');
@@ -37,7 +40,6 @@ Route::prefix('superadmin')->group(function() {
 
     });
 
-    // Superadmin authenticated routes
     Route::middleware('auth:superadmin')->group(function() {
 
         Route::post('logout', [AuthController::class, 'logout'])->name('superadmin.logout');
@@ -55,5 +57,4 @@ Route::prefix('superadmin')->group(function() {
         });
 
     });
-
 });

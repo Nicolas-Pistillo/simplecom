@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Admin\DeliveryMethods;
 
-use App\Models\CollectionPoint;
+use App\Models\OriginPoint;
 use App\Models\Configuration;
 use App\Models\ShippingProvider;
 use App\Traits\Livewire\WithNotifications;
@@ -13,9 +13,9 @@ class Providers extends Component
     use WithNotifications;
 
     protected $listeners = [
-        'collection-point-created' => '$refresh',
-        'collection-point-asigned' => '$refresh',
-        'collection-point-deleted' => '$refresh'
+        'origin-point-created' => '$refresh',
+        'origin-point-asigned' => '$refresh',
+        'origin-point-deleted' => '$refresh'
     ];
 
     public $providers, $configuring_provider, $configuring_provider_keys;
@@ -71,7 +71,7 @@ class Providers extends Component
     public function render()
     {
         return view('livewire.admin.delivery-methods.providers', [
-            'collection_point' => CollectionPoint::inUse()
+            'origin_point' => OriginPoint::inUse()
         ]);
     }
 }

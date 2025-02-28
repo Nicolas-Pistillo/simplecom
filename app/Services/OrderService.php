@@ -8,7 +8,7 @@ use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
 use App\Enums\ShippingStatus;
 use App\Events\OrderCreated;
-use App\Models\CollectionPoint;
+use App\Models\OriginPoint;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderShipping;
@@ -97,18 +97,20 @@ class OrderService
         {
             $branch = session('selected_branch');
 
-            $collectionPoint = CollectionPoint::inUse();
+            $originPoint = OriginPoint::inUse();
 
             OrderShipping::create([
                 'order_id'              => $order->id,
                 'provider_id'           => $shippingProvider->id,
-                'collection_point_id'   => $collectionPoint->id,
+                'origin_point_id'       => $originPoint->id,
                 'user_address_id'       => session('selected_address.id'),
-                'status'                => ShippingStatus::CreationPending,
+                'status'                => ShippingStatus::NotCreated,
                 'provider_label'        => data_get($form->selected_rate, 'label'),
-                'provider_service'      => data_get($form->selected_rate, 'service_name'),
                 'provider_carrier'      => data_get($form->selected_rate, 'carrier_name'),
+                'provider_carrier_code' => data_get($form->selected_rate, 'carrier_code'),
                 'provider_carrier_logo' => data_get($form->selected_rate, 'carrier_logo'),
+                'provider_service'      => data_get($form->selected_rate, 'service_name'),
+                'provider_service_code' => data_get($form->selected_rate, 'service_code'),
                 'logistic_type'         => data_get($form->selected_rate, 'logistic_type'),
                 'quoted_price'          => data_get($form->selected_rate, 'price'),
                 'delivery_estimate'     => data_get($form->selected_rate, 'estimate'),
@@ -123,43 +125,27 @@ class OrderService
         return $order;
     }
 
-    public static function calculatePackage(Order $order, $weightUnit = 'kg')
+    public static function calculatePackage(Order $order)
     {
         $order->load('items');
 
+        $declaredValue = floatval($order->items->sum(fn($item) => $item->unit_price * $item->quantity));
+        $width  = floatval($order->items->max('product.width'));
+        $height = floatval($order->items->sum(fn($item) => $item->product->height * $item->quantity));
+        $length = floatval($order->items->max('product.length'));
+        $weight = floatval($order->items->sum(fn($item) => ($item->product->weight / 1000) * $item->quantity));
+
         $package = [
-            'items' => 0,
-            'weight' => 0,
-            'declaredValue' => 0,
+            'items' => $order->items->sum('quantity'),
+            'weight' => $weight,
+            'declaredValue' => $declaredValue,
             'dimensions' => [
-                'width'  => 0,
-                'height' => 0,
-                'length' => 0,
-                'volume' => 0
+                'width'  => $width,
+                'height' => $height,
+                'length' => $length,
+                'volume' => $width * $height * $length
             ]
         ];
-
-        foreach($order->items as $item)
-        {
-            $price  = $item->unit_price      * $item->quantity;
-            $weight = $item->product->weight * $item->quantity;
-            $width  = $item->product->width  * $item->quantity;
-            $height = $item->product->height;
-            $length = $item->product->length * $item->quantity;
-
-            if ($weightUnit === 'kg')
-            {
-                $weight = $weight / 1000;
-            }
-
-            $package['items']                += $item->quantity;
-            $package['declaredValue']        += $price;
-            $package['weight']               += $weight;
-            $package['dimensions']['width']  += $width;
-            $package['dimensions']['height'] += $height;
-            $package['dimensions']['length'] += $length;
-            $package['dimensions']['volume'] += ($width * $height * $length);
-        }
 
         return $package;
     }

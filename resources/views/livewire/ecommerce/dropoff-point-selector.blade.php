@@ -8,6 +8,7 @@
             background-color: #eff6ff !important; 
         }
     </style>
+    
     <div x-init="window.scrollTo({ top: 0, behavior: 'smooth'})">
 
         <h4 class="text-sm/6 font-semibold text-gray-900 mb-2">Seleccionar sucursal de retiro</h4>
