@@ -182,6 +182,6 @@ class Saires implements ShippingProvider
     {
         $statusResponse = $this->getStatus($shipping);
 
-        dd($statusResponse);
+        // Consultar lista de estados a Matias de Saires
     }
 }
