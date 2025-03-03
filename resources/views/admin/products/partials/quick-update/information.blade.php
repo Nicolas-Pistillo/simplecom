@@ -1,57 +1,52 @@
 <div class="grid gap-4 sm:grid-cols-3 sm:gap-6 py-6 px-8">
     <div class="space-y-4 sm:col-span-2 sm:space-y-6">
-        <div>
-            <label for="product_name"
-                class="block mb-2 text-sm 
-            font-medium text-gray-900">
-                Nombre
-            </label>
-            <input type="text" id="product_name"
-                class="bg-gray-50 border 
-            border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 
-            focus:border-primary-600 block w-full p-2.5"
-                wire:model.blur='form.name' placeholder="Nombre del producto" autocomplete="off">
-
-            @error('form.name')
-                <small class="text-red-500">{{ $message }}</small>
-            @enderror
-        </div>
 
         <div class="grid md:grid-cols-2 gap-4">
+
+            <x-form-input class="col-span-full" label="Nombre" model='form.name' id="product_name" />
+
             <div>
-                <label for="product_category" class="block mb-2 text-sm font-medium text-gray-900">
+                <label for="product_category" class="inline-block text-sm 
+                font-medium leading-6 text-gray-900 mb-2">
                     Categoría
                 </label>
-                <select id="product_category" wire:model.blur='form.category_id'
-                    class="bg-gray-50 border border-gray-300 text-gray-900 
-                text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                    <option>Seleccionar</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-
-                @error('form.category_id')
-                    <small class="text-red-500">{{ $message }}</small>
-                @enderror
+                <div>
+                    <select wire:model.live="form.category_id" id="product_category" 
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                        shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 
+                        focus:ring-inset focus:ring-blue-600 text-sm leading-6">
+                        <option>Seleccionar</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+    
+                    @error('form.category_id')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
+                </div>
             </div>
 
             <div>
-                <label for="product_brand" class="block mb-2 text-sm font-medium text-gray-900">
+                <label for="product_brand" class="inline-block text-sm 
+                font-medium leading-6 text-gray-900 mb-2">
                     Marca
                 </label>
-                <select id="product_brand" wire:model.blur='form.brand_id'
-                class="bg-gray-50 border border-gray-300 text-gray-900 
-                text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                    <option>Seleccionar</option>
-                    @foreach ($brands as $brand)
-                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                    @endforeach
-                </select>
-
-                @error('form.brand_id')
-                    <small class="text-red-500">{{ $message }}</small>
-                @enderror
+                <div>
+                    <select wire:model.live="form.brand_id" id="product_brand" 
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                        shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 
+                        focus:ring-inset focus:ring-blue-600 text-sm leading-6">
+                        <option>Seleccionar</option>
+                        @foreach ($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                        @endforeach
+                    </select>
+    
+                    @error('form.brand_id')
+                        <small class="text-red-500">{{ $message }}</small>
+                    @enderror
+                </div>
             </div>
         </div>
 
@@ -186,74 +181,54 @@
                     <span class="text-sm text-gray-700 font-semibold">Subiendo</span>
                 </div>
             </div>
+
+            @script
+                <script>
+                    Livewire.on('open-quick-update', () => {
+                        setTimeout(() => {
+                            new Sortable(document.getElementById('previewImages'), {
+                                handle: '.sortable-item',
+                                animation: 250,
+                                ghostClass: 'bg-gray-100',
+                                store: {
+                                    set: (sortable) => Livewire.dispatch('change-images-order', {
+                                        newOrder: sortable.toArray()
+                                    })
+                                }
+                            });
+                        }, 500);
+                    })
+                </script>
+            @endscript
         </div>
     </div>
 
     <div class="space-y-4 sm:space-y-6">
-        <div>
-            <label for="product_stock" class="block mb-2 text-sm font-medium text-gray-900">
-                Stock
-            </label>
-            <input type="number" id="product_stock" wire:model.blur='form.stock'
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-            rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="Stock actual">
 
-            @error('form.stock')
-                <small class="text-red-500">{{ $message }}</small>
-            @enderror
-        </div>
-        <div>
-            <label for="product_weight" class="block mb-2 text-sm font-medium text-gray-900">
+        <x-form-input label="Stock" type="number" model='form.stock' id="product_stock" />
+
+        <x-form-input type="number" model='form.weight' id="product_weight">
+            <x-slot name="label">
                 Peso <x-badge color="blue" class="ml-1" x-tooltip.raw="Gramos">GR</x-badge>
-            </label>
-            <input type="number" id="product_weight" wire:model.blur='form.weight'
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-            rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="Peso en gramos">
+            </x-slot>
+        </x-form-input>
 
-            @error('form.weight')
-                <small class="text-red-500">{{ $message }}</small>
-            @enderror
-        </div>
-        <div>
-            <label for="product_width" class="block mb-2 text-sm font-medium text-gray-900">
+        <x-form-input type="number" model='form.width' id="product_width">
+            <x-slot name="label">
                 Ancho <x-badge color="blue" class="ml-1" x-tooltip.raw="Centímetros">CM</x-badge>
-            </label>
-            <input type="number" id="product_width" wire:model.blur='form.width'
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-            rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="Ancho en centímtros">
+            </x-slot>
+        </x-form-input>
 
-            @error('form.width')
-                <small class="text-red-500">{{ $message }}</small>
-            @enderror
-        </div>
-        <div>
-            <label for="product_height" class="block mb-2 text-sm font-medium text-gray-900">
+        <x-form-input type="number" model='form.height' id="product_height">
+            <x-slot name="label">
                 Alto <x-badge color="blue" class="ml-1" x-tooltip.raw="Centímetros">CM</x-badge>
-            </label>
-            <input type="number" id="product_height" wire:model.blur='form.height'
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-            rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="Alto en centímtros">
+            </x-slot>
+        </x-form-input>
 
-            @error('form.height')
-                <small class="text-red-500">{{ $message }}</small>
-            @enderror
-        </div>
-        <div>
-            <label for="product_length" class="block mb-2 text-sm font-medium text-gray-900">
+        <x-form-input type="number" model='form.length' id="product_length">
+            <x-slot name="label">
                 Largo <x-badge color="blue" class="ml-1" x-tooltip.raw="Centímetros">CM</x-badge>
-            </label>
-            <input type="number" id="product_length" wire:model.blur='form.length'
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-            rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="Largo en centímtros">
-
-            @error('form.length')
-                <small class="text-red-500">{{ $message }}</small>
-            @enderror
-        </div>
+            </x-slot>
+        </x-form-input>
     </div>
 </div>

@@ -73,6 +73,13 @@ class QuickUpdate extends Component
         $this->dispatch('open-quick-update');
     }
 
+    public function save()
+    {
+        $this->form->validate();
+
+        dd("PASO LA VALIDACION", $this->form->all());
+    }
+
     public function render()
     {
         return view('livewire.admin.products.quick-update', [

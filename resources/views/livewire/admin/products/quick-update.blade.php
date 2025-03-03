@@ -48,32 +48,31 @@
             </div>
 
             <div x-cloak x-show="tab === 'pricing'" x-transition.enter>
-                @include('admin.products.partials.quick-update.pricing')
+                <section class="bg-white dark:bg-gray-900 py-6 px-8">
+                    <div class="grid md:grid-cols-3 gap-4">
+                
+                        <x-form-input label="Precio" icon="attach_money" id="product_price" 
+                        model="form.price" type="number" />
+                
+                        <x-form-input label="Costo unitario" id="product_unit_cost" 
+                        icon="attach_money" model="form.unit_cost" type="number" />
+                
+                        <x-form-input label="Descuento" icon="percent" id="product_discount" 
+                        model="form.discount_percent" type="number" />
+                
+                        <x-form-input label="Cantidad mínima" icon="deployed_code" id="product_min_sale" 
+                        model="form.min_sale" type="number" />
+                
+                        <x-form-input label="Cantidad máxima" icon="deployed_code" id="product_max_sale" 
+                        model="form.max_sale" type="number" />
+                    </div>
+                </section>
             </div>
         @endif
 
-        @script
-            <script>
-                Livewire.on('open-quick-update', () => {
-                    setTimeout(() => {
-                        new Sortable(document.getElementById('previewImages'), {
-                            handle: '.sortable-item',
-                            animation: 250,
-                            ghostClass: 'bg-gray-100',
-                            store: {
-                                set: (sortable) => Livewire.dispatch('change-images-order', {
-                                    newOrder: sortable.toArray()
-                                })
-                            }
-                        });
-                    }, 500);
-                })
-            </script>
-        @endscript
-
         <div class="flex shrink-0 gap-3 justify-end py-4 px-6 border-t mt-auto">
             <x-button @click="showQuickUpdate = false" size="large" type="secondary">Cancelar</x-button>
-            <x-button size="large">Guardar</x-button>
+            <x-button wire:click='save' size="large">Guardar</x-button>
         </div>
     </x-drawer>
 </div>
