@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\Product;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -11,6 +12,9 @@ class ProductForm extends Form
     #[Validate('nullable|boolean')]
     public $published = false;
 
+    #[Validate('nullable|boolean')]
+    public $featured = false;
+
     #[Validate('required|min:3|max:70', as: 'nombre')]
     public $name;
 
@@ -19,6 +23,9 @@ class ProductForm extends Form
 
     #[Validate('required|exists:categories,id', as: 'categoría')]
     public $category_id;
+
+    #[Validate('nullable|exists:brands,id', as: 'marca')]
+    public $brand_id;
 
     #[Validate('nullable|string|max:2400', as: 'descripción')]
     public $description;
@@ -70,5 +77,29 @@ class ProductForm extends Form
             'height.not_in'             => 'El alto no puede ser 0',
             'length.not_in'             => 'El largo no puede ser 0'
         ];
+    }
+
+    public function autocomplete(Product $product)
+    {
+        $this->fill([
+            'published'        => $product->published,
+            'featured'         => $product->featured,
+            'name'             => $product->name,
+            'description'      => $product->description,
+            'code'             => $product->code,
+            'category_id'      => $product->category_id,
+            'brand_id'         => $product->brand_id,
+            'price'            => $product->price,
+            'unit_cost'        => $product->unit_cost,
+            'discount_percent' => $product->discount_percent,
+            'min_sale'         => $product->min_sale,
+            'max_sale'         => $product->max_sale,
+            'stock'            => $product->stock,
+            'width'            => $product->width,
+            'height'           => $product->height,
+            'length'           => $product->length,
+            'weight'           => $product->weight,
+            'created_by'       => $product->created_by
+        ]);
     }
 }

@@ -28,7 +28,8 @@
                                         @mouseleave="showDelete = false" class="relative mb-2">
 
                                         <x-badge color="blue"
-                                            class="absolute -top-2 -left-2 !rounded-full">
+                                        class="absolute -top-2 -left-2 
+                                        !rounded-full !w-5 !h-5 flex items-center justify-center">
                                             {{ $loop->index + 1 }}
                                         </x-badge>
 
@@ -83,7 +84,8 @@
                                         @mouseleave="showDelete = false" class="relative mb-2">
 
                                         <x-badge color="blue"
-                                            class="absolute -top-2 -left-2 !rounded-full">
+                                        class="absolute -top-2 -left-2 
+                                        !rounded-full !w-5 !h-5 flex items-center justify-center">
                                             {{ $loop->index + 1 }}
                                         </x-badge>
 
