@@ -20,6 +20,8 @@ class Index extends Component
     public $search = '';
     public $hasProducts = true;
 
+    protected $listeners = ['close-quick-update' => '$refresh'];
+
     public function updatingPage()
     {
         $this->selectedProducts = [];

@@ -111,8 +111,8 @@
                                     <x-slot name="body">
                                         ¿Estás seguro que deseas eliminar esta imagen?
 
-                                        <img class="w-32 h-24 mt-3 rounded mx-auto shadow object-contain"
-                                            src="{{ $image->url() }}" alt="product-image">
+                                        <img class="w-32 h-24 mt-3 rounded mx-auto shadow object-cover"
+                                        src="{{ $image->url() }}" alt="product-image">
                                     </x-slot>
 
                                     <x-slot name="actions">

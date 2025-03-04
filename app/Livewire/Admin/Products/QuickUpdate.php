@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Traits\Livewire\WithNotifications;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -75,9 +77,61 @@ class QuickUpdate extends Component
 
     public function save()
     {
-        $this->form->validate();
+        try 
+        {
+            $this->form->validate();
 
-        dd("PASO LA VALIDACION", $this->form->all());
+            $this->product->update($this->form->all());
+
+            if (!empty($this->images))
+            {
+                foreach($this->images as $index => $image)
+                {
+                    if ($image instanceof ProductImage)
+                    {
+                        $image->update(['order' => $index + 1]);
+                        continue;
+                    }
+
+                    $path = $image->store($this->product->images_dir);
+
+                    ProductImage::create([
+                        'product_id' => $this->product->id,
+                        'url'        => $path,
+                        'order'      => $index + 1
+                    ]);
+                }
+            }
+
+            Log::channel('resources')->info('Producto actualizado', [
+                'tenant'      => tenant('name'),
+                'operator_id' => Auth::id(),
+                'product'     => $this->product
+            ]);
+
+            $this->notify([
+                'type'  => 'success',
+                'title' => "Producto actualizado",
+                'body'  => 'Guardaste correctamente los cambios de este producto'
+            ]);
+
+            $this->dispatch('close-quick-update');
+
+        } catch (\Throwable $err) 
+        {
+            $this->notify([
+                'type'  => 'danger',
+                'title' => "Error al actualizar el producto",
+                'body'  => 'Estamos teniendo problemas internos, por favor vuelva a intentarlo a la brevedad'
+            ]);
+
+            Log::channel('error')->info('Error al actualizar producto', [
+                'tenant'      => tenant('name'),
+                'operator_id' => Auth::id(),
+                'message'     => $err->getMessage(),
+                'product'     => $this->product
+            ]);
+        }
     }
 
     public function render()

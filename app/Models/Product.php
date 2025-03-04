@@ -22,6 +22,11 @@ class Product extends Model
         return route('ecommerce.product-detail', [Str::slug($this->name), $this->id]);
     }
 
+    public function editPageUrl()
+    {
+        return route('admin.products.edit', $this->id);
+    }
+
     public function getImagesDirAttribute()
     {
         return tenant('products_url') . "/$this->id";
