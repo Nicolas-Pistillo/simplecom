@@ -3,6 +3,9 @@
 namespace App\Services\ShippingProviders;
 
 use App\Enums\LogisticType;
+use App\Enums\NotificationPresentation;
+use App\Enums\OrderFeedEvent;
+use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
 use App\Models\Order;
 use App\Models\OrderShipping;
@@ -12,8 +15,10 @@ use App\Utils\Address;
 use App\Utils\ShippingBranch;
 use App\Utils\ShippingRate;
 use App\Utils\ShippingRateParameters;
+use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -124,6 +129,30 @@ class Shipnow implements ShippingProvider
 
     public function createOrder(Order $order)
     {
+        foreach($order->items as $item)
+        {
+            $body = [
+                "external_reference" => $item->product_id,
+                "title"              => $item->name,
+                "external_reference_user" => "Producto $item->product_id",
+                "stock"              => $item->product->stock,
+                "price"              => $item->product->price,
+                "currency"           => "ARS",
+                "image_url"          => $item->product->first_image,
+                "dimensions" => [
+                    "weight" => $item->product->weight,
+                    "height" => $item->product->height,
+                    "length" => $item->product->length,
+                    "width"  => $item->product->width
+                ]
+            ];
+
+            Http::withToken($this->key('shipnow_api_token'))
+                ->withBody(json_encode($body))
+                ->post("$this->base_url/variants")
+                ->json();
+        }
+
         $body = [
             'external_reference' => $order->id,
             'external_reference_user' => 'simplecom-' . tenant('name'),
@@ -133,11 +162,10 @@ class Shipnow implements ShippingProvider
             ],
             'status' => 'new',
             'items'  => $order->items->map(fn($item) => [
-                'id'                 => $item->product_id,
+                'external_reference' => $item->product_id,
                 'quantity'           => $item->quantity,
                 'unit_price'         => $item->unit_price,
                 'title'              => $item->name,
-                'external_reference' => $item->variant_id,
                 'image_url'          => $item->product->first_image            
             ])->toArray(),
             'ship_to' => [
@@ -158,19 +186,51 @@ class Shipnow implements ShippingProvider
 
         if ($order->shipping->logistic_type->isToDropoff())
         {
-            $body['post_office_id'] = $order->shipping->selected_branch_id;
+            $body['ship_to']['post_office_id'] = $order->shipping->selected_branch_id;
         }
 
         $response = Http::withToken($this->key('shipnow_api_token'))
                         ->withBody(json_encode($body))
+                        ->throw()
                         ->post("$this->base_url/orders")
                         ->json();
 
-        dd($response);
+        if (!$response || !isset($response['id']))
+            throw new Exception('Error al generar orden de envío con Shipnow, intentelo de nuevo más tarde');
+
+        $order->shipping->update([
+            'status'             => ShippingStatus::Created,
+            'external_id'        => data_get($response, 'id'),
+            'final_price'        => data_get($response, 'shipping_option.tax_price'),
+            'external_status_id' => data_get($response, 'status'),
+            'meta'        => [
+                [
+                    'name'  => 'UID',
+                    'value' => data_get($response, 'uid')
+                ]
+            ]
+        ]);
+
+        $order->feed()->create([
+            'event'         => OrderFeedEvent::ShippingUpdate,
+            'presentation'  => NotificationPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => 'generó la orden de envío con Shipnow',
+            'meta'          => [
+                'icon_code' => 'local_shipping'
+            ]
+        ]);
     }
 
     public function getStatus(OrderShipping $shipping)
     {
-        
+        return Http::withToken($this->key('shipnow_api_token'))
+                    ->get("$this->base_url/orders/$shipping->external_id")
+                    ->json();
+    }
+
+    public function syncStatus(OrderShipping $shipping)
+    {
+        $statusResponse = $this->getStatus($shipping);
     }
 }
