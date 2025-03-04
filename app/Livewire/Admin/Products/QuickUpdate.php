@@ -120,9 +120,10 @@ class QuickUpdate extends Component
         } catch (\Throwable $err) 
         {
             $this->notify([
-                'type'  => 'danger',
-                'title' => "Error al actualizar el producto",
-                'body'  => 'Estamos teniendo problemas internos, por favor vuelva a intentarlo a la brevedad'
+                'type'     => 'danger',
+                'title'    => "Error al actualizar el producto",
+                'position' => 'bottom-left',
+                'body'     => 'Estamos teniendo problemas internos, por favor vuelva a intentarlo a la brevedad'
             ]);
 
             Log::channel('error')->info('Error al actualizar producto', [

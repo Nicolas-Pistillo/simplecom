@@ -36,7 +36,7 @@ class ProductForm extends Form
     #[Validate('nullable|numeric|max:99999999', as: 'costo')]
     public $unit_cost;
 
-    #[Validate('nullable|numeric|integer|max:100|not_in:0', as: 'descuento')]
+    #[Validate('nullable|numeric|integer|max:100', as: 'descuento')]
     public $discount_percent;
 
     #[Validate('nullable|numeric|integer|not_in:0', as: 'compra mínima')]
