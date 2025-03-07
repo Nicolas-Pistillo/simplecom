@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Livewire\Forms\IndexProductsFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -116,6 +117,57 @@ class Product extends Model
                         $q->where('published', 1);
                     });
                 });
+        });
+    }
+
+    public function scopeAdminSearch(Builder $query, string $search)
+    {
+        if (!empty(trim($search)))
+        {
+            $search = stripslashes(trim($search));
+
+            $query->where(function($query) use ($search)
+            {
+                $query->where('name', 'LIKE', "%$search%")
+                      ->orWhere('id', 'LIKE', "%$search%")
+                      ->orWhere('code', 'LIKE', "%$search%");
+    
+                $query->orWhereHas('category', function($q) use ($search) 
+                {
+                    $q->where('name', 'LIKE', "%$search%");
+                });
+    
+                $query->orWhereHas('tags', function($q) use ($search) 
+                {
+                    $q->where('name', 'LIKE', "%$search%");
+                });
+            });
+        }
+    }
+
+    public function scopeAdminFilter(Builder $query, IndexProductsFilters $filters)
+    {
+        $query->where(function ($query) use ($filters)
+        {
+            if ($filters->brand_id > 0)
+            {
+                $query->where('brand_id', $filters->brand_id);
+            }
+
+            if ($filters->category_id > 0)
+            {
+                $query->where('category_id', $filters->category_id);
+            }
+
+            if ($filters->only_published)
+            {
+                $query->where('published', true);
+            }
+
+            if ($filters->only_featured)
+            {
+                $query->where('featured', true);
+            }
         });
     }
 

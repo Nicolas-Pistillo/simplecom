@@ -6,6 +6,8 @@ use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\DeliveryType;
+use App\Livewire\Forms\IndexOrdersFilters;
+use Illuminate\Database\Eloquent\Builder;
 
 class Order extends Model
 {
@@ -112,5 +114,64 @@ class Order extends Model
     public function getShippingGuide()
     {
         return $this->shippingProvider->service()->getStatus($this->shipping);
+    }
+
+    public function scopeAdminSearch(Builder $query, string $search)
+    {
+        if (!empty(trim($search)))
+        {
+            $search = stripslashes(trim($search));
+
+            $query->where(function($query) use ($search)
+            {
+                $query->where('id', 'LIKE', "%$search%");
+    
+                $query->orWhereHas('user', function($q) use ($search) 
+                {
+                    $q->where('name', 'LIKE', "%$search%")
+                      ->orWhere('lastname', 'LIKE', "%$search%");
+                });
+
+                $query->orWhereHas('paymentMethod', function($q) use ($search)
+                {
+                    $q->where('display_name', 'LIKE', "%$search%")
+                        ->orWhere('display_name', 'LIKE', "%$search%")
+                        ->orWhere('checkout_name', 'LIKE', "%$search%");
+                });
+
+                $query->orWhereHas('shippingProvider', function($q) use ($search)
+                {
+                    $q->where('code', 'LIKE', "%$search%")
+                      ->orWhere('name', 'LIKE', "%$search%");
+                });
+
+                $query->orWhereHas('invoice', function($q) use ($search)
+                {
+                    $q->where('receipt_number', 'LIKE', "%$search%")
+                      ->orWhere('cae', 'LIKE', "%$search%");
+                });
+            });
+        }
+    }
+
+    public function scopeAdminFilter(Builder $query, IndexOrdersFilters $filters)
+    {
+        $query->where(function ($query) use ($filters)
+        {
+            if (!empty($filters->status))
+            {
+                $query->where('status', $filters->status);
+            }
+
+            if (!empty($filters->delivery_type))
+            {
+                $query->where('delivery_type', $filters->delivery_type);
+            }
+
+            if ($filters->only_invoiced)
+            {
+                $query->where('invoiced', true);
+            }
+        });
     }
 }

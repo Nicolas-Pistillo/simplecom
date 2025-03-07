@@ -19,6 +19,7 @@
         <div x-data="{showBulkDeleteConfirm: false}" 
         x-on:close-bulk-delete-dialog.window="showBulkDeleteConfirm = false">
             <section>
+
                 <div class="mx-auto max-w-screen-2xl">
                     <div class="relative shadow-md rounded-lg">
 
@@ -48,50 +49,7 @@
                                         p-1.5 rounded-full hover:bg-gray-200 no-select focus:outline-none 
                                         focus:ring duration-300" />
 
-                                    <div x-show="open" x-cloak @click.away="open = false"
-                                        x-transition:enter="transition ease-out duration-200"
-                                        x-transition:enter-start="transform opacity-0 scale-90"
-                                        x-transition:enter-end="transform opacity-100 scale-100"
-                                        x-transition:leave="transition ease-in duration-100"
-                                        x-transition:leave-start="transform opacity-100 scale-200"
-                                        x-transition:leave-end="transform opacity-0 scale-90"
-                                        class="absolute top-12 z-20 right-0 w-[30.25rem] rounded-md bg-white 
-                                        p-4 ring-1 shadow-xl shadow-black/5 ring-slate-700/10">
-                                        <h6 class="font-semibold text-sm text-slate-900">Filtros</h6>
-
-                                        <div class="mt-4 text-[0.8125rem]/6 text-slate-900">
-                                            <div class="flex items-center border-t border-slate-400/20 py-3">
-                                                <span class="w-2/5 flex-none">Language</span><span
-                                                    class="">English</span>
-                                                <span
-                                                    class="pointer-events-auto ml-auto font-medium text-indigo-600 
-                                            hover:text-indigo-500">Update</span>
-                                            </div>
-                                            <div class="flex items-center border-t border-slate-400/20 py-3">
-                                                <span class="w-2/5 flex-none">Date format</span>
-                                                <span class="">DD-MM-YYYY</span>
-                                                <span class="ml-auto flex items-center font-medium text-indigo-600">
-                                                    <span
-                                                        class="pointer-events-auto hover:text-indigo-500">Update</span>
-                                                    <span class="mx-3 h-6 w-px bg-slate-400/20"></span>
-                                                    <span
-                                                        class="pointer-events-auto hover:text-indigo-500">Remove</span>
-                                                </span>
-                                            </div>
-                                            <div class="flex items-center border-t border-slate-400/20 py-3">
-                                                <span>Automatic timezone</span>
-                                                <span class="ml-auto flex items-center">
-                                                    <x-switch />
-                                                </span>
-                                            </div>
-                                            <div class="flex items-center border-t border-slate-400/20 pt-3">
-                                                <span>Auto-update applicant data</span>
-                                                <span class="ml-auto flex items-center">
-                                                    <x-switch />
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @include('admin.products.partials.index.filters')
 
                                 </div>
 
