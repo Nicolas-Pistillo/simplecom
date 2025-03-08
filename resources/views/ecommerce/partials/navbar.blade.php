@@ -43,7 +43,8 @@
                                 </p>
                             </div>
 
-                            <a href="#" class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
+                            <a href="{{ route('customer.orders') }}" 
+                            class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
                             transition hover:bg-gray-50">
                                 <x-icon code="shopping_bag" class="text-gray-700" style="font-size: 21px" />
                                 Mis pedidos

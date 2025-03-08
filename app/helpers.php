@@ -109,3 +109,32 @@ if (!function_exists('validateCuit'))
         return $nro[10] == (string) $verif;
 	}
 }
+
+if (!function_exists('getDateName'))
+{
+    function getDateName(DateTime $date)
+    {
+        $monthNames = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+            'Junio', 'Julio', 'Agosto', 'Septiembre',
+            'Octubre', 'Noviembre', 'Diciembre'
+        ];
+
+        if (now()->diffInMinutes($date) < 2)
+            return "Ahora";
+
+        if (now()->diffInMinutes($date) < 60)
+            return "Hace " . now()->diffInMinutes($date) . ' minutos';
+
+        if ($date->isToday())
+            return "Hoy";
+
+        if ($date->isYesterday())
+            return "Ayer";
+
+        if (now()->year > $date->year)
+            return $date->format('d/m/Y');
+
+        return $date->day . ' de ' . data_get($monthNames, $date->month);
+    }
+}

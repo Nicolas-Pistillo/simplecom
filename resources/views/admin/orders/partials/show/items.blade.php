@@ -11,7 +11,7 @@
                 <div class="flex-auto space-y-1">
 
                     <h3 class="text-gray-900 line-clamp-2">
-                        {{ $item->product->name }} 
+                        {{ $item->name }} 
                     </h3>
 
                     <p class="text-xs text-gray-500">
@@ -29,7 +29,7 @@
                 </div>
 
                 <p class="text-right font-medium text-gray-900">
-                    ${{ priceFormat($item->total) }} <br>
+                    ${{ priceFormat($item->total) }}
                 </p>
             </li>
         @endforeach

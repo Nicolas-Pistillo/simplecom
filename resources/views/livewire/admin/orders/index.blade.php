@@ -1,5 +1,5 @@
 <div>
-    @if ($orders->isEmpty())
+    @if (!$has_orders)
         <div class="text-center h-[80vh] flex flex-col justify-center">
 
             <img src="{{ URL::to('img/illustrations/web_shopping.svg') }}" class="h-64 mx-auto mb-4" alt="no-data-img">
@@ -17,7 +17,7 @@
                 <div class="relative shadow-md rounded-lg">
 
                     <div class="flex items-end justify-between flex-wrap gap-4 px-4 py-3 
-                        bg-white rounded-t-lg border border-gray-100">
+                    bg-white rounded-t-lg border border-gray-100">
 
                         <div class="relative w-full order-2 sm:order-1 sm:w-72">
 
@@ -95,7 +95,7 @@
                         </div>
                     </div>
 
-                    {{-- <div class="flex flex-wrap gap-3 px-4 py-3">
+                    {{-- <div class="flex flex-wrap gap-3 px-4 py-3 border-b border-gray-200">
 
                         <h5 class="mr-4 font-semibold text-gray-800 text-sm">Entrega</h5>
 
@@ -115,101 +115,129 @@
                         </div>
                     </div> --}}
 
-                    <div class="overflow-x-auto no-select" scrollbar-thin>
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr class="text-center whitespace-nowrap">
-                                    <th scope="col" class="p-4">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-all" type="checkbox"
-                                                class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
-                                            <label for="checkbox-all" class="sr-only">checkbox</label>
-                                        </div>
-                                    </th>
-                                    <th scope="col" class="px-4 py-3">ID</th>
-                                    <th scope="col" class="px-4 py-3">Estado</th>
-                                    <th scope="col" class="px-4 py-3">Cliente</th>
-                                    <th scope="col" class="px-4 py-3">Entrega</th>
-                                    <th scope="col" class="px-4 py-3">Total</th>
-                                    <th scope="col" class="px-4 py-3">Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($orders as $order)
-                                    <tr wire:key='{{ $order->id }}'
-                                    class="border-b text-center transition cursor-pointer 
-                                    duration-200 hover:bg-gray-50 text-xs"
-                                    @click="location.href='{{ $order->detailPage() }}'">
+                    @if ($orders->isEmpty())
+                        
+                    <div class="text-center py-8">
 
-                                        <td class="w-4 px-4 py-3" onclick="event.stopPropagation()">
-                                            <div class="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox"
-                                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
-                                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-
-                                        <td class="font-semibold text-gray-900">
-                                            {{ $order->id }}
-                                        </td>
-
-                                        <td class="px-4 py-2 whitespace-nowrap">
-                                            <x-badge :color="$order->status->color()"
-                                                x-tooltip.raw.placement.top="{{ $order->status->helper() }}">
-                                                {{ $order->status->name() }}
-                                            </x-badge>
-                                        </td>
-
-                                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                            {{ $order->user->full_name }}
-                                        </td>
-
-                                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                            @if ($order->delivery_type === DeliveryType::Shipping)
-                                                @if (!$order->shipping)
-                                                    <x-badge color="yellow">Envío sin calcular</x-badge>
-                                                @else
-                                                    @if (
-                                                        $order->shipping->logistic_type === LogisticType::OriginToDoor ||
-                                                        $order->shipping->logistic_type === LogisticType::DropoffToDoor)
-                                                        Envío a domicilio
-                                                    @else
-                                                        Envío a sucursal
-                                                    @endif
-                                                @endif
-                                            @endif
-
-                                            @if ($order->delivery_type === DeliveryType::Picking)
-                                                Retíro en local
-                                            @endif
-                                        </td>
-
-                                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                            <div class="flex items-center justify-center gap-x-2">
-
-                                                ${{ priceFormat($order->total) }}
-
-                                                <img src="{{ Storage::url("providers/{$order->paymentMethod->code}.png") }}"
-                                                    x-tooltip.raw.placement.top="{{ $order->paymentMethod->display_name }}"
-                                                    class="h-8 w-8 object-cover rounded-full"
-                                                    alt="{{ $order->paymentMethod->display_name }}">
-                                            </div>
-                                        </td>
-
-                                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                            {{ $order->created_at->format('d/m/Y H:i') }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <img src="{{ URL::to('img/illustrations/cancel.svg') }}" 
+                        class="h-52 mx-auto mb-4" alt="no-data-img">
+            
+                        <div class="mb-4">
+                            <h3 class="mt-2 text-sm font-semibold text-gray-900">
+                                No se encontraron resultados
+                            </h3>
+                            <p class="mt-1 mb-4 text-sm text-gray-500">
+                                Revisa tu búsqueda o los filtros aplicados
+                            </p>
+                        </div>
                     </div>
 
-                    @if ($orders->total() > 10)
-                        <nav class="p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
-                            aria-label="Table navigation">
-                            {{ $orders->onEachSide(0)->links() }}
-                        </nav>
+                    @else
+
+                        <div class="overflow-x-auto no-select" scrollbar-thin>
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr class="text-center whitespace-nowrap">
+                                        <th scope="col" class="p-4">
+                                            <div class="flex items-center">
+                                                <input id="checkbox-all" type="checkbox"
+                                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
+                                                <label for="checkbox-all" class="sr-only">checkbox</label>
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">ID</th>
+                                        <th scope="col" class="px-4 py-3">Estado</th>
+                                        <th scope="col" class="px-4 py-3">Cliente</th>
+                                        <th scope="col" class="px-4 py-3">Entrega</th>
+                                        <th scope="col" class="px-4 py-3">Total</th>
+                                        <th scope="col" class="px-4 py-3">Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($orders as $order)
+                                        <tr wire:key='{{ $order->id }}'
+                                        class="border-b text-center transition cursor-pointer 
+                                        duration-200 text-xs border-l-2
+                                        {{ (in_array($order->id, $selected_orders)) 
+                                        ? 'border-l-blue-700 bg-blue-50'
+                                        : 'hover:bg-gray-50 border-l-transparent' 
+                                        }}"
+                                        @click="location.href='{{ $order->detailPage() }}'">
+
+                                            <td class="w-4 px-4 py-3" onclick="event.stopPropagation()">
+                                                <div class="flex items-center">
+                                                    <input type="checkbox" 
+                                                    wire:change='toggleSelectedOrder({{ $order->id }})'
+                                                    @if (in_array($order->id, $selected_orders))
+                                                        checked
+                                                    @endif
+                                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
+                                                    <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                                </div>
+                                            </td>
+
+                                            <td class="font-semibold text-gray-900">
+                                                {{ $order->id }}
+                                            </td>
+
+                                            <td class="px-4 py-2 whitespace-nowrap">
+                                                <x-badge :color="$order->status->color()"
+                                                    x-tooltip.raw.placement.top="{{ $order->status->helper() }}">
+                                                    {{ $order->status->name() }}
+                                                </x-badge>
+                                            </td>
+
+                                            <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+                                                {{ $order->user->full_name }}
+                                            </td>
+
+                                            <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+                                                @if ($order->delivery_type === DeliveryType::Shipping)
+                                                    @if (!$order->shipping)
+                                                        <x-badge color="yellow">Envío sin calcular</x-badge>
+                                                    @else
+                                                        @if (
+                                                            $order->shipping->logistic_type === LogisticType::OriginToDoor ||
+                                                            $order->shipping->logistic_type === LogisticType::DropoffToDoor)
+                                                            Envío a domicilio
+                                                        @else
+                                                            Envío a sucursal
+                                                        @endif
+                                                    @endif
+                                                @endif
+
+                                                @if ($order->delivery_type === DeliveryType::Picking)
+                                                    Retíro en local
+                                                @endif
+                                            </td>
+
+                                            <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+                                                <div class="flex items-center justify-center gap-x-2">
+
+                                                    ${{ priceFormat($order->total) }}
+
+                                                    <img src="{{ Storage::url("providers/{$order->paymentMethod->code}.png") }}"
+                                                        x-tooltip.raw.placement.top="{{ $order->paymentMethod->display_name }}"
+                                                        class="h-8 w-8 object-cover rounded-full"
+                                                        alt="{{ $order->paymentMethod->display_name }}">
+                                                </div>
+                                            </td>
+
+                                            <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+                                                {{ $order->created_at->format('d/m/Y H:i') }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        @if ($orders->total() > 10)
+                            <nav class="p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
+                                aria-label="Table navigation">
+                                {{ $orders->onEachSide(0)->links() }}
+                            </nav>
+                        @endif
                     @endif
                 </div>
             </div>

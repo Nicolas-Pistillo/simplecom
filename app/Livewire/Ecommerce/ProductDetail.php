@@ -127,7 +127,30 @@ class ProductDetail extends Component
 
     public function buyNow()
     {
-        // $validationsOutput = $this->validateSelection();
+        $validationsOutput = $this->validateSelection();
+
+        $productOnCart = Cart::search(
+            fn ($cartItem) => $cartItem->id === $this->product->id &&
+                            $cartItem->options->variant_id === $variantId)->first();
+
+        $totalProductQty = $productOnCart ? $this->quantitySelected + $productOnCart->qty 
+                                          : $this->quantitySelected;
+
+        dump(Cart::content());
+
+        /* Cart::add(
+            $this->product->id,
+            $this->product->name,
+            $this->quantitySelected,
+            $this->product->current_price,
+            [
+                'image_url'      => $this->product->first_image,
+                'category_id'    => $this->product->category_id,
+                'discount'       => $this->product->discount_percent,
+                'variant_id'     => $validationsOutput['variantId'],
+                'variant_values' => $validationsOutput['variantValues']
+            ]
+        )->associate(Product::class); */
     }
 
     public function selectVariantAttribute($attributeId, $valueId)

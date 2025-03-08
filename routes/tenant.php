@@ -62,6 +62,8 @@ Route::middleware([
                 Auth::logout();
                 return back()->with('logout_message', true);
             })->name('customer.logout');
+
+            Route::view('pedidos', 'ecommerce.customer.orders')->name('customer.orders');
         });
 
     });
