@@ -16,16 +16,13 @@
 
                     <p class="text-xs text-gray-500">
                         Cantidad: {{ $item->quantity }}
-                    </p>
-
-                    @if ($item->variant && isset($item->variant->options))
-                        @foreach ($item->variant->options as $variantOption)
-                            <p class="text-xs text-gray-500">
-                                {{ $variantOption->attribute->name }}:
+                        @if ($item->variant && isset($item->variant->options))
+                            @foreach ($item->variant->options as $variantOption)
+                            |   {{ $variantOption->attribute->name }}:
                                 {{ $variantOption->attributeValue->name }}
-                            </p>
-                        @endforeach
-                    @endif
+                            @endforeach
+                        @endif
+                    </p>
                 </div>
 
                 <p class="text-right font-medium text-gray-900">
