@@ -128,7 +128,7 @@ enum OrderStatus: string
         return match($this)
         {
             OrderStatus::Created                => 'Tu pedido está en proceso y aún no se ha confirmado',
-            OrderStatus::PaymentPending         => 'Finalizá tu pago para confirmar tu pedido',
+            OrderStatus::PaymentPending         => 'Finalizá el pago para confirmar tu pedido',
             OrderStatus::ProviderPayRevision    => 'El procesador de pagos está revisando tu pago, te notificaremos cuando recibamos su confirmación',
             OrderStatus::ProviderPayClaimed     => 'Iniciaste un reclamo por este pedido',
             OrderStatus::ProviderPayProcessing  => 'Estamos esperando información del pago por parte del proveedor, en breve actualizaremos la información',
@@ -139,7 +139,7 @@ enum OrderStatus: string
             OrderStatus::InBranch               => 'Tu pedido ya llego a la sucursal elegida, podes pasar a retirarlo',
             OrderStatus::DispatchReady          => 'Tu pedido está listo para ser despachado, pronto recibiras novedades sobre el envío',
             OrderStatus::Dispatched             => 'Tu pedido ya está en manos del transportista y estará en camino próximamente',
-            OrderStatus::PickupReady            => '¡Todo Listo! acercate a buscar tu pedido al punto de entrega',
+            OrderStatus::PickupReady            => '¡Todo Listo! podes acercarte a retirar tu pedido',
             OrderStatus::InTransit              => 'Tu pedido está en camino',
             OrderStatus::Delivered              => 'Recibiste tu pedido 🎉 ¡esperamos que lo disfrutes!',
             OrderStatus::RefundRequested        => 'Recibimos tu solicitud de reembolso y nos estaremos contactando a la brevedad',

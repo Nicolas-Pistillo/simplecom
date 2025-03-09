@@ -1,0 +1,32 @@
+<div class="{{ $class ?? '' }}">
+    <label for="{{ $id ?? '' }}" class="inline-block text-sm font-medium leading-6 text-gray-900 mb-2">
+        {{ $label }}
+    </label>
+    <div>
+        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 
+        focus-within:ring-inset focus-within:ring-blue-600">
+            
+            @isset($icon)
+                <span class="flex select-none items-center pl-2 -mr-1 text-gray-500 sm:text-sm">
+                    <x-icon :code="$icon" class="text-[18px]" />
+                </span>
+            @endisset
+
+            <input id="{{ $id ?? '' }}" type="{{ $type ?? 'text' }}" 
+            {{ isset($model) ? "wire:model.blur=$model" : '' }}
+            placeholder="{{ $placeholder ?? '' }}"
+            class="block w-full flex-1 border-0 bg-transparent py-1.5 px-2.5 text-gray-900 
+            placeholder:text-gray-400 focus:ring-0 text-sm leading-6">
+
+        </div>
+        @error($model ?? $error ?? '')
+            <small class="text-red-500">{{ $message }}</small>
+        @else 
+            @isset($helper)
+                <small class="mt-1 text-xs text-gray-500">
+                    {{ $helper }}
+                </small>
+            @endisset
+        @enderror
+    </div>
+</div>

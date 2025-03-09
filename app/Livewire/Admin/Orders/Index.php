@@ -2,18 +2,56 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Livewire\Forms\IndexOrdersFilters;
 use App\Models\Order;
+use App\Traits\Livewire\WithNotifications;
+use Illuminate\Support\Collection;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
-    public $search;
+    use WithPagination, WithNotifications;
+
+    public $search = '';
+
+    public $selected_orders = [];
+
+    public bool $has_orders;
+
+    public IndexOrdersFilters $filters;
+
+    public function updatedSearch()
+    {
+        $this->selected_orders = [];
+        $this->setPage(1);
+    }
+
+    public function updatedFilters()
+    {
+        $this->selected_orders = [];
+        $this->setPage(1);
+    }
+
+    public function toggleSelectedOrder($orderId)
+    {
+        in_array($orderId, $this->selected_orders)
+            ? array_splice($this->selected_orders, array_search($orderId, $this->selected_orders), 1)
+            : array_push($this->selected_orders, $orderId);
+    }
 
     public function getOrders()
     {
         return Order::with('user', 'paymentMethod')
+                    ->adminSearch($this->search)
+                    ->adminFilter($this->filters)
                     ->orderBy('created_at', 'DESC')
-                    ->paginate(10);
+                    ->paginate(15);
+    }
+
+    public function mount()
+    {
+        $this->has_orders = Order::count() > 0;
     }
 
     public function render()

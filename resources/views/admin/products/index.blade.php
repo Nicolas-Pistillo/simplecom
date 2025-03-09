@@ -2,6 +2,10 @@
 
 @section('title', 'Productos - Listado')
 
+@section('head')
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+@endsection
+
 @section('content')
 
     <div class="px-4 sm:px-6 lg:px-8">

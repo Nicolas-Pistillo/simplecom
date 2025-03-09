@@ -5,6 +5,7 @@ namespace App\Services\ShippingProviders;
 use App\Enums\LogisticType;
 use App\Enums\OrderFeedEvent;
 use App\Enums\NotificationPresentation;
+use App\Enums\OrderStatus;
 use App\Enums\ShippingStatus;
 use App\Interfaces\ShippingProvider;
 use App\Models\Order;
@@ -283,36 +284,119 @@ class Mocis implements ShippingProvider
         if (!$statusResponse || !isset($statusResponse['status']) || !$statusResponse['status'])
             return false; // Or exception
 
-        $currentStatus = strtolower(data_get($statusResponse, 'result.0.state'));
+        $currentStatusId = data_get($statusResponse, 'result.0.state_id');
+        $currentStatusName = data_get($statusResponse, 'result.0.state');
 
-        if ($currentStatus === 'en espera')
+        if ($currentStatusId === 0 && $shipping->status != ShippingStatus::ProviderPending)
         {
-            //
+            $shipping->update([
+                'status'          => ShippingStatus::ProviderProcessing,
+                'external_status' => $currentStatusName
+            ]);
         }
 
-        if ($currentStatus === 'colectado' && $shipping->status != ShippingStatus::Dispatched)
+        if ($currentStatusId === 9 && $shipping->status != ShippingStatus::Dispatched)
         {
-            //
+            $shipping->update([
+                'status'             => ShippingStatus::Dispatched,
+                'external_status'    => $currentStatusName
+            ]);
+
+            $shipping->order->update(['status' => OrderStatus::Dispatched]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => NotificationPresentation::Image,
+                'initializator' => "Moci's",
+                'action'        => "colectó el pedido y lo preparará para su entrega",
+                'meta'          => [
+                    'img_src' => Storage::url('providers/mocis_icon.png')
+                ]
+            ]);
         }
 
-        if (in_array($currentStatus, ['en transito', 'en camino']) && $shipping->status != ShippingStatus::InTransit)
+        if (in_array($currentStatusId, [4, 6, 1]) && $shipping->status != ShippingStatus::InTransit)
         {
-            //
+            $shipping->update([
+                'status'             => ShippingStatus::InTransit,
+                'external_status'    => $currentStatusName
+            ]);
+
+            $shipping->order->update(['status' => OrderStatus::InTransit]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => NotificationPresentation::Image,
+                'initializator' => "Moci's",
+                'action'        => "ya está en camino a entregar el pedido",
+                'meta'          => [
+                    'img_src' => Storage::url('providers/mocis_icon.png')
+                ]
+            ]);
         }
 
-        if ($currentStatus === 'cancelado' && $shipping->status != ShippingStatus::Cancelled)
+        if ($currentStatusId === 5 && $shipping->status != ShippingStatus::Cancelled)
         {
-            //
+            $shipping->update([
+                'status'          => ShippingStatus::Cancelled,
+                'external_status' => $currentStatusName
+            ]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => NotificationPresentation::Image,
+                'initializator' => "Moci's",
+                'action'        => "confirmó la cancelación del envío",
+                'meta'          => [
+                    'img_src' => Storage::url('providers/mocis_icon.png')
+                ]
+            ]);
         }
 
-        if ($currentStatus === 'entregado' && $shipping->status != ShippingStatus::Delivered)
+        if ($currentStatusId === 2 && $shipping->status != ShippingStatus::Delivered)
         {
-            //
+            $shipping->update([
+                'status'          => ShippingStatus::Delivered,
+                'external_status' => $currentStatusName
+            ]);
+
+            $shipping->order->update(['status' => OrderStatus::Delivered]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => NotificationPresentation::Icon,
+                'initializator' => "Moci's",
+                'action'        => "entregó el pedido",
+                'meta'          => [
+                    'icon_code'  => 'done',
+                    'icon_color' => 'green'
+                ]
+            ]);
         }
 
-        if ($currentStatus === 'devuelto' && $shipping->status != ShippingStatus::Returned)
+        if ($currentStatusId === 13 && $shipping->status != ShippingStatus::Returned)
         {
-            //
+            $shipping->update([
+                'status'          => ShippingStatus::Returned,
+                'external_status' => $currentStatusName
+            ]);
+
+            $shipping->order->feed()->create([
+                'event'         => OrderFeedEvent::ShippingUpdate,
+                'presentation'  => NotificationPresentation::Image,
+                'initializator' => "Moci's",
+                'action'        => "devolvió el pedido",
+                'meta'          => [
+                    'img_src' => Storage::url('providers/mocis_icon.png')
+                ]
+            ]);
+        }
+
+        $shipping->refresh();
+
+        if ($currentStatusName != $shipping->external_status)
+        {
+            $shipping->update(['external_status' => $currentStatusName]);
         }
     }
 

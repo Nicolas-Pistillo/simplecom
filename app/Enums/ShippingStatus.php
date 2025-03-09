@@ -5,6 +5,7 @@ namespace App\Enums;
 enum ShippingStatus: string
 {
     case NotCreated          = 'not_created';
+    case Created             = 'created';
     case OrderPayPending     = 'order_pay_pending';
     case DispatchReady       = 'dispatch_ready';
     case Dispatched          = 'dispatched';
@@ -14,6 +15,7 @@ enum ShippingStatus: string
     case CarrierRejected     = 'carrier_rejected';
     case Ready               = 'ready';
     case InTransit           = 'in_transit';
+    case ReturnInTransit     = 'return_in_transit';
     case LastTrace           = 'last_trace';
     case DeliveryNear        = 'delivery_near';
     case InBranch            = 'in_branch';
@@ -27,6 +29,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'gray',
+            ShippingStatus::Created            => 'blue',
             ShippingStatus::OrderPayPending    => 'indigo',
             ShippingStatus::DispatchReady      => 'blue',
             ShippingStatus::ProviderPending    => 'yellow',
@@ -34,6 +37,7 @@ enum ShippingStatus: string
             ShippingStatus::Ready              => 'blue',
             ShippingStatus::ProviderProcessing => 'blue',
             ShippingStatus::InTransit          => 'blue',
+            ShippingStatus::ReturnInTransit    => 'indigo',
             ShippingStatus::LastTrace          => 'indigo',
             ShippingStatus::InBranch           => 'lime',
             ShippingStatus::Dispatched         => 'indigo',
@@ -51,6 +55,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'No creado',
+            ShippingStatus::Created            => 'Creado',
             ShippingStatus::OrderPayPending    => 'Pago pendiente',
             ShippingStatus::DispatchReady      => 'Listo para despachar',
             ShippingStatus::Dispatched         => 'Despachado',
@@ -61,6 +66,7 @@ enum ShippingStatus: string
             ShippingStatus::LastTrace          => 'En último tramo',
             ShippingStatus::DeliveryNear       => 'Entrega cercana',
             ShippingStatus::InTransit          => 'En camino',
+            ShippingStatus::ReturnInTransit    => 'En camino a retirar',
             ShippingStatus::InBranch           => 'En sucursal destino',
             ShippingStatus::Delivered          => 'Entregado',
             ShippingStatus::CarrierRejected    => 'Cancelado',
@@ -75,6 +81,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'Pendiente',
+            ShippingStatus::Created            => 'Pendiente',
             ShippingStatus::OrderPayPending    => 'Pendiente',
             ShippingStatus::ProviderPending    => 'Pendiente',
             ShippingStatus::DispatchReady      => 'Preparado',
@@ -86,6 +93,7 @@ enum ShippingStatus: string
             ShippingStatus::DeliveryNear       => 'Cerca',
             ShippingStatus::Ready              => 'Preparado',
             ShippingStatus::InTransit          => 'En camino',
+            ShippingStatus::ReturnInTransit    => 'En camino a retirar',
             ShippingStatus::Delivered          => 'Entregado',
             ShippingStatus::Cancelled          => 'Cancelado',
             ShippingStatus::CarrierRejected    => 'Cancelado',
@@ -99,6 +107,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'La orden de envío no ha sido creada',
+            ShippingStatus::Created            => 'La orden de envío está creada, se esperan actualizaciones',
             ShippingStatus::OrderPayPending    => 'Debes abonar la orden de envío para confirmarla',
             ShippingStatus::ProviderPending    => 'La orden de envío ha sido creada. Se espera que el proveedor la confirme',
             ShippingStatus::ProviderProcessing => 'La orden de envío está siendo procesada por el proveedor',
@@ -110,6 +119,7 @@ enum ShippingStatus: string
             ShippingStatus::Ready              => 'El proveedor está listo para entregar el pedido',
             ShippingStatus::DeliveryNear       => 'El pedido está a punto de ser entregado',
             ShippingStatus::InTransit          => 'El pedido está en camino',
+            Shippingstatus::ReturnInTransit    => 'El provedor esta yendo a retirar el pedido para su devolución',
             ShippingStatus::Delivered          => 'El pedido fue entregado correctamente',
             ShippingStatus::CarrierRejected    => 'El envío fue cancelado por el transportista',
             ShippingStatus::Cancelled          => 'Cancelaste el envío del pedido',
@@ -123,6 +133,7 @@ enum ShippingStatus: string
         return match($this)
         {
             ShippingStatus::NotCreated         => 'Estamos preparando todo para el envío, pronto tendrás novedades',
+            ShippingStatus::Created            => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::OrderPayPending    => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::ProviderPending    => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::ProviderProcessing => 'Estamos preparando todo para el envío, pronto tendrás novedades',
@@ -134,6 +145,7 @@ enum ShippingStatus: string
             ShippingStatus::Ready              => 'Tu pedido estará pronto en viaje',
             ShippingStatus::InBranch           => 'Ya podés pasar a retirar tu pedido en la sucursal',
             ShippingStatus::InTransit          => 'Tu pedido está en camino',
+            ShippingStatus::ReturnInTransit    => 'El proveedor está camino a retirar el pedido',
             ShippingStatus::Delivered          => 'Tu pedido ha sido entregado',
             ShippingStatus::Cancelled          => 'El envío de tu pedido tuvo que ser cancelado',
             ShippingStatus::CarrierRejected    => 'El transportista canceló el pedido, ponte en contacto para más detalles',

@@ -3,6 +3,9 @@
 namespace App\Livewire\Admin\Products;
 
 use App\Exports\ProductsExport;
+use App\Livewire\Forms\IndexProductsFilters;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
@@ -13,12 +16,15 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
-    use WithPagination;
-    use WithNotifications;
+    use WithPagination, WithNotifications;
 
     public $selectedProducts = [];
     public $search = '';
     public $hasProducts = true;
+
+    public IndexProductsFilters $filters;
+
+    protected $listeners = ['close-quick-update' => '$refresh'];
 
     public function updatingPage()
     {
@@ -26,6 +32,12 @@ class Index extends Component
     }
 
     public function updatedSearch()
+    {
+        $this->selectedProducts = [];
+        $this->setPage(1);
+    }
+
+    public function updatedFilters()
     {
         $this->selectedProducts = [];
         $this->setPage(1);
@@ -150,39 +162,30 @@ class Index extends Component
         return Excel::download(new ProductsExport($products), 'productos.xlsx');
     }
 
+    public function quickUpdate(Product $product)
+    {
+        $this->dispatch('quick-update-product', $product->id);
+    }
+
+    public function getProducts()
+    {
+        return Product::with('category', 'operator')
+                        ->adminSearch($this->search)
+                        ->adminFilter($this->filters)
+                        ->paginate(15);
+    }
+
     public function mount()
     {
         $this->hasProducts = Product::count() > 0;
     }
 
-    public function getProducts()
-    {
-        $products = Product::with('category', 'operator');
-
-        if (!empty(trim($this->search)))
-        {
-            $search = trim($this->search);
-
-            $products->where('name', 'LIKE', "%$search%");
-            $products->orWhere('id', 'LIKE', "%$search%");
-            $products->orWhere('code', 'LIKE', "%$search%");
-
-            $products->orWhereHas('category', function($query) use ($search) {
-                $query->where('name', 'LIKE', "%$search%");
-            });
-
-            $products->orWhereHas('tags', function($query) use ($search) {
-                $query->where('name', 'LIKE', "%$search%");
-            });
-        }
-
-        return $products->paginate(15);
-    }
-
     public function render()
     {
         return view('livewire.admin.products.index', [
-            'products' => $this->getProducts()
+            'products'   => $this->getProducts(),
+            'categories' => Category::principal()->with('childs')->orderBy('name')->get(),
+            'brands'     => Brand::orderBy('name')->get()
         ]);
     }
 }
