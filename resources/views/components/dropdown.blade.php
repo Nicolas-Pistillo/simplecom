@@ -18,8 +18,8 @@
     x-transition:leave="transition ease-in duration-75"
     x-transition:leave-start="transform opacity-100 scale-100"
     x-transition:leave-end="transform opacity-0 scale-95"
-    class="absolute {{ $position ?? 'left' }}-0 z-10 mt-2 rounded-md bg-white shadow-lg 
-    ring-1 ring-black ring-opacity-5 focus:outline-none min-w-max"
+    class="absolute {{ $position ?? 'left-0' }} z-10 mt-2 rounded-md bg-white shadow-lg 
+    ring-1 ring-black ring-opacity-5 focus:outline-none min-w-max {{ $containerClass ?? '' }}"
     role="menu" aria-orientation="vertical" tabindex="-1">
         <div class="py-1" role="none">
             {{ $slot }}

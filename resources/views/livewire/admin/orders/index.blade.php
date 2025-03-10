@@ -95,42 +95,62 @@
                         </div>
                     </div>
 
-                    {{-- <div class="flex flex-wrap gap-3 px-4 py-3 border-b border-gray-200">
+                    @if (count($selected_orders))
+                        <div class="flex items-center justify-between flex-wrap gap-3 px-4 
+                        py-3 border-b border-gray-200">
 
-                        <h5 class="mr-4 font-semibold text-gray-800 text-sm">Entrega</h5>
+                            <div class="flex items-center gap-3">
+                                <h5 class="font-semibold text-gray-800 text-sm">
+                                    {{ count($selected_orders) }}
+                                    {{ count($selected_orders) === 1 ? 'seleccionado' : 'seleccionados' }}
+                                </h5>
+    
+                                <x-dropdown position="right-0 sm:left-0">
+                                    <x-slot name="trigger">
+                                        <x-button size="tiny" type="secondary" 
+                                        class="flex items-center">
+                                            Acciones
+                                            <x-icon code="arrow_drop_down" />
+                                        </x-button>
+                                    </x-slot>
+    
+                                    <x-dropdown-item wire:click='print' icon="print" label="Imprimir etiquetas internas">
+                                    </x-dropdown-item>
+    
+                                    <x-dropdown-item icon="download" label="Descargar">
+                                    </x-dropdown-item>
+    
+                                    <x-dropdown-item icon="delete" label="Eliminar">
+                                    </x-dropdown-item>
+                                </x-dropdown>
+                            </div>
 
-                        <div class="flex items-center me-4">
-                            <input id="inline-radio" type="radio" value="" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900">Retíro en local</label>
+                            <div class="flex items-center flex-wrap gap-3">
+                                <x-badge>Solo envíos</x-badge>
+
+                                <x-badge>Solo envíos</x-badge>
+
+                                <x-badge>Solo envíos</x-badge>
+                            </div>
                         </div>
-
-                        <div class="flex items-center me-4">
-                            <input id="inline-2-radio" type="radio" value="" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900">Envío</label>
-                        </div>
-
-                        <div class="flex items-center me-4">
-                            <input checked id="inline-checked-radio" type="radio" value="" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="inline-checked-radio" class="ms-2 text-sm font-medium text-gray-900">Ambas</label>
-                        </div>
-                    </div> --}}
+                    @endif
 
                     @if ($orders->isEmpty())
                         
-                    <div class="text-center py-8">
+                        <div class="text-center py-8">
 
-                        <img src="{{ URL::to('img/illustrations/cancel.svg') }}" 
-                        class="h-52 mx-auto mb-4" alt="no-data-img">
-            
-                        <div class="mb-4">
-                            <h3 class="mt-2 text-sm font-semibold text-gray-900">
-                                No se encontraron resultados
-                            </h3>
-                            <p class="mt-1 mb-4 text-sm text-gray-500">
-                                Revisa tu búsqueda o los filtros aplicados
-                            </p>
+                            <img src="{{ URL::to('img/illustrations/cancel.svg') }}" 
+                            class="h-52 mx-auto mb-4" alt="no-data-img">
+                
+                            <div class="mb-4">
+                                <h3 class="mt-2 text-sm font-semibold text-gray-900">
+                                    No se encontraron resultados
+                                </h3>
+                                <p class="mt-1 mb-4 text-sm text-gray-500">
+                                    Revisa tu búsqueda o los filtros aplicados
+                                </p>
+                            </div>
                         </div>
-                    </div>
 
                     @else
 
@@ -153,7 +173,7 @@
                                         <th scope="col" class="px-4 py-3">Fecha</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody wire:poll>
                                     @foreach ($orders as $order)
                                         <tr wire:key='{{ $order->id }}'
                                         class="border-b text-center transition cursor-pointer 
