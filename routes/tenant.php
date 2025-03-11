@@ -60,12 +60,12 @@ Route::middleware([
         {
             Route::post('logout', function() {
                 Auth::logout();
-                return back()->with('logout_message', true);
+                return to_route('ecommerce.index')->with('logout_message', true);
             })->name('customer.logout');
 
             Route::view('mis-pedidos', 'ecommerce.customer.orders')->name('customer.orders');
 
-            Route::view('mis-datos', 'ecommerce.customer.settings')->name('customer.settings');
+            Route::view('configuracion', 'ecommerce.customer.settings')->name('customer.settings');
         });
 
     });

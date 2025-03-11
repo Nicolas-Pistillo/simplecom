@@ -114,14 +114,12 @@
                                         </x-button>
                                     </x-slot>
     
-                                    <x-dropdown-item wire:click='print' icon="print" label="Imprimir etiquetas internas">
-                                    </x-dropdown-item>
+                                    <x-dropdown-item wire:click='print' icon="print" label="Imprimir etiquetas internas" />
     
-                                    <x-dropdown-item icon="download" label="Descargar">
-                                    </x-dropdown-item>
+                                    <x-dropdown-item icon="download" label="Descargar" />
     
-                                    <x-dropdown-item icon="delete" label="Eliminar">
-                                    </x-dropdown-item>
+                                    <x-dropdown-item icon="delete" label="Eliminar" />
+
                                 </x-dropdown>
                             </div>
 
@@ -244,7 +242,7 @@
                                             </td>
 
                                             <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                                {{ $order->created_at->format('d/m/Y H:i') }}
+                                                {{ getElapsedTime($order->created_at) }}
                                             </td>
                                         </tr>
                                     @endforeach

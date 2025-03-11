@@ -110,14 +110,23 @@ if (!function_exists('validateCuit'))
 	}
 }
 
-if (!function_exists('getDateName'))
+if (!function_exists('getElapsedTime'))
 {
-    function getDateName(DateTime $date)
+    function getElapsedTime(DateTime $date)
     {
         $monthNames = [
-            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
-            'Junio', 'Julio', 'Agosto', 'Septiembre',
-            'Octubre', 'Noviembre', 'Diciembre'
+            1  => 'Enero',
+            2  => 'Febrero',
+            3  => 'Marzo',
+            4  => 'Abril',
+            5  => 'Mayo',
+            6  => 'Junio',
+            7  => 'Julio',
+            8  => 'Agosto',
+            9  => 'Septiembre',
+            10 => 'Octubre',
+            11 => 'Noviembre',
+            12 => 'Diciembre'
         ];
 
         if (now()->diffInMinutes($date) < 2)
@@ -126,8 +135,11 @@ if (!function_exists('getDateName'))
         if (now()->diffInMinutes($date) < 60)
             return "Hace " . now()->diffInMinutes($date) . ' minutos';
 
-        if ($date->isToday())
-            return "Hoy";
+        if (now()->diffInHours($date) < 24)
+        {
+            $difference = now()->diffInHours($date);
+            return $difference === 1 ? 'Hace 1 hora' : "Hace $difference horas";
+        }
 
         if ($date->isYesterday())
             return "Ayer";

@@ -20,9 +20,16 @@ class Order extends Model
         'delivery_type' => DeliveryType::class
     ];
 
+    protected $appends = ['total_items'];
+
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function getTotalItemsAttribute()
+    {
+        return $this->items()->sum('quantity');
     }
 
     public function user()

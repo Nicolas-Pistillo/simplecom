@@ -52,8 +52,8 @@
 
                             <a href="{{ route('customer.settings') }}" class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
                             transition hover:bg-gray-50">
-                                <x-icon code="person_edit" class="text-gray-700" style="font-size: 21px" />
-                                Mis datos
+                                <x-icon code="settings" class="text-gray-700" style="font-size: 21px" />
+                                Configuración
                             </a>
 
                             <form action="{{ route('customer.logout') }}" method="POST">

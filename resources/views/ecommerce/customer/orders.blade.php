@@ -2,6 +2,6 @@
 
 @section('content')
 
-    @livewire('customer.orders')
+    @livewire('ecommerce.customer.orders')
 
 @endsection

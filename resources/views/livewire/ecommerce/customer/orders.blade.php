@@ -18,8 +18,8 @@
                 px-4 lg:max-w-4xl lg:px-0">
                     @foreach ($orders as $order)
                         <li wire:key='{{ $order->id }}'>
-                            <span class="flex items-center 
-                            justify-between gap-x-6 py-4">
+                            <a href="#" class="flex items-center justify-between gap-x-6 
+                            py-4 transition duration-200 hover:bg-gray-50 px-2">
                                 <div class="min-w-0">
                                     <div class="flex items-start gap-x-3">
                                         <p class="text-sm/6 font-semibold text-gray-900">
@@ -31,7 +31,7 @@
                                     </div>
                                     <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                                         <p class="whitespace-nowrap">
-                                            {{ getDateName($order->created_at) }}
+                                            {{ getElapsedTime($order->created_at) }}
                                         </p>
                                         <svg viewBox="0 0 2 2" class="w-1 h-1 fill-current">
                                             <circle cx="1" cy="1" r="1" />
@@ -45,11 +45,14 @@
                                         ${{ priceFormat($order->total) }}
                                     </span>
 
-                                    <x-button type="secondary" href="#">
-                                        Ver detalle
-                                    </x-button>
+                                    <x-icon code="deployed_code" class="text-gray-500 text-lg -mr-3" />
+
+                                    <span class="text-gray-500 text-sm whitespace-nowrap">
+                                        {{ $order->total_items }} items
+                                    </span>
+                                    
                                 </div>
-                            </span>
+                            </a>
                         </li>
                     @endforeach
                 </ul>
