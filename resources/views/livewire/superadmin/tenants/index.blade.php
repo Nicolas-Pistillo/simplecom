@@ -66,7 +66,7 @@
 
                             <div x-data="{openDeleteDialog: false}" class="relative ml-auto">
             
-                                <x-dropdown position="right">
+                                <x-dropdown position="right-0">
 
                                     <x-slot name="trigger">
                                         <x-icon code="more_horiz" x-tooltip.raw="Acciones" 

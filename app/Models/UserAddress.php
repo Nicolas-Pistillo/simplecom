@@ -16,7 +16,7 @@ class UserAddress extends Model
 
     public function getLabelAttribute()
     {
-        return $this->name ?? 'Sin etiqueta';
+        return !empty(trim($this->tag)) ? $this->tag : 'Sin etiqueta';
     }
 
     public function getSummaryAttribute()
