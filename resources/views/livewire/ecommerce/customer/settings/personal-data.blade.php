@@ -1,4 +1,4 @@
-<div>
+<div x-on:close-edit-information.window="open = false">
     <h2 class="text-base/7 font-semibold text-gray-900">Datos personales</h2>
 
     <p class="mt-1 text-sm/6 text-gray-500">
@@ -55,24 +55,24 @@
 
     <x-drawer ref="open">
         <div class="h-full">
-            <form wire:submit='save' class="h-full flex flex-col justify-between">
+            <section class="h-full flex flex-col justify-between">
 
                 <div class="mb-3">
 
-                    <h3 class="text-lg text-gray-700 font-semibold mb-3">Datos personales</h3>
+                    <h3 class="text-lg text-gray-700 font-semibold mb-3">Editar información</h3>
 
                     <hr class="mb-6">
 
                     <div class="mb-6">
-                        <label class="block text-sm font-semibold leading-6 text-gray-500">
+                        <label for="customer_name" class="block text-sm font-semibold leading-6 text-gray-500">
                             Nombre
                         </label>
                         <div class="mt-2">
-                            <input type="text" wire:model='name' name="name" autocomplete="off"
-                                class="block w-full 
-                                              rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
-                                              placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
-                                              sm:text-sm sm:leading-6">
+                            <input id="customer_name" type="text" wire:model.blur='name' autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+                            focus:ring-2 focus:ring-inset transition duration-300 
+                            focus:ring-blue-600  sm:text-sm sm:leading-6">
                         </div>
                         @error('name')
                             <small class="text-red-500"> {{ $message }} </small>
@@ -80,54 +80,69 @@
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-semibold leading-6 text-gray-500">
-                            Email
+                        <label for="customer_lastname" class="block text-sm font-semibold leading-6 text-gray-500">
+                            Apellido
                         </label>
                         <div class="mt-2">
-                            <input type="email" wire:model='email' name="email" autocomplete="off"
-                                class="block w-full 
-                                              rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
-                                              placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
-                                              sm:text-sm sm:leading-6">
+                            <input id="customer_lastname" type="text" wire:model.blur='lastname' autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+                            focus:ring-2 focus:ring-inset transition duration-300 
+                            focus:ring-blue-600  sm:text-sm sm:leading-6">
                         </div>
-                        @error('email')
+                        @error('lastname')
                             <small class="text-red-500"> {{ $message }} </small>
                         @enderror
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-semibold leading-6 text-gray-500">
-                            Area (opcional)
+                        <label for="customer_document" class="block text-sm font-semibold 
+                        leading-6 text-gray-500">
+                            DNI
                         </label>
                         <div class="mt-2">
-                            <input type="text" wire:model='area' name="area" autocomplete="off"
-                                class="block w-full 
-                                              rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
-                                              placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
-                                              sm:text-sm sm:leading-6">
+                            <input id="customer_document" type="text" wire:model.blur='document' autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+                            focus:ring-2 focus:ring-inset transition duration-300 
+                            focus:ring-blue-600  sm:text-sm sm:leading-6">
                         </div>
-                        @error('area')
+                        @error('document')
                             <small class="text-red-500"> {{ $message }} </small>
-                        @else
-                            <small class="text-gray-500">Por ejemplo: Marketing, Soporte, Diseño etc.</small>
+                        @enderror
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="customer_phone" class="block text-sm font-semibold leading-6 text-gray-500">
+                            Teléfono
+                        </label>
+                        <div class="mt-2">
+                            <input type="text" id="customer_phone" wire:model.blur='phone' autocomplete="off"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+                            focus:ring-2 focus:ring-inset transition duration-300 
+                            focus:ring-blue-600  sm:text-sm sm:leading-6">
+                        </div>
+                        @error('phone')
+                            <small class="text-red-500"> {{ $message }} </small>
                         @enderror
                     </div>
                 </div>
 
                 <div class="flex items-center py-6">
 
-                    <x-button submit wire:loading.remove wire:target='save' size="large"
-                        class="w-full mr-4">Guardar</x-button>
-
-                    <x-spinner wire:loading wire:target='save' class="w-full" />
-
-                    <x-button wire:loading.remove wire:target='save' wire:click='cancelForm' size="large"
-                        class="w-full" type="secondary">
+                    <x-button wire:loading.remove wire:target='update' @click="open = false"
+                    size="large" class="w-full mr-4" type="secondary">
                         Cancelar
                     </x-button>
+
+                    <x-button wire:click='update' wire:loading.remove wire:target='update' size="large"
+                    class="w-full">Guardar</x-button>
+
+                    <x-spinner wire:loading wire:target='update' class="w-full" />
                 </div>
 
-            </form>
+            </section>
         </div>
     </x-drawer>
 </div>
