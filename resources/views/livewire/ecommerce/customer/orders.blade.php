@@ -21,6 +21,7 @@
                             <a href="#" class="flex items-center justify-between gap-x-6 
                             py-4 transition duration-200 hover:bg-gray-50 px-2">
                                 <div class="min-w-0">
+                                    <small class="text-xs text-gray-700">{{ getElapsedTime($order->created_at) }}</small>
                                     <div class="flex items-start gap-x-3">
                                         <p class="text-sm/6 font-semibold text-gray-900">
                                             Pedido {{ $order->id }}
@@ -30,15 +31,14 @@
                                         </x-badge>
                                     </div>
                                     <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
-                                        <p class="whitespace-nowrap">
-                                            {{ getElapsedTime($order->created_at) }}
-                                        </p>
-                                        <svg viewBox="0 0 2 2" class="w-1 h-1 fill-current">
-                                            <circle cx="1" cy="1" r="1" />
-                                        </svg>
                                         <p class="truncate">{{ $order->status->customerHelper() }}</p>
                                     </div>
                                 </div>
+
+                                <div class="flex items-center sm:hidden">
+                                    <x-icon code="chevron_forward" class="text-gray-700" />
+                                </div>
+                                
                                 <div class="hidden sm:flex items-center gap-x-4">
 
                                     <span class="font-semibold text-green-700">

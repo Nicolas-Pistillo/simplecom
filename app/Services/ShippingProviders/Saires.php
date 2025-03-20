@@ -80,6 +80,8 @@ class Saires implements ShippingProvider
                 $fromDays = now()->diffInDays(Carbon::parse(data_get($result, 'min_fecha_entrega')));
                 $toDays = now()->diffInDays(Carbon::parse(data_get($result, 'max_fecha_entrega')));
 
+                if ($fromDays == 0) $fromDays = 'Hoy';
+
                 $estimate = "$fromDays-$toDays días";
 
                 if ($serviceId === 'SAMEDY') $estimate = 'Entre hoy y mañana';
@@ -182,6 +184,6 @@ class Saires implements ShippingProvider
     {
         $statusResponse = $this->getStatus($shipping);
 
-        // Consultar lista de estados a Matias de Saires
+        dd($statusResponse);
     }
 }

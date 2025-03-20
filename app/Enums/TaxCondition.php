@@ -39,6 +39,11 @@ enum TaxCondition: string
 
     public static function needsInvoiceA($tax_condition)
     {
+        if ($tax_condition instanceof TaxCondition) 
+        {
+            $tax_condition = $tax_condition->value;
+        }
+
         return in_array($tax_condition, [self::Inscripto->value, self::Monotributista->value]);
     }
 }
