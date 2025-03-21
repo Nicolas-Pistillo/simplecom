@@ -77,6 +77,11 @@ class Order extends Model
         return route('admin.orders.show', $this->id);
     }
 
+    public function customerDetailPage()
+    {
+        return route('customer.orders.show', $this->id);
+    }
+
     public function discountStock()
     {
         if ($this->stock_discounted) return;

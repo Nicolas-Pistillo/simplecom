@@ -18,7 +18,8 @@
                 px-4 lg:max-w-4xl lg:px-0">
                     @foreach ($orders as $order)
                         <li wire:key='{{ $order->id }}'>
-                            <a href="#" class="flex items-center justify-between gap-x-6 
+                            <a href="{{ $order->customerDetailPage() }}" 
+                            class="flex items-center justify-between gap-x-6 
                             py-4 transition duration-200 hover:bg-gray-50 px-2">
                                 <div class="min-w-0">
                                     <small class="text-xs text-gray-700">{{ getElapsedTime($order->created_at) }}</small>

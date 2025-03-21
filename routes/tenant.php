@@ -63,10 +63,13 @@ Route::middleware([
                 return to_route('ecommerce.index')->with('logout_message', true);
             })->name('customer.logout');
 
-            Route::view('mis-pedidos', 'ecommerce.customer.orders')->name('customer.orders');
+            Route::view('mis-pedidos', 'ecommerce.customer.orders')->name('customer.orders.index');
 
             Route::view('configuracion', 'ecommerce.customer.settings')->name('customer.settings');
         });
+
+        Route::view('mis-pedidos/{order}', 'ecommerce.customer.order-detail')
+            ->name('customer.orders.show');
 
     });
 

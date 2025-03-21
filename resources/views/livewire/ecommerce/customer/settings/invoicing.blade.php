@@ -29,9 +29,11 @@
                 CUIT/DNI
             </dt>
             <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                <h6 class="text-gray-900">
-                    {{ Auth::user()->invoice_document ?? Auth::user()->document }}
-                </h6>
+                @if (TaxCondition::needsInvoiceA(!empty($this->tax_condition) ? $this->tax_condition : null))
+                    <h6 class="text-gray-900">{{ Auth::user()->invoice_document }}</h6>
+                @else
+                    <h6 class="text-gray-900">{{ Auth::user()->document }}</h6>
+                @endif
             </dd>
         </div>
         <div class="py-6 sm:flex">
