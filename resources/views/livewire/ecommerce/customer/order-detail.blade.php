@@ -1,118 +1,200 @@
 <div>
-    <div class="bg-white">
-        <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-          <div class="max-w-xl">
-            <h1 class="text-base font-medium text-indigo-600">Thank you!</h1>
-            <p class="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">It's on the way!</p>
-            <p class="mt-2 text-base text-gray-500">Your order #14034056 has shipped and will be with you soon.</p>
-      
-            <dl class="mt-12 text-sm font-medium">
-              <dt class="text-gray-900">Tracking number</dt>
-              <dd class="mt-2 text-indigo-600">51547878755545848512</dd>
-            </dl>
-          </div>
-      
-          <div class="mt-10 border-t border-gray-200">
-            <h2 class="sr-only">Your order</h2>
-      
-            <h3 class="sr-only">Items</h3>
-            <div class="flex space-x-6 border-b border-gray-200 py-10">
-              <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/confirmation-page-05-product-01.jpg" alt="Glass bottle with black plastic pour top and mesh insert." class="size-20 flex-none rounded-lg bg-gray-100 object-cover w-24 h-24">
-              <div class="flex flex-auto flex-col">
-                <div>
-                  <h4 class="font-medium text-gray-900">
-                    <a href="#">Cold Brew Bottle</a>
-                  </h4>
-                  <p class="mt-2 text-sm text-gray-600">This glass bottle comes with a mesh insert for steeping tea or cold-brewing coffee. Pour from any angle and remove the top for easy cleaning.</p>
-                </div>
-                <div class="mt-6 flex flex-1 items-end">
-                  <dl class="flex divide-x divide-gray-200 text-sm">
-                    <div class="flex pr-4 sm:pr-6">
-                      <dt class="font-medium text-gray-900">Quantity</dt>
-                      <dd class="ml-2 text-gray-700">1</dd>
+    <section class="py-10 px-6 sm:px-16 relative bg-gray-100">
+        <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+            <div class="w-full flex-col justify-start items-start gap-8 inline-flex">
+                <div class="w-full justify-between items-center flex sm:flex-row flex-col gap-3">
+                    <div class="w-full flex-col justify-center sm:items-start items-center gap-1 inline-flex">
+                        <h2 class="text-gray-900 text-2xl font-semibold font-manrope leading-9">
+                            <span class="mr-1.5">Pedido {{ $order->id }}</span>
+                            <x-badge :color="$order->status->color()" class="whitespace-nowrap">
+                                {{ $order->status->customerName() }}
+                            </x-badge>
+                        </h2>
+                        <span class="text-gray-500 text-base font-medium leading-relaxed">
+                            {{ getElapsedTime($order->created_at, true) }}
+                        </span>
                     </div>
-                    <div class="flex pl-4 sm:pl-6">
-                      <dt class="font-medium text-gray-900">Price</dt>
-                      <dd class="ml-2 text-gray-700">$32.00</dd>
+
+                    <x-button type="secondary" class="whitespace-nowrap">Volver atrás</x-button>
+                </div>
+                <h3 class="font-semibold">
+                    {{ $order->status->customerHelper() }}
+                </h3>
+                <div class="w-full justify-end items-start gap-8 inline-flex">
+                    <div class="w-full flex-col justify-start items-start gap-8 inline-flex">
+
+                        <nav class="w-full">
+                            <ol role="list" class="space-y-4 md:flex md:space-x-8 md:space-y-0">
+                                {{-- <li class="md:flex-1">
+                                    <!-- Completed Step -->
+                                    <div class="group flex flex-col border-l-4 border-indigo-600 py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
+                                        <span class="text-sm font-medium text-indigo-600">
+                                          Pedido confirmado
+                                        </span>
+                                        <span class="text-sm font-medium">Se confirma el pago del pedido</span>
+                                    </div>
+                                </li> --}}
+                                <li class="md:flex-1">
+                                    <!-- Current Step -->
+                                    <div class="flex flex-col border-l-4 border-blue-600 py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4"
+                                        aria-current="step">
+                                        <span class="text-sm font-medium text-blue-600">En preparación</span>
+                                    </div>
+                                </li>
+                                <li class="md:flex-1">
+                                    <!-- Upcoming Step -->
+                                    <div
+                                        class="group flex flex-col border-l-4 border-gray-200 py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
+                                        <span class="text-sm font-medium text-gray-500">Despachado</span>
+                                        {{-- <span class="text-sm font-medium">Despachamos tu pedido</span> --}}
+                                    </div>
+                                </li>
+                                <li class="md:flex-1">
+                                    <!-- Upcoming Step -->
+                                    <div
+                                        class="group flex flex-col border-l-4 border-gray-200 py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
+                                        <span class="text-sm font-medium text-gray-500">En camino</span>
+                                    </div>
+                                </li>
+                                <li class="md:flex-1">
+                                    <!-- Upcoming Step -->
+                                    <div
+                                        class="group flex flex-col border-l-4 border-gray-200 py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
+                                        <span class="text-sm font-medium text-gray-500">Entregado</span>
+                                    </div>
+                                </li>
+                            </ol>
+                        </nav>
+
+                        <div class="w-full flex flex-wrap justify-between 
+                        mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+
+                            <div class="w-full lg:w-[65%] mb-6 lg:mb-0 flex flex-col gap-y-6">
+                                <!-- Order Items -->
+                                <div class="bg-white px-4 py-6 shadow-sm ring-1 ring-gray-900/5 rounded-lg">
+                                    @include('admin.orders.partials.show.items')
+                                </div>
+                            </div>
+
+                            <div class="w-full lg:w-[32%] flex flex-col gap-y-6">
+
+                                <div class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 p-4">
+                                    <div class="pb-3 border-b">
+                                        <dt
+                                            class="flex justify-between items-center text-sm/6 
+                                  font-semibold text-gray-900 mb-1.5">
+
+                                            <span>Cliente</span>
+
+                                            <!--[if BLOCK]><![endif]--> <span
+                                                class="inline-flex cursor-default items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset bg-gray-50 text-gray-600 ring-gray-500/10 bg-white">
+                                                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+                                                Invitado
+                                            </span> <!--[if ENDBLOCK]><![endif]-->
+                                        </dt>
+                                        <dd class="mt-1 text-base font-semibold text-gray-900">
+                                            Nicolas Pistillo
+                                        </dd>
+                                    </div>
+
+                                    <div class="w-full pt-3">
+                                        <div class="mb-3">
+                                            <dt class="text-xs text-gray-500">
+                                                Email
+                                            </dt>
+                                            <dd class="text-sm/6 font-medium text-gray-700">
+                                                pistillonicolas@gmail.com
+                                            </dd>
+                                        </div>
+
+                                        <div class="flex flex-wrap gap-6">
+                                            <div class="flex flex-col">
+                                                <dt class="text-xs text-gray-500">
+                                                    Teléfono
+                                                </dt>
+                                                <dd class="text-sm font-medium text-gray-700">
+                                                    1162776973
+                                                </dd>
+                                            </div>
+
+                                            <div class="flex flex-col">
+                                                <dt class="text-xs text-gray-500">
+                                                    DNI
+                                                </dt>
+                                                <dd class="text-sm font-medium text-gray-700">
+                                                    43150669
+                                                </dd>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 p-4">
+                                    <div class="pb-3 border-b">
+                                        <dt
+                                            class="flex justify-between items-center text-sm/6 
+                                      font-semibold text-gray-900 mb-1.5">
+
+                                            <span>Cliente</span>
+
+                                            <!--[if BLOCK]><![endif]--> <span
+                                                class="inline-flex cursor-default items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset bg-gray-50 text-gray-600 ring-gray-500/10 bg-white">
+                                                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+                                                Invitado
+                                            </span> <!--[if ENDBLOCK]><![endif]-->
+                                        </dt>
+                                        <dd class="mt-1 text-base font-semibold text-gray-900">
+                                            Nicolas Pistillo
+                                        </dd>
+                                    </div>
+
+                                    <div class="w-full pt-3">
+                                        <div class="mb-3">
+                                            <dt class="text-xs text-gray-500">
+                                                Email
+                                            </dt>
+                                            <dd class="text-sm/6 font-medium text-gray-700">
+                                                pistillonicolas@gmail.com
+                                            </dd>
+                                        </div>
+
+                                        <div class="flex flex-wrap gap-6">
+                                            <div class="flex flex-col">
+                                                <dt class="text-xs text-gray-500">
+                                                    Teléfono
+                                                </dt>
+                                                <dd class="text-sm font-medium text-gray-700">
+                                                    1162776973
+                                                </dd>
+                                            </div>
+
+                                            <div class="flex flex-col">
+                                                <dt class="text-xs text-gray-500">
+                                                    DNI
+                                                </dt>
+                                                <dd class="text-sm font-medium text-gray-700">
+                                                    43150669
+                                                </dd>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full flex-col justify-start items-start gap-1.5 flex">
+                            <h6 class="text-right text-gray-900 text-base font-medium leading-relaxed">Order Note:</h6>
+                            <p class="text-gray-500 text-sm font-normal leading-normal">Make sure to ship all the
+                                ordered items together by Friday. I've emailed you the details, so please check it an
+                                review it. Thank You!</p>
+                        </div>
                     </div>
-                  </dl>
                 </div>
-              </div>
             </div>
-      
-            <div class="sm:ml-40 sm:pl-6">
-              <h3 class="sr-only">Your information</h3>
-      
-              <h4 class="sr-only">Addresses</h4>
-              <dl class="grid grid-cols-2 gap-x-6 py-10 text-sm">
-                <div>
-                  <dt class="font-medium text-gray-900">Shipping address</dt>
-                  <dd class="mt-2 text-gray-700">
-                    <address class="not-italic">
-                      <span class="block">Kristin Watson</span>
-                      <span class="block">7363 Cynthia Pass</span>
-                      <span class="block">Toronto, ON N3Y 4H8</span>
-                    </address>
-                  </dd>
-                </div>
-                <div>
-                  <dt class="font-medium text-gray-900">Billing address</dt>
-                  <dd class="mt-2 text-gray-700">
-                    <address class="not-italic">
-                      <span class="block">Kristin Watson</span>
-                      <span class="block">7363 Cynthia Pass</span>
-                      <span class="block">Toronto, ON N3Y 4H8</span>
-                    </address>
-                  </dd>
-                </div>
-              </dl>
-      
-              <h4 class="sr-only">Payment</h4>
-              <dl class="grid grid-cols-2 gap-x-6 border-t border-gray-200 py-10 text-sm">
-                <div>
-                  <dt class="font-medium text-gray-900">Payment method</dt>
-                  <dd class="mt-2 text-gray-700">
-                    <p>Apple Pay</p>
-                    <p>Mastercard</p>
-                    <p><span aria-hidden="true">••••</span><span class="sr-only">Ending in </span>1545</p>
-                  </dd>
-                </div>
-                <div>
-                  <dt class="font-medium text-gray-900">Shipping method</dt>
-                  <dd class="mt-2 text-gray-700">
-                    <p>DHL</p>
-                    <p>Takes up to 3 working days</p>
-                  </dd>
-                </div>
-              </dl>
-      
-              <h3 class="sr-only">Summary</h3>
-      
-              <dl class="space-y-6 border-t border-gray-200 pt-10 text-sm">
-                <div class="flex justify-between">
-                  <dt class="font-medium text-gray-900">Subtotal</dt>
-                  <dd class="text-gray-700">$36.00</dd>
-                </div>
-                <div class="flex justify-between">
-                  <dt class="flex font-medium text-gray-900">
-                    Discount
-                    <span class="ml-2 rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-600">STUDENT50</span>
-                  </dt>
-                  <dd class="text-gray-700">-$18.00 (50%)</dd>
-                </div>
-                <div class="flex justify-between">
-                  <dt class="font-medium text-gray-900">Shipping</dt>
-                  <dd class="text-gray-700">$5.00</dd>
-                </div>
-                <div class="flex justify-between">
-                  <dt class="font-medium text-gray-900">Total</dt>
-                  <dd class="text-gray-900">$23.00</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
         </div>
-      </div>
-      
-      
+    </section>
 </div>

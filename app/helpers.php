@@ -112,7 +112,7 @@ if (!function_exists('validateCuit'))
 
 if (!function_exists('getElapsedTime'))
 {
-    function getElapsedTime(DateTime $date)
+    function getElapsedTime(DateTime $date, $withHours = false)
     {
         $monthNames = [
             1  => 'Enero',
@@ -145,8 +145,12 @@ if (!function_exists('getElapsedTime'))
             return "Ayer";
 
         if (now()->year > $date->year)
-            return $date->format('d/m/Y');
+            return $date->format('d/m/Y H:i');
 
-        return $date->day . ' de ' . data_get($monthNames, $date->month);
+        $output = $date->day . ' de ' . data_get($monthNames, $date->month);
+
+        if ($withHours) $output .= ' ' . $date->format('H:i');
+
+        return $output;
     }
 }
