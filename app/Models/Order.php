@@ -6,6 +6,8 @@ use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\DeliveryType;
+use App\Enums\PaymentStatus;
+use App\Enums\ShippingStatus;
 use App\Livewire\Forms\IndexOrdersFilters;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -30,6 +32,35 @@ class Order extends Model
     public function getTotalItemsAttribute()
     {
         return $this->items()->sum('quantity');
+    }
+
+    public function is_confirmed(): bool
+    {
+        return $this->status === OrderStatus::Confirmed || 
+                in_array($this->payment->status, [PaymentStatus::Confirmed, PaymentStatus::Authorized]);
+    }
+
+    public function was_dispatched(): bool
+    {
+        return  in_array($this->status, [OrderStatus::Dispatched, OrderStatus::InTransit, OrderStatus::Delivered]) ||
+                in_array($this->shipping->status, [ShippingStatus::Dispatched, ShippingStatus::InTransit, ShippingStatus::Delivered]);
+    }
+
+    public function was_instransit(): bool
+    {
+        return  in_array($this->status, [OrderStatus::InTransit, OrderStatus::Delivered]) ||
+                in_array($this->shipping->status, [
+                    ShippingStatus::InTransit, 
+                    ShippingStatus::Delivered,
+                    ShippingStatus::DeliveryNear,
+                    ShippingStatus::LastTrace
+                ]);
+    }
+
+    public function is_delivered(): bool
+    {
+        return  $this->status === OrderStatus::Delivered ||
+                $this->shipping->status === ShippingStatus::Delivered;
     }
 
     public function user()
