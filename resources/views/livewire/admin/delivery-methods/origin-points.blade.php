@@ -68,7 +68,7 @@ x-on:close-confirm-origin-point-deletion.window="confirmOriginPointDeletion = fa
                     </h5>
 
                     @if ($originPoint->in_use)
-                        <x-badge x-tooltip.raw="Las tarifas de envío y las orígens de paquetes 
+                        <x-badge x-tooltip.raw="Las tarifas de envío y los orígenes de colecta
                         se están calculando desde esta ubicación" class="mb-2"
                         color="blue">
                             En uso

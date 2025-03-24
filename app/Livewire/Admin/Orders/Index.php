@@ -33,6 +33,11 @@ class Index extends Component
         $this->setPage(1);
     }
 
+    public function print()
+    {
+        dump($this->selected_orders);
+    }
+
     public function toggleSelectedOrder($orderId)
     {
         in_array($orderId, $this->selected_orders)

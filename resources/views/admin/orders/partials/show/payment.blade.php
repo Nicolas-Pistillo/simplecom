@@ -46,7 +46,7 @@
                 <span class="text-sm/6 text-gray-500">
                     ${{ priceFormat($order->payment->total_paid) }}
 
-                    @if (!empty($order->payment->installments))
+                    @if (!empty($order->payment->installments) && is_numeric($order->payment->installments))
                         @if ($order->payment->installments == 1)
                             en un pago
                         @else

@@ -7,7 +7,7 @@
 
             <!-- Secondary navigation -->
             <header class="pb-4 pt-6 sm:pb-6">
-                <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
+                <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-6 sm:flex-nowrap">
                     <h1 class="text-base font-semibold leading-7 text-gray-900">Cashflow</h1>
                     <div
                         class="order-last flex w-full gap-x-8 text-sm font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
@@ -65,7 +65,7 @@
                 class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex items-center justify-between mb-4">
                     <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Pedidos Recientes</h5>
-                    <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                    <a href="{{ route('admin.orders.index') }}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
                         Ver todos
                     </a>
                 </div>

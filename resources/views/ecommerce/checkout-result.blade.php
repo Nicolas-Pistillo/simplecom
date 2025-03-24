@@ -35,7 +35,7 @@
                 <div class="flex items-center justify-center sm:justify-between flex-wrap gap-3">
                     <h2 class="text-lg sm:text-xl font-semibold text-gray-700">Pedido {{ $order->id }}</h2>
                     <div class="flex items-center flex-wrap gap-3">
-                        <x-button :href="route('customer.orders')" type="secondary" class="w-full sm:w-auto">
+                        <x-button :href="route('customer.orders.index')" type="secondary" class="w-full sm:w-auto">
                             Ver en mis pedidos
                         </x-button>
                         <x-button type="secondary" :href="route('ecommerce.products')" class="w-full sm:w-auto text-center">

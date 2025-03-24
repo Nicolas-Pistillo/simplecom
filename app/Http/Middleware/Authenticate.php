@@ -19,6 +19,9 @@ class Authenticate extends Middleware
 
             if ($request->is('admin/*'))
                 return route('admin.login-view');
+
+            session()->flash('login_required');
+            return route('ecommerce.index');
         }
 
         return null;

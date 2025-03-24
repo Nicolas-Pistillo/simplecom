@@ -135,7 +135,7 @@ enum OrderStatus: string
             OrderStatus::PaymentCancelled       => 'El pago del pedido fue cancelado',
             OrderStatus::PaymentRejected        => 'El pago de tu pedido fue rechazado, podes volver a intentarlo si lo deseas',
             OrderStatus::InMediation            => 'Iniciaste un reclamo por este pedido',
-            OrderStatus::Confirmed              => 'Tu pedido se encuentra en preparación',
+            OrderStatus::Confirmed              => 'Estamos preparando tu pedido',
             OrderStatus::InBranch               => 'Tu pedido ya llego a la sucursal elegida, podes pasar a retirarlo',
             OrderStatus::DispatchReady          => 'Tu pedido está listo para ser despachado, pronto recibiras novedades sobre el envío',
             OrderStatus::Dispatched             => 'Tu pedido ya está en manos del transportista y estará en camino próximamente',

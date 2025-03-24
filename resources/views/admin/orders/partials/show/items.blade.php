@@ -18,7 +18,7 @@
                         Cantidad: {{ $item->quantity }}
                         @if ($item->variant && isset($item->variant->options))
                             @foreach ($item->variant->options as $variantOption)
-                            |   {{ $variantOption->attribute->name }}:
+                            -   {{ $variantOption->attribute->name }}:
                                 {{ $variantOption->attributeValue->name }}
                             @endforeach
                         @endif
