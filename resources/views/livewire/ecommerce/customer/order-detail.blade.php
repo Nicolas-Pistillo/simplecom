@@ -21,19 +21,22 @@
 
                     @auth
                         <x-button :href="route('customer.orders.index')" type="secondary" 
-                        class="whitespace-nowrap">Volver atrás</x-button>
+                        class="whitespace-nowrap">Ir al listado</x-button>
                     @endauth
                 </div>
+
                 <h3 class="font-semibold">
                     {{ $order->status->customerHelper() }}
                 </h3>
+
                 <div class="w-full justify-end items-start gap-8 inline-flex">
+
                     <div class="w-full flex-col justify-start items-start gap-8 inline-flex">
 
                         @include('ecommerce.customer.partials.orders.show.status-bar')
 
-                        <div class="w-full flex flex-wrap justify-between 
-                        mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+                        <div class="w-full flex flex-wrap justify-between mx-auto max-w-2xl 
+                        lg:mx-0 lg:max-w-none">
 
                             <div class="w-full lg:w-[65%] mb-6 lg:mb-0 flex flex-col gap-y-6">
                                 <!-- Order Items -->
@@ -52,115 +55,12 @@
                             <div class="w-full lg:w-[32%] flex flex-col gap-y-6">
 
                                 @if ($order->storePickup)
-                                    <div class="rounded-lg bg-white shadow-sm ring-1 ring-gray-900/5 p-4">
-
-                                        <div class="pb-3 border-b">
-                                            <dt class="flex justify-between items-center text-sm/6 
-                                            font-semibold text-gray-900 mb-1.5">
-                                                <span>Retiro en local</span>
-                                            </dt>
-                                            <dd class="mt-1 text-base font-semibold text-gray-900">
-                                                {{ $order->storePickup->name }}
-                                            </dd>
-                                        </div>
-
-                                        <div class="w-full pt-3">
-
-                                            <div class="mb-3">
-                                                <dt class="text-xs text-gray-500">
-                                                    Dirección
-                                                </dt>
-                                                <dd class="text-sm/6 font-medium text-gray-700
-                                                flex items-center gap-2">
-                                                    {{ $order->storePickup->address }}
-                                                    <a href="{{ $order->storePickup->map_url }}" target="_blank"
-                                                    x-tooltip.raw="Ver en el mapa">
-                                                        <x-icon code="moved_location" class="transition colors 
-                                                        duration-300 cursor-pointer text-gray-600 p-1.5 
-                                                        bg-gray-100 rounded-full hover:bg-gray-200 
-                                                        focus:outline-none focus:ring text-[16px]" />
-                                                    </a>
-                                                </dd>
-                                            </div>
-
-                                            @if ($order->storePickup->schedule)
-                                                <div class="mb-3">
-                                                    <dt class="text-xs text-gray-500">
-                                                        Horarios
-                                                    </dt>
-                                                    <dd class="text-sm/6 font-medium text-gray-700">
-                                                        {{ $order->storePickup->schedule }}
-                                                    </dd>
-                                                </div>
-                                            @endif
-
-                                            @if ($order->storePickup->observations)
-                                                <div class="mb-3">
-                                                    <dt class="text-xs text-gray-500">
-                                                        Información
-                                                    </dt>
-                                                    <dd class="text-sm/6 font-medium text-gray-700">
-                                                        {{ $order->storePickup->observations }}
-                                                    </dd>
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                    </div>
+                                    @include('ecommerce.customer.partials.orders.show.store_pickup')
                                 @endif
 
-                                <div class="rounded-lg bg-white shadow-sm ring-1 ring-gray-900/5 p-4">
-                                    <div class="pb-3 border-b">
-                                        <dt
-                                            class="flex justify-between items-center text-sm/6 
-                                      font-semibold text-gray-900 mb-1.5">
-
-                                            <span>Cliente</span>
-
-                                            <!--[if BLOCK]><![endif]--> <span
-                                                class="inline-flex cursor-default items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset bg-gray-50 text-gray-600 ring-gray-500/10 bg-white">
-                                                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
-                                                Invitado
-                                            </span> <!--[if ENDBLOCK]><![endif]-->
-                                        </dt>
-                                        <dd class="mt-1 text-base font-semibold text-gray-900">
-                                            Nicolas Pistillo
-                                        </dd>
-                                    </div>
-
-                                    <div class="w-full pt-3">
-                                        <div class="mb-3">
-                                            <dt class="text-xs text-gray-500">
-                                                Email
-                                            </dt>
-                                            <dd class="text-sm/6 font-medium text-gray-700">
-                                                pistillonicolas@gmail.com
-                                            </dd>
-                                        </div>
-
-                                        <div class="flex flex-wrap gap-6">
-                                            <div class="flex flex-col">
-                                                <dt class="text-xs text-gray-500">
-                                                    Teléfono
-                                                </dt>
-                                                <dd class="text-sm font-medium text-gray-700">
-                                                    1162776973
-                                                </dd>
-                                            </div>
-
-                                            <div class="flex flex-col">
-                                                <dt class="text-xs text-gray-500">
-                                                    DNI
-                                                </dt>
-                                                <dd class="text-sm font-medium text-gray-700">
-                                                    43150669
-                                                </dd>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                                @if ($order->payment)
+                                    @include('ecommerce.customer.partials.orders.show.payment')
+                                @endif
                             </div>
                         </div>
                     </div>
