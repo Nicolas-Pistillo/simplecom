@@ -36,7 +36,7 @@ class Order extends Model
 
     public function is_confirmed(): bool
     {
-        return $this->status === OrderStatus::Confirmed || 
+        return $this->status === OrderStatus::Confirmed || $this->status === OrderStatus::PickupReady ||
                 in_array($this->payment->status, [PaymentStatus::Confirmed, PaymentStatus::Authorized]);
     }
 

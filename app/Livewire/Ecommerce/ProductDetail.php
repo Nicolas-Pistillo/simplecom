@@ -127,18 +127,13 @@ class ProductDetail extends Component
 
     public function buyNow()
     {
+        $itemsOnCart = Cart::search(fn($cartItem) => $cartItem->id === $this->product->id);
+                            
+        if ($itemsOnCart->isNotEmpty()) return $this->redirectRoute('ecommerce.checkout');
+
         $validationsOutput = $this->validateSelection();
 
-        $productOnCart = Cart::search(
-            fn ($cartItem) => $cartItem->id === $this->product->id &&
-                            $cartItem->options->variant_id === $variantId)->first();
-
-        $totalProductQty = $productOnCart ? $this->quantitySelected + $productOnCart->qty 
-                                          : $this->quantitySelected;
-
-        dump(Cart::content());
-
-        /* Cart::add(
+        Cart::add(
             $this->product->id,
             $this->product->name,
             $this->quantitySelected,
@@ -150,7 +145,9 @@ class ProductDetail extends Component
                 'variant_id'     => $validationsOutput['variantId'],
                 'variant_values' => $validationsOutput['variantValues']
             ]
-        )->associate(Product::class); */
+        )->associate(Product::class);
+
+        return $this->redirectRoute('ecommerce.checkout');
     }
 
     public function selectVariantAttribute($attributeId, $valueId)

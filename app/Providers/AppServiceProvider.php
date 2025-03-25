@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -26,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         FacadeView::composer(['layouts.ecommerce', 'ecommerce.*'], function(View $view) 
         {
             $view->with('principal_categories', Category::principal()->orderBy('name')->published()->get());
+            $view->with('featured_categories', Category::featured()->orderBy('name')->published()->get());
+            $view->with('brands', Brand::published()->orderBy('name')->get());
         });
     }
 }

@@ -57,6 +57,11 @@ class Category extends Model
         $query->where('published', true);
     }
 
+    public function scopeFeatured(Builder $query): void
+    {
+        $query->where('featured', true);
+    }
+
     public function getImageAttribute()
     {
         return !empty($this->image_url) ? Storage::url($this->image_url)
