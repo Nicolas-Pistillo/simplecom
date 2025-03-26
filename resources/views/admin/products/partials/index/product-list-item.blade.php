@@ -11,7 +11,8 @@
 
     <th class="flex items-center pl-4 pr-8 py-2 font-medium text-gray-900">
 
-        <img src="{{ $product->first_image }}" alt="{{ $product->name }}" class="w-8 h-8 mr-3 rounded-lg">
+        <img src="{{ $product->first_image }}" alt="{{ $product->name }}" 
+        class="w-8 h-8 mr-3 rounded-lg object-contain">
 
         <div class="flex flex-col items-start">
             <span class="max-w-[220px] truncate font-semibold" x-tooltip.raw.placement.top="{{ $product->name }}">

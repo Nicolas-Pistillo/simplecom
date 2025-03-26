@@ -115,8 +115,6 @@
                                             x-transition:enter-end="opacity-100 scale-100"
                                             class="absolute inset-x-0 top-full text-gray-500 
                                             sm:text-sm shadow-lg mt-px z-10">
-                                            <!-- Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow -->
-                                            <div class="absolute inset-0 top-1/2 bg-white" aria-hidden="true"></div>
 
                                             <div class="relative bg-white">
                                                 <div class="mx-auto max-w-7xl px-8">
@@ -184,7 +182,7 @@
                                                                 </ul>
                                                             </div>
 
-                                                            @if (!empty($brands))
+                                                            @if ($brands->isNotEmpty())
                                                                 <div>
                                                                     <p class="font-medium text-gray-900">Marcas</p>
 

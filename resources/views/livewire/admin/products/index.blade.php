@@ -69,30 +69,27 @@
                                         x-transition:leave-start="transform opacity-100 scale-200"
                                         x-transition:leave-end="transform opacity-0 scale-90"
                                         class="absolute top-12 right-0 w-max bg-white 
-                                    ring-1 shadow-xl shadow-black/5 ring-slate-700/10 
-                                    rounded-md overflow-hidden">
+                                        ring-1 shadow-xl shadow-black/5 ring-slate-700/10 
+                                        rounded-md overflow-hidden">
 
                                         <div class="text-[0.8125rem]/6 text-slate-900">
 
                                             <ul class="flex flex-col border-slate-400/20 rounded-md">
 
-                                                <li
-                                                    class="flex justify-between items-center px-3 py-1 text-sm leading-6 text-gray-900 
-                                        transition hover:bg-gray-50 cursor-pointer">
+                                                <li class="flex justify-between items-center px-3 py-1 text-sm leading-6 text-gray-900 
+                                                transition hover:bg-gray-50 cursor-pointer">
                                                     Descargar en PDF
                                                     <x-icon code="description" class="text-red-700" />
                                                 </li>
 
-                                                <li
-                                                    class="flex justify-between gap-x-2 items-center px-3 py-1 text-sm leading-6 text-gray-900 
-                                        transition hover:bg-gray-50 cursor-pointer">
+                                                <li class="flex justify-between gap-x-2 items-center px-3 py-1 text-sm leading-6 text-gray-900 
+                                                transition hover:bg-gray-50 cursor-pointer">
                                                     Descargar en Excel
                                                     <x-icon code="description" class="text-green-700" />
                                                 </li>
 
-                                                <li
-                                                    class="flex justify-between items-center px-3 py-1 text-sm leading-6 text-gray-900 
-                                        transition hover:bg-gray-50 cursor-pointer">
+                                                <li class="flex justify-between items-center px-3 py-1 text-sm leading-6 text-gray-900 
+                                                transition hover:bg-gray-50 cursor-pointer">
                                                     Descargar en CSV
                                                     <x-icon code="description" class="text-blue-700" />
                                                 </li>
@@ -124,7 +121,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($products as $product)
-                                        @include('admin.products.partials.product-list-item')
+                                        @include('admin.products.partials.index.product-list-item')
                                     @empty
                                         <tr class="border-b text-xs text-center transition-colors duration-300
                                         hover:bg-gray-50">
