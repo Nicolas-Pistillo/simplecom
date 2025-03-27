@@ -31,7 +31,7 @@
                             w-20 h-20 sm:w-28 sm:h-28 shadow" 
                             src="{{ $category->image }}" alt="">
         
-                            <h6 class="line-clamp-2 text-sm text-gray-800 font-semibold">
+                            <h6 class="line-clamp-2 text-xs sm:text-sm text-gray-800 font-semibold">
                                 {{ $category->name }}
                             </h6>
                         </a>

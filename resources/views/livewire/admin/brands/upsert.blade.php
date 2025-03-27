@@ -1,25 +1,27 @@
 <div>
-    <div x-data="{ newBrandPanelOpen: false }" class="px-4 sm:px-6 lg:px-8">
+    <div x-data="{ brandPanelOpen: false }" class="px-4 sm:px-6 lg:px-8"
+    x-on:open-brand-panel.window="brandPanelOpen = true"
+    x-on:close-brand-panel.window="brandPanelOpen = false">
 
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Marcas</h1>
                 <p class="mt-2 text-sm text-gray-700">
-                    Podes buscar y agregar las marcas registradas oficiales con las que vas a comercializar, luego podrás asignar
+                    Podes buscar y agregar las marcas registradas oficiales con las que vas a comercializar, luego
+                    podrás asignar
                     la correspondiente a cada producto que crees.
                 </p>
             </div>
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                <x-button class="flex items-center"
-                @click="newBrandPanelOpen = true;
-                $nextTick(() => document.getElementById('brand_searcher').focus())">
+                <x-button class="flex items-center" wire:click='openNewBrand'
+                @click="$nextTick(() => document.getElementById('brand_name').focus())">
                     <x-icon code="add" class="mr-1" />
                     Nueva marca
                 </x-button>
             </div>
         </div>
 
-        <x-backdrop-panel ref="newBrandPanelOpen">
+        {{-- <x-backdrop-panel ref="newBrandPanelOpen">
 
             <div class="relative flex items-center">
 
@@ -55,7 +57,7 @@
                 </ul>
             @endif
 
-        </x-backdrop-panel>
+        </x-backdrop-panel> --}}
 
         @if ($brands->isEmpty())
             <div class="text-center pt-24">
@@ -74,7 +76,7 @@
                 </div>
             </div>
         @else
-            <div class="my-8 flow-root">
+            <div x-data="{ confirmDeleteBrand: false }" class="my-8 flow-root">
                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" scrollbar-thin>
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <table class="min-w-full divide-y divide-gray-300">
@@ -92,7 +94,7 @@
                                         class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 flex items-center">
                                         Publicada
                                         <x-icon code="help" class="ml-1 text-blue-600 cursor-default"
-                                        x-tooltip.raw.placement.top="Al despublicar una marca, se despublicarán automáticamente 
+                                            x-tooltip.raw.placement.top="Al despublicar una marca, se despublicarán automáticamente 
                                         todos los productos asociados a la marca." />
                                     </th>
                                     <th scope="col"
@@ -103,12 +105,12 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 @foreach ($brands as $brand)
-                                    <tr x-data="{confirmDeleteBrand: false}" wire:key='{{ $brand->id }}' class="hover:bg-gray-50">
+                                    <tr wire:key='{{ $brand->id }}' class="hover:bg-gray-50">
                                         <td class="whitespace-nowrap py-4 pl-2 text-sm font-medium text-gray-900"
                                             style="min-width: 150px">
                                             <div class="flex items-center">
                                                 <img src="{{ !empty($brand->image_url) ? $brand->image_url : URL::to('img/no-image-alt.png') }}"
-                                                class="w-9 h-9 rounded-full mr-2 shadow" alt="brand-logo">
+                                                    class="w-9 h-9 rounded-full mr-2 shadow" alt="brand-logo">
                                                 {{ $brand->name }}
                                             </div>
                                         </td>
@@ -120,39 +122,17 @@
                                                 wireChange="togglePublished({{ $brand->id }}, $el.checked)" />
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                            <x-icon code="delete" @click="confirmDeleteBrand = true"
-                                            x-tooltip.raw.placement.left="Eliminar"
-                                            class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
-                                            bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-                                        </td>
-
-                                        {{-- Confirm delete brand --}}
-                                        <td>
-                                            <x-modal ref="confirmDeleteBrand" type="danger" icon="warning">
+                                            <div class="flex items-center gap-2">
+                                                <x-icon code="edit" wire:click='openEditBrand({{ $brand->id }})'
+                                                x-tooltip.raw.placement.left="Editar"
+                                                class="text-2xl text-gray-600 w-8 h-8 p-1 rounded-full flex items-center
+                                                bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
         
-                                                <x-slot name="title">
-                                                    Eliminar la marca <span class="text-blue-600">{{ $brand->name }}</span>
-                                                </x-slot>
-        
-                                                <x-slot name="body">
-                                                    ¿Estás seguro de que deseas eliminar esta marca?, se removerá de todos
-                                                    los productos asociados.
-                                                </x-slot>
-        
-                                                <x-slot name="actions">
-        
-                                                    <x-spinner wire:loading wire:target='deleteBrand' />
-        
-                                                    <x-button type="secondary" wire:loading.remove wire:target='deleteBrand'
-                                                    @click="confirmDeleteBrand = false">Cancelar</x-button>
-        
-                                                    <x-button wire:click='deleteBrand({{ $brand->id }})'
-                                                    wire:loading.remove wire:target='deleteBrand'
-                                                    class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
-        
-                                                </x-slot>
-        
-                                            </x-modal>
+                                                <x-icon code="delete" wire:click='confirmDeleteBrand({{ $brand->id }})'
+                                                x-tooltip.raw.placement.left="Eliminar"
+                                                class="text-2xl text-red-500 w-8 h-8 p-1 rounded-full flex items-center
+                                                bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -160,6 +140,35 @@
                         </table>
                     </div>
                 </div>
+
+                {{-- Confirm delete brand --}}
+                <x-modal ref="confirmDeleteBrand" type="danger" icon="warning">
+
+                    <x-slot name="title">
+                        Eliminar la marca <span class="text-blue-600">{{ $brand->name }}</span>
+                    </x-slot>
+
+                    <x-slot name="body">
+                        ¿Estás seguro de que deseas eliminar esta marca?, se removerá de todos
+                        los productos asociados.
+                    </x-slot>
+
+                    <x-slot name="actions">
+
+                        <x-spinner wire:loading wire:target='deleteBrand' />
+
+                        <x-button type="secondary" wire:loading.remove wire:target='deleteBrand'
+                        @click="confirmDeleteBrand = false">Cancelar</x-button>
+
+                        <x-button wire:click='deleteBrand({{ $brand->id }})' wire:loading.remove
+                        wire:target='deleteBrand' class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
+
+                    </x-slot>
+
+                </x-modal>
+
+                {{-- Upsert form --}}
+                @include('admin.brands.partials.upsert-form')
             </div>
         @endif
     </div>

@@ -1,6 +1,6 @@
 <div>
     @if (!$has_orders)
-        <div class="text-center h-[80vh] flex flex-col justify-center">
+        <div class="text-center mt-10 sm:mt-24 flex flex-col justify-center">
 
             <img src="{{ URL::to('img/illustrations/web_shopping.svg') }}" class="h-64 mx-auto mb-4" alt="no-data-img">
 

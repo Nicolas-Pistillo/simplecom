@@ -155,7 +155,7 @@
                                                                 </div>
                                                             @endif
 
-                                                            <div>
+                                                            {{-- <div>
                                                                 <p id="desktop-collection-heading"
                                                                     class="font-medium text-gray-900">Collection
                                                                 </p>
@@ -180,7 +180,7 @@
                                                                             class="hover:text-gray-800">Sale</a>
                                                                     </li>
                                                                 </ul>
-                                                            </div>
+                                                            </div> --}}
 
                                                             @if ($brands->isNotEmpty())
                                                                 <div>
@@ -244,7 +244,7 @@
                                         <input id="search" autocomplete="off" name="search"
                                             class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 
                                             ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
-                                          focus:ring-gray-400/80 sm:text-sm sm:leading-6"
+                                          focus:ring-gray-400/80 text-sm sm:leading-6"
                                             placeholder="Buscar..." type="search">
                                     </div>
                                 </div>
