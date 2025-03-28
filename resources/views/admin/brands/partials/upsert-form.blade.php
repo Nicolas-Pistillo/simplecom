@@ -11,17 +11,45 @@
 
                 <hr class="mb-6">
 
-                <div class="mb-6">
-                    <label for="name" class="block text-sm font-semibold leading-6 text-gray-500">
+                <div class="mb-6 relative">
+
+                    <label for="brand_name" class="block text-sm font-semibold leading-6 text-gray-500">
                         Nombre <sup class="text-red-500">*</sup>
                     </label>
-                    <div class="mt-2">
-                        <input type="text" id="brand_name" wire:model.blur='form.name' autocomplete="off"
+
+                    <div class="mt-2 flex items-center">
+                        <input type="search" id="brand_name" wire:model.live='form.name' autocomplete="off"
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 
                         shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                         focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
                         sm:text-sm sm:leading-6">
                     </div>
+
+                    <x-spinner wire:loading wire:target='getBrandResultInfo' class="absolute top-0 right-0" />
+
+                    @if (!empty($brandSearchResults))
+                        <ul x-data="{open: true}" x-show="open" @click.away="open = false"
+                        class="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800
+                        absolute left-0 bg-white z-10 w-full rounded-md shadow-lg">
+                            <li class="text-xs font-semibold text-gray-700 px-4 py-2">Sugerencias</li>
+                            @foreach ($brandSearchResults as $brand)
+                                @if (!empty($brand['icon']))
+                                    <li wire:key='{{ $brand['brandId'] . '-' . $brand['domain'] }}'
+                                    wire:click='getBrandResultInfo({{ json_encode($brand) }})'
+                                    @click="open = false" 
+                                    class="select-none cursor-pointer px-4 py-2 flex 
+                                    items-center transition hover:bg-gray-50">
+
+                                        <img src="{{ $brand['icon'] }}" alt="brand-logo"
+                                        class="w-6 h-6 rounded-full object-contain mr-2">
+
+                                        {{ $brand['name'] }}
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @endif
+
                     @error('form.name')
                         <small class="text-red-500"> {{ $message }} </small>
                     @enderror
@@ -32,11 +60,11 @@
                         Descripción (opcional)
                     </label>
                     <div class="mt-2">
-                        <textarea wire:model='form.description' name="description" rows="3" autocomplete="off"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
-                            ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
-                            focus:ring-inset transition duration-300 focus:ring-blue-600 sm:text-sm 
-                            sm:leading-6"></textarea>
+                        <textarea wire:model.blur='form.description' name="description" rows="3" autocomplete="off"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                        ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                        focus:ring-inset transition duration-300 focus:ring-blue-600 sm:text-sm 
+                        sm:leading-6"></textarea>
                     </div>
                     @error('form.description')
                         <small class="text-red-500"> {{ $message }} </small>
