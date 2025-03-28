@@ -194,8 +194,8 @@
                                                                                 <a href="#"
                                                                                 class="hover:text-gray-800 flex items-center gap-1.5">
                                                                                     @if (!empty($brand->image_url))
-                                                                                        <img src="{{ $brand->image_url }}" alt="{{ $brand->name }}"
-                                                                                        class="w-6 h-6 object-cover rounded-full">
+                                                                                        <img src="{{ Storage::url($brand->image_url) }}" alt="{{ $brand->name }}"
+                                                                                        class="w-6 h-6 object-contain rounded-full">
                                                                                     @endif
                                                                                     {{ $brand->name }}
                                                                                 </a>

@@ -6,7 +6,7 @@
             <div class="mb-3">
 
                 <h3 class="text-lg text-gray-700 font-semibold mb-3">
-                    Nueva marca
+                    {{ $brand ? 'Editando ' . $brand->name : 'Nueva marca' }}
                 </h3>
 
                 <hr class="mb-6">
@@ -16,8 +16,7 @@
                         Nombre <sup class="text-red-500">*</sup>
                     </label>
                     <div class="mt-2">
-                        <input type="text" id="brand_name" wire:model.blur='form.name' 
-                        name="name" autocomplete="off"
+                        <input type="text" id="brand_name" wire:model.blur='form.name' autocomplete="off"
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 
                         shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                         focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
@@ -39,7 +38,7 @@
                             focus:ring-inset transition duration-300 focus:ring-blue-600 sm:text-sm 
                             sm:leading-6"></textarea>
                     </div>
-                    @error('description')
+                    @error('form.description')
                         <small class="text-red-500"> {{ $message }} </small>
                     @enderror
                 </div>
@@ -85,15 +84,12 @@
                 <div class="mb-3">
 
                     <img src="{{ $imagePreview ?? 'http://placehold.co/500x500' }}"
-                    alt="brand-logo" class="w-24 h-24 rounded-full object-cover">
+                    alt="brand-logo" class="w-24 h-24 rounded-full object-contain">
 
                     <div class="mt-3 flex items-start justify-between">
 
                         <div>
-                            <h2 class="text-base font-semibold leading-6 text-gray-900">
-                                <span class="sr-only">Details for
-                                </span>Imagen miniatura
-                            </h2>
+                            <h2 class="text-base font-semibold leading-6 text-gray-900">Logo de marca</h2>
                             <p class="text-xs font-medium text-gray-500">
                                 Recomendado: 500 x 500px
                             </p>
@@ -117,6 +113,7 @@
                         <x-spinner wire:loading wire:target='form.image, deleteImage' />
 
                     </div>
+
                     @error('form.image')
                         <small class="text-red-500"> {{ $message }} </small>
                     @enderror

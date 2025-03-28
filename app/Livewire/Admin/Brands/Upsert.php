@@ -64,27 +64,40 @@ class Upsert extends Component
         $this->reset();
     }
 
-    public function deleteBrand(Brand $brand)
+    public function deleteBrand()
     {
-        $brand->delete();
-        Product::where('brand_id', $brand->id)->update(['brand_id' => null]);
+        if (!empty($this->brand->image_url))
+        {
+            Storage::delete($this->brand->image_url);
+        }
+
+        $this->brand->delete();
+
+        Product::where('brand_id', $this->brand->id)->update(['brand_id' => null]);
 
         Log::channel('resources')->info("Marca eliminada", [
             'tenant'      => tenant('name'),
             'operator_id' => Auth::id(),
-            'brand'       => $brand
+            'brand'       => $this->brand
         ]);
 
         $this->notify([
             'type'  => 'success',
-            'title' => "Eliminaste la marca $brand->name"
+            'title' => "Eliminaste la marca {$this->brand->name}"
         ]);
+
+        $this->dispatch('close-confirm-delete-brand');
     }
 
     public function openNewBrand()
     {
         $this->reset('brand', 'imagePreview');
         $this->form->reset();
+
+        $this->form->fill([
+            'published'   => true,
+            'featured'    => false,
+        ]);
 
         $this->dispatch('open-brand-panel');
     }
@@ -125,11 +138,17 @@ class Upsert extends Component
         $this->imagePreview = null;
     }
 
+    public function showDeleteDialog(Brand $brand)
+    {
+        $this->brand = $brand;
+        $this->dispatch('open-confirm-delete-brand');
+    }
+
     public function save()
     {
         $this->form->validate();
 
-        $brand = isset($this->brand) ? $this->brand->update($this->form->except('image'))
+        $brand = isset($this->brand) ? tap($this->brand)->update($this->form->except('image'))
                                      : Brand::create($this->form->except('image'));
 
         if ($this->form->image)

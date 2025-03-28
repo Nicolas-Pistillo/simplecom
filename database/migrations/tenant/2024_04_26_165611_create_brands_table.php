@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->string('brandfetch_id')->nullable();
             $table->string('name');
+            $table->string('description')->nullable();
             $table->string('image_url')->nullable();
             $table->boolean('published')->default(true);
+            $table->boolean('featured')->default(false);
             $table->timestamps();
         });
     }
