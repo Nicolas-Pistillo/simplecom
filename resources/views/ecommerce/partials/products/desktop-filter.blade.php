@@ -31,7 +31,7 @@
             @else
                 @foreach ($form->category->childs->sortByDesc('featured') as $category)
                     <li wire:key='{{ $category->id }}'>
-                        <h6 wire:click='setCategory({{ $category->id }})' 
+                        <div wire:click='setCategory({{ $category->id }})' 
                         class="hover:text-blue-600 inline-flex items-center gap-x-1 cursor-pointer"
                             @if ($category->featured) x-tooltip.raw.placement.right="Destacado" @endif>
 
@@ -40,11 +40,53 @@
                             @if ($category->featured)
                                 <x-icon code="local_fire_department" class="text-red-500" />
                             @endif
-                        </h6>
+                        </div>
                     </li>
                 @endforeach
             @endif
         </ul>
+    @endif
+
+    @if (!empty($available_brands))
+        <ul role="list" class="space-y-4 border-b border-gray-200 
+        text-sm font-medium text-gray-900 pb-6">
+
+            <li>
+                <h6 class="text-base text-gray-700 font-semibold inline-flex 
+                items-center gap-x-1 cursor-default">
+                    Marcas
+                </h6>
+            </li>   
+
+            @foreach ($available_brands->sortByDesc('featured') as $brand)
+
+                @if (!isset($brand->id)) @continue @endif
+
+                <li wire:key='{{ $brand->id }}'>
+                    <div wire:click='setBrand({{ $brand->id }})'
+                    class="hover:text-blue-600 inline-flex items-center gap-x-2 cursor-pointer">
+
+                        @if (!empty($brand->image_url))
+                            <img src="{{ Storage::url($brand->image_url) }}" alt="{{ $brand->name }}"
+                            class="w-6 h-6 rounded-full">
+                        @endif
+
+                        <span>{{ $brand->name }} </span>
+                        
+                        <span class="text-gray-500 text-xs">({{ $brand->products()->count() }})</span>
+                    </div>
+                </li>
+            @endforeach
+
+            @if (!empty($form->brand))
+                <li>
+                    <x-button wire:click='resetBrandFilter' type="secondary" size="tiny">
+                        Ver todas
+                    </x-button>
+                </li>
+                
+            @endif
+        </ul>      
     @endif
     
     {{-- Price filter --}}

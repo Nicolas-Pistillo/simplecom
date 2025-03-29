@@ -13,6 +13,9 @@ class ProductFiltersForm extends Form
     #[Url(as: 'orden')]
     public $order = 'relevants';
 
+    #[Url(as: 'marca')]
+    public $brand;
+
     #[Url(as: 'categoria')]
     public $categoryQuery;
     
