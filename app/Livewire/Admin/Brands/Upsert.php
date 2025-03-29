@@ -37,7 +37,7 @@ class Upsert extends Component
 
     public function openNewBrand()
     {
-        $this->reset('brand', 'imagePreview');
+        $this->reset('brand', 'imagePreview', 'brandSearchResults');
         $this->form->reset();
 
         $this->form->fill([
@@ -50,7 +50,7 @@ class Upsert extends Component
 
     public function openEditBrand(Brand $brand)
     {
-        $this->reset('brand', 'imagePreview');
+        $this->reset('brand', 'imagePreview', 'brandSearchResults');
         $this->form->reset();
 
         $this->brand = $brand;

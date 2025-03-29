@@ -35,6 +35,16 @@ class Products extends Component
 
         $products->orderByType($this->form->order);
 
+        if (!empty($this->form->min_price))
+        {
+            $products->where('price', '>=', $this->form->min_price);
+        }
+
+        if (!empty($this->form->max_price))
+        {
+            $products->where('price', '<=', $this->form->max_price);
+        }
+
         return $products->paginate(24);
     }
 
@@ -51,6 +61,11 @@ class Products extends Component
     public function updatedForm()
     {
         $this->setPage(1);
+    }
+
+    public function resetPriceFilter()
+    {
+        $this->form->reset('min_price', 'max_price');
     }
 
     public function mount()

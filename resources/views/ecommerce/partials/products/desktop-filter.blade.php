@@ -47,11 +47,10 @@
         </ul>
     @endif
     
-
+    {{-- Price filter --}}
     <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
 
         <h3 class="-my-3 flow-root">
-            <!-- Expand/collapse section button -->
             <button type="button" @click="open = !open"
                 class="flex w-full items-center justify-between 
                     bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
@@ -66,7 +65,7 @@
                 </span>
             </button>
         </h3>
-        <!-- Filter section, show/hide based on section state. -->
+        
         <div x-show="open" x-cloak x-collapse.duration.300 class="pt-4">
             
             <div class="flex gap-x-3 mb-2">
@@ -79,7 +78,7 @@
                     <div class="mt-2">
                         <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
                             <span class="flex select-none items-center pl-3 text-gray-500 text-xs">$</span>
-                            <input wire:model='min_price' autocomplete="off" type="number" id="filt_min_price" 
+                            <input wire:model='form.min_price' autocomplete="off" type="number" id="filt_min_price" 
                             class="w-2/5 form-input flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 
                             placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                         </div>                        
@@ -94,7 +93,7 @@
                     <div class="mt-2">
                         <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
                             <span class="flex select-none items-center pl-3 text-gray-500 text-xs">$</span>
-                            <input wire:model='max_price' autocomplete="off" type="number" id="filt_max_price" 
+                            <input wire:model='form.max_price' autocomplete="off" type="number" id="filt_max_price" 
                             class="w-2/5 block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 
                             placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                         </div>
@@ -102,14 +101,23 @@
                 </div>
             </div>
 
-            <x-button type="soft" size="tiny" class="flex items-center gap-x-0.5">
-                Aplicar
-                <x-icon code="arrow_forward" class="text-sm" />
-            </x-button>
+            <div class="flex items-center gap-2">
+                <x-button @click="$wire.$refresh()" type="soft" size="tiny" class="flex items-center gap-x-0.5">
+                    Aplicar
+                    <x-icon code="arrow_forward" class="text-sm" />
+                </x-button>
+    
+                @if (!empty($form->min_price) || !empty($form->max_price))
+                    <x-button wire:click='resetPriceFilter' type="secondary" size="tiny">
+                        Reiniciar
+                    </x-button>
+                @endif
+            </div>
 
         </div>
     </div>
 
+    {{-- Attribute filter --}}
     <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
         <h3 class="-my-3 flow-root">
             <!-- Expand/collapse section button -->

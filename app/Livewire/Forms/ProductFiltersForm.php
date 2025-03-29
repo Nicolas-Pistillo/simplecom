@@ -8,13 +8,13 @@ use Livewire\Form;
 
 class ProductFiltersForm extends Form
 {
+    public $category;
+
     #[Url(as: 'orden')]
     public $order = 'relevants';
 
     #[Url(as: 'categoria')]
     public $categoryQuery;
-
-    public $category;
     
     #[Url(as: 'precio_minimo')]
     public $min_price;

@@ -11,14 +11,14 @@
 
                 <hr class="mb-6">
 
-                <div class="mb-6 relative">
+                <div x-data="{open: false}" @click.away="open = false" class="mb-6 relative">
 
                     <label for="brand_name" class="block text-sm font-semibold leading-6 text-gray-500">
                         Nombre <sup class="text-red-500">*</sup>
                     </label>
 
                     <div class="mt-2 flex items-center">
-                        <input type="search" id="brand_name" wire:model.live='form.name' autocomplete="off"
+                        <input @focus="open = true" type="search" id="brand_name" wire:model.live='form.name' autocomplete="off"
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 
                         shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                         focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
@@ -28,10 +28,14 @@
                     <x-spinner wire:loading wire:target='getBrandResultInfo' class="absolute top-0 right-0" />
 
                     @if (!empty($brandSearchResults))
-                        <ul x-data="{open: true}" x-show="open" @click.away="open = false"
+                        <ul x-show="open"
                         class="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800
                         absolute left-0 bg-white z-10 w-full rounded-md shadow-lg">
-                            <li class="text-xs font-semibold text-gray-700 px-4 py-2">Sugerencias</li>
+                            <li class="text-xs font-semibold text-gray-700 px-4 py-2
+                            flex items-center justify-between">
+                                Sugerencias
+                                <x-icon @click="open = false" code="close" class="text-[16px] cursor-pointer" />
+                            </li>
                             @foreach ($brandSearchResults as $brand)
                                 @if (!empty($brand['icon']))
                                     <li wire:key='{{ $brand['brandId'] . '-' . $brand['domain'] }}'

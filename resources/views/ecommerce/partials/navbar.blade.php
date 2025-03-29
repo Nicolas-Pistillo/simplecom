@@ -189,7 +189,7 @@
                                                                     <ul role="list"
                                                                     class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
 
-                                                                        @foreach ($brands->sortBy('name')->take(5) as $brand)
+                                                                        @foreach ($brands->sortByDesc('featured')->take(5) as $brand)
                                                                             <li class="flex">
                                                                                 <a href="#"
                                                                                 class="hover:text-gray-800 flex items-center gap-1.5">
