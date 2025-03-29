@@ -113,69 +113,49 @@
                                             x-transition:enter="transition ease-out duration-300"
                                             x-transition:enter-start="opacity-0 scale-90"
                                             x-transition:enter-end="opacity-100 scale-100"
-                                            class="absolute inset-x-0 top-full text-gray-500 sm:text-sm shadow-lg mt-px z-10">
-                                            <!-- Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow -->
-                                            <div class="absolute inset-0 top-1/2 bg-white" aria-hidden="true"></div>
+                                            class="absolute inset-x-0 top-full text-gray-500 
+                                            sm:text-sm shadow-lg mt-px z-10">
 
                                             <div class="relative bg-white">
                                                 <div class="mx-auto max-w-7xl px-8">
-                                                    <div
-                                                        class="grid grid-cols-2 items-start gap-x-8 gap-y-10 pb-12 pt-10">
-                                                        <div class="grid grid-cols-2 gap-x-8 gap-y-10">
-                                                            <div>
-                                                                <p id="desktop-featured-heading-0"
-                                                                    class="font-medium text-gray-900">Featured</p>
-                                                                <ul role="list"
-                                                                    aria-labelledby="desktop-featured-heading-0"
+                                                    <div class="pb-12 pt-10">
+                                                        <div class="grid grid-cols-4 gap-x-8 gap-y-10">
+
+                                                            @if ($featured_categories->isNotEmpty())
+                                                                <div>
+                                                                    <p class="font-medium text-gray-900">Destacadas</p>
+
+                                                                    <ul role="list" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+                                                                        @foreach ($featured_categories->take(5) as $category)
+                                                                            <li class="flex">
+                                                                                <a href="{{ $category->pageUrl() }}" 
+                                                                                class="hover:text-gray-800">
+                                                                                    {{ $category->name }}
+                                                                                </a>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            @endif
+
+                                                            @if ($principal_categories->isNotEmpty())
+                                                                <div>
+                                                                    <p class="font-medium text-gray-900">Principales</p>
+                                                                    <ul role="list"
                                                                     class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Sleep</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Swimwear</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Underwear</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                            <div>
-                                                                <p id="desktop-categories-heading"
-                                                                    class="font-medium text-gray-900">Categories
-                                                                </p>
-                                                                <ul role="list"
-                                                                    aria-labelledby="desktop-categories-heading"
-                                                                    class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Basic
-                                                                            Tees</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Artwork
-                                                                            Tees</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Bottoms</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Underwear</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Accessories</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid grid-cols-2 gap-x-8 gap-y-10">
-                                                            <div>
+                                                                        @foreach ($principal_categories->take(5) as $category)
+                                                                            <li class="flex">
+                                                                                <a href="{{ $category->pageUrl() }}" 
+                                                                                class="hover:text-gray-800">
+                                                                                    {{ $category->name }}
+                                                                                </a>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            @endif
+
+                                                            {{-- <div>
                                                                 <p id="desktop-collection-heading"
                                                                     class="font-medium text-gray-900">Collection
                                                                 </p>
@@ -200,39 +180,30 @@
                                                                             class="hover:text-gray-800">Sale</a>
                                                                     </li>
                                                                 </ul>
-                                                            </div>
+                                                            </div> --}}
 
-                                                            <div>
-                                                                <p id="desktop-brand-heading"
-                                                                    class="font-medium text-gray-900">Brands</p>
-                                                                <ul role="list"
-                                                                    aria-labelledby="desktop-brand-heading"
+                                                            @if ($brands->isNotEmpty())
+                                                                <div>
+                                                                    <p class="font-medium text-gray-900">Marcas</p>
+
+                                                                    <ul role="list"
                                                                     class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Full
-                                                                            Nelson</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">My
-                                                                            Way</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Re-Arranged</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Counterfeit</a>
-                                                                    </li>
-                                                                    <li class="flex">
-                                                                        <a href="#"
-                                                                            class="hover:text-gray-800">Significant
-                                                                            Other</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
+
+                                                                        @foreach ($brands->sortByDesc('featured')->take(5) as $brand)
+                                                                            <li class="flex">
+                                                                                <a href="#"
+                                                                                class="hover:text-gray-800 flex items-center gap-1.5">
+                                                                                    @if (!empty($brand->image_url))
+                                                                                        <img src="{{ Storage::url($brand->image_url) }}" alt="{{ $brand->name }}"
+                                                                                        class="w-6 h-6 object-contain rounded-full">
+                                                                                    @endif
+                                                                                    {{ $brand->name }}
+                                                                                </a>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -273,7 +244,7 @@
                                         <input id="search" autocomplete="off" name="search"
                                             class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 
                                             ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 
-                                          focus:ring-gray-400/80 sm:text-sm sm:leading-6"
+                                          focus:ring-gray-400/80 text-sm sm:leading-6"
                                             placeholder="Buscar..." type="search">
                                     </div>
                                 </div>

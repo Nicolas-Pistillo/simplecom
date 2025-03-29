@@ -31,7 +31,7 @@
             @else
                 @foreach ($form->category->childs->sortByDesc('featured') as $category)
                     <li wire:key='{{ $category->id }}'>
-                        <h6 wire:click='setCategory({{ $category->id }})' 
+                        <div wire:click='setCategory({{ $category->id }})' 
                         class="hover:text-blue-600 inline-flex items-center gap-x-1 cursor-pointer"
                             @if ($category->featured) x-tooltip.raw.placement.right="Destacado" @endif>
 
@@ -40,18 +40,59 @@
                             @if ($category->featured)
                                 <x-icon code="local_fire_department" class="text-red-500" />
                             @endif
-                        </h6>
+                        </div>
                     </li>
                 @endforeach
             @endif
         </ul>
     @endif
-    
 
+    @if (!empty($available_brands))
+        <ul role="list" class="space-y-4 border-b border-gray-200 
+        text-sm font-medium text-gray-900 pb-6">
+
+            <li>
+                <h6 class="text-base text-gray-700 font-semibold inline-flex 
+                items-center gap-x-1 cursor-default">
+                    Marcas
+                </h6>
+            </li>   
+
+            @foreach ($available_brands->sortByDesc('featured') as $brand)
+
+                @if (!isset($brand->id)) @continue @endif
+
+                <li wire:key='{{ $brand->id }}'>
+                    <div wire:click='setBrand({{ $brand->id }})'
+                    class="hover:text-blue-600 inline-flex items-center gap-x-2 cursor-pointer">
+
+                        @if (!empty($brand->image_url))
+                            <img src="{{ Storage::url($brand->image_url) }}" alt="{{ $brand->name }}"
+                            class="w-6 h-6 rounded-full">
+                        @endif
+
+                        <span>{{ $brand->name }} </span>
+                        
+                        <span class="text-gray-500 text-xs">({{ $brand->products()->count() }})</span>
+                    </div>
+                </li>
+            @endforeach
+
+            @if (!empty($form->brand))
+                <li>
+                    <x-button wire:click='resetBrandFilter' type="secondary" size="tiny">
+                        Ver todas
+                    </x-button>
+                </li>
+                
+            @endif
+        </ul>      
+    @endif
+    
+    {{-- Price filter --}}
     <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
 
         <h3 class="-my-3 flow-root">
-            <!-- Expand/collapse section button -->
             <button type="button" @click="open = !open"
                 class="flex w-full items-center justify-between 
                     bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
@@ -66,7 +107,7 @@
                 </span>
             </button>
         </h3>
-        <!-- Filter section, show/hide based on section state. -->
+        
         <div x-show="open" x-cloak x-collapse.duration.300 class="pt-4">
             
             <div class="flex gap-x-3 mb-2">
@@ -79,7 +120,7 @@
                     <div class="mt-2">
                         <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
                             <span class="flex select-none items-center pl-3 text-gray-500 text-xs">$</span>
-                            <input wire:model='min_price' autocomplete="off" type="number" id="filt_min_price" 
+                            <input wire:model='form.min_price' autocomplete="off" type="number" id="filt_min_price" 
                             class="w-2/5 form-input flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 
                             placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                         </div>                        
@@ -94,7 +135,7 @@
                     <div class="mt-2">
                         <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
                             <span class="flex select-none items-center pl-3 text-gray-500 text-xs">$</span>
-                            <input wire:model='max_price' autocomplete="off" type="number" id="filt_max_price" 
+                            <input wire:model='form.max_price' autocomplete="off" type="number" id="filt_max_price" 
                             class="w-2/5 block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 
                             placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                         </div>
@@ -102,14 +143,23 @@
                 </div>
             </div>
 
-            <x-button type="soft" size="tiny" class="flex items-center gap-x-0.5">
-                Aplicar
-                <x-icon code="arrow_forward" class="text-sm" />
-            </x-button>
+            <div class="flex items-center gap-2">
+                <x-button @click="$wire.$refresh()" type="soft" size="tiny" class="flex items-center gap-x-0.5">
+                    Aplicar
+                    <x-icon code="arrow_forward" class="text-sm" />
+                </x-button>
+    
+                @if (!empty($form->min_price) || !empty($form->max_price))
+                    <x-button wire:click='resetPriceFilter' type="secondary" size="tiny">
+                        Reiniciar
+                    </x-button>
+                @endif
+            </div>
 
         </div>
     </div>
 
+    {{-- Attribute filter --}}
     <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
         <h3 class="-my-3 flow-root">
             <!-- Expand/collapse section button -->

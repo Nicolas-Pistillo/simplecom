@@ -37,6 +37,7 @@ class SetupTenantStorage implements ShouldQueue
         Storage::makeDirectory("$tenantName/products/variants");
         Storage::makeDirectory("$tenantName/banners");
         Storage::makeDirectory("$tenantName/categories");
+        Storage::makeDirectory("$tenantName/brands");
         Storage::makeDirectory("$tenantName/invoices");
 
         $this->tenant->run(function($tenant) 

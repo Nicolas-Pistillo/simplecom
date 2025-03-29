@@ -3,14 +3,14 @@
         <dt class="flex justify-between items-center text-sm/6 
         font-semibold text-gray-900 mb-1">
 
-            <span>Detalle de pago</span>
+            <span>Detalle de envío</span>
 
-            <x-badge :color="$order->payment->status->color()">
-                {{ $order->payment->status->name() }}
+            <x-badge :color="$order->shipping->status->color()">
+                {{ $order->shipping->status->customerName() }}
             </x-badge>
         </dt>
         <span class="text-xs font-semibold">
-            {{ $order->payment->status->customerHelper() }}
+            {{ $order->shipping->status->customerHelper() }}
         </span>
     </div>
 
@@ -22,45 +22,31 @@
 
                 <div class="w-full justify-between items-center gap-6 sm:inline-flex">
                     <h5 class="text-gray-600 leading-4 sm:leading-8">
-                        Forma
+                        Servicio
                     </h5>
                     <h4 class="sm:text-right text-gray-900 font-semibold">
-                        {{ $order->paymentMethod->display_name }}
+                        {{ $order->shipping->provider_label }}
                     </h4>
                 </div>
 
-                @if (!empty($order->payment->instrument))
+                @if (!empty($order->shipping->delivery_estimate))
                     <div class="w-full justify-between items-center gap-6 sm:inline-flex">
                         <h5 class="text-gray-600 leading-4 sm:leading-8">
-                            Método
+                            Estimado
                         </h5>
                         <h4 class="sm:text-right text-gray-900 font-semibold">
-                            {{ $order->payment->instrument }}
+                            {{ $order->shipping->delivery_estimate }}
                         </h4>
                     </div>
                 @endif
 
-                @if (!empty($order->payment->installments) 
-                && is_numeric($order->payment->installments) 
-                && $order->payment->installments > 1)
+                @if (!empty($order->shipping->quoted_price))
                     <div class="w-full justify-between items-center gap-6 sm:inline-flex">
                         <h5 class="text-gray-600 leading-4 sm:leading-8">
-                            Cuotas
+                            Precio
                         </h5>
                         <h4 class="sm:text-right text-gray-900 font-semibold">
-                            {{ $order->payment->installments }}
-                        </h4>
-                    </div>
-                    
-                @endif
-
-                @if (!empty($order->payment->external_id))
-                    <div class="w-full justify-between items-center gap-6 sm:inline-flex">
-                        <h5 class="text-gray-600 leading-4 sm:leading-8">
-                            Referencia
-                        </h5>
-                        <h4 class="sm:text-right text-gray-900 font-semibold">
-                            {{ $order->payment->external_id }}
+                            ${{ $order->shipping->quoted_price }}
                         </h4>
                     </div>
                 @endif

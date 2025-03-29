@@ -29,6 +29,10 @@
                     {{ $order->status->customerHelper() }}
                 </h3>
 
+                @if ($order->shipping && !empty($order->shipping->tracking_url))
+                    <x-button :href="$order->shipping->tracking_url" blank size="large">Seguir envío</x-button>
+                @endif
+
                 <div class="w-full justify-end items-start gap-8 inline-flex">
 
                     <div class="w-full flex-col justify-start items-start gap-8 inline-flex">
@@ -41,7 +45,7 @@
                             <div class="w-full lg:w-[65%] mb-6 lg:mb-0 flex flex-col gap-y-6">
                                 <!-- Order Items -->
                                 <div class="bg-white px-4 py-6 shadow-sm ring-1 ring-gray-900/5 rounded-lg">
-                                    <h2 class="text-lg font-semibold">Productos</h2>
+                                    <h2 class="text-lg font-semibold">Tu compra</h2>
                                     @include('ecommerce.customer.partials.orders.show.items')
                                 </div>
                                 <div class="w-full flex-col justify-start items-start gap-1.5 flex">
@@ -53,6 +57,10 @@
                             </div>
 
                             <div class="w-full lg:w-[32%] flex flex-col gap-y-6">
+
+                                @if ($order->shipping)
+                                    @include('ecommerce.customer.partials.orders.show.shipping')
+                                @endif
 
                                 @if ($order->storePickup)
                                     @include('ecommerce.customer.partials.orders.show.store_pickup')

@@ -9,10 +9,15 @@ class Brand extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['brandfetch_id', 'name', 'image_url', 'published'];
+    protected $fillable = ['name', 'description', 'image_url', 'published', 'featured'];
 
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published', true);
     }
 }

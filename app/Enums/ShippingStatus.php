@@ -132,7 +132,7 @@ enum ShippingStatus: string
     {
         return match($this)
         {
-            ShippingStatus::NotCreated         => 'Estamos preparando todo para el envío, pronto tendrás novedades',
+            ShippingStatus::NotCreated         => 'La información del envío aún no está disponible',
             ShippingStatus::Created            => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::OrderPayPending    => 'Estamos preparando todo para el envío, pronto tendrás novedades',
             ShippingStatus::ProviderPending    => 'Estamos preparando todo para el envío, pronto tendrás novedades',

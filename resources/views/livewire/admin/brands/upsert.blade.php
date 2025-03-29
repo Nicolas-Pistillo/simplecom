@@ -1,61 +1,30 @@
 <div>
-    <div x-data="{ newBrandPanelOpen: false }" class="px-4 sm:px-6 lg:px-8">
+    <div x-data="{ brandPanelOpen: false, confirmDeleteBrand: false }" class="px-4 sm:px-6 lg:px-8"
+    x-on:open-brand-panel.window="brandPanelOpen = true; $nextTick(() => {document.getElementById('brand_name').focus()})"
+    x-on:close-brand-panel.window="brandPanelOpen = false"
+    x-on:open-confirm-delete-brand.window="confirmDeleteBrand = true"
+    x-on:close-confirm-delete-brand.window="confirmDeleteBrand = false">
 
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Marcas</h1>
                 <p class="mt-2 text-sm text-gray-700">
-                    Podes buscar y agregar las marcas registradas oficiales con las que vas a comercializar, luego podrás asignar
+                    Podes buscar y agregar las marcas registradas oficiales con las que vas a comercializar, luego
+                    podrás asignar
                     la correspondiente a cada producto que crees.
                 </p>
             </div>
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                <x-button class="flex items-center"
-                @click="newBrandPanelOpen = true;
-                $nextTick(() => document.getElementById('brand_searcher').focus())">
+                <x-button class="flex items-center" wire:click='openNewBrand'
+                @click="$nextTick(() => {document.getElementById('brand_name').focus()})">
                     <x-icon code="add" class="mr-1" />
                     Nueva marca
                 </x-button>
             </div>
         </div>
 
-        <x-backdrop-panel ref="newBrandPanelOpen">
-
-            <div class="relative flex items-center">
-
-                <svg class="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                    fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                        clip-rule="evenodd" />
-                </svg>
-
-                <input type="search" id="brand_searcher" wire:model.live.debounce.800ms='brandSearch'
-                    class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-                    placeholder="Buscar marca por nombre..." role="combobox" aria-expanded="false"
-                    aria-controls="options">
-
-                <x-spinner wire:loading wire:target='brandSearch' class="mr-2" />
-
-            </div>
-
-            @if (!empty($brandSearch))
-                <ul class="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800">
-
-                    @forelse ($brandSearchResults as $result)
-                        <li wire:key='{{ $result['brandId'] }}' wire:click='addBrand({{ json_encode($result) }})'
-                            @click="newBrandPanelOpen = false"
-                            class="select-none cursor-pointer px-4 py-2 flex items-center transition hover:bg-gray-50">
-                            <img src="{{ $result['icon'] }}" class="w-6 h-6 rounded-full mr-2" alt="brand-logo">
-                            {{ $result['name'] }}
-                        </li>
-                    @empty
-                        <p class="p-3 text-sm text-center text-gray-500">No se encontraron marcas.</p>
-                    @endforelse
-                </ul>
-            @endif
-
-        </x-backdrop-panel>
+        {{-- Upsert form --}}
+        @include('admin.brands.partials.upsert-form')
 
         @if ($brands->isEmpty())
             <div class="text-center pt-24">
@@ -66,8 +35,8 @@
                 <div class="mb-4">
                     <h3 class="mt-2 text-sm font-semibold text-gray-900">Sin marcas</h3>
                     <p class="mt-1 text-sm text-gray-500">
-                        <span @click="newBrandPanelOpen = true"
-                            class="text-blue-500 hover:underline hover:text-blue-600 cursor-pointer">
+                        <span wire:click='openNewBrand'
+                        class="text-blue-500 hover:underline hover:text-blue-600 cursor-pointer">
                             Registrá tu primer marca
                         </span> cuando quieras
                     </p>
@@ -85,74 +54,78 @@
                                         Nombre
                                     </th>
                                     <th scope="col"
-                                        class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        class="px-3 whitespace-nowrap py-3.5 text-center text-sm font-semibold text-gray-900">
                                         Productos asociados
                                     </th>
                                     <th scope="col"
-                                        class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 flex items-center">
-                                        Publicada
-                                        <x-icon code="help" class="ml-1 text-blue-600 cursor-default"
-                                        x-tooltip.raw.placement.top="Al despublicar una marca, se despublicarán automáticamente 
-                                        todos los productos asociados a la marca." />
-                                    </th>
-                                    <th scope="col"
-                                        class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                         Acciones
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 @foreach ($brands as $brand)
-                                    <tr x-data="{confirmDeleteBrand: false}" wire:key='{{ $brand->id }}' class="hover:bg-gray-50">
-                                        <td class="whitespace-nowrap py-4 pl-2 text-sm font-medium text-gray-900"
-                                            style="min-width: 150px">
-                                            <div class="flex items-center">
-                                                <img src="{{ !empty($brand->image_url) ? $brand->image_url : URL::to('img/no-image-alt.png') }}"
-                                                class="w-9 h-9 rounded-full mr-2 shadow" alt="brand-logo">
+                                    <tr wire:key='{{ $brand->id }}' class="hover:bg-gray-50">
+                                        <td class="py-4 pl-2 text-sm font-medium text-gray-900">
+
+                                            <div class="flex items-center whitespace-nowrap">
+
+                                                <img src="{{ !empty($brand->image_url) ? Storage::url($brand->image_url) : URL::to('img/brand-placeholder.jpg') }}"
+                                                class="w-9 h-9 rounded-full mr-2 shadow object-contain" alt="brand-logo">
+
                                                 {{ $brand->name }}
                                             </div>
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+
+                                        <td class="text-center px-3 py-4 text-sm text-gray-500">
                                             {{ $brand->products()->count() }}
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                            <x-switch :checked="$brand->published" :tooltip="$brand->published ? 'Despublicar' : 'Publicar'"
-                                                wireChange="togglePublished({{ $brand->id }}, $el.checked)" />
-                                        </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                            <x-icon code="delete" @click="confirmDeleteBrand = true"
-                                            x-tooltip.raw.placement.left="Eliminar"
-                                            class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
-                                            bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-                                        </td>
 
-                                        {{-- Confirm delete brand --}}
-                                        <td>
-                                            <x-modal ref="confirmDeleteBrand" type="danger" icon="warning">
-        
-                                                <x-slot name="title">
-                                                    Eliminar la marca <span class="text-blue-600">{{ $brand->name }}</span>
-                                                </x-slot>
-        
-                                                <x-slot name="body">
-                                                    ¿Estás seguro de que deseas eliminar esta marca?, se removerá de todos
-                                                    los productos asociados.
-                                                </x-slot>
-        
-                                                <x-slot name="actions">
-        
-                                                    <x-spinner wire:loading wire:target='deleteBrand' />
-        
-                                                    <x-button type="secondary" wire:loading.remove wire:target='deleteBrand'
-                                                    @click="confirmDeleteBrand = false">Cancelar</x-button>
-        
-                                                    <x-button wire:click='deleteBrand({{ $brand->id }})'
-                                                    wire:loading.remove wire:target='deleteBrand'
-                                                    class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
-        
-                                                </x-slot>
-        
-                                            </x-modal>
+                                        <td class="text-center px-3 py-4 text-sm text-gray-500">
+                                            <span class="inline-flex overflow-hidden shadow-sm">
+
+                                                <span class="flex h-7 mx-auto rounded-md shadow-sm">
+                                    
+                                                    <x-button type="secondary" wire:click='togglePublished({{ $brand->id }})'
+                                                        x-tooltip.raw.placement.top="{{ $brand->published ? 'Despublicar' : 'Publicar' }}"
+                                                        class="text-xs rounded-r-none flex items-center
+                                                            {{ $brand->published ? '!bg-blue-100 !text-blue-500' : '' }}">
+                                    
+                                                        <x-icon wire:loading.remove wire:target='togglePublished({{ $brand->id }})'
+                                                            code="{{ $brand->published ? 'visibility' : 'visibility_off' }}" style="font-size: 16px" />
+                                    
+                                                        <x-spinner wire:loading wire:target='togglePublished({{ $brand->id }})'
+                                                            spinnerclass="!h-4 !w-4" />
+                                    
+                                                    </x-button>
+                                    
+                                                    <x-button type="secondary" wire:click='toggleFeatured({{ $brand->id }})'
+                                                        x-tooltip.raw.placement.top="{{ $brand->featured ? 'No destacar' : 'Destacar' }}"
+                                                        class="rounded-none flex items-center
+                                                            {{ $brand->featured ? '!bg-yellow-100 !text-yellow-500' : '' }}">
+                                    
+                                                        <x-icon wire:loading.remove wire:target='toggleFeatured({{ $brand->id }})' code="star"
+                                                            style="font-size: 16px" />
+                                    
+                                                        <x-spinner wire:loading wire:target='toggleFeatured({{ $brand->id }})'
+                                                            spinnerclass="!h-4 !w-4" />
+                                    
+                                                    </x-button>
+                                    
+                                                    <x-button type="secondary" wire:click='openEditBrand({{ $brand->id }})' 
+                                                    class="flex items-center rounded-none"
+                                                    x-tooltip.raw.placement.top="Editar">
+                                                        <x-icon code="edit" style="font-size: 16px" />
+                                                    </x-button>
+                                    
+                                                    <x-button type="secondary" wire:click='showDeleteDialog({{ $brand->id }})'
+                                                    class="flex items-center rounded-l-none text-red-500"
+                                                    x-tooltip.raw.placement.top="Eliminar">
+                                                        <x-icon code="delete" style="font-size: 16px" />
+                                                    </x-button>
+                                    
+                                                </span>
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -160,6 +133,32 @@
                         </table>
                     </div>
                 </div>
+
+                {{-- Confirm delete brand --}}
+                <x-modal ref="confirmDeleteBrand" type="danger" icon="warning" closeOnClickAway>
+
+                    <x-slot name="title">
+                        Eliminar la marca <span class="text-blue-600">{{ $this->brand?->name }}</span>
+                    </x-slot>
+
+                    <x-slot name="body">
+                        ¿Estás seguro de que deseas eliminar esta marca?, se removerá de todos
+                        los productos asociados.
+                    </x-slot>
+
+                    <x-slot name="actions">
+
+                        <x-spinner wire:loading wire:target='deleteBrand' />
+
+                        <x-button type="secondary" wire:loading.remove wire:target='deleteBrand'
+                        @click="confirmDeleteBrand = false">Cancelar</x-button>
+
+                        <x-button wire:click='deleteBrand' wire:loading.remove
+                        wire:target='deleteBrand' class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
+
+                    </x-slot>
+
+                </x-modal>
             </div>
         @endif
     </div>

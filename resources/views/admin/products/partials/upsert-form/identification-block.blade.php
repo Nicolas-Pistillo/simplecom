@@ -103,7 +103,7 @@
 
                     @if ($selectedBrand)
                         <img class="ml-2 rounded-full w-6 h-6 object-contain" 
-                        src="{{ !empty($selectedBrand->image_url) ? $selectedBrand->image_url : URL::to('img/brand-placeholder.jpg') }}" />
+                        src="{{ !empty($selectedBrand->image_url) ? Storage::url($selectedBrand->image_url) : URL::to('img/brand-placeholder.jpg') }}" />
 
                         <input type="text" readonly value="{{ $selectedBrand->name }}"
                         class="relative block w-full placeholder:text-sm flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 focus:ring-0 text-sm sm:leading-6">
@@ -127,14 +127,17 @@
             </div>
 
             <div x-show="brandPanelOpen" x-cloak x-transition
-                class="absolute z-10 mt-2 bg-white min-w-[14rem] rounded shadow-md overflow-y-auto max-h-52">
+            class="absolute z-10 mt-2 bg-white min-w-[14rem] rounded 
+            shadow-md overflow-y-auto max-h-52">
                 <ul>
                     @forelse ($brands as $brand)
                         <li wire:key='{{ $brand->id }}' @click="brandPanelOpen = false"
                         wire:click="selectBrand('{{ $brand->id }}')"
                         class="text-sm my-2 p-2 flex items-center hover:bg-gray-100 cursor-pointer">
-                        <img src="{{ !empty($brand->image_url) ? $brand->image_url : URL::to('img/brand-placeholder.jpg') }}" 
-                        class="h-6 w-6 mr-2 rounded-full object-contain" alt="brand-logo">
+
+                            <img src="{{ !empty($brand->image_url) ? Storage::url($brand->image_url) : URL::to('img/brand-placeholder.jpg') }}" 
+                            class="h-6 w-6 mr-2 rounded-full object-contain" alt="brand-logo">
+
                             {{ $brand->name }}
                         </li>
                     @empty
