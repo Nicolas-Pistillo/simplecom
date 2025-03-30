@@ -22,7 +22,7 @@ class Products extends Component
     {
         $products = Product::available();
 
-        if ($this->form->category)
+        if ($this->form->category && !$this->form->brand)
         {
             $products->where('category_id', $this->form->category->id);
 

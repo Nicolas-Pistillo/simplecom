@@ -81,22 +81,23 @@
                 </div>
 
                 {{-- Product info block --}}
-                <div class="pro-detail w-full flex flex-col justify-center order-last 
+                <div class="pro-detail w-full flex flex-col order-last 
                 max-lg:max-w-[608px] max-lg:mx-auto">
 
                     {{-- Category, Brand & LikeButton --}}
                     <div class="flex justify-between items-center mb-3">
 
                         <div class="flex items-center">
-                            <p class="font-medium text-{{ tenant('color') }}-600"> {{ $product->category->name }} </p>
+                            {{-- <p class="font-medium text-{{ tenant('color') }}-600"> {{ $product->category->name }} </p> --}}
                             @if ($product->brand)
-                                <span class="ml-3 inline-flex items-center bg-white pr-3 shadow rounded-full
+                                <a href="{{ route('ecommerce.products', ['marca' => $product->brand->id]) }}" 
+                                class="inline-flex items-center bg-white pr-3 shadow rounded-full
                                 transition duration-300 hover:shadow-lg cursor-pointer"
-                                    x-tooltip.raw.placement.right="Ver más productos de esta marca">
-                                    <img src="{{ $product->brand->image_url ?? URL::to('img/no-image-alt.png') }}" class="w-8 h-8 rounded-full"
+                                    x-tooltip.raw.placement.right="Ver mas productos de esta marca">
+                                    <img src="{{ !empty($product->brand->image_url) ? Storage::url($product->brand->image_url) : URL::to('img/no-image-alt.png') }}" class="w-8 h-8 rounded-full"
                                         alt="brand-logo">
                                     <small class="ml-1 text-gray-700 font-semibold">{{ $product->brand->name }}</small>
-                                </span>
+                                </a>
                             @endif
                         </div>
 
