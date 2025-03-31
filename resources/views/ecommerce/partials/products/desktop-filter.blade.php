@@ -158,7 +158,7 @@
     </div>
 
     {{-- Attribute filter --}}
-    <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
+    {{-- <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
         <h3 class="-my-3 flow-root">
             <!-- Expand/collapse section button -->
             <button type="button" @click="open = !open"
@@ -216,5 +216,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </section>

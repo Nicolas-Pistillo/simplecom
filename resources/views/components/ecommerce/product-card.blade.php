@@ -2,7 +2,7 @@
 @mouseenter="hoverOnProduct = true" @mouseleave="hoverOnProduct = false" title="{{ $product->name }}">
     <a href="{{ $product->detailPageUrl() }}">
         <!-- Image -->
-        <div class="relative rounded-t-xl w-full overflow-hidden border">
+        <div class="relative rounded-t-xl w-full overflow-hidden border bg-white">
             <img src="{{ $product->first_image }}"
             class="w-full h-56 transition-all duration-700 object-contain group-hover:scale-[1.03]">
 

@@ -139,7 +139,7 @@ class QuickUpdate extends Component
     {
         return view('livewire.admin.products.quick-update', [
             'brands'     => Brand::orderBy('name')->get(),
-            'categories' => Category::orderBy('name')->get()
+            'categories' => Category::principal()->with('childs.childs')->orderBy('name')->get()
         ]);
     }
 }

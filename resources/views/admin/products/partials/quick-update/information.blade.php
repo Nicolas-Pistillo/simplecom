@@ -18,6 +18,23 @@
                         <option>Seleccionar</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
+
+                            @if ($category->hasChilds())
+                                @foreach ($category->childs as $categoryChild)
+                                    <option value="{{ $categoryChild->id }}">
+                                        {{ $category->name }} > {{ $categoryChild->name }}
+                                    </option>
+
+                                    @if ($categoryChild->hasChilds())
+                                        @foreach ($categoryChild->childs as $categoryGrandchild)
+                                            <option value="{{ $categoryGrandchild->id }}">
+                                                {{ $category->name }} > {{ $categoryChild->name }} >
+                                                {{ $categoryGrandchild->name }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
                         @endforeach
                     </select>
     

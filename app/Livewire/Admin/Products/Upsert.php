@@ -353,10 +353,10 @@ class Upsert extends Component
         $this->calculateStockByVariants();
 
         return view('livewire.admin.products.upsert', [
-            'categories' => Category::principal()->with('childs')->orderBy('name')->get(),
-            'tags'       => $this->getTags(),
-            'brands'     => Brand::orderBy('name')->get(),
-            'attributes' => Attribute::with('values')->get(),
+            'categories'         => Category::principal()->with('childs.childs')->orderBy('name')->get(),
+            'tags'               => $this->getTags(),
+            'brands'             => Brand::orderBy('name')->get(),
+            'attributes'         => Attribute::with('values')->get(),
             'selectedTagsModels' => Tag::find($this->selectedTags)
         ]);
     }

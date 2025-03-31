@@ -53,7 +53,7 @@ class Products extends Component
             $products->where('price', '<=', $this->form->max_price);
         }
 
-        $this->available_brands = $products->get()->pluck('brand')->unique('id');
+        $this->available_brands = $products->get()->pluck('brand')->filter(fn($item) => $item != null)->unique('id');
 
         return $products->paginate(24);
     }
