@@ -33,9 +33,12 @@
                 </div> 
 
                 <div class="flex items-center justify-center sm:justify-between flex-wrap gap-3">
-                    <h2 class="text-lg sm:text-xl font-semibold text-gray-700">Pedido {{ $order->id }}</h2>
+
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900 w-full sm:w-auto 
+                    text-center sm:text-left">Pedido {{ $order->id }}</h2>
+
                     <div class="flex items-center flex-wrap gap-3">
-                        <x-button :href="route('customer.orders.index')" type="secondary" class="w-full sm:w-auto">
+                        <x-button :href="route('customer.orders.index')" type="secondary" class="w-full sm:w-auto text-center">
                             Ver en mis pedidos
                         </x-button>
                         <x-button type="secondary" :href="route('ecommerce.products')" class="w-full sm:w-auto text-center">
@@ -43,6 +46,62 @@
                         </x-button>
                     </div>
                 </div>
+
+                @if ($order->paymentMethod->code === 'transfer')
+                    <div class="mt-6 p-5 rounded-xl border border-gray-200
+                    flex-col justify-start items-start gap-5 flex w-full sm:w-4/5">
+                        <h3 class="text-gray-900 text-base sm:text-xl font-semibold leading-loose">
+                            Datos para transferir
+                        </h3>
+                        <div class="w-full flex-col justify-start items-start gap-3.5 flex">
+                            <div class="w-full flex-col justify-start items-start gap-3.5 flex">
+
+                                @if (!empty($bankName = tenant()->configValue('transfer_bank')))
+                                    <div class="w-full justify-between items-center flex gap-6 text-sm sm:text-base">
+                                        <h6 class="text-gray-600 font-normal">Banco</h6>
+                                        <h6 class="text-right text-gray-900 font-semibold">
+                                            {{ $bankName }}
+                                        </h6>
+                                    </div>
+                                @endif
+
+                                @if (!empty($bankAccountOwner = tenant()->configValue('transfer_account_owner')))
+                                    <div class="w-full justify-between items-center flex gap-6 text-sm sm:text-base">
+                                        <h6 class="text-gray-600 font-normal">Titular</h6>
+                                        <h6 class="text-right text-gray-900 font-semibold">
+                                            {{ $bankAccountOwner }}
+                                        </h6>
+                                    </div>
+                                @endif
+
+                                @if (!empty($bankAlias = tenant()->configValue('transfer_alias')))
+                                    <div class="w-full justify-between items-center gap-6 flex text-sm sm:text-base">
+                                        <h6 class="text-gray-600 font-normal">Alias</h6>
+                                        <h6 class="text-right text-gray-900 font-semibold">
+                                            {{ $bankAlias }}
+                                        </h6>
+                                    </div>
+                                @endif
+
+                                @if (!empty($bankCBU = tenant()->configValue('transfer_cbu')))
+                                    <div class="w-full justify-between items-center gap-6 flex text-sm sm:text-base">
+                                        <h6 class="text-gray-600 font-normal">CBU</h6>
+                                        <h6 class="text-right text-gray-900 font-semibold">
+                                            {{ $bankCBU }}
+                                        </h6>
+                                    </div>
+                                @endif
+
+                                <div class="w-full justify-between items-center inline-flex text-sm sm:text-base">
+                                    <h6 class="text-gray-600 font-normal gap-6">Monto</h6>
+                                    <h6 class="text-right text-gray-900 font-semibold">
+                                        ${{ priceFormat($order->total) }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 <ul role="list" class="mt-6 divide-y divide-gray-200
                 text-sm font-medium text-gray-500 border-t border-gray-200">
@@ -76,89 +135,6 @@
                             <p class="text-right font-medium text-gray-900">
                                 ${{ priceFormat($item->total) }} <br>
                             </p>
-            
-                            {{-- <section x-show="detailItemOpen" x-cloak class="relative py-8 sm:p-8 cursor-default">
-                                <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative">
-                                    <div class="w-full relative flex justify-center">
-                                        <div class="w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto">
-                                            <div class="opacity-1 ease-out sm:max-w-sm sm:w-full m-5 relative top-1/2 -translate-y-1/2 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-500">
-                                                <div class="flex items-start bg-white p-6 rounded-lg">
-                                                    <div class="block w-full">
-                        
-                                                        <div class="flex items-center justify-between mb-1">
-                                                            <h6 class="text-lg font-bold leading-8 text-gray-900">
-                                                                <div class="flex items-center">
-                                                                    <img class="h-8 w-8 mr-2 object-cover rounded-full" 
-                                                                    src="{{ $item->product->first_image }}">
-                                                                    <span class="line-clamp-1">{{ $item->name }}</span>
-                                                                </div>
-                                                            </h6>
-                        
-                                                            <x-icon code="close" @click="detailItemOpen = false"
-                                                            class="transition colors duration-300 text-[18px] ml-1
-                                                            cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
-                                                        hover:bg-gray-200 focus:outline-none focus:ring" />
-                                                        </div>
-                        
-                                                        <p class="text-xs font-normal text-gray-500 mb-5">
-                                                            Note: Some payment providers issue a temporary authorization charge
-                                                        </p>
-                        
-                                                        <div class="flex flex-col gap-4 mb-5">
-                                                            <div class="relative">
-                                                                <label class="flex  items-center mb-2 text-gray-600 text-xs font-medium">Card
-                                                                    Number
-                                                                </label>
-                                                                <input type="text" id="default-search"
-                                                                    class="block w-full  px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed"
-                                                                    placeholder="1234 5678 9123 4567" required="">
-                                                            </div>
-                        
-                                                            <div class="flex items-center gap-4">
-                                                                <div class="relative">
-                                                                    <label
-                                                                        class="flex  items-center mb-2 text-gray-600 text-xs font-medium">Expiration
-                                                                    </label>
-                                                                    <input type="text" id="default-search"
-                                                                        class="block w-full  px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed"
-                                                                        placeholder="01/23" required="">
-                                                                </div>
-                                                                <div class="relative">
-                                                                    <label class="flex  items-center mb-2 text-gray-600 text-xs font-medium">CVC
-                                                                    </label>
-                                                                    <input type="text" id="default-search"
-                                                                        class="block w-full  px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed"
-                                                                        placeholder="201" required="">
-                                                                </div>
-                                                            </div>
-                        
-                                                            <div class="relative">
-                                                                <label class="flex  items-center mb-2 text-gray-600 text-xs font-medium">Name on
-                                                                    Card
-                                                                </label>
-                                                                <input type="text" id="default-search"
-                                                                    class="block w-full  px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none leading-relaxed"
-                                                                    placeholder="John smith" required="">
-                                                            </div>
-                                                        </div>
-                        
-                                                        <div class="flex items-center gap-4">
-                                                            <button
-                                                                class="py-2.5 px-3.5 w-full text-center rounded-lg border border-blue-600 hover:bg-blue-50 text-sm font-medium text-blue-600 transition-all duration-500 close-modal-button"
-                                                                data-pd-overlay="#modalBox-21" data-modal-target="modalBox-21">Cancel</button>
-                                                            <button
-                                                                class="py-2.5 px-3.5 w-full text-center rounded-lg bg-blue-600 transition-all duration-500 hover:bg-blue-700 text-sm font-medium text-white close-modal-button"
-                                                                data-pd-overlay="#modalBox-21" data-modal-target="modalBox-21">Update</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="backdrop" class="fixed top-0 left-0 w-full h-full bg-black/50 z-[50]">
-                                        </div>
-                                    </div>
-                                </div>
-                            </section> --}}
                         </li>
                     @endforeach
                 </ul>

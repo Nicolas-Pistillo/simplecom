@@ -40,6 +40,53 @@
                     </div>
                 @endif
 
+                @if ($order->paymentMethod->code === 'transfer')
+
+                    @if (!empty($bankName = tenant()->configValue('transfer_bank')))
+                        <div class="w-full justify-between items-center gap-6 sm:inline-flex">
+                            <h5 class="text-gray-600 leading-4 sm:leading-8">
+                                Banco
+                            </h5>
+                            <h4 class="sm:text-right text-gray-900 font-semibold">
+                                {{ $bankName }}
+                            </h4>
+                        </div>
+                    @endif
+
+                    @if (!empty($bankAccountOwner = tenant()->configValue('transfer_account_owner')))
+                        <div class="w-full justify-between items-center gap-6 sm:inline-flex">
+                            <h5 class="text-gray-600 leading-4 sm:leading-8">
+                                Titular
+                            </h5>
+                            <h4 class="sm:text-right text-gray-900 font-semibold">
+                                {{ $bankAccountOwner }}
+                            </h4>
+                        </div>
+                    @endif
+
+                    @if (!empty($bankAlias = tenant()->configValue('transfer_alias')))
+                        <div class="w-full justify-between items-center gap-6 sm:inline-flex">
+                            <h5 class="text-gray-600 leading-4 sm:leading-8">
+                                Alias
+                            </h5>
+                            <h4 class="sm:text-right text-gray-900 font-semibold">
+                                {{ $bankAlias }}
+                            </h4>
+                        </div>
+                    @endif
+
+                    @if (!empty($bankCBU = tenant()->configValue('transfer_cbu')))
+                        <div class="w-full justify-between items-center gap-6 sm:inline-flex">
+                            <h5 class="text-gray-600 leading-4 sm:leading-8">
+                                CBU
+                            </h5>
+                            <h4 class="sm:text-right text-gray-900 font-semibold">
+                                {{ $bankCBU }}
+                            </h4>
+                        </div>
+                    @endif
+                @endif
+
                 @if (!empty($order->payment->installments) 
                 && is_numeric($order->payment->installments) 
                 && $order->payment->installments > 1)
