@@ -90,7 +90,7 @@
                         <div class="flex items-center">
                             {{-- <p class="font-medium text-{{ tenant('color') }}-600"> {{ $product->category->name }} </p> --}}
                             @if ($product->brand)
-                                <a href="{{ route('ecommerce.products', ['marca' => $product->brand->id]) }}" 
+                                <a href="{{ $product->brand->pageUrl() }}" 
                                 class="inline-flex items-center bg-white pr-3 shadow rounded-full
                                 transition duration-300 hover:shadow-lg cursor-pointer"
                                     x-tooltip.raw.placement.right="Ver mas productos de esta marca">

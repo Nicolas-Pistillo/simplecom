@@ -8,16 +8,16 @@ use Livewire\Form;
 
 class ProductFiltersForm extends Form
 {
-    public $category;
+    public $category, $brand;
 
     #[Url(as: 'orden')]
     public $order = 'relevants';
 
     #[Url(as: 'marca')]
-    public $brand;
+    public $brand_query;
 
     #[Url(as: 'categoria')]
-    public $categoryQuery;
+    public $category_query;
     
     #[Url(as: 'precio_minimo')]
     public $min_price;
