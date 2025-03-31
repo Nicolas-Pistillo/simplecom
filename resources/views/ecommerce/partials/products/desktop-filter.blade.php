@@ -72,8 +72,6 @@
                         @endif
 
                         <span>{{ $brand->name }} </span>
-                        
-                        <span class="text-gray-500 text-xs">({{ $brand->products()->count() }})</span>
                     </div>
                 </li>
             @endforeach

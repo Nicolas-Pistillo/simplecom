@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Brand extends Model
 {
@@ -19,5 +20,12 @@ class Brand extends Model
     public function scopePublished($query)
     {
         return $query->where('published', true);
+    }
+
+    public function pageUrl()
+    {
+        return route('ecommerce.products', [
+            'marca' => Str::slug($this->id. '-' . $this->name)
+        ]);
     }
 }

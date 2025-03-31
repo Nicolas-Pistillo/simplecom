@@ -24,21 +24,21 @@ class Products extends Component
 
         if ($this->form->category)
         {
-            $products->where('category_id', $this->form->category->id);
-
-            if ($this->form->category->hasChilds())
+            $categoryIds = [$this->form->category->id];
+    
+            if ($this->form->category->hasChilds()) 
             {
                 $childsId = $this->form->category->childs->pluck('id')->toArray();
-                $products->orWhereIn('category_id', $childsId);
-
                 $granchildsId = Category::whereIn('category_father', $childsId)->pluck('id')->toArray();
-                $products->orWhereIn('category_id', $granchildsId);
+                $categoryIds = array_merge($categoryIds, $childsId, $granchildsId);
             }
+            
+            $products->whereIn('category_id', $categoryIds);
         }
 
         if ($this->form->brand)
         {
-            $products->where('brand_id', $this->form->brand);
+            $products->where('brand_id', $this->form->brand->id);
         }
 
         $products->orderByType($this->form->order);
@@ -61,9 +61,9 @@ class Products extends Component
     public function setCategory(Category $category)
     {
         $category->load('father', 'childs');
+        $this->resetBrandFilter();
 
-        $this->form->brand = null;
-        $this->form->categoryQuery = Str::slug($category->id . '-' . $category->name);
+        $this->form->category_query = Str::slug($category->id . '-' . $category->name);
         $this->form->category = $category;
 
         $this->setPage(1);
@@ -71,7 +71,10 @@ class Products extends Component
 
     public function setBrand(Brand $brand)
     {
-        $this->form->brand = $brand->id;
+        $this->form->brand_query = Str::slug($brand->id . '-' . $brand->name);
+        $this->form->brand = $brand;
+
+        $this->setPage(1);
     }
 
     public function updatedForm()
@@ -86,20 +89,32 @@ class Products extends Component
 
     public function resetBrandFilter()
     {
-        $this->form->reset('brand');
+        $this->form->reset('brand', 'brand_query');
     }
 
     public function mount()
     {
-        if ($this->form->categoryQuery)
+        if ($this->form->category_query)
         {
-            $categoryId = explode('-', $this->form->categoryQuery)[0];
+            $categoryId = explode('-', $this->form->category_query)[0];
 
             $category = Category::with('father', 'childs')->find($categoryId);
 
             if ($category instanceof Category)
             {
                 $this->form->category = $category;
+            }
+        }
+
+        if ($this->form->brand_query)
+        {
+            $brandId = explode('-', $this->form->brand_query)[0];
+
+            $brand = Brand::find($brandId);
+
+            if ($brand instanceof Brand)
+            {
+                $this->form->brand = $brand;
             }
         }
     }

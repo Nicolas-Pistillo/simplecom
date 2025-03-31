@@ -191,7 +191,7 @@
 
                                                                         @foreach ($brands->sortByDesc('featured')->take(5) as $brand)
                                                                             <li class="flex">
-                                                                                <a href="#"
+                                                                                <a href="{{ $brand->pageUrl() }}"
                                                                                 class="hover:text-gray-800 flex items-center gap-1.5">
                                                                                     @if (!empty($brand->image_url))
                                                                                         <img src="{{ Storage::url($brand->image_url) }}" alt="{{ $brand->name }}"
