@@ -121,7 +121,12 @@ class Order extends Model
         {
             $item->variant ? $item->variant->update(['stock' => ($item->variant->stock - $item->quantity)])
                            : $item->product->update(['stock' => ($item->product->stock - $item->quantity)]);
+
+            if ($item->variant)
+                $item->product->update(['stock' => intval($item->product->variants()->sum('stock'))]);
         }
+
+        $this->update(['stock_discounted' => true]);
     }
 
     public function paymentReturn()

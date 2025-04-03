@@ -38,7 +38,8 @@
                     text-center sm:text-left">Pedido {{ $order->id }}</h2>
 
                     <div class="flex items-center flex-wrap gap-3">
-                        <x-button :href="route('customer.orders.index')" type="secondary" class="w-full sm:w-auto text-center">
+                        <x-button :href="Auth::check() ? route('customer.orders.index') : route('customer.orders.show', $order->id)" 
+                        type="secondary" class="w-full sm:w-auto text-center">
                             Ver en mis pedidos
                         </x-button>
                         <x-button type="secondary" :href="route('ecommerce.products')" class="w-full sm:w-auto text-center">

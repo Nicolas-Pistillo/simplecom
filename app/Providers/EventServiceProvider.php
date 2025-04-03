@@ -18,10 +18,12 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Observers\CategoryObserver;
 use App\Observers\OrderObserver;
 use App\Observers\OrderPaymentObserver;
 use App\Observers\ProductObserver;
+use App\Observers\ProductVariantObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -56,6 +58,7 @@ class EventServiceProvider extends ServiceProvider
     {
         Category::observe(CategoryObserver::class);
         Product::observe(ProductObserver::class);
+        ProductVariant::observe(ProductVariantObserver::class);
         Order::observe(OrderObserver::class);
         OrderPayment::observe(OrderPaymentObserver::class);
     }
