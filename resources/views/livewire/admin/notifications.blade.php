@@ -29,7 +29,7 @@
                 rounded-t-none sm:rounded-t-lg bg-blue-600">
                     Notificaciones
                 </div>
-                <div class="divide-y divide-gray-100 max-h-[350px] overflow-y-auto">
+                <div wire:poll class="divide-y divide-gray-100 max-h-[350px] overflow-y-auto">
 
                     @forelse (Auth::user()->notifications as $notification)
 
@@ -63,7 +63,7 @@
                                     {{ data_get($notification->data, 'body') }}
                                 </p>
                                 <div class="mt-3 text-xs text-gray-600 flex justify-between items-center">
-                                    <span>{{ $notification->created_at->format('d/m/Y H:i') }}</span>
+                                    <span>{{ getElapsedTime($notification->created_at, true) }}</span>
                                     <span wire:click="deleteNotification('{{ $notification->id }}')"
                                     onclick="event.preventDefault()" class="text-red-600 hover:underline">
                                         Eliminar

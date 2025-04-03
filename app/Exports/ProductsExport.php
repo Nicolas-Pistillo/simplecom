@@ -27,11 +27,11 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             'ID',
-            'Nombre',
             'Código',
-            'Descripción',
+            'Nombre',
             'Categoría',
             'Marca',
+            'Descripción',
             'Etiquetas',
             'Precio',
             'Descuento',
@@ -47,11 +47,11 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $product->id,
-            $product->name,
             $product->code,
-            $product->description,
+            $product->name,
             $product->category->name ?? '-',
             $product->brand->name ?? '-',
+            $product->description,
             $product->tags->pluck('name')->implode(','),
             "$". priceFormat($product->price),
             $product->discount_percent ? "%$product->discount_percent" : "-",

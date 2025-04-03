@@ -119,7 +119,7 @@
                                         <th scope="col" class="px-4 py-3">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody wire:poll>
                                     @forelse ($products as $product)
                                         @include('admin.products.partials.index.product-list-item')
                                     @empty
