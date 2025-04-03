@@ -26,10 +26,7 @@ class DiscountOrderStock
         try 
         {
             if ($event->order->stock_discounted) return;
-            
             $event->order->discountStock();
-
-            $event->order->update(['stock_discounted' => true]);
 
         } catch (Exception $err) 
         {
