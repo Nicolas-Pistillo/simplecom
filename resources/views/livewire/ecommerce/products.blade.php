@@ -20,8 +20,7 @@
                         flex-wrap gap-x-4 gap-y-8 h-max">
 
                             @foreach ($products as $product)
-                                <x-ecommerce.product-card wire:key='{{ $product->id }}' 
-                                :product="$product" />
+                                <livewire:ecommerce.product :product="$product->id" wire:key="{{ $product->id }}" />
                             @endforeach
                             
                             <div class="w-full">
