@@ -192,11 +192,6 @@ class ProductDetail extends Component
         }
     }
 
-    public function openCartPanel()
-    {
-        $this->dispatch('open-cart-panel');
-    }
-
     public function mount(Product $product)
     {
         if (!$product->published) abort(404);
