@@ -10,6 +10,7 @@ use App\Models\VariantOption;
 use App\Services\ProductService;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Component
 {
@@ -19,6 +20,7 @@ class Product extends Component
 
     public $product;
     public $variants = [];
+    public $quickView = true;
     public $selectedVariants = [];
     public $quantitySelected = 1;
 
@@ -191,6 +193,23 @@ class Product extends Component
                 $this->variants[$variantIndex]['values'][$index]['available'] = $availableCombination;
             }
         }
+    }
+
+    public function toggleWished()
+    {
+        if (Auth::guest())
+        {
+            $this->dispatch('open-login-panel', ['tab' => 'register']);
+
+            $this->notify([
+                'title' => 'Inicia sesión o registrate para guardar tus productos favoritos',
+                'type'  => 'info'
+            ]);
+
+            return;
+        }
+
+
     }
 
     public function mount(ProductModel|int $product)

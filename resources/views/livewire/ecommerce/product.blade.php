@@ -11,22 +11,24 @@
                 @if ($product->featured)
                     <div class="absolute top-0 left-0 transition duration-200"
                         :class="hoverOnProduct ? 'opacity-40' : 'opacity-100'">
-                        <h6
-                            class="text-center font-semibold py-2 tracking-wider px-3 rounded-br-xl bg-red-400 text-white text-xs">
+                        <h6 class="text-center font-semibold py-2 tracking-wider px-3 rounded-br-xl bg-red-400 text-white text-xs">
                             Destacado
                         </h6>
                     </div>
                 @endif
 
-                <div x-cloak x-show="hoverOnProduct" x-cloak x-transition
-                    class="p-0.5 absolute top-1 right-1 flex flex-col gap-2">
-                    <x-icon @click.prevent="alert('Algo pasa')" code="favorite" x-tooltip.raw="Añadir a favoritos"
-                        class="transition duration-300 cursor-pointer p-2 text-red-400 bg-white shadow-md rounded-full"
-                        style="font-size: 20px" />
+                <div x-cloak x-show="hoverOnProduct" x-transition
+                class="p-0.5 absolute top-1 right-1 flex flex-col gap-2">
 
-                    <x-icon @click.prevent="detailPanelOpen = true" code="visibility" x-tooltip.raw="Vistazo rápido"
+                    <x-icon @click.prevent wire:click='toggleWished' code="favorite" x-tooltip.raw="Añadir a favoritos"
+                    class="transition duration-300 cursor-pointer p-2 text-red-400 bg-white shadow-md rounded-full"
+                    style="font-size: 20px" />
+
+                    @if ($quickView)
+                        <x-icon @click.prevent="detailPanelOpen = true" code="visibility" x-tooltip.raw="Vistazo rápido"
                         class="transition duration-300 cursor-pointer p-2 text-gray-800 bg-white shadow-md rounded-full"
                         style="font-size: 20px" />
+                    @endif
                 </div>
             </div>
 

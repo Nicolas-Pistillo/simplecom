@@ -10,7 +10,8 @@
                 @foreach ($featuredProducts as $product)
                     <div class="swiper-slide">
                         <div class="w-full flex justify-center items-end">
-                            <x-ecommerce.product-card :product="$product" />
+                            <livewire:ecommerce.product :product="$product->id" 
+                            wire:key="{{ $product->id }}" :quickView="false" />
                         </div>
                     </div>
                 @endforeach
