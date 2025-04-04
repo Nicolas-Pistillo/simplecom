@@ -4,21 +4,23 @@ namespace App\Livewire\Ecommerce;
 
 use App\Models\Attribute;
 use App\Models\AttributeValue;
-use App\Models\Product;
+use Livewire\Component;
+use App\Models\Product as ProductModel;
 use App\Models\VariantOption;
 use App\Services\ProductService;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
-class ProductDetail extends Component
+class Product extends Component
 {
     use WithNotifications;
 
     protected $listeners = ['updated-cart' => '$refresh'];
 
-    public Product $product;
+    public $product;
     public $variants = [];
+    public $quickView = true;
     public $selectedVariants = [];
     public $quantitySelected = 1;
 
@@ -109,9 +111,10 @@ class ProductDetail extends Component
                 'variant_id'     => $validationsOutput['variantId'],
                 'variant_values' => $validationsOutput['variantValues']
             ]
-        )->associate(Product::class);
+        )->associate(ProductModel::class);
 
         $this->dispatch('updated-cart');
+        $this->dispatch('close-product-quick-view');
         $this->dispatch('open-cart-panel');
 
         $unitsTitle = $this->quantitySelected > 1 ? 'unidades' : 'unidad';
@@ -145,7 +148,7 @@ class ProductDetail extends Component
                 'variant_id'     => $validationsOutput['variantId'],
                 'variant_values' => $validationsOutput['variantValues']
             ]
-        )->associate(Product::class);
+        )->associate(ProductModel::class);
 
         return $this->redirectRoute('ecommerce.checkout');
     }
@@ -192,25 +195,40 @@ class ProductDetail extends Component
         }
     }
 
-    public function mount(Product $product)
+    public function toggleWished()
     {
-        if (!$product->published) abort(404);
-
-        if ($product->hasVariants()) 
+        if (Auth::guest())
         {
-            $this->variants = ProductService::generateSelectableVariantOptions($product);
+            $this->dispatch('open-login-panel', ['tab' => 'register']);
+
+            $this->notify([
+                'title' => 'Inicia sesión o registrate para guardar tus productos favoritos',
+                'type'  => 'info'
+            ]);
+
+            return;
+        }
+
+
+    }
+
+    public function mount(ProductModel|int $product)
+    {
+        $this->product = is_int($product) ? ProductModel::find($product) : $product;
+
+        if ($this->product->hasVariants()) 
+        {
+            $this->variants = ProductService::generateSelectableVariantOptions($this->product);
 
             foreach ($this->variants as $variant) 
             {
                 $this->selectedVariants[$variant['attribute_id']] = null;
             }
         }
-
-        $this->product = $product;
     }
 
     public function render()
     {
-        return view('livewire.ecommerce.product-detail');
+        return view('livewire.ecommerce.product');
     }
 }

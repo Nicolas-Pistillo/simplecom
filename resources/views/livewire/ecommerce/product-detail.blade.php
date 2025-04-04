@@ -58,7 +58,7 @@
                         <div class="w-full mx-auto relative mb-6" x-transition>
                             <img x-bind:src="currentImage" alt="product-image"
                             class="w-full sm:w-[500px] h-[350px] sm:h-[450px] 
-                            object-cover rounded-lg">
+                            object-cover rounded-lg shadow-md">
                         </div>
 
                         {{-- All product images list --}}
@@ -68,11 +68,11 @@
                                     <div class="shadow rounded-lg border-2 border-transparent
                                     cursor-pointer overflow-hidden"
                                         :class="currentImage == '{{ Storage::url($image->url) }}' ?
-                                            '!border-blue-600' :
-                                            'hover:border-blue-600'">
+                                        '!border-blue-600' :
+                                        'hover:border-blue-600'">
                                         <img src="{{ Storage::url($image->url) }}"
-                                            class="w-16 h-16 object-cover rounded-lg" alt="product-image"
-                                            @mouseenter.prevent="currentImage = '{{ Storage::url($image->url) }}'">
+                                        class="w-16 h-16 object-cover rounded-lg" alt="product-image"
+                                        @mouseenter.prevent="currentImage = '{{ Storage::url($image->url) }}'">
                                     </div>
                                 @endforeach
                             @endif
@@ -157,7 +157,7 @@
                         @endphp
                         @if ($qtyOnCart)
                             <div class="flex items-center mt-3 no-select">
-                                <div wire:click='openCartPanel' class="flex items-center py-1 px-2 rounded-full border text-xs
+                                <div @click="$dispatch('open-cart-panel')" class="flex items-center py-1 px-2 rounded-full border text-xs
                                 transition duration-300 hover:bg-white hover:shadow-md cursor-pointer">
                                     <x-icon code="shopping_cart" class="text-lg mr-1 text-gray-600" />
                                     Ya tenés {{ $qtyOnCart }} {{ $qtyOnCart === 1 ? 'unidad' : 'unidades' }} en tu carrito
