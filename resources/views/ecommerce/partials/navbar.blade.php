@@ -11,12 +11,11 @@
                 @auth
                     <div x-data="{ openUserMenu: false }" class="relative">
 
-                        <button @click="openUserMenu = !openUserMenu" type="button" 
-                        class="-m-1.5 flex items-center p-1.5 gap-x-2" id="user-menu-button" 
-                        aria-expanded="false" aria-haspopup="true">
+                        <button @click="openUserMenu = !openUserMenu" type="button"
+                            class="-m-1.5 flex items-center p-1.5 gap-x-2" id="user-menu-button" aria-expanded="false"
+                            aria-haspopup="true">
 
-                            <img class="h-8 w-8 rounded-full" 
-                            src="{{ initialsAvatar() }}" alt="user avatar">
+                            <img class="h-8 w-8 rounded-full" src="{{ initialsAvatar() }}" alt="user avatar">
 
                             <div class="hidden lg:flex lg:items-center text-white">
                                 <span class="text-sm font-semibold leading-6" aria-hidden="true">
@@ -26,14 +25,14 @@
                             </div>
                         </button>
 
-                        <div x-cloak x-show="openUserMenu" @click.away="openUserMenu = false" 
-                        x-transition:enter="transition ease-out duration-100" 
-                        x-transition:enter-start="transform opacity-0 scale-95" 
-                        x-transition:enter-end="transform opacity-100 scale-100" 
-                        x-transition:leave="transition ease-in duration-75" 
-                        x-transition:leave-start="transform opacity-100 scale-100" 
-                        x-transition:leave-end="transform opacity-0 scale-95" 
-                        class="absolute right-0 top-12 z-10 w-max origin-top-right rounded-md 
+                        <div x-cloak x-show="openUserMenu" @click.away="openUserMenu = false"
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="absolute right-0 top-12 z-10 w-max origin-top-right rounded-md 
                         bg-white pb-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
 
                             <div class="px-4 py-3 border-b" role="none">
@@ -43,14 +42,15 @@
                                 </p>
                             </div>
 
-                            <a href="{{ route('customer.orders.index') }}" 
-                            class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
+                            <a href="{{ route('customer.orders.index') }}"
+                                class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
                             transition hover:bg-gray-50">
                                 <x-icon code="shopping_bag" class="text-gray-700" style="font-size: 21px" />
                                 Mis pedidos
                             </a>
 
-                            <a href="{{ route('customer.settings') }}" class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
+                            <a href="{{ route('customer.settings') }}"
+                                class="flex items-center gap-x-2 px-3 py-2 text-sm leading-6 
                             transition hover:bg-gray-50">
                                 <x-icon code="settings" class="text-gray-700" style="font-size: 21px" />
                                 Configuración
@@ -58,7 +58,8 @@
 
                             <form action="{{ route('customer.logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="flex items-center w-full text-left px-3 
+                                <button type="submit"
+                                    class="flex items-center w-full text-left px-3 
                                 py-2 gap-x-2 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
                                     <x-icon code="logout" style="font-size: 21px" />
                                     Cerrar sesión
@@ -121,15 +122,15 @@
                                                     <div class="pb-12 pt-10">
                                                         <div class="grid grid-cols-4 gap-x-8 gap-y-10">
 
-                                                            @if ($featured_categories->isNotEmpty())
+                                                            @if ($principal_categories->isNotEmpty())
                                                                 <div>
-                                                                    <p class="font-medium text-gray-900">Destacadas</p>
-
-                                                                    <ul role="list" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                        @foreach ($featured_categories->take(5) as $category)
+                                                                    <p class="font-medium text-gray-900">Principales</p>
+                                                                    <ul role="list"
+                                                                        class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+                                                                        @foreach ($principal_categories->take(5) as $category)
                                                                             <li class="flex">
-                                                                                <a href="{{ $category->pageUrl() }}" 
-                                                                                class="hover:text-gray-800">
+                                                                                <a href="{{ $category->pageUrl() }}"
+                                                                                    class="hover:text-gray-800">
                                                                                     {{ $category->name }}
                                                                                 </a>
                                                                             </li>
@@ -138,15 +139,19 @@
                                                                 </div>
                                                             @endif
 
-                                                            @if ($principal_categories->isNotEmpty())
+                                                            @if ($featured_categories->isNotEmpty())
                                                                 <div>
-                                                                    <p class="font-medium text-gray-900">Principales</p>
+                                                                    <p class="font-medium text-gray-900 flex items-center gap-1">
+                                                                        Destacadas
+                                                                        <x-icon code="local_fire_department" class="text-red-500" />
+                                                                    </p>
+
                                                                     <ul role="list"
-                                                                    class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                        @foreach ($principal_categories->take(5) as $category)
+                                                                        class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+                                                                        @foreach ($featured_categories->take(5) as $category)
                                                                             <li class="flex">
-                                                                                <a href="{{ $category->pageUrl() }}" 
-                                                                                class="hover:text-gray-800">
+                                                                                <a href="{{ $category->pageUrl() }}"
+                                                                                    class="hover:text-gray-800">
                                                                                     {{ $category->name }}
                                                                                 </a>
                                                                             </li>
@@ -187,15 +192,16 @@
                                                                     <p class="font-medium text-gray-900">Marcas</p>
 
                                                                     <ul role="list"
-                                                                    class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+                                                                        class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
 
                                                                         @foreach ($brands->sortByDesc('featured')->take(5) as $brand)
                                                                             <li class="flex">
                                                                                 <a href="{{ $brand->pageUrl() }}"
-                                                                                class="hover:text-gray-800 flex items-center gap-1.5">
+                                                                                    class="hover:text-gray-800 flex items-center gap-1.5">
                                                                                     @if (!empty($brand->image_url))
-                                                                                        <img src="{{ Storage::url($brand->image_url) }}" alt="{{ $brand->name }}"
-                                                                                        class="w-6 h-6 object-contain rounded-full">
+                                                                                        <img src="{{ Storage::url($brand->image_url) }}"
+                                                                                            alt="{{ $brand->name }}"
+                                                                                            class="w-6 h-6 object-contain rounded-full">
                                                                                     @endif
                                                                                     {{ $brand->name }}
                                                                                 </a>
@@ -251,16 +257,13 @@
                             </div>
                         </div>
 
-                        <!-- Wishlist, Location & Cart -->
+                        <!-- Wishlist & Cart -->
                         <div class="flex flex-1 items-center justify-end">
                             <div class="flex items-center lg:ml-4 no-select">
 
                                 @auth
                                     {{-- Wishlist --}}
-                                    <x-icon code="favorite" x-tooltip.raw.placement.bottom="Favoritos"
-                                    class="hidden sm:block transition colors duration-300 ml-3
-                                    cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
-                                    hover:bg-gray-200 focus:outline-none focus:ring" />
+                                    @livewire('ecommerce.wishlist')
                                 @endauth
 
                                 {{-- Cart --}}
@@ -273,8 +276,11 @@
                                         focus:outline-none focus:ring duration-300" />
 
                                         @if (Cart::count() > 0)
-                                            <x-badge color="green" class="absolute -bottom-3 right-0 !rounded-full">
-                                            {{ Cart::content()->count() }} </x-badge>
+                                            <span class="absolute -top-2 -right-2 inline-flex items-center 
+                                            justify-center w-5 h-5 text-xs font-semibold text-white bg-green-600 
+                                            rounded-full ring-1 ring-white">
+                                                {{ Cart::count() }}
+                                            </span>
                                         @endif
                                     </div>
                                 @endif

@@ -2,13 +2,17 @@
     <x-drawer ref="cartMenuOpen" containerClasses="!p-0 relative z-50">
         <div class="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
 
-            <div class="flex items-start justify-between border-b px-4 sm:px-6 pt-6 pb-2">
+            <div class="flex items-center justify-between border-b px-4 sm:px-6 pt-6 pb-2">
                 <h2 class="text-lg font-medium text-gray-900">
                     Productos en el carrito
                 </h2>
 
                 @if (Cart::count() > 0)
-                    <x-badge color="blue" class="!rounded-full"> {{ Cart::content()->count() }}</x-badge>
+                    <span class="inline-flex items-center 
+                    justify-center w-5 h-5 text-xs font-semibold 
+                    text-white bg-green-600 rounded-full ring-1 ring-white">
+                        {{ Cart::count() }}
+                    </span>
                 @endif
             </div>
 

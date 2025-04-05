@@ -205,11 +205,21 @@ class Product extends Component
                 'title' => 'Inicia sesión o registrate para guardar tus productos favoritos',
                 'type'  => 'info'
             ]);
-
             return;
         }
 
+        $this->product->isOnUserWishlist()
+            ? Auth::user()->wishlist()->where(['product_id' => $this->product->id])->delete()
+            : Auth::user()->wishlist()->create(['product_id' => $this->product->id]);
 
+        $this->dispatch('updated-wishlist');
+
+        $this->notify([
+            'title'    => 'Lista de favoritos actualizada',
+            'type'     => 'success',
+            'icon'     => 'heart_check',
+            'position' => 'bottom-center'
+        ]);
     }
 
     public function mount(ProductModel|int $product)
