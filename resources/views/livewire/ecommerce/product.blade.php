@@ -20,8 +20,12 @@
                 <div x-cloak x-show="hoverOnProduct" x-transition
                 class="p-0.5 absolute top-1 right-1 flex flex-col gap-2">
 
-                    <x-icon @click.prevent wire:click='toggleWished' code="favorite" x-tooltip.raw="Añadir a favoritos"
-                    class="transition duration-300 cursor-pointer p-2 text-red-400 bg-white shadow-md rounded-full"
+                    <x-icon @click.prevent wire:click='toggleWished' code="favorite" 
+                    x-tooltip.raw="{{ $product->isOnUserWishlist() ? 'Eliminar de favoritos' : 'Agregar a favoritos' }}"
+                    class="transition duration-300 cursor-pointer p-2 shadow-md rounded-full
+                    {{ $product->isOnUserWishlist() 
+                        ? 'bg-red-400 text-white' 
+                        : 'text-red-400 bg-white' }}"
                     style="font-size: 20px" />
 
                     @if ($quickView)

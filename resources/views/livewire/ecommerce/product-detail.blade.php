@@ -101,9 +101,12 @@
                             @endif
                         </div>
 
-                        <x-icon code="favorite" x-tooltip.raw.placement.left="Añadir a favoritos"
-                        class="transition duration-300 cursor-pointer p-2 text-red-400 
-                        bg-white shadow hover:shadow-lg rounded-full" />
+                        <x-icon code="favorite" wire:click='toggleWished' 
+                        x-tooltip.raw.placement.left="{{ $product->isOnUserWishlist() ? 'Eliminar de favoritos' : 'Agregar a favoritos' }}"
+                        class="transition duration-300 cursor-pointer p-2 shadow hover:shadow-lg rounded-full
+                        {{ $product->isOnUserWishlist() 
+                        ? 'bg-red-400 text-white' 
+                        : 'text-red-400 bg-white' }}"/>
                     </div>
 
                     {{-- Product name --}}

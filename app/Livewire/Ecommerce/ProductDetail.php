@@ -9,6 +9,7 @@ use App\Models\VariantOption;
 use App\Services\ProductService;
 use App\Traits\Livewire\WithNotifications;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class ProductDetail extends Component
@@ -190,6 +191,33 @@ class ProductDetail extends Component
                 $this->variants[$variantIndex]['values'][$index]['available'] = $availableCombination;
             }
         }
+    }
+
+    public function toggleWished()
+    {
+        if (Auth::guest())
+        {
+            $this->dispatch('open-login-panel', ['tab' => 'register']);
+
+            $this->notify([
+                'title' => 'Inicia sesión o registrate para guardar tus productos favoritos',
+                'type'  => 'info'
+            ]);
+            return;
+        }
+
+        $this->product->isOnUserWishlist()
+            ? Auth::user()->wishlist()->where(['product_id' => $this->product->id])->delete()
+            : Auth::user()->wishlist()->create(['product_id' => $this->product->id]);
+
+        $this->dispatch('updated-wishlist');
+
+        $this->notify([
+            'title'    => 'Lista de favoritos actualizada',
+            'type'     => 'success',
+            'icon'     => 'heart_check',
+            'position' => 'bottom-center'
+        ]);
     }
 
     public function mount(Product $product)

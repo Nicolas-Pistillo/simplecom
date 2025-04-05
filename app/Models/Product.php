@@ -6,6 +6,7 @@ use App\Livewire\Forms\IndexProductsFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -101,6 +102,12 @@ class Product extends Model
     public function operator()
     {
         return $this->belongsTo(Operator::class, 'created_by');
+    }
+
+    public function isOnUserWishlist()
+    {
+        if (Auth::guest()) return false;
+        return Auth::user()->wishlist()->where('product_id', $this->id)->exists();
     }
 
     public function scopeAvailable(Builder $query): void
