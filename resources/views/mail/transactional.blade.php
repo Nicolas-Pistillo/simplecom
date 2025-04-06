@@ -22,7 +22,7 @@
   <![endif]-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
   <style>
     .hover-bg-slate-800:hover {
       background-color: #1e293b !important;
@@ -49,7 +49,7 @@
   </div>
   <div role="article" aria-roledescription="email" aria-label lang="en">
     <div class="sm-px-4" style="background-color: #f8fafc">
-      <table align="center" style="margin: 0 auto" cellpadding="0" cellspacing="0" role="none">
+      <table align="center" style="margin: 0 auto; font-family: Poppins, sans-serif" cellpadding="0" cellspacing="0" role="none">
         <tr>
           <td style="width: 552px; max-width: 100%">
             <div role="separator" style="line-height: 24px; `mso-line-height-alt: ${msoHeight}` }}">&zwj;</div>
