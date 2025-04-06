@@ -14,6 +14,7 @@ Route::view('/', 'landing')->name('simplecom.landing');
 
 Route::get('test-email', function() 
 {
+    /* return view('mail.transactional'); */
     Mail::to('pistillonicolas@gmail.com')->send(new TestEmail());
 });
 
