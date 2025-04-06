@@ -6,9 +6,16 @@ use App\Http\Controllers\Superadmin\TenantController;
 use App\Http\Controllers\Tenant\PaymentWebhookController;
 use App\Http\Controllers\Tenant\InvoiceWebhookController;
 use App\Http\Controllers\Tenant\ShippingWebhookController;
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'landing')->name('simplecom.landing');
+
+Route::get('test-email', function() 
+{
+    Mail::to('pistillonicolas@gmail.com')->send(new TestEmail());
+});
 
 // Webhooks
 Route::withoutMiddleware('web')->group(function()
