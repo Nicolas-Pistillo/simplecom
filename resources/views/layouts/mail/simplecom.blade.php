@@ -41,7 +41,7 @@
             font-size: 16px;
             line-height: 1;
             border-radius: 4px;
-            color: #fffffe;
+            color: #fff !important;
             background-color: #2563eb;
         }
 
