@@ -16,7 +16,7 @@ class EmailVerificationService
             'expires_at' => now()->addMinutes(15)->toDateTimeString()
         ]);
 
-        Mail::to($email)->send(new EmailVerification($name, $verificationModel->code));
+        Mail::to($email)->send(new EmailVerification(tenant(), $name, $verificationModel->code));
     }
 
     public static function check($email, $code): bool
