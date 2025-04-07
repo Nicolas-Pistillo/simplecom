@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Tenant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,16 +14,10 @@ class EmailVerification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $recipient_name, $code;
-
     /**
      * Create a new message instance.
      */
-    public function __construct($recipient_name, $code)
-    {
-        $this->recipient_name = $recipient_name;
-        $this->code = $code;
-    }
+    public function __construct(public Tenant $tenant, public $recipient_name, public $code) {}
 
     /**
      * Get the message envelope.
@@ -30,7 +25,7 @@ class EmailVerification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email Verification',
+            subject: 'Tu código de verificación',
         );
     }
 
@@ -40,7 +35,7 @@ class EmailVerification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.email-verification',
+            view: 'mail.verification-code',
         );
     }
 
