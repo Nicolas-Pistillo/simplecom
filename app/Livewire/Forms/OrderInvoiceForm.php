@@ -123,7 +123,7 @@ class OrderInvoiceForm extends Form
             'bonification'  => 0,
             'social_reason' => $order->user->full_name,
             'document'      => $order->user->document,
-            'tax_condition' => $order->user->tax_condition->value,
+            'tax_condition' => $order->user->tax_condition?->value,
             'address'       => $order->user->invoice_address,
             'items'          => [],
             'phone'         => $order->user->phone,
