@@ -82,7 +82,7 @@
                 </p>
                 <div role="separator" style="line-height: 32px; `mso-line-height-alt: ${msoHeight}` }}">&zwj;</div>
                 <div>
-                  <a href="{{{ href }}}" style="display: inline-block; text-decoration: none; padding: 16px 24px; font-size: 16px; line-height: 1; border-radius: 4px; background-color: #4338ca; color: #fffffe">
+                  <a href="#" style="display: inline-block; text-decoration: none; padding: 16px 24px; font-size: 16px; line-height: 1; border-radius: 4px; background-color: #4338ca; color: #fffffe">
                     <!--[if mso]><i style="mso-font-width: 150%; mso-text-raise: 31px" hidden>&emsp;</i><![endif]-->
                     <span style="mso-text-raise: 16px">Un botón aca</span>
                     <!--[if mso]><i hidden style="mso-font-width: 150%">&emsp;&#8203;</i><![endif]-->
@@ -272,7 +272,7 @@
                   <table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
                     <tr>
                       <td>
-                        <p style="margin: 16px 0 0; font-size: 12px; line-height: 16px; color: #6b7280">&copy; {{ page.year }} ShopName. All rights reserved.</p>
+                        <p style="margin: 16px 0 0; font-size: 12px; line-height: 16px; color: #6b7280">&copy; ShopName. All rights reserved.</p>
                       </td>
                     </tr>
                   </table>
