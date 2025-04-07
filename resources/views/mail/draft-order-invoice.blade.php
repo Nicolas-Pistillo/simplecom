@@ -295,7 +295,7 @@
                   <table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
                     <tr>
                       <td>
-                        <p style="margin: 16px 0 0; font-size: 12px; line-height: 16px; color: #6b7280">&copy; {{ page.year }} ShopName. All rights reserved.</p>
+                        <p style="margin: 16px 0 0; font-size: 12px; line-height: 16px; color: #6b7280">&copy; ShopName. All rights reserved.</p>
                       </td>
                     </tr>
                   </table>

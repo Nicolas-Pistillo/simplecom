@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Notifications\Notification;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -153,5 +151,37 @@ if (!function_exists('getElapsedTime'))
         if ($withHours) $output .= ' ' . $date->format('H:i');
 
         return $output;
+    }
+}
+
+if (!function_exists('getRawColor'))
+{
+    function getRawColor($color)
+    {
+        $colors = [
+            'red'    => '#dc2626',
+            'green'  => '#16a34a',
+            'blue'   => '#2563eb',
+            'yellow' => '#ca8a04',
+            'cyan'   => '#0891b2',
+            'gray'   => '#4b5563',
+            'teal'   => '#0d9488',
+            'sky'    => '#0ea5e9',
+            'indigo' => '#4f46e5',
+            'purple' => '#9333ea',
+            'pink'   => '#db2777',
+            'orange' => '#ea580c',
+            'slate'  => '#475569',
+            'lime'   => '#65a30d',
+            'emerald'=> '#059669',
+            'fuchsia'=> '#c026d3',
+            'rose'   => '#e11d48',
+            'violet' => '#7c3aed',
+            'amber'  => '#d97706',
+            'zinc'   => '#52525b',
+            'stone'  => '#57534e',
+        ];
+
+        return data_get($colors, $color, '#4b5563');
     }
 }
