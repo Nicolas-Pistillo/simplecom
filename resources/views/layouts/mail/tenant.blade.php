@@ -21,6 +21,7 @@
         }
 
         @media (max-width: 600px) {
+
             .sm-p-6 {
                 padding: 24px !important;
             }
@@ -56,7 +57,7 @@
     </style>
 </head>
 
-<body style="font-family: 'Poppins', Arial, sans-serif; margin: 0; width: 100%; background-color: #f8fafc; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
+<body style="font-family: 'Poppins', Arial, sans-serif; margin: 0 auto; width: @yield('mail-width', '100%'); background-color: #f8fafc; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
     <div role="article" aria-roledescription="email" aria-label lang="en">
         <div class="sm-px-4" style="background-color: #f8fafc">
             <table align="center" style="margin: 0 auto; font-family: Poppins, sans-serif" cellpadding="0"

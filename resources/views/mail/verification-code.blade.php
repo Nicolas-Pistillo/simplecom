@@ -4,8 +4,8 @@
 
 @section('content')
 
-    <p>Hola, {{ $recipient_name }}, este es tu código de verificación. 
-    Copialo y pegalo donde se te lo haya solicitado</p>
+    <p>Hola {{ $recipient_name }}, este es tu código de verificación. 
+    Copialo y pegalo donde se te lo haya solicitado.</p>
 
     <p style="font-size: 26px"><b>{{ $code }}</b></p>
 

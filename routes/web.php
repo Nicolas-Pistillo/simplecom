@@ -8,6 +8,7 @@ use App\Http\Controllers\Tenant\InvoiceWebhookController;
 use App\Http\Controllers\Tenant\ShippingWebhookController;
 use App\Mail\TestEmail;
 use App\Mail\TestTenantMail;
+use App\Models\Order;
 use App\Models\Tenant;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
