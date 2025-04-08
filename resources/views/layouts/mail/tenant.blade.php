@@ -54,6 +54,17 @@
             color: #fff !important;
             background-color: {{ $tenantColor }};
         }
+
+        .btn-md {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px;
+            font-size: 16px;
+            line-height: 1;
+            border-radius: 4px;
+            color: #fff !important;
+            background-color: {{ $tenantColor }};
+        }
     </style>
 </head>
 
@@ -70,8 +81,8 @@
                             <tr>
                                 <td class="sm-p-6"
                                     style="border-radius: 8px; background-color: #fffffe; padding: 24px 36px; border: 1px solid #e2e8f0">
-                                    <a href="{{ route('ecommerce.index') }}">
-                                        <img src="{{ $message->embed(tenant()->logo()) }}" width="180" alt="Maizzle"
+                                    <a href="/">
+                                        <img src="{{ tenant()->logo() }}" width="180" alt="Maizzle"
                                             style="max-width: 100%; vertical-align: middle">
                                     </a>
                                     <div role="separator" style="line-height: 24px; `mso-line-height-alt: ${msoHeight}` }}">&zwj;</div>

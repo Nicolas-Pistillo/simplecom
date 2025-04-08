@@ -25,12 +25,6 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
 
-    Route::get('test-email', function() 
-    {
-        Mail::to('pistillonicolas@gmail.com')->send(new OrderCreated(tenant(), Order::find(4)));
-        /* Mail::to('pistillonicolas@gmail.com')->send(new TestTenantMail(Tenant::first())); */
-    });
-
     /*****  TENANT ECOMMERCE ROUTES  *****/
     Route::middleware(['tenant_setuped', 'tenant_active'])->group(function() {
 
