@@ -9,10 +9,12 @@ use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
 use App\Http\Controllers\Tenant\ShippingLabelController;
 use App\Http\Controllers\Tenant\SocialiteController;
+use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\PaymentProviders\Modo;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -22,6 +24,12 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
+
+    Route::get('test-email', function() 
+    {
+        Mail::to('pistillonicolas@gmail.com')->send(new OrderCreated(tenant(), Order::find(4)));
+        /* Mail::to('pistillonicolas@gmail.com')->send(new TestTenantMail(Tenant::first())); */
+    });
 
     /*****  TENANT ECOMMERCE ROUTES  *****/
     Route::middleware(['tenant_setuped', 'tenant_active'])->group(function() {
