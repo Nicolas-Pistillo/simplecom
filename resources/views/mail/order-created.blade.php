@@ -13,23 +13,6 @@
 
     <div role="separator" style="line-height: 31px;">&zwj;</div>
 
-    <table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
-        <tr>
-            <td>
-                <p style="margin: 0">
-                    <b style="font-size: 24px">Pedido {{ $order->id }}</b>
-                </p> 
-            </td>
-            <td style="text-align: right">
-                <a href="{{ $order->customerDetailPage() }}" class="btn-md">
-                    Ver en mis pedidos
-                </a>
-            </td>
-        </tr>
-    </table>
-
-    <div role="separator" style="line-height: 31px;">&zwj;</div>
-
     @include('mail.partials.order-details')
 
     <div role="separator" style="line-height: 31px;">&zwj;</div>
@@ -42,22 +25,9 @@
         </p>
 
         <div role="separator" style="line-height: 31px;">&zwj;</div>
-
-        <table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
-            <tr>
-                <td>
-                    <p style="margin: 0; font-size: 18px; line-height: 16px; font-weight: 600">
-                        Muchas gracias
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p style="margin-top: 12px;font-size: 18px; line-height: 16px; font-weight: 600">
-                        {{ tenant('ecommerce_name') }}
-                    </p>
-                </td>
-            </tr>
-        </table>
     </div>
+
+    <br>
+    <p style="margin: 0;font-weight: 600; text-align:center">Muchas gracias</p>
+    <p style="margin: 0; font-weight: 600; text-align: center">{{ tenant('ecommerce_name') }}</p>
 @endsection

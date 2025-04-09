@@ -1,3 +1,20 @@
+<table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
+    <tr>
+        <td>
+            <p style="margin: 0">
+                <b style="font-size: 24px">Pedido {{ $order->id }}</b>
+            </p> 
+        </td>
+        <td style="text-align: right">
+            <a href="{{ $order->customerDetailPage() }}" class="btn-md">
+                Ver en mis pedidos
+            </a>
+        </td>
+    </tr>
+</table>
+
+<div role="separator" style="line-height: 31px;">&zwj;</div>
+
 @foreach ($order->items as $item)
     <table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
         <tr>
@@ -7,7 +24,7 @@
             </td>
 
             <td class="sm-w-auto"
-                style="width: 400px; text-align: left; vertical-align: top; 
+                style="width: 400px; text-align: left; vertical-align: top; padding: 4px;
                 font-size: 16px; color: #111827">
 
                 <p style="margin: 0 0 8px; line-height: 16px; font-weight: 700">

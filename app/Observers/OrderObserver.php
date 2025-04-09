@@ -9,8 +9,15 @@ use App\Events\OrderConfirmed;
 use App\Events\OrderDelivered;
 use App\Events\OrderReadyForDispatch;
 use App\Events\OrderReadyForPickup;
+use App\Mail\OrderCreated as MailOrderCreated;
+use App\Mail\OrderConfirmed as MailOrderConfirmed;
+use App\Mail\OrderPickupReady as MailOrderPickupReady;
+use App\Mail\OrderDispatched as MailOrderDispatched;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
+use App\Notifications\NewOrderNotification;
+use App\Services\NotificationService;
+use Illuminate\Support\Facades\Mail;
 
 class OrderObserver
 {
@@ -26,6 +33,10 @@ class OrderObserver
             'initializator' => $order->user->full_name,
             'action'        => 'realizó este pedido'
         ]);
+
+        Mail::to($order->user->email)->send(new MailOrderCreated(tenant(), $order));
+
+        NotificationService::toOperators(new NewOrderNotification($order));
     }
 
     /**
@@ -33,24 +44,34 @@ class OrderObserver
      */
     public function updated(Order $order): void
     {
-        if ($order->status === OrderStatus::Confirmed)
+        if ($order->status === OrderStatus::Confirmed 
+        && $order->getOriginal('status') != OrderStatus::Confirmed)
         {
-            OrderConfirmed::dispatch($order);
+            /* OrderConfirmed::dispatch($order); */
+            $order->discountStock();
+            Mail::to($order->user->email)->send(new MailOrderConfirmed(tenant(), $order));
         }
 
         if ($order->status === OrderStatus::PickupReady)
         {
-            OrderReadyForPickup::dispatch($order);
+            /* OrderReadyForPickup::dispatch($order); */
+            Mail::to($order->user->email)->send(new MailOrderPickupReady(tenant(), $order));
         }
 
         if ($order->status === OrderStatus::DispatchReady)
         {
-            OrderReadyForDispatch::dispatch($order);
+            /* OrderReadyForDispatch::dispatch($order); */
+        }
+
+        if ($order->status === OrderStatus::Dispatched)
+        {
+            /* OrderCancelled::dispatch($order); */
+            Mail::to($order->user->email)->send(new MailOrderDispatched(tenant(), $order));
         }
 
         if ($order->status === OrderStatus::Delivered)
         {
-            OrderDelivered::dispatch($order);
+            /* OrderDelivered::dispatch($order); */
         }
     }
 
