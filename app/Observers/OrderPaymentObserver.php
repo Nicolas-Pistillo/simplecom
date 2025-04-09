@@ -20,7 +20,7 @@ class OrderPaymentObserver
      */
     public function updated(OrderPayment $payment): void
     {
-        if ($payment->status === PaymentStatus::Confirmed && !$payment->order->stock_discounted)
+        if ($payment->status === PaymentStatus::Confirmed)
         {
             $payment->order->discountStock();
         }

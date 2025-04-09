@@ -80,14 +80,6 @@ class Show extends Component
 
     public function evalShippingOrderConfirmation()
     {
-        /* if ($this->order->shipping->logistic_type->isFromDropoff())
-        {
-            $service = $this->order->shippingProvider->service();
-            $branches = $service->getOriginPointBranches($this->order->shipping);
-
-            dd($branches);
-        } */
-
         $this->dispatch('open-confirm-shipping-create');
     }
 
