@@ -120,7 +120,7 @@ class OrderService
             ]);
         }
 
-        OrderCreated::dispatch($order);
+        /* OrderCreated::dispatch($order); */
 
         return $order;
     }

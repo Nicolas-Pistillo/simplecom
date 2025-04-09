@@ -82,8 +82,8 @@
                                 <td class="sm-p-6"
                                     style="border-radius: 8px; background-color: #fffffe; padding: 24px 36px; border: 1px solid #e2e8f0">
                                     <a href="/">
-                                        <img src="{{ tenant()->logo() }}" width="180" alt="Maizzle"
-                                            style="max-width: 100%; vertical-align: middle">
+                                        <img src="{{ tenant()->logo() }}" width="180" height="70px" alt="{{ tenant('ecommerce_name') }}"
+                                        style="max-width: 100%; vertical-align: middle; object-fit: contain; object-position: left">
                                     </a>
                                     <div role="separator" style="line-height: 24px; `mso-line-height-alt: ${msoHeight}` }}">&zwj;</div>
 
