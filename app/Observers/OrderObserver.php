@@ -17,6 +17,7 @@ use App\Models\Order;
 use App\Models\OrderFeedItem;
 use App\Notifications\NewOrderNotification;
 use App\Services\NotificationService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class OrderObserver
@@ -34,8 +35,6 @@ class OrderObserver
             'action'        => 'realizó este pedido'
         ]);
 
-        Mail::to($order->user->email)->send(new MailOrderCreated(tenant(), $order));
-
         NotificationService::toOperators(new NewOrderNotification($order));
     }
 
@@ -44,8 +43,7 @@ class OrderObserver
      */
     public function updated(Order $order): void
     {
-        if ($order->status === OrderStatus::Confirmed 
-        && $order->getOriginal('status') != OrderStatus::Confirmed)
+        if ($order->status === OrderStatus::Confirmed)
         {
             /* OrderConfirmed::dispatch($order); */
             $order->discountStock();

@@ -7,7 +7,7 @@ use App\Enums\DeliveryType;
 use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
 use App\Enums\ShippingStatus;
-use App\Events\OrderCreated;
+use App\Mail\OrderCreated as MailOrderCreated;
 use App\Models\OriginPoint;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -16,6 +16,7 @@ use App\Models\ShippingProvider;
 use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OrderService
 {
@@ -93,6 +94,8 @@ class OrderService
             ]);
         }
 
+        Mail::to($form->email)->send(new MailOrderCreated(tenant(), $order));
+
         if ($orderWithShipping)
         {
             $branch = session('selected_branch');
@@ -119,8 +122,6 @@ class OrderService
                 'calculated_rate'       => $form->selected_rate
             ]);
         }
-
-        /* OrderCreated::dispatch($order); */
 
         return $order;
     }
