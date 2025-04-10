@@ -68,7 +68,7 @@
 
                         @if (!empty($brand->image_url))
                             <img src="{{ Storage::url($brand->image_url) }}" alt="{{ $brand->name }}"
-                            class="w-6 h-6 rounded-full">
+                            class="w-6 h-6 rounded-full object-contain">
                         @endif
 
                         <span>{{ $brand->name }} </span>

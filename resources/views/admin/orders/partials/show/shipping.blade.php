@@ -263,31 +263,40 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
     <div class="mt-4 flex flex-wrap gap-3">
 
         @if ($order->shipping->status === ShippingStatus::NotCreated)
-            <x-button wire:click='evalShippingOrderConfirmation'>Crear orden de envío</x-button>
 
-            {{-- Droor-Origin shipping creation --}}
-            <x-modal ref="confirmShippingCreate" closeOnClickAway title="Nueva orden de envío" 
-            type="info" icon="local_shipping">
+            @if (!$order->is_confirmed())
+                <div x-tooltip.raw="Se requiere confirmación de pago del pedido para avanzar con su entrega.
+                Si ya recibiste el pago y el pedido no se actualizó, podes aprobar el pago manualmente.">
+                    <x-button disabled>Crear orden de envío</x-button>
+                </div>
+            @else
+                <x-button @click="confirmShippingCreate = true">Crear orden de envío</x-button>
 
-                <x-slot name="body">
-                    Se creará una nueva orden de envío con {{ $order->shippingProvider->name }}
-                    y se le notificará al comprador que el pedido está listo para despachar.
-                </x-slot>
+                {{-- Droor-Origin shipping creation --}}
+                <x-modal ref="confirmShippingCreate" closeOnClickAway title="Nueva orden de envío" 
+                type="info" icon="local_shipping">
 
-                <x-slot name="actions">
+                    <x-slot name="body">
+                        Se creará una nueva orden de envío con {{ $order->shippingProvider->name }}
+                        y se le notificará al comprador que el pedido está listo para despachar.
+                    </x-slot>
 
-                    <x-spinner wire:loading wire:target='createShippingOrder' />
+                    <x-slot name="actions">
 
-                    <x-button type="secondary" wire:loading.remove wire:target='createShippingOrder'
-                        @click="confirmShippingCreate = false">Cancelar</x-button>
+                        <x-spinner wire:loading wire:target='createShippingOrder' />
 
-                    <x-button wire:click='createShippingOrder' wire:loading.remove wire:target='createShippingOrder'>
-                        Confirmar
-                    </x-button>
+                        <x-button type="secondary" wire:loading.remove wire:target='createShippingOrder'
+                            @click="confirmShippingCreate = false">Cancelar</x-button>
 
-                </x-slot>
+                        <x-button wire:click='createShippingOrder' 
+                        wire:loading.remove wire:target='createShippingOrder'>
+                            Confirmar
+                        </x-button>
 
-            </x-modal>
+                    </x-slot>
+
+                </x-modal>
+            @endif
             
         @endif
 

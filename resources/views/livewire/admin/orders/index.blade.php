@@ -62,7 +62,7 @@
                                     x-transition:leave="transition ease-in duration-100"
                                     x-transition:leave-start="transform opacity-100 scale-200"
                                     x-transition:leave-end="transform opacity-0 scale-90"
-                                    class="absolute top-12 right-0 w-max bg-white 
+                                    class="absolute top-12 left-0 sm:right-0 sm:left-[unset] w-max bg-white 
                                     ring-1 shadow-xl shadow-black/5 ring-slate-700/10 
                                     rounded-md overflow-hidden">
 

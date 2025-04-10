@@ -6,12 +6,13 @@ use App\Enums\OrderFeedEvent;
 use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Mail\OrderDispatchReady;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
-use App\Services\ShippingProviders\Rapiboy;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
@@ -53,6 +54,36 @@ class Show extends Component
         ]);
     }
 
+    public function confirmPaymentManual()
+    {
+        $this->order->payment->update(['status' => PaymentStatus::Confirmed]);
+
+        if ($this->order->status != OrderStatus::Confirmed)
+        {
+            $this->order->update(['status' => OrderStatus::Confirmed]);
+        }
+
+        OrderFeedItem::create([
+            'order_id'      => $this->order->id,
+            'event'         => OrderFeedEvent::StatusUpdate,
+            'presentation'  => NotificationPresentation::Icon,
+            'initializator' => Auth::user()->name,
+            'action'        => "confirmó que recibió el pago del comprador por {$this->order->paymentMethod->display_name}",
+            'meta'          => [
+                'icon_code'  => 'price_check',
+                'icon_color' => 'green'
+            ]
+        ]);
+
+        $this->dispatch('close-show-payment-manual-confirm');
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => 'Pedido actualizado',
+            'body'  => "Confirmaste la recepción de pago del pedido"
+        ]);
+    }
+
     public function setReadyForPickup()
     {
         $this->order->update(['status' => OrderStatus::PickupReady]);
@@ -78,11 +109,6 @@ class Show extends Component
         ]);
     }
 
-    public function evalShippingOrderConfirmation()
-    {
-        $this->dispatch('open-confirm-shipping-create');
-    }
-
     public function createShippingOrder()
     {
         try 
@@ -96,6 +122,8 @@ class Show extends Component
                 'title' => 'Orden de envío generada',
                 'body'  => 'Generaste la orden de envío correctamente'
             ]);
+
+            Mail::to($this->order->user->email)->send(new OrderDispatchReady(tenant(), $this->order));
 
             $this->dispatch('close-confirm-shipping-create');
 

@@ -29,7 +29,7 @@ class Zippin implements ShippingProvider
 
     protected $configuration_keys = ['zippin_account_id', 'zippin_key', 'zippin_secret', 'zippin_origin_id'];
 
-    private $base_url = 'https://api.zippin.com.ar/v2';
+    private $base_url = 'https://api.zipnova.com.ar/v2';
 
     private $logistic_type_parser = [ // logistic_type field
         'pickup_point' => [

@@ -11,7 +11,11 @@
 
     <th class="flex items-center pl-4 pr-8 py-2 font-medium text-gray-900">
 
-        <img src="{{ $product->first_image }}" alt="{{ $product->name }}" 
+        <div wire:loading wire:target='quickUpdate({{ $product->id }})'>
+            <x-spinner class="w-8 h-8 flex items-center justify-center mr-3" />
+        </div>
+
+        <img wire:loading.remove wire:target='quickUpdate({{ $product->id }})' src="{{ $product->first_image }}" alt="{{ $product->name }}" 
         class="w-8 h-8 mr-3 rounded-lg object-contain">
 
         <div class="flex flex-col items-start">
