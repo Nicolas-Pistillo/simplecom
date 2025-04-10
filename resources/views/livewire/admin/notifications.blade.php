@@ -86,17 +86,6 @@
                         </div>
                     @endforelse
                 </div>
-
-                @if (Auth::user()->notifications->isNotEmpty())
-                    <a href="#" class="block py-2 text-sm font-medium text-center 
-                    text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100">
-                        <div class="inline-flex items-center gap-1">
-                            <x-icon code="visibility" class="text-[18px]" />
-                            Ver todas
-                        </div>
-                    </a> 
-                @endif
-               
             </div>
         </div>
     </div>

@@ -5,8 +5,9 @@
     x-transition:leave="transition ease-in duration-100" 
     x-transition:leave-start="transform opacity-100 scale-200"
     x-transition:leave-end="transform opacity-0 scale-90"
-    class="absolute top-12 z-20 right-0 w-[30.25rem] rounded-md bg-white 
-    p-4 ring-1 shadow-xl shadow-black/5 ring-slate-700/10">
+    class="absolute top-12 z-20 left-0 sm:right-0 sm:left-[unset] rounded-md 
+    bg-white p-4 ring-1 shadow-xl shadow-black/5 ring-slate-700/10
+    w-[280px] sm:w-[480px]">
     <h6 class="font-semibold text-sm text-slate-900">Filtros</h6>
 
     <div class="mt-4 text-[0.8125rem]/6 text-slate-900">

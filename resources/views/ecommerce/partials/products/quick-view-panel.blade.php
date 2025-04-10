@@ -124,12 +124,18 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
                                         <div class="flex items-center justify-center border border-gray-400 rounded-full">
         
                                             <button wire:click="substractQuantity" class="px-2 w-full border-r border-gray-400 rounded-l-full h-full flex items-center justify-center bg-white shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
-                                                <svg class="stroke-black group-hover:stroke-black" width="18" height="18" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg wire:loading.remove wire:target='substractQuantity' class="stroke-black group-hover:stroke-black" width="22" height="22"
+                                                    viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M16.5 11H5.5" stroke="" stroke-width="1.6" stroke-linecap="round">
                                                     </path>
-                                                    <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6" stroke-linecap="round"></path>
-                                                    <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6" stroke-linecap="round"></path>
+                                                    <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
+                                                        stroke-linecap="round"></path>
+                                                    <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
+                                                        stroke-linecap="round"></path>
                                                 </svg>
+                                                <div wire:loading wire:target='substractQuantity'>
+                                                    <x-spinner />
+                                                </div>
                                             </button>
                                                     
                                             <input type="text" readonly wire:model.live="quantitySelected" class="font-semibold text-gray-900 
@@ -139,11 +145,18 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
                 
                                             
                                             <button wire:click="addQuantity" class="group px-3 w-full border-l border-gray-400 rounded-r-full h-full flex items-center justify-center bg-white shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
-                                                <svg class="stroke-black group-hover:stroke-black" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="#9CA3AF" stroke-width="1.6" stroke-linecap="round"></path>
-                                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" stroke-opacity="0.2" stroke-width="1.6" stroke-linecap="round"></path>
-                                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" stroke-opacity="0.2" stroke-width="1.6" stroke-linecap="round"></path>
+                                                <svg wire:loading.remove wire:target='addQuantity' class="stroke-black group-hover:stroke-black" width="22" height="22"
+                                                    viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="#9CA3AF" stroke-width="1.6"
+                                                        stroke-linecap="round"></path>
+                                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" stroke-opacity="0.2"
+                                                        stroke-width="1.6" stroke-linecap="round"></path>
+                                                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" stroke-opacity="0.2"
+                                                        stroke-width="1.6" stroke-linecap="round"></path>
                                                 </svg>
+                                                <div wire:loading wire:target='addQuantity'>
+                                                    <x-spinner />
+                                                </div>
                                             </button>
                                         </div>
                                     </div>
@@ -157,7 +170,10 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
 
                                 <x-button type="soft" wire:click='addToCart' size="large" 
                                 class="flex flex-1 justify-center items-center gap-2 !rounded-full">
-                                    <x-icon code="shopping_cart" />
+                                    <x-icon wire:loading.remove wire:target='addToCart' code="shopping_cart" class="mr-2" />
+                                    <div wire:loading wire:target='addToCart'>
+                                        <x-spinner class="mr-2" />
+                                    </div>
                                     Agregar al carrito
                                 </x-button>
                             </div>

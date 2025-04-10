@@ -148,31 +148,70 @@
 
     @endif
 
-    <div x-data="{showTransferConfirm: false}" class="mt-4 flex flex-wrap gap-3"
-    x-on:close-show-transfer-confirm.window="showTransferConfirm = false">
-        @if ($order->payment?->status === PaymentStatus::TransferPending)
-            <x-button @click="showTransferConfirm = true">Ya recibí el pago</x-button>
+    <div x-data="{showTransferConfirm: false, showPaymentManualConfirm: false}" 
+    class="mt-4 flex flex-wrap gap-3"
+    x-on:close-show-transfer-confirm.window="showTransferConfirm = false"
+    x-on:close-show-payment-manual-confirm.window="showPaymentManualConfirm = false">
+
+        @if ($order->paymentMethod->code === 'transfer')
+
+            @if ($order->payment?->status === PaymentStatus::TransferPending)
+                <x-button @click="showTransferConfirm = true">Ya recibí el pago</x-button>
+            @endif
+
+            <x-modal ref="showTransferConfirm" closeOnClickAway
+            title="Confirmar transferencia recibida" type="success" icon="list_alt_check">
+                <x-slot name="body">
+                    Se notificará a {{ $order->user->name }} que el pago está confirmado
+                    y se podrá proceder con la entrega del pedido
+                </x-slot>
+
+                <x-slot name="actions">
+
+                    <x-spinner wire:loading wire:target='confirmTransferReceived' />
+
+                    <x-button type="secondary" @click="showTransferConfirm = false"
+                    wire:loading.remove wire:target='confirmTransferReceived'>
+                        Cancelar
+                    </x-button>
+
+                    <x-button wire:click='confirmTransferReceived' wire:loading.remove 
+                    wire:target='confirmTransferReceived'>Confirmar</x-button>
+                </x-slot>
+            </x-modal>
         @endif
 
-        <x-modal ref="showTransferConfirm" closeOnClickAway
-        title="Confirmar transferencia recibida" type="success" icon="list_alt_check">
-            <x-slot name="body">
-                Se notificará a {{ $order->user->name }} que el pago está confirmado
-                y se podrá proceder con la entrega del pedido
-            </x-slot>
+        @if ($order->payment && $order->paymentMethod->code != 'transfer' 
+        && !in_array($order->payment?->status, [
+            PaymentStatus::Confirmed, 
+            PaymentStatus::Authorized, 
+            PaymentStatus::Cancelled,
+            PaymentStatus::CustomerCancelled,
+            PaymentStatus::CancellationInProcess
+        ]))
 
-            <x-slot name="actions">
+            <x-button @click="showPaymentManualConfirm = true">Ya recibí el pago</x-button>
 
-                <x-spinner wire:loading wire:target='confirmTransferReceived' />
+            <x-modal ref="showPaymentManualConfirm" closeOnClickAway
+            title="Confirmar pago recibido" type="success" icon="list_alt_check">
+                <x-slot name="body">
+                    Se notificará a {{ $order->user->name }} que el pago está confirmado
+                    y se podrá proceder con la entrega del pedido
+                </x-slot>
 
-                <x-button type="secondary" @click="showTransferConfirm = false"
-                wire:loading.remove wire:target='confirmTransferReceived'>
-                    Cancelar
-                </x-button>
+                <x-slot name="actions">
 
-                <x-button wire:click='confirmTransferReceived' wire:loading.remove 
-                wire:target='confirmTransferReceived'>Confirmar</x-button>
-            </x-slot>
-        </x-modal>
+                    <x-spinner wire:loading wire:target='confirmPaymentManual' />
+
+                    <x-button type="secondary" @click="showPaymentManualConfirm = false"
+                    wire:loading.remove wire:target='confirmPaymentManual'>
+                        Cancelar
+                    </x-button>
+
+                    <x-button wire:click='confirmPaymentManual' wire:loading.remove 
+                    wire:target='confirmPaymentManual'>Confirmar</x-button>
+                </x-slot>
+            </x-modal>
+        @endif
     </div>
 </div>

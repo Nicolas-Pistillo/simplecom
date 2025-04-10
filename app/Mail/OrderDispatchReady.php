@@ -2,16 +2,16 @@
 
 namespace App\Mail;
 
+use App\Models\Order;
+use App\Models\Tenant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Tenant;
-use App\Models\Order;
 
-class OrderDispatched extends Mailable
+class OrderDispatchReady extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -26,7 +26,7 @@ class OrderDispatched extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Despachamos tu pedido',
+            subject: 'Tu pedido sera despachado pronto',
         );
     }
 
@@ -36,7 +36,7 @@ class OrderDispatched extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.order-dispatched',
+            view: 'mail.order-dispatch-ready',
         );
     }
 

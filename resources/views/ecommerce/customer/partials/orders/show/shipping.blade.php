@@ -50,17 +50,6 @@
                         </h4>
                     </div>
                 @endif
-
-                @if (!empty($order->payment->total_paid))
-                    <div class="w-full justify-between items-center gap-6 sm:inline-flex">
-                        <h5 class="text-gray-600 leading-4 sm:leading-8">
-                            Total pagado
-                        </h5>
-                        <h4 class="sm:text-right text-gray-900 font-semibold">
-                            ${{ $order->payment->total_paid }}
-                        </h4>
-                    </div>
-                @endif
             </div>
         </div>
     </div>

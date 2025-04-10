@@ -28,16 +28,15 @@
 
                             <div class="relative w-full order-2 sm:order-1 sm:w-72">
 
-                                <div
-                                    class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <x-icon code="search" class="text-gray-500" />
                                 </div>
 
                                 <input type="search" wire:model.live='search'
-                                    class="block w-full pt-2 ps-10 text-sm text-gray-900 
+                                class="block w-full pt-2 ps-10 text-sm text-gray-900 
                                 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 
                               focus:border-blue-500"
-                                    placeholder="Buscar productos...">
+                                placeholder="Buscar productos...">
                             </div>
 
                             <div class="flex items-center order-1 sm:order-2 gap-3">
@@ -68,7 +67,7 @@
                                         x-transition:leave="transition ease-in duration-100"
                                         x-transition:leave-start="transform opacity-100 scale-200"
                                         x-transition:leave-end="transform opacity-0 scale-90"
-                                        class="absolute top-12 right-0 w-max bg-white 
+                                        class="absolute top-12 left-0 sm:right-0 sm:left-[unset] w-max bg-white 
                                         ring-1 shadow-xl shadow-black/5 ring-slate-700/10 
                                         rounded-md overflow-hidden">
 

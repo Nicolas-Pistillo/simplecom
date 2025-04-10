@@ -112,9 +112,6 @@ class ProductDetail extends Component
             ]
         )->associate(Product::class);
 
-        $this->dispatch('updated-cart');
-        $this->dispatch('open-cart-panel');
-
         $unitsTitle = $this->quantitySelected > 1 ? 'unidades' : 'unidad';
 
         $this->notify([
@@ -124,6 +121,9 @@ class ProductDetail extends Component
             'icon'     => 'add_shopping_cart',
             'body'     => "Agregaste $this->quantitySelected $unitsTitle de {$this->product->name}"
         ]);
+
+        $this->dispatch('updated-cart');
+        $this->dispatch('open-cart-panel');
     }
 
     public function buyNow()

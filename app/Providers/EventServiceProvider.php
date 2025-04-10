@@ -17,11 +17,13 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderPayment;
+use App\Models\OrderShipping;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Observers\CategoryObserver;
 use App\Observers\OrderObserver;
 use App\Observers\OrderPaymentObserver;
+use App\Observers\OrderShippingObserver;
 use App\Observers\ProductObserver;
 use App\Observers\ProductVariantObserver;
 
@@ -61,6 +63,7 @@ class EventServiceProvider extends ServiceProvider
         ProductVariant::observe(ProductVariantObserver::class);
         Order::observe(OrderObserver::class);
         OrderPayment::observe(OrderPaymentObserver::class);
+        OrderShipping::observe(OrderShippingObserver::class);
     }
 
     /**
