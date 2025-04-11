@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Exports\OrdersExport;
 use App\Livewire\Forms\IndexOrdersFilters;
 use App\Models\Order;
 use App\Traits\Livewire\WithNotifications;
-use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -31,6 +32,17 @@ class Index extends Component
     {
         $this->selected_orders = [];
         $this->setPage(1);
+    }
+
+    public function download($selecteds = false)
+    {
+        $orders = $selecteds 
+                    ? Order::find($this->selected_orders)
+                    : Order::all();
+
+        $date = date('d-m-Y');
+
+        return Excel::download(new OrdersExport($orders), "pedidos-$date.xlsx");
     }
 
     public function print()

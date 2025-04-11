@@ -19,7 +19,6 @@
         <div x-data="{showBulkDeleteConfirm: false}" 
         x-on:close-bulk-delete-dialog.window="showBulkDeleteConfirm = false">
             <section>
-
                 <div class="mx-auto max-w-screen-2xl">
                     <div class="relative shadow-md rounded-lg">
 
@@ -52,15 +51,16 @@
 
                                 </div>
 
-                                <div x-data="{ open: false }" class="relative">
+                                <div wire:loading.remove wire:target='download' 
+                                x-data="{ open: false }" class="relative">
 
                                     <x-icon code="download" x-tooltip.raw.placement.top="Descargar"
-                                        @click="open = !open"
-                                        class="transition colors 
-                                        cursor-pointer bg-gray-100 text-gray-500 p-1.5 rounded-full 
-                                        hover:bg-gray-200 no-select focus:outline-none focus:ring duration-300" />
+                                    @click="open = !open" wire:click='download'
+                                    class="transition colors cursor-pointer bg-gray-100 
+                                    text-gray-500 p-1.5 rounded-full hover:bg-gray-200 
+                                    no-select focus:outline-none focus:ring duration-300" />
 
-                                    <div x-show="open" x-cloak @click.away="open = false"
+                                    {{-- <div x-show="open" x-cloak @click.away="open = false"
                                         x-transition:enter="transition ease-out duration-200"
                                         x-transition:enter-start="transform opacity-0 scale-90"
                                         x-transition:enter-end="transform opacity-100 scale-100"
@@ -81,7 +81,7 @@
                                                     <x-icon code="description" class="text-red-700" />
                                                 </li>
 
-                                                <li class="flex justify-between gap-x-2 items-center px-3 py-1 text-sm leading-6 text-gray-900 
+                                                <li wire:click='download' class="flex justify-between gap-x-2 items-center px-3 py-1 text-sm leading-6 text-gray-900 
                                                 transition hover:bg-gray-50 cursor-pointer">
                                                     Descargar en Excel
                                                     <x-icon code="description" class="text-green-700" />
@@ -95,7 +95,11 @@
 
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                </div>
+
+                                <div wire:loading wire:target='download'>
+                                    <x-spinner class="p-1.5" />
                                 </div>
                             </div>
                         </div>

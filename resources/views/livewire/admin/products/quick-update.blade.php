@@ -57,7 +57,7 @@ x-on:close-quick-update.window="showQuickUpdate = false">
             </div>
 
             <div x-cloak x-show="tab === 'pricing'">
-                <section class="bg-white dark:bg-gray-900 py-6 px-8">
+                <section class="bg-white py-6 px-8">
                     <div class="grid md:grid-cols-3 gap-4">
     
                         <x-form-input label="Precio" icon="attach_money" id="product_price" model="form.price"
