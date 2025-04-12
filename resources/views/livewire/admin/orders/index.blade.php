@@ -46,15 +46,16 @@
 
                             </div>
 
-                            <div x-data="{open: false}" class="relative">
+                            <div wire:loading.remove wire:target='download' x-data="{open: false}" class="relative">
 
-                                <x-icon code="download" x-tooltip.raw.placement.top="Descargar"
-                                @click="open = !open"
+                                <x-icon code="download" 
+                                x-tooltip.raw.placement.top="Descargar"
+                                @click="open = !open" wire:click='download'
                                 class="transition colors 
                                 cursor-pointer bg-gray-100 text-gray-500 p-1.5 rounded-full 
                                 hover:bg-gray-200 no-select focus:outline-none focus:ring duration-300" />
 
-                                <div x-show="open" x-cloak
+                                {{-- <div x-show="open" x-cloak
                                     @click.away="open = false"
                                     x-transition:enter="transition ease-out duration-200"
                                     x-transition:enter-start="transform opacity-0 scale-90"
@@ -90,7 +91,11 @@
 
                                         </ul>
                                     </div>
-                                </div>
+                                </div> --}}
+                            </div>
+
+                            <div wire:loading wire:target='download'>
+                                <x-spinner class="p-1.5" />
                             </div>
                         </div>
                     </div>
@@ -116,7 +121,7 @@
     
                                     <x-dropdown-item wire:click='print' icon="print" label="Imprimir etiquetas internas" />
     
-                                    <x-dropdown-item icon="download" label="Descargar" />
+                                    <x-dropdown-item wire:click='download(true)' icon="download" label="Descargar" />
     
                                     <x-dropdown-item icon="delete" label="Eliminar" />
 
@@ -179,8 +184,7 @@
                                         {{ (in_array($order->id, $selected_orders)) 
                                         ? 'border-l-blue-700 bg-blue-50'
                                         : 'hover:bg-gray-50 border-l-transparent' 
-                                        }}"
-                                        @click="location.href='{{ $order->detailPage() }}'">
+                                        }}" @click="location.href='{{ $order->detailPage() }}'">
 
                                             <td class="w-4 px-4 py-3" onclick="event.stopPropagation()">
                                                 <div class="flex items-center">

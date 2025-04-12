@@ -43,6 +43,13 @@ class Index extends Component
         $this->setPage(1);
     }
 
+    public function toggleSelectedProduct($productId)
+    {
+        in_array($productId, $this->selectedProducts)
+            ? array_splice($this->selectedProducts, array_search($productId, $this->selectedProducts), 1)
+            : array_push($this->selectedProducts, $productId);
+    }
+
     public function togglePublishedProduct(Product $product)
     {
         $productModel = Product::find($product['id']);
@@ -156,10 +163,12 @@ class Index extends Component
     public function download($selecteds = false)
     {
         $products = $selecteds 
-                    ? Product::find($this->selectedProducts)->load('category', 'tags', 'operator')
-                    : Product::with('category', 'tags', 'operator')->get();
+                    ? Product::find($this->selectedProducts)
+                    : Product::all();
 
-        return Excel::download(new ProductsExport($products), 'productos.xlsx');
+        $date = date('d-m-Y');
+
+        return Excel::download(new ProductsExport($products), "productos-$date.xlsx");
     }
 
     public function quickUpdate(Product $product)

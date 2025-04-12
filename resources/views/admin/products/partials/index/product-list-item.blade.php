@@ -1,11 +1,19 @@
 <tr wire:key='{{ $product->id }}' wire:click='quickUpdate({{ $product->id }})'
-    class="border-b text-xs text-center transition-colors 
-    cursor-pointer duration-300 hover:bg-gray-50">
+    class="border-b text-center transition cursor-pointer 
+    duration-200 text-xs border-l-2
+    {{ in_array($product->id, $selectedProducts)
+        ? 'border-l-blue-700 bg-blue-50'
+        : 'hover:bg-gray-50 border-l-transparent' 
+    }}">
 
     <td class="w-4 px-4 py-3" onclick="event.stopPropagation()">
         <div class="flex items-center">
-            <input id="checkbox-table-search-1" type="checkbox"
-                class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
+            <input type="checkbox" wire:change='toggleSelectedProduct({{ $product->id }})'
+            @if (in_array($product->id, $selectedProducts))
+                checked
+            @endif
+            class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
+            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
         </div>
     </td>
 
