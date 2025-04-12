@@ -34,10 +34,9 @@
 
                         <div class="flex items-center order-1 sm:order-2 gap-3">
 
-                            <div x-data="{open: false}" class="relative">
+                            <div x-data="{ open: false }" class="relative">
 
-                                <x-icon code="tune" x-tooltip.raw.placement.top="Filtrar"
-                                @click="open = !open"
+                                <x-icon code="tune" x-tooltip.raw.placement.top="Filtrar" @click="open = !open"
                                 class="transition colors cursor-pointer bg-gray-100 text-gray-500 
                                 p-1.5 rounded-full hover:bg-gray-200 no-select focus:outline-none 
                                 focus:ring duration-300" />
@@ -46,10 +45,9 @@
 
                             </div>
 
-                            <div wire:loading.remove wire:target='download' x-data="{open: false}" class="relative">
+                            <div wire:loading.remove wire:target='download' x-data="{ open: false }" class="relative">
 
-                                <x-icon code="download" 
-                                x-tooltip.raw.placement.top="Descargar"
+                                <x-icon code="download" x-tooltip.raw.placement.top="Descargar" 
                                 @click="open = !open" wire:click='download'
                                 class="transition colors 
                                 cursor-pointer bg-gray-100 text-gray-500 p-1.5 rounded-full 
@@ -100,51 +98,78 @@
                         </div>
                     </div>
 
-                    @if (count($selected_orders))
-                        <div class="flex items-center justify-between flex-wrap gap-3 px-4 
-                        py-3 border-b border-gray-200">
+                    @if (count($selected_orders) || $hasFilters)
 
-                            <div class="flex items-center gap-3">
-                                <h5 class="font-semibold text-gray-800 text-sm">
-                                    {{ count($selected_orders) }}
-                                    {{ count($selected_orders) === 1 ? 'seleccionado' : 'seleccionados' }}
-                                </h5>
-    
-                                <x-dropdown position="right-0 sm:left-0">
-                                    <x-slot name="trigger">
-                                        <x-button size="tiny" type="secondary" 
-                                        class="flex items-center">
-                                            Acciones
-                                            <x-icon code="arrow_drop_down" />
-                                        </x-button>
-                                    </x-slot>
-    
-                                    <x-dropdown-item wire:click='print' icon="print" label="Imprimir etiquetas internas" />
-    
-                                    <x-dropdown-item wire:click='download(true)' icon="download" label="Descargar" />
-    
-                                    <x-dropdown-item icon="delete" label="Eliminar" />
+                        <div class="flex items-center justify-between flex-wrap 
+                        gap-3 border-b border-gray-200 px-4 py-3">
 
-                                </x-dropdown>
-                            </div>
+                            @if (count($selected_orders))
+                                <div class="flex items-center gap-3">
+
+                                    <h5 class="font-semibold text-gray-800 text-sm">
+                                        {{ count($selected_orders) }}
+                                        {{ count($selected_orders) === 1 ? 'seleccionado' : 'seleccionados' }}
+                                    </h5>
+
+                                    <x-dropdown position="right-0 sm:left-0">
+                                        <x-slot name="trigger">
+                                            <x-button size="tiny" type="secondary" class="flex items-center">
+                                                Acciones
+                                                <x-icon code="arrow_drop_down" />
+                                            </x-button>
+                                        </x-slot>
+
+                                        <x-dropdown-item wire:click='print' icon="print"
+                                        label="Imprimir etiquetas internas" />
+
+                                        <x-dropdown-item wire:click='download(true)' icon="download" label="Descargar" />
+
+                                        <x-dropdown-item icon="delete" label="Eliminar" />
+
+                                    </x-dropdown>
+                                </div>
+                            @endif
 
                             <div class="flex items-center flex-wrap gap-3">
-                                <x-badge>Solo envíos</x-badge>
 
-                                <x-badge>Solo envíos</x-badge>
+                                @if (!empty($filters->status))
+                                    <x-badge color="blue" class="flex items-center gap-1"
+                                    wire:click="removeFilter('status')">
+                                        Estado: {{ OrderStatus::tryFrom($filters->status)->name() }} 
+                                        <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                                    </x-badge>
+                                @endif
 
-                                <x-badge>Solo envíos</x-badge>
+                                @if (!empty($filters->delivery_type))
+                                    <x-badge color="violet" class="flex items-center gap-1"
+                                    wire:click="removeFilter('delivery_type')">
+                                        Entrega: {{ DeliveryType::tryFrom($filters->delivery_type)->name() }} 
+                                        <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                                    </x-badge>
+                                @endif
+
+                                @if (!empty($filters->only_invoiced))
+                                    <x-badge color="lime" class="flex items-center gap-1"
+                                    wire:click="removeFilter('only_invoiced')">
+                                        Solo facturados
+                                        <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                                    </x-badge>
+                                @endif
+
                             </div>
                         </div>
                     @endif
 
                     @if ($orders->isEmpty())
-                        
+
                         <div class="text-center py-8">
 
                             <img src="{{ URL::to('img/illustrations/cancel.svg') }}" 
                             class="h-52 mx-auto mb-4" alt="no-data-img">
-                
+
                             <div class="mb-4">
                                 <h3 class="mt-2 text-sm font-semibold text-gray-900">
                                     No se encontraron resultados
@@ -152,11 +177,14 @@
                                 <p class="mt-1 mb-4 text-sm text-gray-500">
                                     Revisa tu búsqueda o los filtros aplicados
                                 </p>
+                                @if ($hasFilters)
+                                    <x-button wire:click='clearFilters' type="secondary">
+                                        Limpiar filtros
+                                    </x-button>
+                                @endif
                             </div>
                         </div>
-
                     @else
-
                         <div class="overflow-x-auto no-select" scrollbar-thin>
                             <table class="w-full text-sm text-left text-gray-500">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -176,25 +204,24 @@
                                         <th scope="col" class="px-4 py-3">Fecha</th>
                                     </tr>
                                 </thead>
-                                <tbody wire:poll>
+                                <tbody wire:poll.7s>
                                     @foreach ($orders as $order)
                                         <tr wire:key='{{ $order->id }}'
-                                        class="border-b text-center transition cursor-pointer 
+                                            class="border-b text-center transition cursor-pointer 
                                         duration-200 text-xs border-l-2
-                                        {{ (in_array($order->id, $selected_orders)) 
-                                        ? 'border-l-blue-700 bg-blue-50'
-                                        : 'hover:bg-gray-50 border-l-transparent' 
-                                        }}" @click="location.href='{{ $order->detailPage() }}'">
+                                        {{ in_array($order->id, $selected_orders)
+                                            ? 'border-l-blue-700 bg-blue-50'
+                                            : 'hover:bg-gray-50 border-l-transparent' }}"
+                                            @click="location.href='{{ $order->detailPage() }}'">
 
                                             <td class="w-4 px-4 py-3" onclick="event.stopPropagation()">
                                                 <div class="flex items-center">
-                                                    <input type="checkbox" 
-                                                    wire:change='toggleSelectedOrder({{ $order->id }})'
-                                                    @if (in_array($order->id, $selected_orders))
-                                                        checked
-                                                    @endif
-                                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
-                                                    <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                                    <input type="checkbox"
+                                                        wire:change='toggleSelectedOrder({{ $order->id }})'
+                                                        @if (in_array($order->id, $selected_orders)) checked @endif
+                                                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
+                                                    <label for="checkbox-table-search-1"
+                                                        class="sr-only">checkbox</label>
                                                 </div>
                                             </td>
 
@@ -220,7 +247,7 @@
                                                     @else
                                                         @if (
                                                             $order->shipping->logistic_type === LogisticType::OriginToDoor ||
-                                                            $order->shipping->logistic_type === LogisticType::DropoffToDoor)
+                                                                $order->shipping->logistic_type === LogisticType::DropoffToDoor)
                                                             Envío a domicilio
                                                         @else
                                                             Envío a sucursal
@@ -239,9 +266,9 @@
                                                     ${{ priceFormat($order->total) }}
 
                                                     <img src="{{ Storage::url("providers/{$order->paymentMethod->code}.png") }}"
-                                                        x-tooltip.raw.placement.top="{{ $order->paymentMethod->display_name }}"
-                                                        class="h-8 w-8 object-cover rounded-full"
-                                                        alt="{{ $order->paymentMethod->display_name }}">
+                                                    x-tooltip.raw.placement.top="{{ $order->paymentMethod->display_name }}"
+                                                    class="h-8 w-8 object-cover rounded-full"
+                                                    alt="{{ $order->paymentMethod->display_name }}">
                                                 </div>
                                             </td>
 

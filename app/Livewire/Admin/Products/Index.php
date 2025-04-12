@@ -184,6 +184,16 @@ class Index extends Component
                         ->paginate(15);
     }
 
+    public function removeFilter($filter)
+    {
+        $this->filters->reset($filter);
+    }
+
+    public function clearFilters()
+    {
+        $this->filters->reset();
+    }
+
     public function mount()
     {
         $this->hasProducts = Product::count() > 0;
@@ -194,7 +204,8 @@ class Index extends Component
         return view('livewire.admin.products.index', [
             'products'   => $this->getProducts(),
             'categories' => Category::principal()->with('childs')->orderBy('name')->get(),
-            'brands'     => Brand::orderBy('name')->get()
+            'brands'     => Brand::orderBy('name')->get(),
+            'hasFilters' => $this->filters->isNotEmpty()
         ]);
     }
 }

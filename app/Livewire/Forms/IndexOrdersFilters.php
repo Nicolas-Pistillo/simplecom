@@ -18,4 +18,9 @@ class IndexOrdersFilters extends Form
 
     #[Validate('nullable|boolean', as: 'facturados')]
     public $only_invoiced;
+
+    public function isNotEmpty()
+    {
+        return !empty($this->status) || !empty($this->delivery_type) || $this->only_invoiced;
+    }
 }

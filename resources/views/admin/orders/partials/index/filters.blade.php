@@ -9,7 +9,12 @@
     bg-white p-4 ring-1 shadow-xl shadow-black/5 ring-slate-700/10
     w-[280px] sm:w-[480px]">
 
-    <h6 class="font-semibold text-sm text-slate-900">Filtros</h6>
+    <div class="flex items-center justify-between">
+        <h6 class="font-semibold text-sm text-slate-900">Filtros</h6>
+        <div wire:loading wire:target='filters'>
+            <x-spinner spinnerclass="!w-5 !h-5" />
+        </div>
+    </div>
 
     <div class="mt-4 text-[0.8125rem]/6 text-slate-900">
 
