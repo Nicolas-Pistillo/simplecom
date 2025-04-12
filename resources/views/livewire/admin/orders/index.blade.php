@@ -204,7 +204,7 @@
                                         <th scope="col" class="px-4 py-3">Fecha</th>
                                     </tr>
                                 </thead>
-                                <tbody wire:poll.10s>
+                                <tbody wire:poll.7s>
                                     @foreach ($orders as $order)
                                         <tr wire:key='{{ $order->id }}'
                                             class="border-b text-center transition cursor-pointer 

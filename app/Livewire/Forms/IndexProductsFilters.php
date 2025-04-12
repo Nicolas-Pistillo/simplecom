@@ -18,4 +18,10 @@ class IndexProductsFilters extends Form
 
     #[Validate('nullable|boolean', as: 'destacados')]
     public $only_featured;
+
+    public function isNotEmpty()
+    {
+        return !empty($this->category_id) || !empty($this->brand_id) 
+                || $this->only_published || $this->only_featured;
+    }
 }

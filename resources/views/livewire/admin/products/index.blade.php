@@ -104,6 +104,80 @@
                             </div>
                         </div>
 
+                        @if (count($selectedProducts) || $hasFilters)
+
+                            <div class="flex items-center justify-between flex-wrap 
+                            gap-3 border-b border-gray-200 px-4 py-3">
+
+                                @if (count($selectedProducts))
+                                    <div class="flex items-center gap-3">
+
+                                        <h5 class="font-semibold text-gray-800 text-sm">
+                                            {{ count($selectedProducts) }}
+                                            {{ count($selectedProducts) === 1 ? 'seleccionado' : 'seleccionados' }}
+                                        </h5>
+
+                                        <x-dropdown position="right-0 sm:left-0">
+                                            <x-slot name="trigger">
+                                                <x-button size="tiny" type="secondary" class="flex items-center">
+                                                    Acciones
+                                                    <x-icon code="arrow_drop_down" />
+                                                </x-button>
+                                            </x-slot>
+
+                                            <x-dropdown-item wire:click='print' icon="print"
+                                            label="Imprimir etiquetas internas" />
+
+                                            <x-dropdown-item wire:click='download(true)' icon="download" label="Descargar" />
+
+                                            <x-dropdown-item icon="delete" label="Eliminar" />
+
+                                        </x-dropdown>
+                                    </div>
+                                @endif
+
+                                <div class="flex items-center flex-wrap gap-3">
+
+                                    @if (!empty($filters->category_id))
+                                        <x-badge color="blue" class="flex items-center gap-1"
+                                        wire:click="removeFilter('category_id')">
+                                            {{ App\Models\Category::find($filters->category_id)->name }} 
+                                            <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                            class="text-[14px] cursor-pointer hover:text-red-500" />
+                                        </x-badge>
+                                    @endif
+
+                                    @if (!empty($filters->brand_id))
+                                        <x-badge color="blue" class="flex items-center gap-1"
+                                        wire:click="removeFilter('brand_id')">
+                                            {{ App\Models\Brand::find($filters->brand_id)->name }} 
+                                            <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                            class="text-[14px] cursor-pointer hover:text-red-500" />
+                                        </x-badge>
+                                    @endif
+
+                                    @if (!empty($filters->only_published))
+                                        <x-badge color="blue" class="flex items-center gap-1"
+                                        wire:click="removeFilter('only_published')">
+                                            Solo publicados
+                                            <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                            class="text-[14px] cursor-pointer hover:text-red-500" />
+                                        </x-badge>
+                                    @endif
+
+                                    @if (!empty($filters->only_featured))
+                                        <x-badge color="blue" class="flex items-center gap-1"
+                                        wire:click="removeFilter('only_featured')">
+                                            Solo destacados
+                                            <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                            class="text-[14px] cursor-pointer hover:text-red-500" />
+                                        </x-badge>
+                                    @endif
+
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="overflow-x-auto" scrollbar-thin>
                             <table class="w-full text-sm text-left text-gray-500">
                                 <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50">
@@ -122,7 +196,7 @@
                                         <th scope="col" class="px-4 py-3">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody wire:poll>
+                                <tbody wire:poll.7s>
                                     @forelse ($products as $product)
                                         @include('admin.products.partials.index.product-list-item')
                                     @empty
