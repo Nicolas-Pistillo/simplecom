@@ -71,10 +71,21 @@ class Index extends Component
         $this->has_orders = Order::count() > 0;
     }
 
+    public function removeFilter($filter)
+    {
+        $this->filters->reset($filter);
+    }
+
+    public function clearFilters()
+    {
+        $this->filters->reset();
+    }
+
     public function render()
     {
         return view('livewire.admin.orders.index', [
-            'orders' => $this->getOrders()
+            'orders'     => $this->getOrders(),
+            'hasFilters' => $this->filters->isNotEmpty()
         ]);
     }
 }
