@@ -141,23 +141,23 @@
                                     @if (!empty($filters->category_id))
                                         <x-badge color="blue" class="flex items-center gap-1"
                                         wire:click="removeFilter('category_id')">
-                                            {{ App\Models\Category::find($filters->category_id)->name }} 
+                                            Categoría: {{ App\Models\Category::find($filters->category_id)->name }} 
                                             <x-icon code="close" x-tooltip.raw="Quitar filtro"
                                             class="text-[14px] cursor-pointer hover:text-red-500" />
                                         </x-badge>
                                     @endif
 
                                     @if (!empty($filters->brand_id))
-                                        <x-badge color="blue" class="flex items-center gap-1"
+                                        <x-badge color="orange" class="flex items-center gap-1"
                                         wire:click="removeFilter('brand_id')">
-                                            {{ App\Models\Brand::find($filters->brand_id)->name }} 
+                                            Marca: {{ App\Models\Brand::find($filters->brand_id)->name }} 
                                             <x-icon code="close" x-tooltip.raw="Quitar filtro"
                                             class="text-[14px] cursor-pointer hover:text-red-500" />
                                         </x-badge>
                                     @endif
 
                                     @if (!empty($filters->only_published))
-                                        <x-badge color="blue" class="flex items-center gap-1"
+                                        <x-badge color="indigo" class="flex items-center gap-1"
                                         wire:click="removeFilter('only_published')">
                                             Solo publicados
                                             <x-icon code="close" x-tooltip.raw="Quitar filtro"
@@ -166,7 +166,7 @@
                                     @endif
 
                                     @if (!empty($filters->only_featured))
-                                        <x-badge color="blue" class="flex items-center gap-1"
+                                        <x-badge color="yellow" class="flex items-center gap-1"
                                         wire:click="removeFilter('only_featured')">
                                             Solo destacados
                                             <x-icon code="close" x-tooltip.raw="Quitar filtro"
@@ -178,55 +178,65 @@
                             </div>
                         @endif
 
-                        <div class="overflow-x-auto" scrollbar-thin>
-                            <table class="w-full text-sm text-left text-gray-500">
-                                <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="p-4">
-                                            <div class="flex items-center">
-                                                <input id="checkbox-all" type="checkbox"
-                                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
-                                                <label for="checkbox-all" class="sr-only">checkbox</label>
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="px-4 py-3">Producto</th>
-                                        <th scope="col" class="px-4 py-3">Categoría</th>
-                                        <th scope="col" class="px-4 py-3">Stock</th>
-                                        <th scope="col" class="px-4 py-3">Precio</th>
-                                        <th scope="col" class="px-4 py-3">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody wire:poll.7s>
-                                    @forelse ($products as $product)
-                                        @include('admin.products.partials.index.product-list-item')
-                                    @empty
-                                        <tr class="border-b text-xs text-center transition-colors duration-300
-                                        hover:bg-gray-50">
-                                            <td></td>
-                                            <td
-                                                class="px-4 py-2 font-semibold 
-                                            text-gray-900 whitespace-nowrap">
-                                                Sin resultados
-                                            </td>
+                        @if ($products->isEmpty())
+                            <div class="text-center py-8">
+
+                                <img src="{{ URL::to('img/illustrations/cancel.svg') }}" 
+                                class="h-52 mx-auto mb-4" alt="no-data-img">
+
+                                <div class="mb-4">
+                                    <h3 class="mt-2 text-sm font-semibold text-gray-900">
+                                        No se encontraron resultados
+                                    </h3>
+                                    <p class="mt-1 mb-4 text-sm text-gray-500">
+                                        Revisa tu búsqueda o los filtros aplicados
+                                    </p>
+                                    @if ($hasFilters)
+                                        <x-button wire:click='clearFilters' type="secondary">
+                                            Limpiar filtros
+                                        </x-button>
+                                    @endif
+                                </div>
+                            </div>
+                        @else
+                            <div class="overflow-x-auto" scrollbar-thin>
+                                <table class="w-full text-sm text-left text-gray-500">
+                                    <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="p-4">
+                                                <div class="flex items-center">
+                                                    <input id="checkbox-all" type="checkbox"
+                                                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-2">
+                                                    <label for="checkbox-all" class="sr-only">checkbox</label>
+                                                </div>
+                                            </th>
+                                            <th scope="col" class="px-4 py-3">Producto</th>
+                                            <th scope="col" class="px-4 py-3">Categoría</th>
+                                            <th scope="col" class="px-4 py-3">Stock</th>
+                                            <th scope="col" class="px-4 py-3">Precio</th>
+                                            <th scope="col" class="px-4 py-3">Acciones</th>
                                         </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody wire:poll.7s>
+                                        @foreach ($products as $product)
+                                            @include('admin.products.partials.index.product-list-item')
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
 
-                        @if ($products->total() > 10)
-                            <nav class="p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
-                                aria-label="Table navigation">
-                                {{ $products->onEachSide(0)->links() }}
-                            </nav>
+                            @if ($products->total() > 10)
+                                <nav class="p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
+                                    aria-label="Table navigation">
+                                    {{ $products->onEachSide(0)->links() }}
+                                </nav>
+                            @endif
+
+                            @livewire('admin.products.quick-update')
                         @endif
-
-                        @livewire('admin.products.quick-update')
-
                     </div>
                 </div>
             </section>
         </div>
     @endif
-
 </div>
