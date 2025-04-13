@@ -106,7 +106,7 @@ class Index extends Component
         ]);
     }
 
-    public function bulkAction($action)
+   /*  public function bulkAction($action)
     {
         $productsTotal = count($this->selectedProducts);
         $products = Product::find($this->selectedProducts);
@@ -159,7 +159,7 @@ class Index extends Component
         $this->dispatch('close-bulk-delete-dialog');
         $this->selectedProducts = [];
     }
-
+ */
     public function download($selecteds = false)
     {
         $products = $selecteds 

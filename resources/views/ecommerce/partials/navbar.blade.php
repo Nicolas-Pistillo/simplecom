@@ -97,20 +97,83 @@
                                 <div class="flex h-full justify-center space-x-8">
 
                                     {{-- Categories menu --}}
-                                    <div class="flex">
+                                    <div x-data="{open: false}" class="flex">
                                         <div class="relative flex">
                                             <!-- Item active: "border-indigo-600 text-indigo-600", Item inactive: "border-transparent text-gray-700 hover:text-gray-800" -->
                                             <button type="button"
-                                                @click="megaMenu1Open = !megaMenu1Open; megaMenu2Open = false"
+                                                @click="open = !open"
                                                 class="relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
-                                                :class="megaMenu1Open ?
-                                                    'border-{{ tenant('color') }}-600 text-{{ tenant('color') }}-600' :
-                                                    'border-transparent text-gray-700 hover:text-gray-800'"
-                                                aria-expanded="false">Categorías</button>
+                                                :class="open ? 'border-{{ tenant('color') }}-600 text-{{ tenant('color') }}-600' 
+                                                             : 'border-transparent text-gray-700 hover:text-gray-800'">
+                                                    Categorías
+                                            </button>
+
+                                            <div x-cloak x-show="open" @click.away="open = false" 
+                                            x-transition:enter="transition ease-out duration-200" 
+                                            x-transition:enter-start="opacity-0 translate-y-1" 
+                                            x-transition:enter-end="opacity-100 translate-y-0" 
+                                            x-transition:leave="transition ease-in duration-150" 
+                                            x-transition:leave-start="opacity-100 translate-y-0" 
+                                            x-transition:leave-end="opacity-0 translate-y-1" 
+                                            class="absolute z-10 top-[4.5rem] -left-4 p-4 
+                                            whitespace-nowrap rounded-xl shadow-lg ring-1 
+                                            ring-gray-900/5 bg-white">
+
+                                                <div class="flex gap-y-6 gap-x-10 bg-white text-gray-900 ">
+
+                                                    @if ($principal_categories->isNotEmpty())
+                                                        <div class="flex flex-col w-max">
+                                                            <p class="p-2 font-semibold">Principales</p>
+                                                            @foreach ($principal_categories->take(6) as $category)
+                                                                <a href="{{ $category->pageUrl() }}" 
+                                                                class="inline-block p-2 text-sm hover:text-blue-600">
+                                                                    {{ $category->name }}
+                                                                </a>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+
+                                                    @if ($featured_categories->isNotEmpty())
+                                                        <div class="flex flex-col w-max">
+                                                            <p class="p-2 font-semibold">Destacadas</p>
+                                                            @foreach ($featured_categories->take(6) as $category)
+                                                                <a href="{{ $category->pageUrl() }}" 
+                                                                class="inline-block p-2 text-sm hover:text-blue-600">
+                                                                    {{ $category->name }}
+                                                                </a>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+
+                                                    @if ($brands->isNotEmpty())
+                                                        <div class="flex flex-col w-max">
+                                                            <p class="p-2 font-semibold">Marcas</p>
+                                                            @foreach ($brands->sortByDesc('featured')->take(6) as $brand)
+                                                                <a href="{{ $brand->pageUrl() }}" 
+                                                                class="flex items-center gap-1.5 p-2 text-sm hover:text-blue-600">
+                                                                    @if (!empty($brand->image_url))
+                                                                        <img src="{{ Storage::url($brand->image_url) }}"
+                                                                        alt="{{ $brand->name }}"
+                                                                        class="w-6 h-6 object-contain rounded-full">
+                                                                    @endif
+                                                                    {{ $brand->name }}
+                                                                </a>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <a href="{{ route('ecommerce.products') }}" 
+                                                class="flex items-center gap-1.5 mt-6 pt-2 border-t text-sm
+                                                transition-colors duration-300 hover:text-blue-600">
+                                                    Ver todos los productos
+                                                    <x-icon code="arrow_forward" />
+                                                </a>
+                                            </div>
                                         </div>
 
                                         <!-- 'Women' mega menu, show/hide based on flyout menu state. -->
-                                        <div x-cloak x-show="megaMenu1Open" @click.away="megaMenu1Open = false"
+                                        {{-- <div x-cloak x-show="megaMenu1Open" @click.away="megaMenu1Open = false"
                                             x-transition:enter="transition ease-out duration-300"
                                             x-transition:enter-start="opacity-0 scale-90"
                                             x-transition:enter-end="opacity-100 scale-100"
@@ -160,7 +223,7 @@
                                                                 </div>
                                                             @endif
 
-                                                            {{-- <div>
+                                                            <div>
                                                                 <p id="desktop-collection-heading"
                                                                     class="font-medium text-gray-900">Collection
                                                                 </p>
@@ -185,7 +248,7 @@
                                                                             class="hover:text-gray-800">Sale</a>
                                                                     </li>
                                                                 </ul>
-                                                            </div> --}}
+                                                            </div>
 
                                                             @if ($brands->isNotEmpty())
                                                                 <div>
@@ -214,7 +277,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     {{-- Products --}}

@@ -144,14 +144,14 @@
                                 @if (!empty($filters->delivery_type))
                                     <x-badge color="violet" class="flex items-center gap-1"
                                     wire:click="removeFilter('delivery_type')">
-                                        Entrega: {{ DeliveryType::tryFrom($filters->delivery_type)->name() }} 
+                                        Solo {{ DeliveryType::tryFrom($filters->delivery_type)->name() }} 
                                         <x-icon code="close" x-tooltip.raw="Quitar filtro"
                                         class="text-[14px] cursor-pointer hover:text-red-500" />
                                     </x-badge>
                                 @endif
 
                                 @if (!empty($filters->only_invoiced))
-                                    <x-badge color="lime" class="flex items-center gap-1"
+                                    <x-badge color="emerald" class="flex items-center gap-1"
                                     wire:click="removeFilter('only_invoiced')">
                                         Solo facturados
                                         <x-icon code="close" x-tooltip.raw="Quitar filtro"
@@ -207,7 +207,7 @@
                                 <tbody wire:poll.7s>
                                     @foreach ($orders as $order)
                                         <tr wire:key='{{ $order->id }}'
-                                            class="border-b text-center transition cursor-pointer 
+                                        class="border-b text-center transition cursor-pointer 
                                         duration-200 text-xs border-l-2
                                         {{ in_array($order->id, $selected_orders)
                                             ? 'border-l-blue-700 bg-blue-50'
