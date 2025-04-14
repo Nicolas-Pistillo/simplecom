@@ -1,8 +1,6 @@
 <div>
     <div class="bg-white">
 
-        @include('ecommerce.partials.products.mobile-filter')
-
         <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             @include('ecommerce.partials.products.header')
@@ -13,7 +11,7 @@
 
                     @if ($products->isNotEmpty())
                         
-                        @include('ecommerce.partials.products.desktop-filter')
+                        @include('ecommerce.partials.products.desktop-filters')
 
                         <div wire:loading.flex 
                         class="lg:col-span-3 flex items-center justify-center 

@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    <div x-data class="no-select flex items-end gap-4">
+    <div x-data="{mobileFiltersOpen: false}" class="no-select flex items-end gap-4">
 
         <div wire:loading wire:target='loadProducts'>
             <x-spinner />
@@ -39,15 +39,18 @@
             </div>
         </div>
 
-        <x-icon code="tune" x-tooltip.raw.placement.top="Filtrar"
-            class="block lg:hidden transition colors cursor-pointer bg-gray-100
+        <x-icon code="tune" @click="mobileFiltersOpen = true"
+        class="block lg:hidden transition colors cursor-pointer bg-gray-100
         text-gray-500 p-2 rounded-full hover:bg-gray-200 
         focus:outline-none focus:ring duration-300" />
+
+        @include('ecommerce.partials.products.mobile-filters')
+
     </div>
 </div>
 
 @if ($form->category)
-    <nav class="flex border-b border-gray-200 bg-white" aria-label="Breadcrumb">
+    <nav class="flex border-b border-gray-200 bg-white overflow-x-auto" scrollbar-thin aria-label="Breadcrumb">
 
         <ol role="list" class="mx-auto flex w-full max-w-screen-xl space-x-4">
 

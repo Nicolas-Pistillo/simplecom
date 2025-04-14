@@ -47,7 +47,7 @@
         </ul>
     @endif
 
-    @if (!empty($available_brands))
+    @if (!empty($available_brands) && $available_brands->first())
         <ul role="list" class="space-y-4 border-b border-gray-200 
         text-sm font-medium text-gray-900 pb-6">
 
