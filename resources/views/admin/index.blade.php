@@ -24,31 +24,31 @@
             <!-- Stats -->
             <div class="mt-4 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
                 <div>
-                    <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                    <hr role="presentation" class="w-full border-t border-zinc-950/10">
                     <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Total revenue</div>
                     <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">$2.6M</div>
                     <div class="mt-3 text-sm/6 sm:text-xs/6"><span
-                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-hover:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-hover:bg-lime-400/15">+4.5%</span>
+                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-hover:bg-lime-400/30">+4.5%</span>
                         <span class="text-zinc-500">from last week</span></div>
                 </div>
                 <div>
-                    <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                    <hr role="presentation" class="w-full border-t border-zinc-950/10">
                     <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Average order value</div>
                     <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">$455</div>
                     <div class="mt-3 text-sm/6 sm:text-xs/6"><span
-                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-pink-400/15 text-pink-700 group-data-hover:bg-pink-400/25 dark:bg-pink-400/10 dark:text-pink-400 dark:group-data-hover:bg-pink-400/20">-0.5%</span>
+                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-pink-400/15 text-pink-700 group-data-hover:bg-pink-400/25">-0.5%</span>
                         <span class="text-zinc-500">from last week</span></div>
                 </div>
                 <div>
-                    <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                    <hr role="presentation" class="w-full border-t border-zinc-950/10">
                     <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Tickets sold</div>
                     <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">5,888</div>
                     <div class="mt-3 text-sm/6 sm:text-xs/6"><span
-                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-hover:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-hover:bg-lime-400/15">+4.5%</span>
+                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-hover:bg-lime-400/30">+4.5%</span>
                         <span class="text-zinc-500">from last week</span></div>
                 </div>
                 <div>
-                    <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10">
+                    <hr role="presentation" class="w-full border-t border-zinc-950/10">
                     <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Pageviews</div>
                     <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">823,067</div>
                     <div class="mt-3 text-sm/6 sm:text-xs/6">
@@ -62,29 +62,29 @@
         <div class="space-y-16 py-16 xl:space-y-20">
 
             <div
-                class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                class="w-full max-w-md py-6 px-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
                 <div class="flex items-center justify-between mb-4">
-                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Pedidos Recientes</h5>
-                    <a href="{{ route('admin.orders.index') }}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                    <h5 class="text-xl font-bold leading-none text-gray-900">Pedidos Recientes</h5>
+                    <a href="{{ route('admin.orders.index') }}" class="text-sm font-medium text-blue-600 hover:underline">
                         Ver todos
                     </a>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul role="list" class="divide-y divide-gray-200">
                         <li class="py-3 sm:py-4">
                             <div class="flex items-center">
                                 <div class="shrink-0">
                                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300" alt="Neil image">
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    <p class="text-sm font-medium text-gray-900 truncate">
                                         Neil Sims
                                     </p>
-                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    <p class="text-sm text-gray-500 truncate">
                                         email@windster.com
                                     </p>
                                 </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900">
                                     $320
                                 </div>
                             </div>
@@ -96,14 +96,14 @@
                                         alt="Bonnie image">
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    <p class="text-sm font-medium text-gray-900 truncate">
                                         Bonnie Green
                                     </p>
-                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    <p class="text-sm text-gray-500 truncate">
                                         email@windster.com
                                     </p>
                                 </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900">
                                     $3467
                                 </div>
                             </div>
@@ -115,14 +115,14 @@
                                         alt="Michael image">
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    <p class="text-sm font-medium text-gray-900 truncate">
                                         Michael Gough
                                     </p>
-                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    <p class="text-sm text-gray-500 truncate">
                                         email@windster.com
                                     </p>
                                 </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900">
                                     $67
                                 </div>
                             </div>
@@ -133,14 +133,14 @@
                                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300" alt="Lana image">
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    <p class="text-sm font-medium text-gray-900 truncate">
                                         Lana Byrd
                                     </p>
-                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    <p class="text-sm text-gray-500 truncate">
                                         email@windster.com
                                     </p>
                                 </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900">
                                     $367
                                 </div>
                             </div>
@@ -152,15 +152,15 @@
                                         alt="Thomas image">
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    <p class="text-sm font-medium text-gray-900 truncate">
                                         Thomes Lean
                                     </p>
-                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    <p class="text-sm text-gray-500 truncate">
                                         email@windster.com
                                     </p>
                                 </div>
                                 <div
-                                    class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                    class="inline-flex items-center text-base font-semibold text-gray-900">
                                     $2367
                                 </div>
                             </div>
