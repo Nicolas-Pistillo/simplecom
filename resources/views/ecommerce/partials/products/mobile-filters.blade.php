@@ -184,6 +184,12 @@ class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
                     </div>
                 </div>
             </form>
+
+            <div class="mt-auto flex items-center justify-end px-6">
+                <x-button size="large" @click="mobileFiltersOpen = false">
+                    Aceptar
+                </x-button>
+            </div>
         </div>
     </div>
 </div>

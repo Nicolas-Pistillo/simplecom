@@ -1,8 +1,23 @@
 <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
 
-    <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-8">
-        Productos destacados
-    </h2>
+    <div class="flex items-center justify-between gap-x-4 mb-8">
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
+            Productos destacados
+        </h2>
+
+        <div class="flex justify-center items-center">
+
+            <x-icon id="featured-prev-btn" code="navigate_before" 
+            class="no-select p-2 rounded-full border-2 hover:bg-gray-200/60 
+            transition-colors duration-300"
+            />
+
+            <x-icon id="featured-next-btn" code="navigate_next" 
+            class="no-select ml-2 p-2 rounded-full border-2 hover:bg-gray-200/60 
+            transition-colors duration-300"
+            />
+        </div>
+    </div>
 
     <div class="w-full relative">
         <div class="swiper featured-products-slider swiper-container relative">
@@ -16,18 +31,6 @@
                     </div>
                 @endforeach
             </div>
-        </div>
-        <div class="flex justify-center items-center">
-
-            <x-icon id="featured-prev-btn" code="navigate_before" 
-            class="no-select p-2 rounded-full border-2 hover:bg-gray-200/60 
-            transition-colors duration-300"
-            />
-
-            <x-icon id="featured-next-btn" code="navigate_next" 
-            class="no-select ml-2 p-2 rounded-full border-2 hover:bg-gray-200/60 
-            transition-colors duration-300"
-            />
         </div>
     </div>
 </div>
