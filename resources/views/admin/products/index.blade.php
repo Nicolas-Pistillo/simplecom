@@ -17,12 +17,14 @@
                     de la forma que creas más conveniente.
                 </p>
             </div>
-            <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                <x-button href="{{ route('admin.products.create') }}" class="inline-flex items-center">
-                    <x-icon code="add" class="mr-1" />
-                    Nuevo producto
-                </x-button>
-            </div>
+            @can('Editar productos')
+                <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                    <x-button href="{{ route('admin.products.create') }}" class="inline-flex items-center">
+                        <x-icon code="add" class="mr-1" />
+                        Nuevo producto
+                    </x-button>
+                </div>
+            @endcan
         </div>
 
         @if (Session::has('product_created'))

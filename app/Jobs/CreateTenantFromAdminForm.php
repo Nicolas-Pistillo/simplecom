@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Http\Requests\CreateTenantRequest;
 use App\Models\Operator;
 use App\Models\Tenant;
 use Illuminate\Bus\Queueable;

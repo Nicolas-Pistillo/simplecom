@@ -26,7 +26,7 @@
                     <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         
                         <x-input class="sm:col-span-3" placeholder="En minuscula y sin espacios" 
-                        error="{{ $errors->first('tenant_name') }}" name="tenant_name" label="Nombre" 
+                        error="{{ $errors->first('tenant_name') }}" name="tenant_name" label="Nombre único" 
                         value="{{ old('tenant_name') ?? $tenant->name }}" />
 
                         <x-input class="sm:col-span-3" placeholder="Por ejemplo: Distribuidora Martinez" 

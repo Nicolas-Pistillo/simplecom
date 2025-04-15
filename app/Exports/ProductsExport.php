@@ -36,8 +36,8 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
             'Precio',
             'Descuento',
             'Stock',
-            'Venta mínima',
-            'Venta máxima',
+            'Compra mínima',
+            'Compra máxima',
             'Dimensiones (ancho x alto x largo)',
             'Peso (gramos)'
         ];
