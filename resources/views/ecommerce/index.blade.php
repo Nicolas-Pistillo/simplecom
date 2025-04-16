@@ -11,11 +11,25 @@
         @include('ecommerce.partials.banner-slider')
     @endif
 
+    {{-- Infinite Scroll Message --}}
+    <div class="w-full bg-black text-white overflow-hidden">
+        <div class="text-center py-1 sm:py-2">
+            <div class="w-full animate-infinite-scroll inline-flex flex-nowrap 
+            items-center justify-center gap-x-6">
+                @for ($i = 0; $i < 10; $i++)
+                    <h4 class="whitespace-nowrap text-xs sm:text-base">
+                        🔥20% de descuento abonando con transferencia en todas tus compras🔥
+                    </h4>
+                @endfor
+            </div>
+        </div>
+    </div>
+
     {{-- Principal Categories --}}
     @include('ecommerce.partials.principal-categories-section')
 
     {{-- New arrivals presentation --}}
-    @include('ecommerce.partials.new-arrivals-section')
+    @include('ecommerce.partials.collections-section')
 
     {{-- Featured products section --}}
     @if ($featuredProducts->isNotEmpty())

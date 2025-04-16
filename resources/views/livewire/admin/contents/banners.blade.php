@@ -43,7 +43,7 @@
                 <div class="flex items-center justify-center flex-wrap gap-6 mb-8">
                     @foreach ($banners as $banner)
                         <div wire:key='{{ $banner->id }}' x-data="{ deleteDialogOpen: false }"
-                            class="w-80 rounded-lg overflow-hidden transition 
+                        class="w-80 rounded-lg overflow-hidden transition 
                         duration-300 shadow hover:shadow-lg">
 
                             <img class="w-full object-cover border-b" 

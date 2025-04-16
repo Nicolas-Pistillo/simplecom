@@ -9,12 +9,10 @@ use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\EcommerceController;
 use App\Http\Controllers\Tenant\ShippingLabelController;
 use App\Http\Controllers\Tenant\SocialiteController;
-use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\PaymentProviders\Modo;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -140,18 +138,27 @@ Route::middleware([
 
                 Route::view('products', 'admin.products.index')
                     ->name('admin.products.index')
-                    ->middleware('can:Editar productos');
+                    ->middleware('can:Ver productos');
 
                 Route::view('products/create', 'admin.products.upsert')
                     ->name('admin.products.create')
                     ->middleware('can:Editar productos');
 
-                Route::get('products/{product}/edit', function(Product $product) 
-                {
-                    return view('admin.products.upsert', compact('product'));
-                })
-                ->name('admin.products.edit')
-                ->middleware('can:Editar productos'); 
+                Route::view('products/{product}/edit', 'admin.products.upsert')
+                    ->name('admin.products.edit')
+                    ->middleware('can:Editar productos');
+
+                Route::view('collections', 'admin.collections.index')
+                    ->name('admin.collections.index')
+                    ->middleware('can:Editar colecciones');
+
+                Route::view('collections/create', 'admin.collections.create')
+                    ->name('admin.collections.create')
+                    ->middleware('can:Editar colecciones');
+
+                Route::view('collections/{collection}/edit', 'admin.collections.edit')
+                    ->name('admin.collections.edit')
+                    ->middleware('can:Editar colecciones');
 
                 Route::view('orders', 'admin.orders.index')
                     ->name('admin.orders.index')

@@ -1,7 +1,8 @@
 <div x-data="{ showQuickUpdate: false, tab: 'information' }" 
 x-on:open-quick-update.window="showQuickUpdate = true"
 x-on:close-quick-update.window="showQuickUpdate = false">
-    <x-drawer ref="showQuickUpdate" withoutClose panelClass="w-[50rem]" containerClasses="flex flex-col !p-0">
+    <x-drawer ref="showQuickUpdate" withoutClose 
+    panelClass="w-[50rem]" containerClasses="flex flex-col !p-0">
 
         @if ($product)
             <div class="pt-6 px-8">
@@ -14,11 +15,13 @@ x-on:close-quick-update.window="showQuickUpdate = false">
                         <div class="flex items-center gap-3 mt-2 flex-wrap">
                             <small class="text-gray-700">Producto {{ $product->id }}</small>
 
-                            <x-button type="secondary" size="small" class="inline-flex items-center gap-1"
-                            :href="$product->editPageUrl()">
-                                <x-icon code="edit" />
-                                Edición completa
-                            </x-button>
+                            @can('Editar productos')
+                                <x-button type="secondary" size="small" class="inline-flex items-center gap-1"
+                                :href="$product->editPageUrl()">
+                                    <x-icon code="edit" />
+                                    Edición completa
+                                </x-button>
+                            @endcan
                         </div>
                     </div>
                     <div class="ml-3 flex h-7 items-center">
@@ -88,9 +91,11 @@ x-on:close-quick-update.window="showQuickUpdate = false">
                 Cancelar
             </x-button>
 
-            <x-button wire:click='save' size="large" wire:loading.remove wire:target='save'>
-                Guardar
-            </x-button>
+            @can('Editar productos')
+                <x-button wire:click='save' size="large" wire:loading.remove wire:target='save'>
+                    Guardar
+                </x-button>
+            @endcan
         </div>
     </x-drawer>
 </div>

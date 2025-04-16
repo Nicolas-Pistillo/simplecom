@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductCollection;
 use Illuminate\Http\Request;
 
 class EcommerceController extends Controller
@@ -14,7 +15,8 @@ class EcommerceController extends Controller
     {
         return view('ecommerce.index', [
             'banners'             => Banner::published()->get(),
-            'featuredProducts'    => Product::available()->featured()->with('category')->get()
+            'featuredProducts'    => Product::available()->featured()->with('category')->get(),
+            'collections'         => ProductCollection::where('active', true)->get()
         ]);
     }
 

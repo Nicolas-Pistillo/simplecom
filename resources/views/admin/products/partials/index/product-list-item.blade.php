@@ -27,7 +27,7 @@
         class="w-8 h-8 mr-3 rounded-lg object-contain">
 
         <div class="flex flex-col items-start">
-            <span class="max-w-[220px] truncate font-semibold" x-tooltip.raw.placement.top="{{ $product->name }}">
+            <span class="max-w-[220px] truncate font-semibold" title="{{ $product->name }}">
                 {{ $product->name }}
             </span>
 

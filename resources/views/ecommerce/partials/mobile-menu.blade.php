@@ -55,7 +55,7 @@
                                 Destacados <x-icon code="local_fire_department" class="text-red-500 -mt-1" />
                             </div>
                             <ul role="list" class="-mx-2 mt-2 space-y-1">
-                                @foreach ($featured_categories->take(6) as $category)
+                                @foreach ($featured_categories->take(10) as $category)
                                     <li>
                                         <a href="{{ $category->pageUrl() }}"
                                         class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
@@ -78,7 +78,7 @@
                                 Categorías
                             </div>
                             <ul role="list" class="-mx-2 mt-2 space-y-1">
-                                @foreach ($principal_categories->take(6) as $category)
+                                @foreach ($principal_categories->take(10) as $category)
                                     <li>
                                         <a href="{{ $category->pageUrl() }}"
                                         class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
@@ -100,7 +100,7 @@
                                 Marcas
                             </div>
                             <ul role="list" class="-mx-2 mt-2 space-y-1">
-                                @foreach ($brands->sortByDesc('featured')->take(6) as $brand)
+                                @foreach ($brands->sortByDesc('featured')->take(10) as $brand)
                                     <li>
                                         <a href="{{ $brand->pageUrl() }}"
                                         class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">

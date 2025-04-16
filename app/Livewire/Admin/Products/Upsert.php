@@ -305,8 +305,10 @@ class Upsert extends Component
         $this->calculatedStock = false;
     }
 
-    public function mount(Product|bool $product = false)
+    public function mount(Product|int $product)
     {
+        if (is_int($product)) $product = Product::find($product);
+
         if ($product)
         {
             $this->product = $product;

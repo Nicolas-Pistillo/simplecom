@@ -7,10 +7,6 @@
         [x-cloak] {
             display: none !important;
         }
-
-        [data-carousel-item] {
-            z-index: 5;
-        }
     </style>
 @endsection
 
