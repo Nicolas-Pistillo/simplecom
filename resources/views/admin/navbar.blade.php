@@ -19,17 +19,17 @@
 
                 @can('Ver ventas')
                     <x-navbar-item route="admin.orders.index" icon="shopping_cart" title="Pedidos" 
-                    active="{{ Route::is('admin.orders.*') }}"/>
+                    :active="Route::is('admin.orders.*')"/>
                 @endcan
 
                 @can('Editar formas de entrega')
                     <x-navbar-item route="admin.delivery-methods.index" icon="shopping_bag_speed" title="Formas de entrega" 
-                    active="{{ Route::is('admin.delivery-methods.*') }}"/>
+                    :active="Route::is('admin.delivery-methods.*')"/>
                 @endcan
 
                 @can('Editar formas de pago')
                     <x-navbar-item route="admin.payment-methods.index" icon="credit_card" title="Formas de pago" 
-                    active="{{ Route::is('admin.payment-methods.*') }}"/>
+                    :active="Route::is('admin.payment-methods.*')"/>
                 @endcan
 
                 @can('Editar operadores')
@@ -45,15 +45,15 @@
 
                 @can('Ver productos')
                     <x-navbar-item route="admin.products.index" icon="deployed_code" title="Productos" 
-                    active="{{ Route::is('admin.products.*') }}"/>
-                @endcan
-
-                @can('Editar categorias')
-                    <x-navbar-item route="admin.categories.index" icon="format_list_bulleted" title="Categorías" />
+                    :active="Route::is('admin.products.*')"/>
                 @endcan
 
                 @can('Editar colecciones')
                     <x-navbar-item route="admin.collections.index" icon="note_stack" title="Colecciones" />
+                @endcan
+
+                @can('Editar categorias')
+                    <x-navbar-item route="admin.categories.index" icon="format_list_bulleted" title="Categorías" />
                 @endcan
 
                 @can('Editar atributos')

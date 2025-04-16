@@ -73,6 +73,11 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         return $this->name . "/products";
     }
 
+    public function getCollectionsUrlAttribute()
+    {
+        return $this->name . "/collections";
+    }
+
     public function getCategoriesUrlAttribute()
     {
         return $this->name . "/categories";

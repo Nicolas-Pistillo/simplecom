@@ -152,12 +152,9 @@ Route::middleware([
                     ->name('admin.collections.index')
                     ->middleware('can:Editar colecciones');
 
-                /* Route::get('products/{product}/edit', function(Product $product) 
-                {
-                    return view('admin.products.upsert', compact('product'));
-                })
-                ->name('admin.products.edit')
-                ->middleware('can:Editar productos');  */
+                Route::view('collections/create', 'admin.collections.create')
+                    ->name('admin.collections.create')
+                    ->middleware('can:Editar colecciones');
 
                 Route::view('orders', 'admin.orders.index')
                     ->name('admin.orders.index')

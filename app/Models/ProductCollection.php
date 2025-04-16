@@ -10,4 +10,9 @@ class ProductCollection extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description', 'active', 'image_url'];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_collection_items', 'collection_id');
+    }
 }
