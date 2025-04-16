@@ -26,6 +26,10 @@
         <x-toast title="Coleccion creada con exito" type="success" />
     @endsession
 
+    @session('collection_updated')
+        <x-toast title="Coleccion actualizada con exito" type="success" />
+    @endsession
+
     <div class="text-center pt-8">
         @livewire('admin.collections.index')
     </div>

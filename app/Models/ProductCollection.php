@@ -11,6 +11,11 @@ class ProductCollection extends Model
 
     protected $fillable = ['name', 'description', 'active', 'image_url'];
 
+    public function editPage()
+    {
+        return route('admin.collections.edit', $this->id);
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_collection_items', 'collection_id');

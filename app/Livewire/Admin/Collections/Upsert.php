@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductCollection;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -66,9 +67,24 @@ class Upsert extends Component
         array_splice($this->selected_products, array_search($productId, $this->selected_products), 1);
     }
 
-    public function mount()
+    public function mount(int|null $collection = null)
     {
         $this->product_results = collect();
+
+        if (is_int($collection))
+        {
+            $collection = ProductCollection::find($collection);
+
+            if (!$collection instanceof ProductCollection) abort(404);
+
+            $this->fill([
+                'collection'        => $collection,
+                'selected_products' => $collection->products->pluck('id')->toArray(),
+                'image_preview'     => $collection->image_url ? Storage::url($collection->image_url) : null,
+                'name'              => $collection->name,
+                'description'       => $collection->description
+            ]);
+        }
     }
 
     public function save()
@@ -80,18 +96,40 @@ class Upsert extends Component
             $this->validate([
                 'image' => 'required|image'
             ]);
+
+            $collection = ProductCollection::create([
+                'name'        => $this->name,
+                'description' => $this->description,
+                'image_url'   => $this->image->store(tenant('collections_url')),
+                'active'      => $this->active
+            ]);
+
+            $sessionMessage = 'collection_created';
         }
 
-        $collection = ProductCollection::create([
-            'name'        => $this->name,
-            'description' => $this->description,
-            'image_url'   => $this->image->store(tenant('collections_url')),
-            'active'      => $this->active
-        ]);
+        if ($this->collection)
+        {
+            if ($this->image)
+            {
+                if ($this->collection->image_url)
+                    Storage::delete($this->collection->image_url);
+
+                $this->collection->update(['image_url' => $this->image->store(tenant('collections_url'))]);
+            }
+
+            $this->collection->update([
+                'name'        => $this->name,
+                'description' => $this->description,
+                'active'      => $this->active
+            ]);
+
+            $collection = $this->collection;
+
+            $sessionMessage = 'collection_updated';
+        }
 
         $collection->products()->sync($this->selected_products);
-
-        return to_route('admin.collections.index')->with('collection_created', true);
+        return to_route('admin.collections.index')->with($sessionMessage, true);
     }
 
     public function render()

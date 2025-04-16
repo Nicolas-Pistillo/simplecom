@@ -29,18 +29,19 @@
                                 {{ $collection->products()->count() }} productos
                             </div>
 
-                            <x-switch :checked="$collection->active" label="Publicar" />
+                            <x-switch wire:change='togglePublished({{ $collection->id }})' 
+                            :checked="$collection->active" label="Publicar" />
                         </div>
                     </div>
 
                     <div class="-mt-px flex divide-x">
                         <div class="flex w-0 rounded-bl-lg flex-1 border-t transition-colors duration-200 hover:bg-gray-50">
-                            <button wire:click="openEditBanner({{ $collection->id }})"
+                            <a href="{{ $collection->editPage() }}"
                                 class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
                                 <i class="material-symbols-outlined text-gray-400" style="font-size: 20px;"
                                     code="edit">edit</i>
                                 Editar
-                            </button>
+                            </a>
                         </div>
                         <div class="-ml-px border-t rounded-br-lg flex w-0 flex-1 transition-colors duration-200 hover:bg-gray-50">
                             <button @click="deleteDialogOpen = true"

@@ -11,6 +11,19 @@ class Index extends Component
 {
     use WithNotifications;
 
+    public function togglePublished(ProductCollection $collection)
+    {
+        $collection->update(['active' => !$collection->active]);
+
+        $actionResult = $collection->active ? 'Publicaste' : 'Despublicaste';
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => "Coleccion actualizada",
+            'body'  => "$actionResult la coleccion $collection->name"
+        ]);
+    }
+
     public function delete(ProductCollection $collection)
     {
         if ($collection->image_url) Storage::delete($collection->image_url);

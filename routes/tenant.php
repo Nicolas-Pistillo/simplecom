@@ -156,6 +156,10 @@ Route::middleware([
                     ->name('admin.collections.create')
                     ->middleware('can:Editar colecciones');
 
+                Route::view('collections/{collection}/edit', 'admin.collections.edit')
+                    ->name('admin.collections.edit')
+                    ->middleware('can:Editar colecciones');
+
                 Route::view('orders', 'admin.orders.index')
                     ->name('admin.orders.index')
                     ->middleware('can:Ver ventas');
