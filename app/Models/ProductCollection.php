@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ProductCollection extends Model
 {
@@ -14,6 +15,13 @@ class ProductCollection extends Model
     public function editPage()
     {
         return route('admin.collections.edit', $this->id);
+    }
+
+    public function ecommercePage()
+    {
+        return route('ecommerce.products', [
+            'coleccion' => Str::slug($this->id. '-' . $this->name)
+        ]);
     }
 
     public function products()
