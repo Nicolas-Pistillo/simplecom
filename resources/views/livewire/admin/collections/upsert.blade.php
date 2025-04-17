@@ -46,7 +46,8 @@
                                 <x-button type="secondary" wireModel="image" name="collecion_image"
                                     file>Seleccionar</x-button>
                                 <span class="block text-xs text-gray-500 mt-2">
-                                    Medidas óptimas: 400x400
+                                    Medidas óptimas: 400x400 <br>
+                                    No uses imágenes con textos incluidos
                                 </span>
                             </div>
 
@@ -73,7 +74,7 @@
                     <div class="sm:col-span-5">
 
                         <x-form-input model="description" label="Descripción breve"
-                            placeholder="Ej: Encontrá tu conjunto ideal para esta época" />
+                        placeholder="Ej: Encontrá tu conjunto ideal para esta época" />
 
                         @if (!$errors->first('description'))
                             <span class="mt-1 text-xs leading-6 text-gray-500">

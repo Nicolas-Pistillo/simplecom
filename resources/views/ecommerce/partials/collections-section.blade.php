@@ -22,7 +22,8 @@
             <div id="collections-slider" class="swiper swiper-container relative">
                 <div class="swiper-wrapper flex relative w-full h-max no-select">
                     @foreach ($collections as $collection)
-                        <a href="#" class="swiper-slide rounded-2xl relative group overflow-hidden w-96 h-96">
+                        <a href="{{ $collection->ecommercePage() }}" 
+                            class="swiper-slide rounded-2xl relative group overflow-hidden w-96 h-96">
                             <img src="{{ Storage::URL($collection->image_url) }}" alt="{{ $collection->name }}"
                             class="relative block w-full h-96 transition-all duration-1000 
                             group-hover:scale-110 group-hover:rotate-3 rounded-2xl object-cover">

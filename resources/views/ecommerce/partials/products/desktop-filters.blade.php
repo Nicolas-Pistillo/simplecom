@@ -47,6 +47,48 @@
         </ul>
     @endif
 
+    {{-- Collections Filter --}}
+    @if ($available_collections->isNotEmpty())
+        <ul role="list" class="space-y-4 border-b border-gray-200 
+        text-sm font-medium text-gray-900 pb-6">
+
+            <li>
+                <h6 class="text-base text-gray-700 font-semibold inline-flex 
+                items-center gap-x-1 cursor-default">
+                    Colecciones
+                </h6>
+            </li>
+            
+            @if (!empty($form->collection))
+                <li wire:key='{{ $form->collection->id }}'>
+                    <div wire:click='setCollection({{ $form->collection->id }})'
+                    class="hover:text-blue-600 inline-flex items-center gap-x-2 cursor-pointer">
+
+                        <span>{{ $form->collection->name }} </span>
+                    </div>
+                </li>
+
+                <li>
+                    <x-button wire:click='resetCollectionFilter' type="secondary" size="tiny">
+                        Ver todas
+                    </x-button>
+                </li>
+                
+            @else
+                @foreach ($available_collections as $collection)
+
+                    <li wire:key='{{ $collection->id }}'>
+                        <div wire:click='setCollection({{ $collection->id }})'
+                        class="hover:text-blue-600 inline-flex items-center gap-x-2 cursor-pointer">
+                            <span>{{ $collection->name }} </span>
+                        </div>
+                    </li>
+                @endforeach
+            @endif
+        </ul>
+    @endif
+
+    {{-- Brand filter --}}
     @if (!empty($available_brands) && $available_brands->first())
         <ul role="list" class="space-y-4 border-b border-gray-200 
         text-sm font-medium text-gray-900 pb-6">
@@ -87,7 +129,7 @@
         </ul>      
     @endif
     
-    {{-- Price filter --}}
+    {{-- Price Filter --}}
     <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
 
         <h3 class="-my-3 flow-root">
@@ -157,7 +199,7 @@
         </div>
     </div>
 
-    {{-- Attribute filter --}}
+    {{-- Attribute Filter --}}
     {{-- <div x-data="{ open: true }" class="border-b border-gray-200 pb-6">
         <h3 class="-my-3 flow-root">
             <!-- Expand/collapse section button -->

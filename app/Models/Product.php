@@ -74,6 +74,11 @@ class Product extends Model
         return $this->belongsToMany(Tag::class, 'product_tags');
     }
 
+    public function collections()
+    {
+        return $this->belongsToMany(ProductCollection::class, 'product_collection_items', 'product_id', 'collection_id');
+    }
+
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
