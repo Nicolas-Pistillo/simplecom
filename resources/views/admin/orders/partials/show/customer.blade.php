@@ -1,16 +1,13 @@
 <div class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5 p-4">
     <div class="pb-3 border-b">
-        <dt
-            class="flex justify-between items-center text-sm/6 
+        <dt class="flex justify-between items-center text-sm/6 
         font-semibold text-gray-900 mb-1.5">
 
             <span>Cliente</span>
 
-            @if ($order->user->type === CustomerType::Registered)
-                <x-badge color="indigo">Registrado</x-badge>
-            @else
-                <x-badge class="bg-white">Invitado</x-badge>
-            @endif
+            <x-badge :color="$order->user->type->color()">
+                {{ $order->user->type->name() }}
+            </x-badge>
         </dt>
         <dd class="mt-1 text-base font-semibold text-gray-900">
             {{ $order->user->full_name }}
