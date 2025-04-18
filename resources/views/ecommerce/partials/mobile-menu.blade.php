@@ -26,22 +26,25 @@
                         <ul role="list" class="-mx-2 mt-2 space-y-1">
                             <li>
                                 <a href="{{ route('ecommerce.index') }}"
-                                class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                                    <x-icon code="home" class="text-gray-500" />
+                                class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 
+                                group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                    <x-icon code="home" />
                                     <span class="truncate">Inicio</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('ecommerce.products') }}"
-                                class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                                    <x-icon code="storefront" class="text-gray-500" />
+                                class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 
+                                group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                    <x-icon code="storefront" />
                                     <span class="truncate">Productos</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('ecommerce.contact') }}"
-                                class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                                    <x-icon code="mail" class="text-gray-500" />
+                                class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 
+                                group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                    <x-icon code="mail" />
                                     <span class="truncate">Contacto</span>
                                 </a>
                             </li>
@@ -58,7 +61,8 @@
                                 @foreach ($featured_categories->take(10) as $category)
                                     <li>
                                         <a href="{{ $category->pageUrl() }}"
-                                        class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                        class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 
+                                        group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
                                             @if (!empty($category->image_url))
                                                 <img src="{{ Storage::URL($category->image_url) }}" 
                                                 class="w-6 h-6 rounded-full" alt="{{ $category->name }}">
@@ -71,6 +75,27 @@
                         </li>
                     @endif
 
+                    @if ($product_collections->isNotEmpty())
+                        <li class="pt-3">
+                            <div class="text-xs font-semibold leading-6 text-gray-500
+                            flex gap-1.5">
+                                Colecciones
+                            </div>
+                            <ul role="list" class="-mx-2 mt-2 space-y-1">
+                                @foreach ($product_collections as $collection)
+                                    <li>
+                                        <a href="{{ $collection->ecommercePage() }}"
+                                        class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 
+                                        group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                            <span class="truncate">{{ $collection->name }}</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                        
+                    @endif
+
                     @if ($principal_categories->isNotEmpty())
                         <li class="pt-3">
                             <div class="text-xs font-semibold leading-6 text-gray-500
@@ -81,7 +106,8 @@
                                 @foreach ($principal_categories->take(10) as $category)
                                     <li>
                                         <a href="{{ $category->pageUrl() }}"
-                                        class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                        class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 
+                                        group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
                                             @if (!empty($category->image_url))
                                                 <img src="{{ Storage::URL($category->image_url) }}" 
                                                 class="w-6 h-6 rounded-full" alt="{{ $category->name }}">
@@ -103,7 +129,8 @@
                                 @foreach ($brands->sortByDesc('featured')->take(10) as $brand)
                                     <li>
                                         <a href="{{ $brand->pageUrl() }}"
-                                        class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                        class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 
+                                        group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
                                             @if (!empty($brand->image_url))
                                                 <img src="{{ Storage::URL($brand->image_url) }}" 
                                                 class="w-6 h-6 rounded-full" alt="{{ $brand->name }}">

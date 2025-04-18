@@ -279,7 +279,7 @@
     <table style="width: 100%" cellpadding="0" cellspacing="0" role="none">
         <tr>
             <td>
-                <h2 style="margin: 0 0 8px; font-size: 21px; line-height: 30px; font-weight: 600; color: #111827">
+                <h2 style="margin: 0 0 8px; white-space: nowrap; font-size: 21px; line-height: 30px; font-weight: 600; color: #111827">
                     Datos para transferir
                 </h2>
             </td>

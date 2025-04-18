@@ -167,6 +167,10 @@ Route::middleware([
                 Route::view('orders/{order}', 'admin.orders.show')
                     ->name('admin.orders.show')
                     ->middleware('can:Ver ventas');
+
+                Route::view('customers', 'admin.customers.index')
+                    ->name('admin.customers.index')
+                    ->middleware('can:Ver clientes');
             });
 
         });

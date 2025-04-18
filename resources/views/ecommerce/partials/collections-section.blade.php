@@ -1,4 +1,4 @@
-@if ($collections->isNotEmpty())
+@if ($product_collections->isNotEmpty())
     <div class="mx-auto max-w-7xl px-4 py-8 lg:px-8">
         <div class="flex items-center justify-between gap-x-4 mb-8">
             <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
@@ -21,7 +21,7 @@
         <div class="w-full relative">
             <div id="collections-slider" class="swiper swiper-container relative">
                 <div class="swiper-wrapper flex relative w-full h-max no-select">
-                    @foreach ($collections as $collection)
+                    @foreach ($product_collections as $collection)
                         <a href="{{ $collection->ecommercePage() }}" 
                             class="swiper-slide rounded-2xl relative group overflow-hidden w-96 h-96">
                             <img src="{{ Storage::URL($collection->image_url) }}" alt="{{ $collection->name }}"

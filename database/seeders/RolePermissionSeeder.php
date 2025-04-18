@@ -40,6 +40,10 @@ class RolePermissionSeeder extends Seeder
 
         $editOrders = Permission::firstOrCreate(['name' => 'Editar ventas', 'guard_name' => 'operator']);
 
+        $viewCustomers = Permission::firstOrCreate(['name' => 'Ver clientes', 'guard_name' => 'operator']);
+
+        $editCustomers = Permission::firstOrCreate(['name' => 'Editar clientes', 'guard_name' => 'operator']);
+
         /******* ROLES *******/
         $admin = Role::firstOrCreate(['name' => 'Administrador', 'guard_name' => 'operator']);
         $contentManager = Role::firstOrCreate(['name' => 'Editor de contenido', 'guard_name' => 'operator']);
@@ -47,8 +51,8 @@ class RolePermissionSeeder extends Seeder
         /******* ATTACH PERMISSIONS TO ROLES *******/
         $admin->syncPermissions([
             $editCategories, $viewProducts, $editProducts, $editOperators, $editBanners, 
-            $editBrands, $viewOrders, $editOrders, $editAttributes, $editConfigs,
-            $editPaymentMethods, $editDeliveryMethods, $editCollections
+            $editBrands, $viewOrders, $editOrders, $editAttributes, $editConfigs, $editCollections,
+            $editPaymentMethods, $editDeliveryMethods, $viewCustomers, $editCustomers
         ]);
 
         $contentManager->syncPermissions([$editBanners, $editCollections]);

@@ -161,6 +161,18 @@
                                                             @endforeach
                                                         </div>
                                                     @endif
+
+                                                    @if ($product_collections->isNotEmpty())
+                                                        <div class="flex flex-col w-max">
+                                                            <p class="p-2 font-semibold">Colecciones</p>
+                                                            @foreach ($product_collections as $collection)
+                                                                <a href="{{ $collection->ecommercePage() }}" 
+                                                                class="flex items-center gap-1.5 p-2 text-sm hover:text-blue-600">
+                                                                    {{ $collection->name }}
+                                                                </a>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
                                                 </div>
 
                                                 <a href="{{ route('ecommerce.products') }}" 

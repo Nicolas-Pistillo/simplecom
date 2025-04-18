@@ -22,7 +22,7 @@ class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
                 <x-icon code="close" @click="mobileFiltersOpen = false" class="text-gray-500" />
             </div>
 
-            <form class="mt-4 border-t border-gray-200">
+            <div class="mt-4 border-t border-gray-200">
                 <div class="flex flex-col gap-y-6 p-4">
 
                     {{-- Category Filter --}}
@@ -65,6 +65,47 @@ class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
                                             @if ($category->featured)
                                                 <x-icon code="local_fire_department" class="text-red-500" />
                                             @endif
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    @endif
+
+                    {{-- Collections Filter --}}
+                    @if ($available_collections->isNotEmpty())
+                        <ul role="list" class="space-y-4 border-b border-gray-200 
+                        text-sm font-medium text-gray-900 pb-6">
+
+                            <li>
+                                <h6 class="text-base text-gray-700 font-semibold inline-flex 
+                                items-center gap-x-1 cursor-default">
+                                    Colecciones
+                                </h6>
+                            </li>
+                            
+                            @if (!empty($form->collection))
+                                <li wire:key='{{ $form->collection->id }}'>
+                                    <div wire:click='setCollection({{ $form->collection->id }})'
+                                    class="hover:text-blue-600 inline-flex items-center gap-x-2 cursor-pointer">
+
+                                        <span>{{ $form->collection->name }} </span>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <x-button wire:click='resetCollectionFilter' type="secondary" size="tiny">
+                                        Ver todas
+                                    </x-button>
+                                </li>
+                                
+                            @else
+                                @foreach ($available_collections as $collection)
+
+                                    <li wire:key='{{ $collection->id }}'>
+                                        <div wire:click='setCollection({{ $collection->id }})'
+                                        class="hover:text-blue-600 inline-flex items-center gap-x-2 cursor-pointer">
+                                            <span>{{ $collection->name }} </span>
                                         </div>
                                     </li>
                                 @endforeach
@@ -183,7 +224,7 @@ class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
 
             <div class="mt-auto flex items-center justify-end px-6">
                 <x-button size="large" @click="mobileFiltersOpen = false">
