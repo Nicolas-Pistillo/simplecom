@@ -60,10 +60,13 @@ class Products extends Component
 
         $this->available_brands = $results->pluck('brand')->filter(fn($item) => $item != null)->unique('id');
 
-        $this->available_collections = ProductCollection::whereHas('products', function ($query) use ($results) 
-        {
-            $query->whereIn('product_id', $results->pluck('id'));
-        })->get()->unique('id');
+        $this->available_collections = ProductCollection::where('active', true)
+                                        ->whereHas('products', function ($query) use ($results) 
+                                        {
+                                            $query->whereIn('product_id', $results->pluck('id'));
+                                        })
+                                        ->get()
+                                        ->unique('id');
 
         return $products->paginate(24);
     }

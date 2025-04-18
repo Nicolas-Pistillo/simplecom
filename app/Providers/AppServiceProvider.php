@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\ProductCollection;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Illuminate\Support\Facades\View as FacadeView;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('principal_categories', Category::principal()->orderBy('name')->published()->get());
             $view->with('featured_categories', Category::featured()->orderBy('name')->published()->get());
             $view->with('brands', Brand::published()->orderBy('name')->get());
+            $view->with('product_collections', ProductCollection::where('active', true)->orderBy('name')->get());
         });
     }
 }
