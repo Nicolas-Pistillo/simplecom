@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin\Customers;
 
+use App\Enums\CustomerType;
+use App\Livewire\Forms\IndexCustomersFilters;
 use App\Models\User;
 use App\Traits\Livewire\WithNotifications;
 use Livewire\Component;
@@ -15,9 +17,39 @@ class Index extends Component
 
     public bool $has_customers;
 
+    public IndexCustomersFilters $filters;
+
+    public function updatedSearch()
+    {
+        $this->setPage(1);
+    }
+
+    public function updatedFilters($value, $key)
+    {
+        if ($key === 'only_guest' && $value) $this->filters->only_registered = false;
+        if ($key === 'only_registered' && $value) $this->filters->only_guest = false;
+
+        $this->setPage(1);
+    }
+
     public function getCustomers()
     {
-        return User::paginate(15);
+        $users = User::search($this->search);
+
+        if ($this->filters->only_guest) $users->where('type', CustomerType::Guest);
+        if ($this->filters->only_registered) $users->where('type', CustomerType::Registered);
+
+        return $users->paginate(10);
+    }
+
+    public function removeFilter($filter)
+    {
+        $this->filters->reset($filter);
+    }
+
+    public function clearFilters()
+    {
+        $this->filters->reset();
     }
 
     public function mount()
@@ -29,6 +61,7 @@ class Index extends Component
     {
         return view('livewire.admin.customers.index', [
             'customers' => $this->getCustomers(),
+            'hasFilters' => $this->filters->isNotEmpty()
         ]);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\CustomerType;
 use App\Enums\TaxCondition;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -61,5 +62,34 @@ class User extends Authenticatable
     public function wishlist()
     {
         return $this->hasMany(WishlistItem::class);
+    }
+
+    public function scopeSearch(Builder $query, string $search)
+    {
+        if (!empty(trim($search)))
+        {
+            $search = stripslashes(trim($search));
+
+            $query->where(function($query) use ($search)
+            {
+                $query->where('id', 'LIKE', "%$search%");
+
+                $query->orWhere('name', 'LIKE', "%$search%");
+
+                $query->orWhere('lastname', 'LIKE', "%$search%");
+
+                $query->orWhere('email', 'LIKE', "%$search%");
+
+                $query->orWhere('phone', 'LIKE', "%$search%");
+
+                $query->orWhere('document', 'LIKE', "%$search%");
+
+                $query->orWhere('invoice_social_reason', 'LIKE', "%$search%");
+
+                $query->orWhere('invoice_address', 'LIKE', "%$search%");
+
+                $query->orWhere('invoice_document', 'LIKE', "%$search%");
+            });
+        }
     }
 }
