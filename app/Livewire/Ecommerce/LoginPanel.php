@@ -3,10 +3,13 @@
 namespace App\Livewire\Ecommerce;
 
 use App\Enums\CustomerType;
+use App\Enums\TaxCondition;
 use App\Livewire\Forms\RegisterForm;
 use App\Livewire\Forms\LoginForm;
 use App\Models\User;
+use App\Notifications\NewCustomerNotification;
 use App\Services\EmailVerificationService;
+use App\Services\NotificationService;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -68,14 +71,17 @@ class LoginPanel extends Component
         {
             if (EmailVerificationService::check($this->register_form->email, $this->email_verify_code))
             {
-                User::create([
-                    'type'      => CustomerType::Registered,
-                    'name'      => $this->register_form->name,
-                    'lastname'  => $this->register_form->lastname,
-                    'email'     => $this->register_form->email,
-                    'password'  => Hash::make($this->register_form->password),
+                $user = User::create([
+                    'type'          => CustomerType::Registered,
+                    'name'          => $this->register_form->name,
+                    'lastname'      => $this->register_form->lastname,
+                    'email'         => $this->register_form->email,
+                    'password'      => Hash::make($this->register_form->password),
+                    'tax_condition' => TaxCondition::ConsumidorFinal,
                     'newsletter_subscribed' => $this->register_form->newsletter_check
                 ]);
+
+                NotificationService::toOperators(new NewCustomerNotification($user));
 
                 $this->tab = 'login';
                 $this->waiting_register_code = false;

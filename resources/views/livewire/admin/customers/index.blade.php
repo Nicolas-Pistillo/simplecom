@@ -41,55 +41,50 @@
                                 p-1.5 rounded-full hover:bg-gray-200 no-select focus:outline-none 
                                 focus:ring duration-300" />
 
-                                @include('admin.orders.partials.index.filters')
+                                <div x-show="open" x-cloak @click.away="open = false" 
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="transform opacity-0 scale-90" 
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-100" 
+                                x-transition:leave-start="transform opacity-100 scale-200"
+                                x-transition:leave-end="transform opacity-0 scale-90"
+                                class="absolute top-12 z-20 left-0 sm:right-0 sm:left-[unset] rounded-md 
+                                bg-white p-4 ring-1 shadow-xl shadow-black/5 ring-slate-700/10
+                                w-[280px] sm:w-[480px]">
+
+                                <div class="flex items-center justify-between">
+                                    <h6 class="font-semibold text-sm text-slate-900">Filtros</h6>
+                                    <div wire:loading wire:target='filters'>
+                                        <x-spinner spinnerclass="!w-5 !h-5" />
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 text-[0.8125rem]/6 text-slate-900">
+
+                                    <div class="flex items-center border-t border-slate-400/20 py-3">
+                                        <span>Solo invitados</span>
+                                        <span class="ml-auto flex items-center">
+                                            <x-switch wireModel="filters.only_guest" />
+                                        </span>
+                                    </div>
+
+                                    <div class="flex items-center border-t border-slate-400/20 py-3">
+                                        <span>Solo registrados</span>
+                                        <span class="ml-auto flex items-center">
+                                            <x-switch wireModel="filters.only_registered" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
                             </div>
 
                             <div wire:loading.remove wire:target='download' x-data="{ open: false }" class="relative">
-
                                 <x-icon code="download" x-tooltip.raw.placement.top="Descargar" 
                                 @click="open = !open" wire:click='download'
                                 class="transition colors 
                                 cursor-pointer bg-gray-100 text-gray-500 p-1.5 rounded-full 
                                 hover:bg-gray-200 no-select focus:outline-none focus:ring duration-300" />
-
-                                {{-- <div x-show="open" x-cloak
-                                    @click.away="open = false"
-                                    x-transition:enter="transition ease-out duration-200"
-                                    x-transition:enter-start="transform opacity-0 scale-90"
-                                    x-transition:enter-end="transform opacity-100 scale-100"
-                                    x-transition:leave="transition ease-in duration-100"
-                                    x-transition:leave-start="transform opacity-100 scale-200"
-                                    x-transition:leave-end="transform opacity-0 scale-90"
-                                    class="absolute top-12 left-0 sm:right-0 sm:left-[unset] w-max bg-white 
-                                    ring-1 shadow-xl shadow-black/5 ring-slate-700/10 
-                                    rounded-md overflow-hidden">
-
-                                    <div class="text-[0.8125rem]/6 text-slate-900">
-
-                                        <ul class="flex flex-col border-slate-400/20 rounded-md">
-
-                                            <li class="flex justify-between items-center px-3 py-1 text-sm leading-6 text-gray-900 
-                                            transition hover:bg-gray-50 cursor-pointer">
-                                                Descargar en PDF
-                                                <x-icon code="description" class="text-red-700" />
-                                            </li>
-
-                                            <li class="flex justify-between gap-x-2 items-center px-3 py-1 text-sm leading-6 text-gray-900 
-                                            transition hover:bg-gray-50 cursor-pointer">
-                                                Descargar en Excel
-                                                <x-icon code="description" class="text-green-700" />
-                                            </li>
-
-                                            <li class="flex justify-between items-center px-3 py-1 text-sm leading-6 text-gray-900 
-                                            transition hover:bg-gray-50 cursor-pointer">
-                                                Descargar en CSV
-                                                <x-icon code="description" class="text-blue-700" />
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div> --}}
                             </div>
 
                             <div wire:loading wire:target='download'>
@@ -97,6 +92,44 @@
                             </div>
                         </div>
                     </div>
+
+                    @if ($hasFilters)
+
+                        <div class="flex items-center justify-between flex-wrap 
+                        gap-3 border-b border-gray-200 px-4 py-3">
+
+                            <div class="flex items-center flex-wrap gap-3">
+
+                                @if (!empty($filters->only_guest))
+                                    <x-badge color="blue" class="flex items-center gap-1"
+                                    wire:click="removeFilter('only_guest')">
+                                        Solo invitados
+                                        <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                                    </x-badge>
+                                @endif
+
+                                @if (!empty($filters->only_registered))
+                                    <x-badge color="violet" class="flex items-center gap-1"
+                                    wire:click="removeFilter('only_registered')">
+                                        Solo registrados
+                                        <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                                    </x-badge>
+                                @endif
+
+                                @if (!empty($filters->only_invoiced))
+                                    <x-badge color="emerald" class="flex items-center gap-1"
+                                    wire:click="removeFilter('only_invoiced')">
+                                        Solo facturados
+                                        <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                                    </x-badge>
+                                @endif
+
+                            </div>
+                        </div>
+                    @endif
 
                     @if ($customers->isEmpty())
 
@@ -127,6 +160,7 @@
                                         <th scope="col" class="px-4 py-3">ID</th>
                                         <th scope="col" class="px-4 py-3">Tipo</th>
                                         <th scope="col" class="px-4 py-3">Nombre</th>
+                                        <th scope="col" class="px-4 py-3">Razón social</th>
                                         <th scope="col" class="px-4 py-3">Cond. Fiscal</th>
                                         <th scope="col" class="px-4 py-3">Email</th>
                                         <th scope="col" class="px-4 py-3">Teléfono</th>
@@ -153,6 +187,10 @@
                                             </td>
 
                                             <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+                                                {{ $customer->invoice_social_reason ?? '-' }}
+                                            </td>
+
+                                            <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
                                                 {{ $customer->tax_condition->name() }}
                                             </td>
 
@@ -161,7 +199,7 @@
                                             </td>
 
                                             <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                                {{ $customer->phone }}
+                                                {{ $customer->phone ?? '-' }}
                                             </td>
                                         </tr>
                                     @endforeach
