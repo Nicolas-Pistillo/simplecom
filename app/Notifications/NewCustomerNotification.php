@@ -51,7 +51,7 @@ class NewCustomerNotification extends Notification
             'icon_code'      => 'person_add',
             'icon_color'     => 'blue',
             'body'           => "{$this->user->full_name} se ha registrado como nuevo cliente",
-            /* 'url'            => $this->order->detailPage() */
+            'url'            => $this->user->pageUrl()
         ];
     }
 }

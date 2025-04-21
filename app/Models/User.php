@@ -49,6 +49,11 @@ class User extends Authenticatable
         return "$this->name $this->lastname";
     }
 
+    public function pageUrl()
+    {
+        return route('admin.customers.show', $this->id);
+    }
+
     public function addresses()
     {
         return $this->hasMany(UserAddress::class);
