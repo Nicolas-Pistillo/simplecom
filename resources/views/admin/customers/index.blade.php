@@ -1,5 +1,7 @@
 @extends('layouts.dashboards.admin')
 
+@section('title', 'Clientes - Listado')
+
 @section('content')
     <div class="px-4 sm:px-6 lg:px-8">
 

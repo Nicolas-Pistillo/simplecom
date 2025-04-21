@@ -3,11 +3,13 @@
 namespace App\Livewire\Admin\Customers;
 
 use App\Enums\CustomerType;
+use App\Exports\CustomersExport;
 use App\Livewire\Forms\IndexCustomersFilters;
 use App\Models\User;
 use App\Traits\Livewire\WithNotifications;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -30,6 +32,12 @@ class Index extends Component
         if ($key === 'only_registered' && $value) $this->filters->only_guest = false;
 
         $this->setPage(1);
+    }
+
+    public function download()
+    {
+        $date = date('d-m-Y');
+        return Excel::download(new CustomersExport(User::all()), "clientes-$date.xlsx");
     }
 
     public function getCustomers()

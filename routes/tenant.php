@@ -1,8 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-use App\Http\Controllers\PaymentWebhookController;
 use App\Http\Controllers\Tenant\PaymentReturnController;
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
@@ -10,7 +7,6 @@ use App\Http\Controllers\Tenant\EcommerceController;
 use App\Http\Controllers\Tenant\ShippingLabelController;
 use App\Http\Controllers\Tenant\SocialiteController;
 use App\Models\Order;
-use App\Models\Product;
 use App\Services\PaymentProviders\Modo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -171,9 +167,11 @@ Route::middleware([
                 Route::view('customers', 'admin.customers.index')
                     ->name('admin.customers.index')
                     ->middleware('can:Ver clientes');
+
+                Route::view('customers/{customer}', 'admin.customers.show')
+                    ->name('admin.customers.show')
+                    ->middleware('can:Ver clientes');
             });
-
         });
-
     });
 });

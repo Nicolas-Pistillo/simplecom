@@ -170,7 +170,8 @@
                                     @foreach ($customers as $customer)
                                         <tr wire:key='{{ $customer->id }}'
                                         class="border-b text-center transition cursor-pointer 
-                                        duration-200 text-xs hover:bg-gray-50">
+                                        duration-200 text-xs hover:bg-gray-50"
+                                        @click="location.href='{{ $customer->pageUrl() }}'">
 
                                             <td class="font-semibold text-gray-900">
                                                 {{ $customer->id }}

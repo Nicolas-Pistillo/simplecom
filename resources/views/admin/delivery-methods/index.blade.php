@@ -1,6 +1,6 @@
 @extends('layouts.dashboards.admin')
 
-@section('title', 'Formas de entrega - Listado')
+@section('title', 'Formas de entrega')
 
 @section('content')
 

@@ -47,7 +47,7 @@
                                     file>Seleccionar</x-button>
                                 <span class="block text-xs text-gray-500 mt-2">
                                     Medidas óptimas: 400x400 <br>
-                                    No uses imágenes con textos incluidos
+                                    Evitá imágenes que contengan texto
                                 </span>
                             </div>
 
