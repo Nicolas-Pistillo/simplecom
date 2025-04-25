@@ -11,7 +11,7 @@ class Show extends Component
 
     public function mount($customer)
     {
-        $customer = User::with('orders', 'addresses')->find($customer);
+        $customer = User::with('orders.paymentMethod', 'addresses')->find($customer);
 
         if (!$customer || !$customer instanceof User) abort(404);
 
