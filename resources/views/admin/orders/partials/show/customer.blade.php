@@ -45,9 +45,7 @@
         </div>
 
     </div>
-    {{-- <div class="mt-3 pt-3 border-t border-gray-900/5">
-        <a href="#" class="text-sm/6 font-semibold text-gray-900">
-            Download receipt <span aria-hidden="true">&rarr;</span>
-        </a>
-    </div> --}}
+    <div class="mt-3 pt-3 border-t border-gray-900/5">
+        <x-button :href="$order->user->pageUrl()" type="secondary">Ver cliente</x-button>
+    </div>
 </div>

@@ -6,9 +6,18 @@ use App\Http\Controllers\Superadmin\TenantController;
 use App\Http\Controllers\Tenant\PaymentWebhookController;
 use App\Http\Controllers\Tenant\InvoiceWebhookController;
 use App\Http\Controllers\Tenant\ShippingWebhookController;
+use App\Models\Operator;
+use App\Models\Tenant;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'landing')->name('simplecom.landing');
+
+Route::get('test-email', function() 
+{
+    tenancy()->initialize(Tenant::find('8faadbd1-b906-4da5-a0b4-ce87dfb67571'));
+    $operator = Operator::first();
+    return view('mail.welcome', compact('operator'));
+});
 
 // Webhooks
 Route::withoutMiddleware('web')->group(function()

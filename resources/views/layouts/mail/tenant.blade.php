@@ -81,7 +81,7 @@
                             <tr>
                                 <td class="sm-p-6"
                                     style="border-radius: 8px; background-color: #fffffe; padding: 24px 36px; border: 1px solid #e2e8f0">
-                                    <a href="/">
+                                    <a href="{{ env('APP_SCHEME') }}://{{ tenant()->domain() }}">
                                         <img src="{{ tenant()->logo() }}" width="180" height="70px" alt="{{ tenant('ecommerce_name') }}"
                                         style="max-width: 100%; vertical-align: middle; object-fit: contain; object-position: left">
                                     </a>
