@@ -1,4 +1,4 @@
-@extends('layouts.dashboards.superadmin')
+{{-- @extends('layouts.dashboards.superadmin')
 
 @section('title', 'Comercios - Nuevo')
 
@@ -90,4 +90,13 @@
         </div>
     </div>
 
+@endsection
+ --}}
+
+@extends('layouts.dashboards.superadmin')
+
+@section('title', 'Comercios - Nuevo')
+    
+@section('content')
+    @livewire('superadmin.tenants.upsert')
 @endsection

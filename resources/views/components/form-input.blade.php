@@ -1,5 +1,5 @@
 <div class="{{ $class ?? '' }}">
-    <label for="{{ $id ?? '' }}" class="inline-block text-sm font-medium leading-6 text-gray-900 mb-2">
+    <label for="{{ $id ?? $label ?? '' }}" class="inline-block text-sm font-medium leading-6 text-gray-900 mb-2">
         {{ $label }}
     </label>
     <div>
@@ -12,7 +12,7 @@
                 </span>
             @endisset
 
-            <input id="{{ $id ?? '' }}" type="{{ $type ?? 'text' }}" 
+            <input id="{{ $id ?? $label ?? '' }}" type="{{ $type ?? 'text' }}" 
             {{ isset($model) ? "wire:model.blur=$model" : '' }}
             placeholder="{{ $placeholder ?? '' }}"
             class="block w-full flex-1 border-0 bg-transparent py-1.5 px-2.5 text-gray-900 

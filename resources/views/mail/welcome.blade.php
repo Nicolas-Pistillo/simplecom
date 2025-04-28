@@ -4,15 +4,15 @@
 
 @section('content')
     <p>
-        Hola <b>{{ tenant('ecommerce_name') }}</b>, muchas gracias por elegirnos.
+        Hola <b>{{ $tenant->ecommerce_name }}</b>, muchas gracias por elegirnos.
         Tu tienda ya se encuentra activada y solo falta que ingreses a tu panel de administración 
         para que comiences a configurla.
         <br> <br>
         Tus datos para iniciar sesión son los siguientes: <br> <br>
         <b>Email:</b> {{ $operator->email }} <br>
-        <b>Contraseña:</b> {{ $operator->password }} <br>
+        <b>Contraseña:</b> {{ $password }} <br>
         <div>
-            <a href="{{ env('APP_SCHEME') }}://{{ tenant()->domain() }}/admin" class="btn">
+            <a href="{{ env('APP_SCHEME') }}://{{ $tenant->domain() }}/admin" class="btn">
                 Ingresar al panel
             </a>
         </div>

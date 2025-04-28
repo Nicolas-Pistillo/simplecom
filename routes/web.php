@@ -6,18 +6,9 @@ use App\Http\Controllers\Superadmin\TenantController;
 use App\Http\Controllers\Tenant\PaymentWebhookController;
 use App\Http\Controllers\Tenant\InvoiceWebhookController;
 use App\Http\Controllers\Tenant\ShippingWebhookController;
-use App\Models\Operator;
-use App\Models\Tenant;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'landing')->name('simplecom.landing');
-
-Route::get('test-email', function() 
-{
-    tenancy()->initialize(Tenant::find('8faadbd1-b906-4da5-a0b4-ce87dfb67571'));
-    $operator = Operator::first();
-    return view('mail.welcome', compact('operator'));
-});
 
 // Webhooks
 Route::withoutMiddleware('web')->group(function()
@@ -53,17 +44,26 @@ Route::prefix('superadmin')->group(function()
 
         Route::post('logout', [AuthController::class, 'logout'])->name('superadmin.logout');
 
-        Route::prefix('dashboard')->group(function() {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard.index');
+
+        // Tenants management
+        Route::view('tenants', 'superadmin.tenants.index')->name('superadmin.tenants.index');
+
+        Route::view('tenants/create', 'superadmin.tenants.create')->name('superadmin.tenants.create');
+
+        Route::view('tenants/{tenant}/edit', 'superadmin.tenants.edit')->name('superadmin.tenants.edit');
+
+        /* Route::prefix('dashboard')->group(function() {
 
             Route::get('/', [DashboardController::class, 'index'])->name('superadmin.dashboard.index');
 
             // Tenants management
-            Route::name('superadmin.')->group(function() 
-            {
-                Route::resource('tenants', TenantController::class);
-            });
+            Route::view('tenants', 'superadmin.tenants.index')->name('superadmin.tenants.index');
 
-        });
+            Route::view('tenants/create', 'superadmin.tenants.create')->name('superadmin.tenants.create');
+
+            Route::view('tenants/{tenant}/edit', 'superadmin.tenants.edit')->name('superadmin.tenants.edit');
+        }); */
 
     });
 });
