@@ -14,11 +14,7 @@
     @else
         <div class="px-4 sm:px-6 lg:px-8">
 
-            @session('tenant_saved')
-                <x-toast type="success" title="Cambios aplicados con éxito" />
-            @endsession
-
-            {{-- @if (Session::has('tenant_created'))
+            @if (Session::has('tenant_created'))
                 <x-alert class="mb-6 animate__bounceInLeft" type="success" dismissible>
                     Comercio creado exitosamente
                 </x-alert>
@@ -28,7 +24,7 @@
                 <x-alert class="mb-6 animate__bounceInLeft" type="success" dismissible>
                     Comercio actualizado exitosamente
                 </x-alert>
-            @endif --}}
+            @endif
 
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">

@@ -41,7 +41,7 @@
                             <a href="{{ route('superadmin.dashboard.index') }}" 
                             class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium transition duration-300
                             {{ Route::is('superadmin.dashboard.index') 
-                            ? 'border-blue-600 text-gray-900' 
+                            ? 'border-blue-600 text-blue-600' 
                             : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' }}">
                                 Dashboard
                             </a>
@@ -49,7 +49,7 @@
                             <a href="{{ route('superadmin.tenants.index') }}" 
                             class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium transition duration-300
                             {{ Route::is('superadmin.tenants.*') 
-                            ? 'border-blue-600 text-gray-900' 
+                            ? 'border-blue-600 text-blue-600' 
                             : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' }}">
                                 Comercios
                             </a>

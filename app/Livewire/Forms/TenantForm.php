@@ -31,7 +31,7 @@ class TenantForm extends Form
     #[Validate('required|string|min:3', as: 'dominio')]
     public $domain;
 
-    #[Validate('required|string|exists:sectors,id', as: 'rubro')]
+    #[Validate('required|exists:sectors,id', as: 'rubro')]
     public $sector;
 
     #[Validate('required|email')]
@@ -39,6 +39,21 @@ class TenantForm extends Form
 
     #[Validate('required|string|max:30', as: 'nombre administrador')]
     public $operator_name;
+
+    public function validateEdition()
+    {
+        $this->validate([
+            'social_reason'    => 'required|string|min:3|max:40',
+            'tax_condition'    => ['required', new Enum(TaxCondition::class)],
+            'invoice_document' => 'required|cuit',
+            'invoice_address'  => 'required|string|min:3',
+            'code'             => 'required|string|min:3',
+            'domain'           => 'required|string|min:3',
+            'ecommerce_name'   => 'required|string|min:3|max:40',
+            'sector'           => 'required|exists:sectors,id',
+            'email'            => 'required|email'
+        ]);
+    }
 
     public function initialize($tenant = false)
     {
