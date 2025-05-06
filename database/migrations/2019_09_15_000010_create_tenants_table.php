@@ -19,6 +19,11 @@ class CreateTenantsTable extends Migration
             $table->string('id')->primary();
             $table->string('name')->unique();
             $table->string('ecommerce_name');
+            $table->string('social_reason');
+            $table->string('tax_condition');
+            $table->string('invoice_document');
+            $table->string('invoice_address');
+            $table->string('email');
             $table->string('logo_url')->nullable();
             $table->string('color')->nullable();
             $table->foreignId('sector_id');

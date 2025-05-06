@@ -63,7 +63,7 @@
                             <tr>
                                 <td class="sm-p-6" style="border-radius: 8px; background-color: #fffffe; padding: 24px 36px; border: 1px solid #e2e8f0">
 
-                                    <a href="https://maizzle.com">
+                                    <a href="{{ route('simplecom.landing') }}" style="display: block; text-align: center">
                                         <img src="{{ URL::to('img/simplecom/png/logo-color-transparent.png') }}" width="90" alt="Maizzle"
                                           style="max-width: 100%; vertical-align: middle; margin: auto">
                                     </a>

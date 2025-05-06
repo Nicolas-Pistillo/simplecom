@@ -44,17 +44,25 @@ Route::prefix('superadmin')->group(function()
 
         Route::post('logout', [AuthController::class, 'logout'])->name('superadmin.logout');
 
-        Route::prefix('dashboard')->group(function() {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard.index');
+
+        Route::view('tenants', 'superadmin.tenants.index')->name('superadmin.tenants.index');
+
+        Route::view('tenants/create', 'superadmin.tenants.create')->name('superadmin.tenants.create');
+
+        Route::view('tenants/{tenant}/edit', 'superadmin.tenants.edit')->name('superadmin.tenants.edit');
+
+        /* Route::prefix('dashboard')->group(function() {
 
             Route::get('/', [DashboardController::class, 'index'])->name('superadmin.dashboard.index');
 
             // Tenants management
-            Route::name('superadmin.')->group(function() 
-            {
-                Route::resource('tenants', TenantController::class);
-            });
+            Route::view('tenants', 'superadmin.tenants.index')->name('superadmin.tenants.index');
 
-        });
+            Route::view('tenants/create', 'superadmin.tenants.create')->name('superadmin.tenants.create');
+
+            Route::view('tenants/{tenant}/edit', 'superadmin.tenants.edit')->name('superadmin.tenants.edit');
+        }); */
 
     });
 });
