@@ -2,11 +2,15 @@
 
 namespace App\Livewire\Superadmin\Tenants;
 
+use App\Enums\TaxCondition;
 use App\Livewire\Forms\TenantForm;
+use App\Mail\Welcome;
 use App\Models\Operator;
 use App\Models\Sector;
 use App\Models\Tenant;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rules\Enum;
 use Livewire\Component;
 
 class Upsert extends Component
@@ -21,13 +25,45 @@ class Upsert extends Component
         $this->form->initialize($this->tenant);
     }
 
-    public function save()
+    public function create()
     {
         $this->form->validate();
 
-        return;
+        $tenant = Tenant::create([
+            'name'             => $this->form->code,
+            'social_reason'    => $this->form->social_reason,
+            'tax_condition'    => $this->form->tax_condition,
+            'invoice_document' => $this->form->invoice_document,
+            'invoice_address'  => $this->form->invoice_address,
+            'ecommerce_name'   => $this->form->ecommerce_name,
+            'sector_id'        => $this->form->sector,
+            'email'            => $this->form->email,
+            'tenancy_db_name'  => config('tenancy.database.prefix') . $this->form->code
+        ]);
 
-        $tenant = Tenant::updateOrCreate(['name' => $this->form->code], [
+        $tenant->domains()->create(['domain' => $this->form->domain]);
+
+        $tenant->run(function() 
+        {
+            Operator::create([
+                'name'     => $this->form->operator_name,
+                'email'    => $this->form->email,
+                'password' => Hash::make($this->form->invoice_document)
+            ])->assignRole('Administrador');
+        });
+
+        $welcomeMail = new Welcome($tenant, $this->form->email, $this->form->invoice_document);
+
+        Mail::to($this->form->email)->send($welcomeMail);
+
+        return to_route('superadmin.tenants.index')->with('tenant_created', true);
+    }
+
+    public function update()
+    {
+        $this->form->validateEdition();
+
+        $this->tenant->update([
             'social_reason'    => $this->form->social_reason,
             'tax_condition'    => $this->form->tax_condition,
             'invoice_document' => $this->form->invoice_document,
@@ -37,30 +73,18 @@ class Upsert extends Component
             'email'            => $this->form->email
         ]);
 
-        $currentDomain = $tenant->domains?->first();
-
-        if (!$currentDomain)
+        if ($this->form->domain != $this->tenant->domain())
         {
-            $tenant->domains()->create(['domain' => $this->form->domain]);
-
-        } else if ($currentDomain && $currentDomain->domain != $this->form->domain)
-        {
-            $currentDomain->update(['domain' => $this->form->domain]);
+            $this->tenant->domains()->first()->delete();
+            $this->tenant->domains()->create(['domain' => $this->form->domain]);
         }
 
-        $tenant->run(function() 
-        {
-            if (empty(Operator::all()))
-            {
-                Operator::create([
-                    'name'     => $this->form->operator_name,
-                    'email'    => $this->form->email,
-                    'password' => Hash::make($this->form->invoice_document)
-                ])->assignRole('Administrador');
-            }
-        });
+        return to_route('superadmin.tenants.index')->with('tenant_updated', true);
+    }
 
-        return to_route('superadmin.tenants.index')->with('tenant_saved', true);
+    public function save()
+    {
+        $this->tenant instanceof Tenant ? $this->update() : $this->create();
     }
 
     public function render()

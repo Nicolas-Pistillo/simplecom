@@ -18,7 +18,9 @@ class Welcome extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Tenant $tenant, public Operator $operator, public string $password) {}
+    public function __construct(
+        public Tenant $tenant, public string $login_email, public string $login_password
+    ) {}
 
     /**
      * Get the message envelope.

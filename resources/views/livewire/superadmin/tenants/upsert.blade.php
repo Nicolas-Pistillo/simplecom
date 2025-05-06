@@ -71,11 +71,13 @@
 
                     <x-form-input model="form.ecommerce_name" class="sm:col-span-3" label="Nombre del comercio" />
 
-                    <x-form-input model="form.operator_name" class="sm:col-span-3"
-                    label="Nombre del administrador" helper="Administrador principal del panel de comercio" />
+                    @if (!$tenant)
+                        <x-form-input model="form.operator_name" class="sm:col-span-3"
+                        label="Nombre del administrador" helper="Administrador principal del panel de comercio" />
+                    @endif
 
                     <x-form-input model="form.code" class="sm:col-span-3" label="Código único" 
-                    helper="sin espacios ni guiones" />
+                    helper="sin espacios ni guiones" :readonly="$tenant" />
 
                     <x-form-input model="form.domain" class="sm:col-span-3" label="Dominio"
                     helper="sin espacios ni puntos al final" />
@@ -109,26 +111,16 @@
                     helper="se usara para contacto interno y facturación" />
                 </div>
             </div>
-
-            {{-- <div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
-                <div>
-                    <h2 class="text-base/7 font-semibold text-gray-900">
-                        Usuario operador
-                    </h2>
-                    <p class="mt-1 text-sm/6 text-gray-600">
-                        Datos del primer usuario administrador que iniciará sesión 
-                        por primera vez en el panel de comercio. La contraseña será el CUIT/CUIL indicado
-                    </p>
-                </div>
-
-                <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
-                    <x-form-input class="sm:col-span-3" label="Nombre de usuario" />
-                </div>
-            </div> --}}
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <x-button size="large" submit>Guardar</x-button>
+            <x-button wire:loading.remove wire:target='save' size="large" submit>Guardar</x-button>
+            <div wire:loading wire:target='save'>
+                <div class="flex items-center gap-3">
+                    <b>Guardando...</b>
+                    <x-spinner />
+                </div>
+            </div>
         </div>
     </form>
 </div>
