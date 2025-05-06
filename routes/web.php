@@ -46,7 +46,6 @@ Route::prefix('superadmin')->group(function()
 
         Route::get('dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard.index');
 
-        // Tenants management
         Route::view('tenants', 'superadmin.tenants.index')->name('superadmin.tenants.index');
 
         Route::view('tenants/create', 'superadmin.tenants.create')->name('superadmin.tenants.create');
