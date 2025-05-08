@@ -11,6 +11,7 @@
 @endsection
 
 @section('content')
+
     {{-- <div class="flex min-h-screen">
         <div class="animate__animated animate__fadeInLeft relative hidden flex-1 shadow-xl lg:flex items-center">
             <img class="h-full border-r object-cover" 
@@ -172,9 +173,9 @@
         </form>
     </div>
 
-    <a href="{{ route('simplecom.landing') }}" target="_blank" 
+    {{-- <a href="{{ route('simplecom.landing') }}" target="_blank" 
         class="fixed bottom-3 right-5 z-20">
         <img src="{{ URL::to('img/simplecom/png/logo-color.png') }}" alt="Simplecom logo"
-        class="h-20 md:h-24 rounded-full shadow-lg">
-    </a>
+        class="h-20 rounded-full shadow-lg">
+    </a> --}}
 @endsection
