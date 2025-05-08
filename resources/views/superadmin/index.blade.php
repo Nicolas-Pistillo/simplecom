@@ -789,13 +789,13 @@
                 data: {
                     labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
-                        label: 'Dataset',
-                        data: [400, 450, 400, 650, 720, 580, 640, 810],
+                        label: 'Ventas',
+                        data: [400, 450, 400, 479, 720, 580, 640, 810],
                         borderColor: color,
                         backgroundColor: 'transparent',
                         borderWidth: 2,
                         tension: 0.4,
-                        pointRadius: 0,
+                        pointRadius: 2,
                     }, ],
                 },
                 options: {
@@ -821,13 +821,6 @@
                         y: {
                             grid: {
                                 color: '#e7e5e4', // stone-200
-                                drawBorder: false
-                            },
-                            ticks: {
-                                display: false
-                            },
-                            border: {
-                                display: false
                             }
                         },
                     },

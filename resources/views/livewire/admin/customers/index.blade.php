@@ -2,7 +2,8 @@
     @if (!$has_customers)
         <div class="text-center mt-10 sm:mt-24 flex flex-col justify-center">
 
-            <img src="{{ URL::to('img/illustrations/select_box.svg') }}" class="h-64 mx-auto mb-4" alt="no-data-img">
+            <img src="{{ URL::to('img/illustrations/select_box.svg') }}" 
+            class="h-48 mx-auto mb-4" alt="no-data-img">
 
             <div class="mb-4">
                 <h3 class="mt-2 text-sm font-semibold text-gray-900">Aún no recibiste clientes</h3>
