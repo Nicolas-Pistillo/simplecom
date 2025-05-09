@@ -63,8 +63,8 @@ class Ualabis implements PaymentGateway
                         ->withBody(json_encode([
                             'amount'             => 50,
                             'description'        => "Pedido-$order->id",
-                            'callback_fail'      => 'https://google.com',
-                            'callback_success'   => 'https://google.com',
+                            'callback_fail'      => $order->paymentReturn(),
+                            'callback_success'   => $order->paymentReturn(),
                             'notification_url'   => $order->paymentWebhook(),
                             'external_reference' => "Pedido-$order->id"
                         ]))
