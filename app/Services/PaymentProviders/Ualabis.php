@@ -13,6 +13,7 @@ use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class Ualabis implements PaymentGateway
@@ -115,5 +116,27 @@ class Ualabis implements PaymentGateway
                 : "https://checkout.developers.ar.ua.la/v2/api/orders/$uuid";
 
         return Http::withToken($this->token)->get($url)->json();
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $clientId = $credentials->firstWhere('key', 'ualabis_client_id')['value'];
+        $clientSecret = $credentials->firstWhere('key', 'ualabis_client_secret')['value'];
+        $user = $credentials->firstWhere('key', 'ualabis_username')['value'];
+
+        $url = env('UALABIS_TEST')
+                ? 'https://auth.stage.developers.ar.ua.la/v2/api/auth/token'
+                : 'https://auth.developers.ar.ua.la/v2/api/auth/token';
+
+        $response = Http::withBody(json_encode([
+            'username'         => $user,
+            'client_id'        => $clientId,
+            'client_secret_id' => $clientSecret,
+            'grant_type'       => 'client_credentials'
+        ]))
+        ->post($url)
+        ->json();
+
+        return isset($response['access_token']);
     }
 }

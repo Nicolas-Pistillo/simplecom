@@ -14,6 +14,7 @@ use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class Modo implements PaymentGateway
@@ -70,8 +71,7 @@ class Modo implements PaymentGateway
                         ->throw()
                         ->withBody(json_encode([
                             'productName'         => "Pedido $order->id",
-                            //'price'               => $order->total,
-                            'price'               => 25.64,
+                            'price'               => $order->total,
                             'quantity'            => 1,
                             'currency'            => 'ARS',
                             'storeId'             => $this->key('modo_store_id'),
@@ -136,5 +136,38 @@ class Modo implements PaymentGateway
                         ->json();
 
         return $response;
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $storeId = $credentials->firstWhere('key', 'modo_store_id')['value'];
+        $user = $credentials->firstWhere('key', 'modo_username')['value'];
+        $password = $credentials->firstWhere('key', 'modo_password')['value'];
+
+        $response = Http::withUserAgent('Simplecom')
+                        ->asJson()
+                        ->withBody(json_encode(['username' => $user, 'password' => $password])) 
+                        ->post("$this->base_url/merchants/middleman/token")
+                        ->json();
+
+        if (!$response || isset($response['message']) || !isset($response['accessToken'])) return false;
+
+        $token = $response['accessToken'];
+
+        $response = Http::withUserAgent('simplecom-check-'. tenant('name'))
+                        ->withToken($token)
+                        ->asJson()
+                        ->withBody(json_encode([
+                            'productName'         => "Prueba - Chequeo de credenciales",
+                            'price'               => 50,
+                            'quantity'            => 1,
+                            'currency'            => 'ARS',
+                            'storeId'             => $storeId,
+                            'externalIntentionId' => 'test-' . uniqid()
+                        ]))
+                        ->post("$this->base_url/merchants/ecommerce/payment-intention")
+                        ->json();
+
+        return $response && isset($response['deeplink']) && isset($response['id']);
     }
 }

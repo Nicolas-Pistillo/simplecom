@@ -12,6 +12,7 @@ use App\Models\OrderPayment;
 use App\Traits\Configurable;
 use App\Models\PaymentMethod;
 use App\Traits\ManagesPaymentRedirections;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class Getnet implements PaymentGateway
@@ -138,5 +139,10 @@ class Getnet implements PaymentGateway
                 : 'https://api.globalgetnet.com.ar';
                 
         return Http::withToken($this->token)->get("$url/api/v2/orders/$id")->json();
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        return false;
     }
 }

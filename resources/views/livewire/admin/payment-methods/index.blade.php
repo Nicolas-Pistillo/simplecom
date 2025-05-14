@@ -104,7 +104,7 @@
                             <button wire:click='openConfiguration({{ $method->id }})'
                                 class="relative inline-flex w-0 flex-1 items-center justify-center 
                                 gap-x-3 rounded-br-lg border border-transparent py-2 md:py-4 text-xs sm:text-sm font-semibold text-gray-900">
-                                <x-icon code="edit" class="text-gray-400" />
+                                <x-icon code="settings" class="text-gray-400" />
                                 Configurar
                             </button>
                         </div>
@@ -186,6 +186,10 @@
                                     @enderror
                                 </div>
                             @endforeach
+
+                            @error('invalid_credentials')
+                                <small class="text-red-500">{{ $message }}</small>
+                            @enderror
                         </div>
 
                         <div class="flex items-center mt-auto pb-3 pt-6">

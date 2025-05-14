@@ -12,7 +12,9 @@ use App\Models\OrderPayment;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use MercadoPago\Client\MercadoPagoClient;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
 
@@ -126,5 +128,14 @@ class MercadoPago implements PaymentGateway
         return Http::withToken(tenant()->configValue('mp_access_token'))
                     ->get("https://api.mercadopago.com/v1/payments/$payment_id")
                     ->object();
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $token = $credentials->firstWhere('key', 'mp_access_token')['value'];
+
+        $response = Http::withToken($token)->get("https://api.mercadopago.com/v1/payment_methods")->collect();
+
+        return !$response->get('error') && $response->isNotEmpty();
     }
 }

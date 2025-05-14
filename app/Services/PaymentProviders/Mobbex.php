@@ -12,6 +12,7 @@ use App\Models\OrderFeedItem;
 use App\Models\OrderPayment;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class Mobbex implements PaymentGateway
@@ -39,7 +40,7 @@ class Mobbex implements PaymentGateway
             'description' => "Pedido $order->id",
             'reference'   => md5(uniqid() . time()),
             'currency'    => 'ARS',
-            'test'        => true,
+            'test'        => env('MOBBEX_TEST'),
             'return_url'  => $order->paymentReturn(),
             'webhook'     => $order->paymentWebhook(),
             'customer'    => [
@@ -83,5 +84,19 @@ class Mobbex implements PaymentGateway
         ->withBody(json_encode(['id' => $payment_id]))
         ->post('https://api.mobbex.com/2.0/transactions/status')
         ->collect('data');
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $apiKey = $credentials->firstWhere('key', 'mobbex_api_key')['value'];
+        $token = $credentials->firstWhere('key', 'mobbex_access_token')['value'];
+
+        $response = Http::withHeaders([
+            'x-api-key'      => $apiKey,
+            'x-access-token' => $token
+        ])->get('https://api.mobbex.com/p/entity/operations?page=0')
+        ->json();
+
+        return isset($response['result']) && $response['result'] === true;
     }
 }

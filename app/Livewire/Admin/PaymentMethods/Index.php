@@ -58,6 +58,13 @@ class Index extends Component
             }
         }
 
+        $service = $this->method_editing->service();
+
+        if (!$service->checkCredentials(collect($this->configurable_fields)))
+        {
+            return $this->addError('invalid_credentials', 'Las credenciales ingresadas no son válidas');
+        }
+
         $this->method_editing->update(['checkout_name' => $checkout_name]);
 
         foreach($this->configurable_fields as $field)
