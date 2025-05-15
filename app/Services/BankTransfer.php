@@ -13,6 +13,7 @@ use App\Models\OrderFeedItem;
 use App\Models\OrderPayment;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
+use Illuminate\Support\Collection;
 
 class BankTransfer implements PaymentGateway
 {
@@ -52,5 +53,10 @@ class BankTransfer implements PaymentGateway
                 'icon_color' => 'yellow'
             ]
         ]);
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        return true;
     }
 }

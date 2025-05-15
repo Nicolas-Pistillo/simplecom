@@ -13,6 +13,7 @@ use App\Traits\Configurable;
 use App\Models\PaymentMethod;
 use App\Traits\ManagesPaymentRedirections;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class GOcuotas implements PaymentGateway
@@ -56,10 +57,13 @@ class GOcuotas implements PaymentGateway
     {
         $this->generateToken();
 
+        $email = env('GOCUOTAS_TEST') ? 'prueba@gocuotas.com' : $order->user->email;
+        $phone = env('GOCUOTAS_TEST') ? '1140506070' : $order->user->phone;
+
         $payload = [
-            'amount_in_cents'       => 180000,
-            'email'                 => 'prueba@gocuotas.com',
-            'phone_number'          => '1140506070',
+            'amount_in_cents'       => $order->total * 100,
+            'email'                 => $email,
+            'phone_number'          => $phone,
             'order_reference_id'    => "Pedido $order->id",
             'url_success'           => $order->paymentReturn(),
             'url_failure'           => $order->paymentReturn(),
@@ -103,5 +107,15 @@ class GOcuotas implements PaymentGateway
     {
         $this->generateToken();
         return Http::withToken($this->token)->get("$this->base_url/orders/$id")->json();
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $email = $credentials->firstWhere('key', 'gocuotas_redirect_email')['value'];
+        $password = $credentials->firstWhere('key', 'gocuotas_redirect_password')['value'];
+
+        $response = Http::post("$this->base_url/authentication?email=$email&password=$password")->json();
+
+        return isset($response['token']);
     }
 }
