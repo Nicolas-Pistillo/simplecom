@@ -13,6 +13,7 @@ use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class Sipago implements PaymentGateway
@@ -72,8 +73,7 @@ class Sipago implements PaymentGateway
                 'name' => $item->name,
                 'unitPrice' => [
                 'currency' => '032',
-                //'amount'   => $item->sell_price * 100
-                'amount'   => 150 * 100
+                'amount'   => $item->sell_price * 100
                 ],
                 'quantity' => $item->quantity
             ]);
@@ -85,8 +85,7 @@ class Sipago implements PaymentGateway
                 'name'  => 'Envío',
                 'price' => [
                     'currency' => '032',
-                    'amount'   => 150 * 100
-                    //'amount'   => $order->shipping_cost * 100
+                    'amount'   => $order->shipping_cost * 100
                 ]
             ];
         }
@@ -141,5 +140,26 @@ class Sipago implements PaymentGateway
                 : 'https://api.sipago.coop';
                 
         return Http::withToken($this->token)->get("$url/api/v2/orders/$id")->json();
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $clientId = $credentials->firstWhere('key', 'sipago_client_id')['value'];
+        $clientSecret = $credentials->firstWhere('key', 'sipago_client_secret')['value']; 
+
+        $url = env('SIPAGO_TEST')
+                ? 'https://auth.preprod.geopagos.com'
+                : 'https://auth.geopagos.com';
+
+        $response = Http::withBody(json_encode([
+            'grant_type'    => 'client_credentials',
+            'client_id'     => $clientId,
+            'client_secret' => $clientSecret,
+            'scope'         => '*'
+        ]))
+        ->post("$url/oauth/token")
+        ->json();
+
+        return isset($response['access_token']);
     }
 }

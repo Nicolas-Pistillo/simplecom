@@ -13,6 +13,7 @@ use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class Nave implements PaymentGateway
@@ -94,7 +95,7 @@ class Nave implements PaymentGateway
                 "store_id"      => $this->key('nave_store_id'),
                 "callback_url"  => $order->paymentReturn(),
                 "order_id"      => $order->id,
-                "mobile"        => false,
+                "mobile"        => true,
                 'payment_request' => [
                     'transactions' => [
                         [
@@ -156,5 +157,76 @@ class Nave implements PaymentGateway
                 : 'https://api.ranty.io/api/payment_requests';
 
         return Http::withToken($this->token)->get("$url/$id")->json();
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $clientId     = $credentials->firstWhere('key', 'nave_client_id')['value'];
+        $clientSecret = $credentials->firstWhere('key', 'nave_client_secret')['value'];
+        $platform     = $credentials->firstWhere('key', 'nave_platform')['value'];
+        $storeId      = $credentials->firstWhere('key', 'nave_store_id')['value'];
+
+        $url = env('NAVE_TEST') 
+                ? 'https://homoservices.apinaranja.com/security-ms/api/security/auth0/b2b/m2msPrivate' 
+                : 'https://services.apinaranja.com/security-ms/api/security/auth0/b2b/m2msPrivate';
+
+        $authResponse = Http::withBody(json_encode([
+            'client_id'     => $clientId,
+            'client_secret' => $clientSecret,
+            'audience'      => 'https://naranja.com/ranty/merchants/api'
+        ]))
+        ->post($url)
+        ->json();
+
+        if (!isset($authResponse['access_token'])) return false;
+
+       $url = env('NAVE_TEST')
+                ? 'https://e3-api.ranty.io/ecommerce/payment_request/external'
+                : 'https://api.ranty.io/ecommerce/payment_request/external';
+
+        $checkoutTest = Http::withToken($authResponse['access_token'])
+            ->withHeaders(['Content-Type' => 'application/json'])
+            ->retry(2, 0, null, false)
+            ->withBody(json_encode([
+                "platform"      => $platform,
+                "store_id"      => $storeId,
+                "callback_url"  => 'https://google.com',
+                'mobile'        => true,
+                "order_id"      => 0,
+                'payment_request' => [
+                    'transactions' => [
+                        [
+                            'products' => [
+                                [
+                                    'id'          => '0',
+                                    'name'        => 'Test',
+                                    'description' => 'Chequeo de servicio',
+                                    'quantity'    => 1,
+                                    'unit_price'  => [
+                                        'currency' => 'ARS',
+                                        'value'    => "500"
+                                    ]
+                                ]
+                            ],
+                            'amount'   => [
+                                "currency" => "ARS",
+                                "value"    => "500"
+                            ]
+                        ]
+                    ],
+                    'buyer' => [
+                        "user_id"    => "0",
+                        "doc_type"   => "DNI",
+                        "doc_number" => "42333444",
+                        "user_email" => "test@test.com",
+                        "name"       => "Testing",
+                        "phone"      => "1122334455"
+                    ]
+                ]
+            ]))
+            ->post($url)
+            ->json();
+
+        return isset($checkoutTest['data'], $checkoutTest['data']['checkout_url']);
     }
 }

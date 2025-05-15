@@ -12,6 +12,7 @@ use App\Models\OrderPayment;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class Openpay implements PaymentGateway
@@ -29,10 +30,6 @@ class Openpay implements PaymentGateway
 
     public function generateToken()
     {
-        $url = env('OPENPAY_TEST')
-            ? 'https://auth.preprod.geopagos.com'
-            : 'https://auth.geopagos.com';
-
         $response = Http::withBody(json_encode([
             'grant_type'    => 'client_credentials',
             'client_id'     => $this->key('openpay_client_id'),
@@ -40,7 +37,7 @@ class Openpay implements PaymentGateway
             'scope'         => '*'
         ]))
         ->throw()
-        ->post("$url/oauth/token")
+        ->post("https://auth.geopagos.com/oauth/token")
         ->json();
 
         $this->token = $response['access_token'];
@@ -49,10 +46,6 @@ class Openpay implements PaymentGateway
     public function generateCheckout(Order $order)
     {
         $this->generateToken();
-
-        $url = env('OPENPAY_TEST')
-                ? 'https://api-openpay-ar.preprod.geopagos.com'
-                : 'https://api.openpayargentina.com.ar';
 
         $attributes = [
             'currency'      => "032",
@@ -64,41 +57,41 @@ class Openpay implements PaymentGateway
             ]
         ];
 
-        foreach ($order->items as $item) {
+        foreach ($order->items as $item) 
+        {
             array_push($attributes['items'], [
                 'id' => $item->id,
                 'name' => $item->name,
                 'unitPrice' => [
                     'currency' => '032',
-                    //'amount'   => $item->sell_price * 100
-                    'amount'   => 150 * 100
+                    'amount'   => $item->sell_price * 100
                 ],
                 'quantity' => $item->quantity
             ]);
         }
 
-        if ($order->shipping_cost > 0) {
+        if ($order->shipping_cost > 0) 
+        {
             $attributes['shipping'] = [
                 'name'  => 'Envío',
                 'price' => [
                     'currency' => '032',
-                    'amount'   => 150 * 100
-                    //'amount'   => $order->shipping_cost * 100
+                    'amount'   => $order->shipping_cost * 100
                 ]
             ];
         }
 
         $response = Http::withToken($this->token)
-            ->withBody(json_encode([
-                'data' => ['attributes' => $attributes]
-            ]), 'application/vnd.api+json')
-            ->withHeaders([
-                'Content-Type' => 'application/vnd.api+json',
-                'Accept'       => 'application/vnd.api+json'
-            ])
-            ->throw()
-            ->post("$url/api/v2/orders")
-            ->json();
+                        ->withBody(json_encode([
+                            'data' => ['attributes' => $attributes]
+                        ]), 'application/vnd.api+json')
+                        ->withHeaders([
+                            'Content-Type' => 'application/vnd.api+json',
+                            'Accept'       => 'application/vnd.api+json'
+                        ])
+                        ->throw()
+                        ->post("https://api.openpayargentina.com.ar/api/v2/orders")
+                        ->json();
 
         OrderPayment::create([
             'order_id'        => $order->id,
@@ -133,10 +126,25 @@ class Openpay implements PaymentGateway
     {
         $this->generateToken();
 
-        $url = env('OPENPAY_TEST')
-                ? 'https://api-openpay-ar.preprod.geopagos.com'
-                : 'https://api.openpayargentina.com.ar';
+        $url = 'https://api.openpayargentina.com.ar';
                 
         return Http::withToken($this->token)->get("$url/api/v2/orders/$id")->json();
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $clientId = $credentials->firstWhere('key', 'openpay_client_id')['value'];
+        $clientSecret = $credentials->firstWhere('key', 'openpay_client_secret')['value'];
+
+        $response = Http::withBody(json_encode([
+            'grant_type'    => 'client_credentials',
+            'client_id'     => $clientId,
+            'client_secret' => $clientSecret,
+            'scope'         => '*'
+        ]))
+        ->post("https://auth.geopagos.com/oauth/token")
+        ->json();
+
+        return isset($response['access_token']);
     }
 }

@@ -12,6 +12,7 @@ use App\Models\OrderPayment;
 use App\Models\PaymentMethod;
 use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class Cajero24 implements PaymentGateway
@@ -42,7 +43,7 @@ class Cajero24 implements PaymentGateway
         {
             array_push($items, [
                 'name'               => 'Envío',
-                'external_reference' => uniqid(),
+                'external_reference' => 'envio',
                 'amount'             => $order->shipping_cost
             ]);
         }
@@ -55,13 +56,7 @@ class Cajero24 implements PaymentGateway
             'url_pending'        => $order->paymentReturn(),
             'url_failure'        => $order->paymentReturn(),
             'ipn'                => $order->paymentWebhook(),
-            'items'              => [ //$items
-                [
-                    'name'               => 'Prueba',
-                    'external_reference' => uniqid(),
-                    'amount'             => 10
-                ]
-            ]
+            'items'              => $items
         ]))
         ->throw()
         ->post('https://cajero24.co/api/pay/create')
@@ -86,5 +81,31 @@ class Cajero24 implements PaymentGateway
         ]);
 
         $this->provider_checkout_url = data_get($response, 'link');
+    }
+
+    public function checkCredentials(Collection $credentials): bool
+    {
+        $token = $credentials->firstWhere('key', 'cajero24_token')['value'];
+
+        $response = Http::withBody(json_encode([
+            'access_token'       => $token,
+            'currency'           => 'ARS',
+            'external_reference' => "Chequeo de servicio",
+            'url_success'        => 'https://google.com',
+            'url_pending'        => 'https://google.com',
+            'url_failure'        => 'https://google.com',
+            'ipn'                => 'https://google.com',
+            'items'              => [
+                [
+                    'name'               => 'Prueba',
+                    'external_reference' => uniqid(),
+                    'amount'             => 10
+                ]
+            ]
+        ]))
+        ->post('https://cajero24.co/api/pay/create')
+        ->json();
+
+        return isset($response['status'], $response['link']) && $response['status'] === 'success';
     }
 }
