@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('intention_id')->nullable();
             $table->string('external_id')->nullable();
             $table->string('external_status')->nullable();
-            $table->string('checkout_url')->nullable();
+            $table->text('checkout_url')->nullable();
             $table->decimal('total_paid', 10)->nullable();
             $table->string('instrument')->nullable();
             $table->string('installments')->nullable();
