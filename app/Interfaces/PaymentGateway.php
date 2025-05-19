@@ -9,6 +9,6 @@ use Illuminate\Support\Collection;
 interface PaymentGateway
 {
     public function model(): PaymentMethod;
-    /* public function checkCredentials(Collection $credentials): bool; */
+    public function checkCredentials(Collection $credentials): bool;
     public function generateCheckout(Order $order);
 }

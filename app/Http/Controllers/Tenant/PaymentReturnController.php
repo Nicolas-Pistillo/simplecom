@@ -13,6 +13,7 @@ use App\Models\PaymentMethod;
 use App\Services\PaymentProviders\Modo;
 use App\Services\PaymentProviders\Nave;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Stripe\StripeClient;
 
 class PaymentReturnController extends Controller
 {
@@ -333,6 +334,33 @@ class PaymentReturnController extends Controller
 
     public function stripe(Request $request, Order $order)
     {
-        dd("llego al return de stripe", $request->all(), $order);
+        $service = $order->paymentMethod->service();
+
+        $paymentInfo = $service->getPaymentInfo($order->payment->intention_id);
+
+        if ($paymentInfo->payment_status === 'paid' 
+        && $order->payment->status != PaymentStatus::Confirmed)
+        {
+            $order->update(['status' => OrderStatus::Confirmed]);
+
+            $order->payment->update([
+                'status'          => PaymentStatus::Confirmed,
+                'external_status' => $paymentInfo->payment_status,
+                'total_paid'      => $paymentInfo->amount_total / 100
+            ]);
+
+            $order->feed()->create([
+                'event'         => OrderFeedEvent::PaymentUpdate,
+                'presentation'  => NotificationPresentation::Icon,
+                'initializator' => 'Stripe',
+                'action'        => 'aprobó el pago',
+                'meta'          => [
+                    'icon_code'  => 'credit_card',
+                    'icon_color' => 'green'
+                ]
+            ]);
+        }
+
+        return view('ecommerce.checkout-result', compact('order')); 
     }
 }

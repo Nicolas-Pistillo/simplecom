@@ -104,8 +104,13 @@
                             <button wire:click='openConfiguration({{ $method->id }})'
                                 class="relative inline-flex w-0 flex-1 items-center justify-center 
                                 gap-x-3 rounded-br-lg border border-transparent py-2 md:py-4 text-xs sm:text-sm font-semibold text-gray-900">
-                                <x-icon code="settings" class="text-gray-400" />
-                                Configurar
+
+                                <x-spinner wire:loading wire:target='openConfiguration({{ $method->id }})' />
+
+                                <x-icon wire:loading.remove wire:target='openConfiguration({{ $method->id }})' 
+                                code="settings" class="text-gray-400" />
+
+                                <span>Configurar</span>
                             </button>
                         </div>
                     </div>

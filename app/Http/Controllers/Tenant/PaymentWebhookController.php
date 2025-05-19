@@ -1210,4 +1210,57 @@ class PaymentWebhookController extends Controller
             }
         }
     }
+
+    public function stripe(Request $request, $tenant)
+    {
+        Log::channel('webhooks')->info('Actualización de pago recibida', [
+            'proveedor' => 'sripe',
+            'tenant'    => $tenant,
+            'request'   => $request->all()
+        ]);
+
+        $tenantModel = Tenant::where('name', $tenant)->first();
+
+        if (!$tenantModel instanceof Tenant) return response('Tenant not found', 401);
+
+        tenancy()->initialize($tenantModel);
+
+        if (isset($request->object, $request->api_version) && $request->object === 'event')
+        {
+            $event = $request->all();
+
+            if (isset($event['data']['object']['object']) && $event['data']['object']['object'] === 'checkout.session')
+            {            
+                $orderId = str_replace('Pedido ', '', $event['data']['object']['client_reference_id']);
+
+                $order = Order::find($orderId);
+
+                $paymentStatus = data_get($event, 'data.object.payment_status');
+
+                if ($order instanceof Order)
+                {
+                    if ($paymentStatus === 'paid' && $order->payment->status != PaymentStatus::Confirmed)
+                    {
+                        $order->update(['status' => OrderStatus::Confirmed]);
+
+                        $order->payment->update([
+                            'status'          => PaymentStatus::Confirmed,
+                            'external_status' => $paymentStatus,
+                        ]);
+
+                        $order->feed()->create([
+                            'event'         => OrderFeedEvent::PaymentUpdate,
+                            'presentation'  => NotificationPresentation::Icon,
+                            'initializator' => 'Stripe',
+                            'action'        => 'aprobó el pago',
+                            'meta'          => [
+                                'icon_code'  => 'credit_score',
+                                'icon_color' => 'green'
+                            ]
+                        ]);
+                    }
+                }
+            }
+        }
+    }
 }

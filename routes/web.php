@@ -17,6 +17,10 @@ Route::withoutMiddleware('web')->group(function()
     Route::post('webhooks/tenant-payments/{tenant}/{order}/{provider}', [PaymentWebhookController::class, 'handler'])
     ->name('tenant.payment-webhook');
 
+    // Stripe Webhook
+    Route::post('webhooks/tenant-payments/{tenant}/stripe', [PaymentWebhookController::class, 'stripe'])
+    ->name('tenant.stripe-webhook');
+
     // Tenant Invoices Webhooks
     Route::post('webhooks/tenant-invoices', [InvoiceWebhookController::class, 'handler'])
     ->name('tenant.invoice-webhook');
