@@ -26,7 +26,7 @@ class PaymentMethodsSeeder extends Seeder
     public function run(): void
     {
         // Bank Transfer
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'transfer',
             'service_class' => BankTransfer::class,
             'display_name'  => 'Transferencia',
@@ -35,7 +35,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // Mercado Pago
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'mercadopago',
             'service_class' => MercadoPago::class,
             'display_name'  => 'Mercado Pago',
@@ -46,7 +46,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // MODO
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'modo',
             'service_class' => Modo::class,
             'display_name'  => 'MODO',
@@ -58,7 +58,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // Ualabis
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'ualabis',
             'service_class' => Ualabis::class,
             'display_name'  => 'Uala bis',
@@ -70,7 +70,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // GO Cuotas
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'gocuotas',
             'service_class' => GOcuotas::class,
             'display_name'  => 'GO Cuotas',
@@ -81,7 +81,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // Mobbex
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'mobbex',
             'service_class' => Mobbex::class,
             'display_name'  => 'Mobbex',
@@ -92,7 +92,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // Getnet
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'getnet',
             'service_class' => Getnet::class,
             'display_name'  => 'Getnet',
@@ -103,7 +103,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // Stripe
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'stripe',
             'service_class' => Stripe::class,
             'display_name'  => 'Stripe',
@@ -114,7 +114,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // Sipago
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'sipago',
             'service_class' => Sipago::class,
             'display_name'  => 'Sipago',
@@ -125,7 +125,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // Nave
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'nave',
             'service_class' => Nave::class,
             'display_name'  => 'Nave',
@@ -136,7 +136,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // Cajero24
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'cajero24',
             'service_class' => Cajero24::class,
             'display_name'  => 'Cajero24',
@@ -147,7 +147,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // OpenPay
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'openpay',
             'service_class' => Openpay::class,
             'display_name'  => 'Openpay',
@@ -159,7 +159,7 @@ class PaymentMethodsSeeder extends Seeder
         ]);
 
         // viüMi
-        PaymentMethod::create([
+        PaymentMethod::firstOrCreate([
             'code'          => 'viumi',
             'service_class' => Viumi::class,
             'display_name'  => 'viüMi',

@@ -25,7 +25,7 @@ class ShippingProviderSeeder extends Seeder
     public function run(): void
     {
         // Andreani
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::Carrier,
             'code'          => 'andreani',
             'service_class' => Andreani::class,
@@ -35,7 +35,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // Envia.com
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::MultiCarrier,
             'code'          => 'envia',
             'service_class' => Envia::class,
@@ -46,7 +46,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // Zippin
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::MultiCarrier,
             'code'          => 'zippin',
             'service_class' => Zippin::class,
@@ -57,7 +57,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // EnvioPack
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::MultiCarrier,
             'code'          => 'enviopack',
             'service_class' => EnvioPack::class,
@@ -68,7 +68,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // Shipnow
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::MultiCarrier,
             'code'          => 'shipnow',
             'service_class' => Shipnow::class,
@@ -79,7 +79,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // Rapiboy
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::Carrier,
             'code'          => 'rapiboy',
             'service_class' => Rapiboy::class,
@@ -90,7 +90,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // Epick
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::Carrier,
             'code'          => 'epick',
             'service_class' => Epick::class,
@@ -101,7 +101,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // Mocis
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::Carrier,
             'code'          => 'mocis',
             'service_class' => Mocis::class,
@@ -111,7 +111,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // Saires
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::Carrier,
             'code'          => 'saires',
             'service_class' => Saires::class,
@@ -121,7 +121,7 @@ class ShippingProviderSeeder extends Seeder
         ]);
 
         // Enviamelo
-        ShippingProvider::create([
+        ShippingProvider::firstOrCreate([
             'type'          => ShippingMethodType::Carrier,
             'code'          => 'enviamelo',
             'service_class' => Enviamelo::class,
