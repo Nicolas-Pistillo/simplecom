@@ -47,6 +47,9 @@ if (!function_exists('initialsAvatar'))
             return "https://ui-avatars.com/api/?name=$fullName&bold=true&background=fff&color=000";  
         }
 
+        $options['background'] = $options['background'] ?? '#2563eb';
+        $options['color'] = $options['color'] ?? 'fff';
+
         $query = http_build_query($options);
         return "https://ui-avatars.com/api/?$query";
     }
