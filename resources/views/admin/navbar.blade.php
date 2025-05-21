@@ -6,9 +6,13 @@
 
                 <x-navbar-item route="admin.dashboard.index" icon="home" title="Inicio" />
 
-                {{-- @can('Editar configuraciones')
+                @can('Ver mensajes')
+                    <x-navbar-item route="admin.messages.index" icon="mail" title="Mensajes" />
+                @endcan
+
+                @can('Editar configuraciones')
                     <x-navbar-item route="admin.configurations.index" icon="settings" title="Configuracion" />
-                @endcan --}}
+                @endcan
                 
             </ul>
         </li>

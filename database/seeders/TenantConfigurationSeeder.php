@@ -14,7 +14,7 @@ class TenantConfigurationSeeder extends Seeder
      */
     public function run(): void
     {
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'fisical_address',
             'display_name'  => 'Dirección del local/comercio',
             'description'   => 'Ubicación fisica del comercio',
@@ -22,7 +22,7 @@ class TenantConfigurationSeeder extends Seeder
             'show_in_setup' => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'attention_schedule',
             'display_name'  => 'Horarios de atención',
             'description'   => 'Ejemplo: Lunes a viernes de 09:00 a 18:00',
@@ -30,7 +30,7 @@ class TenantConfigurationSeeder extends Seeder
             'show_in_setup' => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'contact_email',
             'display_name'  => 'Email de contacto',
             'description'   => 'Correo de consultas para clientes',
@@ -40,7 +40,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'contact_whatsapp',
             'display_name'  => 'Número de whatsapp',
             'description'   => 'Whatsapp para consultas directas de clientes',
@@ -48,7 +48,7 @@ class TenantConfigurationSeeder extends Seeder
             'show_in_setup' => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'ecommerce_instagram',
             'display_name'  => 'Instagram',
             'description'   => 'Link al instagram del comercio',
@@ -56,7 +56,7 @@ class TenantConfigurationSeeder extends Seeder
             'topic'         => ConfigurationTopics::EcommerceData
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'ecommerce_youtube',
             'display_name'  => 'Canal de youtube',
             'description'   => 'Link al canal de youtube del comercio',
@@ -64,7 +64,7 @@ class TenantConfigurationSeeder extends Seeder
             'topic'         => ConfigurationTopics::EcommerceData
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'mod_product_reviews',
             'display_name'  => 'Módulo de reseñas',
             'topic'         => ConfigurationTopics::Modules,
@@ -73,7 +73,7 @@ class TenantConfigurationSeeder extends Seeder
             'description'   => 'Tus productos podrán ser puntuados y reseñados por compradores',
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'mod_newsletter',
             'display_name'  => 'Módulo de newsletter',
             'topic'         => ConfigurationTopics::Modules,
@@ -83,7 +83,7 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         // Bank transfer configs
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'transfer_bank',
             'display_name'  => 'Nombre del banco',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -91,7 +91,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'transfer_account_owner',
             'display_name'  => 'Nombre del titular',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -99,7 +99,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'transfer_cbu',
             'display_name'  => 'CBU',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -108,7 +108,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'transfer_alias',
             'display_name'  => 'Alias',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -117,7 +117,7 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         // MercadoPago Configs
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'mp_access_token',
             'display_name'  => 'Access Token',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -127,7 +127,7 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         // MODO Configs
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'modo_username',
             'display_name'  => 'Username',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -136,7 +136,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'modo_password',
             'display_name'  => 'Password',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -145,7 +145,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'modo_store_id',
             'display_name'  => 'Store ID',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -155,7 +155,7 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         // Ualabis Configs
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'ualabis_username',
             'display_name'  => 'Username',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -164,7 +164,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'ualabis_client_id',
             'display_name'  => 'Client ID',
             'topic'         => ConfigurationTopics::PaymentMethods,
@@ -173,7 +173,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'ualabis_client_secret',
             'display_name'  => 'Client Secret',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -182,7 +182,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'gocuotas_redirect_email',
             'display_name'  => 'Email',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -191,7 +191,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'gocuotas_redirect_password',
             'display_name'  => 'Contraseña (Api Key)',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -200,7 +200,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'mobbex_api_key',
             'display_name'  => 'Api Key',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -209,7 +209,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'mobbex_access_token',
             'display_name'  => 'Access Token',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -218,7 +218,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'getnet_client_id',
             'display_name'  => 'Client ID',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -227,7 +227,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'getnet_client_secret',
             'display_name'  => 'Client Secret',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -236,7 +236,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'stripe_key',
             'display_name'  => 'Clave pública',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -245,7 +245,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'stripe_secret',
             'display_name'  => 'Clave secreta',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -254,7 +254,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'sipago_client_id',
             'display_name'  => 'Client ID',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -263,7 +263,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'sipago_client_secret',
             'display_name'  => 'Client Secret',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -272,7 +272,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'nave_client_id',
             'display_name'  => 'Client ID',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -281,7 +281,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'nave_client_secret',
             'display_name'  => 'Client Secret',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -290,7 +290,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'nave_platform',
             'display_name'  => 'Platform',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -299,7 +299,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'nave_store_id',
             'display_name'  => 'Store ID',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -308,7 +308,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'cajero24_token',
             'display_name'  => 'Clave de acceso',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -317,7 +317,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'openpay_client_id',
             'display_name'  => 'Client ID',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -326,7 +326,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'openpay_client_secret',
             'display_name'  => 'Client Secret',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -335,7 +335,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'viumi_client_id',
             'display_name'  => 'Client ID',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -344,7 +344,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'viumi_client_secret',
             'display_name'  => 'Client Secret',
             'topic'         =>  ConfigurationTopics::PaymentMethods,
@@ -353,7 +353,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'envia_token',
             'display_name' => 'Token',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -362,7 +362,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'zippin_account_id',
             'display_name' => 'ID de cuenta',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -371,7 +371,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'zippin_key',
             'display_name' => 'Api Key',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -380,7 +380,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'zippin_secret',
             'display_name' => 'Api Secret',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -389,7 +389,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'zippin_origin_id',
             'display_name' => 'ID de origen',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -398,7 +398,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'enviopack_api_key',
             'display_name' => 'Api Key',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -407,7 +407,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'enviopack_secret_key',
             'display_name' => 'Secret Key',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -416,7 +416,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'           => 'shipnow_api_token',
             'display_name'  => 'Api Token',
             'topic'         => ConfigurationTopics::DeliveryMethods,
@@ -425,7 +425,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'      => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'rapiboy_api_token',
             'display_name' => 'Api Token',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -434,7 +434,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'epick_phone',
             'display_name' => 'Celular',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -442,7 +442,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'epick_password',
             'display_name' => 'Contraseña',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -451,7 +451,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'mocis_api_client',
             'display_name' => 'API Client',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -460,7 +460,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'mocis_api_secret',
             'display_name' => 'API Secret',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -469,7 +469,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'saires_client_id',
             'display_name' => 'ID de cliente',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -478,7 +478,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'saires_email',
             'display_name' => 'Email',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -487,7 +487,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'enviamelo_token',
             'display_name' => 'Token',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -496,7 +496,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'andreani_user',
             'display_name' => 'Usuario API',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -505,7 +505,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'andreani_password',
             'display_name' => 'Contraseña API',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -514,7 +514,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'andreani_nro_cliente',
             'display_name' => 'Número de Cliente',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -523,7 +523,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => true
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'andreani_contrato_domicilio',
             'display_name' => 'Nro Contrato a Domicilio',
             'topic'        => ConfigurationTopics::DeliveryMethods,
@@ -532,7 +532,7 @@ class TenantConfigurationSeeder extends Seeder
             'required'     => false
         ]);
 
-        Configuration::create([
+        Configuration::firstOrCreate([
             'key'          => 'andreani_contrato_sucursal',
             'display_name' => 'Nro Contrato a Sucursal',
             'topic'        => ConfigurationTopics::DeliveryMethods,

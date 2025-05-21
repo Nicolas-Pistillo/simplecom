@@ -100,7 +100,7 @@
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-72 lg:flex-col">
             <!-- Desktop sidebar -->
             <div class="flex grow flex-col gap-y-5 bg-white px-6 py-4 border-r" hover-scrollbar scrollbar-thin>
-                <div class="flex h-20 shrink-0 mx-auto items-center">
+                <div class="flex h-20 shrink-0 items-center">
                     <img src="{{ tenant()->logo() }}" class="h-full object-contain" alt="ecommerce logo">
                 </div>
                 <hr>
