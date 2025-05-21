@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MessageTopics;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,4 +11,8 @@ class Message extends Model
     use HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    protected $casts = [
+        'topic' => MessageTopics::class
+    ];
 }
