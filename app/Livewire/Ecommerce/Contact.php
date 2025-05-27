@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Ecommerce;
 
-use App\Enums\MessageTopics;
+use App\Enums\MessageTopic;
 use App\Models\Message;
 use App\Notifications\NewMessageReceivedNotification;
 use App\Services\NotificationService;
@@ -23,6 +23,9 @@ class Contact extends Component
     #[Validate('required|string|size:10', as: 'teléfono')]
     public $sender_phone;
 
+    #[Validate('required|string|max:100', as: 'asunto')]
+    public $subject;
+
     #[Validate('required|string|min:5|max:400', as: 'mensaje')]
     public $message;
 
@@ -34,7 +37,8 @@ class Contact extends Component
             'sender_name'  => $this->sender_name,
             'sender_email' => $this->sender_email,
             'sender_phone' => $this->sender_phone,
-            'topic'        => MessageTopics::ContactForm,
+            'topic'        => MessageTopic::ContactForm,
+            'subject'      => $this->subject,
             'message'      => $this->message,
         ]);
 

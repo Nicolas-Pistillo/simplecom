@@ -7,7 +7,8 @@
                 <x-navbar-item route="admin.dashboard.index" icon="home" title="Inicio" />
 
                 @can('Ver mensajes')
-                    <x-navbar-item route="admin.messages.index" icon="email" title="Mensajes" />
+                    <x-navbar-item route="admin.messages.index" icon="email" title="Mensajes"
+                    :active="Route::is('admin.messages.*')" />
                 @endcan
 
                 @can('Editar configuraciones')
