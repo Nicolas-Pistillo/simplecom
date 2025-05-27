@@ -51,7 +51,7 @@ class NewMessageReceivedNotification extends Notification
             'icon_code'      => 'forum',
             'icon_color'     => 'blue',
             'body'           => "{$this->message->sender_name} realizó una consulta a través del formulario de contacto",
-            /* 'url'            => $this->message->pageUrl() */
+            'url'            => $this->message->pageUrl()
         ];
     }
 }

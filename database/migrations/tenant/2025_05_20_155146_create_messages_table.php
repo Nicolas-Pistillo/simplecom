@@ -17,8 +17,11 @@ return new class extends Migration
             $table->string('sender_email');
             $table->string('sender_phone')->nullable();
             $table->string('topic');
+            $table->string('subject');
             $table->text('message');
             $table->text('reply')->nullable();
+            $table->string('replied_at')->nullable();
+            $table->foreignId('replied_by')->nullable();
             $table->boolean('read')->default(false);
             $table->timestamps();
         });

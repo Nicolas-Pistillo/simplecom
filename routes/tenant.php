@@ -175,6 +175,10 @@ Route::middleware([
                 Route::view('messages', 'admin.messages.index')
                     ->name('admin.messages.index')
                     ->middleware('can:Ver mensajes');
+
+                Route::view('messages/{message}', 'admin.messages.show')
+                    ->name('admin.messages.show')
+                    ->middleware('can:Ver mensajes');
             });
         });
     });

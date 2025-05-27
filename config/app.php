@@ -194,6 +194,7 @@ return [
         'InvoiceItemAliquot'       => App\Enums\InvoiceItemAliquot::class,
         'InvoiceType'              => App\Enums\InvoiceType::class,
         'PaymentStatus'            => App\Enums\PaymentStatus::class,
+        'MessageTopic'             => App\Enums\MessageTopic::class,
         'ShippingStatus'           => App\Enums\ShippingStatus::class,
         'OrderStatus'              => App\Enums\OrderStatus::class,
         'OrderFeedEvent'           => App\Enums\OrderFeedEvent::class,
