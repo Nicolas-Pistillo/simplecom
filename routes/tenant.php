@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\Tenant\PaymentReturnController;
 use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\DashboardController;
@@ -85,6 +86,12 @@ Route::middleware([
             Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
             Route::view('setup', 'admin.setup')->middleware('tenant_unsetuped')->name('admin.setup');
+
+            Route::prefix('pdf')->group(function() 
+            {
+                Route::get('order-labels', [PDFController::class, 'orderLabels'])
+                    ->name('admin.pdf.order-labels');
+            });
 
             Route::prefix('dashboard')->middleware('tenant_setuped')->group(function() {
 

@@ -7,9 +7,10 @@
         </div>
 
         <input type="search" wire:model.live="search"
-        class="block w-full pt-2 ps-10 text-sm text-gray-900 
+            class="block w-full pt-2 ps-10 text-sm text-gray-900 
         border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 
-        focus:border-blue-500" placeholder="Buscar mensaje...">
+        focus:border-blue-500"
+            placeholder="Buscar mensaje...">
     </div>
 
     <div class="flex items-center order-1 sm:order-2 gap-3">
@@ -19,7 +20,7 @@
             <i class="material-symbols-outlined transition colors cursor-pointer bg-gray-100 text-gray-500 
             p-1.5 rounded-full hover:bg-gray-200 no-select focus:outline-none 
             focus:ring duration-300"
-            code="tune" x-tooltip.raw.placement.top="Filtrar" @click="open = !open">
+                code="tune" x-tooltip.raw.placement.top="Filtrar" @click="open = !open">
                 tune
             </i>
             <div x-show="open" x-cloak @click.away="open = false" x-transition:enter="transition ease-out duration-200"
@@ -42,7 +43,7 @@
                 <div class="mt-4 text-[0.8125rem]/6 text-slate-900">
 
                     <div class="flex items-center border-t border-slate-400/20 py-3">
-                        <span class="w-2/5 flex-none">Tipo de mensaje</span>
+                        <span class="w-2/5 flex-none">Tema de mensaje</span>
                         <span class="pointer-events-auto ml-auto font-medium">
                             <select wire:model.live="filters.topic"
                                 class="block w-full rounded-md border-none py-0.5 text-gray-900 
@@ -70,3 +71,57 @@
         </div>
     </div>
 </div>
+
+@if (count($selected_messages) || $hasFilters)
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-4 border-b pb-4">
+
+        @if (count($selected_messages))
+            <div class="flex items-center gap-3">
+
+                <h5 class="font-semibold text-gray-800 text-sm">
+                    {{ count($selected_messages) }}
+                    {{ count($selected_messages) === 1 ? 'seleccionado' : 'seleccionados' }}
+                </h5>
+
+                <x-dropdown position="right-0 sm:left-0">
+                    <x-slot name="trigger">
+                        <x-button size="tiny" type="secondary" class="flex items-center">
+                            Acciones
+                            <x-icon code="arrow_drop_down" />
+                        </x-button>
+                    </x-slot>
+
+                    <x-dropdown-item wire:click='bulkSetRead' icon="mark_email_read" 
+                    label="Marcar como leido(s)" />
+
+                    <x-dropdown-item wire:click='bulkSetUnread' icon="mark_email_unread" 
+                    label="Marcar como no leido(s)" />
+
+                    <x-dropdown-item wire:click='bulkDelete' icon="delete" label="Eliminar" />
+
+                </x-dropdown>
+            </div>
+        @endif
+
+        <div class="flex items-center flex-wrap gap-3">
+
+            @if (!empty($filters->topic))
+                <x-badge color="blue" class="flex items-center gap-1" wire:click="removeFilter('topic')">
+                    Tema: {{ MessageTopic::tryFrom($filters->topic)->name() }}
+                    <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                </x-badge>
+            @endif
+
+            @if (!empty($filters->only_unreplied))
+                <x-badge color="orange" class="flex items-center gap-1" 
+                wire:click="removeFilter('only_unreplied')">
+                    Solo sin responder
+                    <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                </x-badge>
+            @endif
+
+        </div>
+    </div>
+@endif

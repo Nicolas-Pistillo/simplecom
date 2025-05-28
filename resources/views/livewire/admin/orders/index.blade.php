@@ -119,12 +119,10 @@
                                             </x-button>
                                         </x-slot>
 
-                                        <x-dropdown-item wire:click='print' icon="print"
-                                        label="Imprimir etiquetas internas" />
+                                        <x-dropdown-item :href="route('admin.pdf.order-labels', ['orders' => $selected_orders])" 
+                                        blank icon="print" label="Imprimir etiquetas internas" />
 
                                         <x-dropdown-item wire:click='download(true)' icon="download" label="Descargar" />
-
-                                        <x-dropdown-item icon="delete" label="Eliminar" />
 
                                     </x-dropdown>
                                 </div>
@@ -177,11 +175,10 @@
                                 <p class="mt-1 mb-4 text-sm text-gray-500">
                                     Revisa tu búsqueda o los filtros aplicados
                                 </p>
-                                @if ($hasFilters)
-                                    <x-button wire:click='clearFilters' type="secondary">
-                                        Limpiar filtros
-                                    </x-button>
-                                @endif
+                                
+                                <x-button wire:click='clearFilters' type="secondary">
+                                    Limpiar filtros
+                                </x-button>
                             </div>
                         </div>
                     @else

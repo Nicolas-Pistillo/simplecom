@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Tenant;
 use App\Models\Order;
+use Illuminate\Mail\Mailables\Address;
 
 class OrderPickupReady extends Mailable
 {
@@ -26,6 +27,7 @@ class OrderPickupReady extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: new Address(env('MAIL_FROM_ADDRESS'), $this->tenant->ecommerce_name),
             subject: 'Ya podes retirar tu pedido',
         );
     }

@@ -15,7 +15,7 @@ enum MessageTopic: string
     {
         return match($this)
         {
-            MessageTopic::ContactForm => 'Consulta',
+            MessageTopic::ContactForm => 'Contacto',
             MessageTopic::Quote       => 'Cotización',
             MessageTopic::Product     => 'Producto',
             MessageTopic::Order       => 'Pedido',

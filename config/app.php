@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\TenancyServiceProvider::class
     ])->toArray(),
@@ -185,6 +186,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'DeliveryType'             => App\Enums\DeliveryType::class,
+        'PDF'                      => Barryvdh\DomPDF\Facade\Pdf::class,
         'CustomerType'             => App\Enums\CustomerType::class,
         'InputType'                => App\Enums\InputType::class,
         'ShippingMethodType'       => App\Enums\ShippingMethodType::class,
