@@ -20,6 +20,7 @@
             </div>
         </div>
     @else
+
         @include('admin.messages.partials.filters')
 
         @if ($messages->isEmpty())
@@ -50,9 +51,14 @@
                             <dl class="w-full sm:w-auto flex flex-wrap sm:flex-none justify-between gap-x-8 gap-y-2">
                                 <div class="flex">
                                     <div class="flex items-center min-w-0 gap-x-4">
-                                        <input type="checkbox" class="rounded w-5 h-5">
+
+                                        <input type="checkbox" wire:model.live='selected_messages' 
+                                        value="{{ $message->id }}" class="rounded w-5 h-5"
+                                        @if(in_array($message->id, $selected_messages)) checked @endif>
+
                                         <img class="h-10 w-10 flex-none rounded-full bg-gray-50"
-                                            src="{{ initialsAvatar(['name' => $message->sender_name]) }}">
+                                        src="{{ initialsAvatar(['name' => $message->sender_name]) }}">
+
                                         <div class="min-w-max flex-auto">
                                             <p class="text-sm text-gray-900 
                                             {{ !$message->read ? 'font-semibold' : '' }}">
