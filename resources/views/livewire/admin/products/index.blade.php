@@ -191,11 +191,10 @@
                                     <p class="mt-1 mb-4 text-sm text-gray-500">
                                         Revisa tu búsqueda o los filtros aplicados
                                     </p>
-                                    @if ($hasFilters)
-                                        <x-button wire:click='clearFilters' type="secondary">
-                                            Limpiar filtros
-                                        </x-button>
-                                    @endif
+
+                                    <x-button wire:click='clearFilters' type="secondary">
+                                        Limpiar filtros
+                                    </x-button>
                                 </div>
                             </div>
                         @else

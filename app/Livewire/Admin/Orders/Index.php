@@ -6,6 +6,7 @@ use App\Exports\OrdersExport;
 use App\Livewire\Forms\IndexOrdersFilters;
 use App\Models\Order;
 use App\Traits\Livewire\WithNotifications;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
@@ -45,11 +46,6 @@ class Index extends Component
         return Excel::download(new OrdersExport($orders), "pedidos-$date.xlsx");
     }
 
-    public function print()
-    {
-        dump($this->selected_orders);
-    }
-
     public function toggleSelectedOrder($orderId)
     {
         in_array($orderId, $this->selected_orders)
@@ -78,6 +74,7 @@ class Index extends Component
 
     public function clearFilters()
     {
+        $this->search = '';
         $this->filters->reset();
     }
 

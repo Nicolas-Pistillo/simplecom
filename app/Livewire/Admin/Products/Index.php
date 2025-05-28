@@ -191,6 +191,7 @@ class Index extends Component
 
     public function clearFilters()
     {
+        $this->search = '';
         $this->filters->reset();
     }
 
