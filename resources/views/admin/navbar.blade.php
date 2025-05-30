@@ -6,11 +6,6 @@
 
                 <x-navbar-item route="admin.dashboard.index" icon="home" title="Inicio" />
 
-                @can('Ver mensajes')
-                    <x-navbar-item route="admin.messages.index" icon="email" title="Mensajes"
-                    :active="Route::is('admin.messages.*')" />
-                @endcan
-
                 @can('Editar configuraciones')
                     <x-navbar-item route="admin.configurations.index" icon="settings" title="Configuracion" />
                 @endcan
@@ -30,6 +25,11 @@
                 @can('Ver clientes')
                     <x-navbar-item route="admin.customers.index" icon="groups" title="Clientes" 
                     :active="Route::is('admin.customers.*')"/>
+                @endcan
+
+                @can('Ver mensajes')
+                    <x-navbar-item route="admin.messages.index" icon="email" title="Mensajes"
+                    :active="Route::is('admin.messages.*')" />
                 @endcan
 
                 @can('Editar formas de entrega')

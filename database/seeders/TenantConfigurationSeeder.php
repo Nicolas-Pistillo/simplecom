@@ -57,10 +57,42 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         Configuration::firstOrCreate([
+            'key'           => 'ecommerce_facebook',
+            'display_name'  => 'Facebook',
+            'description'   => 'Link al facebook del comercio',
+            'input_type'    => InputType::Url,
+            'topic'         => ConfigurationTopics::EcommerceData
+        ]);
+
+        Configuration::firstOrCreate([
+            'key'           => 'ecommerce_tiktok',
+            'display_name'  => 'TikTok',
+            'description'   => 'Link al tiktok del comercio',
+            'input_type'    => InputType::Url,
+            'topic'         => ConfigurationTopics::EcommerceData
+        ]);
+
+        Configuration::firstOrCreate([
             'key'           => 'ecommerce_youtube',
             'display_name'  => 'Canal de youtube',
             'description'   => 'Link al canal de youtube del comercio',
             'input_type'    => InputType::Url,
+            'topic'         => ConfigurationTopics::EcommerceData
+        ]);
+
+        Configuration::firstOrCreate([
+            'key'           => 'whatsapp_button',
+            'display_name'  => 'Botón de whatsapp',
+            'description'   => 'Activar botón de whatsapp en el ecommerce',
+            'input_type'    => InputType::Boolean,
+            'topic'         => ConfigurationTopics::EcommerceData
+        ]);
+
+        Configuration::firstOrCreate([
+            'key'           => 'contact_phone',
+            'display_name'  => 'Telefono fijo',
+            'description'   => 'Telefono de contacto',
+            'input_type'    => InputType::Number,
             'topic'         => ConfigurationTopics::EcommerceData
         ]);
 
