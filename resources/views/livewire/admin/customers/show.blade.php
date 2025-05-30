@@ -23,7 +23,7 @@
         sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse 
         md:mt-0 md:flex-row md:space-x-3">
             @if (!empty($customer->phone))
-                <x-button href="https://api.whatsapp.com/send?phone=549{{ $customer->phone }}" blank 
+                <x-button href="https://api.whatsapp.com/send?phone=54{{ $customer->phone }}" blank 
                 type="secondary" size="large" class="flex items-center justify-center gap-1.5">
                     <img class="w-5 h-5" src="{{ URL::to('img/whatsapp-icon.svg') }}" alt="">
                     Contactar

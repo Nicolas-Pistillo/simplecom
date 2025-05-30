@@ -170,7 +170,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
-        App\Providers\TenancyServiceProvider::class
+        App\Providers\TenancyServiceProvider::class,
+        App\Providers\BladeServiceProvider::class,
+        App\Providers\EcommerceServiceProvider::class
     ])->toArray(),
 
     /*

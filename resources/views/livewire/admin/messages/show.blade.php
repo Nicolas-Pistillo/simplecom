@@ -24,7 +24,7 @@
             <div>
                 <ul class="flex text-gray-400 gap-4">
                     <li>
-                        <a href="https://api.whatsapp.com/send?phone=549{{ $message->sender_phone }}" target="_blank">
+                        <a href="https://api.whatsapp.com/send?phone=54{{ $message->sender_phone }}" target="_blank">
                             <img src="{{ URL::to('img/whatsapp-icon.svg') }}" class="h-10
                             cursor-pointer" x-tooltip.raw="Contactar por WhatsApp">
                         </a>

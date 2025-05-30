@@ -13,7 +13,7 @@
                             be careful what you share.
                         </p>
 
-                        <div class="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
+                        <div class="mt-10 space-y-8 border-b border-gray-900/10 pb-4 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
 
                             <div class="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:py-6">
                                 <label for="photo" class="block text-sm/6 font-medium text-gray-900">
@@ -118,7 +118,7 @@
 
                             <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
                                 <label for="ecommerce_instagram" class="block text-sm mb-2 sm:mb-0 
-                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Perfil de instagram</label>
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Perfil de Instagram</label>
                                 <x-form-input icon="link" type="url" model="form.ecommerce_instagram" 
                                 id="ecommerce_instagram" class="sm:col-span-4 md:col-span-3"
                                 placeholder="https://www.instagram.com/tuperfil" />
@@ -126,7 +126,7 @@
 
                             <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
                                 <label for="ecommerce_tiktok" class="block text-sm mb-2 sm:mb-0 
-                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Perfil de instagram</label>
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Perfil de TikTok</label>
                                 <x-form-input icon="link" type="url" model="form.ecommerce_tiktok" 
                                 id="ecommerce_tiktok" class="sm:col-span-4 md:col-span-3"
                                 placeholder="https://www.tiktok.com/tuperfil" />
@@ -134,7 +134,7 @@
 
                             <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
                                 <label for="ecommerce_youtube" class="block text-sm mb-2 sm:mb-0 
-                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Canal de youtube</label>
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Canal de Youtube</label>
                                 <x-form-input icon="link" type="url" model="form.ecommerce_youtube" 
                                 id="ecommerce_youtube" class="sm:col-span-4 md:col-span-3" 
                                 placeholder="https://www.youtube.com/tucanal" />

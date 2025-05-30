@@ -32,7 +32,7 @@ class EcommerceData extends Component
         if ($this->form->ecommerce_logo)
         {
             Storage::delete(tenant('logo_url'));
-            tenant()->update(['logo_url' => $this->form->ecommerce_logo->store()]);
+            tenant()->update(['logo_url' => $this->form->ecommerce_logo->store(tenant('name'))]);
         }
 
         foreach($this->form->getMassiveUpdateFields() as $key => $value)
