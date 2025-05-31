@@ -162,10 +162,14 @@
         <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 lg:px-8">
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <div class="space-y-4">
+
                     <img class="h-20 w-64 object-contain object-left" src="{{ Storage::url(tenant('logo_url')) }}"
-                        alt="{{ tenant('name') }} logo">
-                    {{-- <p class="text-sm leading-6 text-gray-600">Making the world a better place through constructing
-                        elegant hierarchies.</p> --}}
+                    alt="{{ tenant('name') }} logo">
+
+                    @config('ecommerce_eslogan')
+                        <p class="text-sm text-gray-600">{{ $value }}</p>
+                    @endconfig
+
                     <div class="flex space-x-6">
 
                         @config('ecommerce_facebook')
@@ -345,7 +349,7 @@
     @config('whatsapp_button')
         @config('contact_whatsapp')
             <a x-data href="https://api.whatsapp.com/send?phone=54{{ $value }}" target="_blank"
-            x-tooltip.raw="Contactanos por Whatsapp" class="fixed bottom-4 right-4">
+            x-tooltip.raw="Contactanos por Whatsapp" class="fixed bottom-4 right-4 z-10">
                 <img src="{{ URL::to('img/whatsapp-icon.svg') }}" alt="whatsapp logo" class="w-12 h-12">
             </a>
         @endconfig

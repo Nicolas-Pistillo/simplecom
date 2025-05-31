@@ -15,6 +15,9 @@ class EcommerceDataConfiguration extends Form
     #[Validate('required|string|max:40', as: 'nombre de comercio')]
     public $ecommerce_name;
 
+    #[Validate('nullable|string|max:50', as: 'slogan de comercio')]
+    public $ecommerce_eslogan;
+
     #[Validate('required|email', as: 'email de contacto')]
     public $contact_email;
 
@@ -43,6 +46,7 @@ class EcommerceDataConfiguration extends Form
     {
         $this->logo_preview        = tenant()->logo();
         $this->ecommerce_name      = tenant('ecommerce_name');
+        $this->ecommerce_eslogan    = tenant()->configValue('ecommerce_eslogan');
         $this->contact_email       = tenant()->configValue('contact_email');
         $this->contact_whatsapp    = tenant()->configValue('contact_whatsapp');
         $this->whatsapp_button     = (bool) tenant()->configValue('whatsapp_button');

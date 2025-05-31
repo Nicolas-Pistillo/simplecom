@@ -15,22 +15,6 @@ class TenantConfigurationSeeder extends Seeder
     public function run(): void
     {
         Configuration::firstOrCreate([
-            'key'           => 'fisical_address',
-            'display_name'  => 'Dirección del local/comercio',
-            'description'   => 'Ubicación fisica del comercio',
-            'topic'         => ConfigurationTopics::EcommerceData,
-            'show_in_setup' => true
-        ]);
-
-        Configuration::firstOrCreate([
-            'key'           => 'attention_schedule',
-            'display_name'  => 'Horarios de atención',
-            'description'   => 'Ejemplo: Lunes a viernes de 09:00 a 18:00',
-            'topic'         => ConfigurationTopics::EcommerceData,
-            'show_in_setup' => true
-        ]);
-
-        Configuration::firstOrCreate([
             'key'           => 'contact_email',
             'display_name'  => 'Email de contacto',
             'description'   => 'Correo de consultas para clientes',
@@ -38,6 +22,16 @@ class TenantConfigurationSeeder extends Seeder
             'input_type'    => InputType::Email,
             'show_in_setup' => true,
             'required'      => true
+        ]);
+
+        Configuration::firstOrCreate([
+            'key'           => 'ecommerce_eslogan',
+            'display_name'  => 'Eslogan del comercio',
+            'description'   => 'Tu eslogan o frase que te identifica',
+            'topic'         => ConfigurationTopics::EcommerceData,
+            'input_type'    => InputType::Text,
+            'show_in_setup' => false,
+            'required'      => false
         ]);
 
         Configuration::firstOrCreate([

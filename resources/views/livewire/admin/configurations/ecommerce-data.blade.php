@@ -50,6 +50,18 @@
                             </div>
 
                             <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
+                                <label for="ecommerce_eslogan" class="block text-sm mb-2 sm:mb-0 
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">
+                                    Eslogan <br>
+                                    <small class="text-gray-500">
+                                        Tu eslogan o frase que te identifica
+                                    </small>
+                                </label>
+                                <x-form-input icon="format_quote" model="form.ecommerce_eslogan" id="ecommerce_eslogan" 
+                                class="sm:col-span-4 md:col-span-3" />
+                            </div>
+
+                            <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
                                 <label for="contact_email" class="block text-sm mb-2 sm:mb-0 
                                 font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">
                                     Email de contacto <br>
@@ -88,10 +100,6 @@
                                 <div class="flex items-center gap-6">
                                     <x-switch wireModel="form.whatsapp_button" />
                                 </div>
-
-                                {{-- <x-form-input icon="phone" type="number" model="form.contact_phone" 
-                                id="contact_phone" class="sm:col-span-3 mb-3 sm:mb-0"
-                                placeholder="4290-9999" /> --}}
                             </div>
 
                             <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
