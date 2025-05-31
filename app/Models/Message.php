@@ -53,6 +53,11 @@ class Message extends Model
         });
     }
 
+    public function scopeUnread(Builder $query)
+    {
+        return $query->where('read', false);
+    }
+
     public function operator()
     {
         return $this->hasOne(Operator::class, 'id', 'replied_by');

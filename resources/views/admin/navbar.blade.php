@@ -29,7 +29,13 @@
 
                 @can('Ver mensajes')
                     <x-navbar-item route="admin.messages.index" icon="email" title="Mensajes"
-                    :active="Route::is('admin.messages.*')" />
+                    :active="Route::is('admin.messages.*')">
+                        @if ($unreadMessages = App\Models\Message::unread()->count())
+                            <x-badge color="blue" class="!rounded-full">
+                                {{ $unreadMessages }}
+                            </x-badge>
+                        @endif
+                    </x-navbar-item>
                 @endcan
 
                 @can('Editar formas de entrega')

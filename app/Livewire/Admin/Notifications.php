@@ -12,6 +12,11 @@ class Notifications extends Component
         $notification->delete();
     }
 
+    public function deleteAll()
+    {
+        auth()->user()->notifications()->delete();
+    }
+
     public function render()
     {
         return view('livewire.admin.notifications');
