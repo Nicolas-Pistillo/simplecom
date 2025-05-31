@@ -1,7 +1,9 @@
 <div class="{{ $class ?? '' }}">
-    <label for="{{ $id ?? $label ?? '' }}" class="inline-block text-sm font-medium leading-6 text-gray-900 mb-2">
-        {{ $label }}
-    </label>
+    @isset($label)
+        <label for="{{ $id ?? $label ?? '' }}" class="inline-block text-sm font-medium leading-6 text-gray-900 mb-2">
+            {{ $label }}
+        </label>
+    @endisset
     <div>
         <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 
         focus-within:ring-inset {{ !isset($readonly) || !$readonly ? 'focus-within:ring-blue-600' : '' }}">

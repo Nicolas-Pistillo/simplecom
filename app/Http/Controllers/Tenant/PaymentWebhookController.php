@@ -1263,4 +1263,12 @@ class PaymentWebhookController extends Controller
             }
         }
     }
+
+    public function nave(Request $request)
+    {
+        Log::channel('webhooks')->info('Actualización de pago recibida', [
+            'proveedor' => 'nave',
+            'request'   => $request->all()
+        ]);
+    }
 }

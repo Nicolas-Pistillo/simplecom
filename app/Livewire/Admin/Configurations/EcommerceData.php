@@ -2,46 +2,54 @@
 
 namespace App\Livewire\Admin\Configurations;
 
-use App\Enums\ConfigurationTopics;
+use App\Livewire\Forms\EcommerceDataConfiguration;
 use App\Models\Configuration;
+use App\Traits\Livewire\WithNotifications;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EcommerceData extends Component
 {
-    public $configurations;
+    use WithFileUploads, WithNotifications;
 
-    public $ecommerce_logo;
-    public $fisical_address;
-    public $attention_schedule;
-    public $contact_email;
-    public $contact_whatsapp;
-    public $ecommerce_instagram;
-    public $ecommerce_youtube;
+    public EcommerceDataConfiguration $form;
 
-    public $excludes = ['contact_whatsapp'];
+    public function updatedForm($value, $property)
+    {
+        if ($property === 'ecommerce_logo')
+        {
+            $this->form->logo_preview = $this->form->ecommerce_logo->temporaryUrl();
+        }
+    }
 
     public function save()
     {
-        $this->validate([
-            'ecommerce_logo'      => 'nullable',
-            'fisical_address'     => 'required',
-            'ecommerce_instagram' => 'nullable',
-            'attention_schedule'  => 'required',
-            'contact_whatsapp'    => 'required'
+        $this->form->validate();
+
+        tenant()->update(['ecommerce_name' => $this->form->ecommerce_name]);
+
+        if ($this->form->ecommerce_logo)
+        {
+            Storage::delete(tenant('logo_url'));
+            tenant()->update(['logo_url' => $this->form->ecommerce_logo->store(tenant('name'))]);
+        }
+
+        foreach($this->form->getMassiveUpdateFields() as $key => $value)
+        {
+            Configuration::where('key', $key)->update(compact('value'));
+        }
+
+        $this->notify([
+            'type'  => 'success',
+            'title' => 'Configuración guardada',
+            'body'  => 'Los datos de tu comercio han sido actualizados correctamente'
         ]);
     }
 
     public function mount()
     {
-        $configurations = Configuration::where('topic', ConfigurationTopics::EcommerceData)->get();
-
-        foreach ($configurations as $configuration) 
-        {
-            if (property_exists(self::class, $configuration->key))
-                $this->{$configuration->key} = $configuration->value; 
-        }
-
-        $this->configurations = $configurations->whereNotIn('key', $this->excludes);
+        $this->form->autocomplete();
     }
 
     public function render()

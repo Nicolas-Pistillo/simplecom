@@ -147,24 +147,21 @@
                         <!-- Notifications & User menu -->
                         <div class="no-select flex items-center justify-center gap-x-2 sm:gap-x-4">
 
-                            <!-- Ecommerce site link -->
+                            {{-- Ecommerce site link --}}
                             <a href="{{ route('ecommerce.index') }}" target="_blank" x-tooltip.raw.placement.bottom="Ver mi tienda"
                                 class="hidden sm:block relative pt-2 text-gray-400 transition hover:text-gray-500">
                                 <x-icon code="storefront" />
                             </a>
 
-                            <span href="/" target="_blank" x-tooltip.raw.placement.bottom="Punto de orígen"
-                                class="hidden sm:block relative pt-2 text-gray-400 cursor-pointer transition hover:text-gray-500">
-                                <x-icon code="warehouse" />
-                            </span>
+                            {{-- Origin point selector --}}
+                            @livewire('admin.origin-point-navbar')
 
-                            <!-- Notifications -->
+                            {{-- Notifications --}}
                             @livewire('admin.notifications')
 
-                            <!-- Separator -->
                             <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true"></div>
 
-                            <!-- Profile dropdown -->
+                            {{-- User panel --}}
                             <div x-data="{ openUserMenu: false }" class="relative">
                                 <button @click="openUserMenu = !openUserMenu" type="button"
                                     class="-m-1.5 flex items-center p-1.5" id="user-menu-button"

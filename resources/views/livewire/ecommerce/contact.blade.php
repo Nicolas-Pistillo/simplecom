@@ -9,18 +9,27 @@
                     <p class="mt-6 sm:text-lg/8 text-gray-600">Proin volutpat consequat porttitor cras nullam gravida at. Orci
                         molestie a eu arcu. Sed ut tincidunt integer elementum id sem. Arcu sed malesuada et magna.</p>
                     <dl class="mt-10 space-y-4 text-base/7 text-gray-600">
-                        <div class="flex gap-x-4 items-center">
-                            <dt class="flex-none">
-                                <img class="w-7 h-7" src="{{ URL::to('img/whatsapp-icon.svg') }}" alt="whatsapp logo">
-                            </dt>
-                            <dd><a class="hover:text-gray-900" href="tel:+1 (555) 234-5678">+1 (555) 234-5678</a></dd>
-                        </div>
-                        <div class="flex items-center gap-x-4">
-                            <x-icon code="mail" />
-                            <dd>
-                                {{ tenant()->configValue('contact_email') }}
-                            </dd>
-                        </div>
+                        
+                        @config('contact_whatsapp')
+                            <div class="flex gap-x-4 items-center">
+                                <dt class="flex-none">
+                                    <img class="w-7 h-7" src="{{ URL::to('img/whatsapp-icon.svg') }}" alt="whatsapp logo">
+                                </dt>
+                                <dd>
+                                    <a href="https://api.whatsapp.com/send?phone=54{{ $value }}" 
+                                    target="_blank" class="hover:text-gray-900">
+                                        +54{{ $value }}
+                                    </a>
+                                </dd>
+                            </div>
+                        @endconfig
+
+                        @config('contact_email')
+                            <div class="flex items-center gap-x-4">
+                                <x-icon code="mail" />
+                                <dd>{{ $value }}</dd>
+                            </div>
+                        @endconfig
                     </dl>
                 </div>
             </div>

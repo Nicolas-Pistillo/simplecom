@@ -30,7 +30,6 @@
                     Notificaciones
                 </div>
                 <div wire:poll class="divide-y divide-gray-100 max-h-[350px] overflow-y-auto">
-
                     @forelse (Auth::user()->notifications as $notification)
 
                         <a wire:key='{{ $notification->id }}' href="{{ data_get($notification->data, 'url', '#') }}"
@@ -86,6 +85,13 @@
                         </div>
                     @endforelse
                 </div>
+                @if (Auth::user()->notifications->isNotEmpty())
+                    <div class="m-4 pb-4">
+                        <x-button wire:click='deleteAll' type="secondary" class="w-full">
+                            Vaciar notificaciones
+                        </x-button>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

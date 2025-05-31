@@ -15,22 +15,6 @@ class TenantConfigurationSeeder extends Seeder
     public function run(): void
     {
         Configuration::firstOrCreate([
-            'key'           => 'fisical_address',
-            'display_name'  => 'Dirección del local/comercio',
-            'description'   => 'Ubicación fisica del comercio',
-            'topic'         => ConfigurationTopics::EcommerceData,
-            'show_in_setup' => true
-        ]);
-
-        Configuration::firstOrCreate([
-            'key'           => 'attention_schedule',
-            'display_name'  => 'Horarios de atención',
-            'description'   => 'Ejemplo: Lunes a viernes de 09:00 a 18:00',
-            'topic'         => ConfigurationTopics::EcommerceData,
-            'show_in_setup' => true
-        ]);
-
-        Configuration::firstOrCreate([
             'key'           => 'contact_email',
             'display_name'  => 'Email de contacto',
             'description'   => 'Correo de consultas para clientes',
@@ -38,6 +22,16 @@ class TenantConfigurationSeeder extends Seeder
             'input_type'    => InputType::Email,
             'show_in_setup' => true,
             'required'      => true
+        ]);
+
+        Configuration::firstOrCreate([
+            'key'           => 'ecommerce_eslogan',
+            'display_name'  => 'Eslogan del comercio',
+            'description'   => 'Tu eslogan o frase que te identifica',
+            'topic'         => ConfigurationTopics::EcommerceData,
+            'input_type'    => InputType::Text,
+            'show_in_setup' => false,
+            'required'      => false
         ]);
 
         Configuration::firstOrCreate([
@@ -57,10 +51,42 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         Configuration::firstOrCreate([
+            'key'           => 'ecommerce_facebook',
+            'display_name'  => 'Facebook',
+            'description'   => 'Link al facebook del comercio',
+            'input_type'    => InputType::Url,
+            'topic'         => ConfigurationTopics::EcommerceData
+        ]);
+
+        Configuration::firstOrCreate([
+            'key'           => 'ecommerce_tiktok',
+            'display_name'  => 'TikTok',
+            'description'   => 'Link al tiktok del comercio',
+            'input_type'    => InputType::Url,
+            'topic'         => ConfigurationTopics::EcommerceData
+        ]);
+
+        Configuration::firstOrCreate([
             'key'           => 'ecommerce_youtube',
             'display_name'  => 'Canal de youtube',
             'description'   => 'Link al canal de youtube del comercio',
             'input_type'    => InputType::Url,
+            'topic'         => ConfigurationTopics::EcommerceData
+        ]);
+
+        Configuration::firstOrCreate([
+            'key'           => 'whatsapp_button',
+            'display_name'  => 'Botón de whatsapp',
+            'description'   => 'Activar botón de whatsapp en el ecommerce',
+            'input_type'    => InputType::Boolean,
+            'topic'         => ConfigurationTopics::EcommerceData
+        ]);
+
+        Configuration::firstOrCreate([
+            'key'           => 'contact_phone',
+            'display_name'  => 'Telefono fijo',
+            'description'   => 'Telefono de contacto',
+            'input_type'    => InputType::Number,
             'topic'         => ConfigurationTopics::EcommerceData
         ]);
 
