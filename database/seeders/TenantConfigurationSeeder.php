@@ -75,6 +75,15 @@ class TenantConfigurationSeeder extends Seeder
         ]);
 
         Configuration::firstOrCreate([
+            'key'          => 'promotional_message',
+            'display_name' => 'Mensaje promocional',
+            'topic'        => ConfigurationTopics::EcommerceData,
+            'description'  => 'Un texto llamativo que aparecerá en el inicio de tu ecommerce para atraer la atención de tus clientes',
+            'helper'       => 'Por ejemplo: 20% de descuento abonando con transferencia',
+            'required'     => false
+        ]);
+
+        Configuration::firstOrCreate([
             'key'           => 'whatsapp_button',
             'display_name'  => 'Botón de whatsapp',
             'description'   => 'Activar botón de whatsapp en el ecommerce',

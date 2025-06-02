@@ -27,7 +27,10 @@ class EcommerceData extends Component
     {
         $this->form->validate();
 
-        tenant()->update(['ecommerce_name' => $this->form->ecommerce_name]);
+        tenant()->update([
+            'ecommerce_name' => $this->form->ecommerce_name,
+            'color'          => $this->form->selected_color
+        ]);
 
         if ($this->form->ecommerce_logo)
         {

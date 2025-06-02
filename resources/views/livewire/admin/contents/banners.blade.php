@@ -6,9 +6,8 @@
             <div class="sm:flex-auto">
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Banners</h1>
                 <p class="mt-2 text-sm text-gray-700">
-                    Los banners son la primer herramienta visual de tu comercio, sirve para mostrar promociones, ofertas
-                    especiales,
-                    productos destacados o cualquier otra información
+                    Los banners son la primer herramienta visual de tu comercio, sirve para mostrar gráficamente 
+                    promociones, ofertas especiales, productos destacados o cualquier otra información
                     que quieras exponer en el inicio de tu tienda.
                     <span class="inline-flex items-center text-blue-500">
                         <a target="_blank" href="https://recursos.tiendanube.com/banners"

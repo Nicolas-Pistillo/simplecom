@@ -15,7 +15,7 @@
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td style="font-size: 12px;">
-                                <strong> {{ tenant('ecommerce_name') }} </strong><br>
+                                <strong> {{ tenant('ecommerce_name') }}</strong><br>
                                 787 Brunswick<br>
                                 Los Angeles<br>
                                 CA 50028<br>
@@ -23,7 +23,7 @@
                             </td>
                             <td align="right">
                                 <img src="{{ tenant()->logo() }}" 
-                                alt="Logo aca" width="60" height="30">
+                                alt="Logo aca" width="90" height="30" style="object-fit: contain">
                             </td>
                         </tr>
                     </table>

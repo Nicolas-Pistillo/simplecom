@@ -66,6 +66,13 @@
                             <x-switch wireModel="filters.only_unreplied" />
                         </span>
                     </div>
+
+                    <div class="flex items-center border-t border-slate-400/20 py-3">
+                        <span>Sin leer</span>
+                        <span class="ml-auto flex items-center">
+                            <x-switch wireModel="filters.only_unread" />
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -116,7 +123,16 @@
             @if (!empty($filters->only_unreplied))
                 <x-badge color="orange" class="flex items-center gap-1" 
                 wire:click="removeFilter('only_unreplied')">
-                    Solo sin responder
+                    Sin responder
+                    <x-icon code="close" x-tooltip.raw="Quitar filtro"
+                        class="text-[14px] cursor-pointer hover:text-red-500" />
+                </x-badge>
+            @endif
+
+            @if (!empty($filters->only_unread))
+                <x-badge color="indigo" class="flex items-center gap-1" 
+                wire:click="removeFilter('only_unread')">
+                    Sin leer
                     <x-icon code="close" x-tooltip.raw="Quitar filtro"
                         class="text-[14px] cursor-pointer hover:text-red-500" />
                 </x-badge>
