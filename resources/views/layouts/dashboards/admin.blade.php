@@ -264,21 +264,7 @@
         })
     </script>
 
-    <!-- component -->
-    <!--
-    =======================================================================
-
-    This is a working contact form. To receive email,
-    Replace YOUR_ACCESS_KEY_HERE with your actual Access Key.
-
-    Create Access Key here ? https://web3forms.com/
-
-    Surjith S M (@surjithctly)
-    =======================================================================
- -->
-
-
-   {{--  Widget contacto soporte
+    {{-- Widget contacto soporte
     
     <div id="web3forms__widget" x-data="{ open: false }">
         <!-- x-init is only for demo purpose. you may remove it.  -->
@@ -433,7 +419,7 @@
     --}}
 
     {{-- Custom page sripts --}}
-    @yield('scripts')
+    @yield('end-body')
 </body>
 
 </html>

@@ -71,43 +71,6 @@
         {{-- Navbar --}}
         @include('ecommerce.partials.navbar')
 
-        {{-- Breakig News Banner --}}
-        <!--
-        Make sure you add some bottom padding to pages that include a sticky banner like this to prevent
-        your content from being obscured when the user scrolls to the bottom of the page.
-        -->
-        {{-- <div class="fixed inset-x-0 bottom-0 sm:px-6 sm:pb-5 lg:px-8 animate__animated animate__fadeInUp">
-            <div
-                class="pointer-events-auto flex items-center justify-between gap-x-6 bg-gray-900 px-6 py-2.5 sm:rounded-xl sm:py-3 sm:pl-4 sm:pr-3.5">
-                <p class="text-sm/6 text-white">
-                    <a href="#">
-                        <strong class="font-semibold">GeneriCon 2023</strong>Join us in Denver from June 7 – 9 to see
-                        what’s coming next&nbsp;<span aria-hidden="true">&rarr;</span>
-                    </a>
-                </p>
-                <x-icon code="close" class="text-white text-[16px] cursor-pointer" />
-            </div>
-        </div> --}}
-
-        {{-- <div class="pointer-events-none animate__animated animate__fadeInUp fixed inset-x-0 bottom-0 sm:px-6 sm:pb-5 lg:px-8">
-            <div class="relative isolate overflow-hidden sm:rounded-lg bg-white px-6 py-2.5 sm:px-3.5 shadow-lg">
-                <div class="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -translate-y-1/2 transform-gpu blur-2xl" aria-hidden="true">
-                    <div class="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30" style="clip-path: polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)"></div>
-                </div>
-                <div class="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -translate-y-1/2 transform-gpu blur-2xl" aria-hidden="true">
-                    <div class="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30" style="clip-path: polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)"></div>
-                </div>
-                <div class="flex items-center gap-x-6 justify-between">
-                    <p class="text-sm/6">
-                        <a href="#">
-                            <strong class="font-semibold">GeneriCon 2023</strong>Join us in Denver from June 7 – 9 to see what’s coming next&nbsp;<span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </p>
-                    <x-icon code="close" class="text-[16px]" />
-                </div>
-            </div>
-        </div> --}}
-
         <!-- Cart Drawer -->
         @livewire('ecommerce.cart-panel')
 
@@ -119,18 +82,6 @@
     <main class="bg-gray-50">
         @yield('content')
     </main>
-
-    {{-- Cookies advicement --}}
-    {{-- <div x-data="{open: true}" x-show="open"
-    class="animate__animated animate__bounceInLeft pointer-events-none fixed z-10 inset-x-0 bottom-0 px-6 pb-6">
-        <div class="pointer-events-auto max-w-xl rounded-xl bg-white p-6 shadow-lg ring-1 ring-gray-900/10">
-          <p class="text-sm leading-6 text-gray-900">This website uses cookies to supplement a balanced diet and provide a much deserved reward to the senses after consuming bland but nutritious meals. Accepting our cookies is optional but recommended, as they are delicious. See our <a href="#" class="font-semibold text-indigo-600">cookie policy</a>.</p>
-          <div class="mt-4 flex items-center gap-x-3">
-            <x-button @click="open = false" type="primary">Aceptar</x-button>
-            <x-button @click="open = false" type="secondary">Rechazar</x-button>
-          </div>
-        </div>
-    </div> --}}
 
     {{-- Newsletter --}}
     <div class="bg-{{ tenant('color') }}-600 py-16">
@@ -354,6 +305,18 @@
             </a>
         @endconfig
     @endconfig
+
+    {{-- Cookies advicement --}}
+    {{-- <div x-data="{open: true}" x-show="open"
+    class="animate__animated animate__bounceInLeft pointer-events-none fixed z-10 inset-x-0 bottom-0 px-6 pb-6">
+        <div class="pointer-events-auto max-w-xl rounded-xl bg-white p-6 shadow-lg ring-1 ring-gray-900/10">
+          <p class="text-sm leading-6 text-gray-900">This website uses cookies to supplement a balanced diet and provide a much deserved reward to the senses after consuming bland but nutritious meals. Accepting our cookies is optional but recommended, as they are delicious. See our <a href="#" class="font-semibold text-indigo-600">cookie policy</a>.</p>
+          <div class="mt-4 flex items-center gap-x-3">
+            <x-button @click="open = false" type="primary">Aceptar</x-button>
+            <x-button @click="open = false" type="secondary">Rechazar</x-button>
+          </div>
+        </div>
+    </div> --}}
 
     @yield('end-body')
 </body>

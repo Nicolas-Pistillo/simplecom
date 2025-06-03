@@ -29,6 +29,9 @@ class EcommerceDataConfiguration extends Form
     #[Validate('required|email', as: 'email de contacto')]
     public $contact_email;
 
+    #[Validate('nullable|string|max:150', as: 'mensaje promocional')]
+    public $promotional_message;
+
     #[Validate('nullable|string|size:10', as: 'número de whatsapp')]
     public $contact_whatsapp;
 
@@ -56,6 +59,7 @@ class EcommerceDataConfiguration extends Form
         $this->ecommerce_name      = tenant('ecommerce_name');
         $this->selected_color      = tenant('color');
         $this->ecommerce_eslogan   = tenant()->configValue('ecommerce_eslogan');
+        $this->promotional_message = tenant()->configValue('promotional_message');
         $this->contact_email       = tenant()->configValue('contact_email');
         $this->contact_whatsapp    = tenant()->configValue('contact_whatsapp');
         $this->whatsapp_button     = (bool) tenant()->configValue('whatsapp_button');

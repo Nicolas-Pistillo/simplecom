@@ -42,25 +42,6 @@
                             </div>
 
                             <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
-                                <label for="ecommerce_name" class="block text-sm mb-2 sm:mb-0 
-                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Nombre del comercio</label>
-                                <x-form-input icon="store" model="form.ecommerce_name" id="ecommerce_name" 
-                                class="sm:col-span-4 md:col-span-3" />
-                            </div>
-
-                            <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
-                                <label for="ecommerce_eslogan" class="block text-sm mb-2 sm:mb-0 
-                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">
-                                    Eslogan <br>
-                                    <small class="text-gray-500">
-                                        Tu eslogan o frase que te identifica
-                                    </small>
-                                </label>
-                                <x-form-input icon="format_quote" model="form.ecommerce_eslogan" id="ecommerce_eslogan" 
-                                class="sm:col-span-4 md:col-span-3" />
-                            </div>
-
-                            <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
                                 <label for="ecommerce_eslogan" class="block text-sm mb-2 sm:mb-0 
                                 font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">
                                     Color <br>
@@ -80,6 +61,37 @@
                                         </label>
                                     @endforeach
                                 </div>
+                            </div>
+
+                            <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
+                                <label for="ecommerce_name" class="block text-sm mb-2 sm:mb-0 
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Nombre del comercio</label>
+                                <x-form-input icon="store" model="form.ecommerce_name" id="ecommerce_name" 
+                                class="sm:col-span-4 md:col-span-3" />
+                            </div>
+
+                            <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
+                                <label for="ecommerce_eslogan" class="block text-sm mb-2 sm:mb-0 
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">
+                                    Eslogan <br>
+                                    <small class="text-gray-500">
+                                        Tu eslogan o frase que te identifica
+                                    </small>
+                                </label>
+                                <x-form-input icon="format_quote" model="form.ecommerce_eslogan" id="ecommerce_eslogan" 
+                                class="sm:col-span-4 md:col-span-3" />
+                            </div>
+
+                            <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
+                                <label for="promotional_message" class="block text-sm mb-2 sm:mb-0 
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">
+                                    Mensaje promocional <br>
+                                    <small class="text-gray-500">
+                                        Se mostrará debajo del banner principal, usado para captar la atención de los visitantes
+                                    </small>
+                                </label>
+                                <x-form-input icon="format_quote" model="form.promotional_message" id="promotional_message" 
+                                class="sm:col-span-4 md:col-span-3" />
                             </div>
 
                             <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
@@ -195,7 +207,5 @@
                 Guardando...
             </div>
         </div>
-
     </div>
-
 </div>
