@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
-    <script async src="https://maps.googleapis.com/maps/api/js?key={{ env('MAPS_API_KEY') }}&loading=async&libraries=marker&v=beta" defer></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key={{ env('MAPS_API_KEY') }}&loading=async&libraries=marker&v=beta"
+        defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -17,6 +20,7 @@
             aspect-ratio: 1;
             position: relative;
         }
+
         #main-loader:before,
         #main-loader:after {
             content: "";
@@ -29,23 +33,49 @@
             background: #2563eb;
             box-shadow: 2px 2px 6px #999;
             animation:
-                l1-1 2s  infinite,
+                l1-1 2s infinite,
                 l1-2 .5s infinite;
         }
+
         #main-loader:after {
-            background:#fff;
-            animation-delay: -1s,0s;
+            background: #fff;
+            animation-delay: -1s, 0s;
             box-shadow: 2px 2px 6px #999;
         }
+
         @keyframes l1-1 {
-            0%   {top:0   ;left:0}
-            25%  {top:100%;left:0}
-            50%  {top:100%;left:100%}
-            75%  {top:0   ;left:100%}
-            100% {top:0   ;left:0}
+            0% {
+                top: 0;
+                left: 0
+            }
+
+            25% {
+                top: 100%;
+                left: 0
+            }
+
+            50% {
+                top: 100%;
+                left: 100%
+            }
+
+            75% {
+                top: 0;
+                left: 100%
+            }
+
+            100% {
+                top: 0;
+                left: 0
+            }
         }
+
         @keyframes l1-2 {
-            80%,100% {transform: rotate(0.5turn)}
+
+            80%,
+            100% {
+                transform: rotate(0.5turn)
+            }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
@@ -54,7 +84,7 @@
     @yield('head')
 </head>
 
-<body x-data="{mobileMenuOpen: false}" class="min-h-screen overflow-y-auto">
+<body x-data="{ mobileMenuOpen: false }" class="min-h-screen overflow-y-auto">
 
     {{-- Global notification --}}
     @livewire('notification')
@@ -139,16 +169,17 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <input id="search-field"
-                            class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 
+                                class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 
                             placeholder:text-gray-400 focus:ring-0 text-sm"
-                            placeholder="Buscar..." type="search" autocomplete="off" name="search">
+                                placeholder="Buscar..." type="search" autocomplete="off" name="search">
                         </form>
 
                         <!-- Notifications & User menu -->
                         <div class="no-select flex items-center justify-center gap-x-2 sm:gap-x-4">
 
                             {{-- Ecommerce site link --}}
-                            <a href="{{ route('ecommerce.index') }}" target="_blank" x-tooltip.raw.placement.bottom="Ver mi tienda"
+                            <a href="{{ route('ecommerce.index') }}" target="_blank"
+                                x-tooltip.raw.placement.bottom="Ver mi tienda"
                                 class="hidden sm:block relative pt-2 text-gray-400 transition hover:text-gray-500">
                                 <x-icon code="storefront" />
                             </a>
@@ -187,13 +218,15 @@
                                     x-transition:leave-end="transform opacity-0 scale-95"
                                     class="absolute right-0 top-12 z-10 w-32 origin-top-right rounded-md 
                                   bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                                    <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900 
+                                    <a href="#"
+                                        class="block px-3 py-1 text-sm leading-6 text-gray-900 
                                     transition hover:bg-gray-50">
                                         Mi perfil
                                     </a>
                                     <form action="{{ route('admin.logout') }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="block w-full text-left px-3 py-1 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
+                                        <button type="submit"
+                                            class="block w-full text-left px-3 py-1 text-sm leading-6 text-red-500 transition hover:bg-gray-50">
                                             Cerrar sesión
                                         </button>
                                     </form>
@@ -231,7 +264,162 @@
         })
     </script>
 
+    {{-- Widget contacto soporte
+    
+    <div id="web3forms__widget" x-data="{ open: false }">
+        <!-- x-init is only for demo purpose. you may remove it.  -->
+        <div x-cloak id="w3f__widget--content" x-show="open" x-transition:enter-start="opacity-0 translate-y-5"
+            x-transition:enter="transition duration-200 transform ease"
+            x-transition:leave="transition duration-200 transform ease"
+            x-transition:leave-end="opacity-0 translate-y-5" @click.away="open = false"
+            class="fixed flex flex-col z-50 bottom-[100px] top-0 right-0 h-auto left-0 sm:top-auto sm:right-5 sm:left-auto h-[calc(100%-95px)] w-full sm:w-[350px] overflow-auto min-h-[250px] sm:h-[600px] border border-gray-300 bg-white shadow-2xl rounded-md">
+            <div class="flex p-5 flex-col justify-center items-center h-32 bg-blue-600">
+                <h3 class="text-lg text-white">How can we help?</h3>
+                <p class="text-white opacity-50">We usually respond in a few hours</p>
+            </div>
+            <div class="bg-gray-50 flex-grow p-6">
+
+                <form action="https://api.web3forms.com/submit" method="POST" id="form"
+                    class="needs-validation" novalidate>
+                    <input type="hidden" name="apikey" value="YOUR_ACCESS_KEY_HERE" />
+                    <input type="hidden" name="subject" value="New Submission from Web3Forms" />
+                    <input type="checkbox" name="botcheck" id="" style="display: none;" />
+
+
+                    <div class="mb-4">
+                        <label for="full_name" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Full
+                            Name</label>
+                        <input type="text" name="name" id="full_name" placeholder="John Doe" required
+                            class="w-full px-3 py-2 bg-white placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-100 focus:border-blue-300" />
+                    </div>
+
+
+
+
+                    <div class="mb-4">
+                        <label for="email" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Email
+                            Address</label>
+                        <input type="email" name="email" id="email" placeholder="you@company.com" required
+                            class="w-full px-3 py-2 bg-white placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-100 focus:border-blue-300" />
+                    </div>
+
+
+                    <div class="mb-4">
+                        <label for="message" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Your
+                            Message</label>
+
+                        <textarea rows="4" name="message" id="message" placeholder="Your Message"
+                            class="w-full h-28 px-3 py-2 bg-white placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-100 focus:border-blue-300"
+                            required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <x-button size="large" class="w-full">Enviar mensaje</x-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button x-cloak id="w3f__widget--btn" @click="open = !open"
+            class="fixed z-40 right-5 bottom-5 shadow-lg flex justify-center items-center w-14 h-14 bg-blue-500 rounded-full focus:outline-none hover:bg-blue-600 focus:bg-blue-600 transition duration-300 ease">
+            <svg class="w-6 h-6 text-white absolute" x-show="!open"
+                x-transition:enter-start="opacity-0 -rotate-45 scale-75"
+                x-transition:enter="transition duration-200 transform ease"
+                x-transition:leave="transition duration-100 transform ease"
+                x-transition:leave-end="opacity-0 -rotate-45" xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+
+            <svg class="w-6 h-6 text-white absolute" x-show="open"
+                x-transition:enter-start="opacity-0 rotate-45 scale-75"
+                x-transition:enter="transition duration-200 transform ease"
+                x-transition:leave="transition duration-100 transform ease"
+                x-transition:leave-end="opacity-0 rotate-45" xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+    </div> --}}
+
+    {{-- Widget botones deplegables hacia arriba
+
+    <div x-data="floatingMenu()" 
+     x-init="init()"
+     class="fixed bottom-8 right-8 z-50">
+
+    <!-- Botón principal -->
+    <button @click="toggle()" :class="{'rotate-45 bg-red-500': isOpen, 'bg-blue-600': !isOpen}"
+        class="p-4 rounded-full text-white shadow-lg hover:shadow-xl transition-all duration-300 transform focus:outline-none">
+        <x-icon code="add" class="w-6 h-6" />
+    </button>
+    
+    <!-- Botones secundarios - Ahora en columna hacia arriba -->
+    <div class="absolute bottom-full right-0 mb-4 flex flex-col items-end space-y-3">
+        <template x-for="(item, index) in items" :key="index">
+            <a :href="item.link"
+               x-show="isOpen"
+               x-tooltip.placement.left="item.tooltip"
+               x-transition:enter="transition ease-out duration-300"
+               x-transition:enter-start="opacity-0 translate-y-4"
+               x-transition:enter-end="opacity-100 translate-y-0"
+               x-transition:leave="transition ease-in duration-200"
+               x-transition:leave-start="opacity-100 translate-y-0"
+               x-transition:leave-end="opacity-0 translate-y-4"
+               class="flex items-center justify-center p-3 rounded-full text-white shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-110"
+               :class="item.color">
+                <span x-text="item.icon" class="text-xl"></span>
+                <span class="absolute -right-2 -top-2 bg-red-500 text-xs rounded-full h-5 w-5 flex items-center justify-center" 
+                      x-show="item.badge" 
+                      x-text="item.badge"></span>
+                <span x-show="isOpen" class="absolute right-full mr-2 px-2 py-1 text-xs whitespace-nowrap rounded bg-gray-800 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+            </a>
+        </template>
+    </div> 
+</div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('floatingMenu', () => ({
+                isOpen: false,
+                items: [
+                    { icon: '📊', link: '#', color: 'bg-green-500', badge: '3', tooltip: 'Reportes' },
+                    { icon: '✉️', link: '#', color: 'bg-yellow-500', tooltip: 'Mensajes' },
+                    { icon: '👥', link: '#', color: 'bg-purple-500', badge: '1', tooltip: 'Usuarios' },
+                    { icon: '⚙️', link: '#', color: 'bg-gray-500', tooltip: 'Configuración' },
+                    { icon: '➕', link: '#', color: 'bg-pink-500', tooltip: 'Nuevo Item' }
+                ],
+                
+                init() {
+                    // Cerrar al hacer click fuera
+                    document.addEventListener('click', (e) => {
+                        if (!this.$el.contains(e.target) && this.isOpen) {
+                            this.close();
+                        }
+                    });
+                },
+                
+                toggle() {
+                    this.isOpen ? this.close() : this.open();
+                },
+                
+                open() {
+                    this.isOpen = true;
+                },
+                
+                close() {
+                    this.isOpen = false;
+                }
+            }));
+        });
+    </script>
+
+    --}}
+
     {{-- Custom page sripts --}}
-    @yield('scripts')
+    @yield('end-body')
 </body>
+
 </html>

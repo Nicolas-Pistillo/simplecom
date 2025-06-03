@@ -12,6 +12,14 @@ class EcommerceDataConfiguration extends Form
 
     public $logo_preview;
 
+    public $available_colors = [
+        'pink', 'red', 'indigo', 'purple', 'sky', 'cyan', 'orange',
+        'emerald', 'lime', 'blue', 'green', 'rose', 'yellow',
+        'violet', 'amber', 'teal', 'fuchsia', 'gray'
+    ];
+
+    public $selected_color;
+
     #[Validate('required|string|max:40', as: 'nombre de comercio')]
     public $ecommerce_name;
 
@@ -20,6 +28,9 @@ class EcommerceDataConfiguration extends Form
 
     #[Validate('required|email', as: 'email de contacto')]
     public $contact_email;
+
+    #[Validate('nullable|string|max:150', as: 'mensaje promocional')]
+    public $promotional_message;
 
     #[Validate('nullable|string|size:10', as: 'número de whatsapp')]
     public $contact_whatsapp;
@@ -46,7 +57,9 @@ class EcommerceDataConfiguration extends Form
     {
         $this->logo_preview        = tenant()->logo();
         $this->ecommerce_name      = tenant('ecommerce_name');
-        $this->ecommerce_eslogan    = tenant()->configValue('ecommerce_eslogan');
+        $this->selected_color      = tenant('color');
+        $this->ecommerce_eslogan   = tenant()->configValue('ecommerce_eslogan');
+        $this->promotional_message = tenant()->configValue('promotional_message');
         $this->contact_email       = tenant()->configValue('contact_email');
         $this->contact_whatsapp    = tenant()->configValue('contact_whatsapp');
         $this->whatsapp_button     = (bool) tenant()->configValue('whatsapp_button');
@@ -59,6 +72,6 @@ class EcommerceDataConfiguration extends Form
 
     public function getMassiveUpdateFields()
     {
-        return $this->except('ecommerce_logo', 'logo_preview');
+        return $this->except('ecommerce_logo', 'logo_preview', 'available_colors', 'selected_color');
     }
 }

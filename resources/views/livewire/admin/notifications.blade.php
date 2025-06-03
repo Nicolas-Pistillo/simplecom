@@ -34,7 +34,7 @@
 
                         <a wire:key='{{ $notification->id }}' href="{{ data_get($notification->data, 'url', '#') }}"
                         {{ !data_get($notification->data, 'url') ? 'onclick=event.preventDefault()' : '' }}
-                        class="flex px-4 py-3 hover:bg-gray-100">
+                        class="flex px-4 py-3 hover:bg-gray-50">
                             <div class="flex-shrink-0">
 
                                 @if (data_get($notification->data, 'presentation') === NotificationPresentation::Icon->value)

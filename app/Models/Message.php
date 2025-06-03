@@ -50,6 +50,11 @@ class Message extends Model
             {
                 $query->whereNull('reply');
             }
+
+            if ($filters->only_unread)
+            {
+                $query->where('read', false);
+            }
         });
     }
 

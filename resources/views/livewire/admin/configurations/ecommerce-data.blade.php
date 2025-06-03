@@ -9,8 +9,7 @@
                             Información general
                         </h2>
                         <p class="mt-1 max-w-2xl text-sm/6 text-gray-600">
-                            This information will be displayed publicly so
-                            be careful what you share.
+                            Datos relacionados a tu perfil de comercio y a tus medios de contacto
                         </p>
 
                         <div class="mt-10 space-y-8 border-b border-gray-900/10 pb-4 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
@@ -43,6 +42,28 @@
                             </div>
 
                             <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
+                                <label for="ecommerce_eslogan" class="block text-sm mb-2 sm:mb-0 
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">
+                                    Color <br>
+                                    <small class="text-gray-500">
+                                        Seleccioná el color que identifique tu comercio
+                                    </small>
+                                </label>
+                                <div x-data="{selected: $wire.form.selected_color}" class="flex items-center gap-3 flex-wrap sm:col-span-3">
+                                    @foreach ($form->available_colors as $color)
+                                        <label @click="selected = '{{ $color }}'" :class="selected === '{{ $color }}' ? 'ring ring-offset-1 ring-{{ $color }}-300' : ''"
+                                            class="relative flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none">
+                                            <input type="radio" name="selected_color" 
+                                            wire:model.live='form.selected_color' value="{{ $color }}" class="sr-only">
+                                            <span class="sr-only"> {{ $color }} </span>
+                                            <span aria-hidden="true"
+                                                class="h-8 w-8 bg-{{ $color }}-500 rounded-full border border-black border-opacity-10"></span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
                                 <label for="ecommerce_name" class="block text-sm mb-2 sm:mb-0 
                                 font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">Nombre del comercio</label>
                                 <x-form-input icon="store" model="form.ecommerce_name" id="ecommerce_name" 
@@ -58,6 +79,18 @@
                                     </small>
                                 </label>
                                 <x-form-input icon="format_quote" model="form.ecommerce_eslogan" id="ecommerce_eslogan" 
+                                class="sm:col-span-4 md:col-span-3" />
+                            </div>
+
+                            <div class="sm:grid sm:grid-cols-6 sm:items-center sm:gap-4 sm:py-6">
+                                <label for="promotional_message" class="block text-sm mb-2 sm:mb-0 
+                                font-medium text-gray-900 sm:pt-1.5 sm:col-span-2">
+                                    Mensaje promocional <br>
+                                    <small class="text-gray-500">
+                                        Se mostrará debajo del banner principal, usado para captar la atención de los visitantes
+                                    </small>
+                                </label>
+                                <x-form-input icon="format_quote" model="form.promotional_message" id="promotional_message" 
                                 class="sm:col-span-4 md:col-span-3" />
                             </div>
 
@@ -174,7 +207,5 @@
                 Guardando...
             </div>
         </div>
-
     </div>
-
 </div>

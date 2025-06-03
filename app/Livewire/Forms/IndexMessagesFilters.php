@@ -15,6 +15,9 @@ class IndexMessagesFilters extends Form
     #[Validate('nullable|boolean', as: 'sin responder')]
     public $only_unreplied;
 
+    #[Validate('nullable|boolean', as: 'sin leer')]
+    public $only_unread;
+
     public function isNotEmpty()
     {
         return !empty($this->topic) || !empty($this->only_unreplied);
