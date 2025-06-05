@@ -204,6 +204,14 @@ class Order extends Model
         }
     }
 
+    public function scopePaid(Builder $query)
+    {
+        $query->whereHas('payment', function($q) 
+        {
+            $q->whereIn('status', [PaymentStatus::Authorized, PaymentStatus::Confirmed]);
+        });
+    }
+
     public function scopeAdminFilter(Builder $query, IndexOrdersFilters $filters)
     {
         $query->where(function ($query) use ($filters)
