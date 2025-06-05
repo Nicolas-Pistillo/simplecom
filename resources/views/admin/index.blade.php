@@ -3,172 +3,9 @@
 @section('content')
     <div>
 
-        <div class="relative isolate overflow-hidden">
-
-            <!-- Secondary navigation -->
-            <header class="pb-4 pt-6 sm:pb-6">
-                <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-6 sm:flex-nowrap">
-                    <h1 class="text-base font-semibold leading-7 text-gray-900">Cashflow</h1>
-                    <div
-                        class="order-last flex w-full gap-x-8 text-sm font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
-                        <a href="#" class="text-indigo-600">Last 7 days</a>
-                        <a href="#" class="text-gray-700">Last 30 days</a>
-                        <a href="#" class="text-gray-700">All-time</a>
-                    </div>
-                    <x-button type="secondary" class="ml-auto flex items-center">
-                        <x-icon code="add" class="mr-1" /> New invoince
-                    </x-button>
-                </div>
-            </header>
-
-            <!-- Stats -->
-            <div class="mt-4 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
-                <div>
-                    <hr role="presentation" class="w-full border-t border-zinc-950/10">
-                    <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Total revenue</div>
-                    <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">$2.6M</div>
-                    <div class="mt-3 text-sm/6 sm:text-xs/6"><span
-                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-hover:bg-lime-400/30">+4.5%</span>
-                        <span class="text-zinc-500">from last week</span></div>
-                </div>
-                <div>
-                    <hr role="presentation" class="w-full border-t border-zinc-950/10">
-                    <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Average order value</div>
-                    <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">$455</div>
-                    <div class="mt-3 text-sm/6 sm:text-xs/6"><span
-                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-pink-400/15 text-pink-700 group-data-hover:bg-pink-400/25">-0.5%</span>
-                        <span class="text-zinc-500">from last week</span></div>
-                </div>
-                <div>
-                    <hr role="presentation" class="w-full border-t border-zinc-950/10">
-                    <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Tickets sold</div>
-                    <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">5,888</div>
-                    <div class="mt-3 text-sm/6 sm:text-xs/6"><span
-                            class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-hover:bg-lime-400/30">+4.5%</span>
-                        <span class="text-zinc-500">from last week</span></div>
-                </div>
-                <div>
-                    <hr role="presentation" class="w-full border-t border-zinc-950/10">
-                    <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Pageviews</div>
-                    <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">823,067</div>
-                    <div class="mt-3 text-sm/6 sm:text-xs/6">
-                      <x-badge color="emerald">+21.2%</x-badge>
-                      <span class="text-zinc-500">desde la semana pasada</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @livewire('admin.dashboard.stats')
 
         <div class="space-y-16 py-16 xl:space-y-20">
-
-            <div
-                class="w-full max-w-md py-6 px-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
-                <div class="flex items-center justify-between mb-4">
-                    <h5 class="text-xl font-bold leading-none text-gray-900">Pedidos Recientes</h5>
-                    <a href="{{ route('admin.orders.index') }}" class="text-sm font-medium text-blue-600 hover:underline">
-                        Ver todos
-                    </a>
-                </div>
-                <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200">
-                        <li class="py-3 sm:py-4">
-                            <div class="flex items-center">
-                                <div class="shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300" alt="Neil image">
-                                </div>
-                                <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate">
-                                        Neil Sims
-                                    </p>
-                                    <p class="text-sm text-gray-500 truncate">
-                                        email@windster.com
-                                    </p>
-                                </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                                    $320
-                                </div>
-                            </div>
-                        </li>
-                        <li class="py-3 sm:py-4">
-                            <div class="flex items-center ">
-                                <div class="shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300"
-                                        alt="Bonnie image">
-                                </div>
-                                <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate">
-                                        Bonnie Green
-                                    </p>
-                                    <p class="text-sm text-gray-500 truncate">
-                                        email@windster.com
-                                    </p>
-                                </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                                    $3467
-                                </div>
-                            </div>
-                        </li>
-                        <li class="py-3 sm:py-4">
-                            <div class="flex items-center">
-                                <div class="shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300"
-                                        alt="Michael image">
-                                </div>
-                                <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate">
-                                        Michael Gough
-                                    </p>
-                                    <p class="text-sm text-gray-500 truncate">
-                                        email@windster.com
-                                    </p>
-                                </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                                    $67
-                                </div>
-                            </div>
-                        </li>
-                        <li class="py-3 sm:py-4">
-                            <div class="flex items-center ">
-                                <div class="shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300" alt="Lana image">
-                                </div>
-                                <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate">
-                                        Lana Byrd
-                                    </p>
-                                    <p class="text-sm text-gray-500 truncate">
-                                        email@windster.com
-                                    </p>
-                                </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                                    $367
-                                </div>
-                            </div>
-                        </li>
-                        <li class="pt-3 pb-0 sm:pt-4">
-                            <div class="flex items-center ">
-                                <div class="shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300"
-                                        alt="Thomas image">
-                                </div>
-                                <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 truncate">
-                                        Thomes Lean
-                                    </p>
-                                    <p class="text-sm text-gray-500 truncate">
-                                        email@windster.com
-                                    </p>
-                                </div>
-                                <div
-                                    class="inline-flex items-center text-base font-semibold text-gray-900">
-                                    $2367
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
 
             <!-- Recent activity table -->
             <div>
@@ -548,8 +385,8 @@
 
     </div>
 
-    {{-- Quick Action Buttons
-    <div data-dial-init class="fixed end-6 bottom-6 group z-20">
+    {{-- Quick Action Buttons --}}
+    {{-- <div data-dial-init class="fixed end-6 bottom-6 group z-20">
       <div id="speed-dial-menu-default" class="flex flex-col items-center hidden mb-4 space-y-2">
           <button type="button" data-tooltip-target="tooltip-share" data-tooltip-placement="left" class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200   hover:bg-gray-50   focus:ring-4 focus:ring-gray-300 focus:outline-none ">
               <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -603,6 +440,6 @@
           </svg>
           <span class="sr-only">Open actions menu</span>
       </button>
-    </div> 
-  --}}
+    </div>  --}}
+ 
 @endsection
