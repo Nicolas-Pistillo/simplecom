@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\DeliveryType;
 use App\Enums\PaymentStatus;
+use App\Enums\PeriodOption;
 use App\Enums\ShippingStatus;
 use App\Livewire\Forms\IndexOrdersFilters;
 use Illuminate\Database\Eloquent\Builder;
@@ -210,6 +211,35 @@ class Order extends Model
         {
             $q->whereIn('status', [PaymentStatus::Authorized, PaymentStatus::Confirmed]);
         });
+    }
+
+    public function scopeByPeriod(Builder $query, PeriodOption $period)
+    {
+        if ($period === PeriodOption::Today)
+        {
+            $query->whereBetween('created_at', [now()->startOfDay(), now()]);
+        }
+
+        if ($period === PeriodOption::ThisWeek)
+        {
+            $query->whereBetween('created_at', [now()->startOfWeek(), now()]);
+        }
+
+        if ($period === PeriodOption::LastWeek)
+        {
+            $query->whereBetween('created_at', [
+                now()->subWeek()->startOfWeek(),
+                now()->subWeek()->endOfWeek()
+            ]);
+        }
+
+        if ($period === PeriodOption::LastMonth)
+        {
+            $query->whereBetween('created_at', [
+                now()->subMonth()->startOfMonth(),
+                now()->subMonth()->endOfMonth()
+            ]);
+        }
     }
 
     public function scopeAdminFilter(Builder $query, IndexOrdersFilters $filters)
