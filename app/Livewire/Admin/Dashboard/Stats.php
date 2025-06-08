@@ -2,17 +2,16 @@
 
 namespace App\Livewire\Admin\Dashboard;
 
+use App\Enums\InvoiceStatus;
 use App\Enums\PeriodOption;
+use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
-use App\Traits\Livewire\WithNotifications;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Stats extends Component
 {
-    use WithNotifications;
-
     public PeriodOption $period = PeriodOption::ThisWeek;
 
     public function setPeriod(PeriodOption $period)
@@ -36,6 +35,16 @@ class Stats extends Component
         ];
     }
 
+    public function getTotalSold()
+    {
+        $orders = Order::byPeriod($this->period)->paid();
+
+        return [
+            'total'         => $orders->sum('total'),
+            'totalShipping' => $orders->sum('shipping_cost')
+        ];
+    }
+
     public function getAverageTicket()
     {
         $orders = Order::byPeriod($this->period)->paid();
@@ -47,24 +56,12 @@ class Stats extends Component
         return $orders->sum('total') / $totalCount;
     }
 
-    public function getTotalSold()
-    {
-        $orders = Order::byPeriod($this->period)->paid();
-
-        return [
-            'total'         => $orders->sum('total'),
-            'totalShipping' => $orders->sum('shipping_cost')
-        ];
-    }
-
     public function render()
     {
         return view('livewire.admin.dashboard.stats', [
-            'orderAverage'  => $this->getOrderAverage(),
-            'averageTicket' => $this->getAverageTicket(),
-            'totalSold'     => $this->getTotalSold(),
-            'lastOrders'    => Order::with('user')->orderBy('created_at', 'DESC')->take(5)->get(),
-            'lastCustomers' => User::orderBy('created_at')->take(5)->get()
+            'orderAverage'       => $this->getOrderAverage(),
+            'totalSold'          => $this->getTotalSold(),
+            'averageTicket'      => $this->getAverageTicket()
         ]);
     }
 }

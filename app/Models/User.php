@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->hasMany(WishlistItem::class);
     }
 
+    public function scopeRegistered(Builder $query)
+    {
+        $query->where('type', CustomerType::Registered);
+    }
+
     public function scopeSearch(Builder $query, string $search)
     {
         if (!empty(trim($search)))
