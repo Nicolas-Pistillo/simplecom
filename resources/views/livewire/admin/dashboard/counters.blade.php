@@ -1,7 +1,7 @@
 <div>
     <div class="my-4">
         <dl class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
-            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-lg sm:p-6">
+            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-md sm:p-6">
                 <dt class="truncate text-sm font-medium text-gray-500">Clientes</dt>
                 <dd
                     class="mt-1 text-3xl flex items-end gap-x-3 justify-between 

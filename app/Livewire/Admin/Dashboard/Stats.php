@@ -2,12 +2,8 @@
 
 namespace App\Livewire\Admin\Dashboard;
 
-use App\Enums\InvoiceStatus;
 use App\Enums\PeriodOption;
-use App\Models\Invoice;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\User;
 use Livewire\Component;
 
 class Stats extends Component
