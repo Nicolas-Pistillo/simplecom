@@ -1,16 +1,4 @@
 <div>
-
-    <section>
-        <div class="bg-{{ tenant('color') }}-600 rounded-2xl py-8 px-2">
-            <h2 class="font-manrope font-bold text-white text-xl sm:text-4xl text-center mb-3">
-                Hola, {{ Auth::user()->name }}
-            </h2>
-            <p class="text-white text-center">
-                Bienvenido a Simplecom
-            </p>
-        </div>
-    </section>
-
     <div class="relative isolate overflow-hidden">
         <header class="pb-4 pt-6 sm:pb-6">
             <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-6 sm:flex-nowrap">

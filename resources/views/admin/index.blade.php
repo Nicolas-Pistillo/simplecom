@@ -6,11 +6,22 @@
 
 @section('content')
 
+    <section>
+        <div class="bg-{{ tenant('color') }}-600 rounded-2xl py-8 px-2">
+            <h2 class="font-manrope font-bold text-white text-xl sm:text-4xl text-center mb-3">
+                Hola, {{ Auth::user()->name }}
+            </h2>
+            <p class="text-white text-center">
+                Bienvenido a Simplecom
+            </p>
+        </div>
+
+        @livewire('admin.dashboard.counters')
+    </section>
+
     @livewire('admin.dashboard.stats')
 
     @livewire('admin.dashboard.graphics')
-
-    @livewire('admin.dashboard.counters')
 
     @livewire('admin.dashboard.last-activity')
 

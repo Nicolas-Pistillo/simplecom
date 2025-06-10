@@ -17,6 +17,8 @@ class Stats extends Component
     public function setPeriod(PeriodOption $period)
     {
         $this->period = $period;
+
+        $this->dispatch('period-updated', $period);
     }
 
     public function getOrderAverage()
