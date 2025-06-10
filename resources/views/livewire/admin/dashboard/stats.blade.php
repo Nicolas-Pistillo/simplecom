@@ -23,6 +23,13 @@
             </div>
         </header>
 
+        @if ($this->period != PeriodOption::Today)
+            <h4 class="text-sm font-semibold">
+                Período del {{ data_get($this->period->datesBetween(), 'from')->format('d/m') }} 
+                hasta el {{ data_get($this->period->datesBetween(), 'to')->format('d/m') }}
+            </h4>
+        @endif
+
         <div class="grid gap-8 sm:grid-cols-3">
             <div>
                 <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Total Pedidos</div>

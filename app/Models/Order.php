@@ -215,29 +215,13 @@ class Order extends Model
 
     public function scopeByPeriod(Builder $query, PeriodOption $period)
     {
-        if ($period === PeriodOption::Today)
+        if ($period != PeriodOption::Historic)
         {
-            $query->whereBetween('created_at', [now()->startOfDay(), now()]);
-        }
+            $datesBetween = $period->datesBetween();
 
-        if ($period === PeriodOption::ThisWeek)
-        {
-            $query->whereBetween('created_at', [now()->startOfWeek(), now()]);
-        }
-
-        if ($period === PeriodOption::LastWeek)
-        {
             $query->whereBetween('created_at', [
-                now()->subWeek()->startOfWeek(),
-                now()->subWeek()->endOfWeek()
-            ]);
-        }
-
-        if ($period === PeriodOption::LastMonth)
-        {
-            $query->whereBetween('created_at', [
-                now()->subMonth()->startOfMonth(),
-                now()->subMonth()->endOfMonth()
+                data_get($datesBetween, 'from'), 
+                data_get($datesBetween, 'to')
             ]);
         }
     }

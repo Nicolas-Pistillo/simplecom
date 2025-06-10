@@ -188,3 +188,35 @@ if (!function_exists('getRawColor'))
         return data_get($colors, $color, '#4b5563');
     }
 }
+
+if (!function_exists('getRawLightedColor'))
+{
+    function getRawLightedColor($color)
+    {
+        $colors = [
+            'red'    => 'rgba(239,68,68,0.05)',
+            'green'  => 'rgba(34,197,94,0.05)',
+            'blue'   => 'rgba(59,130,246,0.05)',
+            'yellow' => 'rgba(234,179,8,0.05)',
+            'cyan'   => 'rgba(6,182,212,0.05)',
+            'gray'   => 'rgba(107,114,128,0.05)',
+            'teal'   => 'rgba(20,184,166,0.05)',
+            'sky'    => 'rgba(14,165,233,0.05)',
+            'indigo' => 'rgba(99,102,241,0.05)',
+            'purple' => 'rgba(168,85,247,0.05)',
+            'pink'   => 'rgba(236,72,153,0.05)',
+            'orange' => 'rgba(249,115,22,0.05)',
+            'lime'   => 'rgba(132,204,22,0.05)',
+            'emerald'=> 'rgba(16,185,129,0.05)',
+            'fuchsia'=> 'rgb(217,70,239,0.05)',
+            'rose'   => 'rgba(244,63,94,0.05)',
+            'violet' => 'rgba(139,92,246,0.05)',
+            'amber'  => 'rgba(245,158,11,0.05)',
+            'slate'  => '#475569',
+            'zinc'   => '#52525b',
+            'stone'  => '#57534e',
+        ];
+
+        return data_get($colors, $color);
+    }
+}

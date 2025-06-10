@@ -20,7 +20,7 @@
             </p>
         </div>
         <div>
-            <canvas id="bar-chart"></canvas>
+            <canvas class="h-64" id="bar-chart"></canvas>
         </div>
     </div>
 
@@ -54,179 +54,198 @@
     {{-- Line Chart --}}
     @script
         <script>
-            $wire.call('getOrderEvolution')
-                .then(data => 
-                {
-                    const chart = document.getElementById('line-chart');
+            Livewire.on('update-graphics', () => 
+            {
+                $wire.call('getOrderEvolution')
+                    .then(data => 
+                    {
+                        const prevChart = Chart.getChart('line-chart');
 
-                    new Chart(chart, {
-                        type: 'line',
-                        data: {
-                            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'Mar', 'May', 'Jun', 'Jul'],
-                            datasets: [{
-                                label: 'Ventas',
-                                data: data,
-                                borderColor: '#22C55E',
-                                backgroundColor: 'rgba(34, 197, 94, 0.05)',
-                                borderWidth: 2.5,
-                                tension: 0.4,
-                                pointRadius: 2,
-                                fill: true,
-                            }]
-                        },
-                        options: {
-                            interaction: {
-                                mode: 'index',
-                                intersect: false
+                        if (prevChart != undefined) prevChart.destroy();
+
+                        const chart = document.getElementById('line-chart');
+
+                        new Chart(chart, {
+                            type: 'line',
+                            data: {
+                                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'Mar', 'May', 'Jun', 'Jul'],
+                                datasets: [{
+                                    label: 'Ventas',
+                                    data: data,
+                                    borderColor: '{{ getRawColor(tenant('color')) }}',
+                                    backgroundColor: '{{ getRawLightedColor(tenant('color')) }}',
+                                    borderWidth: 2.5,
+                                    tension: 0.4,
+                                    pointRadius: 2,
+                                    fill: true,
+                                }]
                             },
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: false
+                            options: {
+                                interaction: {
+                                    mode: 'index',
+                                    intersect: false
                                 },
-                                tooltip: {
-                                    enabled: true,
-                                    backgroundColor: 'white',
-                                    titleColor: '#1F2937',
-                                    bodyColor: '#1F2937',
-                                    borderColor: '#E5E7EB',
-                                    borderWidth: 1,
-                                    padding: 12,
-                                    displayColors: false,
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    grid: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
                                         display: false
                                     },
-                                    ticks: {
-                                        color: '#6B7280',
-                                        font: {
-                                            size: 10
+                                    tooltip: {
+                                        enabled: true,
+                                        backgroundColor: 'white',
+                                        titleColor: '#1F2937',
+                                        bodyColor: '#1F2937',
+                                        borderColor: '#E5E7EB',
+                                        borderWidth: 1,
+                                        padding: 12,
+                                        displayColors: false,
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        grid: {
+                                            display: false
+                                        },
+                                        ticks: {
+                                            color: '#6B7280',
+                                            font: {
+                                                size: 10
+                                            }
+                                        },
+                                        border: {
+                                            display: true
                                         }
                                     },
-                                    border: {
+                                    y: {
+                                        grid: {
+                                            color: '#F3F4F6',
+                                        },
+                                        ticks: {
+                                            color: '#6B7280',
+                                            stepSize: 40,
+                                            padding: 10,
+                                            font: {
+                                                size: 10
+                                            }
+                                        },
+                                        border: {
+                                            display: false
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
+
+                $wire.call('getUserRegistration')
+                    .then(data => 
+                    {
+                        const prevChart = Chart.getChart('bar-chart');
+
+                        if (prevChart != undefined) prevChart.destroy();
+
+                        const chart = document.getElementById('bar-chart');
+
+                        new Chart(chart, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                                datasets: [{
+                                    label: 'Price',
+                                    data: data,
+                                    backgroundColor: '{{ getRawColor(tenant('color')) }}', // green-300
+                                    borderRadius: 4,
+                                    borderSkipped: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    x: {
                                         display: true
                                     }
-                                },
-                                y: {
-                                    grid: {
-                                        color: '#F3F4F6',
-                                    },
-                                    ticks: {
-                                        color: '#6B7280',
-                                        stepSize: 40,
-                                        padding: 10,
-                                        font: {
-                                            size: 10
-                                        }
-                                    },
-                                    border: {
+                                }
+                            }
+                        });
+                    });
+
+                $wire.call('getMostUsedPaymentMethods')
+                    .then(data => 
+                    {
+                        const prevChart = Chart.getChart('h-bar-chart');
+
+                        if (prevChart != undefined) prevChart.destroy();
+
+                        const chart = document.getElementById('h-bar-chart');
+
+                        new Chart(chart, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Mercado Pago', 'Mobbex', 'Nave', 'Transferencia'],
+                                datasets: [{
+                                    label: 'Pedidos',
+                                    data: data,
+                                    backgroundColor: '{{ getRawColor(tenant('color')) }}', // green-300
+                                    borderRadius: 4,
+                                    borderSkipped: false
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y',
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
                                         display: false
                                     }
                                 }
                             }
-                        }
+                        });
                     });
-                });
 
-            $wire.call('getUserRegistration')
-                .then(data => 
-                {
-                    const chart = document.getElementById('bar-chart');
+                $wire.call('getBestSellingCategories')
+                    .then(data => 
+                    {
+                        const prevChart = Chart.getChart('pie-chart');
 
-                    new Chart(chart, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                            datasets: [{
-                                label: 'Price',
-                                data: data,
-                                backgroundColor: '#86efac', // green-300
-                                borderRadius: 4,
-                                borderSkipped: false
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
+                        if (prevChart != undefined) prevChart.destroy();
+
+                        const chart = document.getElementById('pie-chart');
+
+                        new Chart(chart, {
+                            type: 'pie',
+                            data: {
+                                labels: ['Mercado Pago', 'Mobbex', 'Nave', 'MODO', 'Transferencia'],
+                                datasets: [{
+                                    label: 'Pedidos',
+                                    data: data,
+                                }]
                             },
-                            scales: {
-                                x: {
-                                    display: true
+                            options: {
+                                indexAxis: 'y',
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'top'
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        display: false
+                                    }
                                 }
                             }
-                        }
+                        });
                     });
-                });
-
-            $wire.call('getMostUsedPaymentMethods')
-                .then(data => 
-                {
-                    const chart = document.getElementById('h-bar-chart');
-
-                    new Chart(chart, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Mercado Pago', 'Mobbex', 'Nave', 'Transferencia'],
-                            datasets: [{
-                                label: 'Pedidos',
-                                data: data,
-                                backgroundColor: '#86efac', // green-300
-                                borderRadius: 4,
-                                borderSkipped: false
-                            }]
-                        },
-                        options: {
-                            indexAxis: 'y',
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            }
-                        }
-                    });
-                });
-
-            $wire.call('getBestSellingCategories')
-                .then(data => 
-                {
-                    const chart = document.getElementById('pie-chart');
-
-                    new Chart(chart, {
-                        type: 'pie',
-                        data: {
-                            labels: ['Mercado Pago', 'Mobbex', 'Nave', 'MODO', 'Transferencia'],
-                            datasets: [{
-                                label: 'Pedidos',
-                                data: data,
-                            }]
-                        },
-                        options: {
-                            indexAxis: 'y',
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: 'top'
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    display: false
-                                }
-                            }
-                        }
-                    });
-                });
+            });
         </script>
     @endscript
 </div>
