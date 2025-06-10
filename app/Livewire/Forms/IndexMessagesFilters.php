@@ -20,6 +20,6 @@ class IndexMessagesFilters extends Form
 
     public function isNotEmpty()
     {
-        return !empty($this->topic) || !empty($this->only_unreplied);
+        return !empty($this->topic) || !empty($this->only_unread) || !empty($this->only_unreplied);
     }
 }

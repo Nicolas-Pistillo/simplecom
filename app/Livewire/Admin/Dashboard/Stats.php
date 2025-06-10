@@ -2,23 +2,68 @@
 
 namespace App\Livewire\Admin\Dashboard;
 
+use App\Enums\InvoiceStatus;
+use App\Enums\PeriodOption;
+use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Livewire\Component;
 
 class Stats extends Component
 {
+    public PeriodOption $period = PeriodOption::ThisWeek;
+
+    public function setPeriod(PeriodOption $period)
+    {
+        $this->period = $period;
+
+        $this->dispatch('period-updated', $period);
+    }
+
+    public function getOrderAverage()
+    {
+        $orders = Order::byPeriod($this->period);
+
+        $totalCount = $orders->count();
+
+        if (empty($totalCount)) return ['total' => 0, 'conversionRate' => 0];
+
+        $conversionRate = round(($orders->paid()->count() / $totalCount) * 100, 2);
+
+        return [
+            'total'          => $totalCount,
+            'conversionRate' => $conversionRate
+        ];
+    }
+
+    public function getTotalSold()
+    {
+        $orders = Order::byPeriod($this->period)->paid();
+
+        return [
+            'total'         => $orders->sum('total'),
+            'totalShipping' => $orders->sum('shipping_cost')
+        ];
+    }
+
     public function getAverageTicket()
     {
-        return Order::paid()->sum('total') / Order::paid()->count();
+        $orders = Order::byPeriod($this->period)->paid();
+
+        $totalCount = $orders->count();
+
+        if (empty($totalCount)) return 0;
+
+        return $orders->sum('total') / $totalCount;
     }
 
     public function render()
     {
         return view('livewire.admin.dashboard.stats', [
-            'averageTicket' => $this->getAverageTicket(),
-            'lastOrders'    => Order::with('user')->orderBy('created_at', 'DESC')->take(5)->get(),
-            'lastCustomers' => User::orderBy('created_at')->take(5)->get()
+            'orderAverage'       => $this->getOrderAverage(),
+            'totalSold'          => $this->getTotalSold(),
+            'averageTicket'      => $this->getAverageTicket()
         ]);
     }
 }

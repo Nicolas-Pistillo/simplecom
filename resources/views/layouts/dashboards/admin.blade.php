@@ -84,7 +84,7 @@
     @yield('head')
 </head>
 
-<body x-data="{ mobileMenuOpen: false }" class="min-h-screen overflow-y-auto">
+<body x-data="{ mobileMenuOpen: false }" class="min-h-screen overflow-y-auto overflow-x-hidden">
 
     {{-- Global notification --}}
     @livewire('notification')
@@ -272,7 +272,7 @@
             x-transition:enter="transition duration-200 transform ease"
             x-transition:leave="transition duration-200 transform ease"
             x-transition:leave-end="opacity-0 translate-y-5" @click.away="open = false"
-            class="fixed flex flex-col z-50 bottom-[100px] top-0 right-0 h-auto left-0 sm:top-auto sm:right-5 sm:left-auto h-[calc(100%-95px)] w-full sm:w-[350px] overflow-auto min-h-[250px] sm:h-[600px] border border-gray-300 bg-white shadow-2xl rounded-md">
+            class="fixed flex flex-col z-50 bottom-[100px] top-0 right-0 h-auto left-0 sm:top-auto sm:right-5 sm:left-auto h-[calc(100%-95px)] w-full sm:w-[350px] overflow-auto min-h-[250px] sm:h-[600px] border border-gray-300 bg-white shadow-2xl rounded-xl">
             <div class="flex p-5 flex-col justify-center items-center h-32 bg-blue-600">
                 <h3 class="text-lg text-white">How can we help?</h3>
                 <p class="text-white opacity-50">We usually respond in a few hours</p>

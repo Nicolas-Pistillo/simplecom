@@ -178,8 +178,8 @@ class NewInvoice extends Component
 
             $this->notify([
                 'type'  => 'success',
-                'title' => 'Factura Generada',
-                'body'  => "Generaste correctamente la factura"
+                'title' => $this->form->invoice_queued ? 'Factura en proceso' : 'Factura emitida',
+                'body'  => $this->form->invoice_queued ? 'La factura se emitira en breve' : 'Facturaste este pedido correctamente'
             ]);
 
         } catch (\Throwable $th) 
