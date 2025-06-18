@@ -64,7 +64,7 @@
                     </div>
 
                     <!-- Rating -->
-                    <div class="flex items-center gap-2">
+                    <!-- <div class="flex items-center gap-2">
                         <span
                             class="flex items-center gap-1 py-1 px-2 rounded-3xl  text-white font-medium text-sm bg-amber-400">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
@@ -90,7 +90,7 @@
                             </svg>
                             4.8
                         </span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </a>

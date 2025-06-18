@@ -37,7 +37,7 @@
     @endif
 
     <!-- Advicements/Features -->
-    <div class="bg-gray-50">
+    <!-- <div class="bg-gray-50">
         <div class="mx-auto max-w-7xl py-16 lg:px-4">
             <div class="mx-auto max-w-2xl px-4 lg:max-w-none">
                 <div class="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-2">
@@ -56,9 +56,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="bg-gray-50">
+    <!-- <div class="bg-gray-50">
         <h2 class="sr-only">Our perks</h2>
         <div class="mx-auto max-w-7xl py-24 sm:px-2 sm:py-32 lg:px-4">
             <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-12 px-4 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
@@ -117,9 +117,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    @if ($banners->isEmpty())
+    <!-- @if ($banners->isEmpty())
         <div class="bg-white">
             <h2 class="sr-only">Our perks</h2>
             <div
@@ -153,5 +153,5 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endif -->
 @endsection

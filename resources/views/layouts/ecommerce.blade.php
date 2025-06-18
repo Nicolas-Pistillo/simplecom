@@ -196,13 +196,14 @@
                 <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                     <div class="md:grid md:grid-cols-2 md:gap-8">
                         <div>
-                            <h3 class="text-sm font-semibold leading-6 text-gray-900">Solutions</h3>
+                            <h3 class="text-sm font-semibold leading-6 text-gray-900">Soporte</h3>
                             <ul role="list" class="mt-6 space-y-4">
                                 <li>
-                                    <a href="#"
-                                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">Marketing</a>
+                                    <a href="{{ route('ecommerce.contact') }}" class="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                                        Contacto
+                                    </a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="#"
                                         class="text-sm leading-6 text-gray-600 hover:text-gray-900">Analytics</a>
                                 </li>
@@ -213,10 +214,10 @@
                                 <li>
                                     <a href="#"
                                         class="text-sm leading-6 text-gray-600 hover:text-gray-900">Insights</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
-                        <div class="mt-10 md:mt-0">
+                        <!-- <div class="mt-10 md:mt-0">
                             <h3 class="text-sm font-semibold leading-6 text-gray-900">Support</h3>
                             <ul role="list" class="mt-6 space-y-4">
                                 <li>
@@ -236,9 +237,9 @@
                                         Status</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="md:grid md:grid-cols-2 md:gap-8">
+                    <!-- <div class="md:grid md:grid-cols-2 md:gap-8">
                         <div>
                             <h3 class="text-sm font-semibold leading-6 text-gray-900">Company</h3>
                             <ul role="list" class="mt-6 space-y-4">
@@ -281,7 +282,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="mt-16 text-center border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">

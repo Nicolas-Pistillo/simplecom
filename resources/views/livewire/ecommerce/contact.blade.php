@@ -6,8 +6,9 @@
                     <h2 class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
                         Contactanos
                     </h2>
-                    <p class="mt-6 sm:text-lg/8 text-gray-600">Proin volutpat consequat porttitor cras nullam gravida at. Orci
-                        molestie a eu arcu. Sed ut tincidunt integer elementum id sem. Arcu sed malesuada et magna.</p>
+                    <p class="mt-6 sm:text-lg/8 text-gray-600">
+                        Estaremos encantados de ayudarte
+                    </p>
                     <dl class="mt-10 space-y-4 text-base/7 text-gray-600">
                         
                         @config('contact_whatsapp')

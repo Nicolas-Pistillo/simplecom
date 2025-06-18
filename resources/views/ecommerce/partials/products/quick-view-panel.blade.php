@@ -63,7 +63,7 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
                                         ${{ priceFormat($product->current_price) }}
                                     </h6>
 
-                                    <button class="flex items-center gap-1 rounded-lg bg-amber-400 py-1.5 px-2.5 w-max">
+                                    <!-- <button class="flex items-center gap-1 rounded-lg bg-amber-400 py-1.5 px-2.5 w-max">
 
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g clip-path="url(#clip0_12657_16865)">
@@ -83,7 +83,7 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
                                         </svg>
 
                                         <span class="text-sm font-medium text-white">4.8</span>
-                                    </button>
+                                    </button> -->
                                 </div>
 
                                 @php

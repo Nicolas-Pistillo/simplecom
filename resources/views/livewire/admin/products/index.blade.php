@@ -125,9 +125,6 @@
                                                 </x-button>
                                             </x-slot>
 
-                                            <x-dropdown-item wire:click='print' icon="print"
-                                            label="Imprimir etiquetas internas" />
-
                                             <x-dropdown-item wire:click='download(true)' icon="download" label="Descargar" />
 
                                             <x-dropdown-item icon="delete" label="Eliminar" />

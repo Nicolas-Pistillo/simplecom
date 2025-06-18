@@ -46,8 +46,6 @@ class Setup extends Component
         $this->configurationModels = tenant()->getSetupConfigs();
 
         $this->fill([
-            'fisical_address'     => $this->configValue('fisical_address'),
-            'attention_schedule'  => $this->configValue('attention_schedule'),
             'contact_email'       => $this->configValue('contact_email'),
             'contact_whatsapp'    => $this->configValue('contact_whatsapp')
         ]);

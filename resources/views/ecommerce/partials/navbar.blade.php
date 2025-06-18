@@ -5,7 +5,7 @@
 
                 <div class="flex items-center space-x-6 text-white">
                     <a href="{{ route('ecommerce.contact') }}" class="text-xs sm:text-sm font-medium">Contacto</a>
-                    <a href="{{ route('ecommerce.about') }}" class="text-xs sm:text-sm font-medium">Nosotros</a>
+                    <!-- <a href="{{ route('ecommerce.about') }}" class="text-xs sm:text-sm font-medium">Nosotros</a> -->
                 </div>
 
                 @auth

@@ -31,8 +31,8 @@ enum PeriodOption: string
         return match($this)
         {
             PeriodOption::Historic  => [
-                'from' => Order::first()->created_at,
-                'to'   => Order::latest()->first()->created_at
+                'from' => Order::first()?->created_at ?? now(),
+                'to'   => Order::latest()?->first()?->created_at ?? now()
             ],
             PeriodOption::Today     => [
                 'from' => now()->startOfDay(),
