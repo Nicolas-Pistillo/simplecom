@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin\Dashboard;
 
 use App\Enums\PeriodOption;
-use App\Models\Order;
+use App\Services\GraphicsService;
 use Livewire\Component;
 
 class Graphics extends Component
@@ -18,18 +18,9 @@ class Graphics extends Component
         $this->dispatch('update-graphics');
     }
 
-    public function getOrderEvolution()
+    public function orderEvolution()
     {
-        return [
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899)
-        ];
+        return GraphicsService::getOrderEvolution($this->period);
     }
 
     public function getUserRegistration()
