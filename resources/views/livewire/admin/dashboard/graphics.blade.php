@@ -56,9 +56,11 @@
         <script>
             Livewire.on('update-graphics', () => 
             {
-                $wire.call('getOrderEvolution')
+                $wire.call('orderEvolution')
                     .then(data => 
                     {
+                        console.log(data);
+
                         const prevChart = Chart.getChart('line-chart');
 
                         if (prevChart != undefined) prevChart.destroy();
@@ -68,10 +70,10 @@
                         new Chart(chart, {
                             type: 'line',
                             data: {
-                                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'Mar', 'May', 'Jun', 'Jul'],
+                                labels: data.labels,
                                 datasets: [{
                                     label: 'Ventas',
-                                    data: data,
+                                    data: data.data,
                                     borderColor: '{{ getRawColor(tenant('color')) }}',
                                     backgroundColor: '{{ getRawLightedColor(tenant('color')) }}',
                                     borderWidth: 2.5,
@@ -105,7 +107,7 @@
                                 scales: {
                                     x: {
                                         grid: {
-                                            display: false
+                                            display: true
                                         },
                                         ticks: {
                                             color: '#6B7280',
@@ -114,7 +116,7 @@
                                             }
                                         },
                                         border: {
-                                            display: true
+                                            display: false
                                         }
                                     },
                                     y: {
