@@ -4,7 +4,7 @@
         Volver al listado
     </x-button>
     <div class="md:flex md:items-center md:justify-between md:space-x-5">
-        <div class="flex items-start space-x-5">
+        <div class="flex items-center space-x-5">
             <div class="shrink-0">
                 <div class="relative">
                     <img class="h-12 w-12 rounded-full"
