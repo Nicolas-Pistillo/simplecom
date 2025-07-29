@@ -18,7 +18,7 @@ class GraphicsService
                 ->groupBy(function($order) {
                     return $order->created_at->format('H');
                 })
-                ->map->count();
+                ->map->sum('total');
 
             $chartData = [
                 'labels' => [],
@@ -44,10 +44,10 @@ class GraphicsService
                                 ? Carbon::now()->endOfWeek()
                                 : Carbon::now()->subWeek()->endOfWeek();
 
-            $ordersByDay = Order::paid()->selectRaw(
+            $salesByDay = Order::paid()->selectRaw(
                     "DAYNAME(created_at) as day_name, 
                     DAYOFWEEK(created_at) as day_number,
-                    COUNT(*) as order_count"
+                    SUM(total) as total_sales"
                 )
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
                 ->groupBy('day_name', 'day_number')
@@ -64,7 +64,7 @@ class GraphicsService
                         'Sunday' => 'Domingo'
                     ];
                     
-                    return [$daysInSpanish[$item->day_name] ?? $item->day_name => $item->order_count];
+                    return [$daysInSpanish[$item->day_name] ?? $item->day_name => $item->total_sales];
                 });
 
             $allDays = [
@@ -77,7 +77,7 @@ class GraphicsService
                 'Domingo'   => 0
             ];
 
-            $finalData = array_merge($allDays, $ordersByDay->toArray());
+            $finalData = array_merge($allDays, $salesByDay->toArray());
 
             return [
                 'labels' => array_keys($finalData),
@@ -100,10 +100,8 @@ class GraphicsService
             ->get()
             ->groupBy(function($order) {
                 return $order->created_at->format('Y-m-d');
-            })
-            ->map->count();
+            })->map->sum('total');
 
-            // Crear rango completo de días del mes
             $chartData = [
                 'labels' => [],
                 'data'   => []

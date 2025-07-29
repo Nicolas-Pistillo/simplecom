@@ -59,8 +59,6 @@
                 $wire.call('orderEvolution')
                     .then(data => 
                     {
-                        console.log(data);
-
                         const prevChart = Chart.getChart('line-chart');
 
                         if (prevChart != undefined) prevChart.destroy();
@@ -102,6 +100,22 @@
                                         borderWidth: 1,
                                         padding: 12,
                                         displayColors: false,
+                                        callbacks: {
+                                            label: function(context) 
+                                            {
+                                                let label = context.dataset.label || '';
+
+                                                if (label) label += ': ';
+                                                
+                                                if (context.parsed.y !== null) {
+                                                    label += '$' + context.parsed.y.toLocaleString('es-ES', {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2
+                                                    });
+                                                }
+                                                return label;
+                                            }
+                                        }
                                     }
                                 },
                                 scales: {
