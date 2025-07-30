@@ -278,7 +278,7 @@
                             class="font-semibold text-indigo-600 hover:text-indigo-500">customer support</a> team.
                         </p>
                     </div>
-                    <dl class="lg:col-span-7 divide-y divide-gray-900/10">
+                    <dl class="lg:col-span-7 mt-8 lg:mt-0 divide-y divide-gray-900/10">
                         @for ($i = 0; $i < 7; $i++)
                             <div x-data="{open: false}" class="py-6 first:pt-0 last:pb-0">
                                 <dt>
@@ -292,7 +292,7 @@
                                         </span>
                                     </button>
                                 </dt>
-                                <div x-cloak x-show="open" x-transition>
+                                <div x-cloak x-show="open" x-collapse>
                                     <dd class="mt-2 pr-12">
                                         <p class="text-base/7 text-gray-600">I don't know, but the flag is a big plus.
                                             {{ fake()->sentence(70) }}

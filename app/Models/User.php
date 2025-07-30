@@ -74,6 +74,11 @@ class User extends Authenticatable
         $query->where('type', CustomerType::Registered);
     }
 
+    public function scopeGuest(Builder $query)
+    {
+        $query->where('type', CustomerType::Guest);
+    }
+
     public function scopeSearch(Builder $query, string $search)
     {
         if (!empty(trim($search)))

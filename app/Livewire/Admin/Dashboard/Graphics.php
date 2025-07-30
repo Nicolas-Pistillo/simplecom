@@ -10,7 +10,7 @@ class Graphics extends Component
 {
     protected $listeners = ['period-updated' => 'updatePeriod'];
 
-    public PeriodOption $period = PeriodOption::ThisWeek;
+    public PeriodOption $period = PeriodOption::Today;
 
     public function updatePeriod(PeriodOption $period)
     {
@@ -25,15 +25,7 @@ class Graphics extends Component
 
     public function getUserRegistration()
     {
-        return [
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899),
-            random_int(199, 899)
-        ];
+        return GraphicsService::getUserRegistration($this->period);
     }
 
     public function getMostUsedPaymentMethods()
