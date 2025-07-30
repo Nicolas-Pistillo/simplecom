@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Stats extends Component
 {
-    public PeriodOption $period = PeriodOption::ThisWeek;
+    public PeriodOption $period = PeriodOption::Today;
 
     public function setPeriod(PeriodOption $period)
     {

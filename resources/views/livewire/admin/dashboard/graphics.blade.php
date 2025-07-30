@@ -166,14 +166,8 @@
                         new Chart(chart, {
                             type: 'bar',
                             data: {
-                                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                                datasets: [{
-                                    label: 'Price',
-                                    data: data,
-                                    backgroundColor: '{{ getRawColor(tenant('color')) }}', // green-300
-                                    borderRadius: 4,
-                                    borderSkipped: false
-                                }]
+                                labels: data.labels,
+                                datasets: data.datasets
                             },
                             options: {
                                 responsive: true,

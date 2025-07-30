@@ -10,12 +10,12 @@ class LastActivity extends Component
 {
     public function getLastOrders()
     {
-        return Order::with('user')->orderBy('created_at', 'DESC')->take(5)->get();
+        return Order::with('user')->orderByDesc('created_at')->take(5)->get();
     }
 
     public function getLastCustomers()
     {
-        return User::orderBy('created_at')->take(5)->get();
+        return User::orderByDesc('created_at')->take(5)->get();
     }
 
     public function render()

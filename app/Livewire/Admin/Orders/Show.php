@@ -80,7 +80,7 @@ class Show extends Component
         $this->notify([
             'type'  => 'success',
             'title' => 'Pedido actualizado',
-            'body'  => "Confirmaste la recepción de pago del pedido"
+            'body'  => "Confirmaste el pago del pedido"
         ]);
     }
 
