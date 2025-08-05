@@ -1,6 +1,4 @@
-<div class="mt-12">
-
-    <h2 class="font-semibold mb-2">Actividad reciente</h2>
+<div>
 
     <div class="flex flex-wrap sm:flex-nowrap gap-4">
 

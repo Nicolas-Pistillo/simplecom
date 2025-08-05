@@ -181,7 +181,7 @@ class Index extends Component
         return Product::with('category', 'operator')
                         ->adminSearch($this->search)
                         ->adminFilter($this->filters)
-                        ->paginate(15);
+                        ->paginate(10);
     }
 
     public function removeFilter($filter)

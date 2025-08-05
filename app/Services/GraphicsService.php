@@ -66,8 +66,8 @@ class GraphicsService
 
             $salesByDay = Order::paid()->selectRaw(
                 "DAYNAME(created_at) as day_name, 
-                    DAYOFWEEK(created_at) as day_number,
-                    SUM(total) as total_sales"
+                DAYOFWEEK(created_at) as day_number,
+                SUM(total) as total_sales"
             )
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
                 ->groupBy('day_name', 'day_number')
@@ -101,7 +101,7 @@ class GraphicsService
 
             return [
                 'labels' => array_keys($finalData),
-                'data' => array_values($finalData)
+                'data'   => array_values($finalData)
             ];
         }
 
@@ -118,9 +118,9 @@ class GraphicsService
             $orders = Order::paid()
                 ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
                 ->get()
-                ->groupBy(function ($order) {
-                    return $order->created_at->format('Y-m-d');
-                })->map->sum('total');
+                ->groupBy(fn ($order) =>  $order->created_at->format('Y-m-d'))
+                ->map
+                ->sum('total');
 
             $chartData = [
                 'labels' => [],
@@ -361,6 +361,124 @@ class GraphicsService
                     ]
                 ]
             ];
+
+            return $chartData;
+        }
+    }
+
+    public static function getMostUsedPaymentMethods(PeriodOption $period)
+    {
+        if ($period === PeriodOption::Historic)
+        {
+            $ordersByHour = Order::with('paymentMethod')
+                            ->paid()
+                            ->get()
+                            ->groupBy(function ($order) {
+                                return $order->paymentMethod->display_name;
+                            })
+                            ->map->count();
+
+            $chartData = [
+                'labels' => [],
+                'data'   => []
+            ];
+
+            foreach($ordersByHour as $method => $ordersCount)
+            {
+                $chartData['labels'][] = $method;
+                $chartData['data'][] = $ordersCount;
+            }
+
+            return $chartData;
+        }
+
+        if ($period === PeriodOption::Today)
+        {
+            $ordersByHour = Order::with('paymentMethod')
+                            ->paid()
+                            ->whereDate('created_at', Carbon::today())
+                            ->get()
+                            ->groupBy(function ($order) {
+                                return $order->paymentMethod->display_name;
+                            })
+                            ->map->count();
+
+            $chartData = [
+                'labels' => [],
+                'data'   => []
+            ];
+
+            foreach($ordersByHour as $method => $ordersCount)
+            {
+                $chartData['labels'][] = $method;
+                $chartData['data'][] = $ordersCount;
+            }
+
+            return $chartData;
+        }
+
+        if ($period === PeriodOption::ThisWeek || $period === PeriodOption::LastWeek)
+        {
+            $startOfWeek = $period === PeriodOption::ThisWeek
+                ? Carbon::now()->startOfWeek()
+                : Carbon::now()->subWeek()->startOfWeek();
+
+            $endOfWeek = $period === PeriodOption::ThisWeek
+                ? Carbon::now()->endOfWeek()
+                : Carbon::now()->subWeek()->endOfWeek();
+
+            $ordersByHour = Order::with('paymentMethod')
+                            ->paid()
+                            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                            ->get()
+                            ->groupBy(function ($order) {
+                                return $order->paymentMethod->display_name;
+                            })
+                            ->map->count();
+
+            $chartData = [
+                'labels' => [],
+                'data'   => []
+            ];
+
+            foreach($ordersByHour as $method => $ordersCount)
+            {
+                $chartData['labels'][] = $method;
+                $chartData['data'][] = $ordersCount;
+            }
+
+            return $chartData;
+        }
+
+        if ($period === PeriodOption::ThisMonth || $period === PeriodOption::LastMonth)
+        {
+            $startOfMonth = $period === PeriodOption::ThisMonth
+                ? Carbon::now()->startOfMonth()
+                : Carbon::now()->subMonth()->startOfMonth();
+
+            $endOfMonth = $period === PeriodOption::ThisMonth
+                ? Carbon::now()->endOfMonth()
+                : Carbon::now()->subMonth()->endOfMonth();
+
+            $ordersByHour = Order::with('paymentMethod')
+                            ->paid()
+                            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                            ->get()
+                            ->groupBy(function ($order) {
+                                return $order->paymentMethod->display_name;
+                            })
+                            ->map->count();
+
+            $chartData = [
+                'labels' => [],
+                'data'   => []
+            ];
+
+            foreach($ordersByHour as $method => $ordersCount)
+            {
+                $chartData['labels'][] = $method;
+                $chartData['data'][] = $ordersCount;
+            }
 
             return $chartData;
         }

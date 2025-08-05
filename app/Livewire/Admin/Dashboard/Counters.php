@@ -38,9 +38,9 @@ class Counters extends Component
     public function render()
     {
         return view('livewire.admin.dashboard.counters', [
-            'totalInvoices'      => $this->getTotalInvoices(),
-            'totalProducts'      => $this->getTotalProducts(),
-            'totalCustomers'     => $this->getTotalCustomers()
+            'totalInvoices'  => $this->getTotalInvoices(),
+            'totalProducts'  => $this->getTotalProducts(),
+            'totalCustomers' => $this->getTotalCustomers()
         ]);
     }
 }
