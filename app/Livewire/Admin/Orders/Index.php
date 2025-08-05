@@ -59,7 +59,7 @@ class Index extends Component
                     ->adminSearch($this->search)
                     ->adminFilter($this->filters)
                     ->orderBy('created_at', 'DESC')
-                    ->paginate(15);
+                    ->paginate(10);
     }
 
     public function mount()

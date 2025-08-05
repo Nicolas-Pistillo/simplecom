@@ -14,8 +14,8 @@ use App\Traits\Configurable;
 use App\Traits\ManagesPaymentRedirections;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use MercadoPago\Client\MercadoPagoClient;
 use MercadoPago\Client\Preference\PreferenceClient;
+use MercadoPago\Exceptions\MPApiException;
 use MercadoPago\MercadoPagoConfig;
 
 class MercadoPago implements PaymentGateway
@@ -81,7 +81,7 @@ class MercadoPago implements PaymentGateway
             'back_urls' => [
                 'success' => $order->paymentReturn(),
                 'failure' => $order->paymentReturn(),
-                'pending' => $order->paymentReturn(),
+                'pending' => $order->paymentReturn()
             ]
         ];
 
@@ -114,7 +114,7 @@ class MercadoPago implements PaymentGateway
             'event'         => OrderFeedEvent::PaymentUpdate,
             'presentation'  => NotificationPresentation::Icon,
             'initializator' => $order->user->full_name,
-            'action'        => "inició el pago del pedido con MercadoPago",
+            'action'        => "inició el pago del pedido con Mercado Pago",
             'meta'          => [
                 'icon_code' => 'credit_card'
             ]

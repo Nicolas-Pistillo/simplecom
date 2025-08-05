@@ -278,9 +278,10 @@
                             class="font-semibold text-indigo-600 hover:text-indigo-500">customer support</a> team.
                         </p>
                     </div>
-                    <dl class="lg:col-span-7 mt-8 lg:mt-0 divide-y divide-gray-900/10">
+                    <dl x-data="{selected: false}" class="lg:col-span-7 mt-8 lg:mt-0 divide-y divide-gray-900/10">
                         @for ($i = 0; $i < 7; $i++)
-                            <div x-data="{open: false}" class="py-6 first:pt-0 last:pb-0">
+                            <div @click="selected === {{ $i }} ? selected = false : selected = {{ $i }}" 
+                            class="py-6 first:pt-0 last:pb-0">
                                 <dt>
                                     <button @click="open = !open" type="button" class="flex w-full items-start 
                                     justify-between text-left text-gray-900">
@@ -288,11 +289,11 @@
                                             ¿{{ fake()->sentence }}?
                                         </span>
                                         <span class="ml-6 flex h-7 items-center">
-                                            <i class="material-symbols-outlined" x-text="open ? 'remove' : 'add'"></i>
+                                            <i class="material-symbols-outlined" x-text="selected === {{ $i }} ? 'remove' : 'add'"></i>
                                         </span>
                                     </button>
                                 </dt>
-                                <div x-cloak x-show="open" x-collapse>
+                                <div x-cloak x-show="selected === {{ $i }}" x-collapse>
                                     <dd class="mt-2 pr-12">
                                         <p class="text-base/7 text-gray-600">I don't know, but the flag is a big plus.
                                             {{ fake()->sentence(70) }}
