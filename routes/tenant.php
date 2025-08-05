@@ -97,7 +97,6 @@ Route::middleware([
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
-                // Shipping providrers labels generation
                 Route::get('andreani-label/{shipping}', [ShippingLabelController::class, 'andreani'])
                     ->name('admin.shipping-label.andreani');
 
@@ -106,6 +105,10 @@ Route::middleware([
 
                 Route::get('mocis-label/{shipping}', [ShippingLabelController::class, 'mocis'])
                     ->name('admin.shipping-label.mocis');
+
+                Route::view('contents', 'admin.contents.index')
+                    ->name('admin.contents.index')
+                    ->middleware('can:Editar contenidos');
 
                 Route::view('configurations', 'admin.configurations.index')
                     ->name('admin.configurations.index')
