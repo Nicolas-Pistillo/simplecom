@@ -78,6 +78,14 @@
                                     <x-switch wireChange='togglePublishedBanner({{ $banner->id }})' :checked="$banner->published"
                                         label="Publicar"></x-switch>
                                 </div>
+
+                                @if (!empty($banner->link))
+                                    <a href="{{ $banner->link }}" target="_blank"
+                                    class="flex max-w-max items-center gap-1 text-sm mt-2 text-gray-700 hover:text-blue-700">
+                                        <x-icon code="link" style="font-size: 16px" />
+                                        Enlace adjunto
+                                    </a>
+                                @endif
                             </div>
 
                             <div class="-mt-px flex divide-x">

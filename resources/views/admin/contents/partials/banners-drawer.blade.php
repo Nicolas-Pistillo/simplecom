@@ -10,7 +10,7 @@
 
                 <hr class="mb-6">
 
-                <h4 class="text-sm text-gray-500 font-semibold mb-3">Imagen</h4>
+                <h4 class="text-sm mb-3">Imagen</h4>
 
                 {{-- Image preview --}}
                 <div class="mb-4">
@@ -54,12 +54,17 @@
 
                 {{-- Banner name --}}
                 <div class="mb-6">
-                    <div class="mt-2">
-                        <x-form-input withAsterisk model="form.name" label="Nombre del Banner" 
-                        placeholder="Ejemplo: Ofertas de verano 2024..." />
-                    </div>
+                    <x-form-input model="form.name" label="Nombre del Banner" 
+                    placeholder="Especial invierno" />
                 </div>
 
+                {{-- Link --}}
+                <div class="mb-6">
+                    <x-form-input model="form.link" label="Enlace" type="url"
+                    placeholder="https://tutienda.com/producto" />
+                </div>
+
+                {{-- Published / Hidden --}}
                 <div class="mb-6">
 
                     <fieldset>

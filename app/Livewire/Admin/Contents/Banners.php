@@ -57,6 +57,7 @@ class Banners extends Component
             'drawerTitle'  => "Editando $banner->name",
             'published'    => boolval($banner->published),
             'name'         => $banner->name,
+            'link'         => $banner->link,
             'imagePreview' => Storage::url($banner->image_url)
         ]);
 
@@ -92,7 +93,8 @@ class Banners extends Component
             $this->validateOnly('name');
 
         $this->form->banner->update([
-            'name' => $this->form->name,
+            'name'      => $this->form->name,
+            'link'      => $this->form->link,
             'published' => $this->form->published
         ]);
 
@@ -125,6 +127,7 @@ class Banners extends Component
         $banner = Banner::create([
             'name'      => $name,
             'image_url' => $this->form->image->store(tenant('banners_url')),
+            'link'      => $this->form->link,
             'published' => $this->form->published
         ]);
 

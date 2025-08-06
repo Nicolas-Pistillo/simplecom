@@ -15,6 +15,9 @@ class BannerForm extends Form
     #[Validate('nullable|string|max:40', as: 'nombre')]
     public $name;
 
+    #[Validate('nullable|url', as: 'enlace')]
+    public $link;
+
     #[Validate('required', 'boolean', as: 'publicar')]
     public $published = true;
 }
