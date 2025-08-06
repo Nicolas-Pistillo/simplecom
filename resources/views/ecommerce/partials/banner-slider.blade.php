@@ -2,10 +2,11 @@
     <div class="swiper banner-slider swiper-container">
         <div class="swiper-wrapper">
             @foreach ($banners as $banner)
-                <div class="swiper-slide">
+                <a href="{{ !empty($banner->link) ? $banner->link : '#' }}" 
+                class="swiper-slide {{ empty($banner->link) ?  'cursor-default' : '' }}">
                     <img src="{{ Storage::url($banner->image_url) }}" alt="{{ $banner->name }}"
                     class="w-full object-cover">
-                </div>
+                </a>
             @endforeach
         </div>
 

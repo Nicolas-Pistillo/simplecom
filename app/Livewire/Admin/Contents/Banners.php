@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Contents;
 
+use App\Livewire\Forms\BannerForm;
 use App\Models\Banner;
 use App\Traits\Livewire\WithNotifications;
 use Illuminate\Support\Facades\Auth;
@@ -16,14 +17,7 @@ class Banners extends Component
     use WithFileUploads;
     use WithNotifications;
 
-    #[Validate('required|image|max:4024', as: 'imagen')]
-    public $image;
-
-    #[Validate('required|string|max:40|unique:banners,name', as: 'nombre')]
-    public $name;
-
-    public $published = true;
-    public $banner, $drawerTitle, $imagePreview;
+    public BannerForm $form;
 
     public function messages()
     {
@@ -32,39 +26,38 @@ class Banners extends Component
         ];
     }
 
-    public function updatedImage()
+    public function updatedFormImage()
     {
-        if($this->image->getSize() >= 4000000)
+        if($this->form->image->getSize() >= 4000000)
         {
-            $this->image = null;
-            return $this->imagePreview = null;
+            $this->form->image = null;
+            return $this->form->imagePreview = null;
         }
 
-        $this->imagePreview = $this->image->temporaryUrl();
+        $this->form->imagePreview = $this->form->image->temporaryUrl();
     }
 
     public function deleteImage()
     {
-        $this->reset('image', 'imagePreview');
+        $this->form->reset('image', 'imagePreview');
     }
 
     public function openNewBanner()
     {
-        $this->reset('drawerTitle', 'banner', 'published', 'name', 'image', 'imagePreview');
-
-        $this->drawerTitle = "Nuevo Banner";
+        $this->form->reset();
         $this->dispatch('open-drawer');
     }
 
     public function openEditBanner(Banner $banner)
     {
-        $this->reset('drawerTitle', 'banner', 'published', 'name', 'image', 'imagePreview');
+        $this->form->reset();
 
-        $this->fill([
+        $this->form->fill([
             'banner'       => $banner,
             'drawerTitle'  => "Editando $banner->name",
             'published'    => boolval($banner->published),
             'name'         => $banner->name,
+            'link'         => $banner->link,
             'imagePreview' => Storage::url($banner->image_url)
         ]);
 
@@ -90,32 +83,33 @@ class Banners extends Component
 
     public function save()
     {
-        $this->banner ? $this->updateBanner() : $this->createBanner();
+        $this->form->banner ? $this->updateBanner() : $this->createBanner();
         $this->dispatch('close-drawer');
     }
 
     public function updateBanner()
     {
-        if ($this->name != $this->banner->name) 
+        if ($this->form->name != $this->form->banner->name) 
             $this->validateOnly('name');
 
-        $this->banner->update([
-            'name' => $this->name,
-            'published' => $this->published
+        $this->form->banner->update([
+            'name'      => $this->form->name,
+            'link'      => $this->form->link,
+            'published' => $this->form->published
         ]);
 
-        if ($this->image)
+        if ($this->form->image)
         {
-            Storage::delete($this->banner->image_url);
-            $path = $this->image->store(tenant('banners_url'));
+            Storage::delete($this->form->banner->image_url);
+            $path = $this->form->image->store(tenant('banners_url'));
 
-            $this->banner->update(['image_url' => $path]);
+            $this->form->banner->update(['image_url' => $path]);
         }
 
         Log::channel('resources')->info('Banner actualizado', [
             'tenant'      => tenant('name'),
             'operator_id' => Auth::id(),
-            'banner'      => $this->banner
+            'banner'      => $this->form->banner
         ]);
 
         $this->notify([
@@ -126,14 +120,15 @@ class Banners extends Component
 
     public function createBanner()
     {
-        $this->validate();
+        $this->form->validate();
 
-        $path = $this->image->store(tenant('banners_url'));
+        $name = !empty($this->form->name) ? trim($this->form->name) : 'Banner sin nombre';
 
         $banner = Banner::create([
-            'name'      => $this->name,
-            'image_url' => $path,
-            'published' => $this->published
+            'name'      => $name,
+            'image_url' => $this->form->image->store(tenant('banners_url')),
+            'link'      => $this->form->link,
+            'published' => $this->form->published
         ]);
 
         Log::channel('resources')->info('Nuevo banner', [

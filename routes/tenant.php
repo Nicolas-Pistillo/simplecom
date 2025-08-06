@@ -97,7 +97,6 @@ Route::middleware([
 
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
-                // Shipping providrers labels generation
                 Route::get('andreani-label/{shipping}', [ShippingLabelController::class, 'andreani'])
                     ->name('admin.shipping-label.andreani');
 
@@ -106,6 +105,13 @@ Route::middleware([
 
                 Route::get('mocis-label/{shipping}', [ShippingLabelController::class, 'mocis'])
                     ->name('admin.shipping-label.mocis');
+
+                Route::prefix('contents')->middleware('can:Editar contenidos')->group(function() 
+                {
+                    Route::view('/', 'admin.contents.index')->name('admin.contents.index');
+
+                    Route::view('banners', 'admin.contents.banners')->name('admin.contents.banners');
+                });
 
                 Route::view('configurations', 'admin.configurations.index')
                     ->name('admin.configurations.index')
@@ -122,10 +128,6 @@ Route::middleware([
                 Route::view('operators', 'admin.operators.index')
                     ->name('admin.operators.index')
                     ->middleware('can:Editar operadores');
-
-                Route::view('banners', 'admin.contents.banners')
-                    ->name('admin.contents.banners')
-                    ->middleware('can:Editar banners');
 
                 Route::view('attributes', 'admin.attributes.index')
                     ->name('admin.attributes.index')

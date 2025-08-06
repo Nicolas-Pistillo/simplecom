@@ -44,52 +44,6 @@ class GenerateTestCatalog extends Command
 
         $productCount = 0;
 
-        /* $products = Http::get('https://fakestoreapi.com/products')->collect();
-
-        if ($products->isEmpty()) return;
-
-        $this->line("Generando catalogo en " . tenant('ecommerce_name') . '...');
-
-        foreach($products as $product)
-        {
-            $productName = data_get($product, 'title');
-            $categoryName = data_get($product, 'category');
-
-            $category = Category::firstOrCreate(['name' => $categoryName]);
-
-            $model = Product::firstOrCreate(['code' => data_get($product, 'id')],
-            [
-                'name'        => $productName,
-                'published'   => true,
-                'description' => data_get($product, 'description'),
-                'price'       => data_get($product, 'price') * 100,
-                'category_id' => $category->id,
-                'stock'       => 50,
-                'width'       => rand(5,15),
-                'height'      => rand(5,15),
-                'length'      => rand(5,15),
-                'weight'      => rand(100,2000),
-                'created_by'  => 1
-            ]);
-
-            if (empty($model->images()->count()))
-            {
-                $uploadedFile = FileService::getUploadedFileFromUrl(data_get($product, 'image'));
-
-                if (!$uploadedFile) continue;
-
-                $path = $uploadedFile->store($model->images_dir);
-
-                ProductImage::create([
-                    'product_id' => $model->id,
-                    'url'        => $path,
-                    'order'      => 1
-                ]);
-            }
-
-            if ($model->wasRecentlyCreated) $productCount++;
-        } */
-
         $products = Http::get('https://api.escuelajs.co/api/v1/products')->collect();
 
         if ($products->isEmpty()) return;

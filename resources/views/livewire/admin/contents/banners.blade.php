@@ -2,11 +2,35 @@
     <div x-data="{ drawerOpen: false }" class="px-4 sm:px-6 lg:px-8" x-on:open-drawer.window="drawerOpen = true"
         x-on:close-drawer.window="drawerOpen = false">
 
+        <nav class="flex mb-4">
+            <ol role="list" class="flex space-x-4 rounded-md bg-white px-6 shadow text-xs">
+                <li class="flex">
+                    <div class="flex items-center">
+                        <a href="{{ route('admin.contents.index') }}" 
+                        class="font-medium text-gray-500 hover:text-blue-700">
+                            Contenidos
+                        </a>
+                    </div>
+                </li>
+                <li class="flex">
+                    <div class="flex items-center">
+                        <svg viewBox="0 0 24 44" fill="currentColor"
+                            class="h-full w-4 shrink-0 text-gray-300">
+                            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                        </svg>
+                        <span class="ml-4 font-medium">
+                            Banners
+                        </span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
         <div class="sm:flex sm:items-center mb-8">
             <div class="sm:flex-auto">
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Banners</h1>
                 <p class="mt-2 text-sm text-gray-700">
-                    Los banners son la primer herramienta visual de tu comercio, sirve para mostrar gráficamente 
+                    Los banners son la primer herramienta visual de tu comercio, sirve para mostrar gráficamente
                     promociones, ofertas especiales, productos destacados o cualquier otra información
                     que quieras exponer en el inicio de tu tienda.
                     <span class="inline-flex items-center text-blue-500">
@@ -35,19 +59,18 @@
                 <div class="mb-4">
                     <h3 class="mt-2 text-sm font-semibold text-gray-900">Sin banners</h3>
                     <p class="mt-1 mb-4 text-sm text-gray-500">
-                        Podés empezar a crear tus banners cuando quieras
+                        Podés empezar a subir tus banners cuando quieras
                     </p>
                 </div>
             @else
                 <div class="flex items-center justify-center flex-wrap gap-6 mb-8">
                     @foreach ($banners as $banner)
                         <div wire:key='{{ $banner->id }}' x-data="{ deleteDialogOpen: false }"
-                        class="w-80 rounded-lg overflow-hidden transition 
+                            class="w-80 rounded-lg overflow-hidden transition 
                         duration-300 shadow hover:shadow-lg">
 
-                            <img class="w-full object-cover border-b" 
-                            src="{{ Storage::url($banner->image_url) }}"
-                            alt="{{ $banner->name }}-img">
+                            <img class="w-full object-cover border-b" src="{{ Storage::url($banner->image_url) }}"
+                                alt="{{ $banner->name }}-img">
 
                             <div class="p-4">
                                 <div class="flex items-center justify-between font-bold text">
@@ -55,17 +78,31 @@
                                     <x-switch wireChange='togglePublishedBanner({{ $banner->id }})' :checked="$banner->published"
                                         label="Publicar"></x-switch>
                                 </div>
+
+                                @if (!empty($banner->link))
+                                    <a href="{{ $banner->link }}" target="_blank"
+                                    class="flex max-w-max items-center gap-1 text-sm mt-2 text-gray-700 hover:text-blue-700">
+                                        <x-icon code="link" style="font-size: 16px" />
+                                        Enlace adjunto
+                                    </a>
+                                @endif
                             </div>
 
                             <div class="-mt-px flex divide-x">
-                                <div
-                                    class="flex w-0 rounded-bl-lg flex-1 border-t transition-colors duration-200 hover:bg-gray-50">
-                                    <button wire:click="openEditBanner({{ $banner->id }})"
+                                <div class="flex w-0 rounded-bl-lg flex-1 border-t transition-colors duration-200 hover:bg-gray-50">
+
+                                    <button wire:loading.remove wire:target='openEditBanner({{ $banner->id }})' 
+                                    wire:click="openEditBanner({{ $banner->id }})"
                                         class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
                                         <i class="material-symbols-outlined text-gray-400" style="font-size: 20px;"
                                             code="edit">edit</i>
                                         Editar
                                     </button>
+
+                                    <div wire:loading wire:target='openEditBanner({{ $banner->id }})' 
+                                    class="flex-1 py-4">
+                                        <x-spinner />
+                                    </div>
                                 </div>
                                 <div
                                     class="-ml-px border-t rounded-br-lg flex w-0 flex-1 transition-colors duration-200 hover:bg-gray-50">
