@@ -4,7 +4,9 @@
 
             <div class="mb-3">
 
-                <h3 class="text-lg text-gray-700 font-semibold mb-3">{{ $drawerTitle }}</h3>
+                <h3 class="text-lg text-gray-700 font-semibold mb-3">
+                    {{ $form->banner ? $this->form->banner->name : 'Nuevo Banner' }}
+                </h3>
 
                 <hr class="mb-6">
 
@@ -13,7 +15,7 @@
                 {{-- Image preview --}}
                 <div class="mb-4">
 
-                    <img src="{{ $imagePreview ?: 'http://placehold.co/1920x800' }}" alt="banner-img"
+                    <img src="{{ $form->imagePreview ?: 'http://placehold.co/1920x800' }}" alt="banner-img"
                         class="w-full h-28 rounded-lg object-cover shadow">
 
                     <p class="mt-1.5 text-xs font-medium text-gray-500" wire:loading.remove
@@ -29,43 +31,33 @@
 
                         <x-button type="secondary" file onlyImages
                             class="flex justify-center items-center w-full text-center" wire:loading.remove
-                            wire:target='image, deleteImage' wireModel="image" name="image">
+                            wire:target='form.image, form.deleteImage' wireModel="form.image" name="image">
                             Subir imagen
                             <x-icon code="upload" class="ml-1" />
                         </x-button>
 
-                        @if ($imagePreview)
-                            <x-button wire:click='deleteImage' wire:loading.remove wire:target='image, deleteImage'
+                        @if ($form->imagePreview)
+                            <x-button wire:click='deleteImage' wire:loading.remove wire:target='form.image, form.deleteImage'
                                 size="small" x-tooltip.raw.placement.bottom="Eliminar"
                                 class="flex items-center ml-1 text-white bg-red-600 hover:bg-red-500">
                                 <span class="material-symbols-outlined">delete</span>
                             </x-button>
                         @endif
 
-                        <x-spinner class="mx-auto" wire:loading wire:target='image, deleteImage' />
+                        <x-spinner class="mx-auto" wire:loading wire:target='form.image, form.deleteImage' />
                     </div>
 
-                    @error('image')
+                    @error('form.image')
                         <small class="text-red-500"> {{ $message }} </small>
                     @enderror
                 </div>
 
                 {{-- Banner name --}}
                 <div class="mb-6">
-                    <label for="name" class="block text-sm font-semibold leading-6 text-gray-500">
-                        Nombre del banner <sup class="text-red-500" style="font-size: 10px">*</sup>
-                    </label>
                     <div class="mt-2">
-                        <input id="name" type="text" wire:model='name' autocomplete="off"
-                            class="block w-full 
-                      rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
-                      placeholder:text-gray-400 focus:ring-2 focus:ring-inset transition duration-300 focus:ring-blue-600 
-                      sm:text-sm sm:leading-6 placeholder:text-sm"
-                            placeholder="Ejemplo: Ofertas de verano 2024...">
+                        <x-form-input withAsterisk model="form.name" label="Nombre del Banner" 
+                        placeholder="Ejemplo: Ofertas de verano 2024..." />
                     </div>
-                    @error('name')
-                        <small class="text-red-500"> {{ $message }} </small>
-                    @enderror
                 </div>
 
                 <div class="mb-6">
@@ -75,7 +67,7 @@
 
                             <div class="relative flex items-center">
                                 <div class="flex h-6 items-center">
-                                    <input id="published" type="checkbox" wire:model='published'
+                                    <input id="published" type="checkbox" wire:model='form.published'
                                         class="h-4 w-4 rounded border-gray-300 text-blue-600">
                                 </div>
                                 <div class="ml-3 text-sm leading-5 flex items-center">

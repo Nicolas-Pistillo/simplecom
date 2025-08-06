@@ -3,6 +3,10 @@
         <label for="{{ $id ?? $label ?? '' }}" class="inline-block text-sm font-medium leading-6 text-gray-900 mb-2">
             {{ $label }}
         </label>
+
+        @isset($withAsterisk)
+            <sup class="text-red-500" style="font-size: 12px">*</sup>
+        @endisset
     @endisset
     <div>
         <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 

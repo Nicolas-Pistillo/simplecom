@@ -7,7 +7,8 @@
                 <x-navbar-item route="admin.dashboard.index" icon="home" title="Inicio" />
 
                 @can('Editar contenidos')
-                    <x-navbar-item route="admin.contents.index" icon="contextual_token" title="Contenidos" />
+                    <x-navbar-item route="admin.contents.index" icon="contextual_token" title="Contenidos" 
+                    :active="Route::is('admin.contents.*')" />
                 @endcan
 
                 @can('Editar configuraciones')
