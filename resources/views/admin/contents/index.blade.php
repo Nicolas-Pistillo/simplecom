@@ -39,15 +39,16 @@
                         </dd>
                     </a>
 
-                    <div class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
-                        transition-colors duration-300 hover:bg-blue-600 hover:text-white">
+                    <a href="{{ route('admin.contents.faqs') }}" 
+                    class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
+                    transition-colors duration-300 hover:bg-blue-600 hover:text-white">
                         <dt class="text-sm/6 font-semibold">
                             Preguntas Frecuentes
                         </dt>
                         <dd class="order-first font-semibold tracking-tight">
                             <x-icon code="help" class="text-5xl" />
                         </dd>
-                    </div>
+                    </a>
 
                     <div class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
                         transition-colors duration-300 hover:bg-blue-600 hover:text-white">

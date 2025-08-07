@@ -32,6 +32,11 @@ class PromotionalMessage extends Component
 
     public function save()
     {
+        if (empty(trim($this->message)))
+        {
+            return $this->addError('message', 'El campo mensaje no puede estar vacío');
+        }
+
         Configuration::where('key', 'promotional_message')->update(['value' => $this->message]);
 
         $this->notify([

@@ -7,6 +7,8 @@
         'secondary' => 'gray',
     ];
 
+    $size = isset($large) ? 'sm:max-w-2xl' : 'sm:max-w-xl';
+
     $color = $typeColors[$type ?? 'info'];
 @endphp
 
@@ -28,10 +30,10 @@
             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             {{ 
-                $attributes->merge(['class' => '
-                    relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 
-                    pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6
-                ']) 
+                $attributes->merge(['class' => "
+                    relative transform overflow-hidden rounded-lg bg-white px-4 pb-4
+                    pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full $size sm:p-6
+                "]) 
             }}>
                 
                 @if (isset($withCloseBtn))
@@ -57,7 +59,7 @@
                         @endif
                       <div class="mt-2">
                         <p class="text-sm text-gray-500">
-                            {{ $body }}
+                            {{ $body ?? $slot }}
                         </p>
                       </div>
                     </div>

@@ -112,6 +112,8 @@ Route::middleware([
 
                     Route::view('banners', 'admin.contents.banners')->name('admin.contents.banners');
 
+                    Route::view('faqs', 'admin.contents.faqs')->name('admin.contents.faqs');
+
                     Route::view('promotional-message', 'admin.contents.promotional-message')
                         ->name('admin.contents.promotional-message');
                 });
