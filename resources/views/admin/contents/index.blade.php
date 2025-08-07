@@ -17,7 +17,8 @@
                 </div>
                 <dl class="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
 
-                    <a href="{{ route('admin.contents.banners') }}" class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
+                    <a href="{{ route('admin.contents.banners') }}" 
+                    class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
                     transition-colors duration-300 hover:bg-blue-600 hover:text-white">
                         <dt class="text-sm/6 font-semibold">
                             Banners
@@ -27,15 +28,16 @@
                         </dd>
                     </a>
 
-                    <div class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
-                        transition-colors duration-300 hover:bg-blue-600 hover:text-white">
+                    <a href="{{ route('admin.contents.promotional-message') }}" 
+                    class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
+                    transition-colors duration-300 hover:bg-blue-600 hover:text-white">
                         <dt class="text-sm/6 font-semibold">
                             Mensaje Promocional
                         </dt>
                         <dd class="order-first font-semibold tracking-tight">
                             <x-icon code="subheader" class="text-5xl" />
                         </dd>
-                    </div>
+                    </a>
 
                     <div class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
                         transition-colors duration-300 hover:bg-blue-600 hover:text-white">

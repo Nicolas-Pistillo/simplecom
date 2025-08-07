@@ -20,6 +20,7 @@
 
             <input id="{{ $id ?? $label ?? '' }}" type="{{ $type ?? 'text' }}" 
             {{ isset($model) ? "wire:model.blur=$model" : '' }}
+            {{ isset($liveModel) ? "wire:model.live=$liveModel" : '' }}
             {{ isset($readonly) && $readonly ? 'readonly' : '' }}
             placeholder="{{ $placeholder ?? '' }}"
             class="block w-full flex-1 border-0 bg-transparent py-1.5 px-2.5 text-gray-900 
@@ -27,7 +28,7 @@
             {{ isset($readonly) && $readonly ? '!bg-gray-100 !rounded-md !text-gray-600' : '' }}">
 
         </div>
-        @error($model ?? $error ?? '')
+        @error($model ?? $liveModel ?? $error ?? '')
             <small class="text-red-500">{{ $message }}</small>
         @else 
             @isset($helper)

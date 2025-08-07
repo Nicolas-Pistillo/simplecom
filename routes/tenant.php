@@ -111,6 +111,9 @@ Route::middleware([
                     Route::view('/', 'admin.contents.index')->name('admin.contents.index');
 
                     Route::view('banners', 'admin.contents.banners')->name('admin.contents.banners');
+
+                    Route::view('promotional-message', 'admin.contents.promotional-message')
+                        ->name('admin.contents.promotional-message');
                 });
 
                 Route::view('configurations', 'admin.configurations.index')
