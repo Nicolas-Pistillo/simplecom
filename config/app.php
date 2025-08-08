@@ -203,7 +203,8 @@ return [
         'OrderStatus'              => App\Enums\OrderStatus::class,
         'OrderFeedEvent'           => App\Enums\OrderFeedEvent::class,
         'NotificationPresentation' => App\Enums\NotificationPresentation::class,
-        'PeriodOption'             => App\Enums\PeriodOption::class
+        'PeriodOption'             => App\Enums\PeriodOption::class,
+        'FaqsService'              => App\Services\FaqsService::class
     ])->toArray(),
 
 ];

@@ -46,8 +46,8 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
 
                                 <div class="flex flex-col sm:flex-row sm:items-center mt-4">
 
-                                    <h6 class="font-manrope font-semibold text-2xl leading-9 text-gray-900 pr-5 
-                                    sm:border-r border-gray-200 mr-5">
+                                    <h6 class="font-manrope font-semibold text-2xl leading-9 text-gray-900 {{-- pr-5 
+                                    sm:border-r border-gray-200 mr-5 --}}">
 
                                         @if ($product->hasDiscount())
                                             <div class="flex items-center">

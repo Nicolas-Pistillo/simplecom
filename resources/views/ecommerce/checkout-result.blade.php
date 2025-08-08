@@ -50,7 +50,7 @@
 
                 @if ($order->paymentMethod->code === 'transfer')
                     <div class="mt-6 p-5 rounded-xl border border-gray-200
-                    flex-col justify-start items-start gap-5 flex w-full sm:w-4/5">
+                    flex-col justify-start items-start gap-5 flex w-full sm:w-2/3 md:w-1/2 mx-auto">
                         <h3 class="text-gray-900 text-base sm:text-xl font-semibold leading-loose">
                             Datos para transferir
                         </h3>

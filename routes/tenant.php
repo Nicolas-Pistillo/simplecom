@@ -52,6 +52,8 @@ Route::middleware([
 
         Route::get('contacto', [EcommerceController::class, 'contact'])->name('ecommerce.contact');
 
+        Route::get('preguntas-frecuentes', [EcommerceController::class, 'faqs'])->name('ecommerce.faqs');
+
         // Auth customer routes
         Route::middleware('auth')->group(function() 
         {
@@ -111,6 +113,11 @@ Route::middleware([
                     Route::view('/', 'admin.contents.index')->name('admin.contents.index');
 
                     Route::view('banners', 'admin.contents.banners')->name('admin.contents.banners');
+
+                    Route::view('faqs', 'admin.contents.faqs')->name('admin.contents.faqs');
+
+                    Route::view('promotional-message', 'admin.contents.promotional-message')
+                        ->name('admin.contents.promotional-message');
                 });
 
                 Route::view('configurations', 'admin.configurations.index')

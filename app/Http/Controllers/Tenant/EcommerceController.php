@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductCollection;
+use App\Services\FaqsService;
 use Illuminate\Http\Request;
 
 class EcommerceController extends Controller
@@ -39,5 +40,12 @@ class EcommerceController extends Controller
     public function about(Request $request)
     {
         return view('ecommerce.about');
+    }
+
+    public function faqs()
+    {
+        if (!FaqsService::hasQuestions()) abort(404);
+        
+        return view('ecommerce.faqs');
     }
 }

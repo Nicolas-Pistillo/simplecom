@@ -77,7 +77,7 @@
                     @if ($customer->tax_condition == TaxCondition::ConsumidorFinal)
                         {{ $customer->full_name }}
                     @else
-                        {{ $customer->social_reason ?? '-' }}
+                        {{ $customer->invoice_social_reason ?? '-' }}
                     @endif
                 </span>
                 <span class="font-medium text-gray-900">

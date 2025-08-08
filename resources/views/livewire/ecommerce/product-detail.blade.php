@@ -6,8 +6,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
 
                 {{-- Product images block --}}
-                <div
-                    class="no-select w-full flex md:block flex-col justify-center order-last 
+                <div class="no-select w-full flex md:block flex-col justify-center order-last 
                 max-lg:max-w-[608px] max-lg:mx-auto">
 
                     {{-- Category trees bradcrumb --}}
@@ -266,46 +265,42 @@
         </section>
 
         {{-- FAQs --}}
-        <section>
-            <div class="mx-auto max-w-7xl px-6 py-24 sm:pt-32 lg:px-8">
-                <div class="lg:grid lg:grid-cols-12 lg:gap-8">
-                    <div class="lg:col-span-5">
-                        <h2 class="text-3xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-4xl">
-                            Preguntas Frecuentes
-                        </h2>
-                        <p class="mt-4 text-base/7 text-pretty text-gray-600">Can’t find the answer you’re looking for?
-                            Reach out to our <a href="#"
-                            class="font-semibold text-indigo-600 hover:text-indigo-500">customer support</a> team.
-                        </p>
-                    </div>
-                    <dl x-data="{selected: false}" class="lg:col-span-7 mt-8 lg:mt-0 divide-y divide-gray-900/10">
-                        @for ($i = 0; $i < 7; $i++)
-                            <div @click="selected === {{ $i }} ? selected = false : selected = {{ $i }}" 
-                            class="py-6 first:pt-0 last:pb-0">
-                                <dt>
-                                    <button @click="open = !open" type="button" class="flex w-full items-start 
-                                    justify-between text-left text-gray-900">
-                                        <span class="text-base/7 font-semibold">
-                                            ¿{{ fake()->sentence }}?
-                                        </span>
-                                        <span class="ml-6 flex h-7 items-center">
-                                            <i class="material-symbols-outlined" x-text="selected === {{ $i }} ? 'remove' : 'add'"></i>
-                                        </span>
-                                    </button>
-                                </dt>
-                                <div x-cloak x-show="selected === {{ $i }}" x-collapse>
-                                    <dd class="mt-2 pr-12">
-                                        <p class="text-base/7 text-gray-600">I don't know, but the flag is a big plus.
-                                            {{ fake()->sentence(70) }}
-                                        </p>
-                                    </dd>
+        @if(FaqsService::hasQuestions())
+            <section>
+                <div class="mx-auto max-w-7xl px-6 py-24 sm:pt-32 lg:px-8">
+                    <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                        <div class="lg:col-span-5">
+                            <h2 class="text-3xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-4xl">
+                                Preguntas Frecuentes
+                            </h2>
+                        </div>
+                        <dl x-data="{selected: false}" class="lg:col-span-7 mt-8 lg:mt-0 divide-y divide-gray-900/10">
+
+                            @foreach (FaqsService::get() as $faq)
+                                <div @click="selected === {{ $faq->id }} ? selected = false : selected = {{ $faq->id }}" 
+                                class="py-6 first:pt-0 last:pb-0">
+                                    <dt>
+                                        <button @click="open = !open" type="button" class="flex w-full items-start 
+                                        justify-between text-left text-gray-900">
+                                            <span class="text-base/7 font-semibold">{{ $faq->question }}</span>
+                                            <span class="ml-6 flex h-7 items-center">
+                                                <i class="material-symbols-outlined" 
+                                                x-text="selected === {{ $faq->id }} ? 'remove' : 'add'"></i>
+                                            </span>
+                                        </button>
+                                    </dt>
+                                    <div x-cloak x-show="selected === {{ $faq->id }}" x-collapse>
+                                        <dd class="mt-2 pr-12">
+                                            <p class="text-base/7 text-gray-600">{{ $faq->response }}</p>
+                                        </dd>
+                                    </div>
                                 </div>
-                            </div>
-                        @endfor
-                    </dl>
+                            @endforeach
+                        </dl>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
         {{-- Product reviews --}}
         @include('ecommerce.partials.product-detail.reviews')
