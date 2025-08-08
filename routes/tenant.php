@@ -52,6 +52,8 @@ Route::middleware([
 
         Route::get('contacto', [EcommerceController::class, 'contact'])->name('ecommerce.contact');
 
+        Route::get('preguntas-frecuentes', [EcommerceController::class, 'faqs'])->name('ecommerce.faqs');
+
         // Auth customer routes
         Route::middleware('auth')->group(function() 
         {

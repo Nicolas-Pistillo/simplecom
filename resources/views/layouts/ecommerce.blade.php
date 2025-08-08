@@ -198,11 +198,22 @@
                         <div>
                             <h3 class="text-sm font-semibold leading-6 text-gray-900">Soporte</h3>
                             <ul role="list" class="mt-6 space-y-4">
+
+                                @if (FaqsService::hasQuestions())
+                                    <li>
+                                        <a href="{{ route('ecommerce.faqs') }}" 
+                                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                                            Preguntas frecuentes
+                                        </a>
+                                    </li>
+                                @endif
+
                                 <li>
                                     <a href="{{ route('ecommerce.contact') }}" class="text-sm leading-6 text-gray-600 hover:text-gray-900">
                                         Contacto
                                     </a>
                                 </li>
+
                                 <!-- <li>
                                     <a href="#"
                                         class="text-sm leading-6 text-gray-600 hover:text-gray-900">Analytics</a>
