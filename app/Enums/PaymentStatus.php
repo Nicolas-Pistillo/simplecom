@@ -118,7 +118,7 @@ enum PaymentStatus: string
         return match($this)
         {
             PaymentStatus::Created               => 'Finalizá tu compra para confirmar tu pedido',
-            PaymentStatus::TransferPending       => 'Recordá adjuntar el comprobante de transferencia una vez que la realices',
+            PaymentStatus::TransferPending       => 'Recordá enviar el comprobante de transferencia una vez que la realices',
             PaymentStatus::Pending               => 'Completá el pago de tu pedido para confirmarlo',
             PaymentStatus::NeedsConfirmation     => 'Debés autorizar el pago de tu pedido para confirmarlo',
             PaymentStatus::InProcess             => 'Estamos procesando tu pago, en breve actualizaremos la información',
