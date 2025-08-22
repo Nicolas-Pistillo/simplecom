@@ -92,13 +92,13 @@ class ProductService
             if ($hasMinSale)
             {
                 $validatorRules[$validationLabel][] = "gte:$product->min_sale";
-                $validatorMessages["$validationLabel.gte"] = "Debes agregar como mínimo $product->min_sale unidades";
+                $validatorMessages["$validationLabel.gte"] = "El mínimo de compra es de $product->min_sale unidades";
             }
 
             if ($hasMaxSale)
             {
                 $validatorRules[$validationLabel][] = "lte:$product->max_sale";
-                $validatorMessages["$validationLabel.lte"] = "Sólo podes agregar hasta $product->max_sale unidades";
+                $validatorMessages["$validationLabel.lte"] = "El límite de compra es de $product->max_sale unidades";
             }
 
             Validator::make([$validationLabel => $quantity], $validatorRules, $validatorMessages)->validate();

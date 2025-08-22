@@ -17,6 +17,7 @@
     "dependencies": {
         "@maizzle/cli": "^2.0.0",
         "@ryangjchandler/alpine-tooltip": "^2.0.0",
-        "@tailwindcss/aspect-ratio": "^0.4.2"
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "jodit": "^4.6.2"
     }
 }
