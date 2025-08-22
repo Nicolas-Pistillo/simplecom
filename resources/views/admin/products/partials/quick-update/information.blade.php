@@ -67,25 +67,6 @@
             </div>
         </div>
 
-        <div>
-            <label for="product_description" class="block mb-2 text-sm 
-            font-medium text-gray-900">
-                Descripción
-            </label>
-            <div class="w-full border border-gray-200 rounded-lg bg-gray-50">
-                <div class="p-3 bg-white rounded-lg">
-                    <textarea id="product_description" rows="7" scrollbar-thin
-                        class="block w-full p-0 text-sm text-gray-800
-                    bg-white border-0 focus:ring-0"
-                        wire:model.blur='form.description' placeholder="Usa una descripción llamativa de tu producto"></textarea>
-                </div>
-            </div>
-
-            @error('form.description')
-                <small class="text-red-500">{{ $message }}</small>
-            @enderror
-        </div>
-
         {{-- Images --}}
         <div class="mb-4 no-select">
             <span class="block mb-2 text-sm font-medium text-gray-900">Imágenes</span>

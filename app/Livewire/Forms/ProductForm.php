@@ -27,7 +27,7 @@ class ProductForm extends Form
     #[Validate('nullable|exists:brands,id', as: 'marca')]
     public $brand_id;
 
-    #[Validate('nullable|string|max:2400', as: 'descripción')]
+    #[Validate('nullable|string|max:50000', as: 'descripción')]
     public $description;
 
     #[Validate('required|numeric|max:99999999|not_in:0', as: 'precio')]
