@@ -108,7 +108,10 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
                                 @endif
 
                                 <p class="text-gray-700 text-sm mt-4 line-clamp-4">
-                                    {{ !empty($product->description) ? $product->description : 'Sin descripción' }}
+                                    {!! !empty($product->description && strlen($product->description) < 600) 
+                                            ? $product->description 
+                                            : '' 
+                                    !!}
                                 </p>
                             </section>
 

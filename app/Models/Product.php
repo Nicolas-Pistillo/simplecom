@@ -29,6 +29,23 @@ class Product extends Model
         return route('admin.products.edit', $this->id);
     }
 
+    public function whatsappShareUrl()
+    {
+        $text = "¡Mira este producto! " . $this->name . " - " . $this->detailPageUrl();
+        return "https://wa.me/?text=" . urlencode($text);
+    }
+
+    public function facebookShareUrl()
+    {
+        return "https://www.facebook.com/sharer/sharer.php?u=" . $this->detailPageUrl();
+    }
+
+    public function twitterShareUrl()
+    {
+        $text = "¡Mira este producto! " . $this->name;
+        return "https://twitter.com/intent/tweet?text=" . urlencode($text) . "&url=" . $this->detailPageUrl();
+    }
+
     public function getImagesDirAttribute()
     {
         return tenant('products_url') . "/$this->id";

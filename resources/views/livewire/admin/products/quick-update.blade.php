@@ -13,8 +13,6 @@ x-on:close-quick-update.window="showQuickUpdate = false">
                         </h2>
 
                         <div class="flex items-center gap-3 mt-2 flex-wrap">
-                            <small class="text-gray-700">Producto {{ $product->id }}</small>
-
                             @can('Editar productos')
                                 <x-button type="secondary" size="small" class="inline-flex items-center gap-1"
                                 :href="$product->editPageUrl()">

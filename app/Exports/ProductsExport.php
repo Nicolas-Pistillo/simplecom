@@ -51,7 +51,7 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
             $product->name,
             $product->category->name ?? '-',
             $product->brand->name ?? '-',
-            $product->description,
+            strip_tags($product->description),
             $product->tags->pluck('name')->implode(','),
             "$". priceFormat($product->price),
             $product->discount_percent ? "%$product->discount_percent" : "-",

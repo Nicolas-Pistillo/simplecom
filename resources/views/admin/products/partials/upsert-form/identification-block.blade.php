@@ -159,7 +159,7 @@
 
         {{-- Description field --}}
         <div class="col-span-full">
-            <label for="description" class="block text-sm font-medium leading-6 text-gray-900">
+            <label for="description" class="block mb-2 text-sm font-medium leading-6 text-gray-900">
                 Descripción
             </label>
 
