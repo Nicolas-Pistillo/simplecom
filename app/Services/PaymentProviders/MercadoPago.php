@@ -58,7 +58,6 @@ class MercadoPago implements PaymentGateway
                 'quantity'    => $item->quantity,
                 'unit_price'  => floatval($item->sell_price),
                 'picture_url' => $item->product->first_image,
-                'description' => $item->product->description,
                 'category_id' => $item->category_id
             ]);
         }

@@ -64,7 +64,7 @@ class Nave implements PaymentGateway
             array_push($products, [
                 'id'          => "$item->id",
                 'name'        => $item->name,
-                'description' => $item->product->description ?? 'Sin descripción',
+                'description' => 'Sin descripción',
                 'quantity'    => $item->quantity,
                 'unit_price'  => [
                     'currency' => 'ARS',

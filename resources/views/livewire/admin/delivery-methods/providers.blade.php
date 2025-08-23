@@ -12,7 +12,7 @@ x-on:open-provider-config.window="openProviderConfig = true">
                 class="text-blue-600 hover:underline cursor-pointer">
                     punto de orígen
                 </span> 
-                para indicarle al proveedor desde donde cotizar o retirar tus pedidos
+                para indicarle al proveedor desde donde cotizar y retirar tus pedidos
             </x-alert>
         @else
             <x-alert class="mb-3" color="blue" icon="where_to_vote">
