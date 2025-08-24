@@ -116,6 +116,8 @@ Route::middleware([
 
                     Route::view('faqs', 'admin.contents.faqs')->name('admin.contents.faqs');
 
+                    Route::view('incentives', 'admin.contents.incentives')->name('admin.contents.incentives');
+
                     Route::view('promotional-message', 'admin.contents.promotional-message')
                         ->name('admin.contents.promotional-message');
                 });

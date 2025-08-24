@@ -101,7 +101,7 @@
                                 </div>
                             </button>
                         </dt>
-                        <div x-show="selected === {{ $faq->id }}" x-collapse>
+                        <div onclick="event.stopPropagation()" x-show="selected === {{ $faq->id }}" x-collapse>
                             <dd class="mt-2 pr-12">
                                 <p class="text-base/7 text-gray-600">{{ $faq->response }}</p>
                             </dd>

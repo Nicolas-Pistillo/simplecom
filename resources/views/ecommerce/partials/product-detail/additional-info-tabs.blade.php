@@ -5,12 +5,12 @@
         $tabs[] = 'Descripción';
     }
 
-    if (FaqsService::hasQuestions()) {
-        $tabs[] = 'Preguntas Frecuentes';
-    }
-
     if (true) {
         $tabs[] = 'Reseñas';
+    }
+
+    if (FaqsService::hasQuestions()) {
+        $tabs[] = 'Preguntas Frecuentes';
     }
 
     $current = !empty($tabs) ? $tabs[0] : '';
@@ -38,8 +38,7 @@
                         @click="selected === {{ $faq->id }} ? selected = false : selected = {{ $faq->id }}">
                         <dt>
                             <button @click="open = !open" type="button"
-                                class="flex w-full items-start 
-                                                    justify-between text-left text-gray-900">
+                                class="flex w-full items-start justify-between text-left text-gray-900">
                                 <span class="text-base/7 font-semibold">{{ $faq->question }}</span>
                                 <span class="ml-6 flex h-7 items-center">
                                     <i class="material-symbols-outlined"
@@ -47,7 +46,7 @@
                                 </span>
                             </button>
                         </dt>
-                        <div x-cloak x-show="selected === {{ $faq->id }}" x-collapse>
+                        <div onclick="event.stopPropagation()" x-cloak x-show="selected === {{ $faq->id }}" x-collapse>
                             <dd class="mt-2 pr-12">
                                 <p class="text-base/7 text-gray-600">{{ $faq->response }}</p>
                             </dd>

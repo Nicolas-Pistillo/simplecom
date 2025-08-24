@@ -39,6 +39,17 @@
                         </dd>
                     </a>
 
+                    <a href="{{ route('admin.contents.incentives') }}" 
+                    class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
+                    transition-colors duration-300 hover:bg-blue-600 hover:text-white">
+                        <dt class="text-sm/6 font-semibold">
+                            Incentivos
+                        </dt>
+                        <dd class="order-first font-semibold tracking-tight">
+                            <x-icon code="approval_delegation" class="text-5xl" />
+                        </dd>
+                    </a>
+
                     <a href="{{ route('admin.contents.faqs') }}" 
                     class="flex flex-col bg-gray-400/5 p-8 cursor-pointer 
                     transition-colors duration-300 hover:bg-blue-600 hover:text-white">
