@@ -74,7 +74,7 @@
 
                     <div wire:key='{{ $incentive->id }}' class="p-4 border h-max border-gray-200 rounded-lg">
 
-                        <div class="flex max-sm:flex-col max-sm:items-center group gap-x-6 gap-y-2 mb-3">
+                        <div class="flex max-sm:flex-col max-sm:items-center group gap-x-6 gap-y-2 mb-4">
 
                             <span class="w-16 h-14 rounded-full p-4 flex items-center justify-center 
                             shadow-sm shadow-transparent transition-all duration-500 bg-gray-100">
@@ -85,13 +85,21 @@
                                 <h6 class="font-semibold text-lg text-black mb-1 max-sm:text-center">
                                     {{ $incentive->title }}
                                 </h6>
-                                <p class="font-normal text-sm text-gray-500 mb-4 max-sm:text-center">
+                                <p class="font-normal text-sm text-gray-500 max-sm:text-center">
                                     {{ $incentive->description }}
                                 </p>
                             </div>
                         </div>
 
-                        <x-switch :checked="$incentive->published" label="Publicar" />
+                        <div class="flex items-center justify-start gap-4">
+                            <x-switch wireChange="toggleActive({{ $incentive->id }})" 
+                            :checked="$incentive->published" label="Publicar" />
+
+                            <x-icon wire:click='openEdit({{ $incentive->id }})' 
+                            code="edit" x-tooltip.raw="Editar" class="transition colors 
+                            cursor-pointer bg-gray-100 text-gray-600 p-1.5 rounded-full 
+                            hover:bg-gray-200 focus:outline-none focus:ring duration-300"/>
+                        </div>
                     </div>
                 @endforeach
             </div>
