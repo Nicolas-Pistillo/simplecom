@@ -195,6 +195,23 @@
                 </div>
                 <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                     <div class="md:grid md:grid-cols-2 md:gap-8">
+                        <div class="mt-10 md:mt-0">
+                            <h3 class="text-sm font-semibold leading-6 text-gray-900">Tienda</h3>
+                            <ul role="list" class="mt-6 space-y-4">
+                                <li>
+                                    <a href="{{ route('ecommerce.index') }}"
+                                    class="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                                        Inicio
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('ecommerce.products') }}"
+                                    class="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                                        Productos
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                         <div>
                             <h3 class="text-sm font-semibold leading-6 text-gray-900">Soporte</h3>
                             <ul role="list" class="mt-6 space-y-4">
@@ -213,42 +230,8 @@
                                         Contacto
                                     </a>
                                 </li>
-
-                                <!-- <li>
-                                    <a href="#"
-                                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">Analytics</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">Commerce</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">Insights</a>
-                                </li> -->
                             </ul>
                         </div>
-                        <!-- <div class="mt-10 md:mt-0">
-                            <h3 class="text-sm font-semibold leading-6 text-gray-900">Support</h3>
-                            <ul role="list" class="mt-6 space-y-4">
-                                <li>
-                                    <a href="#"
-                                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">Pricing</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">Documentation</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">Guides</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">API
-                                        Status</a>
-                                </li>
-                            </ul>
-                        </div> -->
                     </div>
                     <!-- <div class="md:grid md:grid-cols-2 md:gap-8">
                         <div>

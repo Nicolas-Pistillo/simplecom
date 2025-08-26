@@ -12,7 +12,7 @@ class="mx-auto lg:mx-0 max-w-2xl lg:col-span-4 lg:row-end-1 lg:mt-0 lg:max-w-non
 
             @foreach ($product->images as $image)
 
-                <div class="shadow rounded-lg border-2 border-transparent
+                <div class="shadow rounded-xl border-2 border-transparent
                 cursor-pointer overflow-hidden"
                     :class="currentImage == '{{ Storage::url($image->url) }}' ?
                         '!border-blue-600' :

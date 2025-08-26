@@ -194,6 +194,15 @@
                                         Productos
                                     </a>
 
+                                    {{-- Offers --}}
+                                    {{-- <a href="{{ route('ecommerce.products') }}"
+                                        class="flex items-center text-sm font-medium border-b-2
+                                    {{ Route::is('ecommerce.products')
+                                        ? "border-$tenantColor-600 text-$tenantColor-600"
+                                        : 'border-transparent text-gray-700 hover:text-gray-800' }}">
+                                        Ofertas
+                                    </a> --}}
+
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,6 @@
 <div>
-    <div x-data="{ drawerOpen: false }" class="px-4 sm:px-6 lg:px-8" x-on:open-drawer.window="drawerOpen = true"
+    <div x-data="{ drawerOpen: false }" class="px-4 sm:px-6 lg:px-8" 
+        x-on:open-drawer.window="drawerOpen = true"
         x-on:close-drawer.window="drawerOpen = false">
 
         <nav class="flex mb-4 no-select">
@@ -71,20 +72,28 @@
             <div class="grid lg:grid-cols-2 gap-6">
 
                 @foreach ($incentives as $incentive)
-
-                    <div wire:key='{{ $incentive->id }}' class="p-4 border h-max border-gray-200 rounded-lg">
+                    <div wire:key='{{ $incentive->id }}' x-data="{deleteDialogOpen: false}"
+                    x-on:close-delete-dialog.window="deleteDialogOpen = false" 
+                    class="p-4 border h-max border-gray-200 rounded-lg">
 
                         <div class="flex max-sm:flex-col max-sm:items-center group gap-x-6 gap-y-2 mb-4">
 
-                            <span class="w-16 h-14 rounded-full p-4 flex items-center justify-center 
+                            <span
+                                class="w-16 h-14 rounded-full p-4 flex items-center justify-center 
                             shadow-sm shadow-transparent transition-all duration-500 bg-gray-100">
                                 <x-icon :code="$incentive->type->icon()" />
                             </span>
 
                             <div class="flex flex-col">
+
+                                <x-badge color="blue" class="mb-2 w-max">
+                                    {{ $incentive->type->name() }}
+                                </x-badge>
+
                                 <h6 class="font-semibold text-lg text-black mb-1 max-sm:text-center">
                                     {{ $incentive->title }}
                                 </h6>
+
                                 <p class="font-normal text-sm text-gray-500 max-sm:text-center">
                                     {{ $incentive->description }}
                                 </p>
@@ -92,14 +101,42 @@
                         </div>
 
                         <div class="flex items-center justify-start gap-4">
-                            <x-switch wireChange="toggleActive({{ $incentive->id }})" 
-                            :checked="$incentive->published" label="Publicar" />
+                            <x-switch wireChange="toggleActive({{ $incentive->id }})" :checked="$incentive->published"
+                                label="Publicar" />
 
-                            <x-icon wire:click='openEdit({{ $incentive->id }})' 
-                            code="edit" x-tooltip.raw="Editar" class="transition colors 
-                            cursor-pointer bg-gray-100 text-gray-600 p-1.5 rounded-full 
-                            hover:bg-gray-200 focus:outline-none focus:ring duration-300"/>
+                            <x-icon wire:click='openEdit({{ $incentive->id }})' code="edit" x-tooltip.raw="Editar"
+                            class="transition colors cursor-pointer bg-gray-100 text-gray-600 
+                            p-1.5 rounded-full hover:bg-gray-200 focus:outline-none focus:ring duration-300" />
+
+                            <x-icon @click="deleteDialogOpen = true" code="delete" x-tooltip.raw="Eliminar"
+                            class="transition colors cursor-pointer bg-gray-100 text-red-500 
+                            p-1.5 rounded-full hover:bg-gray-200 focus:outline-none focus:ring duration-300" />
                         </div>
+
+                        <x-modal ref="deleteDialogOpen" type="danger" icon="warning">
+
+                            <x-slot name="title">
+                                Eliminar incentivo
+                            </x-slot>
+
+                            <x-slot name="body">
+                                ¿Estás seguro que deseas eliminar el incentivo {{ $incentive->title }}?
+                            </x-slot>
+
+                            <x-slot name="actions">
+
+                                <x-spinner wire:loading wire:target='delete' />
+
+                                <x-button type="secondary" wire:loading.remove wire:target='delete'
+                                @click="deleteDialogOpen = false">Cancelar</x-button>
+
+                                <x-button wire:click='delete({{ $incentive->id }})' 
+                                wire:loading.remove wire:target='delete'
+                                class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
+
+                            </x-slot>
+
+                        </x-modal>
                     </div>
                 @endforeach
             </div>

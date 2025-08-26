@@ -6,12 +6,12 @@
             <!-- Image -->
             <div class="relative rounded-t-xl w-full overflow-hidden border bg-white">
                 <img src="{{ $product->first_image }}"
-                class="w-full h-56 transition-all duration-700 object-contain group-hover:scale-[1.03]">
+                class="w-full h-56 transition-all duration-700 object-cover group-hover:scale-[1.03]">
 
                 @if ($product->featured)
                     <div class="absolute top-0 left-0 transition duration-200"
                         :class="hoverOnProduct ? 'opacity-40' : 'opacity-100'">
-                        <h6 class="text-center font-semibold py-2 tracking-wider px-3 rounded-br-xl bg-red-400 text-white text-xs">
+                        <h6 class="text-center font-semibold py-2 tracking-wider px-3 rounded-br-xl bg-{{ tenant('color') }}-600 text-white text-xs">
                             Destacado
                         </h6>
                     </div>

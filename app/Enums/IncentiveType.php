@@ -10,7 +10,6 @@ enum IncentiveType: string
     case Security  = 'security';
     case Warranty  = 'warranty';
     case Returns   = 'returns';
-    case Refunds   = 'refunds';
     case Support   = 'support';
     case Other     = 'other';
 
@@ -24,7 +23,6 @@ enum IncentiveType: string
             self::Security  => 'Seguridad',
             self::Warranty  => 'Garantía',
             self::Returns   => 'Devoluciones',
-            self::Refunds   => 'Reembolsos',
             self::Support   => 'Soporte',
             self::Other     => 'Otros'
         };
@@ -34,15 +32,14 @@ enum IncentiveType: string
     {
         return match($this)
         {
-            self::Promotion => 'verified',
+            self::Promotion => 'attach_money',
             self::Payment   => 'credit_card',
             self::Shipping  => 'delivery_truck_speed',
             self::Security  => 'verified_user',
             self::Warranty  => 'verified',
             self::Returns   => 'compare_arrows',
-            self::Refunds   => 'hand_package',
             self::Support   => 'headset_mic',
-            self::Other     => 'shopping_cart'
+            self::Other     => 'info'
         };
     }
 }

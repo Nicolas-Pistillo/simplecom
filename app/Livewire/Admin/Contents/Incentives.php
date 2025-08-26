@@ -49,6 +49,18 @@ class Incentives extends Component
         ]);
     }
 
+    public function delete(Incentive $incentive)
+    {
+        $incentive->delete();
+
+        $this->notify([
+            'type' => 'success',
+            'title' => 'Incentivo eliminado correctamente'
+        ]);
+
+        $this->dispatch('close-delete-dialog');
+    }
+
     public function save()
     {
         $this->form->validate();
