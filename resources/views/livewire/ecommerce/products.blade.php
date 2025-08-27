@@ -1,13 +1,51 @@
 <div>
     <div class="bg-white">
 
-        <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             @include('ecommerce.partials.products.header')
 
             <section aria-labelledby="products-heading" class="pb-24 pt-6">
 
-                <div class="grid grid-cols-1  gap-x-8 gap-y-10 lg:grid-cols-4">
+                {{-- Current filters --}}
+                @if ($hasFilters)
+                    <div class="grid grid-cols-1 gap-x-8 lg:grid-cols-4 mb-4">
+
+                        <div></div>
+
+                        <div class="flex items-center gap-4 flex-wrap lg:col-span-3">
+                            @if ($form->category)
+                                <x-badge color="blue" class="flex items-center gap-1.5">
+                                    Categoría: {{ $form->category->name }}
+                                    <x-icon code="close" wire:click='resetCategoryFilter'
+                                    x-tooltip.raw="Quitar filtro"
+                                    class="material-symbols-outlined text-[14px] cursor-pointer hover:text-red-500" />
+                                </x-badge>
+                            @endif
+
+                            @if ($form->brand)
+                                <x-badge color="orange" class="flex items-center gap-1.5">
+                                    Marca: {{ $form->brand->name }}
+                                    <x-icon code="close" wire:click='resetBrandFilter'
+                                    x-tooltip.raw="Quitar filtro"
+                                    class="material-symbols-outlined text-[14px] cursor-pointer hover:text-red-500" />
+                                </x-badge>
+                            @endif
+
+                            @if ($form->collection)
+                                <x-badge color="indigo" class="flex items-center gap-1.5">
+                                    Colección: {{ $form->collection->name }}
+                                    <x-icon code="close" wire:click='resetCollectionFilter'
+                                    x-tooltip.raw="Quitar filtro"
+                                    class="material-symbols-outlined text-[14px] cursor-pointer hover:text-red-500" />
+                                </x-badge>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Products grid --}}
+                <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
 
                     @if ($products->isNotEmpty())
                         
@@ -65,16 +103,20 @@
                                                 Sin resultados
                                             </h2>
 
-                                            <p class="lg:max-w-2xl w-full text-center text-gray-600 text-base font-medium leading-relaxed">
-                                                No te preocupes, muy pronto estarán llegando nuevos artículos y novedades
-                                            </p>
+                                            @if ($hasFilters)
+                                                <p class="lg:max-w-2xl w-full text-center text-gray-600 text-base font-medium leading-relaxed">
+                                                    No se encontraron productos que coincidan con los filtros aplicados.
+                                                </p>
 
-                                            @if ($form->category)
                                                 <x-button :href="route('ecommerce.products')" type="soft"
                                                 class="flex items-center gap-x-0.5">
                                                     Ver todos los productos
                                                     <x-icon code="arrow_forward" />
                                                 </x-button>
+                                            @else
+                                                <p class="lg:max-w-2xl w-full text-center text-gray-600 text-base font-medium leading-relaxed">
+                                                    No te preocupes, muy pronto estarán llegando nuevos artículos y novedades
+                                                </p>
                                             @endif
                                         </div>
                                     </div>
@@ -84,6 +126,6 @@
                     @endif
                 </div>
             </section>
-        </main>
+        </section>
     </div>
 </div>

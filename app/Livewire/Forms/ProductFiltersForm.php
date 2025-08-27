@@ -27,4 +27,10 @@ class ProductFiltersForm extends Form
     
     #[Url(as: 'precio_maximo')]
     public $max_price;
+
+    public function hasFilters()
+    {
+        return !empty($this->category) || !empty($this->brand) || !empty($this->collection) || 
+               !empty($this->min_price) || !empty($this->max_price);
+    }
 }

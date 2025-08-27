@@ -107,8 +107,8 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
                                     </div>
                                 @endif
 
-                                <p class="text-gray-700 text-sm mt-4 line-clamp-4">
-                                    {!! !empty($product->description && strlen($product->description) < 600) 
+                                <p class="text-gray-700 text-sm mt-4">
+                                    {!! !empty($product->description && strlen($product->description) <= 300) 
                                             ? $product->description 
                                             : '' 
                                     !!}

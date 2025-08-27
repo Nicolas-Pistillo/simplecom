@@ -28,7 +28,7 @@ class Products extends Component
             $categoryIds = [$this->form->category->id];
 
             if ($this->form->category->hasChilds()) {
-                $childsId = $this->form->category->childs->pluck('id')->toArray();
+                $childsId = $this->form->category->childs()->pluck('id')->toArray();
                 $granchildsId = Category::whereIn('category_father', $childsId)->pluck('id')->toArray();
                 $categoryIds = array_merge($categoryIds, $childsId, $granchildsId);
             }
@@ -46,8 +46,6 @@ class Products extends Component
             });
         }
 
-        $products->orderByType($this->form->order);
-
         if (!empty($this->form->min_price)) {
             $products->where('price', '>=', $this->form->min_price);
         }
@@ -55,6 +53,8 @@ class Products extends Component
         if (!empty($this->form->max_price)) {
             $products->where('price', '<=', $this->form->max_price);
         }
+
+        $products->orderByType($this->form->order);
 
         $results = $products->get();
 
@@ -75,8 +75,8 @@ class Products extends Component
     {
         $category->load('father', 'childs');
 
-        $this->resetBrandFilter();
-        $this->resetCollectionFilter();
+        /* $this->resetBrandFilter();
+        $this->resetCollectionFilter(); */
 
         $this->form->category_query = Str::slug($category->id . '-' . $category->name);
         $this->form->category = $category;
@@ -105,9 +105,19 @@ class Products extends Component
         $this->setPage(1);
     }
 
+    public function resetFilters()
+    {
+        $this->form->reset();
+    }
+
     public function resetPriceFilter()
     {
         $this->form->reset('min_price', 'max_price');
+    }
+
+    public function resetCategoryFilter()
+    {
+        $this->form->reset('category', 'category_query');
     }
 
     public function resetBrandFilter()
@@ -157,7 +167,8 @@ class Products extends Component
     public function render()
     {
         return view('livewire.ecommerce.products', [
-            'products' => $this->loadProducts()
+            'products' => $this->loadProducts(),
+            'hasFilters' => $this->form->hasFilters()
         ]);
     }
 }
