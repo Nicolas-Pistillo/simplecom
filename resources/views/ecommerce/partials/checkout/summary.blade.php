@@ -4,7 +4,7 @@
 
         <h2 class="text-lg font-medium text-gray-900">Resumen</h2>
 
-        <x-button :href="route('ecommerce.products')" type="soft" class="flex items-center">
+        <x-button :href="route('ecommerce.products')" type="secondary" class="flex items-center">
             Seguir comprando
             <x-icon code="shopping_cart" class="ml-1" />
         </x-button>

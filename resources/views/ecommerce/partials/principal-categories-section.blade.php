@@ -3,7 +3,7 @@
 
         <div class="flex items-center justify-between gap-x-4 mb-8">
             <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
-                Nuestras categorías
+                Categorías
             </h2>
 
             <div class="flex justify-center items-center">

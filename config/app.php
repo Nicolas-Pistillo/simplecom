@@ -204,7 +204,9 @@ return [
         'OrderFeedEvent'           => App\Enums\OrderFeedEvent::class,
         'NotificationPresentation' => App\Enums\NotificationPresentation::class,
         'PeriodOption'             => App\Enums\PeriodOption::class,
-        'FaqsService'              => App\Services\FaqsService::class
+        'FaqsService'              => App\Services\FaqsService::class,
+        'IncentiveType'            => App\Enums\IncentiveType::class,
+        'IncentiveService'         => App\Services\IncentiveService::class,
     ])->toArray(),
 
 ];

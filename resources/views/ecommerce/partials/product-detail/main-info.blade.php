@@ -22,8 +22,9 @@
                 @if ($product->hasDiscount())
                     <div class="flex items-center">
                         <del class="block text-xs text-gray-500">${{ priceFormat($product->price) }}</del>
-                        <span class="text-green-500 text-xs ml-1.5">%{{ $product->discount_percent }}
-                            OFF</span>
+                        <x-badge color="green" class="ml-1.5 font-semibold !rounded-full">
+                            %{{ $product->discount_percent }} OFF
+                        </x-badge>
                     </div>
                 @endif
 

@@ -54,9 +54,9 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
                                                 <del class="block text-xs text-gray-500">
                                                     ${{ priceFormat($product->price) }}
                                                 </del>
-                                                <span class="text-green-500 text-xs ml-1.5">
-                                                    %15 OFF
-                                                </span>
+                                                <x-badge color="green" class="ml-1.5 font-semibold !rounded-full">
+                                                    %{{ $product->discount_percent }} OFF
+                                                </x-badge>
                                             </div>
                                         @endif
 
@@ -107,8 +107,8 @@ x-on:close-product-quick-view.window="detailPanelOpen = false">
                                     </div>
                                 @endif
 
-                                <p class="text-gray-700 text-sm mt-4 line-clamp-4">
-                                    {!! !empty($product->description && strlen($product->description) < 600) 
+                                <p class="text-gray-700 text-sm mt-4">
+                                    {!! !empty($product->description && strlen($product->description) <= 300) 
                                             ? $product->description 
                                             : '' 
                                     !!}
