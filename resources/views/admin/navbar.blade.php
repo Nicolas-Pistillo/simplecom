@@ -19,7 +19,7 @@
         </li>
 
         <li>
-            <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Operatoria</h5>
+            <h5 class="text-xs font-semibold leading-6 text-gray-500 tracking-wide">Operatoria</h5>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
                 @can('Ver ventas')
@@ -61,7 +61,7 @@
         </li>
 
         <li>
-            <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Catálogo</h5>
+            <h5 class="text-xs font-semibold leading-6 text-gray-500 tracking-wide">Catálogo</h5>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
                 @can('Ver productos')
@@ -69,12 +69,12 @@
                     :active="Route::is('admin.products.*')"/>
                 @endcan
 
-                @can('Editar colecciones')
-                    <x-navbar-item route="admin.collections.index" icon="note_stack" title="Colecciones" />
-                @endcan
-
                 @can('Editar categorias')
                     <x-navbar-item route="admin.categories.index" icon="format_list_bulleted" title="Categorías" />
+                @endcan
+
+                @can('Editar colecciones')
+                    <x-navbar-item route="admin.collections.index" icon="note_stack" title="Colecciones" />
                 @endcan
 
                 @can('Editar atributos')
