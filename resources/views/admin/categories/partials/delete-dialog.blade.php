@@ -10,12 +10,12 @@
 
     <x-slot name="actions">
 
-        <x-spinner wire:loading wire:target='deleteCategory' />
+        <x-spinner wire:loading wire:target='delete' />
 
-        <x-button type="secondary" wire:loading.remove wire:target='deleteCategory' 
+        <x-button type="secondary" wire:loading.remove wire:target='delete' 
         @click="deleteDialogOpen = false">Cancelar</x-button>
 
-        <x-button wire:click='deleteCategory' wire:loading.remove wire:target='deleteCategory' 
+        <x-button wire:click='delete' wire:loading.remove wire:target='delete' 
         class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
         
     </x-slot>

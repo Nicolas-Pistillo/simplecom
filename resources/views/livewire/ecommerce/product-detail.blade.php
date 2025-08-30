@@ -5,7 +5,7 @@
             {{-- Category Bradcrumb --}}
             <div class="mb-3 mx-auto lg:mx-0 max-w-2xl lg:col-span-4 lg:row-end-1 lg:mt-0 lg:max-w-none">
                 <nav class="flex" aria-label="Breadcrumb">
-                    <ol role="list" class="flex items-center flex-wrap gap-2 text-sm">
+                    <ol role="list" class="flex items-center flex-wrap text-sm">
 
                         {{-- Category Grandfather --}}
                         @if ($product->category->father?->father)

@@ -10,6 +10,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 
 class Upsert extends Component
 {
@@ -17,7 +18,7 @@ class Upsert extends Component
     use WithFileUploads;
     use WithNotifications;
 
-    public $drawerTitle, $drawerRef, $search = '';
+    public $drawerTitle, $drawerRef;
     public $category, $categoryFather;
     public $name, $description, $image, $imagePreview, $coverImage, $coverImagePreview;
     public $featured, $published;
@@ -40,7 +41,7 @@ class Upsert extends Component
         $this->resetDrawer();
 
         $this->published = true;
-        $this->drawerTitle = "Nueva categoría principal";
+        $this->drawerTitle = "Nueva categoría";
         $this->dispatch('open-drawer');
     }
 
@@ -49,7 +50,7 @@ class Upsert extends Component
         $this->resetDrawer();
 
         $this->fill([
-            'drawerTitle'    => "Agregando subcategoría a $categoryFather->name",
+            'drawerTitle'    => "Agregar subcategoría a $categoryFather->name",
             'categoryFather' => $categoryFather,
             'published'      => true
         ]);
@@ -57,14 +58,14 @@ class Upsert extends Component
         $this->dispatch('open-drawer');
     }
 
-    public function openEditCategory(Category $category)
+    public function openEdit(Category $category)
     {
         $this->resetDrawer();
 
         $this->category = $category;
 
         $this->fill([
-            'drawerTitle'       => "Editando categoría $category->name",
+            'drawerTitle'       => "$category->name",
             'name'              => $category->name,
             'description'       => $category->description,
             'published'         => $category->published ? true : false,
@@ -81,7 +82,7 @@ class Upsert extends Component
         $this->imagePreview = $this->image->temporaryUrl();
     }
 
-    public function togglePublishedCategory(Category $category)
+    public function togglePublished(Category $category)
     {
         $category->update(['published' => !$category->published]);
 
@@ -93,7 +94,7 @@ class Upsert extends Component
         ]);
     }
 
-    public function toggleFeaturedCategory(Category $category)
+    public function toggleFeatured(Category $category)
     {
         $category->update(['featured' => !$category->featured]);
 
@@ -194,6 +195,7 @@ class Upsert extends Component
 
         $this->resetDrawer();
         $this->dispatch('close-drawer');
+        $this->dispatch('reorder');
 
         $this->notify([
             'type'  => 'success',
@@ -207,13 +209,13 @@ class Upsert extends Component
         $this->resetDrawer();
     }
 
-    public function openDeleteCategory(Category $category)
+    public function openDelete(Category $category)
     {
         $this->category = $category;
         $this->dispatch('open-delete-dialog');
     }
 
-    public function deleteCategory()
+    public function delete()
     {
         $this->category->delete();
         $this->dispatch('close-delete-dialog');
@@ -237,21 +239,54 @@ class Upsert extends Component
         $this->hasCategories = Category::count() > 0;
     }
 
+    public function getCategories()
+    {
+        $categories = Category::principal()->with('childs.childs')->orderBy('order');
+        return $categories->get();       
+    }
+
+    #[On('categoriesReordered')]
+    public function updateOrder($tree)
+    {
+        if (empty($tree)) return;
+
+        foreach($tree as $category)
+        {
+            Category::find($category['id'])?->update([
+                'category_father' => $category['parent_id'],
+                'order' => $category['order'],
+            ]);
+
+            if (!empty($category['children']))
+            {
+                foreach($category['children'] as $childCategory)
+                {
+                    Category::find($childCategory['id'])?->update([
+                        'category_father' => $childCategory['parent_id'],
+                        'order' => $childCategory['order']
+                    ]);
+
+                    if (!empty($childCategory['children']))
+                    {
+                        foreach($childCategory['children'] as $grandChildCategory)
+                        {
+                            Category::find($grandChildCategory['id'])?->update([
+                                'category_father' => $grandChildCategory['parent_id'],
+                                'order' => $grandChildCategory['order']
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        $this->dispatch('reorder');
+    }
+
     public function render()
     {
-        $search = trim($this->search);
-
-        $categories = Category::principal()
-                        ->when(!empty($search), function($query) use ($search) {
-                            return $query->where('name', 'LIKE', "%$search%")
-                                        ->orWhere('description', 'LIKE', "%$search%")
-                                        ->whereNull('category_father');
-                        })
-                        ->orderBy('name')
-                        ->with('childs');
-
         return view('livewire.admin.categories.upsert', [
-            'categories' => $categories->paginate(6),
+            'categories' => $this->getCategories(),
             'emptyData'  => Category::count() === 0
         ]);
     }

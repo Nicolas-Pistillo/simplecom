@@ -43,7 +43,7 @@
     </th>
 
     <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-        {{ $product->category->name }}
+        {{ $product->category?->name ?: '-' }}
     </td>
 
     <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
