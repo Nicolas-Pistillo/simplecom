@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum ShippingMethodType: string
 {
-    case Own = 'own';
+    case Custom = 'custom';
     case Carrier = 'carrier';
     case MultiCarrier = 'multi_carrier';
 }

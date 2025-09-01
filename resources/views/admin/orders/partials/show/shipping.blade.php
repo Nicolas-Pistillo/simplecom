@@ -94,7 +94,7 @@ class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
                 @if ($order->shipping->logistic_type->isFromDoor())
                     <div class="w-full justify-between items-center gap-6 sm:inline-flex">
-                        <h5 class="text-gray-600 leading-4 sm:leading-8">Orígen</h5>
+                        <h5 class="text-gray-600 leading-4 sm:leading-8">Origen</h5>
                         <h4 class="sm:text-right text-gray-900 font-semibold">
                             {{ $order->shipping->originPoint->name }}
                         </h4>

@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div class="ps-8 nested-sortable-item space-y-1.5 mt-1.5">
+    <div class="ps-8 nested-sortable-item space-y-1.5 mt-1.5 border-l">
         @include('admin.categories.partials.category-child-item')
     </div>
 </div>

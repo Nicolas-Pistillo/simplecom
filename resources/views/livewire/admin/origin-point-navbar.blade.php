@@ -2,7 +2,7 @@
     <div x-data="{ panelOpen: false }"
         class="hidden sm:block relative pt-2 text-gray-400 cursor-pointer transition hover:text-gray-500">
 
-        <x-icon x-tooltip.raw.placement.bottom="Punto de orígen" @click="panelOpen = !panelOpen" code="warehouse" />
+        <x-icon x-tooltip.raw.placement.bottom="Punto de origen" @click="panelOpen = !panelOpen" code="warehouse" />
 
         <div x-cloak x-show="panelOpen" @click.away="panelOpen = false"
             x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95"
@@ -14,7 +14,7 @@
             rounded-none sm:rounded-lg shadow-lg">
                 <div class="block px-4 py-2 font-semibold text-center text-white 
                 rounded-t-none sm:rounded-t-lg bg-blue-600">
-                    Punto de orígen
+                    Punto de origen
                 </div>
                 <div wire:poll class="divide-y divide-gray-100 max-h-[350px] overflow-y-auto">
 
@@ -50,9 +50,9 @@
 
                         @if ($loop->last)
                             <div class="py-2 px-2">
-                                <x-button :href="route('admin.delivery-methods.index', ['tab' => 'Proveedores','providers-tab' => 'Puntos de origen'])" 
+                                <x-button :href="route('admin.delivery-methods.origin-points.index')" 
                                 type="secondary" size="small" class="inline-flex items-center gap-1">
-                                    Ir a puntos de orígen
+                                    Ir a puntos de origen
                                     <x-icon code="arrow_forward" />
                                 </x-button>
                             </div>
@@ -65,11 +65,11 @@
 
                             <div class="mb-4">
                                 <h3 class="mt-2 mb-4 text-sm font-semibold text-gray-900">
-                                    Todavía no cargaste un punto de orígen para tus envíos
+                                    Todavía no cargaste un punto de origen para tus envíos
                                 </h3>
-                                <x-button :href="route('admin.delivery-methods.index', ['tab' => 'Proveedores','providers-tab' => 'Puntos de origen'])" 
+                                <x-button :href="route('admin.delivery-methods.origin-points.index')" 
                                 type="soft" class="inline-flex items-center gap-1">
-                                    Ir a puntos de orígen
+                                    Ir a puntos de origen
                                     <x-icon code="arrow_forward" />
                                 </x-button>
                             </div>

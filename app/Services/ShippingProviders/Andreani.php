@@ -73,7 +73,7 @@ class Andreani implements ShippingProvider
             throw new Exception('Error al comunicarse con los servicios de Andreani');
 
         if (!$origin)
-            throw new Exception('No hay un punto de orígen en uso');
+            throw new Exception('No hay un punto de origen en uso');
 
         $package = OrderService::calculatePackage($order);
 

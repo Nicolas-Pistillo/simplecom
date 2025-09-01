@@ -176,7 +176,7 @@ class Envia implements ShippingProvider
         $origin = OriginPoint::inUse();
 
         if (!$origin)
-            throw new Exception('No hay un punto de orígen en uso');
+            throw new Exception('No hay un punto de origen en uso');
 
         $package = OrderService::calculatePackage($order);
 

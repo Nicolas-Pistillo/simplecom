@@ -85,7 +85,7 @@ class Rapiboy implements ShippingProvider
         $origin = OriginPoint::inUse();
         $destiny = $order->shipping->userAddress;
 
-        if (!$origin) throw new Exception('No hay un punto de orígen en uso');
+        if (!$origin) throw new Exception('No hay un punto de origen en uso');
 
         $package = OrderService::calculatePackage($order);
 

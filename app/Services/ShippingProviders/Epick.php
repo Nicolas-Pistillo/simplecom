@@ -105,7 +105,7 @@ class Epick implements ShippingProvider
             throw new Exception('Error al comunicarse con los servicios de E-pick');
 
         if (!$origin)
-            throw new Exception('No hay un punto de orígen en uso');
+            throw new Exception('No hay un punto de origen en uso');
 
         $destination = $order->shipping?->userAddress;
 

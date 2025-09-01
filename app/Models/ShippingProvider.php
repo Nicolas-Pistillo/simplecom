@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ShippingMethodType;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,5 +37,10 @@ class ShippingProvider extends Model
     {
         $providers = ShippingProvider::all();
         return $providers->filter(fn($provider) => !$provider->service()->isConfigurated());
+    }
+
+    public function scopeCustom(Builder $query)
+    {
+        return $query->where('type', ShippingMethodType::Custom);
     }
 }

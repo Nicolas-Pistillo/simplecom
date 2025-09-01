@@ -146,9 +146,26 @@ Route::middleware([
                     ->name('admin.payment-methods.index')
                     ->middleware('can:Editar formas de pago');
 
-                Route::view('delivery-methods', 'admin.delivery-methods.index')
-                    ->name('admin.delivery-methods.index')
-                    ->middleware('can:Editar formas de entrega');
+                Route::prefix('delivery-methods')->middleware('can:Editar formas de entrega')->group(function() 
+                {
+                    Route::view('store-pickups', 'admin.delivery-methods.store-pickups.index')
+                        ->name('admin.delivery-methods.store-pickups.index');
+
+                    Route::view('providers', 'admin.delivery-methods.providers.index')
+                        ->name('admin.delivery-methods.providers.index');
+
+                    Route::view('origin-points', 'admin.delivery-methods.origin-points.index')
+                        ->name('admin.delivery-methods.origin-points.index');
+
+                    Route::view('shipping-zones', 'admin.delivery-methods.shipping-zones.index')
+                        ->name('admin.delivery-methods.shipping-zones.index');
+
+                    Route::view('custom-shippings', 'admin.delivery-methods.custom-shippings.index')
+                        ->name('admin.delivery-methods.custom-shippings.index');
+
+                    Route::view('custom-shippings/create', 'admin.delivery-methods.custom-shippings.create')
+                        ->name('admin.delivery-methods.custom-shippings.create');
+                });
 
                 Route::view('products', 'admin.products.index')
                     ->name('admin.products.index')
