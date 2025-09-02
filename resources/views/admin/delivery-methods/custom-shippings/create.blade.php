@@ -1,6 +1,6 @@
 @extends('layouts.dashboards.admin')
 
-@section('title', 'Nueva forma de envío')
+@section('title', 'Nuevo envío personalizado')
 
 @section('content')
     @livewire('admin.delivery-methods.custom-shippings.upsert')

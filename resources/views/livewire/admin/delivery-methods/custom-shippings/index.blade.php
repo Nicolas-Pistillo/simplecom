@@ -18,7 +18,7 @@
                 <x-button :href="route('admin.delivery-methods.custom-shippings.create')" 
                 class="flex items-center">
                     <x-icon code="add" class="mr-1" />
-                    Nueva forma de envío
+                    Nuevo envío propio
                 </x-button>
             </div>
         </div>

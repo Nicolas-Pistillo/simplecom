@@ -47,20 +47,21 @@
                     <x-navbar-dropdown icon="shopping_bag_speed" title="Formas de entrega"
                     :open="Route::is('admin.delivery-methods.*')">
 
-                        <x-navbar-item route="admin.delivery-methods.store-pickups.index" icon="hand_package" title="Retiros"
-                        itemClasses="py-1" linkClasses="!p-1" />
+                        <x-navbar-item route="admin.delivery-methods.store-pickups.index" 
+                        icon="hand_package" title="Retiros" itemClasses="py-1" linkClasses="!p-1" />
 
-                        <x-navbar-item route="admin.delivery-methods.providers.index" icon="delivery_truck_speed" title="Proveedores"
-                        itemClasses="py-1" linkClasses="!p-1" />
+                        <x-navbar-item route="admin.delivery-methods.providers.index" 
+                        icon="delivery_truck_speed" title="Proveedores" itemClasses="py-1" linkClasses="!p-1" />
 
-                        <x-navbar-item route="admin.delivery-methods.custom-shippings.index" icon="moped_package" title="Envios propios"
-                        itemClasses="py-1" linkClasses="!p-1" />
+                        <x-navbar-item :active="Route::is('admin.delivery-methods.custom-shippings.*')" 
+                        route="admin.delivery-methods.custom-shippings.index" icon="moped_package" 
+                        title="Envios propios" itemClasses="py-1" linkClasses="!p-1" />
 
-                        <x-navbar-item route="admin.delivery-methods.origin-points.index" icon="warehouse" title="Puntos de origen"
-                        itemClasses="py-1" linkClasses="!p-1" />
+                        <x-navbar-item route="admin.delivery-methods.origin-points.index" 
+                        icon="warehouse" title="Puntos de origen" itemClasses="py-1" linkClasses="!p-1" />
 
-                        <x-navbar-item route="admin.delivery-methods.shipping-zones.index" icon="file_map" title="Zonas de envíos"
-                        itemClasses="py-1" linkClasses="!p-1" />
+                        <x-navbar-item route="admin.delivery-methods.shipping-zones.index" 
+                        icon="file_map" title="Zonas de envío" itemClasses="py-1" linkClasses="!p-1" />
 
                     </x-navbar-dropdown>
                 @endcan
@@ -72,7 +73,7 @@
 
                 @can('Editar operadores')
                     <x-navbar-item route="admin.operators.index" 
-                    icon="manage_accounts" title="Operadores" linkClasses="!p-1" />
+                    icon="manage_accounts" title="Operadores" />
                 @endcan
 
             </ul>

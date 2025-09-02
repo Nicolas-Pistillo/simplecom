@@ -3,7 +3,7 @@ class="animate__animated animate__bounceInLeft grid max-w-xl grid-cols-12 gap-x-
 
     <div class="col-span-full no-select">
         <legend class="text-sm/6 font-semibold text-gray-900">Medios de pago</legend>
-        <p class="mt-1 text-sm/6 text-gray-600">Selecciona un medio de pago de tu preferencia</p>
+        <p class="mt-1 text-sm/6 text-gray-600">Seleccione un medio de pago</p>
     </div>
 
     {{-- Pament Methods Selection --}}
