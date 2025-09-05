@@ -157,9 +157,6 @@ Route::middleware([
                     Route::view('origin-points', 'admin.delivery-methods.origin-points.index')
                         ->name('admin.delivery-methods.origin-points.index');
 
-                    Route::view('shipping-zones', 'admin.delivery-methods.shipping-zones.index')
-                        ->name('admin.delivery-methods.shipping-zones.index');
-
                     Route::view('custom-shippings', 'admin.delivery-methods.custom-shippings.index')
                         ->name('admin.delivery-methods.custom-shippings.index');
 

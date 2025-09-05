@@ -53,15 +53,12 @@
                         <x-navbar-item route="admin.delivery-methods.providers.index" 
                         icon="delivery_truck_speed" title="Proveedores" itemClasses="py-1" linkClasses="!p-1" />
 
-                        <x-navbar-item :active="Route::is('admin.delivery-methods.custom-shippings.*')" 
-                        route="admin.delivery-methods.custom-shippings.index" icon="moped_package" 
-                        title="Envios propios" itemClasses="py-1" linkClasses="!p-1" />
-
                         <x-navbar-item route="admin.delivery-methods.origin-points.index" 
                         icon="warehouse" title="Puntos de origen" itemClasses="py-1" linkClasses="!p-1" />
 
-                        <x-navbar-item route="admin.delivery-methods.shipping-zones.index" 
-                        icon="file_map" title="Zonas de envío" itemClasses="py-1" linkClasses="!p-1" />
+                        <x-navbar-item :active="Route::is('admin.delivery-methods.custom-shippings.*')" 
+                        route="admin.delivery-methods.custom-shippings.index" icon="moped_package" 
+                        title="Envios propios" itemClasses="py-1" linkClasses="!p-1" />
 
                     </x-navbar-dropdown>
                 @endcan
