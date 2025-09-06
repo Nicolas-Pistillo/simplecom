@@ -17,4 +17,7 @@ class CustomShippingForm extends Form
 
     #[Validate('nullable|array', as: 'provincias')]
     public $selected_provinces = [];
+
+    #[Validate('nullable|array', as: 'localidades')]
+    public $excluded_localities = [];
 }

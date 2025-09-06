@@ -11,14 +11,13 @@ class Georef
 {
     public static function getProvinces(int $max = 50)
     {
-        return Http::get("https://apis.datos.gob.ar/georef/api/provincias?campos=id,iso_nombre&max=$max")
-                    ->collect('provincias')
-                    ->sort();
+        return Http::get("https://apis.datos.gob.ar/georef/api/v2.0/provincias?max=$max")
+                    ->collect('provincias');
     }
 
-    public static function searchLocalities(string $provinceId, int $max = 50)
+    public static function getLocalities(string $provinceId, int $max = 50)
     {
-        return Http::get("https://apis.datos.gob.ar/georef/api/localidades?provincia=$provinceId&campos=id,iso_nombre&max=$max")
-                ->collect('');
+        return Http::get("https://apis.datos.gob.ar/georef/api/v2.0/localidades?provincia=$provinceId&max=$max")
+                ->collect('localidades');
     }
 }
