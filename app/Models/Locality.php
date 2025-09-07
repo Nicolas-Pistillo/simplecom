@@ -10,4 +10,6 @@ class Locality extends Model
     use HasFactory;
 
     protected $fillable = ['province_id', 'georef_id', 'name'];
+
+    protected $connection = 'mysql';
 }

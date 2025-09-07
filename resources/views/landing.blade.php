@@ -55,7 +55,7 @@
             <p class="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">Most bookkeeping software is
                 accurate, but hard to use. We make the opposite trade-off, and hope you don’t get audited.</p>
             <div class="mt-10 flex justify-center gap-x-6">
-                
+
                 <x-button rounded>Get 6 monthds free</x-button>
 
                 <x-button rounded type="secondary" class="flex items-center !font-normal">
@@ -243,6 +243,67 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <section class="relative pt-32 overflow-hidden">
+            <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 mb-14">
+                <div class="mx-auto max-w-2xl md:text-center mb-20">
+                    <h2 class="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">Simplify everyday
+                        business tasks.</h2>
+                    <p class="mt-4 text-lg tracking-tight text-slate-700">Because you’d probably be a little confused
+                        if we suggested you complicate your everyday business tasks instead.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
+                    <div class="flex flex-col gap-8">
+                        <div class="rounded-2xl p-8 bg-emerald-200 ">
+                            <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
+                                Elevate your holiday joy with a festive 20% discount using code xzTnm
+                            </h6>
+                            <button type="button"
+                                class="ml-auto flex w-max py-2 border border-gray-500 px-6 text-sm max-h-max bg-transparent-100 text-gray-900 rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500 hover:bg-black hover:text-white">
+                                Special Offer
+                            </button>
+                        </div>
+                        <div class="rounded-2xl p-8 bg-blue-200 ">
+                            <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
+                                Elevate your holiday joy with a festive 20% discount using code xzTnm
+                            </h6>
+                            <button type="button"
+                                class="ml-auto flex w-max py-2 border border-gray-500 px-6 text-sm max-h-max bg-transparent-100 text-gray-900 rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500 hover:bg-black hover:text-white">
+                                Special Offer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
+                        <div class="rounded-2xl p-8 bg-indigo-200 ">
+                            <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
+                                Elevate your holiday joy with a festive 20% discount using code xzTnm
+                            </h6>
+                            <button type="button"
+                                class="ml-auto flex w-max py-2 border border-gray-500 px-6 text-sm max-h-max bg-transparent text-gray-900 rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500 hover:bg-black hover:text-white">
+                                Special Offer
+                            </button>
+                        </div>
+                        <div class="rounded-2xl p-8 bg-pink-200 ">
+                            <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
+                                Elevate your holiday joy with a festive 20% discount using code xzTnm
+                            </h6>
+                            <button type="button"
+                                class="ml-auto flex w-max py-2 border border-gray-500 px-6 text-sm max-h-max bg-transparent text-gray-900 rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500 hover:bg-black hover:text-white">
+                                Special Offer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl p-8 bg-orange-200 ">
+                        <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
+                            Elevate your holiday joy with a festive 20% discount using code xzTnm
+                        </h6>
+                        <button type="button"
+                            class="ml-auto flex w-max py-2 border border-gray-500 px-6 text-sm max-h-max bg-transparent text-gray-900 rounded-full cursor-pointer font-medium text-center shadow-xs transition-all duration-500 hover:bg-black hover:text-white">
+                            Special Offer
+                        </button>
+                    </div>
+                </div>
         </section>
 
         <section id="secondary-features" aria-label="Features for simplifying everyday business tasks"
@@ -858,7 +919,8 @@
             </div>
         </section>
 
-        <section id="faq" aria-labelledby="faq-title" class="relative overflow-hidden bg-slate-50 py-20 sm:py-32">
+        <section id="faq" aria-labelledby="faq-title"
+            class="relative overflow-hidden bg-slate-50 py-20 sm:py-32">
             <img alt="" loading="lazy" width="1558" height="946" decoding="async" data-nimg="1"
                 class="absolute left-1/2 top-0 max-w-none -translate-y-1/4 translate-x-[-30%]" style="color:transparent"
                 src="/_next/static/media/background-faqs.55d2e36a.jpg">
@@ -976,5 +1038,4 @@
             </div>
         </div>
     </footer>
-
 @endsection

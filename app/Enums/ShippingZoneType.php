@@ -5,7 +5,7 @@ namespace App\Enums;
 enum ShippingZoneType: string
 {
     case CountryAll    = 'country_all';
-    case ByProvinces   = 'by_provinces';
+    case ByLocalities  = 'by_localities';
     case ByPostalCodes = 'by_postal_codes';
     case ByDistanceKm  = 'by_distance_km';
 
@@ -14,7 +14,7 @@ enum ShippingZoneType: string
         return match($this)
         {
             self::CountryAll    => 'Todo el país',
-            self::ByProvinces   => 'Por provincias',
+            self::ByLocalities  => 'Por localidades',
             self::ByPostalCodes => 'Por códigos postales',
             self::ByDistanceKm  => 'Por distancia en KM'
         };

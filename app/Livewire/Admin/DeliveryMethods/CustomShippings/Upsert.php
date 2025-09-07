@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\DeliveryMethods\CustomShippings;
 
 use App\Livewire\Forms\CustomShippingForm;
+use App\Models\Locality;
 use App\Models\Province;
 use App\Services\Georef;
 use Livewire\Component;
@@ -11,7 +12,7 @@ class Upsert extends Component
 {
     public CustomShippingForm $form;
 
-    public $province_search = '';
+    public $localitySearch = [];
 
     public function toggleProvince($provinceId)
     {
@@ -27,10 +28,35 @@ class Upsert extends Component
             : array_push($this->form->excluded_localities, $localityId);
     }
 
+    public function updatedForm($value, $prop)
+    {
+        if (in_array($prop, ['shipping_zone_type', 'selected_provinces']))
+        {
+            $this->localitySearch = [];
+        }
+    }
+
     public function render()
     {
+        $provinces = Province::with('localities')->orderBy('name')->get();
+        $selectedProvinces = $provinces->whereIn('id', $this->form->selected_provinces);
+
+        $selectedProvinces->each(function ($province) 
+        {
+            $search = $this->localitySearch[$province->id] ?? '';
+
+            $province->setRelation(
+                'localities',
+                $province->localities()->where('name', 'LIKE', "%$search%")
+                                        ->orderBy('name')
+                                        ->get()
+            );
+        });
+
         return view('livewire.admin.delivery-methods.custom-shippings.upsert', [
-            'provinces' => Province::with('localities')->orderBy('name')->get()
+            'provinces' => $provinces,
+            'selectedProvinces' => $selectedProvinces,
+            'excludedLocalities' => Locality::findMany($this->form->excluded_localities)
         ]);
     }
 }
