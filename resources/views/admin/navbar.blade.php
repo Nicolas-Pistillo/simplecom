@@ -19,7 +19,7 @@
         </li>
 
         <li>
-            <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Operatoria</h5>
+            <h5 class="text-xs font-semibold leading-6 text-gray-500 tracking-wide">Operatoria</h5>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
                 @can('Ver ventas')
@@ -44,8 +44,23 @@
                 @endcan
 
                 @can('Editar formas de entrega')
-                    <x-navbar-item route="admin.delivery-methods.index" icon="shopping_bag_speed" title="Formas de entrega" 
-                    :active="Route::is('admin.delivery-methods.*')"/>
+                    <x-navbar-dropdown icon="shopping_bag_speed" title="Formas de entrega"
+                    :open="Route::is('admin.delivery-methods.*')">
+
+                        <x-navbar-item route="admin.delivery-methods.store-pickups.index" 
+                        icon="hand_package" title="Retiros" itemClasses="py-1" linkClasses="!p-1" />
+
+                        <x-navbar-item route="admin.delivery-methods.providers.index" 
+                        icon="delivery_truck_speed" title="Proveedores" itemClasses="py-1" linkClasses="!p-1" />
+
+                        <x-navbar-item route="admin.delivery-methods.origin-points.index" 
+                        icon="warehouse" title="Puntos de origen" itemClasses="py-1" linkClasses="!p-1" />
+
+                        <x-navbar-item :active="Route::is('admin.delivery-methods.custom-shippings.*')" 
+                        route="admin.delivery-methods.custom-shippings.index" icon="moped_package" 
+                        title="Envios propios" itemClasses="py-1" linkClasses="!p-1" />
+
+                    </x-navbar-dropdown>
                 @endcan
 
                 @can('Editar formas de pago')
@@ -54,14 +69,15 @@
                 @endcan
 
                 @can('Editar operadores')
-                    <x-navbar-item route="admin.operators.index" icon="manage_accounts" title="Operadores" />
+                    <x-navbar-item route="admin.operators.index" 
+                    icon="manage_accounts" title="Operadores" />
                 @endcan
 
             </ul>
         </li>
 
         <li>
-            <h5 class="text-xs font-semibold leading-6 text-gray-400 tracking-wide">Catálogo</h5>
+            <h5 class="text-xs font-semibold leading-6 text-gray-500 tracking-wide">Catálogo</h5>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
 
                 @can('Ver productos')
@@ -69,12 +85,12 @@
                     :active="Route::is('admin.products.*')"/>
                 @endcan
 
-                @can('Editar colecciones')
-                    <x-navbar-item route="admin.collections.index" icon="note_stack" title="Colecciones" />
-                @endcan
-
                 @can('Editar categorias')
                     <x-navbar-item route="admin.categories.index" icon="format_list_bulleted" title="Categorías" />
+                @endcan
+
+                @can('Editar colecciones')
+                    <x-navbar-item route="admin.collections.index" icon="note_stack" title="Colecciones" />
                 @endcan
 
                 @can('Editar atributos')

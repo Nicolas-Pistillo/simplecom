@@ -207,6 +207,7 @@ return [
         'FaqsService'              => App\Services\FaqsService::class,
         'IncentiveType'            => App\Enums\IncentiveType::class,
         'IncentiveService'         => App\Services\IncentiveService::class,
+        'ShippingZoneType'         => App\Enums\ShippingZoneType::class
     ])->toArray(),
 
 ];

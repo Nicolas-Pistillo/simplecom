@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Superadmin::updateOrCreate(['email' => 'pistillonicolas@gmail.com'],
+        Superadmin::firstOrCreate(['email' => 'pistillonicolas@gmail.com'],
         [
             'name' => 'Nicolas Pistillo',
             'email' => 'pistillonicolas@gmail.com',

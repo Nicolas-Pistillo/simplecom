@@ -22,7 +22,7 @@
                                 <div class="flex items-center justify-between mb-3">
 
                                     <h6 class="text-lg font-bold leading-8 text-gray-900">
-                                        {{ empty($selected_address) ? 'Nuevo' : 'Confirmar' }} punto de orígen
+                                        {{ empty($selected_address) ? 'Nuevo' : 'Confirmar' }} punto de origen
                                     </h6>
 
                                     <x-icon code="close" @click="open = false"

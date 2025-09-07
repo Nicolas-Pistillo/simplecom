@@ -429,7 +429,7 @@ class TenantConfigurationSeeder extends Seeder
             'display_name' => 'ID de origen',
             'topic'        => ConfigurationTopics::DeliveryMethods,
             'description'  => 'ID de tu dirección de origen',
-            'helper'       => 'Es la dirección de origen que usaras para calcular las tarifas e indicar al servicio de correo dónde pasara a recolectar los paquetes que envíes, copialo desde tu panel en la sección Configuración > Orígenes > ID',
+            'helper'       => 'Es la dirección de origen que usaras para calcular las tarifas e indicar al servicio de correo dónde pasara a recolectar los paquetes que envíes, copialo desde tu panel en la sección Configuración > Origenes > ID',
             'required'     => true
         ]);
 

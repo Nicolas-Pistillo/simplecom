@@ -1,4 +1,4 @@
-<section class="hidden lg:flex flex-col gap-y-6 {{ $hasFilters ? '-mt-10' : '' }}">
+<section class="hidden lg:flex flex-col gap-y-6" style="margin-top: {{ $hasFilters ? '-40px' : '' }}">
 
     {{-- Context-Categories Filter --}}
     @if ((isset($form->category) && $form->category->childs->isNotEmpty()) || 

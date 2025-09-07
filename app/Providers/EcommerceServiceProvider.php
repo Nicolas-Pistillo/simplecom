@@ -26,8 +26,8 @@ class EcommerceServiceProvider extends ServiceProvider
     {
         FacadeView::composer(['layouts.ecommerce', 'ecommerce.*'], function(View $view) 
         {
-            $view->with('principal_categories', Category::principal()->orderBy('name')->published()->get());
-            $view->with('featured_categories', Category::featured()->orderBy('name')->published()->get());
+            $view->with('principal_categories', Category::principal()->orderBy('order')->published()->get());
+            $view->with('featured_categories', Category::featured()->orderBy('order')->published()->get());
             $view->with('brands', Brand::published()->orderBy('name')->get());
             $view->with('product_collections', ProductCollection::where('active', true)->orderBy('name')->get());
         });

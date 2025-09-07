@@ -9,7 +9,8 @@
         @endisset
     @endisset
     <div>
-        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 
+        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2
+        {{ $containerClass ?? '' }}
         focus-within:ring-inset {{ !isset($readonly) || !$readonly ? 'focus-within:ring-blue-600' : '' }}">
             
             @isset($icon)

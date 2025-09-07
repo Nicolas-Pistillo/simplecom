@@ -6,11 +6,11 @@ x-on:open-provider-config.window="openProviderConfig = true">
     <div class="w-full">
 
         @if (!$origin_point)
-            <x-alert class="mb-3" color="yellow" icon="warning" title="Sin puntos de orígen activos">
+            <x-alert class="mb-3" color="yellow" icon="warning" title="Sin puntos de origen activos">
                 Necesitas crear o asignar un 
                 <span @click="current = 'Puntos de origen'" 
                 class="text-blue-600 hover:underline cursor-pointer">
-                    punto de orígen
+                    punto de origen
                 </span> 
                 para indicarle al proveedor desde donde cotizar y retirar tus pedidos
             </x-alert>

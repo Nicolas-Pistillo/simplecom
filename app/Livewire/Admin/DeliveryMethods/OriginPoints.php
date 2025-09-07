@@ -26,7 +26,7 @@ class OriginPoints extends Component
         $this->dispatch('origin-point-asigned')->to(Providers::class);
 
         return $this->notify([
-            'title' => 'Punto de orígen modificado',
+            'title' => 'Punto de origen modificado',
             'body'  => "Los envíos y cotizaciónes se realizarán desde $originPoint->name"
         ]);
     }
@@ -50,7 +50,7 @@ class OriginPoints extends Component
 
         $this->notify([
             'type'  => 'success',
-            'title' => 'Punto de orígen actualizado correctamente'
+            'title' => 'Punto de origen actualizado correctamente'
         ]);
     }
 
@@ -66,7 +66,7 @@ class OriginPoints extends Component
 
         $this->notify([
             'type'  => 'success',
-            'title' => 'Punto de orígen eliminado',
+            'title' => 'Punto de origen eliminado',
             'body'  => "Eliminaste el punto {$this->origin_point->name}"
         ]);
 

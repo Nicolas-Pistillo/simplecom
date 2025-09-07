@@ -115,6 +115,16 @@ class Products extends Component
         $this->form->reset('min_price', 'max_price');
     }
 
+    public function resetMinPriceFilter()
+    {
+        $this->form->reset('min_price');
+    }
+
+    public function resetMaxPriceFilter()
+    {
+        $this->form->reset('max_price');
+    }
+
     public function resetCategoryFilter()
     {
         $this->form->reset('category', 'category_query');

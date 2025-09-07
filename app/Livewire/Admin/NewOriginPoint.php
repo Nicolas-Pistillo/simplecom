@@ -111,12 +111,12 @@ class NewOriginPoint extends Component
 
             $this->notify([
                 'type'  => 'success',
-                'title' => 'Punto de orígen creado con éxito'
+                'title' => 'Punto de origen creado con éxito'
             ]);
 
         } catch (Exception $err) 
         {
-            Log::channel('error')->error('Error al crear punto de orígen', [
+            Log::channel('error')->error('Error al crear punto de origen', [
                 'message'          => $err->getMessage(),
                 'searched'         => $this->search,
                 'selected_address' => $this->selected_address
@@ -124,7 +124,7 @@ class NewOriginPoint extends Component
 
             $this->notify([
                 'type'  => 'danger',
-                'title' => 'Error al crear el punto de orígen',
+                'title' => 'Error al crear el punto de origen',
                 'body'  => 'Por favor intentelo de nuevo más tarde'
             ]);
         }

@@ -1,102 +1,59 @@
-{{-- Pricipal Category --}}
-<li x-data="{ mouseOnCategory: false }" @click="subcategorySelected = null"
-@mouseover="mouseOnCategory = true" @mouseover.away="mouseOnCategory = false" 
-class="relative flex justify-between  gap-x-6 p-3 sm:px-6 cursor-pointer transition duration-200" 
-:class="selected == {{ $category->id }} ? 'bg-gray-50 shadow-md' : 'hover:bg-gray-50'">
+<div wire:key='{{ $category->id }}' data-id="{{ $category->id }}">
+    <div class="p-3 flex items-center justify-between gap-x-3 cursor-move
+    border rounded-lg font-medium text-sm hover:bg-gray-50">
+        <div class="w-full flex items-center justify-between gap-1.5">
+            <div class="flex items-center gap-1.5">
 
-    <div @click="selected !== {{ $category->id }} ? selected = {{ $category->id }} : selected = null"
-        class="flex w-full gap-x-4">
+                <x-icon code="drag_indicator" />
 
-        @if ($category->image_url)
-            <img src="{{ Storage::url($category->image_url) }}" alt="category-img"
-                class="w-12 h-12 rounded-full object-cover">
-        @else
-            <x-icon code="label"
-            class="text-2xl text-gray-600 w-12 h-12 p-1 rounded-full bg-gray-50 
-            text-center shadow flex items-center justify-center" />
-        @endif
+                <img src="{{ $category->image }}" alt="{{ $category->name }}" 
+                class="w-8 h-8 rounded-full object-cover @if(!$category->published) grayscale @endif">
 
-        <div class="min-w-0 flex-auto">
-            <p class="text-sm flex items-center font-semibold leading-6 text-gray-900">
-                
-                {{ $category->name }}
-
-                <span @click.prevent="$event.stopPropagation()" class="flex h-8 ml-4 rounded-md shadow-sm">
-
-                    <x-button type="secondary" wire:click='togglePublishedCategory({{ $category->id }})'
-                    x-tooltip.raw.placement.top="{{ $category->published ? 'Publicada' : 'No publicada' }}"
-                    class="text-xs rounded-r-none flex items-center
-                    {{ $category->published ? '!bg-blue-100 !text-blue-500' : '' }}">
-
-                        <span wire:loading.remove wire:target='togglePublishedCategory({{ $category->id }})' 
-                        class="flex items-center">
-                            <x-icon code="{{ $category->published ? 'visibility' : 'visibility_off' }}" 
-                            style="font-size: 16px" />
-                        </span>
-
-                        <span wire:loading wire:target='togglePublishedCategory({{ $category->id }})'>
-                            <x-spinner spinnerclass="!h-4 !w-4" />
-                        </span>
-                    </x-button>
-
-                    <x-button type="secondary" wire:click='toggleFeaturedCategory({{ $category->id }})'
-                    x-tooltip.raw.placement.top="{{ $category->featured ? 'Destacada' : 'No destacada' }}"
-                    class="rounded-l-none flex items-center
-                    {{ $category->featured ? '!bg-yellow-100 !text-yellow-500' : '' }}">
-
-                        <span wire:loading.remove wire:target='toggleFeaturedCategory({{ $category->id }})' 
-                        class="flex items-center">
-                            <x-icon code="star" style="font-size: 16px" />
-                        </span>
-
-                        <span wire:loading wire:target='toggleFeaturedCategory({{ $category->id }})'>
-                            <x-spinner spinnerclass="!h-4 !w-4" />
-                        </span>
-
-                    </x-button>
-
+                <span class="@if(!$category->published) text-gray-500 @endif">
+                    {{ $category->name }}
                 </span>
-            </p>
-            <p class="mt-1 flex text-xs leading-5 text-gray-500">
-                {{ $category->description ?? 'Sin descripción' }}
-            </p> 
-        </div>
-    </div>
 
-    <div class="flex shrink-0 items-center gap-x-4">
-
-        {{-- Add subcategory --}}
-        <div x-tooltip.raw.placement.left="Agregar subcategoría">
-            <x-icon wire:click='openAddSubcategory({{ $category->id }})' x-show="mouseOnCategory" code="library_add"
-            @click="selected = {{ $category->id }};"
-            class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
-            rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-        </div>
-
-        {{-- Edit category --}}
-        <div x-tooltip.raw.placement.left="Editar categoría">
-            <x-icon wire:click='openEditCategory({{ $category->id }})' x-show="mouseOnCategory" code="edit"
-            class="text-2xl text-gray-600 w-8 h-8 p-1 flex items-center
-            rounded-full bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-        </div>
-
-        {{-- Delete category --}}
-        <div x-tooltip.raw.placement.left="Elminar categoría">
-            <x-icon x-show="mouseOnCategory" code="delete" 
-            @click="selected = null"
-            wire:click='openDeleteCategory({{ $category->id }})'
-            class="text-2xl text-red-400 w-8 h-8 p-1 rounded-full flex items-center
-            bg-gray-50 transition hover:bg-white text-center shadow cursor-pointer" />
-        </div>
-
-        {{-- Show subcategories --}}
-        @if ($category->hasChilds())
-            <div x-tooltip.placement.left="selected == {{ $category->id }} ? 'Contraer' : 'Ver subcategorías'">
-                <i @click="selected !== {{ $category->id }} ? selected = {{ $category->id }} : selected = null"
-                class="material-symbols-outlined text-gray-600 shadow p-1 rounded-full 
-                bg-gray-50 transition hover:bg-white cursor-pointer"
-                x-text="selected == {{ $category->id }} ? 'expand_less' : 'expand_more'"></i>
+                @if ($category->featured)
+                    <x-review-star filled class="!w-4 !h-4" />
+                @endif
             </div>
-        @endif
+            <div>
+                <x-dropdown position="right-0" containerClass="w-48">
+
+                    <x-slot name="trigger">
+                        <x-icon code="more_vert" x-tooltip.raw="Acciones" style="font-size: 18px"
+                        class="material-symbols-outlined transition colors cursor-pointer 
+                        bg-gray-100 text-gray-600 p-1.5 rounded-full 
+                        focus:outline-none focus:ring duration-300 border 
+                        border-gray-300 hover:border-gray-400"
+                        />
+                    </x-slot>
+
+                    <x-dropdown-item closeOnClick label="Agregar subcategoría"
+                    icon="add" wire:click='openAddSubcategory({{ $category->id }})' />
+
+                    <x-dropdown-item closeOnClick 
+                    icon="edit" wire:click='openEdit({{ $category->id }})' 
+                    label="Editar" />
+
+                    <x-dropdown-item closeOnClick 
+                    wire:click='togglePublished({{ $category->id }})' 
+                    :icon="$category->published ? 'public_off' : 'public'" 
+                    :label="$category->published ? 'Despublicar' : 'Publicar'" />
+
+                    <x-dropdown-item closeOnClick 
+                    wire:click='toggleFeatured({{ $category->id }})' 
+                    :icon="$category->featured ? 'star' : 'star_rate_half'" 
+                    :label="$category->featured ? 'No destacar' : 'Destacar'" />
+
+                    <x-dropdown-item closeOnClick icon="delete" label="Eliminar" 
+                    wire:click='openDelete({{ $category->id }})'
+                    iconClass="text-red-500" />
+                </x-dropdown>
+            </div>
+        </div>
     </div>
-</li>
+    <div class="ps-8 ml-3 nested-sortable-item space-y-1.5 mt-1.5 border-l">
+        @include('admin.categories.partials.category-child-item')
+    </div>
+</div>

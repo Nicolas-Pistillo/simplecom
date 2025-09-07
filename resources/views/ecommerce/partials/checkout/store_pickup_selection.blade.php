@@ -1,5 +1,5 @@
 <div class="col-span-full animate__animated animate__fadeIn">
-    <h4 class="text-sm/6 font-semibold text-gray-900">Elija un punto de retiro</h4>
+    <h4 class="text-sm/6 font-semibold text-gray-900">Seleccione un punto de retiro</h4>
 </div>
 
 <fieldset class="col-span-full rounded-lg overflow-hidden

@@ -1,4 +1,4 @@
-<li class="{{ $itemClasses ?? '' }}">
+<li class="select-none {{ $itemClasses ?? '' }}">
     <a href="{{ route($route) }}" class="flex justify-between gap-x-3 rounded-md transition-colors duration-200 p-2 
     text-sm leading-6 font-semibold hover:bg-gray-50 {{ $linkClasses ?? '' }}
     {{ Route::is($route) || (isset($active) && $active == true) 

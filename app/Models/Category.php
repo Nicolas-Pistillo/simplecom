@@ -15,15 +15,7 @@ class Category extends Model
 
     protected $appends = ['image'];
 
-    protected $fillable = [
-        'name', 
-        'description',
-        'published',
-        'featured',
-        'category_father', 
-        'image_url', 
-        'cover_image_url'
-    ];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function father()
     {
@@ -33,6 +25,11 @@ class Category extends Model
     public function childs()
     {
         return $this->hasMany(Category::class, 'category_father');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
     }
 
     public function hasChilds()
@@ -65,6 +62,6 @@ class Category extends Model
     public function getImageAttribute()
     {
         return !empty($this->image_url) ? Storage::url($this->image_url)
-                                        : URL::to('img/no-image-alt.png');
+                                        : URL::to('img/no-image.jpg');
     }
 }
