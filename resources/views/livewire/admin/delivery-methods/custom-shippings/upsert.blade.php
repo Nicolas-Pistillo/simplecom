@@ -10,6 +10,7 @@
 
     <div class="my-8 space-y-8">
 
+        {{-- Information section --}}
         <fieldset class="col-span-full p-4 border rounded-lg shadow-sm">
 
             <legend class="px-2 font-semibold text-gray-900">Información básica</legend>
@@ -20,11 +21,20 @@
                     <span class="block text-sm mb-1 font-medium text-gray-900">Logo</span>
                     <div class="flex items-center gap-x-3 mt-2">
 
-                        <img src="{{ URL::to('img/no-image.jpg') }}" alt="custom shipping logo"
+                        <img src="{{ $form->logo_preview ?? URL::to('img/no-image.jpg') }}" alt="custom shipping logo"
                         class="w-20 h-20 object-cover rounded-full">
 
-                        <x-button file name="custom_shipping_logo" 
+                        <x-button wire:loading.remove wire:target='form.logo' 
+                        file wireModel="form.logo" name="custom_shipping_logo" 
                         type="secondary">Elegir imagen</x-button>
+
+                        <div wire:loading wire:target='form.logo'>
+                            <span class="flex items-center gap-1.5 text-sm font-semibold">
+                                Cargando...
+                                <x-spinner />
+                            </span>
+                        </div>
+
                     </div>
                 </div>
 
@@ -37,9 +47,10 @@
             </div>
         </fieldset>
 
+        {{-- Shipping zones section --}}
         <fieldset class="col-span-full p-4 border rounded-lg shadow-sm">
 
-            <legend class="px-2 font-semibold text-gray-900">Zonas de entrega</legend>
+            <legend class="px-2 font-semibold text-gray-900">Zonas de envío</legend>
 
             <p class="text-sm text-gray-600 font-semibold">
                 Hasta dónde llega la cobertura de esta opción de envío
@@ -65,8 +76,13 @@
             @if ($form->shipping_zone_type === ShippingZoneType::ByLocalities->value)
                 @include('admin.delivery-methods.custom-shippings.partials.shipping-zones-by-locality')
             @endif
+
+            @if ($form->shipping_zone_type === ShippingZoneType::ByZipcodes->value)
+                @include('admin.delivery-methods.custom-shippings.partials.shipping-zones-by-zipcodes')
+            @endif
         </fieldset>
 
+        {{-- Conditions section --}}
         <fieldset class="col-span-full p-4 border rounded-lg shadow-sm">
 
             <legend class="px-2 font-semibold text-gray-900">Condiciones (opcional)</legend>

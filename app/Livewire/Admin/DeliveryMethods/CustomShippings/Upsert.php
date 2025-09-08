@@ -6,10 +6,14 @@ use App\Livewire\Forms\CustomShippingForm;
 use App\Models\Locality;
 use App\Models\Province;
 use App\Services\Georef;
+use App\Traits\Livewire\WithNotifications;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Upsert extends Component
 {
+    use WithNotifications, WithFileUploads;
+
     public CustomShippingForm $form;
 
     public $localitySearch = [];
@@ -26,6 +30,11 @@ class Upsert extends Component
         in_array($localityId, $this->form->excluded_localities)
             ? array_splice($this->form->excluded_localities, array_search($localityId, $this->form->excluded_localities), 1)
             : array_push($this->form->excluded_localities, $localityId);
+    }
+
+    public function updatedFormLogo()
+    {
+        $this->form->logo_preview = $this->form->logo->temporaryUrl();
     }
 
     public function save()
