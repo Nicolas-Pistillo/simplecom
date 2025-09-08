@@ -48,7 +48,7 @@
                     :open="Route::is('admin.delivery-methods.*')">
 
                         <x-navbar-item route="admin.delivery-methods.store-pickups.index" 
-                        icon="hand_package" title="Retiros" itemClasses="py-1" linkClasses="!p-1" />
+                        icon="hand_package" title="Retiros en tienda" itemClasses="py-1" linkClasses="!p-1" />
 
                         <x-navbar-item route="admin.delivery-methods.providers.index" 
                         icon="delivery_truck_speed" title="Proveedores" itemClasses="py-1" linkClasses="!p-1" />

@@ -12,6 +12,9 @@ class CustomShippingForm extends Form
     #[Validate('required|string', as: 'nombre de la opcion')]
     public $name;
 
+    #[Validate('required|numeric|min:0', as: 'precio')]
+    public $price = 0;
+
     #[Validate(['required', 'string', new Enum(ShippingZoneType::class)], as: 'tipo de zona de entrega')]
     public $shipping_zone_type = ShippingZoneType::CountryAll->value;
 

@@ -36,7 +36,7 @@
             @else
                 <x-alert class="mb-3" color="blue" icon="where_to_vote">
                     <x-slot name="title">
-                        Las cotizaciones y colectas se están realizando
+                        Las cotizaciones y despachos se están realizando
                         desde <b>{{ $origin_point->name }}</b>
                     </x-slot>
                 </x-alert>

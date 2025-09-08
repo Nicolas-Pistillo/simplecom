@@ -28,12 +28,10 @@ class Upsert extends Component
             : array_push($this->form->excluded_localities, $localityId);
     }
 
-    public function updatedForm($value, $prop)
+    public function save()
     {
-        if (in_array($prop, ['shipping_zone_type', 'selected_provinces']))
-        {
-            $this->localitySearch = [];
-        }
+        sleep(2);
+        return $this->addError('test', 'test');
     }
 
     public function render()

@@ -8,15 +8,40 @@
         Nuevo envío personalizado
     </h2>
 
-    <div class="grid sm:grid-cols-12 gap-x-4 gap-y-6 mt-8">
+    <div class="my-8 space-y-8">
 
-        <x-form-input class="sm:col-span-6" label="Nombre de la opción" placeholder="Motomensajeria en CABA" />
+        <fieldset class="col-span-full p-4 border rounded-lg shadow-sm">
 
-        <fieldset class="col-span-full no-select">
+            <legend class="px-2 font-semibold text-gray-900">Información básica</legend>
 
-            <legend class="text-sm/6 font-semibold text-gray-900">Zonas de entrega</legend>
+            <div class="grid sm:grid-cols-12 mt-3 gap-4">
 
-            <p class="mt-1 text-sm/6 text-gray-600">
+                <div class="col-span-full">
+                    <span class="block text-sm mb-1 font-medium text-gray-900">Logo</span>
+                    <div class="flex items-center gap-x-3 mt-2">
+
+                        <img src="{{ URL::to('img/no-image.jpg') }}" alt="custom shipping logo"
+                        class="w-20 h-20 object-cover rounded-full">
+
+                        <x-button file name="custom_shipping_logo" 
+                        type="secondary">Elegir imagen</x-button>
+                    </div>
+                </div>
+
+                <x-form-input class="sm:col-span-6" label="Nombre" placeholder="Motomensajeria en CABA" />
+
+                <x-form-input class="sm:col-span-6" label="Tiempo de entrega estimado" placeholder="De 2 a 4 días hábiles" />
+
+                <x-form-input model="form.price" class="sm:col-span-6" label="Precio" 
+                helper="Si va a ser gratis, dejá este campo con valor 0" icon="attach_money" />
+            </div>
+        </fieldset>
+
+        <fieldset class="col-span-full p-4 border rounded-lg shadow-sm">
+
+            <legend class="px-2 font-semibold text-gray-900">Zonas de entrega</legend>
+
+            <p class="text-sm text-gray-600 font-semibold">
                 Hasta dónde llega la cobertura de esta opción de envío
             </p>
 
@@ -41,5 +66,59 @@
                 @include('admin.delivery-methods.custom-shippings.partials.shipping-zones-by-locality')
             @endif
         </fieldset>
+
+        <fieldset class="col-span-full p-4 border rounded-lg shadow-sm">
+
+            <legend class="px-2 font-semibold text-gray-900">Condiciones (opcional)</legend>
+
+            <p class="text-sm/6 text-gray-600 font-semibold">
+                A partir de qué parámetro se mostrará esta opción
+            </p>
+
+            <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
+                <p class="w-full sm:w-auto">Cuando el precio del carrito sea mayor o igual a</p>
+                <x-form-input icon="attach_money" />
+            </div>
+
+            <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
+                <p class="w-full sm:w-auto">Cuando el precio del carrito sea menor a</p>
+                <x-form-input icon="attach_money" />
+            </div>
+
+            <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
+                <p class="w-full sm:w-auto">Cuando el peso total del carrito sea mayor o igual a</p>
+                <x-form-input icon="weight" />
+                <p>KG</p>
+            </div>
+
+            <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
+                <p class="w-full sm:w-auto">Cuando el peso total del carrito sea menor a</p>
+                <x-form-input icon="weight" />
+                <p>KG</p>
+            </div>
+        </fieldset>
+
+        {{-- Save/Update --}}
+        <div class="mt-6 flex items-center justify-between flex-wrap gap-x-6">
+
+            <span class="text-red-500 text-xs flex items-center my-1">
+                @if ($errors->any())
+                    <x-icon code="error" class="mr-1" /> Hay errores o campos sin completar
+                @endif
+            </span>
+
+            <x-button wire:click='save' wire:loading.remove wire:target='save' 
+            size="large" class="flex items-center">
+                Guardar cambios
+            </x-button>
+
+            <div wire:loading wire:target='save' class="my-1">
+                <div class="flex items-center font-semibold">
+                    <x-spinner class="mr-2" />
+                    Guardando...
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>

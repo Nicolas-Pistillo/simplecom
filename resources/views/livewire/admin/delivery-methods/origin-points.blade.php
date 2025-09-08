@@ -41,19 +41,18 @@
 
                 @foreach ($origin_points as $originPoint)
                     <div wire:key='{{ $originPoint->id }}'
-                        class="w-full p-4 transition duration-300 hover:shadow-md bg-white 
+                    class="w-full p-4 transition duration-300 hover:shadow-md bg-white 
                     border border-gray-300 rounded-xl shadow-sm h-max">
 
-                        <h5
-                            class="mb-1.5 text-sm sm:text-lg line-clamp-none md:line-clamp-1 font-semibold tracking-tight text-gray-900">
+                        <h5 class="mb-1.5 flex items-center gap-1.5 text-sm sm:text-lg 
+                        font-semibold tracking-tight text-gray-900">
+                            <x-icon code="warehouse" />
                             {{ $originPoint->name }}
                         </h5>
 
                         @if ($originPoint->in_use)
-                            <x-badge
-                                x-tooltip.raw="Las tarifas de envío y los origenes de colecta
-                        se están calculando desde esta ubicación"
-                                class="mb-2" color="blue">
+                            <x-badge x-tooltip.raw="Las tarifas de envío y los origenes de colecta
+                            se están calculando desde esta ubicación" class="mb-2" color="blue">
                                 En uso
                             </x-badge>
                         @else
