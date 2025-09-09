@@ -36,11 +36,17 @@
                         </div>
 
                     </div>
+
+                    @error('form.logo')
+                        <small class="text-red-500 inline-block mt-2">{{ $message }}</small>
+                    @enderror
                 </div>
 
-                <x-form-input class="sm:col-span-6" label="Nombre" placeholder="Motomensajeria en CABA" />
+                <x-form-input model="form.name" class="sm:col-span-6" 
+                label="Nombre" placeholder="Motomensajeria en CABA" />
 
-                <x-form-input class="sm:col-span-6" label="Tiempo de entrega estimado" placeholder="De 2 a 4 días hábiles" />
+                <x-form-input model="form.estimated_delivery" class="sm:col-span-6" label="Tiempo de entrega estimado" 
+                placeholder="De 2 a 4 días hábiles" />
 
                 <x-form-input model="form.price" class="sm:col-span-6" label="Precio" 
                 helper="Si va a ser gratis, dejá este campo con valor 0" icon="attach_money" />
@@ -79,6 +85,16 @@
 
             @if ($form->shipping_zone_type === ShippingZoneType::ByZipcodes->value)
                 @include('admin.delivery-methods.custom-shippings.partials.shipping-zones-by-zipcodes')
+            @endif
+
+            @if ($form->shipping_zone_type === ShippingZoneType::ByDistanceKm->value)
+                <div class="flex items-center flex-wrap gap-2 text-sm mt-5">
+                    <p class="w-full sm:w-auto">
+                        El alcance de esta opción será hasta los
+                    </p>
+                    <x-form-input model="form.distance_km" class="w-24" />
+                    kilómetros desde tu punto de origen
+                </div>
             @endif
         </fieldset>
 

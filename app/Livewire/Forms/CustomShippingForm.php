@@ -25,7 +25,7 @@ class CustomShippingForm extends Form
     public $logo_preview;
 
     #[Validate(['required', 'string', new Enum(ShippingZoneType::class)], as: 'tipo de zona de entrega')]
-    public $shipping_zone_type = ShippingZoneType::ByZipcodes->value;
+    public $shipping_zone_type = ShippingZoneType::CountryAll->value;
 
     #[Validate('nullable|array', as: 'provincias seleccionadas')]
     public $selected_provinces = [];
@@ -37,7 +37,10 @@ class CustomShippingForm extends Form
     public $zipcode_selection_type = ZipcodeSelectionType::ByRanges->value;
 
     #[Validate('nullable|array', as: 'códigos postales')]
-    public $zipcodes = [];
+    public $zipcodes_range = [['from' => '', 'to'   => '']];
+
+    #[Validate('nullable|string', as: 'códigos postales')]
+    public $zipcodes = '';
 
     #[Validate('nullable|numeric|integer', as: 'distancia en KM')]
     public $distance_km;

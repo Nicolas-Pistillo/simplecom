@@ -37,10 +37,24 @@ class Upsert extends Component
         $this->form->logo_preview = $this->form->logo->temporaryUrl();
     }
 
+    public function addZipcodeRange()
+    {
+        array_push($this->form->zipcodes_range, [
+            'from' => '',
+            'to'   => ''
+        ]);
+    }
+
+    public function deleteZipcodeRange($index)
+    {
+        array_splice($this->form->zipcodes_range, $index, 1);
+    }
+
     public function save()
     {
-        sleep(2);
-        return $this->addError('test', 'test');
+        $this->form->validate();
+
+        dump($this->form->all());
     }
 
     public function render()
