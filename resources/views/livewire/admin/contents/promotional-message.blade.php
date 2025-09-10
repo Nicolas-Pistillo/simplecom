@@ -33,7 +33,7 @@
                 <p class="mt-2 text-sm text-gray-700">
                     Este mensaje se mostrará en la parte superior de tu tienda con el 
                     objetivo de captar la atención e incentivar a tus clientes a comprar. 
-                    Este puede ser, por ejemplo, un aviso de oferta, descuento u ofrecimiento 
+                    Este puede ser, por ejemplo, un aviso de oferta, envío gratis u ofrecimiento 
                     de cuotas sin interés.
                 </p>
             </div>

@@ -2,14 +2,20 @@
 
 namespace App\Livewire\Admin\DeliveryMethods\CustomShippings;
 
+use App\Enums\ShippingZoneType;
+use App\Enums\ZipcodeSelectionType;
 use App\Livewire\Forms\CustomShippingForm;
 use App\Models\Locality;
 use App\Models\Province;
 use App\Services\Georef;
+use App\Traits\Livewire\WithNotifications;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Upsert extends Component
 {
+    use WithNotifications, WithFileUploads;
+
     public CustomShippingForm $form;
 
     public $localitySearch = [];
@@ -28,12 +34,29 @@ class Upsert extends Component
             : array_push($this->form->excluded_localities, $localityId);
     }
 
-    public function updatedForm($value, $prop)
+    public function updatedFormLogo()
     {
-        if (in_array($prop, ['shipping_zone_type', 'selected_provinces']))
-        {
-            $this->localitySearch = [];
-        }
+        $this->form->logo_preview = $this->form->logo->temporaryUrl();
+    }
+
+    public function addZipcodeRange()
+    {
+        array_push($this->form->zipcodes_ranges, [
+            'from' => '',
+            'to'   => ''
+        ]);
+    }
+
+    public function deleteZipcodeRange($index)
+    {
+        array_splice($this->form->zipcodes_ranges, $index, 1);
+    }
+
+    public function save()
+    {
+        $this->form->validate();
+
+        dump($this->form->all());
     }
 
     public function render()

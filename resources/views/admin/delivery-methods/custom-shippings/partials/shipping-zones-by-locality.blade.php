@@ -24,6 +24,10 @@
     @endforeach
 </x-multi-select>
 
+@error('form.selected_provinces')
+    <small class="text-red-500">{{ $message }}</small>
+@enderror
+
 @if (!empty($form->selected_provinces))
     <fieldset class="col-span-full no-select mt-4">
 

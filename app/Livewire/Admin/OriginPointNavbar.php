@@ -22,7 +22,7 @@ class OriginPointNavbar extends Component
             'type'  => 'success',
             'icon'  => 'local_shipping',
             'title' => 'Punto de origen modificado',
-            'body'  => "Ahora los envíos y cotizaciones se realizarán desde $originPoint->name",
+            'body'  => "Ahora los envíos y despachos se realizarán desde $originPoint->name",
             'position' => 'bottom-right',
         ]);
     }
