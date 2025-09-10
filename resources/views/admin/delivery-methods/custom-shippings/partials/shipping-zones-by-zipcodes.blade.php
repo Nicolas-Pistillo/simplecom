@@ -14,16 +14,21 @@
     @endforeach
 </div>
 
+@error('form.zipcodes_ranges')
+    <small class="text-red-500 inline-block mt-2">{{ $message }}</small>
+@enderror
+
 @if ($form->zipcode_selection_type === ZipcodeSelectionType::ByRanges->value)
-    @foreach ($form->zipcodes_range as $index => $range)
+    @foreach ($form->zipcodes_ranges as $index => $range)
         <div wire:key='zipcode-range-{{ $index }}' class="flex items-center mt-4 gap-x-3">
-            <x-form-input model="form.zipcodes_range.{{ $index }}.from" 
+
+            <x-form-input type="number" model="form.zipcodes_ranges.{{ $index }}.from" 
             icon="location_on" label="Rango {{ $index + 1 }} - Desde"
             placeholder="Código postal desde" />
 
             <x-icon class="mt-auto mb-2 text-gray-500" code="arrow_range" />
 
-            <x-form-input model="form.zipcodes_range.{{ $index }}.to" 
+            <x-form-input type="number" model="form.zipcodes_ranges.{{ $index }}.to" 
             icon="location_on" label="Rango {{ $index + 1 }} - Hasta"
             placeholder="Código postal hasta" />
 
@@ -47,9 +52,14 @@
 
     <div class="w-full mt-2 mb-4 border border-gray-200 rounded-lg bg-gray-50">
        <div class="px-4 py-2 bg-white rounded-lg">
-           <textarea id="comment" rows="4" class="w-full px-0 text-sm text-gray-900 
+           <textarea wire:model.blur='form.zipcodes_list' id="zipcodes_list" 
+           rows="4" class="w-full px-0 text-sm text-gray-900 
            bg-white border-0 focus:ring-0 placeholder:text-gray-400" 
-           placeholder="1451,1453,1745..." required ></textarea>
+           placeholder="1451,1453,1745..." ></textarea>
        </div>
    </div>
+
+   @error('form.zipcodes_list')
+        <small class="text-red-500">{{ $message }}</small>
+   @enderror
 @endif

@@ -92,9 +92,13 @@
                     <p class="w-full sm:w-auto">
                         El alcance de esta opción será hasta los
                     </p>
-                    <x-form-input model="form.distance_km" class="w-24" />
+                    <x-form-input withoutErrors type="number" model="form.distance_km" class="w-24" />
                     kilómetros desde tu punto de origen
                 </div>
+
+                @error('form.distance_km')
+                    <small class="text-red-500 inline-block mt-2">{{ $message }}</small>
+                @enderror
             @endif
         </fieldset>
 
@@ -109,23 +113,23 @@
 
             <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
                 <p class="w-full sm:w-auto">Cuando el precio del carrito sea mayor o igual a</p>
-                <x-form-input icon="attach_money" />
+                <x-form-input type="number" model="form.conditions.cart_price_gte" icon="attach_money" />
             </div>
 
             <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
                 <p class="w-full sm:w-auto">Cuando el precio del carrito sea menor a</p>
-                <x-form-input icon="attach_money" />
+                <x-form-input type="number" model="form.conditions.cart_price_lt" icon="attach_money" />
             </div>
 
             <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
                 <p class="w-full sm:w-auto">Cuando el peso total del carrito sea mayor o igual a</p>
-                <x-form-input icon="weight" />
+                <x-form-input type="number" model="form.conditions.cart_weight_gte" icon="weight" />
                 <p>KG</p>
             </div>
 
             <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
                 <p class="w-full sm:w-auto">Cuando el peso total del carrito sea menor a</p>
-                <x-form-input icon="weight" />
+                <x-form-input type="number" model="form.conditions.cart_weight_lt" icon="weight" />
                 <p>KG</p>
             </div>
         </fieldset>

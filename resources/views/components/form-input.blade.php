@@ -29,14 +29,17 @@
             {{ isset($readonly) && $readonly ? '!bg-gray-100 !rounded-md !text-gray-600' : '' }}">
 
         </div>
-        @error($model ?? $liveModel ?? $error ?? '')
-            <small class="text-red-500">{{ $message }}</small>
-        @else 
-            @isset($helper)
-                <small class="mt-1 text-xs text-gray-500">
-                    {{ $helper }}
-                </small>
-            @endisset
-        @enderror
+
+        @if (!isset($withoutErrors))
+            @error($model ?? $liveModel ?? $error ?? '')
+                <small class="text-red-500">{{ $message }}</small>
+            @else 
+                @isset($helper)
+                    <small class="mt-1 text-xs text-gray-500">
+                        {{ $helper }}
+                    </small>
+                @endisset
+            @enderror
+        @endif
     </div>
 </div>

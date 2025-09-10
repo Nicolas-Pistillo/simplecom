@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin\DeliveryMethods\CustomShippings;
 
+use App\Enums\ShippingZoneType;
+use App\Enums\ZipcodeSelectionType;
 use App\Livewire\Forms\CustomShippingForm;
 use App\Models\Locality;
 use App\Models\Province;
@@ -39,7 +41,7 @@ class Upsert extends Component
 
     public function addZipcodeRange()
     {
-        array_push($this->form->zipcodes_range, [
+        array_push($this->form->zipcodes_ranges, [
             'from' => '',
             'to'   => ''
         ]);
@@ -47,7 +49,7 @@ class Upsert extends Component
 
     public function deleteZipcodeRange($index)
     {
-        array_splice($this->form->zipcodes_range, $index, 1);
+        array_splice($this->form->zipcodes_ranges, $index, 1);
     }
 
     public function save()

@@ -4,47 +4,116 @@ namespace App\Livewire\Forms;
 
 use App\Enums\ShippingZoneType;
 use App\Enums\ZipcodeSelectionType;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class CustomShippingForm extends Form
 {
-    #[Validate('required|string', as: 'nombre de la opcion')]
+    #[Validate(as: 'nombre')]
     public $name;
 
-    #[Validate('nullable|string', as: 'tiempo de entrega estimado')]
+    #[Validate(as: 'tiempo de entrega estimado')]
     public $estimated_delivery;
 
-    #[Validate('required|numeric|min:0', as: 'precio')]
+    #[Validate(as: 'precio')]
     public $price = 0;
 
-    #[Validate('nullable|image|max:4024', as: 'logo')]
     public $logo;
 
     public $logo_preview;
 
-    #[Validate(['required', 'string', new Enum(ShippingZoneType::class)], as: 'tipo de zona de entrega')]
+    #[Validate(as: 'tipo de zona de envío')]
     public $shipping_zone_type = ShippingZoneType::CountryAll->value;
 
-    #[Validate('nullable|array', as: 'provincias seleccionadas')]
+    #[Validate(as: 'provincias')]
     public $selected_provinces = [];
 
-    #[Validate('nullable|array', as: 'localidades excluidas')]
+    #[Validate(as: 'localidades excluidas')]
     public $excluded_localities = [];
 
-    #[Validate(['nullable', 'string', new Enum(ZipcodeSelectionType::class)], as: 'tipo de selección')]
+    #[Validate(as: 'tipo de seleccion - códigos postales')]
     public $zipcode_selection_type = ZipcodeSelectionType::ByRanges->value;
 
-    #[Validate('nullable|array', as: 'códigos postales')]
-    public $zipcodes_range = [['from' => '', 'to'   => '']];
+    #[Validate(as: 'rango de códigos postales')]
+    public $zipcodes_ranges = [['from' => '', 'to'   => '']];
 
-    #[Validate('nullable|string', as: 'códigos postales')]
-    public $zipcodes = '';
+    #[Validate(as: 'lista de códigos postales')]
+    public $zipcodes_list = '';
 
-    #[Validate('nullable|numeric|integer', as: 'distancia en KM')]
+    #[Validate(as: 'distancia en km')]
     public $distance_km;
 
-    #[Validate('nullable|array', as: 'condiciones')]
+    #[Validate(as: 'condiciones')]
     public $conditions = [];
+
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|max:80',
+            'estimated_delivery' => 'nullable|string|max:300',
+            'price' => 'required|numeric|min:0',
+            'logo' => 'nullable|file|image|max:4024',
+            'shipping_zone_type' => ['required', 'string', new Enum(ShippingZoneType::class)],
+
+            'selected_provinces' => $this->shipping_zone_type === ShippingZoneType::ByLocalities->value
+            ? ['required', 'array', 'min:1']
+            : ['nullable', 'array'],
+
+            'excluded_localities' => 'nullable|array',
+            'zipcode_selection_type' => [
+                Rule::requiredIf($this->shipping_zone_type === ShippingZoneType::ByZipcodes->value),
+                'string',
+                new Enum(ZipcodeSelectionType::class) 
+            ],
+            'zipcodes_ranges' => [
+                Rule::requiredIf(
+                    $this->shipping_zone_type === ShippingZoneType::ByZipcodes->value && 
+                    $this->zipcode_selection_type === ZipcodeSelectionType::ByRanges->value
+                ),
+                'array',
+                'min:1'
+            ],
+            'zipcodes_ranges.*.from' => [
+                Rule::requiredIf(
+                    $this->shipping_zone_type === ShippingZoneType::ByZipcodes->value && 
+                    $this->zipcode_selection_type === ZipcodeSelectionType::ByRanges->value
+                ),
+                'integer'
+            ],
+            'zipcodes_ranges.*.to' => [
+                Rule::requiredIf(
+                    $this->shipping_zone_type === ShippingZoneType::ByZipcodes->value && 
+                    $this->zipcode_selection_type === ZipcodeSelectionType::ByRanges->value
+                ),
+                'integer'
+            ],
+            'zipcodes_list' => [
+                Rule::requiredIf(
+                    $this->shipping_zone_type === ShippingZoneType::ByZipcodes->value && 
+                    $this->zipcode_selection_type === ZipcodeSelectionType::FreeSelection->value
+                ),
+                'string',
+                'regex:/^\d+(,\d+)*$/'
+            ],
+            'distance_km' => [
+                'nullable',
+                'required_if:shipping_zone_type,'. ShippingZoneType::ByDistanceKm->value,
+                'integer',
+                'min:1'
+            ]
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'zipcodes_ranges.required' => 'Agregue al menos un rango de códigos postales',
+            'zipcodes_ranges.*.from.required' => 'escriba un código postal',
+            'zipcodes_ranges.*.to.required' => 'escriba un código postal',
+            'zipcodes_ranges.*.from.integer' => 'el código postal debe ser numerico',
+            'zipcodes_ranges.*.to.integer' => 'el código postal debe ser numerico',
+        ];
+    }
 }
