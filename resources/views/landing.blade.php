@@ -43,17 +43,22 @@
     </header>
 
     <main>
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 pt-20 text-center lg:pt-32">
+        <section id="hero" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 pt-20 text-center lg:pt-32">
+
             <h1 class="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
-                La nueva solución <span class="relative whitespace-nowrap text-blue-600"><svg aria-hidden="true"
-                        viewBox="0 0 418 42" class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70"
-                        preserveAspectRatio="none">
+                La nueva solución
+                <span class="relative whitespace-nowrap text-blue-600"><svg aria-hidden="true" viewBox="0 0 418 42"
+                        class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70" preserveAspectRatio="none">
                         <path
                             d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z">
                         </path>
-                    </svg><span class="relative">simple</span></span> e ideal para vender online</h1>
-            <p class="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">Most bookkeeping software is
-                accurate, but hard to use. We make the opposite trade-off, and hope you don’t get audited.</p>
+                    </svg><span class="relative">simple</span></span> e ideal para vender online
+            </h1>
+
+            <p class="mx-auto mt-6 max-w-4xl text-lg tracking-tight text-slate-700">
+                Creá tu tienda online y empezá a vender en segundos, sin comisiones ni vueltas.
+            </p>
+
             <div class="mt-10 flex justify-center gap-x-6">
 
                 <x-button rounded>Get 6 monthds free</x-button>
@@ -64,38 +69,66 @@
                 </x-button>
 
             </div>
-            <div class="bg-white py-24 sm:py-32">
-                <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                    <h2 class="text-center text-lg font-semibold leading-8 text-gray-900">Trusted by the world’s most
-                        innovative teams</h2>
-                    <div
-                        class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg" alt="Transistor"
-                            width="158" height="48">
-                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg" alt="Reform"
-                            width="158" height="48">
-                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg" alt="Tuple"
-                            width="158" height="48">
-                        <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg" alt="SavvyCal"
-                            width="158" height="48">
-                        <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg" alt="Statamic"
-                            width="158" height="48">
-                    </div>
-                </div>
-            </div>
 
-        </div>
+            <div x-data="{}" x-init="$nextTick(() => {
+                let ul = $refs.logos;
+                ul.insertAdjacentHTML('afterend', ul.outerHTML);
+                ul.nextSibling.setAttribute('aria-hidden', 'true');
+            })"
+                class="w-full mt-16 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+                <ul x-ref="logos"
+                    class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
+                    <li>
+                        <img class="w-28 h-28 object-contain"
+                            src="https://zipnova.com/opengraph-image.png?b030af71241cd50d" alt="Disney" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-28 object-contain"
+                            src="https://www.cedol.org.ar/logistica/wp-content/uploads/2017/12/Logo-rojo.png"
+                            alt="Airbnb" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-28 object-contain"
+                            src="https://images.seeklogo.com/logo-png/19/1/mercadopago-logo-png_seeklogo-199533.png"
+                            alt="Apple" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-28 object-contain"
+                            src="https://images.archbee.com/wYlzYU9oe8HZjh9BkqeFY/jF_muslOv7Tnt8AW8CVa__mobbexoriginal.png?format=webp"
+                            alt="Apple" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-28 object-contain" src="https://logosenvector.com/logo/img/modo-37330.png"
+                            alt="Apple" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-10 object-contain"
+                            src="https://cdn.tusfacturas.app/web/images/logo-tf/2024/tusfacturasapp-isologo.png"
+                            alt="">
+                    </li>
+                    <li>
+                        <img class="w-28 h-10 object-contain"
+                            src="https://s3.us-east-005.backblazeb2.com/gocuotas-assets/assets/tile-wide-5f6cc166915fc60b7c330d6f538ad90881e7abe268dfac1f1155bbade9ba7cae.png"
+                            alt="">
+                    </li>
+                    <li>
+                        <img class="w-28 h-10 object-contain"
+                            src="https://www.ualabis.com.ar/_next/static/media/LogoOpenGraph.d24202af.png" alt="">
+                    </li>
+                    <li>
+                        <img class="w-28 h-10 object-contain"
+                            src="https://nextiendas.com/wellcome/ayuda/data/knowledge/Env%C3%ADopack-Logo-1-negro.png"
+                            alt="">
+                    </li>
+                </ul>
+            </div>
+        </section>
 
         <section id="features" aria-label="Features for running your books"
             class="relative overflow-hidden bg-blue-600 pb-28 pt-20 sm:py-32"><img alt="" loading="lazy"
                 width="2245" height="1636" decoding="async" data-nimg="1"
-                class="absolute left-1/2 top-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]" style="color:transparent"
-                src="/_next/static/media/background-features.5f7a9ac9.jpg">
+                class="absolute left-1/2 top-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
+                style="color:transparent" src="/_next/static/media/background-features.5f7a9ac9.jpg">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
                 <div class="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
                     <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">Everything you
@@ -253,7 +286,8 @@
                     <p class="mt-4 text-lg tracking-tight text-slate-700">Because you’d probably be a little confused
                         if we suggested you complicate your everyday business tasks instead.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
                     <div class="flex flex-col gap-8">
                         <div class="rounded-2xl p-8 bg-emerald-200 ">
                             <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
@@ -274,7 +308,8 @@
                             </button>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
+                    <div
+                        class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
                         <div class="rounded-2xl p-8 bg-indigo-200 ">
                             <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
                                 Elevate your holiday joy with a festive 20% discount using code xzTnm
@@ -919,8 +954,7 @@
             </div>
         </section>
 
-        <section id="faq" aria-labelledby="faq-title"
-            class="relative overflow-hidden bg-slate-50 py-20 sm:py-32">
+        <section id="faq" aria-labelledby="faq-title" class="relative overflow-hidden bg-slate-50 py-20 sm:py-32">
             <img alt="" loading="lazy" width="1558" height="946" decoding="async" data-nimg="1"
                 class="absolute left-1/2 top-0 max-w-none -translate-y-1/4 translate-x-[-30%]" style="color:transparent"
                 src="/_next/static/media/background-faqs.55d2e36a.jpg">

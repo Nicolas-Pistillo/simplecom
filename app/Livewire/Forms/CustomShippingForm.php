@@ -37,10 +37,10 @@ class CustomShippingForm extends Form
     public $zipcode_selection_type = ZipcodeSelectionType::ByRanges->value;
 
     #[Validate(as: 'rango de códigos postales')]
-    public $zipcodes_ranges = [['from' => '', 'to'   => '']];
+    public $zipcode_ranges = [['from' => '', 'to'   => '']];
 
     #[Validate(as: 'lista de códigos postales')]
-    public $zipcodes_list = '';
+    public $zipcode_list = '';
 
     #[Validate(as: 'distancia en km')]
     public $distance_km;
@@ -67,7 +67,7 @@ class CustomShippingForm extends Form
                 'string',
                 new Enum(ZipcodeSelectionType::class) 
             ],
-            'zipcodes_ranges' => [
+            'zipcode_ranges' => [
                 Rule::requiredIf(
                     $this->shipping_zone_type === ShippingZoneType::ByZipcodes->value && 
                     $this->zipcode_selection_type === ZipcodeSelectionType::ByRanges->value
@@ -75,21 +75,21 @@ class CustomShippingForm extends Form
                 'array',
                 'min:1'
             ],
-            'zipcodes_ranges.*.from' => [
+            'zipcode_ranges.*.from' => [
                 Rule::requiredIf(
                     $this->shipping_zone_type === ShippingZoneType::ByZipcodes->value && 
                     $this->zipcode_selection_type === ZipcodeSelectionType::ByRanges->value
                 ),
                 'integer'
             ],
-            'zipcodes_ranges.*.to' => [
+            'zipcode_ranges.*.to' => [
                 Rule::requiredIf(
                     $this->shipping_zone_type === ShippingZoneType::ByZipcodes->value && 
                     $this->zipcode_selection_type === ZipcodeSelectionType::ByRanges->value
                 ),
                 'integer'
             ],
-            'zipcodes_list' => [
+            'zipcode_list' => [
                 Rule::requiredIf(
                     $this->shipping_zone_type === ShippingZoneType::ByZipcodes->value && 
                     $this->zipcode_selection_type === ZipcodeSelectionType::FreeSelection->value
@@ -109,11 +109,11 @@ class CustomShippingForm extends Form
     protected function messages()
     {
         return [
-            'zipcodes_ranges.required' => 'Agregue al menos un rango de códigos postales',
-            'zipcodes_ranges.*.from.required' => 'escriba un código postal',
-            'zipcodes_ranges.*.to.required' => 'escriba un código postal',
-            'zipcodes_ranges.*.from.integer' => 'el código postal debe ser numerico',
-            'zipcodes_ranges.*.to.integer' => 'el código postal debe ser numerico',
+            'zipcode_ranges.required' => 'Agregue al menos un rango de códigos postales',
+            'zipcode_ranges.*.from.required' => 'escriba un código postal',
+            'zipcode_ranges.*.to.required' => 'escriba un código postal',
+            'zipcode_ranges.*.from.integer' => 'el código postal debe ser numerico',
+            'zipcode_ranges.*.to.integer' => 'el código postal debe ser numerico',
         ];
     }
 }

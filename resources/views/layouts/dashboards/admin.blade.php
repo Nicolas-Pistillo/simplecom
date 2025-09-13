@@ -264,6 +264,65 @@
         })
     </script>
 
+    {{-- Acciones rápidas - general --}}
+    {{-- <div class="fixed right-6 bottom-6 group z-50 speeddial-button">
+        <div id="speed-dial-menu-with-text" class="speed-dial-menu flex flex-col items-center mb-4 space-y-2">
+            <div class="flex items-center gap-5 relative">
+                <span class="text-sm text-gray-600 absolute -left-1 -translate-x-16">Articles</span>
+                <button type="button"
+                    class="flex justify-center items-center w-16 h-16 text-gray-900 hover:text-gray-900 bg-white rounded-full border border-gray-300 shadow-sm hover:bg-gray-50  focus:outline-none relative">
+                    <svg class="w-6 h-6" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M6.5 14.0832H15.1667M6.5 17.3332H10.8333M14.8049 2.52753V7.22197C14.8049 8.41859 15.7749 9.38864 16.9715 9.38864H21.666M13.9081 2.1665H9.25C6.42157 2.1665 5.00736 2.1665 4.12868 3.04518C3.25 3.92386 3.25 5.33808 3.25 8.1665V17.8332C3.25 20.6616 3.25 22.0758 4.12868 22.9545C5.00736 23.8332 6.42079 23.8332 9.24766 23.8332C11.4087 23.8332 13.8504 23.8332 16.0282 23.8332C18.8563 23.8332 20.2704 23.8332 21.1491 22.9545C22.0278 22.0758 22.0278 20.6616 22.0278 17.8332V10.2862C22.0278 9.71155 21.7995 9.16045 21.3932 8.75412L15.4402 2.80111C15.0338 2.39478 14.4827 2.1665 13.9081 2.1665Z"
+                            stroke="#111827" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex items-center gap-5 relative">
+                <span class="text-sm text-gray-600 absolute -left-1 -translate-x-16">Favorite</span>
+                <button type="button"
+                    class="flex justify-center items-center w-16 h-16 text-gray-900 hover:text-gray-900 bg-white rounded-full border border-gray-300 shadow-sm hover:bg-gray-50  focus:outline-none relative">
+                    <svg class="w-6 h-6" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10.2917 11.917L11.9167 13.542L16.25 9.20866M15.0143 20.8557L16.4024 21.5845C19.2396 23.074 20.6582 23.8188 21.7041 23.1866C22.75 22.5545 22.75 20.9522 22.75 17.7478V10.8337C22.75 6.74815 22.75 4.7054 21.4808 3.4362C20.2116 2.16699 18.1688 2.16699 14.0833 2.16699H11.9167C7.83116 2.16699 5.78841 2.16699 4.5192 3.4362C3.25 4.7054 3.25 6.74815 3.25 10.8337V17.7478C3.25 20.9522 3.25 22.5545 4.29588 23.1866C5.34177 23.8188 6.76038 23.074 9.59762 21.5845L10.9857 20.8557C11.9725 20.3377 12.4658 20.0787 13 20.0787C13.5342 20.0787 14.0275 20.3377 15.0143 20.8557Z"
+                            stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex items-center gap-5 relative">
+                <span class="text-sm text-gray-600 absolute -left-1 -translate-x-16">Support</span>
+                <button type="button"
+                    class="flex justify-center items-center w-16 h-16 text-gray-900 hover:text-gray-900 bg-white rounded-full border border-gray-300 shadow-sm hover:bg-gray-50  focus:outline-none relative">
+                    <svg class="w-6 h-6" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M9.75033 9.69045C9.75033 5.43695 16.2503 5.43695 16.2503 9.69045C16.2503 12.729 13.2968 12.1226 13.2968 15.7675M13.2957 19.5003L13.3068 19.4866M13.0003 23.8337C7.01724 23.8337 2.16699 18.9834 2.16699 13.0003C2.16699 7.01724 7.01724 2.16699 13.0003 2.16699C18.9834 2.16699 23.8337 7.01724 23.8337 13.0003C23.8337 18.9834 18.9834 23.8337 13.0003 23.8337Z"
+                            stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex items-center gap-5 relative">
+                <span class="text-sm text-gray-600 absolute -left-1 -translate-x-16">Support</span>
+                <button type="button"
+                    class="flex justify-center items-center w-16 h-16 text-gray-900 hover:text-gray-900 bg-white rounded-full border border-gray-300 shadow-sm hover:bg-gray-50  focus:outline-none relative">
+                    <svg class="w-6 h-6" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M2.16699 9.74967H23.8337M17.2199 15.708H17.2297M17.2198 18.958H17.2295M13.2123 15.708H13.222M13.2123 18.958H13.222M9.20271 15.708H9.21244M9.20271 18.958H9.21244M7.58366 5.41634V1.08301M18.417 5.41634V1.08301M10.8337 24.9163H15.167C19.2525 24.9163 21.2953 24.9163 22.5645 23.6471C23.8337 22.3779 23.8337 20.3352 23.8337 16.2497V11.9163C23.8337 7.83083 23.8337 5.78808 22.5645 4.51888C21.2953 3.24967 19.2525 3.24967 15.167 3.24967H10.8337C6.74815 3.24967 4.7054 3.24967 3.4362 4.51888C2.16699 5.78808 2.16699 7.83084 2.16699 11.9163V16.2497C2.16699 20.3352 2.16699 22.3779 3.4362 23.6471C4.7054 24.9163 6.74815 24.9163 10.8337 24.9163Z"
+                            stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <button type="button" aria-expanded="false"
+            class="flex items-center justify-center text-white bg-indigo-600 rounded-full w-16 h-16 hover:bg-indigo-700 focus:ring-4 focus:outline-none ">
+            <svg class="w-5 h-5 transition-transform group-hover:rotate-45" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 1v16M1 9h16" />
+            </svg>
+            <span class="sr-only">Open actions menu</span>
+        </button>
+    </div> --}}
+
     {{-- Widget contacto soporte
     
     <div id="web3forms__widget" x-data="{ open: false }">

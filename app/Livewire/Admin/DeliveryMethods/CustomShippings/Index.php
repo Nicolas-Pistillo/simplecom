@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\DeliveryMethods\CustomShippings;
 
+use App\Models\CustomShippingMethod;
 use App\Models\OriginPoint;
 use App\Models\ShippingProvider;
 use App\Traits\Livewire\WithNotifications;
@@ -14,7 +15,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.delivery-methods.custom-shippings.index', [
-            'providers' => ShippingProvider::custom()->get(),
+            'methods' => CustomShippingMethod::all(),
             'origin_point' => OriginPoint::inUse()
         ]);
     }

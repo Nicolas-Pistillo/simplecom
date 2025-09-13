@@ -97,4 +97,9 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return $this->name . "/banners";
     }
+
+    public function getCustomShippingLogosUrlAttribute()
+    {
+        return $this->name . "/custom-shippings";
+    }
 }
