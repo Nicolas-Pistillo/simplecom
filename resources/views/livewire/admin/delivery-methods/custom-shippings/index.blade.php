@@ -92,7 +92,7 @@
 
                                 <x-slot name="trigger">
                                     <x-icon code="more_vert" x-tooltip.raw="Acciones" style="font-size: 18px"
-                                    class="material-symbols-outlined transition colors cursor-pointer 
+                                    class="no-select transition colors cursor-pointer 
                                     bg-gray-100 text-gray-600 p-1.5 rounded-full 
                                     focus:outline-none focus:ring duration-300 border 
                                     border-gray-300 hover:border-gray-400" />

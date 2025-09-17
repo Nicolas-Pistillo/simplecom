@@ -59,6 +59,9 @@ class Upsert extends Component
     {
         $this->form->validate();
 
+        $this->dispatch('open-confirm');
+        return;
+
         $method = CustomShippingMethod::create([
             'name' => $this->form->name,
             'estimated_delivery' => $this->form->estimated_delivery,

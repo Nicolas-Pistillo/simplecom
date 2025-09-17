@@ -8,7 +8,8 @@
         Nuevo envío personalizado
     </h2>
 
-    <div class="my-8 space-y-8">
+    <div x-data="{confirmOpen: false}" x-on:open-confirm.window="confirmOpen = true"
+    x-on:close-confirm.window="confirmOpen = false" class="my-8 space-y-8">
 
         {{-- Information section --}}
         <fieldset class="col-span-full p-4 border rounded-lg shadow-sm">
@@ -133,6 +134,11 @@
                 <p>KG</p>
             </div>
         </fieldset>
+
+        {{-- Confirm modal --}}
+        @include('admin.delivery-methods.custom-shippings.partials.confirm-information')
+
+        {{-- Success message --}}
 
         {{-- Save/Update --}}
         <div class="mt-6 flex items-center justify-between flex-wrap gap-x-6">
