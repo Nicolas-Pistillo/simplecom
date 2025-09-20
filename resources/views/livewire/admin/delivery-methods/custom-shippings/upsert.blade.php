@@ -5,11 +5,15 @@
     </x-button>
 
     <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:tracking-tight">
-        Nuevo envío personalizado
+        Nueva forma de envío
     </h2>
 
-    <div x-data="{confirmOpen: false}" x-on:open-confirm.window="confirmOpen = true"
-    x-on:close-confirm.window="confirmOpen = false" class="my-8 space-y-8">
+    <div x-data="{confirmOpen: false, targetProvinceOpen: false}" 
+    x-on:open-confirm.window="confirmOpen = true"
+    x-on:close-confirm.window="confirmOpen = false" 
+    x-on:open-target-province.window="targetProvinceOpen = true"
+    x-on:close-target-province.window="targetProvinceOpen = false" 
+    class="my-8 space-y-8">
 
         {{-- Information section --}}
         <fieldset class="col-span-full p-4 border rounded-lg shadow-sm">
@@ -51,6 +55,18 @@
 
                 <x-form-input model="form.price" class="sm:col-span-6" label="Precio" 
                 helper="Si va a ser gratis, dejá este campo con valor 0" icon="attach_money" />
+
+                <div class="sm:col-span-6">
+                    <label class="inline-flex items-center gap-1 text-sm font-medium l
+                    eading-6 text-gray-900 mb-2">
+                        Marcar como activada
+                        <x-icon code="info" class="text-blue-500 text-[18px]" 
+                        x-tooltip.raw="Si la forma de envío no esta activada, no aparecerá para tus clientes" />
+                    </label>
+                    <div>
+                        <x-switch wireModel="form.active" />
+                    </div>
+                </div>
             </div>
         </fieldset>
 
@@ -114,23 +130,27 @@
 
             <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
                 <p class="w-full sm:w-auto">Cuando el precio del carrito sea mayor o igual a</p>
-                <x-form-input type="number" model="form.conditions.cart_price_gte" icon="attach_money" />
+                <x-form-input type="number" model="form.conditions.cart_price_gte" 
+                icon="attach_money" class="w-[150px]" />
             </div>
 
             <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
                 <p class="w-full sm:w-auto">Cuando el precio del carrito sea menor a</p>
-                <x-form-input type="number" model="form.conditions.cart_price_lt" icon="attach_money" />
+                <x-form-input type="number" model="form.conditions.cart_price_lt" 
+                icon="attach_money" class="w-[150px]" />
             </div>
 
             <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
                 <p class="w-full sm:w-auto">Cuando el peso total del carrito sea mayor o igual a</p>
-                <x-form-input type="number" model="form.conditions.cart_weight_gte" icon="weight" />
+                <x-form-input type="number" model="form.conditions.cart_weight_gte" 
+                icon="weight" class="w-[150px]" />
                 <p>KG</p>
             </div>
 
             <div class="flex items-center flex-wrap gap-2 text-sm mt-3">
                 <p class="w-full sm:w-auto">Cuando el peso total del carrito sea menor a</p>
-                <x-form-input type="number" model="form.conditions.cart_weight_lt" icon="weight" />
+                <x-form-input type="number" model="form.conditions.cart_weight_lt" 
+                icon="weight" class="w-[150px]" />
                 <p>KG</p>
             </div>
         </fieldset>
@@ -138,29 +158,83 @@
         {{-- Confirm modal --}}
         @include('admin.delivery-methods.custom-shippings.partials.confirm-information')
 
-        {{-- Success message --}}
-
-        {{-- Save/Update --}}
+        {{-- Validate and show confirm information --}}
         <div class="mt-6 flex items-center justify-between flex-wrap gap-x-6">
 
             <span class="text-red-500 text-xs flex items-center my-1">
                 @if ($errors->any())
-                    <x-icon code="error" class="mr-1" /> Hay errores o campos sin completar
+                    <x-icon code="error" class="mr-1" /> Por favor revisa los errores del formulario
                 @endif
             </span>
 
-            <x-button wire:click='save' wire:loading.remove wire:target='save' 
+            <x-button wire:click='validateForm' wire:loading.remove wire:target='validateForm' 
             size="large" class="flex items-center">
                 Guardar cambios
             </x-button>
 
-            <div wire:loading wire:target='save' class="my-1">
+            <div wire:loading wire:target='validateForm' class="my-1">
                 <div class="flex items-center font-semibold">
                     <x-spinner class="mr-2" />
-                    Guardando...
+                    Espere...
                 </div>
             </div>
 
         </div>
+
+        {{-- Target province - search localities --}}
+        <section x-show="targetProvinceOpen" x-cloak class="relative py-8 sm:p-8">
+            <div class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative">
+                <div class="w-full relative flex justify-center">
+                    <div class="pd-overlay w-full h-full fixed top-0 left-0 z-50 overflow-x-hidden overflow-y-auto">
+                        <div class="opacity-1 ease-out sm:max-w-lg sm:w-full m-5 relative top-1/2 
+                        -translate-y-1/2 sm:mx-auto modal-open:opacity-100 transition-all modal-open:duration-500">
+                            <div class="flex items-start bg-white p-6 rounded-lg shadow-lg">
+                                <div class="block w-full">
+                                    @isset($target_province)
+                                        <div class="flex items-center justify-between gap-5 mb-1">
+                                            <h6 class="text-lg font-bold text-gray-900 mb-1">
+                                                {{ $target_province->name }}
+                                            </h6>
+                                            <x-icon @click="targetProvinceOpen = false" code="close" 
+                                            class="transition colors duration-300 text-[18px]
+                                            cursor-pointer text-gray-600 p-2 bg-gray-100 rounded-full 
+                                            hover:bg-gray-200 focus:outline-none focus:ring" />
+                                        </div>
+
+                                        <p class="text-xs font-normal text-gray-500 mb-5">
+                                            Podes desmarcar las localidades que no vas a cubrir en esta provincia.
+                                        </p>
+
+                                        <div class="relative mb-4  text-gray-500 focus-within:text-gray-900 ">
+                                            <x-form-input liveModel="target_province_search" type="search" 
+                                            icon="search" placeholder="Buscar localidad..." />
+                                        </div>
+
+                                        <ul class="flex flex-col max-h-[350px] overflow-y-auto" scrollbar-thin>
+                                            @foreach ($target_province_localities as $locality)
+                                                <li wire:key='check-locality-{{ $locality->id }}' 
+                                                class="px-3 py-4 border-b border-gray-200 flex 
+                                                items-center justify-between">
+                                                    <label for="check-locality-{{ $locality->id }}" class="flex items-center gap-3">
+                                                        <p class="text-sm font-medium text-gray-900">
+                                                            {{ $locality->name }}
+                                                        </p>
+                                                    </label>
+                                                    <input wire:change='toggleLocality({{ $locality->id }})'
+                                                    {{ !in_array($locality->id, $form->excluded_localities) ? 'checked' : '' }}
+                                                    type="checkbox" class="w-5 h-5 rounded cursor-pointer" 
+                                                    id="check-locality-{{ $locality->id }}">
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endisset
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="backdrop" class="fixed top-0 left-0 w-full h-full bg-black/50 z-40"></div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>

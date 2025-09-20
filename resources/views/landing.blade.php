@@ -50,21 +50,23 @@
                     tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
                         La nueva solución
                         <span class="relative whitespace-nowrap text-blue-600"><svg aria-hidden="true" viewBox="0 0 418 42"
-                                class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70" preserveAspectRatio="none">
+                                class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70"
+                                preserveAspectRatio="none">
                                 <path
                                     d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z">
                                 </path>
                             </svg><span class="relative">simple</span></span> e ideal para vender online
                     </h1>
                     <p class="mx-auto my-6 max-w-4xl text-lg tracking-tight text-slate-700">
-                        Creá tu tienda online y empezá a vender en segundos, sin comisiones ni vueltas.
+                        Con Simplecom podes crear tu tienda online y empezar a vender en minutos, 
+                        sin vueltas ni comisiones
                     </p>
                     <x-button type="secondary" size="big">Speak to Sales</x-button>
                     <x-button size="big">Get started</x-button>
                 </div>
                 <div class="lg:mt-0 mx-auto lg:col-span-5 lg:flex">
                     <img src="{{ URL::to('img/landing/hero-mockup.png') }}" class="h-full object-cover" alt="mockup">
-                </div>                
+                </div>
             </div>
 
             <div x-data="{}" x-init="$nextTick(() => {
@@ -76,8 +78,8 @@
                 <ul x-ref="logos"
                     class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
                     <li>
-                        <img class="w-28 h-28 object-contain"
-                            src="https://zipnova.com/opengraph-image.png?b030af71241cd50d" alt="Disney" />
+                        <img class="w-28 h-28 object-contain" src="https://zipnova.com/opengraph-image.png?b030af71241cd50d"
+                            alt="Disney" />
                     </li>
                     <li>
                         <img class="w-28 h-28 object-contain"
@@ -121,161 +123,7 @@
             </div>
         </section>
 
-        <section id="features" aria-label="Features for running your books"
-            class="relative overflow-hidden bg-blue-600 pb-28 pt-20 sm:py-32"><img alt="" loading="lazy"
-                width="2245" height="1636" decoding="async" data-nimg="1"
-                class="absolute left-1/2 top-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
-                style="color:transparent" src="/_next/static/media/background-features.5f7a9ac9.jpg">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-                <div class="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
-                    <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">Everything you
-                        need to run your books.</h2>
-                    <p class="mt-6 text-lg tracking-tight text-blue-100">Well everything you need if you aren’t that
-                        picky about minor details like tax compliance.</p>
-                </div>
-                <div class="mt-16 grid grid-cols-1 items-center gap-y-2 pt-10 sm:gap-y-6 md:mt-20 lg:grid-cols-12 lg:pt-0">
-                    <div class="-mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
-                        <div class="relative z-10 flex gap-x-4 whitespace-nowrap px-4 sm:mx-auto sm:px-0 lg:mx-0 lg:block lg:gap-x-0 lg:gap-y-1 lg:whitespace-normal"
-                            role="tablist" aria-orientation="vertical">
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 bg-white lg:bg-white/10 lg:ring-1 lg:ring-inset lg:ring-white/10">
-                                <h3><button
-                                        class="font-display text-lg ui-not-focus-visible:outline-none text-blue-600 lg:text-white"
-                                        id="headlessui-tabs-tab-:R2baalla:" role="tab" type="button"
-                                        aria-selected="true" tabindex="0" data-headlessui-state="selected"
-                                        aria-controls="headlessui-tabs-panel-:Rdaalla:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Payroll</button>
-                                </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-white">Keep track of everyone's salaries
-                                    and whether or not they've been paid. Direct deposit not supported.</p>
-                            </div>
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
-                                <h3><button
-                                        class="font-display text-lg ui-not-focus-visible:outline-none text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:R2jaalla:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:Rlaalla:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Claim
-                                        expenses</button></h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">All of
-                                    your receipts organized into one place, as long as you don't mind typing in the data
-                                    by hand.</p>
-                            </div>
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
-                                <h3><button
-                                        class="font-display text-lg ui-not-focus-visible:outline-none text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:R2raalla:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:Rtaalla:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>VAT
-                                        handling</button></h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">We only
-                                    sell our software to companies who don't deal with VAT at all, so technically we do
-                                    all the VAT stuff they need.</p>
-                            </div>
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
-                                <h3><button
-                                        class="font-display text-lg ui-not-focus-visible:outline-none text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:R33aalla:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:R15aalla:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Reporting</button>
-                                </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Easily
-                                    export your data into an Excel spreadsheet where you can do whatever the hell you
-                                    want with it.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="lg:col-span-7">
-                        <div id="headlessui-tabs-panel-:Rdaalla:" role="tabpanel" tabindex="0"
-                            data-headlessui-state="selected" aria-labelledby="headlessui-tabs-tab-:R2baalla:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">Keep track of
-                                    everyone's salaries and whether or not they've been paid. Direct deposit not
-                                    supported.</p>
-                            </div>
-                            <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
-                                    data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=3840&amp;q=75">
-                            </div>
-                        </div>
-                        <div id="headlessui-tabs-panel-:Rlaalla:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:R2jaalla:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">All of your
-                                    receipts organized into one place, as long as you don't mind typing in the data by
-                                    hand.</p>
-                            </div>
-                            <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
-                                    data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=3840&amp;q=75">
-                            </div>
-                        </div>
-                        <div id="headlessui-tabs-panel-:Rtaalla:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:R2raalla:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">We only sell
-                                    our software to companies who don't deal with VAT at all, so technically we do all
-                                    the VAT stuff they need.</p>
-                            </div>
-                            <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
-                                    data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=3840&amp;q=75">
-                            </div>
-                        </div>
-                        <div id="headlessui-tabs-panel-:R15aalla:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:R33aalla:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">Easily export
-                                    your data into an Excel spreadsheet where you can do whatever the hell you want with
-                                    it.</p>
-                            </div>
-                            <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
-                                    data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=3840&amp;q=75">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-24 ">
+        <section class="py-24">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="mb-14 text-center">
                     <h2
@@ -395,7 +243,7 @@
             </div>
         </section>
 
-        <section class="py-24 ">
+        <section class="py-24">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
                     class="grid grid-cols-1 gap-12 lg:grid-cols-2 md:grid-cols-2 lg:gap-24 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
@@ -521,6 +369,70 @@
                             </svg>
                         </a>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div
+                    class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+                    <div class="col-span-2">
+                        <h2 class="text-base/7 font-semibold text-blue-600">Everything you need</h2>
+                        <p class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900">
+                            All-in-one platform</p>
+                        <p class="mt-6 text-base/7 text-gray-700">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                            Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.</p>
+                    </div>
+                    <dl
+                        class="col-span-3 grid grid-cols-1 gap-x-8 gap-y-10 text-base/7 text-gray-600 sm:grid-cols-2 lg:gap-y-16">
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Invite team members
+                            </dt>
+                            <dd class="mt-2">Rerum repellat labore necessitatibus reprehenderit molestiae praesentium.
+                            </dd>
+                        </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                List view
+                            </dt>
+                            <dd class="mt-2">Corporis asperiores ea nulla temporibus asperiores non tempore assumenda
+                                aut.</dd>
+                        </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Keyboard shortcusts
+                            </dt>
+                            <dd class="mt-2">In sit qui aliquid deleniti et. Ad nobis sunt omnis. Quo sapiente dicta
+                                laboriosam.</dd>
+                        </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Calendars
+                            </dt>
+                            <dd class="mt-2">Sed rerum sunt dignissimos ullam. Iusto iure occaecati voluptate eligendi.
+                            </dd>
+                        </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Notificaciones
+                            </dt>
+                            <dd class="mt-2">Quos inventore harum enim nesciunt. Aut repellat rerum omnis adipisci.</dd>
+                        </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Boards
+                            </dt>
+                            <dd class="mt-2">Quae sit sunt excepturi fugit veniam voluptatem ipsum commodi.</dd>
+                        </div>
+                    </dl>
                 </div>
             </div>
         </section>

@@ -51,7 +51,7 @@
 
             <span class="text-red-500 text-xs flex items-center my-1">
                 @if ($errors->any())
-                    <x-icon code="error" class="mr-1" /> Hay errores o campos sin completar
+                    <x-icon code="error" class="mr-1" /> Por favor revisa los errores del formulario
                 @endif
             </span>
 

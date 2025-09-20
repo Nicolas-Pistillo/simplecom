@@ -20,6 +20,9 @@ class CustomShippingForm extends Form
     #[Validate(as: 'precio')]
     public $price = 0;
 
+    #[Validate(as: 'activo')]
+    public $active = true;
+
     public $logo;
 
     public $logo_preview;

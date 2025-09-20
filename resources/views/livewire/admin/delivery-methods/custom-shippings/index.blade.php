@@ -1,6 +1,11 @@
 <div>
     <div class="px-4 sm:px-6 lg:px-8 mb-8">
 
+        @session('method-saved')
+            <x-toast type="success" icon="local_shipping" 
+            :title="session('method-saved')" position="bottom-right" />
+        @endsession
+
         <div class="sm:flex sm:items-center mb-8">
 
             <div class="sm:flex-auto">
@@ -17,7 +22,7 @@
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                 <x-button :href="route('admin.delivery-methods.custom-shippings.create')" class="flex items-center">
                     <x-icon code="add" class="mr-1" />
-                    Nuevo envío propio
+                    Nueva forma de envío
                 </x-button>
             </div>
         </div>
@@ -58,9 +63,13 @@
                 </div>
             </div>
         @else
-            <ul role="list" class="divide-y divide-gray-100 dark:divide-white/5">
+            <ul role="list" class="divide-y divide-gray-100">
                 @foreach ($methods as $method)
-                    <li wire:key='method-{{ $method->id }}' class="relative flex justify-between gap-x-6 py-5">
+                    <li x-data="{openConfirmDelete: false}"
+                    x-on:close-confirm-delete.window="openConfirmDelete = false" 
+                    wire:key='method-{{ $method->id }}' 
+                    class="relative flex justify-between gap-x-6 py-5">
+
                         <div class="flex min-w-0 gap-x-4">
                             @if ($method->logo_url)
                                 <img src="{{ Storage::url($method->logo_url) }}" alt="{{ $method->name }}"
@@ -72,21 +81,62 @@
                             @endif
 
                             <div class="min-w-0 flex-auto">
-                                <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                                <p class="text-sm font-semibold text-gray-900">
                                     {{ $method->name }}
                                 </p>
-                                <p class="mt-1 flex items-center text-xs text-gray-500 dark:text-gray-400">
-                                    <x-icon code="location_on" class="text-sm" />
-                                    {{ $method->shipping_zone_type->name() }}
-                                </p>
+                                <div class="mt-1 flex items-center gap-2 text-xs text-gray-500">
+                                    <div class="flex items-center">
+                                        <x-icon code="location_on" class="text-sm" />
+                                        {{ $method->shipping_zone_type->name() }}
+                                    </div>
+                                    <div class="flex items-center font-semibold">
+                                        @if ($method->isFree())
+                                            <span class="text-green-600">Gratis</span>
+                                        @else
+                                            <span class="text-green-600">
+                                                ${{ priceFormat($method->price) }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <x-modal ref="openConfirmDelete">
+                            <x-slot name="title">Eliminar forma de envío</x-slot>
+                            <p class="text-sm text-gray-600">
+                                ¿Estás seguro que deseas eliminar la forma de envío <b>{{ $method->name }}</b>?
+                                Esta acción no se puede deshacer.
+                            </p>
+                            <x-slot name="actions">
+                                <div class="flex justify-end gap-3">
+
+                                    <x-button type="secondary" @click="openConfirmDelete = false"
+                                    wire:loading.remove wire:target='delete({{ $method->id }})'>
+                                        Cancelar
+                                    </x-button>
+
+                                    <x-button wire:click='delete({{ $method->id }})' 
+                                    wire:loading.remove wire:target='delete({{ $method->id }})'>
+                                        Eliminar
+                                    </x-button>
+
+                                    <div wire:loading wire:target='delete({{ $method->id }})'>
+                                        <div class="flex items-center gap-1.5 font-semibold">
+                                            <x-spinner />
+                                            Eliminando...
+                                        </div>
+                                    </div>
+                                </div>
+                            </x-slot>
+
+                        </x-modal>
+
                         <div class="flex shrink-0 items-center gap-x-4">
                             <div class="hidden sm:flex sm:flex-col sm:items-end">
-                                {{-- <p class="text-sm/6 text-gray-900 dark:text-white">
-                                    {{ $method->isFree() ? 'Gratis' : '$' . priceFormat($method->price) }}
-                                </p> --}}
-                                <x-switch :checked="true" />
+                                <x-switch wireChange="toggleActiveMethod({{ $method->id }})" 
+                                :checked="$method->active" tooltipPosition="top"
+                                :tooltip="$method->active ? 'Desactivar' : 'Activar'" />
                             </div>
                             <x-dropdown position="right-0" containerClass="w-48">
 
@@ -98,20 +148,11 @@
                                     border-gray-300 hover:border-gray-400" />
                                 </x-slot>
 
-                                <x-dropdown-item closeOnClick label="Agregar subcategoría" icon="add"
-                                    wire:click='openAddSubcategory({{ $method->id }})' />
-
                                 <x-dropdown-item closeOnClick icon="edit" wire:click='openEdit({{ $method->id }})'
                                     label="Editar" />
 
-                                <x-dropdown-item closeOnClick wire:click='togglePublished({{ $method->id }})'
-                                    :icon="$method->published ? 'public_off' : 'public'" :label="$method->published ? 'Despublicar' : 'Publicar'" />
-
-                                <x-dropdown-item closeOnClick wire:click='toggleFeatured({{ $method->id }})'
-                                    :icon="$method->featured ? 'star' : 'star_rate_half'" :label="$method->featured ? 'No destacar' : 'Destacar'" />
-
-                                <x-dropdown-item closeOnClick icon="delete" label="Eliminar"
-                                    wire:click='openDelete({{ $method->id }})' iconClass="text-red-500" />
+                                <x-dropdown-item icon="delete" label="Eliminar"
+                                @click="openConfirmDelete = true; open = false" iconClass="text-red-500" />
                             </x-dropdown>
                         </div>
                     </li>
