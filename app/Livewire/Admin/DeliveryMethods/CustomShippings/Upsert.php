@@ -76,6 +76,17 @@ class Upsert extends Component
         $this->dispatch('open-confirm');
     }
 
+    public function mount($method = null)
+    {
+        if ($method)
+        {
+            $method = CustomShippingMethod::findOrFail($method);
+
+            $this->method = $method;
+            $this->form->autocomplete($method);
+        }
+    }
+
     public function save()
     {
         $method = CustomShippingMethod::updateOrCreate(

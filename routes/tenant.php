@@ -162,6 +162,9 @@ Route::middleware([
 
                     Route::view('custom-shippings/create', 'admin.delivery-methods.custom-shippings.create')
                         ->name('admin.delivery-methods.custom-shippings.create');
+
+                    Route::view('custom-shippings/{method}/edit', 'admin.delivery-methods.custom-shippings.edit')
+                        ->name('admin.delivery-methods.custom-shippings.edit');
                 });
 
                 Route::view('products', 'admin.products.index')

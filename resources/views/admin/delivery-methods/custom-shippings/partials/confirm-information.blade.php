@@ -1,7 +1,7 @@
 <x-modal large ref="confirmOpen" title="Confirmar forma de envío" withCloseBtn>
     <div class="text-sm">
         <p class="mb-3">
-            Estas por crear la forma de envío <b>{{ $form->name }}</b> con la siguiente configuración:
+            Estas por {{ $method ? 'actualizar' : 'crear' }} la forma de envío <b>{{ $form->name }}</b> con la siguiente configuración:
         </p>
         <ul class="pl-4 list-disc space-y-2">
 

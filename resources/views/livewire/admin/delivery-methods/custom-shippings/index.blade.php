@@ -102,6 +102,7 @@
                             </div>
                         </div>
 
+                        {{-- Confirm deletion --}}
                         <x-modal ref="openConfirmDelete">
                             <x-slot name="title">Eliminar forma de envío</x-slot>
                             <p class="text-sm text-gray-600">
@@ -132,6 +133,7 @@
 
                         </x-modal>
 
+                        {{-- Actions --}}
                         <div class="flex shrink-0 items-center gap-x-4">
                             <div class="hidden sm:flex sm:flex-col sm:items-end">
                                 <x-switch wireChange="toggleActiveMethod({{ $method->id }})" 
@@ -148,8 +150,8 @@
                                     border-gray-300 hover:border-gray-400" />
                                 </x-slot>
 
-                                <x-dropdown-item closeOnClick icon="edit" wire:click='openEdit({{ $method->id }})'
-                                    label="Editar" />
+                                <x-dropdown-item closeOnClick icon="edit" label="Editar"
+                                :href="route('admin.delivery-methods.custom-shippings.edit', $method->id)" />
 
                                 <x-dropdown-item icon="delete" label="Eliminar"
                                 @click="openConfirmDelete = true; open = false" iconClass="text-red-500" />

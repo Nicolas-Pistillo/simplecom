@@ -4,6 +4,8 @@ namespace App\Livewire\Forms;
 
 use App\Enums\ShippingZoneType;
 use App\Enums\ZipcodeSelectionType;
+use App\Models\CustomShippingMethod;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Validate;
@@ -118,5 +120,22 @@ class CustomShippingForm extends Form
             'zipcode_ranges.*.from.integer' => 'el código postal debe ser numerico',
             'zipcode_ranges.*.to.integer' => 'el código postal debe ser numerico',
         ];
+    }
+
+    public function autocomplete(CustomShippingMethod $method)
+    {
+        $this->name = $method->name;
+        $this->estimated_delivery = $method->estimated_delivery;
+        $this->price = $method->price;
+        $this->active = (bool) $method->active;
+        $this->shipping_zone_type = $method->shipping_zone_type->value;
+        $this->selected_provinces = $method->selected_provinces;
+        $this->excluded_localities = $method->excluded_localities;
+        $this->zipcode_selection_type = $method->zipcode_selection_type?->value;
+        $this->zipcode_ranges = $method->zipcode_ranges ?: [['from' => '', 'to'   => '']];
+        $this->zipcode_list = $method->zipcode_list;
+        $this->distance_km = $method->distance_km;
+        $this->conditions = $method->conditions;
+        $this->logo_preview = $method->logo_url ? Storage::url($method->logo_url) : null;
     }
 }

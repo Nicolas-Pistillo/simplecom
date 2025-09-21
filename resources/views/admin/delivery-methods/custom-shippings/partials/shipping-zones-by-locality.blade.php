@@ -32,20 +32,12 @@ title="Seleccionar provincias" class="w-max mt-3">
 @if (!empty($form->selected_provinces))
     <fieldset class="col-span-full no-select mt-2">
 
-        {{-- <legend class="text-sm/6 font-semibold text-gray-900">
-            Provincias seleccionadas
-        </legend>
-
-        <p class="mt-1 text-sm/6 text-gray-600">
-            Podes desmarcar las localidades de cada provincia que no van a estar dentro de esta opción de envío
-        </p> --}}
-
         <legend class="text-sm/6 font-semibold text-gray-900">
             Provincias seleccionadas
         </legend>
 
         <p class="mt-1 text-sm/6 text-gray-600">
-            Hace click en ver localidades en la provincia donde necesites gestionar tu cobe
+            Hace click en ver localidades debajo de la provincia donde necesites excluir alguna localidad
         </p>
 
         <div class="flex items-center flex-wrap gap-4 mt-3">
@@ -64,9 +56,15 @@ title="Seleccionar provincias" class="w-max mt-3">
                             wire:target='toggleProvince({{ $province->id }})' />
                     </x-badge>
 
-                    <span wire:click='setTargetProvince({{ $province->id }})' 
+                    <span wire:loading.remove wire:target='setTargetProvince({{ $province->id }})'
+                    wire:click='setTargetProvince({{ $province->id }})' 
                     class="text-xs text-blue-600 hover:underline cursor-pointer">
                         Ver localidades
+                    </span>
+
+                    <span wire:loading wire:target='setTargetProvince({{ $province->id }})' 
+                    class="text-xs text-gray-700">
+                        Cargando...
                     </span>
                 </div>
             @endforeach
