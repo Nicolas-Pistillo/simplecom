@@ -17,11 +17,13 @@ return new class extends Migration
             $table->string('estimated_delivery')->nullable();
             $table->decimal('price', 10);
             $table->string('logo_url')->nullable();
+            $table->boolean('active')->default(true);
             $table->string('shipping_zone_type');
             $table->string('selected_provinces')->nullable();
             $table->text('excluded_localities')->nullable();
             $table->string('zipcode_selection_type')->nullable();
-            $table->text('zipcodes')->nullable();
+            $table->text('zipcode_ranges')->nullable();
+            $table->text('zipcode_list')->nullable();
             $table->integer('distance_km')->nullable();
             $table->text('conditions')->nullable();
             $table->timestamps();

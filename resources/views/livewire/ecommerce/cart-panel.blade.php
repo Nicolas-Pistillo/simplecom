@@ -124,9 +124,9 @@
                         <p>${{ priceFormat(Cart::subtotal()) }} </p>
                     </div>
 
-                    <p class="mt-0.5 text-sm text-gray-500">
-                        Las tarifas de envío o impuestos se calcularán durante el checkout.
-                    </p>
+                    {{-- <p class="mt-1 text-xs text-gray-500">
+                        Las tarifas de envío o impuestos se calcularán durante el proceso de compra.
+                    </p> --}}
 
                     <x-button :href="route('ecommerce.checkout')" size="big"
                     class="inline-block w-full text-center mt-6">

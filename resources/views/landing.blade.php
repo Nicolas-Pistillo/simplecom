@@ -43,204 +43,396 @@
     </header>
 
     <main>
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 pt-20 text-center lg:pt-32">
-            <h1 class="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
-                La nueva solución <span class="relative whitespace-nowrap text-blue-600"><svg aria-hidden="true"
-                        viewBox="0 0 418 42" class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70"
-                        preserveAspectRatio="none">
-                        <path
-                            d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z">
-                        </path>
-                    </svg><span class="relative">simple</span></span> e ideal para vender online</h1>
-            <p class="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">Most bookkeeping software is
-                accurate, but hard to use. We make the opposite trade-off, and hope you don’t get audited.</p>
-            <div class="mt-10 flex justify-center gap-x-6">
-
-                <x-button rounded>Get 6 monthds free</x-button>
-
-                <x-button rounded type="secondary" class="flex items-center !font-normal">
-                    <x-icon code="play_arrow" class="text-base text-blue-600 mr-2" />
-                    Watch video
-                </x-button>
-
+        <section id="hero" class="bg-white">
+            <div class="grid max-w-screen-xl px-4 sm:px-10 pt-16 mx-auto lg:gap-8 xl:gap-0 lg:grid-cols-12">
+                <div class="text-center lg:text-left place-self-center lg:col-span-7">
+                    <h1 class="mx-auto max-w-4xl font-display text-4xl font-medium 
+                    tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
+                        La nueva solución
+                        <span class="relative whitespace-nowrap text-blue-600"><svg aria-hidden="true" viewBox="0 0 418 42"
+                                class="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70"
+                                preserveAspectRatio="none">
+                                <path
+                                    d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z">
+                                </path>
+                            </svg><span class="relative">simple</span></span> e ideal para vender online
+                    </h1>
+                    <p class="mx-auto my-6 max-w-4xl text-lg tracking-tight text-slate-700">
+                        Con Simplecom podes crear tu tienda online y empezar a vender en minutos, 
+                        sin vueltas ni comisiones
+                    </p>
+                    <x-button type="secondary" size="big">Speak to Sales</x-button>
+                    <x-button size="big">Get started</x-button>
+                </div>
+                <div class="lg:mt-0 mx-auto lg:col-span-5 lg:flex">
+                    <img src="{{ URL::to('img/landing/hero-mockup.png') }}" class="h-full object-cover" alt="mockup">
+                </div>
             </div>
-            <div class="bg-white py-24 sm:py-32">
-                <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                    <h2 class="text-center text-lg font-semibold leading-8 text-gray-900">Trusted by the world’s most
-                        innovative teams</h2>
+
+            <div x-data="{}" x-init="$nextTick(() => {
+                let ul = $refs.logos;
+                ul.insertAdjacentHTML('afterend', ul.outerHTML);
+                ul.nextSibling.setAttribute('aria-hidden', 'true');
+            })"
+                class="w-full mt-8 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+                <ul x-ref="logos"
+                    class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
+                    <li>
+                        <img class="w-28 h-28 object-contain" src="https://zipnova.com/opengraph-image.png?b030af71241cd50d"
+                            alt="Disney" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-28 object-contain"
+                            src="https://www.cedol.org.ar/logistica/wp-content/uploads/2017/12/Logo-rojo.png"
+                            alt="Airbnb" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-28 object-contain"
+                            src="https://images.seeklogo.com/logo-png/19/1/mercadopago-logo-png_seeklogo-199533.png"
+                            alt="Apple" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-28 object-contain"
+                            src="https://images.archbee.com/wYlzYU9oe8HZjh9BkqeFY/jF_muslOv7Tnt8AW8CVa__mobbexoriginal.png?format=webp"
+                            alt="Apple" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-28 object-contain" src="https://logosenvector.com/logo/img/modo-37330.png"
+                            alt="Apple" />
+                    </li>
+                    <li>
+                        <img class="w-28 h-10 object-contain"
+                            src="https://cdn.tusfacturas.app/web/images/logo-tf/2024/tusfacturasapp-isologo.png"
+                            alt="">
+                    </li>
+                    <li>
+                        <img class="w-28 h-10 object-contain"
+                            src="https://s3.us-east-005.backblazeb2.com/gocuotas-assets/assets/tile-wide-5f6cc166915fc60b7c330d6f538ad90881e7abe268dfac1f1155bbade9ba7cae.png"
+                            alt="">
+                    </li>
+                    <li>
+                        <img class="w-28 h-10 object-contain"
+                            src="https://www.ualabis.com.ar/_next/static/media/LogoOpenGraph.d24202af.png" alt="">
+                    </li>
+                    <li>
+                        <img class="w-28 h-10 object-contain"
+                            src="https://nextiendas.com/wellcome/ayuda/data/knowledge/Env%C3%ADopack-Logo-1-negro.png"
+                            alt="">
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-14 text-center">
+                    <h2
+                        class="text-4xl text-center font-bold text-gray-900 leading-[3.25rem] mb-6 max-w-max lg:max-w-3xl lg:mx-auto">
+                        Developed from scratch for seamless online functionality</h2>
+                    <p class="text-base font-normal text-gray-500 lg:max-w-2xl lg:mx-auto mb-8">Using technology to make
+                        finance simpler, smarter and more rewarding. </p>
                     <div
-                        class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg" alt="Transistor"
-                            width="158" height="48">
-                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg" alt="Reform"
-                            width="158" height="48">
-                        <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg" alt="Tuple"
-                            width="158" height="48">
-                        <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg" alt="SavvyCal"
-                            width="158" height="48">
-                        <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-                            src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg" alt="Statamic"
-                            width="158" height="48">
+                        class="flex flex-col justify-center md:flex-row gap-5 max-w-lg mx-auto md:max-w-2xl lg:max-w-full">
+                        <a href="javascript:;"
+                            class="cursor-pointer bg-indigo-600 py-3 px-6 rounded-full flex items-center justify-center text-sm font-semibold text-white transition-all duration-500 focus:outline-none hover:bg-indigo-700">
+                            Get started
+                        </a>
+                        <a href="javascript:;"
+                            class="cursor-pointer bg-indigo-50 py-3 px-6 rounded-full flex items-center justify-center  text-sm font-semibold text-indigo-600 transition-all duration-500 focus:outline-none hover:bg-indigo-100">
+                            Learn more
+                        </a>
+                    </div>
+                </div>
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-lg mx-auto md:max-w-2xl lg:max-w-full">
+                    <div class="relative w-full h-auto md:col-span-2">
+                        <div class="bg-gray-800 rounded-2xl flex  justify-between flex-row flex-wrap">
+                            <div class="p-5  xl:p-8 w-full md:w-1/2 ">
+                                <div class="block">
+                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M15 12.5V18.75M18.75 2.5L11.25 2.5M15 28.75C8.7868 28.75 3.75 23.7132 3.75 17.5C3.75 11.2868 8.7868 6.25 15 6.25C21.2132 6.25 26.25 11.2868 26.25 17.5C26.25 23.7132 21.2132 28.75 15 28.75Z"
+                                            stroke="white" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold xl:text-xl text-white py-5 w-full xl:w-64">
+                                    Accomplish tasks swiftly with online tools.
+                                </h3>
+                                <p class="text-xs font-normal text-gray-300 w-full mb-8 xl:w-64">Get quoted and covered in
+                                    under 10 minutes online. no paperwork or waiting any more </p>
+                                <button
+                                    class="py-2 px-5 border border-solid border-gray-300 rounded-full gap-2 text-xs text-white font-semibold flex items-center justify-between transition-all duration-500 hover:bg-white/5">
+                                    View More
+                                    <svg width="6" height="10" viewBox="0 0 6 10" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M1 9L3.58579 6.41421C4.25245 5.74755 4.58579 5.41421 4.58579 5C4.58579 4.58579 4.25245 4.25245 3.58579 3.58579L1 1"
+                                            stroke="white" stroke-width="1.6" stroke-linecap="round"
+                                            stroke-linejoin="round"></path>
+                                    </svg>
+
+                                </button>
+                            </div>
+                            <div class="relative hidden h-auto md:w-1/2 md:block">
+                                <img src="https://pagedone.io/asset/uploads/1695028873.png" alt="Header tailwind Section"
+                                    class="h-full ml-auto object-cover">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative w-full h-auto">
+                        <div class="bg-indigo-500 rounded-2xl p-5  xl:p-8 h-full">
+                            <div class="block">
+                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M24.6429 11.4286C24.6429 14.3872 20.2457 16.7857 14.8214 16.7857C9.3972 16.7857 5 14.3872 5 11.4286M24.6429 16.7857C24.6429 19.7444 20.2457 22.1429 14.8214 22.1429C9.3972 22.1429 5 19.7444 5 16.7857M24.6429 22.1429C24.6429 25.1015 20.2457 27.5 14.8214 27.5C9.3972 27.5 5 25.1015 5 22.1429M24.6429 6.96429C24.6429 9.42984 20.2457 11.4286 14.8214 11.4286C9.3972 11.4286 5 9.42984 5 6.96429C5 4.49873 9.3972 2.5 14.8214 2.5C20.2457 2.5 24.6429 4.49873 24.6429 6.96429Z"
+                                        stroke="white" stroke-width="2" stroke-linecap="round"></path>
+                                </svg>
+                            </div>
+                            <h3 class="py-5 text-white text-lg font-bold xl:text-xl">Improved technology yields greater
+                                value</h3>
+                            <p class="text-xs font-normal text-white mb-8">We’ve eliminated old analogue process with
+                                state-of-the art tech </p>
+                            <button
+                                class="py-2 px-5 border border-solid border-gray-300 rounded-full gap-2 text-xs text-white font-semibold flex items-center justify-between transition-all duration-500 hover:bg-white/5">
+                                View More
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M1 9L3.58579 6.41421C4.25245 5.74755 4.58579 5.41421 4.58579 5C4.58579 4.58579 4.25245 4.25245 3.58579 3.58579L1 1"
+                                        stroke="white" stroke-width="1.6" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+
+                            </button>
+                        </div>
+                    </div>
+                    <div class="relative w-full h-auto">
+                        <div class="bg-violet-500 rounded-2xl p-5 xl:p-8 h-full">
+                            <div class="block">
+                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M26.7301 15.661C26.7301 22.1995 21.306 27.5 14.6151 27.5C7.9241 27.5 2.5 22.1995 2.5 15.661C2.5 9.1225 7.9241 3.822 14.6151 3.822M18.1313 10.1507L18.1313 4.85383C18.1313 3.22503 19.6455 2.00299 21.1519 2.70013C23.7608 3.90751 26.6177 6.25557 27.456 10.2563C27.7542 11.6798 26.4931 12.8563 25.0064 12.8368L20.7873 12.7814C19.3147 12.762 18.1313 11.5899 18.1313 10.1507Z"
+                                        stroke="white" stroke-width="2" stroke-linecap="round"></path>
+                                </svg>
+
+                            </div>
+                            <h3 class="py-5 text-white text-lg font-bold xl:text-xl">Build wealth with insurance planning
+                            </h3>
+                            <p class="text-xs font-normal text-white mb-8">Every life plan policy has a built-in wealth
+                                bonus, and we contribute too </p>
+                            <button
+                                class="py-2 px-5 border border-solid border-gray-300 rounded-full gap-2 text-xs text-white font-semibold flex items-center justify-between transition-all duration-500 hover:bg-white/5">
+                                View More
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M1 9L3.58579 6.41421C4.25245 5.74755 4.58579 5.41421 4.58579 5C4.58579 4.58579 4.25245 4.25245 3.58579 3.58579L1 1"
+                                        stroke="white" stroke-width="1.6" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div
+                    class="grid grid-cols-1 gap-12 lg:grid-cols-2 md:grid-cols-2 lg:gap-24 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
+                    <div class=" relative w-full transition-all duration-500 lg:max-w-md">
+                        <div class="relative mb-4">
+                            <svg width="75" height="75" viewBox="0 0 75 75" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.3"
+                                    d="M30.0435 65.6251C18.6286 65.6251 9.375 56.3715 9.375 44.9566C9.375 33.5417 18.6286 24.2881 30.0435 24.2881C41.4584 24.2881 50.712 33.5417 50.712 44.9566C50.712 56.3715 41.4584 65.6251 30.0435 65.6251Z"
+                                    fill="#4F46E5"></path>
+                                <path
+                                    d="M44.9537 50.712C33.5388 50.712 24.2852 41.4584 24.2852 30.0435C24.2852 18.6286 33.5388 9.375 44.9537 9.375C56.3686 9.375 65.6222 18.6286 65.6222 30.0435C65.6222 41.4584 56.3686 50.712 44.9537 50.712Z"
+                                    fill="#4F46E5"></path>
+                            </svg>
+                        </div>
+                        <h4
+                            class="text-lg font-semibold text-gray-900 leading-7 mb-2 capitalize transition-all duration-500 ">
+                            Privacy Center</h4>
+                        <p class="text-sm font-normal text-gray-500 transition-all duration-500 leading-[1.3rem] mb-4">
+                            We have the most up-to-date security to support all our customers in carrying out all
+                            transactions.
+                        </p>
+                        <a href="#"
+                            class="group flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-all duration-500 ">Read
+                            more <svg class="transition-all duration-500  group-hover:translate-x-1" width="18"
+                                height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.25 9L14.25 9M10.5 13.5L14.4697 9.53033C14.7197 9.28033 14.8447 9.15533 14.8447 9C14.8447 8.84467 14.7197 8.71967 14.4697 8.46967L10.5 4.5"
+                                    stroke="#4F46E5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class=" relative w-full transition-all duration-500 lg:max-w-md">
+                        <div class="relative mb-4">
+                            <svg width="75" height="75" viewBox="0 0 75 75" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.3"
+                                    d="M29.7866 22.6602C31.6531 21.6133 33.9719 21.6133 35.8384 22.6602L50.2029 30.7175C52.0139 31.7333 53.125 33.5815 53.125 35.5783V51.9217C53.125 53.9185 52.0139 55.7667 50.2029 56.7825L35.8384 64.8398C33.9719 65.8867 31.6531 65.8867 29.7866 64.8398L15.4221 56.7826C13.6111 55.7667 12.5 53.9185 12.5 51.9217V35.5783C12.5 33.5815 13.6111 31.7333 15.4221 30.7175L29.7866 22.6602Z"
+                                    fill="#4F46E5"></path>
+                                <path
+                                    d="M39.8773 9.53229C41.6424 8.48924 43.8353 8.48924 45.6005 9.53229L59.185 17.5595C60.8977 18.5715 61.9484 20.4129 61.9484 22.4022V38.6849C61.9484 40.6742 60.8977 42.5155 59.185 43.5276L45.6005 51.5548C43.8353 52.5979 41.6424 52.5979 39.8773 51.5548L26.2927 43.5276C24.58 42.5155 23.5293 40.6742 23.5293 38.6849V22.4022C23.5293 20.4129 24.58 18.5716 26.2927 17.5595L39.8773 9.53229Z"
+                                    fill="#4F46E5"></path>
+                            </svg>
+
+                        </div>
+                        <h4
+                            class="text-lg font-semibold text-gray-900 leading-7 mb-2 capitalize transition-all duration-500 ">
+                            Quick &amp; Easy Transaction</h4>
+                        <p class="text-sm font-normal text-gray-500 transition-all duration-500 leading-[1.3rem] mb-4">
+                            We provide faster transaction speeds than competitors, so money arrives and is received faster.
+                        </p>
+                        <a href="#"
+                            class="group flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-all duration-500 ">Read
+                            more <svg class="transition-all duration-500  group-hover:translate-x-1" width="18"
+                                height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.25 9L14.25 9M10.5 13.5L14.4697 9.53033C14.7197 9.28033 14.8447 9.15533 14.8447 9C14.8447 8.84467 14.7197 8.71967 14.4697 8.46967L10.5 4.5"
+                                    stroke="#4F46E5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class=" relative w-full transition-all duration-500 lg:max-w-md">
+                        <div class="relative mb-4">
+                            <svg width="75" height="75" viewBox="0 0 75 75" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.3"
+                                    d="M12.5 17.1875C12.5 14.5987 14.5987 12.5 17.1875 12.5H42.1875C44.7763 12.5 46.875 14.5987 46.875 17.1875V42.1875C46.875 44.7763 44.7763 46.875 42.1875 46.875H17.1875C14.5987 46.875 12.5 44.7763 12.5 42.1875V17.1875Z"
+                                    fill="#4F46E5"></path>
+                                <path
+                                    d="M28.125 32.8125C28.125 30.2237 30.2237 28.125 32.8125 28.125H57.8125C60.4013 28.125 62.5 30.2237 62.5 32.8125V57.8125C62.5 60.4013 60.4013 62.5 57.8125 62.5H32.8125C30.2237 62.5 28.125 60.4013 28.125 57.8125V32.8125Z"
+                                    fill="#4F46E5"></path>
+                            </svg>
+
+                        </div>
+                        <h4
+                            class="text-lg font-semibold text-gray-900 leading-7 mb-2 capitalize transition-all duration-500 ">
+                            Customer Service</h4>
+                        <p class="text-sm font-normal text-gray-500 transition-all duration-500 leading-[1.3rem] mb-4">
+                            Our commitment to exceptional support ensures that you receive the assistance you need, whenever
+                            you need it
+                        </p>
+                        <a href="#"
+                            class="group flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-all duration-500 ">Read
+                            more <svg class="transition-all duration-500  group-hover:translate-x-1" width="18"
+                                height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.25 9L14.25 9M10.5 13.5L14.4697 9.53033C14.7197 9.28033 14.8447 9.15533 14.8447 9C14.8447 8.84467 14.7197 8.71967 14.4697 8.46967L10.5 4.5"
+                                    stroke="#4F46E5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class=" relative w-full transition-all duration-500 lg:max-w-md">
+                        <div class="relative mb-4">
+                            <svg width="75" height="75" viewBox="0 0 75 75" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.3"
+                                    d="M50 13.5104C50 11.1113 48.0497 9.14249 45.6641 9.39724C41.7899 9.81097 37.9871 10.7779 34.3737 12.2747C29.4195 14.3267 24.918 17.3345 21.1263 21.1263C17.3345 24.918 14.3267 29.4195 12.2747 34.3737C10.7779 37.9871 9.81097 41.7899 9.39724 45.6641C9.14249 48.0497 11.1113 50 13.5104 50H45.656C48.0551 50 50 48.0551 50 45.656L50 13.5104Z"
+                                    fill="#4F46E5"></path>
+                                <path
+                                    d="M62.5 26.0104C62.5 23.6113 60.5497 21.6425 58.1641 21.8972C54.2899 22.311 50.4871 23.2779 46.8737 24.7747C41.9195 26.8267 37.418 29.8345 33.6263 33.6263C29.8345 37.418 26.8267 41.9195 24.7747 46.8737C23.2779 50.4871 22.311 54.2899 21.8972 58.1641C21.6425 60.5497 23.6113 62.5 26.0104 62.5H58.156C60.5551 62.5 62.5 60.5551 62.5 58.156V26.0104Z"
+                                    fill="#4F46E5"></path>
+                            </svg>
+
+                        </div>
+                        <h4
+                            class="text-lg font-semibold text-gray-900 leading-7 mb-2 capitalize transition-all duration-500 ">
+                            Accurate Result</h4>
+                        <p class="text-sm font-normal text-gray-500 transition-all duration-500 leading-[1.3rem] mb-4">
+                            Accurate results are our top priority, ensuring you always have reliable information at your
+                            fingertips.
+                        </p>
+                        <a href="#"
+                            class="group flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-all duration-500 ">Read
+                            more <svg class="transition-all duration-500  group-hover:translate-x-1" width="18"
+                                height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.25 9L14.25 9M10.5 13.5L14.4697 9.53033C14.7197 9.28033 14.8447 9.15533 14.8447 9C14.8447 8.84467 14.7197 8.71967 14.4697 8.46967L10.5 4.5"
+                                    stroke="#4F46E5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
+        </section>
 
-        </div>
-
-        <section id="features" aria-label="Features for running your books"
-            class="relative overflow-hidden bg-blue-600 pb-28 pt-20 sm:py-32"><img alt="" loading="lazy"
-                width="2245" height="1636" decoding="async" data-nimg="1"
-                class="absolute left-1/2 top-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]" style="color:transparent"
-                src="/_next/static/media/background-features.5f7a9ac9.jpg">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-                <div class="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
-                    <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">Everything you
-                        need to run your books.</h2>
-                    <p class="mt-6 text-lg tracking-tight text-blue-100">Well everything you need if you aren’t that
-                        picky about minor details like tax compliance.</p>
-                </div>
-                <div class="mt-16 grid grid-cols-1 items-center gap-y-2 pt-10 sm:gap-y-6 md:mt-20 lg:grid-cols-12 lg:pt-0">
-                    <div class="-mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
-                        <div class="relative z-10 flex gap-x-4 whitespace-nowrap px-4 sm:mx-auto sm:px-0 lg:mx-0 lg:block lg:gap-x-0 lg:gap-y-1 lg:whitespace-normal"
-                            role="tablist" aria-orientation="vertical">
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 bg-white lg:bg-white/10 lg:ring-1 lg:ring-inset lg:ring-white/10">
-                                <h3><button
-                                        class="font-display text-lg ui-not-focus-visible:outline-none text-blue-600 lg:text-white"
-                                        id="headlessui-tabs-tab-:R2baalla:" role="tab" type="button"
-                                        aria-selected="true" tabindex="0" data-headlessui-state="selected"
-                                        aria-controls="headlessui-tabs-panel-:Rdaalla:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Payroll</button>
-                                </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-white">Keep track of everyone's salaries
-                                    and whether or not they've been paid. Direct deposit not supported.</p>
-                            </div>
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
-                                <h3><button
-                                        class="font-display text-lg ui-not-focus-visible:outline-none text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:R2jaalla:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:Rlaalla:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Claim
-                                        expenses</button></h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">All of
-                                    your receipts organized into one place, as long as you don't mind typing in the data
-                                    by hand.</p>
-                            </div>
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
-                                <h3><button
-                                        class="font-display text-lg ui-not-focus-visible:outline-none text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:R2raalla:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:Rtaalla:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>VAT
-                                        handling</button></h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">We only
-                                    sell our software to companies who don't deal with VAT at all, so technically we do
-                                    all the VAT stuff they need.</p>
-                            </div>
-                            <div
-                                class="group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6 hover:bg-white/10 lg:hover:bg-white/5">
-                                <h3><button
-                                        class="font-display text-lg ui-not-focus-visible:outline-none text-blue-100 hover:text-white lg:text-white"
-                                        id="headlessui-tabs-tab-:R33aalla:" role="tab" type="button"
-                                        aria-selected="false" tabindex="-1" data-headlessui-state=""
-                                        aria-controls="headlessui-tabs-panel-:R15aalla:"><span
-                                            class="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>Reporting</button>
-                                </h3>
-                                <p class="mt-2 hidden text-sm lg:block text-blue-100 group-hover:text-white">Easily
-                                    export your data into an Excel spreadsheet where you can do whatever the hell you
-                                    want with it.</p>
-                            </div>
-                        </div>
+        <section id="features" class="py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div
+                    class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+                    <div class="col-span-2">
+                        <h2 class="text-base/7 font-semibold text-blue-600">Everything you need</h2>
+                        <p class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900">
+                            All-in-one platform</p>
+                        <p class="mt-6 text-base/7 text-gray-700">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                            Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.</p>
                     </div>
-                    <div class="lg:col-span-7">
-                        <div id="headlessui-tabs-panel-:Rdaalla:" role="tabpanel" tabindex="0"
-                            data-headlessui-state="selected" aria-labelledby="headlessui-tabs-tab-:R2baalla:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">Keep track of
-                                    everyone's salaries and whether or not they've been paid. Direct deposit not
-                                    supported.</p>
-                            </div>
-                            <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
-                                    data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpayroll.517af4e7.png&amp;w=3840&amp;q=75">
-                            </div>
+                    <dl
+                        class="col-span-3 grid grid-cols-1 gap-x-8 gap-y-10 text-base/7 text-gray-600 sm:grid-cols-2 lg:gap-y-16">
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Invite team members
+                            </dt>
+                            <dd class="mt-2">Rerum repellat labore necessitatibus reprehenderit molestiae praesentium.
+                            </dd>
                         </div>
-                        <div id="headlessui-tabs-panel-:Rlaalla:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:R2jaalla:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">All of your
-                                    receipts organized into one place, as long as you don't mind typing in the data by
-                                    hand.</p>
-                            </div>
-                            <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
-                                    data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fexpenses.3f331919.png&amp;w=3840&amp;q=75">
-                            </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                List view
+                            </dt>
+                            <dd class="mt-2">Corporis asperiores ea nulla temporibus asperiores non tempore assumenda
+                                aut.</dd>
                         </div>
-                        <div id="headlessui-tabs-panel-:Rtaalla:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:R2raalla:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">We only sell
-                                    our software to companies who don't deal with VAT at all, so technically we do all
-                                    the VAT stuff they need.</p>
-                            </div>
-                            <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
-                                    data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvat-returns.7402820f.png&amp;w=3840&amp;q=75">
-                            </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Keyboard shortcusts
+                            </dt>
+                            <dd class="mt-2">In sit qui aliquid deleniti et. Ad nobis sunt omnis. Quo sapiente dicta
+                                laboriosam.</dd>
                         </div>
-                        <div id="headlessui-tabs-panel-:R15aalla:" role="tabpanel" tabindex="-1" hidden=""
-                            style="display:none" data-headlessui-state=""
-                            aria-labelledby="headlessui-tabs-tab-:R33aalla:">
-                            <div class="relative sm:px-6 lg:hidden">
-                                <div
-                                    class="absolute -inset-x-4 bottom-[-4.25rem] top-[-6.5rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl">
-                                </div>
-                                <p class="relative mx-auto max-w-2xl text-base text-white sm:text-center">Easily export
-                                    your data into an Excel spreadsheet where you can do whatever the hell you want with
-                                    it.</p>
-                            </div>
-                            <div
-                                class="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                                <img alt="" fetchpriority="high" width="2174" height="1464" decoding="async"
-                                    data-nimg="1" class="w-full" style="color:transparent"
-                                    sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                                    srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=640&amp;q=75 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=750&amp;q=75 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=828&amp;q=75 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=3840&amp;q=75 3840w"
-                                    src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Freporting.2ad6f065.png&amp;w=3840&amp;q=75">
-                            </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Calendars
+                            </dt>
+                            <dd class="mt-2">Sed rerum sunt dignissimos ullam. Iusto iure occaecati voluptate eligendi.
+                            </dd>
                         </div>
-                    </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Notificaciones
+                            </dt>
+                            <dd class="mt-2">Quos inventore harum enim nesciunt. Aut repellat rerum omnis adipisci.</dd>
+                        </div>
+                        <div class="relative lg:pl-9">
+                            <dt class="font-semibold text-gray-900 flex items-center gap-1">
+                                <x-icon code="check" class="text-blue-600" />
+                                Boards
+                            </dt>
+                            <dd class="mt-2">Quae sit sunt excepturi fugit veniam voluptatem ipsum commodi.</dd>
+                        </div>
+                    </dl>
                 </div>
             </div>
         </section>
@@ -253,7 +445,8 @@
                     <p class="mt-4 text-lg tracking-tight text-slate-700">Because you’d probably be a little confused
                         if we suggested you complicate your everyday business tasks instead.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-md mx-auto md:max-w-3xl lg:max-w-full">
                     <div class="flex flex-col gap-8">
                         <div class="rounded-2xl p-8 bg-emerald-200 ">
                             <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
@@ -274,7 +467,8 @@
                             </button>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
+                    <div
+                        class="grid grid-cols-1 md:col-span-2 lg:col-span-1 md:grid-cols-2 lg:grid-cols-1 gap-8 md:order-last lg:order-none">
                         <div class="rounded-2xl p-8 bg-indigo-200 ">
                             <h6 class="text-xl font-semibold leading-8 text-gray-900 mb-2.5">
                                 Elevate your holiday joy with a festive 20% discount using code xzTnm
