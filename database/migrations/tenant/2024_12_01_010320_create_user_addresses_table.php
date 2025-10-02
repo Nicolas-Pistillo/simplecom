@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('zipcode');
             $table->string('street');
             $table->string('number');
-            $table->string('locality');
-            $table->string('state');
-            $table->string('state_code')->nullable();
+            $table->foreignId('province_id');
+            $table->foreignId('locality_id');
+            $table->string('province_code')->nullable();
             $table->string('floor')->nullable();
             $table->string('apartment')->nullable();
             $table->string('office')->nullable();

@@ -169,7 +169,7 @@
 
             <x-button wire:click='validateForm' wire:loading.remove wire:target='validateForm' 
             size="large" class="flex items-center">
-                Guardar cambios
+                Revisar y guardar
             </x-button>
 
             <div wire:loading wire:target='validateForm' class="my-1">

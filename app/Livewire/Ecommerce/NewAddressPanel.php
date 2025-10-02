@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Ecommerce;
 
+use App\Livewire\Forms\UserAddressForm;
+use App\Models\Province;
 use App\Models\UserAddress;
 use App\Services\GoogleMaps;
 use App\Traits\Livewire\WithNotifications;
@@ -12,6 +14,8 @@ use Livewire\Component;
 class NewAddressPanel extends Component
 {
     use WithNotifications;
+
+    public UserAddressForm $form;
 
     public $search;
 
@@ -46,6 +50,16 @@ class NewAddressPanel extends Component
     public function removeSelectedAddress()
     {
         $this->reset('selected_address');
+    }
+
+    public function updatedFormProvinceId()
+    {
+        $this->form->reset('locality_id');
+    }
+
+    public function mount(UserAddress|null $address = null)
+    {
+        $this->form->autocomplete($address);
     }
 
     public function save()
@@ -110,6 +124,9 @@ class NewAddressPanel extends Component
 
     public function render()
     {
-        return view('livewire.ecommerce.new-address-panel');
+        return view('livewire.ecommerce.new-address-panel', [
+            'provinces' => Province::orderBy('name')->get(),
+            'localities' => $this->form->province_id ? Province::find($this->form->province_id)->localities()->orderBy('name')->get() : []
+        ]);
     }
 }
