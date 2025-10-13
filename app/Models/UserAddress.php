@@ -19,8 +19,18 @@ class UserAddress extends Model
         return !empty(trim($this->tag)) ? $this->tag : 'Sin etiqueta';
     }
 
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function locality()
+    {
+        return $this->belongsTo(Locality::class);
+    }
+
     public function getSummaryAttribute()
     {
-        return "$this->street $this->number - $this->locality";
+        return "$this->street $this->number - {$this->zipcode} {$this->locality->name} {$this->province->name}";
     }
 }

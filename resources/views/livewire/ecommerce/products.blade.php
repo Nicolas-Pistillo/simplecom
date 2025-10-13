@@ -52,7 +52,7 @@
 
                             @if ($form->max_price)
                                 <x-badge color="green" class="flex items-center gap-1.5">
-                                    Precio mínimo: ${{ priceFormat($form->max_price) }}
+                                    Precio máximo: ${{ priceFormat($form->max_price) }}
                                     <x-icon code="close" wire:click='resetMaxPriceFilter'
                                     x-tooltip.raw="Quitar filtro"
                                     class="material-symbols-outlined text-[14px] cursor-pointer hover:text-red-500" />

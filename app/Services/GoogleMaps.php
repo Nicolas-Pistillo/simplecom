@@ -9,8 +9,11 @@ class GoogleMaps
 {
     public static function geocode($search)
     {
-        $api_key =  env('MAPS_API_KEY');
-        return Http::get("https://maps.googleapis.com/maps/api/geocode/json?address=$search&key=$api_key")->json();
+        return Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
+            'address'    => $search,
+            'components' => 'country:ar',
+            'key'        => env('MAPS_API_KEY'),
+        ])->json();
     }
 
     public static function autocompleteAddress($search)

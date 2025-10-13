@@ -39,6 +39,12 @@ class UserAddressForm extends Form
     #[Validate('nullable|string|max:255', as: 'detalles')]
     public $details;
 
+    #[Validate('nullable|boolean')]
+    public $show_map_confirm = false;
+
+    #[Validate('nullable')]
+    public $gmap_data;
+
     public function autocomplete(?UserAddress $address = null)
     {
         if (!$address || !$address->exists)

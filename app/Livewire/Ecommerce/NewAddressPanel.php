@@ -3,6 +3,7 @@
 namespace App\Livewire\Ecommerce;
 
 use App\Livewire\Forms\UserAddressForm;
+use App\Models\Locality;
 use App\Models\Province;
 use App\Models\UserAddress;
 use App\Services\GoogleMaps;
@@ -17,41 +18,6 @@ class NewAddressPanel extends Component
 
     public UserAddressForm $form;
 
-    public $search;
-
-    public $addresses;
-    public $selected_address;
-
-    public $tag, $apartment, $floor, $office, $details;
-
-    public function updatedSearch()
-    {
-        if (strlen($this->search) <= 4) return;
-
-        $this->addresses = GoogleMaps::autocompleteAddress($this->search);
-    }
-
-    public function selectedAddress($placeId)
-    {
-        $addressInfo = GoogleMaps::getAddressByPlace($placeId);
-
-        if (!$addressInfo)
-        {
-            return $this->notify([
-                'type'  => 'danger',
-                'title' => 'Error al obtener la información',
-                'body'  => 'Ocurrió un problema al cargar los detalles de esta ubicación, por favor intentelo de nuevo más tarde'
-            ]);
-        }
-
-        $this->selected_address = (array) $addressInfo;
-    }
-
-    public function removeSelectedAddress()
-    {
-        $this->reset('selected_address');
-    }
-
     public function updatedFormProvinceId()
     {
         $this->form->reset('locality_id');
@@ -62,27 +28,53 @@ class NewAddressPanel extends Component
         $this->form->autocomplete($address);
     }
 
+    public function continueEditing()
+    {
+        $this->form->reset('gmap_data', 'show_map_confirm');
+    }
+
+    public function evaluateSave()
+    {
+        $this->form->validate();
+
+        $province = Province::find($this->form->province_id);
+        $locality = Locality::find($this->form->locality_id);
+
+        $parsedAddress = "{$this->form->street} {$this->form->number},{$locality->name},{$province->name},{$this->form->zipcode},Argentina";
+
+        $geocodeResult = GoogleMaps::geocode($parsedAddress);
+
+        if (!empty($geocodeResult) && !empty($geocodeResult['results']) 
+        && count($geocodeResult['results']) === 1 
+        && $geocodeResult['results'][0]['types'][0] === 'street_address')
+        {
+            $this->form->gmap_data = $geocodeResult['results'][0];
+            $this->form->show_map_confirm = true;
+            return;
+        }
+
+        return $this->save();
+    }
+
     public function save()
     {
         try 
         {
             $newAddress = UserAddress::create([
                 'user_id'         => Auth::id(),
-                'tag'             => $this->tag,
-                'zipcode'         => $this->selected_address['zipcode'],
-                'street'          => $this->selected_address['street'],
-                'number'          => $this->selected_address['number'],
-                'locality'        => $this->selected_address['locality'],
-                'state'           => $this->selected_address['state'],
-                'state_code'      => $this->selected_address['state_code'] ?? null,
-                'floor'           => $this->floor,
-                'apartment'       => $this->apartment,
-                'office'          => $this->office,
-                'details'         => $this->details,
-                'lat'             => $this->selected_address['coordinates']['lat'],
-                'lng'             => $this->selected_address['coordinates']['lng'],
-                'map_url'         => $this->selected_address['google_map_url'],
-                'google_place_id' => $this->selected_address['google_place_id']
+                'province_id'     => $this->form->province_id,
+                'locality_id'     => $this->form->locality_id,
+                'tag'             => $this->form->tag,
+                'zipcode'         => $this->form->zipcode,
+                'street'          => $this->form->street,
+                'number'          => $this->form->number,
+                'floor'           => $this->form->floor,
+                'apartment'       => $this->form->apartment,
+                'office'          => $this->form->office,
+                'details'         => $this->form->details,
+                'lat'             => data_get($this->form->gmap_data, 'geometry.location.lat'),
+                'lat'             => data_get($this->form->gmap_data, 'geometry.location.lng'),
+                'google_place_id' => data_get($this->form->gmap_data, 'place_id')
             ]);
 
             if (Auth::guest())
@@ -95,7 +87,7 @@ class NewAddressPanel extends Component
                 session()->push('guest_customer.addresses', $newAddress);
             }
 
-            $this->reset();
+            $this->form->reset();
 
             $this->dispatch('new-address-created', $newAddress->id);
 
@@ -110,8 +102,7 @@ class NewAddressPanel extends Component
         {
             Log::channel('error')->error('Error al crear dirección', [
                 'message'   => $err->getMessage(),
-                'searched'  => $this->search,
-                'selected_address' => $this->selected_address
+                'form_data' => $this->form->all()
             ]);
 
             $this->notify([
