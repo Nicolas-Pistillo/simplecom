@@ -12,7 +12,7 @@
 
 @section('content')
 
-    <div class="flex min-h-screen">
+    {{-- <div class="flex min-h-screen">
         <div class="animate__animated animate__fadeInLeft relative hidden flex-1 shadow-xl lg:flex items-center">
             <img class="h-full object-contain" 
             src="{{ URL::to('img/illustrations/asset_selection.svg') }}">
@@ -108,11 +108,11 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    {{-- @livewire('admin.setup')
+    @livewire('admin.setup')
 
-    <div class="fixed bottom-3 left-5 z-20">
+    {{-- <div class="fixed bottom-3 left-5 z-20">
         <form method="POST" action="{{ route('admin.logout') }}" 
         class="text-sm font-semibold shadow-lg p-2 rounded-full transition-colors 
         duration-300 leading-7 bg-gray-50 text-black flex items-center hover:bg-gray-200">

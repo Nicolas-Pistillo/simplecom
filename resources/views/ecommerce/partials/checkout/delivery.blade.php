@@ -1,4 +1,5 @@
-<div x-data x-init="window.scrollTo({ top: 0, behavior: 'smooth' })" class="animate__animated animate__bounceInLeft">
+<div x-data x-init="window.scrollTo({ top: 0, behavior: 'smooth' })" 
+class="animate__animated animate__bounceInLeft">
 
     <div class="grid grid-cols-12 gap-x-4 gap-y-3 items-end">
 
