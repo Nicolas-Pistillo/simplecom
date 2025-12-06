@@ -18,6 +18,7 @@ class ShippingRateService
         foreach($providers as $provider)
         {
             $providerRates = $provider->service()->getRates($rateParameters);
+
             if ($providerRates->isNotEmpty()) $rates->push($providerRates);
         }
 

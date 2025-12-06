@@ -23,8 +23,10 @@ class ProvinceLocalitySeeder extends Seeder
             ]);
 
             $localities = Georef::getLocalities($province['id'], 5000);
+
+            $uniqueLocalities = collect($localities)->unique('nombre');
             
-            foreach($localities as $locality)
+            foreach($uniqueLocalities as $locality)
             {
                 $provinceModel->localities()->firstOrCreate(['georef_id' => $locality['id']], [
                     'name' => $locality['nombre']
