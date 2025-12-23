@@ -1,4 +1,7 @@
-<div x-data="{showDestinyAddressDetails: false}" class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
+<div x-data="{showDestinyAddressDetails: false, confirmShippingCreate: false}" 
+x-on:open-confirm-shipping-create.window="confirmShippingCreate = true" 
+x-on:close-confirm-shipping-create.window="confirmShippingCreate = false"
+class="ring-1 ring-gray-900/5 shadow-sm rounded-lg py-6 px-4">
 
     <div class="flex items-center justify-between flex-wrap">
 
@@ -15,8 +18,12 @@
             </x-badge>
         </div>
 
-        <img src="{{ Storage::URL($shippingMethod->logo_url) }}" class="h-12 w-32 object-cover rounded-md"
+        @if ($shippingMethod->logo_url)
+            <img src="{{ Storage::URL($shippingMethod->logo_url) }}" class="h-12 w-32 object-cover rounded-md"
             alt="Logo {{ $shippingMethod->name }}">
+        @else
+            <x-icon code="local_shipping" class="text-gray-400" style="font-size: 38px;" />
+        @endif
     </div>
 
     <h5 class="mb-3 text-sm text-gray-700">
@@ -29,6 +36,13 @@
 
             <div class="w-full border-gray-200 flex-col 
             justify-start items-start gap-3 flex text-sm">
+
+                <div class="w-full justify-between items-center gap-6 sm:inline-flex">
+                    <h5 class="text-gray-600 leading-4 sm:leading-8">Opción elegida</h5>
+                    <h4 class="sm:text-right text-gray-900 font-semibold">
+                        {{ $shippingMethod->name }}
+                    </h4>
+                </div>
 
                 @if (!empty($order->shipping->external_id))
                     <div class="w-full justify-between items-center gap-6 sm:inline-flex">
@@ -117,4 +131,45 @@
     </div>
 
     @include('admin.orders.partials.show.destiny-address-details')
+
+    <div class="mt-4 flex flex-wrap gap-3">
+
+        @if ($order->shipping->status === ShippingStatus::NotCreated)
+
+            @if (!$order->is_confirmed())
+                <div x-tooltip.raw="Se requiere confirmación de pago del pedido para avanzar con su entrega.
+                Si ya recibiste el pago y el pedido no se actualizó, podes aprobar el pago manualmente.">
+                    <x-button disabled>Crear orden de envío</x-button>
+                </div>
+            @else
+                <x-button @click="confirmShippingCreate = true">Crear orden de envío</x-button>
+
+                {{-- Droor-Origin shipping creation --}}
+                <x-modal ref="confirmShippingCreate" closeOnClickAway title="Nueva orden de envío" 
+                type="info" icon="local_shipping">
+
+                    <x-slot name="body">
+                        Se creará una nueva orden de envío con <b>{{ $shippingMethod->name }}</b>
+                        y se le notificará al comprador que el pedido está listo para despachar.
+                    </x-slot>
+
+                    <x-slot name="actions">
+
+                        <x-spinner wire:loading wire:target='createShippingOrder' />
+
+                        <x-button type="secondary" wire:loading.remove wire:target='createShippingOrder'
+                            @click="confirmShippingCreate = false">Cancelar</x-button>
+
+                        <x-button wire:click='createShippingOrder' 
+                        wire:loading.remove wire:target='createShippingOrder'>
+                            Confirmar
+                        </x-button>
+
+                    </x-slot>
+
+                </x-modal>
+            @endif
+            
+        @endif
+    </div>
 </div>

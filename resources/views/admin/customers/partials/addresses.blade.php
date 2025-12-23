@@ -67,10 +67,10 @@
                                             {{ $address->zipcode }}
                                         </td>
                                         <td class="whitespace-nowrap py-4 px-3 text-sm font-medium text-gray-900">
-                                            {{ $address->locality }}
+                                            {{ $address->locality->name }}
                                         </td>
                                         <td class="whitespace-nowrap py-4 px-3 text-sm font-medium text-gray-900">
-                                            {{ $address->state }}
+                                            {{ $address->province->name }}
                                         </td>
                                     </tr>
                                 @endforeach

@@ -6,6 +6,8 @@ use App\Enums\ShippingZoneType;
 use App\Models\CustomShippingMethod;
 use App\Strategy\Contracts\CustomShippingRateStrategy;
 use App\Strategy\Strategies\CustomShippingEvaluationByCountryStrategy;
+use App\Strategy\Strategies\CustomShippingEvaluationByLocalitiesStrategy;
+use App\Strategy\Strategies\CustomShippingEvaluationByZipcodesStrategy;
 use App\Utils\ShippingRateParameters;
 use Illuminate\Support\Collection;
 
@@ -43,6 +45,16 @@ class AvailableCustomShippingRatesContext
                 if ($method->shipping_zone_type === ShippingZoneType::CountryAll)
                 {
                     $this->setStrategy(new CustomShippingEvaluationByCountryStrategy);
+                }
+
+                if ($method->shipping_zone_type === ShippingZoneType::ByLocalities)
+                {
+                    $this->setStrategy(new CustomShippingEvaluationByLocalitiesStrategy);
+                }
+
+                if ($method->shipping_zone_type === ShippingZoneType::ByZipcodes)
+                {
+                    $this->setStrategy(new CustomShippingEvaluationByZipcodesStrategy);
                 }
 
                 $isAvailable = $this->runStrategy($method);
