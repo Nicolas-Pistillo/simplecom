@@ -137,15 +137,15 @@
                             <h5 class="font-medium text-xs text-gray-600">
                                 {{ $form->selected_branch 
                                         ? 'Retiro en ' . $form->selected_branch['name'] 
-                                        : $form->selected_rate['label'] 
+                                        : $form->selected_rate['label'] ?? $form->selected_rate['name']
                                 }}
                             </h5>
                         </div>
 
-                        @if (!empty($form->selected_rate['estimate']))
+                        @if (!empty($form->selected_rate['estimate']) || !empty($form->selected_rate['estimated_delivery']))
                             <div class="text-xs text-gray-600 whitespace-nowrap">
                                 <span class="font-medium ml-4">
-                                    Estimado {{ $form->selected_rate['estimate'] }} 
+                                    Estimado {{ $form->selected_rate['estimate'] ?? $form->selected_rate['estimated_delivery'] }} 
                                 </span>
                             </div>
                         @endif

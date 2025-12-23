@@ -31,6 +31,6 @@ class UserAddress extends Model
 
     public function getSummaryAttribute()
     {
-        return "$this->street $this->number - {$this->zipcode} {$this->locality->name} {$this->province->name}";
+        return "$this->street $this->number CP {$this->zipcode} {$this->locality->name} {$this->province->name}";
     }
 }

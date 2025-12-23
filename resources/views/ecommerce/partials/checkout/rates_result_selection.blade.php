@@ -75,49 +75,103 @@
                     @endif
 
                     @foreach (session('rates_results.shipping_rates') as $rate)
-                        <div wire:key='{{ $rate->key }}' wire:click="selectShippingRate('{{ $rate->key }}')"
+
+                        @if ($rate->is_custom)
+                            <div wire:key='custom-shipping-{{ $rate->id }}' wire:click="selectCustomShippingRate('{{ $rate->id }}')"
                             class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
-                            <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
+                                <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
 
-                                <input type="radio" name="shipping_method"
-                                @if (session('selected_rate.key') == $rate->key) checked @endif
-                                class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
-                                text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
-                                active:ring-offset-2">
+                                    <input type="radio" name="shipping_method"
+                                    @if (session('selected_rate.id') == $rate->id) checked @endif
+                                    class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
+                                    text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
+                                    active:ring-offset-2">
 
-                                <span class="ml-3 flex items-center justify-between w-full">
-                                    <div class="flex items-center text-sm">
-                                        @if ($rate->carrier_logo)
-                                            <img src="{{ $rate->carrier_logo }}"
-                                            class="w-10 h-10 object-contain shadow 
-                                            rounded-xl mr-2 bg-white"
-                                            alt="Carrier Logo">
-                                        @else
-                                            <div
-                                                class="w-10 h-10 flex items-center justify-center shadow 
-                                            bg-white rounded-xl mr-2">
-                                                <x-icon code="delivery_truck_speed" class="text-gray-700" />
-                                            </div>
-                                        @endif
-
-                                        <div>
-                                            <h5 class="font-medium mb-0.5 text-xs sm:text-sm">
-                                                {{ $rate->label }}
-                                            </h5>
-                                            
-                                            @if (!empty($rate->estimate))
-                                                <span class="block text-xs text-gray-700">
-                                                    Estimado: {{ $rate->estimate }}
-                                                </span>
+                                    <span class="ml-3 flex items-center justify-between w-full">
+                                        <div class="flex items-center text-sm">
+                                            @if ($rate->logo_url)
+                                                <img src="{{ Storage::url($rate->logo_url) }}"
+                                                class="w-10 h-10 object-contain shadow 
+                                                rounded-xl mr-2 bg-white"
+                                                alt="Carrier Logo">
+                                            @else
+                                                <div class="w-10 h-10 flex items-center justify-center shadow 
+                                                bg-white rounded-xl mr-2">
+                                                    <x-icon code="delivery_truck_speed" class="text-gray-700" />
+                                                </div>
                                             @endif
+
+                                            <div>
+                                                <h5 class="font-medium mb-0.5 text-xs sm:text-sm">
+                                                    {{ $rate->name }}
+                                                </h5>
+                                                
+                                                @if (!empty($rate->estimated_delivery))
+                                                    <span class="block text-xs text-gray-700">
+                                                        Estimado: {{ $rate->estimated_delivery }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <span class="text-sm font-medium ml-4">${{ priceFormat($rate->price) }}</span>
-                                    </div>
-                                </span>
-                            </label>
-                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium ml-4">
+                                                @if ($rate->price == 0)
+                                                    <x-badge color="green">
+                                                        Gratis
+                                                    </x-badge>
+                                                @else
+                                                    ${{ priceFormat($rate->price) }}
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </span>
+                                </label>
+                            </div>
+                        @else
+                            <div wire:key='{{ $rate->key }}' wire:click="selectShippingRate('{{ $rate->key }}')"
+                            class="-space-y-px bg-white transition-colors duration-300 hover:bg-gray-50">
+                                <label class="relative flex items-center cursor-pointer border-b p-4 focus:outline-none">
+
+                                    <input type="radio" name="shipping_method"
+                                    @if (session('selected_rate.key') == $rate->key) checked @endif
+                                    class="mt-0.5 size-4 shrink-0 cursor-pointer border-gray-300 
+                                    text-blue-600 focus:ring-blue-600 active:ring-2 active:ring-blue-600 
+                                    active:ring-offset-2">
+
+                                    <span class="ml-3 flex items-center justify-between w-full">
+                                        <div class="flex items-center text-sm">
+                                            @if ($rate->carrier_logo)
+                                                <img src="{{ $rate->carrier_logo }}"
+                                                class="w-10 h-10 object-contain shadow 
+                                                rounded-xl mr-2 bg-white"
+                                                alt="Carrier Logo">
+                                            @else
+                                                <div
+                                                    class="w-10 h-10 flex items-center justify-center shadow 
+                                                bg-white rounded-xl mr-2">
+                                                    <x-icon code="delivery_truck_speed" class="text-gray-700" />
+                                                </div>
+                                            @endif
+
+                                            <div>
+                                                <h5 class="font-medium mb-0.5 text-xs sm:text-sm">
+                                                    {{ $rate->label }}
+                                                </h5>
+                                                
+                                                @if (!empty($rate->estimate))
+                                                    <span class="block text-xs text-gray-700">
+                                                        Estimado: {{ $rate->estimate }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium ml-4">${{ priceFormat($rate->price) }}</span>
+                                        </div>
+                                    </span>
+                                </label>
+                            </div>
+                        @endif
                     @endforeach
                 </fieldset>
             </div>

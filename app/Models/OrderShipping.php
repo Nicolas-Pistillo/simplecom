@@ -36,6 +36,21 @@ class OrderShipping extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function isCustom()
+    {
+        return $this->custom_shipping_method_id !== null;
+    }
+
+    public function hasCoordinates()
+    {
+        return !empty($this->userAddress->lat) && !empty($this->userAddress->lng);
+    }
+
+    public function customShippingMethod()
+    {
+        return $this->belongsTo(CustomShippingMethod::class);
+    }
+
     public function originPoint()
     {
         return $this->belongsTo(OriginPoint::class);

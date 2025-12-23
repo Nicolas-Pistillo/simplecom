@@ -6,6 +6,7 @@ use App\Enums\ShippingZoneType;
 use App\Enums\ZipcodeSelectionType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class CustomShippingMethod extends Model
 {
@@ -25,5 +26,10 @@ class CustomShippingMethod extends Model
     public function isFree(): bool
     {
         return $this->price == 0;
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('active', true);
     }
 }

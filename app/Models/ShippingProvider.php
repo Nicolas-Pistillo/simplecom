@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Enums\ShippingMethodType;
-use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class ShippingProvider extends Model
 {
@@ -25,5 +25,10 @@ class ShippingProvider extends Model
         if (!$this->service_class) return null;
 
         return new $this->service_class();
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('active', true);
     }
 }

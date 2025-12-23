@@ -182,7 +182,9 @@
                                     Método de envío
                                 </h4>
                                 <p style="margin: 0; font-size: 14px; line-height: 22px; color: #6b7280">
-                                    {{ $order->shipping->provider_label }}
+
+                                    {{ $order->shipping->isCustom() ? $order->shipping->customShippingMethod->name : $order->shipping->provider_label }}
+
                                     @if (!empty($order->shipping->delivery_estimate))
                                         <br>
                                         Estimado: {{ $order->shipping->delivery_estimate }}
