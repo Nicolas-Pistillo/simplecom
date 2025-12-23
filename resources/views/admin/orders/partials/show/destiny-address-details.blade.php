@@ -7,12 +7,14 @@
 
             <h4 class="text-base font-semibold text-gray-900">Domicilio Destino</h4>
 
-            <gmp-map wire:ignore 
-            center="{{ $order->shipping->userAddress->lat }},{{ $order->shipping->userAddress->lng }}" 
-            zoom="15" map-id="shipping_branch_map" 
-            class="mt-4 h-[130px] md:h-[250px] rounded-lg shadow-md overflow-hidden">
-                <gmp-advanced-marker position="{{ $order->shipping->userAddress->lat }}, {{ $order->shipping->userAddress->lng }}"></gmp-advanced-marker>
-            </gmp-map>
+            @if ($order->shipping->hasCoordinates())
+                <gmp-map wire:ignore 
+                center="{{ $order->shipping->userAddress->lat }},{{ $order->shipping->userAddress->lng }}" 
+                zoom="15" map-id="shipping_branch_map" 
+                class="mt-4 h-[130px] md:h-[250px] rounded-lg shadow-md overflow-hidden">
+                    <gmp-advanced-marker position="{{ $order->shipping->userAddress->lat }}, {{ $order->shipping->userAddress->lng }}"></gmp-advanced-marker>
+                </gmp-map>
+            @endif
         </div>
         <div>
             <h3 class="font-semibold text-gray-900">Información</h3>
@@ -38,13 +40,13 @@
                 <div class="flex justify-between py-3 text-sm font-medium">
                     <dt class="text-gray-500">Localidad</dt>
                     <dd class="text-gray-900 max-w-[180px]">
-                        {{ $order->shipping->userAddress->locality }}
+                        {{ $order->shipping->userAddress->locality->name }}
                     </dd>
                 </div>
                 <div class="flex justify-between py-3 text-sm font-medium">
                     <dt class="text-gray-500">Provincia</dt>
                     <dd class="text-gray-900 max-w-[180px]">
-                        {{ $order->shipping->userAddress->state }}
+                        {{ $order->shipping->userAddress->province->name }}
                     </dd>
                 </div>
                 @if (!empty($order->shipping->userAddress->floor))

@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\Enums\CustomerType;
 use App\Enums\DeliveryType;
+use App\Enums\LogisticType;
 use App\Enums\OrderStatus;
 use App\Livewire\Forms\CheckoutForm;
 use App\Enums\ShippingStatus;
 use App\Mail\OrderCreated as MailOrderCreated;
+use App\Models\CustomShippingMethod;
 use App\Models\OriginPoint;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -72,6 +74,7 @@ class OrderService
             'store_pickup_id'      => $storePickupId,
             'shipping_cost'        => $shippingCost,
             'shipping_provider_id' => $shippingProvider?->id,
+            'custom_shipping_method_id' => $orderWithShipping && data_get($form->selected_rate, 'is_custom') ? $form->selected_rate['id'] : null,
             'payment_method_id'    => $form->selected_payment_method,
             'subtotal'             => floatval(Cart::subtotal()),
             'total'                => floatval(Cart::subtotal() + $shippingCost)
@@ -94,34 +97,50 @@ class OrderService
             ]);
         }
 
-        Mail::to($form->email)->send(new MailOrderCreated(tenant(), $order));
-
         if ($orderWithShipping)
         {
-            $branch = session('selected_branch');
+            if (data_get($form->selected_rate, 'is_custom'))
+            {
+                OrderShipping::create([
+                    'order_id'              => $order->id,
+                    'custom_shipping_method_id' => $form->selected_rate['id'],
+                    'user_address_id'       => session('selected_address.id'),
+                    'status'                => ShippingStatus::NotCreated,
+                    'provider_service_code' => data_get($form->selected_rate, 'service_code'),
+                    'logistic_type'         => LogisticType::OriginToDoor,
+                    'quoted_price'          => data_get($form->selected_rate, 'price'),
+                    'delivery_estimate'     => data_get($form->selected_rate, 'estimated_delivery'),
+                    'calculated_rate'       => $form->selected_rate
+                ]);
 
-            $originPoint = OriginPoint::inUse();
+            } else {
+                $branch = session('selected_branch');
 
-            OrderShipping::create([
-                'order_id'              => $order->id,
-                'provider_id'           => $shippingProvider->id,
-                'origin_point_id'       => $originPoint->id,
-                'user_address_id'       => session('selected_address.id'),
-                'status'                => ShippingStatus::NotCreated,
-                'provider_label'        => data_get($form->selected_rate, 'label'),
-                'provider_carrier'      => data_get($form->selected_rate, 'carrier_name'),
-                'provider_carrier_code' => data_get($form->selected_rate, 'carrier_code'),
-                'provider_carrier_logo' => data_get($form->selected_rate, 'carrier_logo'),
-                'provider_service'      => data_get($form->selected_rate, 'service_name'),
-                'provider_service_code' => data_get($form->selected_rate, 'service_code'),
-                'logistic_type'         => data_get($form->selected_rate, 'logistic_type'),
-                'quoted_price'          => data_get($form->selected_rate, 'price'),
-                'delivery_estimate'     => data_get($form->selected_rate, 'estimate'),
-                'selected_branch'       => !empty($branch) ? $branch : null,
-                'selected_branch_id'    => data_get($branch, 'external_id'),
-                'calculated_rate'       => $form->selected_rate
-            ]);
+                $originPoint = OriginPoint::inUse();
+
+                OrderShipping::create([
+                    'order_id'              => $order->id,
+                    'provider_id'           => $shippingProvider->id,
+                    'origin_point_id'       => $originPoint->id,
+                    'user_address_id'       => session('selected_address.id'),
+                    'status'                => ShippingStatus::NotCreated,
+                    'provider_label'        => data_get($form->selected_rate, 'label'),
+                    'provider_carrier'      => data_get($form->selected_rate, 'carrier_name'),
+                    'provider_carrier_code' => data_get($form->selected_rate, 'carrier_code'),
+                    'provider_carrier_logo' => data_get($form->selected_rate, 'carrier_logo'),
+                    'provider_service'      => data_get($form->selected_rate, 'service_name'),
+                    'provider_service_code' => data_get($form->selected_rate, 'service_code'),
+                    'logistic_type'         => data_get($form->selected_rate, 'logistic_type'),
+                    'quoted_price'          => data_get($form->selected_rate, 'price'),
+                    'delivery_estimate'     => data_get($form->selected_rate, 'estimate'),
+                    'selected_branch'       => !empty($branch) ? $branch : null,
+                    'selected_branch_id'    => data_get($branch, 'external_id'),
+                    'calculated_rate'       => $form->selected_rate
+                ]);
+            }
         }
+
+        Mail::to($form->email)->send(new MailOrderCreated(tenant(), $order));
 
         return $order;
     }

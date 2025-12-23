@@ -73,7 +73,7 @@ class NewAddressPanel extends Component
                 'office'          => $this->form->office,
                 'details'         => $this->form->details,
                 'lat'             => data_get($this->form->gmap_data, 'geometry.location.lat'),
-                'lat'             => data_get($this->form->gmap_data, 'geometry.location.lng'),
+                'lng'             => data_get($this->form->gmap_data, 'geometry.location.lng'),
                 'google_place_id' => data_get($this->form->gmap_data, 'place_id')
             ]);
 

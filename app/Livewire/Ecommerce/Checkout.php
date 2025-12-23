@@ -13,7 +13,7 @@ use Livewire\Component;
 use App\Services\ProductService;
 use App\Enums\PaymentRedirectType;
 use App\Enums\PaymentStatus;
-use App\Enums\TaxCondition;
+use App\Models\CustomShippingMethod;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\UserAddress;
@@ -56,7 +56,7 @@ class Checkout extends Component
                 'recipient_address'  => $this->form->selected_address
             ]);
 
-            $rates = ShippingRateService::get($shippingParameters);
+            $rates = ShippingRateService::getAvailableRates($shippingParameters);
 
             if ($rates->isEmpty())
             {
@@ -132,6 +132,17 @@ class Checkout extends Component
         $this->form->selected_rate = $rate;
 
         session()->put('selected_rate', $rate);
+    }
+
+    public function selectCustomShippingRate(CustomShippingMethod $customShippingMethod)
+    {
+        $customShippingMethodData = $customShippingMethod->toArray();
+
+        $customShippingMethodData['is_custom'] = true;
+
+        $this->form->selected_rate = $customShippingMethodData;
+
+        session()->put('selected_rate', $customShippingMethodData);
     }
 
     public function showDropoffSelection()

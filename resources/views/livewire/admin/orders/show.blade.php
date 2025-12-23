@@ -82,7 +82,11 @@
 
                     {{-- Shipping Details --}}
                     @if ($order->shipping)
-                        @include('admin.orders.partials.show.shipping')
+                        @if ($order->shipping->isCustom())
+                            @include('admin.orders.partials.show.custom-shipping')  
+                        @else
+                            @include('admin.orders.partials.show.shipping')
+                        @endif
                     @endif
 
                     @if($order->storePickup)

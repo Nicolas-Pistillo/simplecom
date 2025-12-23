@@ -25,7 +25,11 @@
                         Servicio
                     </h5>
                     <h4 class="sm:text-right text-gray-900 font-semibold">
-                        {{ $order->shipping->provider_label }}
+                        @if ($order->shipping->isCustom())
+                            {{ $order->shipping->customShippingMethod->name }}
+                        @else
+                            {{ $order->shipping->provider_label }}
+                        @endif
                     </h4>
                 </div>
 
