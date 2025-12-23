@@ -81,6 +81,12 @@
 
             <div class="mt-3 flex items-center flex-wrap gap-4">
                 @foreach (ShippingZoneType::cases() as $zoneType)
+
+                    {{-- Enable when this be defined --}}
+                    @if ($zoneType === ShippingZoneType::ByDistanceKm)
+                        @continue
+                    @endif
+
                     <div class="flex items-center">
 
                         <input wire:model.live='form.shipping_zone_type' 

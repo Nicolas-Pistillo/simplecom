@@ -48,12 +48,12 @@
                                     <h2 class="text-lg font-semibold">Tu compra</h2>
                                     @include('ecommerce.customer.partials.orders.show.items')
                                 </div>
-                                <div class="w-full flex-col justify-start items-start gap-1.5 flex">
+                                {{-- <div class="w-full flex-col justify-start items-start gap-1.5 flex">
                                     <h6 class="text-right text-gray-900 text-base font-medium leading-relaxed">Order Note:</h6>
                                     <p class="text-gray-500 text-sm font-normal leading-normal">Make sure to ship all the
                                         ordered items together by Friday. I've emailed you the details, so please check it an
                                         review it. Thank You!</p>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class="w-full lg:w-[32%] flex flex-col gap-y-6">

@@ -6,6 +6,7 @@ use App\Enums\OrderFeedEvent;
 use App\Enums\NotificationPresentation;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Enums\ShippingStatus;
 use App\Mail\OrderDispatchReady;
 use App\Models\Order;
 use App\Models\OrderFeedItem;
@@ -113,9 +114,26 @@ class Show extends Component
     {
         try 
         {
-            $service = $this->order->shippingProvider->service();
+            if ($this->order->shipping->isCustom())
+            {
+                $this->order->shipping->update([
+                    'status' => ShippingStatus::DispatchReady
+                ]);
 
-            $service->createOrder($this->order);
+                $this->order->feed()->create([
+                    'event'         => OrderFeedEvent::ShippingUpdate,
+                    'presentation'  => NotificationPresentation::Icon,
+                    'initializator' => Auth::user()->name,
+                    'action'        => 'generó la orden de envío con ' . $this->order->shipping->customShippingMethod->name,
+                    'meta'          => [
+                        'icon_code' => 'local_shipping'
+                    ]
+                ]);
+
+            } else {
+                $service = $this->order->shippingProvider->service();
+                $service->createOrder($this->order);
+            }
 
             $this->notify([
                 'type'  => 'success',

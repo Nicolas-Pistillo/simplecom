@@ -5,7 +5,7 @@
 @section('content')
     <p>
         Hola {{ $order->user->name }}<br> 
-        Tu <a href="{{ $order->customerDetailPage() }}">pedido {{ $order->id }}</a>
+        Tu <a href="{{ $order->customerDetailPage() }}">pedido #{{ $order->id }}</a>
         está listo para ser despachado. Seguiremos informandote apenas recibamos actualizaciones
         del envío de tu pedido.
     </p>
