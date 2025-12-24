@@ -30,6 +30,7 @@ class Checkout extends Component
 
     protected $listeners = [
         'new-address-created'      => 'receiveNewAddress', 
+        'close-delete-address'     => '$refresh',
         'selected-dropoff-point'   => 'confirmDropoffPoint',
         'cancel-frontend-checkout' => 'cancelFrontendCheckout'
     ];

@@ -23,9 +23,24 @@ class NewAddressPanel extends Component
         $this->form->reset('locality_id');
     }
 
-    public function mount(UserAddress|null $address = null)
+    /* public function mount(UserAddress|null $address = null)
     {
         $this->form->autocomplete($address);
+    } */
+
+    public function initialize($params)
+    {
+        if (is_array($params))
+        {
+            $params = null;
+        }
+
+        if (is_int($params))
+        {
+            $params = UserAddress::find($params);
+        }
+
+        $this->form->autocomplete($params);
     }
 
     public function continueEditing()
@@ -56,47 +71,105 @@ class NewAddressPanel extends Component
         return $this->save();
     }
 
+    public function receiveDeleteAddress(UserAddress $address)
+    {
+        $this->form->target_delete_address = $address;
+    }
+
+    public function deleteAddress()
+    {
+        if (Auth::guest())
+        {
+            $sessionAddresses = session()->get('guest_customer.addresses');
+
+            if (!empty($sessionAddresses))
+            {
+                foreach($sessionAddresses as $key => $address)
+                {
+                    if ($address->id === $this->form->target_delete_address->id)
+                    {
+                        session()->forget("guest_customer.addresses.$key");
+                        break;
+                    }
+                }
+            }
+        }
+
+        $this->form->target_delete_address->delete();
+
+        $this->form->reset('target_delete_address');
+
+        return redirect(request()->header('Referer'));
+    }
+
     public function save()
     {
         try 
         {
-            $newAddress = UserAddress::create([
-                'user_id'         => Auth::id(),
-                'province_id'     => $this->form->province_id,
-                'locality_id'     => $this->form->locality_id,
-                'tag'             => $this->form->tag,
-                'zipcode'         => $this->form->zipcode,
-                'street'          => $this->form->street,
-                'number'          => $this->form->number,
-                'floor'           => $this->form->floor,
-                'apartment'       => $this->form->apartment,
-                'office'          => $this->form->office,
-                'details'         => $this->form->details,
-                'lat'             => data_get($this->form->gmap_data, 'geometry.location.lat'),
-                'lng'             => data_get($this->form->gmap_data, 'geometry.location.lng'),
-                'google_place_id' => data_get($this->form->gmap_data, 'place_id')
-            ]);
-
-            if (Auth::guest())
+            if ($this->form->address_id)
             {
-                if (session('guest_customer.id'))
+                $address = UserAddress::find($this->form->address_id);
+                
+                $address->update([
+                    'province_id'     => $this->form->province_id,
+                    'locality_id'     => $this->form->locality_id,
+                    'tag'             => $this->form->tag,
+                    'zipcode'         => $this->form->zipcode,
+                    'street'          => $this->form->street,
+                    'number'          => $this->form->number,
+                    'floor'           => $this->form->floor,
+                    'apartment'       => $this->form->apartment,
+                    'office'          => $this->form->office,
+                    'details'         => $this->form->details,
+                    'lat'             => data_get($this->form->gmap_data, 'geometry.location.lat'),
+                    'lng'             => data_get($this->form->gmap_data, 'geometry.location.lng'),
+                    'google_place_id' => data_get($this->form->gmap_data, 'place_id')
+                ]);
+
+                $this->notify([
+                    'type'  => 'success',
+                    'title' => 'Dirección actualizada con éxito'
+                ]);
+
+            } else {
+                $address = UserAddress::create([
+                    'user_id'         => Auth::id(),
+                    'province_id'     => $this->form->province_id,
+                    'locality_id'     => $this->form->locality_id,
+                    'tag'             => $this->form->tag,
+                    'zipcode'         => $this->form->zipcode,
+                    'street'          => $this->form->street,
+                    'number'          => $this->form->number,
+                    'floor'           => $this->form->floor,
+                    'apartment'       => $this->form->apartment,
+                    'office'          => $this->form->office,
+                    'details'         => $this->form->details,
+                    'lat'             => data_get($this->form->gmap_data, 'geometry.location.lat'),
+                    'lng'             => data_get($this->form->gmap_data, 'geometry.location.lng'),
+                    'google_place_id' => data_get($this->form->gmap_data, 'place_id')
+                ]);
+
+                if (Auth::guest())
                 {
-                    $newAddress->update(['user_id' => session('guest_customer.id')]);
+                    if (session('guest_customer.id'))
+                    {
+                        $address->update(['user_id' => session('guest_customer.id')]);
+                    }
+
+                    session()->push('guest_customer.addresses', $address);
                 }
 
-                session()->push('guest_customer.addresses', $newAddress);
+                $this->notify([
+                    'type'  => 'success',
+                    'title' => 'Dirección creada con éxito'
+                ]);
+
+                $this->dispatch('new-address-created', $address->id);
             }
 
             $this->form->reset();
 
-            $this->dispatch('new-address-created', $newAddress->id);
-
             $this->dispatch('close-new-address-panel');
-
-            $this->notify([
-                'type'  => 'success',
-                'title' => 'Dirección creada con éxito'
-            ]);
 
         } catch (\Throwable $err) 
         {

@@ -1,7 +1,11 @@
 <div>
-    <section x-data="{ open: false }" class="relative"
-    x-on:open-new-address-panel.window="open = true"
-    x-on:close-new-address-panel.window="open = false">
+    <section x-data="{ open: false, deleteDialogOpen: false }" class="relative"
+    x-on:open-new-address-panel.window="open = true; @this.initialize($event.detail)"
+    x-on:close-new-address-panel.window="open = false"
+    x-on:open-delete-address.window="deleteDialogOpen = true; @this.receiveDeleteAddress($event.detail)"
+    x-on:close-delete-address.window="deleteDialogOpen = false">
+
+        {{-- New / Edit Address Panel --}}
         <div x-cloak x-show="open" class="w-full max-w-7xl mx-auto px-4 lg:px-8 xl:px-14 relative">
             <div class="w-full relative flex justify-center">
                 <div x-cloak x-show="open" x-transition:enter="ease-out duration-300"
@@ -108,6 +112,7 @@
                                         </div>
 
                                         <div class="sm:col-span-6">
+
                                             <label for="locality" class="inline-block text-sm 
                                             font-medium leading-6 text-gray-900 mb-2">
                                                 Localidad <sup class="text-red-500">*</sup>
@@ -118,7 +123,8 @@
                                                 focus:ring-inset focus:ring-blue-600 text-sm leading-6">
                                                     <option value="0">Seleccionar localidad</option>
                                                     @foreach ($localities as $locality)
-                                                        <option value="{{ $locality->id }}">
+                                                        <option {{ $locality->id == $form->locality_id ? 'selected' : null }} 
+                                                        value="{{ $locality->id }}">
                                                             {{ $locality->name }}
                                                         </option>
                                                     @endforeach
@@ -190,5 +196,33 @@
                 </div>
             </div>
         </div>
+
+        {{-- Delete Address Confirm --}}
+        <x-modal ref="deleteDialogOpen" type="danger" icon="wrong_location">
+
+            @if ($form->target_delete_address)
+                <x-slot name="title">
+                    Eliminar dirección
+                </x-slot>
+
+                <x-slot name="body">
+                    ¿Estás seguro que deseas eliminar la dirección 
+                    <b>{{ $form->target_delete_address->summary }}</b>?
+                </x-slot>
+
+                <x-slot name="actions">
+
+                    <x-spinner wire:loading wire:target='deleteAddress' />
+
+                    <x-button type="secondary" wire:loading.remove wire:target='deleteAddress' 
+                    @click="deleteDialogOpen = false">Cancelar</x-button>
+
+                    <x-button wire:click='deleteAddress' wire:loading.remove wire:target='deleteAddress' 
+                    class="bg-red-600 hover:bg-red-500">Eliminar</x-button>
+                    
+                </x-slot>
+            @endif
+
+        </x-modal>
     </section>
 </div>
