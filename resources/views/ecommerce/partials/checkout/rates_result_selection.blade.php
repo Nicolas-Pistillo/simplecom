@@ -28,7 +28,7 @@
         @if (!empty(session('rates_results')))
             <div>
                 <h4 class="text-sm/6 font-semibold text-gray-900">
-                    Seleccionar opción de envío
+                    Opciones de envío disponibles
                 </h4>
 
                 <fieldset wire:loading.remove wire:target='getShippingRates'

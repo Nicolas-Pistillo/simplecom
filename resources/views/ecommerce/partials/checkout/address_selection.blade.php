@@ -38,8 +38,13 @@ class="col-span-full animate__animated animate__fadeIn">
                             </div>
                         </div>
 
-                        <div class="flex items-center">
-                            <x-icon code="arrow_forward" class="text-gray-700" />
+                        <div class="flex items-center gap-1.5" @click.prevent="event.stopPropagation()">
+
+                            <x-icon @click="$dispatch('open-new-address-panel', {{ $address->id }})" code="edit" x-tooltip.raw="Editar"
+                            class="text-gray-700 p-1.5 border rounded-full bg-white text-[21px]" />
+
+                            <x-icon @click="$dispatch('open-delete-address', {{ $address->id }})" code="delete" x-tooltip.raw="Eliminar" 
+                            class="text-red-500 p-1.5 border rounded-full bg-white text-[21px]" />
                         </div>
                     </div>
                 </label>

@@ -9,6 +9,10 @@ use Livewire\Form;
 
 class UserAddressForm extends Form
 {
+    public $address_id;
+
+    public $target_delete_address;
+
     #[Validate('required|exists:mysql.provinces,id', as: 'provincia')]
     public $province_id;
 
@@ -49,12 +53,26 @@ class UserAddressForm extends Form
     {
         if (!$address || !$address->exists)
         {
+            $this->reset();
+
             $defaultProvince = Province::with('localities')->where('name', 'Buenos Aires')->first();
 
             $this->province_id = $defaultProvince->id;
         } else 
         {
-            // ...Autocomplete with address data
+            $this->fill([
+                'address_id' => $address->id,
+                'province_id' => $address->province_id,
+                'locality_id' => $address->locality_id,
+                'tag' => $address->tag,
+                'street' => $address->street,
+                'number' => $address->number,
+                'floor' => $address->floor,
+                'apartment' => $address->apartment,
+                'office' => $address->office,
+                'zipcode' => $address->zipcode,
+                'details' => $address->details,
+            ]);
         }
     }
 }
