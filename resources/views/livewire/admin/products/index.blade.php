@@ -127,9 +127,39 @@
 
                                             <x-dropdown-item wire:click='download(true)' icon="download" label="Descargar" />
 
-                                            <x-dropdown-item icon="delete" label="Eliminar" />
+                                            <x-dropdown-item @click="showBulkDeleteConfirm = true" icon="delete" label="Eliminar" />
 
                                         </x-dropdown>
+
+                                        <x-modal ref="showBulkDeleteConfirm" :show="false" max-width="md">
+                                            <x-slot name="title">Eliminar productos seleccionados</x-slot>
+
+                                            <x-slot name="body">
+                                                <p>
+                                                    ¿Estás seguro que deseas eliminar {{ count($selectedProducts) }} producto(s)? 
+                                                    Esta acción no se puede deshacer.
+                                                </p>
+                                            </x-slot>
+
+                                            <x-slot name="actions">
+
+                                                <div class="flex justify-end gap-3">
+
+                                                    <x-spinner wire:loading wire:target="bulkAction('delete')" />
+
+                                                    <x-button type="secondary" @click="showBulkDeleteConfirm = false"
+                                                    wire:loading.remove wire:target="bulkAction('delete')">
+                                                        Cancelar
+                                                    </x-button>
+
+                                                    <x-button class="bg-red-600 hover:bg-red-500" 
+                                                    wire:click="bulkAction('delete')" wire:loading.remove wire:target="bulkAction('delete')">
+                                                        Eliminar
+                                                    </x-button>
+                                                </div>
+                                            </x-slot>
+
+                                        </x-modal>
                                     </div>
                                 @endif
 
