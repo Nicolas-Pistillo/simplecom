@@ -16,8 +16,6 @@ class Form extends Component
 
     public function save()
     {
-    sleep(1);
-
         $this->form->validate();
 
         Mail::to(env('SC_MAIL_CONTACT'))->send(new EcommerceContactFromLanding($this->form));
