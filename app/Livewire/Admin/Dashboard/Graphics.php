@@ -99,6 +99,8 @@ class Graphics extends Component
         {
             $product = Product::with('category')->find($productId);
 
+            if (!$product) continue;
+
             $product->total_sold = $quantity;
 
             $lastSale = OrderItem::whereHas('order', fn($query) => $query->paid())
