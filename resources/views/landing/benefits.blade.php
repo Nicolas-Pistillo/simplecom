@@ -7,7 +7,7 @@
                         Beneficios
                     </h2>
                     <p class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900">
-                        Vendé mejor, sin complicaciones
+                        Vende mejor, sin complicaciones
                     </p>
                     <p class="mt-6 text-base/7 text-gray-600">
                         Simplecom te ofrece un flujo de trabajo simple y eficiente para que puedas 
