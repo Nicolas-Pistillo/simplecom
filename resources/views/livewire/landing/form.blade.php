@@ -10,11 +10,19 @@
                             Abrir tienda
                         </h2>
                         <p class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900">
-                            ¿Todo listo?
+                            Empezá hoy
                         </p>
                         <p class="mt-6 text-base/7 text-gray-700">
-                            Completá los datos de tu comercio y de la persona que la
-                            administrará para que podamos iniciar tu tienda.
+                            Completá los datos de tu comercio y de la persona que la administrará para comenzar
+                            a gestionar tu alta.
+
+                            <br> <br>
+
+                            Tambien podes 
+                            <a target="_blank" href="https://api.whatsapp.com/send?phone=5491169755391&text=¡Hola!, quisiera saber mas acerca de su plataforma de e-commerce"
+                            class="text-blue-600 underline">
+                                enviarnos un mensaje
+                            </a> para asesorarte mejor.
                         </p>
                     </div>
                     <div class="col-span-3 grid grid-cols-1 gap-x-8 gap-y-10 text-base/7 text-gray-600 lg:gap-y-16">
